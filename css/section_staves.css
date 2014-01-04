@@ -1,0 +1,8 @@
+section#staves {
+  position  : fixed;
+  top       : 8px;
+  left      : 310px;
+  background-color  : #F8F7F3; /* effet papier */
+  width     : 900px;
+  height    : 340px;
+}

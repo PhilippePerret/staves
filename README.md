@@ -1,0 +1,1 @@
+Petite application perso pour les animations de portées musicales construites pour les screencasts de pédagogie musicale.
