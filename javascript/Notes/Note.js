@@ -11,40 +11,56 @@
   * @static
   * @final
   */
-NOTE_TO_OFFSET = {
-  'd6' : -25,
-  'c6' : -19,
-  'b5' : -13,
-  'a5' : -7,
-  'g5' : -1,
-  'f5' : 5,
-  'e5' : 11,
-  'd5' : 17,
-  'c5' : 23,
-  'b4' : 29,
-  'a4' : 35,
-  'g4' : 42,
-  'f4' : 48,
-  'e4' : 54,
-  'd4' : 60,
-  'c4' : 66,
-  'b4' : 72,
-  'a3' : 78,
-  'g3' : 84,
-  'f3' : 90,
-  'e3' : 96
+/* Construire automatiquement le tableau */
+NOTES = ["c", "d", "e", "f", "g", "a", "b"]
+
+NOTE_TO_OFFSET = {}
+for(var octave = 0; octave < 7; ++octave)
+{
+  for(var inote=0; inote<7;++inote)
+  {
+    // zéro : octave=4 inote=5
+    note    = NOTES[inote]
+    valeur  = (1 + parseInt(inote)) + (octave * 7) // a4 = 6 + (4*7) = 34
+    offset  = - (valeur - 34) * 6
+    if(offset > 0) offset += 1 // petit décalage
+    NOTE_TO_OFFSET[note+octave] = offset
+  }
 }
+
+/**
+  * Décalage de l'altération par rapport à la note en fonction de son type
+  * @property {Object} OFFSET_ALTERATION
+  * @static
+  * @final
+  */
+OFFSET_ALTERATION = {
+  'b' : {top: 12, left: 14},
+  'd' : {top: 5,  left: 14},
+  'x' : {top: 5,  left: 17},
+  't' : {top: 12, left: 17}
+}
+
+
+// console.dir(NOTE_TO_OFFSET)
 
 /**
   * Pour créer une note (instance Note) et la construire sur la portée
   * @method Note
   * @for window
+  * @param  {String} note   La note en version string (p.e. "ab5" pour la bémol 5)
+  * @param  {Object|Undefined} params   Paramètres optionnels
+  *   @param {Boolean} params.dont_build    Si true, la note n'est pas construite
   */
-window.NOTE = function(note)
+window.NOTE = function(note, params)
 {
+  if(undefined == params) params = {}
   var n = new Note(note)
-  n.build()
-  Anim.wait(1)
+  if(!params.dont_build)
+  {
+    n.build()
+    Anim.wait(1)
+  }
   return n
 }
 
@@ -56,7 +72,6 @@ window.NOTE = function(note)
 window.Note = function(params)
 {
   ObjetClass.call(this)
-  this.id = (new Date()).getTime()
   this.note       = null
   this.octave     = null
   this.alteration = null
@@ -75,6 +90,7 @@ window.Note = function(params)
     var me = this
     L(params).each(function(k,v){ me[k] = v })
   }
+  this.id = this.note + (this.alteration || "") + this.octave + (new Date()).getTime()
 }
 Note.prototype = Object.create( ObjetClass.prototype )
 Note.prototype.constructor = Note
@@ -109,13 +125,24 @@ $.extend(Note.prototype,{
   {
     var dmvt = {
       x_dep:parseInt(this.left), 
-      x_max:parseInt(this.left) + 20,
+      x_max:parseInt(this.left) + 10 + (this.alteration ? 10 : 0),
       y_dep:parseInt(this.top)
     }
     this.analyse_note(hauteur)
     dmvt.y_fin = this.top
-    // this.positionne()
     Courbe.move(this.obj, dmvt)
+  },
+  
+  /**
+    * Destruction de la note
+    * Notes
+    *   * Pour le moment, je détruis seulement son objet DOM
+    * @method remove
+    */
+  remove:function()
+  {
+    this.obj.remove()
+    if(this.alteration) this.obj_alt.remove()
   },
   
   // Fin des méthodes pour composer le code de l'animation
@@ -128,15 +155,20 @@ $.extend(Note.prototype,{
   {
     Anim.add(this)
   },
-  // /**
-  //   * Affiche les objets de l'élément
-  //   * @method show
-  //   * @param  {Number} vitesse La vitesse d'apparition
-  //   */
-  // show:function(vitesse)
-  // {
-  //   this.obj.show(vitesse)
-  // },
+  /**
+    * Méthode propre pour afficher la note, car elle a peut-être une
+    * altération
+    * @method show
+    * @param {Object} params Les paramètres optionnels
+    */
+  show:function(params)
+  {
+    if(undefined == params) params = {}
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    Anim.show(this.obj, params)
+    Anim.show(this.obj_alt, params)
+  },
+  
   /**
     * Positionne la note en fonction de sa hauteur de note
     * et de la hauteur de la portée
@@ -144,9 +176,21 @@ $.extend(Note.prototype,{
     */
   positionne:function()
   {
+    this.top = Anim.current_staff.zero + NOTE_TO_OFFSET[this.note+this.octave]
+    // dlog({
+    //   'top current staff':Anim.current_staff.top,
+    //   'top note':this.top,
+    //   'key in NOTE_TO_OFFSET': this.note+this.octave,
+    //   'value in NOTE_TO_OFFSET':NOTE_TO_OFFSET[this.note+this.octave]
+    // })
     this.obj.css({top:this.top+"px", left:this.left+"px"})
+    if(this.alteration)
+    {
+      var off = OFFSET_ALTERATION[this.alteration]
+      this.obj_alt.css({top:(this.top - off.top)+"px", left:(this.left - off.left)+"px"})
+      // -12 pour bémol
+    }
   },
-  
   /**
     * Analyse la note fournie en argument
     * La méthode définit :
@@ -163,25 +207,32 @@ $.extend(Note.prototype,{
   {
     note_str = note_str.split('')
     this.note   = note_str.shift()
-    if(note_str[0] == "b" || note_str[0] == "#" || note_str[0] == "b")
+    if(["b", "d", "x", "t"].indexOf(note_str[0]) > -1)
     {
       this.alteration = note_str.shift()
     }
     this.octave = note_str.shift()
     if(this.octave == "-") this.octave = "-" + note_str.shift()
     this.octave = parseInt(this.octave,10)
-    this.top = Anim.current_staff.top + NOTE_TO_OFFSET[this.note+this.octave]
   }
   
 })
 
 Object.defineProperties(Note.prototype,{
+  
   /**
     * Retourne l'objet DOM de la note
     * @property {jQuerySet} obj
     */
   "obj":{
     get:function(){ return $('img#'+this.dom_id)}
+  },
+  /**
+    * Retourne l'objet DOM de l'alteration de la note, if any
+    * @property {jQuerySet} obj_alt
+    */
+  "obj_alt":{
+    get:function(){ return $('img#'+this.dom_id+'-alt')}
   },
   /**
     * Retourne l'ID DOM de la note
@@ -198,10 +249,7 @@ Object.defineProperties(Note.prototype,{
   "code_html":{
     get:function(){
       var c = this.html_img
-      if(this.alteration)
-      { // => ajouter l'image de l'altération
-      
-      }
+      if(this.alteration) c += this.html_img_alt
       return c
     }
   },
@@ -211,7 +259,33 @@ Object.defineProperties(Note.prototype,{
     */
   "html_img":{
     get:function(){
-      return '<img class="note" id="'+this.dom_id+'" src="img/note/rond-noir.png"/>'
+      return '<img class="note" id="'+this.dom_id+'" src="img/note/rond-noir.png" style="opacity:0;" />'
+    }
+  },
+  
+  /**
+    * Retourne le nom du fichier en fonction de l'altération
+    * @property {String} filename_alteration
+    */
+  "filename_alteration":{
+    get:function(){
+      switch(this.alteration)
+      {
+      case 'b'  : return "bemol";
+      case 'd'  : return "diese";
+      case 'x'  : return "double-diese";
+      case 't'  : return "double-bemol";
+      }
+    }
+  },
+  /**
+    * Code HTML pour l'image de l'altération, if any
+    * @property {HTMLString} html_img_alt
+    */
+  "html_img_alt":{
+    get:function(){
+      return '<img class="alteration" id="'+this.dom_id+'-alt" ' +
+              'src="img/note/'+this.filename_alteration+'.png" style="opacity:0;" />'
     }
   }
 })

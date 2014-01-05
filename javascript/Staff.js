@@ -69,7 +69,28 @@ $.extend(Staff.prototype, {
 })
 
 Object.defineProperties(Staff.prototype,{
-  
+  /**
+    * Le "zéro" de la portée, en fonction de sa clé, qui permettra
+    * de positionner les notes.
+    * Notes
+    *   * Ce zéro doit correspondre à la hauteur de la note A4
+    * @property {Number} zero
+    */
+  "zero":{
+    get:function(){
+      if(undefined == this._zero)
+      {
+        switch(this.cle)
+        {
+        case SOL  : this._zero = this.top + 35; break;
+        case FA   : this._zero = this.top -39; break;
+        case UT3  : this._zero = this.top + 50; break;// pas encore implémenté
+        case UT4  : this._zero = this.top + 44; break; // pas encore implémenté
+        }
+      }
+      return this._zero
+    }
+  },
   /**
     * Return l'élément DOM de l'image
     * @property {jQuerySet} img

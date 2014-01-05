@@ -24,3 +24,9 @@ section#section_console div.buttons {
 section#section_console div.buttons input[type="button"]{
   font-size : 14pt;
 }
+
+/* Affiche de l'étape courante */
+section#section_console div#current_step {
+  padding     : 2px 4px;
+  font-family : Courier;
+}

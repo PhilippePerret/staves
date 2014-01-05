@@ -21,13 +21,8 @@ $.extend(window.ObjetClass.prototype,{
     */
   show:function(params)
   {
-    if(undefined==params)params={}
-    this.obj.animate(
-      {
-        opacity:1
-      }, 
-      params.duree || 1000, 
-      params.complete || NEXT_STEP
-    )
+    if(undefined == params) params = {}
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    Anim.show(this.obj, params)
   }
 })

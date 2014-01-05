@@ -1,9 +1,17 @@
 # Fonctionnalités à créer
 
-* Faire une méthode wait qui permette d'attendre un certain temps
-* Voir dans les méthodes jQuery une méthode qui permettrait de déplacer
-  l'objet facilement. Sinon, l'implanter… facilement.
+* Plutôt que d'utiliser le 'top' de la staff, définir un 'zero' qui sera
+  utilisé pour position la note. De cette manière, les notes se placement
+  automatiquement au bon endroit
+* -> altération
+* -> lignes supplémentaire (noter qu'elles ne doivent pas être associées à 
+      des notes, même si la création d'une note les invoque). Si elles étaient
+      associées, cela produirait leur déplacement en même temps que la note…
+    
 * Pouvoir régler l'armure
+* Dans NOTE_TO_OFFSET, il faudrait mettre en fait un array avec en première
+  valeur le décalage sur une clé de sol et en deuxième valeur le décalage sur
+  une clé de fas
 * Pouvoir définir le nombre de portées
 * Pouvoir définir avec ou sans rythme
 * Pouvoir régler la vitesse de l'animation
