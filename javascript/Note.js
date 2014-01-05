@@ -34,33 +34,7 @@ NOTE_TO_OFFSET = {
   'f3' : 90,
   'e3' : 96
 }
-/*
-Décalage avec la portée (ici une portée à 100)
-a6 = -7 + ligne supplémentaire
-g5 = -1
-f5 = 5
-e5 = 11
-d5 = 17
-c5 = 23
-b4 = 29
-a4 = 35
-g4 = 42  // petit décalage
-f4 = 48
-e4 = 54
-d4 = 60
-c4 = 66 + ligne supplémentaire
 
-a4 est le zéro => le zéro est à 35
-a vaut 97
-b vaut 98
-c vaut 99
-
-=> charCode - 97 => 1 pour b, 2 pour c, 3 pour d, 4 pour e, 5 pour f, 6 pour g
-
-
-
-
-*/
 /**
   * Pour créer une note (instance Note) et la construire sur la portée
   * @method Note
@@ -70,6 +44,7 @@ window.NOTE = function(note)
 {
   var n = new Note(note)
   n.build()
+  Anim.wait(1)
   return n
 }
 
@@ -128,8 +103,17 @@ $.extend(Note.prototype,{
     */
   moveTo:function(hauteur)
   {
+    var dmvt = {
+      x_dep:parseInt(this.left), 
+      x_max:parseInt(this.left) + 20,
+      y_dep:parseInt(this.top),
+      complete:NEXT_STEP
+    }
+    dlog(dmvt)
     this.analyse_note(hauteur)
-    this.positionne()
+    dmvt.y_fin = this.top
+    // this.positionne()
+    Courbe.move(this.obj, dmvt)
   },
   
   // Fin des méthodes pour composer le code de l'animation
@@ -158,12 +142,15 @@ $.extend(Note.prototype,{
     */
   positionne:function()
   {
-    this.top = Anim.current_staff.top + NOTE_TO_OFFSET[this.note+this.octave]
     this.obj.css({top:this.top+"px", left:this.left+"px"})
   },
   
   /**
     * Analyse la note fournie en argument
+    * La méthode définit :
+    *   - La note (this.note)
+    *   - Le top de la note (this.top)
+    *   - L'octave (this.octave)
     * @method analyse_note
     * @param {String} note_str  Un string de la forme :
     *                           "<note 1 lettre><altération><octave>"
@@ -174,13 +161,14 @@ $.extend(Note.prototype,{
   {
     note_str = note_str.split('')
     this.note   = note_str.shift()
-    if(note_str[0] == "b" || note_str[0] == "#")
+    if(note_str[0] == "b" || note_str[0] == "#" || note_str[0] == "b")
     {
       this.alteration = note_str.shift()
     }
     this.octave = note_str.shift()
     if(this.octave == "-") this.octave = "-" + note_str.shift()
     this.octave = parseInt(this.octave,10)
+    this.top = Anim.current_staff.top + NOTE_TO_OFFSET[this.note+this.octave]
   }
   
 })

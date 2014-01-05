@@ -1,6 +1,6 @@
 /**
   * @module Anim
-  * /
+  */
 
 /**
   * Objet Anim pour jouer l'animation
@@ -24,6 +24,31 @@ $.extend(window.Anim,{
   current_staff:null,
   
   /**
+    * Les objets qui vont être créés par les lignes de code de l'animation,
+    * mais également les fonctions
+    *
+    * @class Objets
+    * @for   Anim
+    * @static
+    */
+  Objects:{
+    /**
+      * Méthode pour attendre +laps+ secondes avant de poursuivre
+      * l'animation
+      * @method WAIT
+      * @param  {Number} laps   Nombre de secondes
+      * @example
+      *   // Dans le code de l'animation
+      *   WAIT(4)
+      */
+    WAIT:function(laps)
+    {
+      dlog("-> WAIT("+laps+")")
+      Anim.timer = setTimeout($.proxy(Anim.next_step, Anim), laps * 1000)
+    }
+  },
+  
+  /**
     * === Main ===
     *
     * Joue l'animation courante
@@ -34,11 +59,11 @@ $.extend(window.Anim,{
   start:function(params){
     
     this.code_anim = [ // pour l'essai
-      "toto=NOTE('a4')", 
+      "toto=NOTE(g5)", 
       "toto.moveTo('d4')",
       "toto.write('Le texte à écrire')"
       ]
-    this.timer = setInterval($.proxy(this.next, this), 1000)
+    this.next_step()
   },
   /**
     * Stoppe l'animation, parce qu'on est au bout ou parce que 
@@ -47,19 +72,29 @@ $.extend(window.Anim,{
     */
   stop:function()
   {
-    clearInterval(this.timer)
     delete this.timer
   },
   /**
     * Méthode qui joue la séquence suivante
-    * @method next
+    * @method next_step
     */
-  next:function()
+  next_step:function()
   {
-    eval('this.'+this.code_anim.shift())
+    dlog("-> next_step")
+    if(this.timer) clearTimeout(this.timer)
+    eval('this.Objects.'+this.code_anim.shift())
     if(this.code_anim.length == 0) this.stop()
   },
   
+  /**
+    * Attends +laps+ secondes avant de passer à l'étape suivante
+    *
+    * @note C'est un raccourci de Anim.Objects.WAIT
+    * @method wait
+    * @param  {Number} laps Nombre de secondes (peut être un flottant)
+    */
+  wait:function(laps){ this.Objects.WAIT(laps) },
+    
   /**
     * Ajoute un objet DOM à l'animation
     * Notes
@@ -86,3 +121,12 @@ $.extend(window.Anim,{
     
   }
 })
+
+/**
+  * Raccourci pour définir de passer à l'étape suivante
+  * @for window
+  * @property NEXT_STEP
+  * @static
+  * @final
+  */
+var NEXT_STEP = $.proxy(Anim.next_step, Anim)

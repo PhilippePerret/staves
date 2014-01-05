@@ -11,6 +11,7 @@
   */
 window.TXT = function(owner, params)
 {
+  Anim.wait(1)
   return new Txt(owner, params)
 }
 
