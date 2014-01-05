@@ -12,6 +12,7 @@
   <?php include "./php/view/header.php" ?>
   <section id="tools"></section>
 	<section id="staves"></section>
+  <?php include "./php/view/console.php" ?>
   <?php include "./php/view/footer.php" ?>
 </body>
 </html>

@@ -9,5 +9,12 @@ $(document).ready(function(){
   var staffF = new Staff({cle:FA, top:200})
   staffF.build()
   
-  Anim.start()
+  Console.set(
+    [ // pour l'essai
+      "toto=NOTE(g5)", 
+      "note2=NOTE(e5)", 
+      "toto.moveTo('d4')",
+      "toto.write('Le texte à écrire')"
+    ].join("\n")
+    )
 })

@@ -56,13 +56,7 @@ $.extend(window.Anim,{
     * @param  {Object} params   Paramètres optionnels
     */
   start:function(params){
-    
-    this.code_anim = [ // pour l'essai
-      "toto=NOTE(g5)", 
-      "note2=NOTE(e5)", 
-      "toto.moveTo('d4')",
-      "toto.write('Le texte à écrire')"
-      ]
+    this.steps = Console.steps
     this.next_step()
   },
   /**
@@ -81,8 +75,8 @@ $.extend(window.Anim,{
   next_step:function()
   {
     if(this.timer) clearTimeout(this.timer)
-    eval('this.Objects.'+this.code_anim.shift())
-    if(this.code_anim.length == 0) this.stop()
+    eval('this.Objects.'+this.steps.shift())
+    if(this.steps.length == 0) this.stop()
   },
   
   /**
