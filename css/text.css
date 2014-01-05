@@ -1,6 +1,6 @@
 div.text {
   position :absolute;
-  background-color  : white;
+  background-color  : transparent;
   opacity           : 0.904;
   padding           : 4px;
 }

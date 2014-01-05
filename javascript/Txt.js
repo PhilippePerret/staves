@@ -24,6 +24,9 @@ window.TXT = function(owner, params)
 window.Txt = function(owner, params)
 {
   this.id       = (new Date()).getTime()
+  
+  ObjetClass.call(this)
+  
   this.owner    = owner
   this.texte    = null
   this.vOffset  = null
@@ -36,6 +39,9 @@ window.Txt = function(owner, params)
     L(params).each(function(k,v){me[k] = v})
   }
 }
+Txt.prototype = Object.create( ObjetClass.prototype )
+Txt.prototype.constructor = Txt
+
 $.extend(Txt.prototype,{
   
   /**
@@ -46,25 +52,29 @@ $.extend(Txt.prototype,{
   {
     Anim.add(this)
   },
-  /**
-    * Affiche les objets de l'élément
-    * @method show
-    * @param  {Number} vitesse La vitesse d'apparition
-    */
-  show:function(vitesse)
-  {
-    this.obj.show(vitesse)
-  },
+  // /**
+  //   * Affiche les objets de l'élément
+  //   * @method show
+  //   * @param  {Number} vitesse La vitesse d'apparition
+  //   */
+  // show:function(vitesse)
+  // {
+  //   this.obj.show(vitesse)
+  // },
   /**
     * Positionne l'élément (en fonction de son possesseur)
-    * TODO Pour le moment, je fais avec une note, donc en le plaçant
-    *       au-dessus.
+    * Notes
+    *   * Le texte est toujours placé au-dessus de la portée, sauf
+    *     indication contraire, et sauf si la note est au-dessus de la
+    *     portée.
     * @method positionne
     */
   positionne:function()
   {
-    dlog("this.owner.top="+this.owner.top)
-    this.obj.css({top:(this.owner.top - 40)+"px", left:(this.owner.left - 10)+"px"})
+    var top_staff = Anim.current_staff.top
+    var top_owner = this.owner.top
+    var top = Math.min(top_staff, top_owner) - 20
+    this.obj.css({top:top+"px", left:(this.owner.left - 10)+"px"})
   }
 })
 
@@ -89,7 +99,7 @@ Object.defineProperties(Txt.prototype,{
     */
   "code_html":{
     get:function(){
-      return '<div id="'+this.dom_id+'" class="text" style="display:none;">'+this.texte+'</div>'
+      return '<div id="'+this.dom_id+'" class="text" style="opacity:0;">'+this.texte+'</div>'
     }
   }
 })

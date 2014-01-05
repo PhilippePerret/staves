@@ -43,7 +43,6 @@ $.extend(window.Anim,{
       */
     WAIT:function(laps)
     {
-      dlog("-> WAIT("+laps+")")
       Anim.timer = setTimeout($.proxy(Anim.next_step, Anim), laps * 1000)
     }
   },
@@ -60,6 +59,7 @@ $.extend(window.Anim,{
     
     this.code_anim = [ // pour l'essai
       "toto=NOTE(g5)", 
+      "note2=NOTE(e5)", 
       "toto.moveTo('d4')",
       "toto.write('Le texte à écrire')"
       ]
@@ -80,7 +80,6 @@ $.extend(window.Anim,{
     */
   next_step:function()
   {
-    dlog("-> next_step")
     if(this.timer) clearTimeout(this.timer)
     eval('this.Objects.'+this.code_anim.shift())
     if(this.code_anim.length == 0) this.stop()
@@ -99,7 +98,7 @@ $.extend(window.Anim,{
     * Ajoute un objet DOM à l'animation
     * Notes
     *   * On ajoute toujours l'élément masqué, mais c'est ici que la méthode
-    *     ajouter ` style="display:none;"` donc inutile de le mettre dans le
+    *     ajouter ` style="opacity:0;"` donc inutile de le mettre dans le
     *     code.
     *   * Pour pouvoir fonctionner, l'instance doit toujours définir : 
     *     - la propriété `code_html` qui définit le code HTML de l'instance
@@ -111,9 +110,9 @@ $.extend(window.Anim,{
   add:function(instance)
   {
     var code_html = instance.code_html
-    if(code_html.indexOf('display:none')<0)
+    if(code_html.indexOf('opacity:0')<0)
     {
-      code_html = code_html.substring(0, code_html.length-1) + ' style="display:none;">'
+      code_html = code_html.substring(0, code_html.length-1) + ' style="opacity:0;">'
     }
     $('section#staves').append(code_html)
     instance.positionne()

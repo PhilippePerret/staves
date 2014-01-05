@@ -55,6 +55,7 @@ window.NOTE = function(note)
   */
 window.Note = function(params)
 {
+  ObjetClass.call(this)
   this.id = (new Date()).getTime()
   this.note       = null
   this.octave     = null
@@ -75,6 +76,9 @@ window.Note = function(params)
     L(params).each(function(k,v){ me[k] = v })
   }
 }
+Note.prototype = Object.create( ObjetClass.prototype )
+Note.prototype.constructor = Note
+
 $.extend(Note.prototype,{
   /* ---------------------------------------------------------------------
    *
@@ -106,10 +110,8 @@ $.extend(Note.prototype,{
     var dmvt = {
       x_dep:parseInt(this.left), 
       x_max:parseInt(this.left) + 20,
-      y_dep:parseInt(this.top),
-      complete:NEXT_STEP
+      y_dep:parseInt(this.top)
     }
-    dlog(dmvt)
     this.analyse_note(hauteur)
     dmvt.y_fin = this.top
     // this.positionne()
@@ -126,15 +128,15 @@ $.extend(Note.prototype,{
   {
     Anim.add(this)
   },
-  /**
-    * Affiche les objets de l'élément
-    * @method show
-    * @param  {Number} vitesse La vitesse d'apparition
-    */
-  show:function(vitesse)
-  {
-    this.obj.show(vitesse)
-  },
+  // /**
+  //   * Affiche les objets de l'élément
+  //   * @method show
+  //   * @param  {Number} vitesse La vitesse d'apparition
+  //   */
+  // show:function(vitesse)
+  // {
+  //   this.obj.show(vitesse)
+  // },
   /**
     * Positionne la note en fonction de sa hauteur de note
     * et de la hauteur de la portée

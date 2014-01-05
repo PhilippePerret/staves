@@ -28,12 +28,13 @@ $.extend(window.Courbe,{
     *   @param  {Number} params.x_fin   Position x de fin
     *   @param  {Number} params.y_fin   Position y de fin
     *   @param  {Function}  params.complete   Méthode à appeler à la fin
+    *                                         Default: NEXT_STEP (Anim.next_step)
     */
   move:function(obj, params)
   {
     this.moved_obj  = obj
     this.mouvement  = []
-    this.complete   = params.complete
+    this.complete   = params.complete || NEXT_STEP
     
     var xdep = params.x_dep
     var ydep = params.y_dep
@@ -69,9 +70,6 @@ $.extend(window.Courbe,{
     var iinc = 0.1
     for(ycur=ydep; ycur <= yfin; ycur)
     {
-      // dlog({
-      //   xcur: xcur, ycur:ycur, xinc:xinc, nb_inc:nb_inc
-      // })
       // Tant que x n'a pas atteint sa valeur de fin, il faut
       // l'incrémenter et incrément le nombre d'incréments nécessaires
       // @note: Pour le moment, xinc et nb_inc sont les mêmes, mais je préfère
