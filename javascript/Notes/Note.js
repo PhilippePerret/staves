@@ -33,7 +33,6 @@ for(var octave = 0; octave < 7; ++octave)
     // zéro : octave=4 inote=5
     note    = NOTES[inote]
     valeur  = (1 + parseInt(inote)) + (octave * 7) // a4 = 6 + (4*7) = 34
-    // offset  = - (valeur - 24) * 6
     offset  = (- (valeur - 32) * 6) + 1
     NOTE_TO_OFFSET[note+octave] = offset
   }

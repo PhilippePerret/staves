@@ -109,7 +109,7 @@ Object.defineProperties(Staff.prototype,{
         switch(this.cle)
         {
         case SOL  : this._zero = this.top + 35; break;
-        case FA   : this._zero = this.top -39; break;
+        case FA   : this._zero = this.top -38; break;
         case UT3  : this._zero = this.top + 50; break;// pas encore implémenté
         case UT4  : this._zero = this.top + 44; break; // pas encore implémenté
         }

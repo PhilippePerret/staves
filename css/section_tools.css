@@ -1,9 +1,8 @@
 section#tools {
-  position  : fixed;
-  top       : 8px;
-  left      : 8px;
+  position : fixed;
+  top      : 350px;
+  left     : 310px;
+  width    : 580px;
   background-color  : #ccc;
-  width     : 300px;
-  height    : 540px;
   overflow  : scroll;
 }
