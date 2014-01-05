@@ -39,6 +39,7 @@ Anim.Objects = {
   NEW_STAFF:function(cle, metrique)
   {
     Anim.current_staff = Anim.new_staff(cle, metrique)
+    NEXT_STEP()
   },
   
   /**
@@ -49,6 +50,7 @@ Anim.Objects = {
   ACTIVE_STAFF:function(indice)
   {
     Anim.current_staff = Anim.staves[indice-1]
+    NEXT_STEP()
   },
   
   /**
