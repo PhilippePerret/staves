@@ -54,8 +54,14 @@ Anim.Objects = {
   /**
     * Nettoie l'animation. Si `with_staves` est true, on efface aussi les
     * portée
-    * @noter que tous les objets créés resteront quand même dans l'animation, donc
-    * on pourra tout à fait les faire réapparaitre plus tard (TODO pas pour le moment)
+    * Notes
+    * -----
+    *   * Tous les objets créés resteront quand même dans l'animation, donc
+    *     on pourra tout à fait les faire réapparaitre plus tard 
+    *     (TODO pas pour le moment)
+    *   * Si la suppression des portées est demandée, elles disparaitront vraiment,
+    *     ie seront retirées de Anim.staves
+    *
     * @method CLEAN
     */
   CLEAR:function(with_staves)
@@ -64,5 +70,6 @@ Anim.Objects = {
     var not = ""
     if(!with_staves) not = ":not(.staff, .cle)"
     $('section#staves *'+not).remove()
+    if(with_staves) Anim.staves = []
   }
 }

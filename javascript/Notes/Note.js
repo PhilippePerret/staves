@@ -11,6 +11,17 @@
   * @static
   * @final
   */
+
+REAL_INDICES_NOTES = {
+  'c' : 1,
+  'd' : 3,
+  'e' : 5,
+  'f' : 6,
+  'g' : 8,
+  'a' : 10,
+  'b' : 12
+}
+
 /* Construire automatiquement le tableau */
 NOTES = ["c", "d", "e", "f", "g", "a", "b"]
 
@@ -77,7 +88,7 @@ window.Note = function(params)
   this.alteration = null
   
   this.top  = null
-  this.left = 100 // pour le moment
+  this.left = Anim.current_x
   
   if('string'==typeof params)
   { // => Une note précisée par "<note une lettre><altération><octave>"
@@ -154,6 +165,18 @@ $.extend(Note.prototype,{
   build:function()
   {
     Anim.add(this)
+    // Faut-il des lignes suplémentaires
+    var dsuplines = this.need_suplines(Anim.current_staff.cle)
+    dlog("-- Calcul des lignes supplémentaires --")
+    dlog({
+      'note': this.note,
+      'alteration': this.alteration,
+      'midi': this.midi,
+      'clé portée': Anim.current_staff.cle
+    })
+    dlog("dsuplines:");dlog(dsuplines)
+    
+    if(dsuplines) Anim.current_staff.add_sup_lines($.extend(dsuplines,{upto:this.top}))
   },
   /**
     * Méthode propre pour afficher la note, car elle a peut-être une
@@ -188,9 +211,59 @@ $.extend(Note.prototype,{
     {
       var off = OFFSET_ALTERATION[this.alteration]
       this.obj_alt.css({top:(this.top - off.top)+"px", left:(this.left - off.left)+"px"})
-      // -12 pour bémol
     }
   },
+  /**
+    * Return TRUE si la note nécessite des lignes supplémentaires
+    *   Note max clé de SOL = 80 si "a", 81
+    *   Note min clé de SOL = 62 si "c" 61 si "c" ou "b", 60
+    *   
+    *   Note max clé de FA  = 58 si "c", 59 si "c", 60
+    *   Note min clé de FA    30 et 29 si "e", 28
+    *   c au milieu = 48, c tout en bas = 24
+    *   mi en bas = 28
+    * @property {Boolean} need_suplines
+    * @param  {String} key  La clé de la portée sur laquelle il faut mettre la note
+    * @return {Object} NULL si la note ne nécessite pas de lignes supplémentaires, 
+    *                       ou un object contenant :above et :number, la donnée
+    *                       à envoyer à Staff pour construire les lignes supplémentaires
+    */
+  need_suplines:function(key)
+  {
+    if(undefined == this.suplines || undefined == this.suplines[key])
+    {
+      if(undefined == this.suplines) this.suplines = {}
+      this.suplines[key] = function(key, note, midi){
+        switch(key)
+        {
+        case SOL :
+          if(midi < 60){ // strictement inférieur à 60
+            return {above:false, number: parseInt((midi - 60) / 4)}
+          } else if (midi < 82){ // entre 60 et 81
+            if(midi <= 62 && note == "c") return {above:false, number:1}
+            else if (midi >= 80 && note == "a") return {above:true, number:1}
+            else return null
+          } else { // Supérieur ou égal à 82
+            dlog("ici avec "+note+" (midi="+midi+":"+(typeof midi)+")")
+             return {above:true, number: Math.floor((midi - 82) / 4)}
+          }
+        case FA  :
+          if(midi < 28){ // Strictement inférieur à 28
+            return {above:false, number: parseInt((midi - 28) / 4)}
+          } else if( midi <= 60 ){ // entre 28 et 60
+            if(midi <= 30 && note == "e") return {above:false, number:1}
+            else if( midi >= 58 && note == "c") return {above:true, number:1}
+            else return null
+          } else {
+            return {above:true, number: parseInt((midi - 60) / 4)}
+          }
+        default: return null; // pour le moment
+        }
+      }(key, this.note, this.midi)
+    }
+    return this.suplines[key]
+  },
+  
   /**
     * Analyse la note fournie en argument
     * La méthode définit :
@@ -219,7 +292,39 @@ $.extend(Note.prototype,{
 })
 
 Object.defineProperties(Note.prototype,{
-  
+  /**
+    * Retourne la valeur numérique de la note
+    * Note
+    *   * Elle est calculée pour qu'un C3 correspond à 60
+    *   * LA4 (440Hz = 69)
+    * @property {Number} midi
+    */
+  "midi":{
+    get:function(){
+      if(undefined == this._midi)
+      {
+        // A4 (69)
+        // -> inote = 10 / octave = 4 => 10 + ((4 - 1)*24) => 10 + 72 => 82 
+        // C4 (60)
+        //    -> inote = 1 / octave = 4 => 1 + (4*7) => 
+        // A#3 ?
+        //  inote = 10 / octave = 3 => 10 + (3*7) + 31 => 10 + 21 + 31 => 62
+        var inote = REAL_INDICES_NOTES[this.note]
+        this._midi = inote + ((this.octave - 1) * 24) - 13
+        if(this.alteration)
+        {
+          switch(this.alteration)
+          {
+          case 'b'  : this._midi -= 1; break;
+          case 'd'  : this._midi += 1; break;
+          case 'x'  : this._midi += 2; break;
+          case 't'  : this._midi -= 2; break;
+          }
+        }
+      }
+      return this._midi
+    }
+  },
   /**
     * Retourne l'objet DOM de la note
     * @property {jQuerySet} obj
@@ -241,6 +346,8 @@ Object.defineProperties(Note.prototype,{
   "dom_id":{
     get:function(){return "note-"+this.id}
   },
+  
+ 
   
   /**
     * Retourne le code HTML pour la note (et ses altérations, effets, etc.)

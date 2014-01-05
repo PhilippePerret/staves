@@ -39,6 +39,16 @@ $.extend(window.Anim,{
   current_staff:null,
   
   /**
+    * Le décalage horizontal courant
+    * Notes
+    *   * Ce décalage est défini en fonction de la présence de la métrique ou non
+    *     (TODO à implémenter dans la création de la portée — new_staff)
+    * @property {Number} current_x
+    * @default 100
+    */
+  current_x:100,
+  
+  /**
     * === Main ===
     *
     * Joue l'animation courante
@@ -112,14 +122,29 @@ $.extend(window.Anim,{
     */
   add:function(instance)
   {
-    var code_html = instance.code_html
+    var a_simple_string = 'string'==typeof instance, code_html ;
+    if(a_simple_string)
+    {
+      code_html = instance
+    }
+    else
+    {
+      code_html = instance.code_html
+    }
     if(code_html.indexOf('opacity:0')<0)
     {
       code_html = code_html.substring(0, code_html.length-1) + ' style="opacity:0;">'
     }
     $('section#staves').append(code_html)
-    instance.positionne()
-    instance.show(instance.class == 'Staff' ? 0 : this.VITESSE_SHOW)
+    if(a_simple_string)
+    {
+      
+    }
+    else
+    {
+      instance.positionne()
+      instance.show(instance.class == 'Staff' ? 0 : this.VITESSE_SHOW)
+    }
   },
   
   /**

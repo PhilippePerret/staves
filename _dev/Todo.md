@@ -3,8 +3,10 @@
 * Plutôt que d'utiliser le 'top' de la staff, définir un 'zero' qui sera
   utilisé pour position la note. De cette manière, les notes se placement
   automatiquement au bon endroit
-* -> altération
-* -> lignes supplémentaire (noter qu'elles ne doivent pas être associées à 
+* Pour que les portées soient parfaitement placées (écart de 6 pixels), faire
+  une seule ligne et composer la portée avec cinq lignes
+  
+* ->  lignes supplémentaires (noter qu'elles ne doivent pas être associées à 
       des notes, même si la création d'une note les invoque). Si elles étaient
       associées, cela produirait leur déplacement en même temps que la note…
     

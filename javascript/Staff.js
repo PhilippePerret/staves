@@ -64,6 +64,32 @@ $.extend(Staff.prototype, {
     var dec_top = this.cle == SOL ? -7 : 9.6
     this.img_cle.css({top:(this.top + dec_top)+"px", left:(this.left+6)+"px"})
     //+9.6 pour clé de FA, -7 pour clé de Sol
+  },
+  
+  /**
+    * Ajoute des lignes supplémentaires à la portée
+    * Notes
+    *   * @rappel : les lignes sont séparées par 12px
+    * @method add_sup_lines
+    * @protected
+    * @param  {Object} params   Paramètres optionnels
+    *   @param  {Number}  params.number   OBSOLÈTE Nombre de lignes à ajouter (default:1)
+    *   @param  {Boolean} params.above    Si true (default) ajouter au-dessus
+    *   @param  {Number}  params.upto     Des lignes jusqu'à ce nombre
+    *
+    */
+  add_sup_lines:function(params)
+  {
+    if(undefined == params) params = {}
+    if(undefined == params.above)  params.above  = true
+    var i=0, style, depart = (params.above ? 11 : 60), inc = (params.above ? - 12 : 12) ;
+    var top = this.top + depart
+    do {
+      top += inc
+      style = "top:"+top+"px;left:"+(Anim.current_x - 2)+"px;"
+      Anim.add('<img class="supline" src="img/note/supline.png" style="'+style+'" />')
+    }
+    while((params.above && ((top - 12) > (params.upto))) || (!params.above && (top < params.upto)))
   }
   
 })

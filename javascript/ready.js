@@ -4,11 +4,12 @@ $(document).ready(function(){
   Anim.def_mode_pas_a_pas($('input#cb_mode_pas_a_pas')[0].checked)
   
   var code = "\
-NEW_STAFF(SOL) \n\
-notela=NOTE(ad4) \n\
-NEW_STAFF(FA) \n\
-notela=NOTE(ad3) \n\
-CLEAR()\n\
+NEW_STAFF(SOL)\n\
+ba5=NOTE(a5)\n\
+na4=NOTE(a4)\n\
+ndo4=NOTE(c4)\n\
+NEW_STAFF(FA)\n\
+notela=NOTE(ad3)\n\
 CLEAR(true)\
 "
   Console.set(code)

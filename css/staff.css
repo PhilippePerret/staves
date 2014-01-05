@@ -1,4 +1,4 @@
-img.staff, img.cle, img.note, img.alteration, img.silence, img.barre {
+img.staff, img.cle, img.note, img.alteration, img.supline, img.silence, img.barre {
   position    : absolute;
 }
 
@@ -8,4 +8,9 @@ img.staff {
 
 img.cle {
   width:32px;
+}
+
+img.supline {
+  width   : 20px;
+  height  : 2px;
 }
