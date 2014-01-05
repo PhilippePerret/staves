@@ -1,20 +1,7 @@
 # Fonctionnalités à créer
 
-* Plutôt que d'utiliser le 'top' de la staff, définir un 'zero' qui sera
-  utilisé pour position la note. De cette manière, les notes se placement
-  automatiquement au bon endroit
-* Pour que les portées soient parfaitement placées (écart de 6 pixels), faire
-  une seule ligne et composer la portée avec cinq lignes
-  
-* ->  lignes supplémentaires (noter qu'elles ne doivent pas être associées à 
-      des notes, même si la création d'une note les invoque). Si elles étaient
-      associées, cela produirait leur déplacement en même temps que la note…
-    
 * Pouvoir régler l'armure
-* Dans NOTE_TO_OFFSET, il faudrait mettre en fait un array avec en première
-  valeur le décalage sur une clé de sol et en deuxième valeur le décalage sur
-  une clé de fas
-* Pouvoir définir le nombre de portées
+
 * Pouvoir définir avec ou sans rythme
 * Pouvoir régler la vitesse de l'animation
   > Par défaut, chaque ligne correspond à un "beat", par exemple une seconde si

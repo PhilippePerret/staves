@@ -14,9 +14,11 @@ Cette application permet de faire des animations autour des notes de musique, à
 ###Table des matières
 
 * [Introduction](#intro_animation)
-* [Faire une pause](#pause_animation)
-* [Écrire un texte général](#texte_animation)
-* ["Nettoyer" l'animation (tout effacer)](#clean_animation)
+* [Composer le code de l'animation](#code_composition)
+  * [Commentaires dans le code](#code_comments)
+  * [Faire une pause](#pause_animation)
+  * [Écrire un texte général](#texte_animation)
+  * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
 
 <a name="intro_animation"></a>
 ###Introduction
@@ -29,8 +31,18 @@ Ces pas peuvent&nbsp;:
 * Écrire un texte associé à un objet (note, portée, barre, etc.)
 * Déplacer un objet quelconque (surtout les notes, les portées ne se déplacent pas)
 
+<a name="code_composition"></a>
+###Composer le code de l'animation
+
+<a name="code_comments"></a>
+####Écrire un commentaire
+
+Les commentaires s'écrivent avec `#` en début de ligne.
+
+Noter que les commentaires ne peuvent pas se trouver sur un pas proprement, même après le code. Il faut absolument qu'ils soient sur une ligne seule, qui sera passée.
+
 <a name="pause_animation"></a>
-###Faire une pause dans l'animation.
+####Faire une pause dans l'animation.
 
 On utilise la méthode `WAIT` pour faire une pause, avec en argument le nombre de secondes (qui peut être un flottant, pour des temps très courts)&nbsp;:
 
@@ -45,7 +57,7 @@ Par exemple, pour attendre 4 secondes&nbsp;:
 *Note&nbsp;: C'est un “pas” comme les autres, donc il doit être mis sur une ligne seule comme toute étape.*
 
 <a name="texte_animation"></a>
-###Écrire un texte général
+####Écrire un texte général
 
 Pour écrire un texte en rapport avec l'animation (en haut à gauche), on utilise la méthode `WRITE`&nbsp;:
 
@@ -58,7 +70,7 @@ WRITE(<le texte à écrire>)
 *Noter que les objets tels que les notes ont également leur propre méthode textuelle, qui permet d'aligner le textes directement à ces notes, accords, etc.*
 
 <a name="clean_animation"></a>
-###Nettoyer l'animation
+####Nettoyer l'animation
 
 “Nettoyer l'animation” signifie supprimer tous les éléments affiché. On peut ou non demander que les portées restent en place, though.
 

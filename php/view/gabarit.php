@@ -10,7 +10,7 @@
 <body>
   <div id="flash" style="display:none;"></div>
   <?php include "./php/view/header.php" ?>
-  <section id="tools"></section>
+  <?php include "./php/view/tools.php" ?>
 	<section id="staves"></section>
   <?php include "./php/view/console.php" ?>
   <?php include "./php/view/footer.php" ?>

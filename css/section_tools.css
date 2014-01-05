@@ -5,4 +5,23 @@ section#tools {
   width    : 580px;
   background-color  : #ccc;
   overflow  : scroll;
+  padding   : 20px;
+}
+
+section#tools * {
+  font-size : 14px;
+}
+
+section#tools input[type="button"] {
+  font-size : 20px;
+}
+
+section#tools select#animation {
+  background-color: #EBDECC;
+  font-size: 24px;
+  height: 37px;
+  width: 324px;
+}
+section#tools input[type="button"]#btn_save_anim {
+  background-color : #cfc;
 }

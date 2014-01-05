@@ -1,0 +1,11 @@
+# Je commence par créer
+# une portée
+NEW_STAFF(SOL)
+# Puis j\'attends un peu
+WAIT(3)
+# Ensuite je crée la note
+ba5=NOTE(a5)
+na4=NOTE(a4)
+ndo4=NOTE(c4)
+NEW_STAFF(FA)
+notela=NOTE(ad3)

@@ -3,16 +3,17 @@ $(document).ready(function(){
   // Régler le mode pas à pas 
   Anim.def_mode_pas_a_pas($('input#cb_mode_pas_a_pas')[0].checked)
   
-  var code = "\
-NEW_STAFF(SOL)\n\
-ba5=NOTE(a5)\n\
-na4=NOTE(a4)\n\
-ndo4=NOTE(c4)\n\
-NEW_STAFF(FA)\n\
-notela=NOTE(ad3)\n\
-CLEAR(true)\
-"
-  Console.set(code)
+  Anim.load_list_animations()
+//   var code = "\
+// NEW_STAFF(SOL)\n\
+// ba5=NOTE(a5)\n\
+// na4=NOTE(a4)\n\
+// ndo4=NOTE(c4)\n\
+// NEW_STAFF(FA)\n\
+// notela=NOTE(ad3)\n\
+// CLEAR(true)\
+// "
+//   Console.set(code)
     // [ // pour l'essai
     // "NEW_STAFF(SOL)",
     // "notela=NOTE(a4)"

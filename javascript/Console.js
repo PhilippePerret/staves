@@ -33,6 +33,13 @@ Object.defineProperties(window.Console,{
   },
   
   /**
+    * Retourne le code brut de la console
+    * @property {String} raw
+    */
+  "raw":{
+    get:function(){return this.console.val().trim()}
+  },
+  /**
     * Récupère le code dans la console, comme une liste de pas
     *
     * @property steps
@@ -40,7 +47,7 @@ Object.defineProperties(window.Console,{
     */
   "steps":{
     get:function(){
-      return this.console.val().trim().split("\n")
+      return this.raw.split("\n")
     }
   }
 })

@@ -49,6 +49,13 @@ $.extend(window.Anim,{
   current_x:100,
   
   /**
+    * Animation en cours (si true)
+    * @property {Boolean} on
+    * @default false
+    */
+  on:false,
+  
+  /**
     * === Main ===
     *
     * Joue l'animation courante
@@ -59,7 +66,11 @@ $.extend(window.Anim,{
     * @param  {Object} params   Paramètres optionnels
     */
   start:function(params){
+    if(this.on) return this.stop()
+    else this.on = true
     if(!this.steps) this.steps = Console.steps
+    var btn_name = this.MODE_PAS_A_PAS ? 'Next' : 'Stop'
+    $('input#btn_anim_start').val(btn_name)
     this.next_step()
   },
   /**
@@ -69,8 +80,11 @@ $.extend(window.Anim,{
     */
   stop:function()
   {
+    if(this.timer) clearTimeout(this.timer)
     delete this.timer
     delete this.steps
+    $('input#btn_anim_start').val("Start")
+    this.on = false
   },
   
   /**
@@ -80,11 +94,13 @@ $.extend(window.Anim,{
   next_step:function()
   {
     if(this.timer) clearTimeout(this.timer)
-    if(!this.steps) return // un timer qui resterait perdu
-    this.current_step = this.steps.shift()
+    if(!this.steps) return this.stop()
+    this.current_step = this.steps.shift().trim()
+    // Passer les commentaires
+    if(this.current_step.substring(0,1) == "#") return this.next_step()
     this.write_current_step()
     eval('this.Objects.'+this.current_step)
-    if(this.steps.length == 0) this.stop()
+    if(!this.steps || this.steps.length == 0) this.stop()
   },
   
   /**
@@ -211,6 +227,111 @@ $.extend(window.Anim,{
     staff.build()
     this.staves.push(staff)
     return staff
+  },
+  
+  /**
+    * Enregistre l'animation courante
+    * @method save
+    * @async
+    * @param  {Object} rajax  Le retour ajax au retour de la requête
+    */
+  save:function(rajax)
+  {
+    if(undefined == rajax)
+    {
+      if(!this.name) this.name = "Animation-"+Time.now()
+      Ajax.send({
+        script :'animation/save',
+        name   :this.name,
+        code   :Console.raw
+      }, $.proxy(this.save, this))
+    }
+    else
+    {
+      if(rajax.ok) F.show("Animation sauvegardée sous le nom "+this.name)
+      else F.error(rajax.message)
+    }
+  },
+  
+  /**
+    * Enregistre l'animation sous un autre nom
+    * @method save_as
+    * @param {Object} rajax retour de la requête ajax
+    */
+  save_as:function(rajax)
+  {
+    if(undefined == rajax)
+    {
+      // On prend le nouveau titre et on le corrige
+      var new_name = $('input#animation_name').val().trim()  
+      if(new_name == "") return F.error("Il faut donner un nouveau nom !")
+      new_name = Texte.to_ascii(new_name).
+                  replace(/ /g,'_').
+                  replace(/[^a-zA-z0-9_-]/g,'')
+                  
+      Ajax.send({
+        script:"animation/save", 
+        name      : this.name, 
+        new_name  : new_name,
+        code      : Console.raw
+      }, $.proxy(this.save_as, this))
+    }
+    else
+    {
+      if(rajax.ok)
+      {
+        // Il faut retirer l'ancien nom et le remplacer par le nouveau
+        // Ça change aussi le nom courant de l'animation
+        UI.change_animation_name(this.name, rajax.name)
+      }
+      else F.error(rajax.message)
+    }
+  },
+  
+  /**
+    * Charge l'animation de nom +name+
+    * @method load
+    * @async
+    * @param  {String} name Nom de l'animation
+    * @param  {Object} rajax  Le retour de la requête
+    */
+  load:function(name, rajax)
+  {
+    if(undefined == rajax)
+    {
+      Ajax.send({script:"animation/load", name:name}, $.proxy(this.load, this, name))
+    }
+    else
+    {
+      if(rajax.ok)
+      {
+        this.steps  = null
+        this.name   = name
+        Console.set(rajax.raw_code)
+      }
+      else F.error(rajax.message)
+    }
+  },
+  
+  /**
+    * Charge la liste des animations et peuple le menu
+    * @method load_list_animations
+    * @param  {Object} rajax  Le retour ajax
+    */
+  load_list_animations:function(rajax)
+  {
+    if(undefined == rajax)
+    {
+      Ajax.send({script:"animation/list"}, $.proxy(this.load_list_animations, this))
+    }
+    else
+    {
+      if(rajax.ok)
+      {
+        UI.peuple_liste_animations(rajax.list)
+      }
+      else F.error(rajax.message)
+    }
   }
 })
 
