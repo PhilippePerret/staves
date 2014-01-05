@@ -61,7 +61,7 @@ $.extend(Staff.prototype, {
   positionne:function()
   {
     this.img_staff.css({top: this.top+"px", left: this.left+"px"})
-    var dec_top = this.cle == SOL ? -7 : 9.6
+    var dec_top = this.cle == SOL ? -19 : -1
     this.img_cle.css({top:(this.top + dec_top)+"px", left:(this.left+6)+"px"})
     //+9.6 pour clé de FA, -7 pour clé de Sol
   },
@@ -82,7 +82,7 @@ $.extend(Staff.prototype, {
   {
     if(undefined == params) params = {}
     if(undefined == params.above)  params.above  = true
-    var i=0, style, depart = (params.above ? 11 : 60), inc = (params.above ? - 12 : 12) ;
+    var i=0, style, depart = (params.above ? 12 : 48), inc = (params.above ? - 12 : 12) ;
     var top = this.top + depart
     do {
       top += inc
@@ -118,11 +118,11 @@ Object.defineProperties(Staff.prototype,{
     }
   },
   /**
-    * Return l'élément DOM de l'image
+    * Return l'élément DOM de la portée contenue dans son DIV
     * @property {jQuerySet} img
     */
   "img_staff":{
-    get:function(){return $('img#'+this.dom_id)}
+    get:function(){return $('div#'+this.dom_id)}
   },
   /**
     * Return l'élément DOM de la clé
@@ -154,7 +154,13 @@ Object.defineProperties(Staff.prototype,{
     */
   "html_img":{
     get:function(){
-      return '<img id="'+this.dom_id+'" style="display:none;" class="staff" src="img/staff.png" />'
+      var i=0, c = "", top = this.top ;
+      for(; i<5; ++i)
+      {
+        c += '<img style="top:'+(top + i * 12)+'px;" class="staffline" src="img/line.png" />'
+        // top += 12
+      }
+      return c //'<div id="'+this.dom_id+'" class="staff" style="opacity:0;">'+c+'</div>'
     }
   },
   /**
