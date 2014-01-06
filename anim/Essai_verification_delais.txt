@@ -1,14 +1,11 @@
-# Essai de placement sur portée différente sans changement de portée active
 NEW_STAFF(SOL)
 NEW_STAFF(FA)
 ACTIVE_STAFF(1)
 WAIT(2)
 ndo4=NOTE(c4)
 ndo5=NOTE(c5)
-# On essai d\'écrire sur la portée de fa
 ndo3=NOTE(\'2:c3\')
 ndo3.write(\"Ce do 3 devrait se trouver sur la portée de FA\")
-# On regarde si la portée sol est toujours la portée active
 LEFT()
 na4=NOTE(a4)
 na4.write(\"Ce la4 devrait se trouver sur la portée SOL\")

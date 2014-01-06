@@ -13,13 +13,12 @@ section#tools * {
 }
 
 section#tools input[type="button"] {
-  font-size : 20px;
+
 }
 
 section#tools select#animation {
   background-color: #EBDECC;
-  font-size: 24px;
-  height: 37px;
+  height: 25px;
   width: 324px;
 }
 section#tools input[type="button"]#btn_save_anim {

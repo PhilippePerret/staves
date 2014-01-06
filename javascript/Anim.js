@@ -190,7 +190,19 @@ $.extend(window.Anim,{
     this.MODE_PAS_A_PAS = active
     Flash.show("Le mode pas à pas est "+(active ? 'activé' : 'désactivé'))
   },
-  
+  /**
+    * Active ou désactive l'affichage de l'étape courante
+    * Notes
+    *   * Pour le moment, ça ne consiste qu'à afficher ou masquer le div qui contient
+    *     l'étape courante.
+    *
+    * @method def_mode_show_step
+    * @param  {Boolean} activer   Si true, on doit activer le mode
+    */
+  def_mode_show_step:function(activer)
+  {
+    $('div#current_step')[activer?'show':'hide']()
+  },
   /**
     * Reset l'animation (au démarrage)
     * @method reset

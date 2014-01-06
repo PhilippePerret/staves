@@ -1,0 +1,33 @@
+section#controller {
+  position  : fixed; 
+  top       : 445px;
+  left      : 300px;
+  width     : 340px;
+  background-color  : #A0A0A0;
+}
+
+section#controller label {
+    font-size: 10pt;
+}
+section#controller div.buttons {
+  text-align        : right;
+  padding           : 9px 10px;
+  color             : white;
+}
+
+input#btn_anim_start {
+  background-color  : #5BFF7C;
+  color             : #AF2F4F;
+}
+
+section#controller div.buttons input[type="button"]{
+  font-size : 14pt;
+}
+
+/* Affiche de l'étape courante */
+section#controller div#current_step {
+  padding     : 7px 12px;
+  min-height  : 18px;;
+  font-family : Courier;
+  font-size   : 9.3pt;
+}

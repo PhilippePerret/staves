@@ -2,7 +2,7 @@ section#section_console {
   position  : fixed;
   top       : 8px;
   left      : 8px;
-  width     : 300px;
+  width     : 280px;
   height    : 540px;
   background-color  : white;
   color             : white;
@@ -16,23 +16,4 @@ section#section_console textarea#console {
   font-family       :Courier;
   font-size         :12.3pt;
   padding           :12pt;
-}
-
-section#section_console div.buttons {
-  text-align        : right;
-  background-color  : grey;
-  padding           : 9px 10px;
-}
-
-section#section_console div#current_step {
-  min-height        : 18px;;
-}
-section#section_console div.buttons input[type="button"]{
-  font-size : 14pt;
-}
-
-/* Affiche de l'étape courante */
-section#section_console div#current_step {
-  padding     : 2px 4px;
-  font-family : Courier;
 }
