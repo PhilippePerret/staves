@@ -6,13 +6,16 @@ if(undefined == window.Anim) window.Anim = {}
 /**
   * Les objets qui vont être créés par les lignes de code de l'animation,
   * mais également toutes les fonctions qu'on peut trouver dans les pas.
+  * pour que l'évaluation du code soit très simple (`this.Objects.<code>`)
   *
   * @class Objets
   * @for   Anim
   * @static
   */
 
-Anim.Objects = {
+Anim.Objects = {}
+
+FONCTIONS_ANIM_OBJETS = {
   /**
     * Méthode pour attendre +laps+ secondes avant de poursuivre
     * l'animation
@@ -34,11 +37,12 @@ Anim.Objects = {
     * Affiche une nouvelle portée et la met en portée courante
     * @method SHOW_STAFF
     * @param {String|Constante} cle   La clé de la portée
-    * @param {String} metrique  La métrique éventuelle
+    * @param {Object} params  Paramètres optionnels 
+    *   @param {String} metrique  La métrique éventuelle
     */
-  NEW_STAFF:function(cle, metrique)
+  NEW_STAFF:function(cle, params)
   {
-    Anim.current_staff = Anim.new_staff(cle, metrique)
+    Anim.current_staff = Staff.create(cle, params || {})
     NEXT_STEP()
   },
   
@@ -71,7 +75,8 @@ Anim.Objects = {
     if(undefined == with_staves) with_staves = false
     var not = ""
     if(!with_staves) not = ":not(.staff, .cle)"
-    $('section#staves *'+not).remove()
+    $('section#animation *'+not).remove()
     if(with_staves) Anim.staves = []
   }
 }
+$.extend(Anim.Objects, FONCTIONS_ANIM_OBJETS)

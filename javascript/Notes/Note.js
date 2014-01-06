@@ -86,8 +86,13 @@ window.Note = function(params)
   this.octave     = null
   this.alteration = null
   
-  this.top  = null
-  this.left = Anim.current_x
+  /**
+    * La portée sur laquelle se trouve la note (instance Staff)
+    * @property {Staff} staff
+    */
+  this.staff  = null
+  
+  this.left   = Anim.current_x
   
   if('string'==typeof params)
   { // => Une note précisée par "<note une lettre><altération><octave>"
@@ -113,6 +118,18 @@ $.extend(Note.prototype,{
    */
   
   /**
+    * Reset la note (pour recalculer les valeurs après un changement de hauteur,
+    * d'altération, etc.)
+    * @method reset
+    */
+  reset:function()
+  {
+    delete this.suplines
+    delete this._top
+    delete this._midi
+  },
+
+  /**
     * Écrit un texte au-dessus ou en dessous de la note
     * @method write
     * @param  {String} Le texte à écrire
@@ -127,20 +144,27 @@ $.extend(Note.prototype,{
   },
   /**
     * Déplace la note à la hauteur +hauteur+
+    * Notes
+    * -----
+    *   * Le déplacement a été simplifié : la note change de couleur et 
+    *     se déplace de façon rectiligne en passant au-dessus des autres
+    *
     * @method moveTo
     * @param  {String}  hauteur   La nouvelle hauteur
     * @param  {Object}  params    Les paramètres optionnels
     */
   moveTo:function(hauteur)
   {
-    var dmvt = {
-      x_dep:parseInt(this.left), 
-      x_max:parseInt(this.left) + 10 + (this.alteration ? 10 : 0),
-      y_dep:parseInt(this.top)
-    }
+    // METTRE Z-INDEX À 20 PENDANT LE DÉPLACEMENT
+    var top_init = parseInt(this.top,10)
     this.analyse_note(hauteur)
-    dmvt.y_fin = this.top
-    Courbe.move(this.obj, dmvt)
+    dlog("Note envoyée : "+hauteur)
+    dlog("Je dois déplacer la note de "+top_init+ " à " + this.top)
+    // dmvt.y_fin = this.top
+    // Courbe.move(this.obj, dmvt)
+    this.obj[0].src = "img/note/rond-couleur.png"
+    this.obj.css({top: this.top})
+    this.suplines_if_necessary()
   },
   
   /**
@@ -164,19 +188,18 @@ $.extend(Note.prototype,{
   build:function()
   {
     Anim.add(this)
-    // Faut-il des lignes suplémentaires
-    var dsuplines = this.need_suplines(Anim.current_staff.cle)
-    dlog("-- Calcul des lignes supplémentaires --")
-    dlog({
-      'note': this.note,
-      'alteration': this.alteration,
-      'midi': this.midi,
-      'clé portée': Anim.current_staff.cle
-    })
-    dlog("dsuplines:");dlog(dsuplines)
-    
-    if(dsuplines) Anim.current_staff.add_sup_lines($.extend(dsuplines,{upto:this.top}))
+    this.suplines_if_necessary()
   },
+  /**
+    * Ajoute les lignes supplémentaires si nécessaire
+    * @method suplines_if_necessary
+    */
+  suplines_if_necessary:function()
+  {
+    var dsuplines = this.need_suplines(this.staff.cle)
+    if(dsuplines) this.staff.add_sup_lines($.extend(dsuplines,{upto:this.top}))
+  },
+  
   /**
     * Méthode propre pour afficher la note, car elle a peut-être une
     * altération
@@ -187,8 +210,8 @@ $.extend(Note.prototype,{
   {
     if(undefined == params) params = {}
     if(undefined == params.complete) params.complete = NEXT_STEP
-    Anim.show(this.obj, params)
-    Anim.show(this.obj_alt, params)
+    Anim.Dom.show(this.obj, params)
+    Anim.Dom.show(this.obj_alt, params)
   },
   
   /**
@@ -198,7 +221,6 @@ $.extend(Note.prototype,{
     */
   positionne:function()
   {
-    this.top = Anim.current_staff.zero + NOTE_TO_OFFSET[this.note+this.octave]
     // dlog({
     //   'top current staff':Anim.current_staff.top,
     //   'top note':this.top,
@@ -233,6 +255,7 @@ $.extend(Note.prototype,{
     {
       if(undefined == this.suplines) this.suplines = {}
       this.suplines[key] = function(key, note, midi){
+        dlog("Recalcul lignes supplémentaires avec note:"+note+"/midi:"+midi+"/key:"+key)
         switch(key)
         {
         case SOL :
@@ -243,7 +266,6 @@ $.extend(Note.prototype,{
             else if (midi >= 80 && note == "a") return {above:true, number:1}
             else return null
           } else { // Supérieur ou égal à 82
-            dlog("ici avec "+note+" (midi="+midi+":"+(typeof midi)+")")
              return {above:true, number: Math.floor((midi - 82) / 4)}
           }
         case FA  :
@@ -271,12 +293,22 @@ $.extend(Note.prototype,{
     *   - L'octave (this.octave)
     * @method analyse_note
     * @param {String} note_str  Un string de la forme :
-    *                           "<note 1 lettre><altération><octave>"
+    *                           "[<portée>:]<note 1 lettre><altération><octave>"
     *                           <alteration>  : "b", "#" ou ""
     *                           <octave>      : 0 à 9 avec ou sans "-" devant
     */
   analyse_note:function(note_str)
   {
+    var dnote, staff ;
+    this.reset()
+    if(note_str.indexOf(':') > -1)
+    {
+      dnote       = note_str.split(':')
+      this.staff  = Anim.staves[parseInt(dnote.shift(),10)]
+      note_str    = dnote.shift()
+    } else {
+      this.staff  = Anim.current_staff
+    }
     note_str = note_str.split('')
     this.note   = note_str.shift()
     if(["b", "d", "x", "t"].indexOf(note_str[0]) > -1)
@@ -291,6 +323,24 @@ $.extend(Note.prototype,{
 })
 
 Object.defineProperties(Note.prototype,{
+  /**
+    * Retourne la position top de la note 
+    * Notes
+    * -----
+    *   * WARNING: Il faut penser à détruire `_top` si cette hauteur
+    *     doit être actualisée, comme lorsqu'il y a un déplacement de la note
+    * @property {Number} top
+    */
+  "top":{
+    get:function(){
+      if(undefined == this._top)
+      {
+        dlog("-> définition de _top (note:"+this.note+this.octave+")")
+        this._top = this.staff.zero + NOTE_TO_OFFSET[this.note+this.octave]
+      }
+      return this._top
+    }
+  },
   /**
     * Retourne la valeur numérique de la note
     * Note

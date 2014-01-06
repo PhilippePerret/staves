@@ -25,7 +25,7 @@ section#section_console div.buttons {
 }
 
 section#section_console div#current_step {
-  height:40px;
+  min-height        : 18px;;
 }
 section#section_console div.buttons input[type="button"]{
   font-size : 14pt;

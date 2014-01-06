@@ -11,7 +11,7 @@
   <div id="flash" style="display:none;"></div>
   <?php include "./php/view/header.php" ?>
   <?php include "./php/view/tools.php" ?>
-	<section id="staves"></section>
+	<section id="animation"></section>
   <?php include "./php/view/console.php" ?>
   <?php include "./php/view/footer.php" ?>
 </body>

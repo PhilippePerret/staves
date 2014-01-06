@@ -1,0 +1,4 @@
+# Essai accord
+NEW_STAFF(SOL)
+acc=CHORD(\'eb4 g4 c5\')
+acc[3].moveTo(c4)

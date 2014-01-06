@@ -5,7 +5,7 @@ Cette application permet de faire des animations autour des notes de musique, à
 * [Animation](#animation)
 * [Les notes](#notes)
 * [Les accords](#chords)
-* [Les portées](#staves)
+* [Les portées](#animation)
 
 
 <a name="animation"></a>
@@ -95,6 +95,7 @@ Le pas à utiliser est :
 *[Constantes notes](#constantes_notes)
 *[Créer une note](#creation_note)
 *[Déplacer une note](#move_note)
+*[Placer une note sur une portée précise](#note_on_staff)
 *[Détruire d'une note](#note_remove)
 
 <a name="designation_notes"></a>
@@ -161,6 +162,24 @@ Exemple&nbsp;:
 *Ne mettre aucune espace dans ce code.*
 
 *Noter que la note de destination devra vraiment la nouvelle valeur de la note. Si la note "a4" se déplace vers "a3", cette note deviendra "a3" dans ses données.*
+
+<a name="note_on_staff"></a>
+###Placer une note sur une portée précise
+
+Si on veut placer une note sur une portée hors de la portée active, on indique l'indice de cette portée avant la note, puis ":"&nbsp;:
+
+    <indice portée>:<note>
+  
+Par exemple&nbsp;:
+  
+    note_autre_staff=NOTE('2:a4')
+    OU
+    note_autre_staff=NOTE('2:'+a4)
+  
+… placera un LA4 sur la deuxième portée, même si elle n'est pas active.
+  
+*Noter que cela ne rend pas la portée active.*
+  
 <a name="note_remove"></a>
 ###Détruire d'une note
 

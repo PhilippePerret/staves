@@ -1,3 +1,4 @@
+# Je crée une portée
 NEW_STAFF(SOL)
 ba5=NOTE(a5)
 na4=NOTE(a4)

@@ -39,7 +39,7 @@ class Anim
   end
 
   def raw_code
-    @raw_code ||= (File.read path)
+    @raw_code ||= (File.read path).force_encoding('utf-8')
   end
   
   def raw_code= code

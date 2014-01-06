@@ -31,6 +31,47 @@ window.Staff = function(params)
   L(params || {}).each(function(k,v){me[k]=v})
   
 }
+/* ---------------------------------------------------------------------
+    Méthodes de classe
+   --------------------------------------------------------------------- */
+$.extend(Staff,{
+  /**
+    * Crée une nouvelle portée de clé +cle+ et de métrique +metrique+ sous
+    * la dernière portée affichée (et l'enregistre dans this.staves)
+    * Notes
+    *   * Cette méthode ne met pas la portée en portée courante, c'est la méthode
+    *     appelante qui doit s'en charger.
+    * @method create
+    * @param  {String} cle La clé de la portée (obligatoire)
+    * @param  {Object} params Les paramètres éventuels
+    *   @param  {String} params.metrique La métrique optionnelle
+    *   @param  {Number} params.offset    Le décalage par rapport à la dernière portée
+    */
+  create:function(cle, params)
+  {
+    if(undefined == params) params = {}
+    var staff = new Staff({cle:cle, top:this.top_next_staff(params)})
+    staff.build()
+    Anim.staves.push(staff)
+    return staff
+  },
+  
+  /**
+    * Retourne le top de la prochaine portée
+    * @method top_next_staff
+    * @param  {Object} params   Paramètres optionnels
+    *   @param  {Number} params.offset    Le décalage éventuel par rapport à la position naturelle
+    */
+  top_next_staff:function(params)
+  {
+    var top = 50 + (100 * Anim.staves.length)
+    if(params && params.offset) top += params.offset
+    return top
+  }
+})
+/* ---------------------------------------------------------------------
+     Méthodes d'instance
+   --------------------------------------------------------------------- */
 $.extend(Staff.prototype, {
   
   /**

@@ -1,7 +1,7 @@
 section#tools {
   position : fixed;
-  top      : 350px;
-  left     : 310px;
+  bottom   : 0;
+  right    : 0;
   width    : 580px;
   background-color  : #ccc;
   overflow  : scroll;

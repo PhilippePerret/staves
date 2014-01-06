@@ -1,4 +1,4 @@
-div.staff, img.cle, img.note, img.alteration, img.supline, img.silence, img.barre {
+div.staff, img.cle, img.alteration, img.supline, img.silence, img.barre {
   position    : absolute;
 }
 
@@ -16,4 +16,5 @@ img.cle {
 img.supline {
   width   : 20px;
   height  : 2px;
+  z-index : 0;
 }

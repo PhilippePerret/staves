@@ -66,11 +66,15 @@ $.extend(window.Anim,{
     * @param  {Object} params   Paramètres optionnels
     */
   start:function(params){
-    if(this.on) return this.stop()
-    else this.on = true
-    if(!this.steps) this.steps = Console.steps
-    var btn_name = this.MODE_PAS_A_PAS ? 'Next' : 'Stop'
-    $('input#btn_anim_start').val(btn_name)
+    if(this.on && !this.MODE_PAS_A_PAS) return this.stop()
+    else if(false == this.on)
+    {
+      this.reset()
+      if(!this.steps) this.steps = Console.steps
+      var btn_name = this.MODE_PAS_A_PAS ? 'Next' : 'Stop'
+      $('input#btn_anim_start').val(btn_name)
+      this.on = true
+    } 
     this.next_step()
   },
   /**
@@ -99,6 +103,7 @@ $.extend(window.Anim,{
     // Passer les commentaires
     if(this.current_step.substring(0,1) == "#") return this.next_step()
     this.write_current_step()
+    /* === Évaluation du code === */
     eval('this.Objects.'+this.current_step)
     if(!this.steps || this.steps.length == 0) this.stop()
   },
@@ -122,46 +127,10 @@ $.extend(window.Anim,{
     * @param  {Number} laps Nombre de secondes (peut être un flottant)
     */
   wait:function(laps){ this.Objects.WAIT(laps) },
-    
-  /**
-    * Ajoute un objet DOM à l'animation
-    * Notes
-    *   * On ajoute toujours l'élément masqué, mais c'est ici que la méthode
-    *     ajouter ` style="opacity:0;"` donc inutile de le mettre dans le
-    *     code.
-    *   * Pour pouvoir fonctionner, l'instance doit toujours définir : 
-    *     - la propriété `code_html` qui définit le code HTML de l'instance
-    *     - la méthode `positionne` qui positionne l'élément.
-    *     - la méthode `show` qui l'affiche
-    * @method add
-    * @param  {HTMLString} code_html  Le code HTML de l'élément.
-    */
-  add:function(instance)
-  {
-    var a_simple_string = 'string'==typeof instance, code_html ;
-    if(a_simple_string)
-    {
-      code_html = instance
-    }
-    else
-    {
-      code_html = instance.code_html
-    }
-    if(code_html.indexOf('opacity:0')<0)
-    {
-      code_html = code_html.substring(0, code_html.length-1) + ' style="opacity:0;">'
-    }
-    $('section#staves').append(code_html)
-    if(a_simple_string)
-    {
-      
-    }
-    else
-    {
-      instance.positionne()
-      instance.show(instance.class == 'Staff' ? 0 : this.VITESSE_SHOW)
-    }
-  },
+  
+  /** Raccourci pour Anim.Dom.add
+      @method add */
+  add:function(instance){return this.Dom.add(instance)},
   
   /**
     * Écrit l'étape courante
@@ -180,55 +149,26 @@ $.extend(window.Anim,{
     */
   def_mode_pas_a_pas:function(active)
   {
-    dlog("-> def_mode_pas_a_pas(active="+active+")")
     this.MODE_PAS_A_PAS = active
     Flash.show("Le mode pas à pas est "+(active ? 'activé' : 'désactivé'))
   },
   
   /**
-    * Affiche un objet quelconque de l'animation
-    * @method show
-    * @param  {Any} obj L'objet (Note, Txt, etc.) à afficher
-    * @param  {Object} params Les paramètres optionnels
-    *   @param  {Number} params.duree   Le temps pour faire apparaitre l'objet
-    *   @param  {Function} params.complete  La méthode pour suivre
+    * Reset l'animation (au démarrage)
+    * @method reset
     */
-  show:function(obj, params)
+  reset:function()
   {
-    if(undefined == params) params = {}
-    obj.animate(
-      {
-        opacity:1
-      }, 
-      params.duree || 1000, 
-      params.complete ? params.complete : null
-    )
+    $('section#animation').html('')
+    this.Objects  = {}
+    $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
+    this.staves   = []
   },
   
-  /**
-    * Crée une nouvelle portée de clé +cle+ et de métrique +metrique+ sous
-    * la dernière portée affichée (et l'enregistre dans this.staves)
-    * Notes
-    *   * Cette méthode ne met pas la portée en portée courante, c'est la méthode
-    *     appelante qui doit s'en charger.
-    * @method new_staff
-    * @param  {String} cle La clé de la portée (obligatoire)
-    * @param  {Object} params Les paramètres éventuels
-    *   @param  {String} params.metrique La métrique optionnelle
-    *   @param  {Number} params.offset    Le décalage par rapport à la dernière portée
-    */
-  new_staff:function(cle, params)
-  {
-    if(undefined == params) params = {}
-    var nombre_staves = this.staves.length
-    var top = 50 + (100 * nombre_staves)
-    if(params.offset) top += params.offset
-    var staff = new Staff({cle:cle, top:top})
-    staff.build()
-    this.staves.push(staff)
-    return staff
-  },
-  
+  /** Raccourci pour Anim.Dom.show
+    * @method show */
+  show:function(obj, params){this.Dom.show(obj,params)},
+ 
   /**
     * Enregistre l'animation courante
     * @method save
@@ -292,11 +232,12 @@ $.extend(window.Anim,{
     * Charge l'animation de nom +name+
     * @method load
     * @async
-    * @param  {String} name Nom de l'animation
+    * @param  {String} name Nom de l'animation (choisie dans le menu)
     * @param  {Object} rajax  Le retour de la requête
     */
   load:function(name, rajax)
   {
+    if(name == "0") return // premier menu
     if(undefined == rajax)
     {
       Ajax.send({script:"animation/load", name:name}, $.proxy(this.load, this, name))
@@ -307,7 +248,7 @@ $.extend(window.Anim,{
       {
         this.steps  = null
         this.name   = name
-        Console.set(rajax.raw_code)
+        Console.set(rajax.raw_code.stripSlashes())
       }
       else F.error(rajax.message)
     }

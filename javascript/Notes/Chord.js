@@ -8,6 +8,8 @@
   * @param  {String} strnotes La suite des notes, séparées par des espaces
   * @return {Array} Une liste de note, sauf premier élément
   *                 car les indices des notes doivent être 1-start.
+  *                 En réalité, c'est plus qu'une liste puisque l'objet Array
+  *                 contient aussi des méthodes propres aux accords.
   */
 window.CHORD = function(strnotes)
 {
@@ -20,7 +22,6 @@ window.CHORD = function(strnotes)
   $.extend(acc, CHORD_METHODS)
   Object.defineProperties(acc, CHORD_PROPERTIES)
   
-  dlog(acc)
   // On peut construire les notes
   Anim.wait(1)
   acc.each_note(function(note){note.build()})
