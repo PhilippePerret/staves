@@ -20,9 +20,12 @@ $.extend(window.Anim,{
   /**
     * Définition de la vitesse (ou plutôt la durée) des transitions
     * @property {Object} transition
+    *   @property {Number} transition.step  Délai entre chaque étape (en millisecondes)
     *   @property {Number} transition.show Vitesse d'apparition de tout élément
+    *   @property {Number} transition.note_moved  Délai de déplacement des notes (en millisecondes ?)
     */
   transition:{
+    step        : 3000,
     show        : 400,
     note_moved  : 1000
   },
@@ -121,26 +124,43 @@ $.extend(window.Anim,{
     // Passer les commentaires
     if(this.current_step.substring(0,1) == "#") return this.next_step()
     this.write_current_step()
-    /* === Évaluation du code === */
-    eval('this.Objects.'+this.current_step)
+    /* === On joue l'étape === */
+    this.Step.run()
     if(!this.steps || this.steps.length == 0) this.stop()
   },
   
   /**
     * Passe à l'étape suivante, mais seulement si le mode pas à pas n'est
-    * pas enclenché
+    * pas enclenché.
+    * NOTES
+    * -----
+    *   * Si Anim.transition.step est défini, et que +no_timeout+ n'est pas true,
+    *     alors il faut appeler next_step() seulement après le délai spécifié
+    *
     * @method auto_next_step
+    * @param  {Boolean} no_timeout Si true, pas de délai avant d'appeler l'étape suivante
     */
-  auto_next_step:function()
+  auto_next_step:function(no_timeout)
   {
+    if(Anim.Step.timer) clearTimeout(Anim.Step.timer)
     if(this.MODE_PAS_A_PAS) return
-    this.next_step()
+    if(no_timeout || Anim.transition.step == 0)
+    {
+      Anim.next_step()
+    }
+    else
+    {
+      Anim.Step.timer = setTimeout($.proxy(Anim.next_step, Anim), Anim.transition.step)
+    }
   },
   
   /**
     * Attends +laps+ secondes avant de passer à l'étape suivante
+    * Notes
+    * -----
+    *   * C'est un raccourci de Anim.Objects.WAIT qui peut être utilisé
+    *     dans la programmation.
     *
-    * @note C'est un raccourci de Anim.Objects.WAIT
     * @method wait
     * @param  {Number} laps Nombre de secondes (peut être un flottant)
     */

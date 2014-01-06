@@ -58,7 +58,7 @@ FONCTIONS_ANIM_OBJETS = {
   {
     if(undefined == offset) offset = Anim.defaut.hoffset
     Anim.current_x += parseInt(offset,10)
-    NEXT_STEP()
+    NEXT_STEP(no_timeout = true)
   },
   
   /**
@@ -69,7 +69,7 @@ FONCTIONS_ANIM_OBJETS = {
   ACTIVE_STAFF:function(indice)
   {
     Anim.current_staff = Anim.staves[indice-1]
-    NEXT_STEP()
+    NEXT_STEP(no_timeout = true)
   },
   
   /**
