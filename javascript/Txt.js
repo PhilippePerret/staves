@@ -60,6 +60,14 @@ $.extend(Txt.prototype,{
   {
     this.obj.hide(Anim.transition.show)
   },
+  /**
+    * Ré-affiche le texte précédemment masqué avec `hide`
+    * @method show
+    */
+  show:function()
+  {
+    this.obj.show(Anim.transition.show)
+  },
   
   /**
     * Positionne l'élément (en fonction de son possesseur)

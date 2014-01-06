@@ -355,3 +355,8 @@ Par exemple&nbsp;:
     # Supprimer le texte
     maNote.texte.hide()
   
+Noter que cette méthode supprime l'affichage du texte, mais l'objet `texte` existe toujours pour l'objet et on peut le ré-utiliser plus tard, par exemple avec&nbsp;:
+
+    maNote.texte.show()
+
+… qui ré-affichera ce texte.
