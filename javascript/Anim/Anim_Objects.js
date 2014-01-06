@@ -43,7 +43,7 @@ FONCTIONS_ANIM_OBJETS = {
   NEW_STAFF:function(cle, params)
   {
     Anim.current_staff = Staff.create(cle, params || {})
-    NEXT_STEP()
+    NEXT_STEP(no_timeout = true)
   },
   
   /**

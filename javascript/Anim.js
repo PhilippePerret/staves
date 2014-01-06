@@ -25,7 +25,7 @@ $.extend(window.Anim,{
     *   @property {Number} transition.note_moved  Délai de déplacement des notes (en millisecondes ?)
     */
   transition:{
-    step        : 3000,
+    step        : 500,
     show        : 400,
     note_moved  : 1000
   },

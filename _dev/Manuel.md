@@ -8,6 +8,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Les notes](#notes)
 * [Les accords](#chords)
 * [Les portées](#animation)
+* [Les textes](#textes)
 
 
 <a name="animation"></a>
@@ -298,3 +299,59 @@ Activer une portée signifie que tous les pas suivants la viseront. Par exemple,
 … où `<indice de la portee>` est son rang dans l'affichage, en partant de 1 et du haut. Donc la portée la plus en haut s'active par :
     
     ACTIVE_STAFF(1)
+    
+<a name="textes"></a>
+##Les Textes
+
+###Table des matières
+
+* [Introduction aux textes](#intro_textes)
+* [Créer un texte](#create_texte)
+  * [Créer un texte pour l'animation](#create_texte_animation)
+  * [Créer un texte pour un objet](#create_texte_objet)
+* [Supprimer un texte](#supprimer_texte)
+  * [Supprimer le texte d'un objet](#supprimer_texte_objet)
+  
+<a name="intro_textes"></a>
+###Introduction
+
+Les textes peuvent exister pour l'animation en général (ils sont alors écrits en haut à gauche et chaque nouveau texte remplace l'ancien), mais ils peuvent être associés aussi à tout objet de l'animation, note, portée, mesure, barre, etc.
+
+<a name="create_texte"></a>
+###Créer un texte
+
+<a name="create_texte_animation"></a>
+####Créer un texte pour l'animation
+
+Utiliser la commande&nbsp;:
+
+    WRITE("<le texte>")
+  
+<a name="create_texte_objet"></a>
+####Créer un texte pour un objet
+
+Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuite appeler sa méthode `write` (écrire)&nbsp;:
+
+    maNote=NOTE(a4)
+    maNote.write("C'est un LA 4")
+
+<a name="supprimer_texte"></a>
+###Supprimer un texte
+
+<a name="supprimer_texte_objet"></a>
+####Supprimer un texte d'objet
+
+Pour supprimer le texte de l'objet, c'est-à-dire de le faire disparaitre de l'affichage, utiliser la méthode `hide` (cacher) du texte de l'objet&nbsp;:
+
+    <note>.texte.hide()
+  
+Par exemple&nbsp;:
+  
+    maNote=NOTE(a4)
+    # Écrire le texte
+    maNote.write("C'est un LA 4")
+    # Attendre 2 secondes
+    WAIT(2)
+    # Supprimer le texte
+    maNote.texte.hide()
+  

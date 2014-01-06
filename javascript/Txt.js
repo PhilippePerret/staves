@@ -52,15 +52,15 @@ $.extend(Txt.prototype,{
   {
     Anim.add(this)
   },
-  // /**
-  //   * Affiche les objets de l'élément
-  //   * @method show
-  //   * @param  {Number} vitesse La vitesse d'apparition
-  //   */
-  // show:function(vitesse)
-  // {
-  //   this.obj.show(vitesse)
-  // },
+  /**
+    * Masque le texte (sans le détruire)
+    * @method hide
+    */
+  hide:function()
+  {
+    this.obj.hide(Anim.transition.show)
+  },
+  
   /**
     * Positionne l'élément (en fonction de son possesseur)
     * Notes
