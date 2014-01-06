@@ -64,7 +64,7 @@ Anim.Dom = {
     {
       // Positionne et affiche l'objet
       instance.positionne()
-      instance.show(instance.class == 'Staff' ? 0 : Anim.VITESSE_SHOW)
+      instance.show(instance.class == 'Staff' ? 0 : Anim.transition.show)
     }
   },
   

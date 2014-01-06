@@ -11,12 +11,14 @@
 if(undefined == window.Anim) window.Anim = {}
 $.extend(window.Anim,{
   /**
-    * Vitesse d'apparition des éléments
-    * @property {Number} VITESSE_SHOW
-    * @static
-    * @final
+    * Définition de la vitesse (ou plutôt la durée) des transitions
+    * @property {Object} transition
+    *   @property {Number} transition.show Vitesse d'apparition de tout élément
     */
-  VITESSE_SHOW: 400,
+  transition:{
+    show        : 400,
+    note_moved  : 1000
+  },
   
   /**
     * Mode pas à pas

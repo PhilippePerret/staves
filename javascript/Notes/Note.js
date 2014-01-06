@@ -155,16 +155,42 @@ $.extend(Note.prototype,{
     */
   moveTo:function(hauteur)
   {
-    // METTRE Z-INDEX À 20 PENDANT LE DÉPLACEMENT
     var top_init = parseInt(this.top,10)
     this.analyse_note(hauteur)
-    dlog("Note envoyée : "+hauteur)
-    dlog("Je dois déplacer la note de "+top_init+ " à " + this.top)
-    // dmvt.y_fin = this.top
-    // Courbe.move(this.obj, dmvt)
-    this.obj[0].src = "img/note/rond-couleur.png"
-    this.obj.css({top: this.top})
+    this.exergue()
+    this.obj.animate(
+      {top:this.top}, 
+      Anim.transition.note_moved, 
+      $.proxy(this.on_complete, this)
+    )
+  },
+  /**
+    * Méthode à appeler à la fin de toute animation
+    * @method on_complete
+    */
+  on_complete:function()
+  {
     this.suplines_if_necessary()
+    this.unexergue()
+  },
+  
+  /**
+    * Met la note en exergue (bleue et au-dessus)
+    * @method exergue
+    */
+  exergue:function()
+  {
+    this.obj[0].src = "img/note/rond-couleur.png"
+    this.obj.css({'z-index':20})
+  },
+  /**
+    * Sorte la note de son exergue
+    * @method unexergue
+    */
+  unexergue:function()
+  {
+    this.obj[0].src = "img/note/rond-noir.png"
+    this.obj.css({'z-index':10})
   },
   
   /**
