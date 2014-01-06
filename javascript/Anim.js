@@ -19,6 +19,15 @@ $.extend(window.Anim,{
     show        : 400,
     note_moved  : 1000
   },
+
+  /**
+    * Valeurs par défauts
+    * @property {Object} defaut
+    *   @property {Number} default.hoffset  Décalage droite par défaut, en pixels
+    */
+  defaut:{
+    hoffset       : 40,
+  },
   
   /**
     * Mode pas à pas
@@ -162,9 +171,10 @@ $.extend(window.Anim,{
   reset:function()
   {
     $('section#animation').html('')
-    this.Objects  = {}
+    this.Objects    = {}
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
-    this.staves   = []
+    this.staves     = []
+    this.current_x  = 100 // TODO: à recalculer d'après l'armure et la métrique
   },
   
   /** Raccourci pour Anim.Dom.show

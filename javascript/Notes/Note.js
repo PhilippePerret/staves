@@ -172,6 +172,7 @@ $.extend(Note.prototype,{
   {
     this.suplines_if_necessary()
     this.unexergue()
+    NEXT_STEP()
   },
   
   /**

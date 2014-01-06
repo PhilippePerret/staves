@@ -47,6 +47,21 @@ FONCTIONS_ANIM_OBJETS = {
   },
   
   /**
+    * Déplace le "marker" vers la droite sur les portées (pour inscription) 
+    * Note
+    *   * Cela redéfinit la valeur de Anim.current_x
+    * @method LEFT
+    * @param  {Number} offset   Optionnellement, le déplacement à effectuer (en pixels)
+    *                           Par défaut, Anim.defaut.hoffset
+    */
+  LEFT:function(offset)
+  {
+    if(undefined == offset) offset = Anim.defaut.hoffset
+    Anim.current_x += parseInt(offset,10)
+    NEXT_STEP()
+  },
+  
+  /**
     * Activer la portée +indice+ (1-start)
     * @method ACTIVE_STAFF
     * @param {Number} indice Numéro de la portée dans l'affichage, 1-start

@@ -4,8 +4,7 @@
 
 * Pouvoir définir avec ou sans rythme
 * Pouvoir régler la vitesse de l'animation
-  > Par défaut, chaque ligne correspond à un "beat", par exemple une seconde si
-  le tempo est réglé sur 60.
+  > cela doit redéfinir toutes les valeurs de Anim.transition à l'aide d'un coefficiant
   
 
 ### Fonctionnalités optionnelles
