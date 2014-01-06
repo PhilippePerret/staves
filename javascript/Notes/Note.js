@@ -140,12 +140,16 @@ $.extend(Note.prototype,{
 
   /**
     * Écrit un texte au-dessus ou en dessous de la note
+    * Notes
+    * -----
+    *   * L'étape suivante doit être appelée par l'affichage du texte (Txt::show)
     * @method write
     * @param  {String} texte Le texte à écrire
     * @param  {Object} params Les paramètres optionnels
     */
   write:function(texte, params)
   {
+    dlog("-> <Note>.write")
     if(undefined == params) params = {}
     params.texte  = texte
     this.texte    = TXT(this, params)
@@ -169,7 +173,7 @@ $.extend(Note.prototype,{
     this.exergue()
     this.obj.animate(
       {top:this.top}, 
-      Anim.transition.note_moved, 
+      MODE_FLASH ? 0 : Anim.transition.note_moved, 
       $.proxy(this.on_complete, this)
     )
   },
@@ -237,19 +241,41 @@ $.extend(Note.prototype,{
   },
   
   /**
-    * Méthode propre pour afficher la note, car elle a peut-être une
-    * altération
+    * Méthode propre pour afficher la note
+    *
     * @method show
     * @param {Object} params Les paramètres optionnels
     */
   show:function(params)
   {
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
-    Anim.Dom.show(this.obj, params)
-    Anim.Dom.show(this.obj_alt, params)
+    this.show_note(params)
   },
-  
+  /**
+    * Affiche JUSTE la note
+    * @method show_note
+    */
+  show_note:function(params)
+  {
+    if(undefined == params) params = {}
+    params.complete = $.proxy(this.show_alteration, this)
+    Anim.Dom.show(this.obj, params)
+  },
+  /**
+    * Affiche JUSTE l'altération (if any)
+    * WARNING
+    *   * Cet appel doit obligatoirement être le dernier pour afficher la
+    *     note, et il doit toujours se faire, car c'est la méthode qui se
+    *     charge d'appeler NEXT_STEP()
+    *   * La méthode est asynchrone s'il y a une altération
+    *
+    * @method show_alteration
+    * @async
+    */
+  show_alteration:function()
+  {
+    if(this.alteration) Anim.Dom.show(this.obj_alt)
+    else NEXT_STEP()
+  },
   /**
     * Positionne la note en fonction de sa hauteur de note
     * et de la hauteur de la portée
@@ -450,7 +476,7 @@ Object.defineProperties(Note.prototype,{
     */
   "html_img":{
     get:function(){
-      return '<img class="note" id="'+this.dom_id+'" src="img/note/rond-noir.png" style="opacity:0;" />'
+      return '<img class="note" id="'+this.dom_id+'" src="img/note/rond-noir.png" />'
     }
   },
   
@@ -476,7 +502,7 @@ Object.defineProperties(Note.prototype,{
   "html_img_alt":{
     get:function(){
       return '<img class="alteration" id="'+this.dom_id+'-alt" ' +
-              'src="img/note/'+this.filename_alteration+'.png" style="opacity:0;" />'
+              'src="img/note/'+this.filename_alteration+'.png" />'
     }
   }
 })

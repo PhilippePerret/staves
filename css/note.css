@@ -1,5 +1,5 @@
+/* Cf. aussi staff.css */
 img.note {
-  position  : absolute;
   width     : 16.2px;
   z-index   : 10;
 }

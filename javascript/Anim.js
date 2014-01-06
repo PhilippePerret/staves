@@ -2,6 +2,21 @@
   * @module Anim
   */
 
+/* ---------------------------------------------------------------------
+  * Constantes utiles
+  */
+/**
+  * Constante permettant de passer ou d'arrêter le mode "flash" qui permet
+  * de jouer très rapidement une partie de l'animation.
+  *
+  * @property {Boolean} MODE_FLASH
+  * @for window
+  * @default false
+  *
+  */
+window.MODE_FLASH = false
+
+/* --------------------------------------------------------------------- */
 /**
   * Objet Anim pour jouer l'animation
   *
@@ -144,7 +159,7 @@ $.extend(window.Anim,{
   {
     if(Anim.Step.timer) clearTimeout(Anim.Step.timer)
     if(this.MODE_PAS_A_PAS) return
-    if(no_timeout || Anim.transition.step == 0)
+    if(MODE_FLASH || no_timeout || Anim.transition.step == 0)
     {
       Anim.next_step()
     }
@@ -164,7 +179,7 @@ $.extend(window.Anim,{
     * @method wait
     * @param  {Number} laps Nombre de secondes (peut être un flottant)
     */
-  wait:function(laps){ this.Objects.WAIT(laps) },
+  wait:function(laps){ this.Objects.WAIT(MODE_FLASH ? 0 : laps) },
   
   /** Raccourci pour Anim.Dom.add
       @method add */

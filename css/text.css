@@ -1,6 +1,5 @@
+/* Cf. aussi dans staff.css */
 div.text {
-  position :absolute;
   background-color  : transparent;
-  opacity           : 0.904;
   padding           : 4px;
 }

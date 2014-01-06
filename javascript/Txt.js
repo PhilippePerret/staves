@@ -11,7 +11,7 @@
   */
 window.TXT = function(owner, params)
 {
-  Anim.wait(1)
+  if(!MODE_FLASH) Anim.wait(1)
   return new Txt(owner, params)
 }
 
@@ -23,7 +23,7 @@ window.TXT = function(owner, params)
   */
 window.Txt = function(owner, params)
 {
-  this.id       = (new Date()).getTime()
+  this.id       = 'txt'+(new Date()).getTime()
   
   ObjetClass.call(this)
   
@@ -50,7 +50,9 @@ $.extend(Txt.prototype,{
     */
   build:function()
   {
-    Anim.add(this)
+    dlog("-> <Txt>.build")
+    Anim.Dom.add(this)
+    return this
   },
   /**
     * Masque le texte (sans le détruire)
@@ -58,15 +60,25 @@ $.extend(Txt.prototype,{
     */
   hide:function()
   {
-    this.obj.hide(Anim.transition.show)
+    this.obj.hide(MODE_FLASH ? 0 : Anim.transition.show)
   },
   /**
-    * Ré-affiche le texte précédemment masqué avec `hide`
+    * (Ré-)affiche le texte
     * @method show
     */
-  show:function()
+  show:function(params)
   {
-    this.obj.show(Anim.transition.show)
+    dlog("-> <Txt>.show("+params+")")
+    if(MODE_FLASH)
+    {
+      this.obj[0].style.opacity = 1
+      NEXT_STEP()
+    }
+    else
+    {
+      if(undefined == params) params = {}
+      Anim.Dom.show(this.obj, $.extend(params, {complete:NEXT_STEP} ))
+    } 
   },
   
   /**
@@ -107,7 +119,7 @@ Object.defineProperties(Txt.prototype,{
     */
   "code_html":{
     get:function(){
-      return '<div id="'+this.dom_id+'" class="text" style="opacity:0;">'+this.texte+'</div>'
+      return '<div id="'+this.dom_id+'" class="text">'+this.texte+'</div>'
     }
   }
 })

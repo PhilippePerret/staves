@@ -1,5 +1,7 @@
-div.staff, img.cle, img.alteration, img.supline, img.silence, img.barre {
+div.staff, img.cle, img.note, img.alteration, img.supline, img.silence, img.barre,
+div.text {
   position    : absolute;
+  opacity     : 0;
 }
 
 img.staffline {

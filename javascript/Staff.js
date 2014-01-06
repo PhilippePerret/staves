@@ -88,10 +88,10 @@ $.extend(Staff.prototype, {
     * @method show
     * @param  {Number} vitesse La vitesse d'apparition
     */
-  show:function(vitesse)
+  show:function()
   {
-    this.img_staff.show(vitesse)
-    this.img_cle.show(vitesse)
+    this.img_staff.show()
+    this.img_cle.css('opacity', '1')
   },
   
   /**
@@ -201,7 +201,7 @@ Object.defineProperties(Staff.prototype,{
         c += '<img style="top:'+(top + i * 12)+'px;" class="staffline" src="img/line.png" />'
         // top += 12
       }
-      return c //'<div id="'+this.dom_id+'" class="staff" style="opacity:0;">'+c+'</div>'
+      return c
     }
   },
   /**
@@ -210,7 +210,7 @@ Object.defineProperties(Staff.prototype,{
     */
   "html_img_cle":{
     get:function(){
-      return '<img id="'+this.dom_id_cle+'" style="display:none;" class="cle" src="img/cle/'+this.cle+'.png" />'
+      return '<img id="'+this.dom_id_cle+'" class="cle" src="img/cle/'+this.cle+'.png" />'
     }
   }
   
