@@ -1,6 +1,8 @@
-# Application Staves
+#Staff Animation
 
-Cette application permet de faire des animations autour des notes de musique, à fin pédagogique.
+(Animation de portée)
+
+Cette application permet de faire des animations musicales (écrites), à des fins pédagogiques, pour les insérer dans des screencasts.
 
 * [Animation](#animation)
 * [Les notes](#notes)
@@ -17,13 +19,24 @@ Cette application permet de faire des animations autour des notes de musique, à
 * [Composer le code de l'animation](#code_composition)
   * [Commentaires dans le code](#code_comments)
   * [Faire une pause](#pause_animation)
+  * [Avancer sur la portée](#left_staff)
   * [Écrire un texte général](#texte_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
 
 <a name="intro_animation"></a>
 ###Introduction
 
-Une animation est composée de `pas` (step). Chaque pas exécute une action. Ces pas se définissent dans la console (ie dans le code) en passant à la ligne. **Chaque ligne représente donc un pas.**
+Une animation est composée de `pas` (step) qui vont être exécutés l'un après l'autre, produisant des choses aussi diverses que&nbsp;:
+
+* L'apparitioin d'une portée&nbsp;;
+* L'écriture d'une note ou d'un accord sur la portée&nbsp;;
+* Le déplacement de notes&nbsp;;
+* L'écriture de textes explicatifs&nbsp;;
+* etc.
+
+Chaque pas (chaque “step”) exécute une action. Ces pas se définissent dans la console située à gauche de l'écran (le bloc noir). Chaque pas se trouve sur une ligne distincte. Donc chaque ligne est un nouveau pas, une nouvelle étape de l'animation.
+
+**Bien noter que chaque ligne représente un pas, il est impossible de définir plusieurs actions sur la même ligne (en réalité c'est faux, mais c'est dangereux ;-)).**
 
 Ces pas peuvent&nbsp;:
 * Construire une note (et l'afficher)
@@ -55,6 +68,23 @@ Par exemple, pour attendre 4 secondes&nbsp;:
     monAccord('c3 eb3 g3')
   
 *Note&nbsp;: C'est un “pas” comme les autres, donc il doit être mis sur une ligne seule comme toute étape.*
+
+<a name="left_staff"></a>
+####Se déplacer sur la portée
+
+La commande pour écrire à la suite des dernières notes sur la portée, on utilise la commande&nbsp;:
+
+    LEFT([<nombre pixels>])
+  
+Par défaut (sans argument), le déplacement sera de 40px (`Anim.defaut.hoffset`). Sinon, le déplacement sera de la valeur précisée.
+
+Par exemple&nbsp;:
+
+    LEFT() 
+    // => les notes suivantes s'écriront 40px plus à gauche
+
+    LEFT(100)
+    // => les notes suivantes s'écriront 100px plus à gauche
 
 <a name="texte_animation"></a>
 ####Écrire un texte général

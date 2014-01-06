@@ -10,6 +10,13 @@
   */
 if(undefined == window.Anim) window.Anim = {}
 $.extend(window.Anim,{
+  
+  /**
+    * Nom de l'animation (ie l'affixe de son fichier de code)
+    * @property {String|Null} name
+    */
+  name: null,
+  
   /**
     * Définition de la vitesse (ou plutôt la durée) des transitions
     * @property {Object} transition
@@ -249,7 +256,11 @@ $.extend(window.Anim,{
     */
   load:function(name, rajax)
   {
-    if(name == "0") return // premier menu
+    if(name == "0")
+    {
+      this.name = null
+      return // premier menu
+    } 
     if(undefined == rajax)
     {
       Ajax.send({script:"animation/load", name:name}, $.proxy(this.load, this, name))

@@ -10,5 +10,6 @@
   <div>
     <input type="button" value="Sauver comme…" onclick="$.proxy(Anim.save_as, Anim)()" />
     <input type="text" id="animation_name" style="width:200px;" onfocus="this.select()" />
+    <input type="button" value="Aide" onclick="aide()" />
   </div>
 </section>

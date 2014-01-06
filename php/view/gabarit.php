@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<title>Table Narration</title>
+	<title>Staff Animation</title>
 	<!-- Javascript -->
 	<?php include "./php/lib/librairies-js.php" ?>
 	<!-- Css -->

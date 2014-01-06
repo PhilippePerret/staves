@@ -94,6 +94,15 @@ window.Note = function(params)
   
   this.left   = Anim.current_x
   
+  /**
+    * Le texte éventuel que porte la note (instance {Txt})
+    * Note
+    *   * Il est inauguré par la méthode <note>.write(<texte>)
+    *
+    * @property {Txt} texte
+    */
+  this.texte = null
+  
   if('string'==typeof params)
   { // => Une note précisée par "<note une lettre><altération><octave>"
     // <altération> optionnelle peut être "b" ou "#"
@@ -132,14 +141,14 @@ $.extend(Note.prototype,{
   /**
     * Écrit un texte au-dessus ou en dessous de la note
     * @method write
-    * @param  {String} Le texte à écrire
-    * @param  {Object} Les paramètres optionnels
+    * @param  {String} texte Le texte à écrire
+    * @param  {Object} params Les paramètres optionnels
     */
   write:function(texte, params)
   {
     if(undefined == params) params = {}
-    params.texte = texte
-    this.texte = TXT(this, params)
+    params.texte  = texte
+    this.texte    = TXT(this, params)
     this.texte.build()
   },
   /**
@@ -282,7 +291,6 @@ $.extend(Note.prototype,{
     {
       if(undefined == this.suplines) this.suplines = {}
       this.suplines[key] = function(key, note, midi){
-        dlog("Recalcul lignes supplémentaires avec note:"+note+"/midi:"+midi+"/key:"+key)
         switch(key)
         {
         case SOL :
@@ -321,7 +329,8 @@ $.extend(Note.prototype,{
     * @method analyse_note
     * @param {String} note_str  Un string de la forme :
     *                           "[<portée>:]<note 1 lettre><altération><octave>"
-    *                           <alteration>  : "b", "#" ou ""
+    *                           <portée>      : indice portée 1-start
+    *                           <alteration>  : "b", "d", "x", "t" ou ""
     *                           <octave>      : 0 à 9 avec ou sans "-" devant
     */
   analyse_note:function(note_str)
@@ -331,7 +340,7 @@ $.extend(Note.prototype,{
     if(note_str.indexOf(':') > -1)
     {
       dnote       = note_str.split(':')
-      this.staff  = Anim.staves[parseInt(dnote.shift(),10)]
+      this.staff  = Anim.staves[parseInt(dnote.shift(),10) - 1]
       note_str    = dnote.shift()
     } else {
       this.staff  = Anim.current_staff
@@ -362,7 +371,6 @@ Object.defineProperties(Note.prototype,{
     get:function(){
       if(undefined == this._top)
       {
-        dlog("-> définition de _top (note:"+this.note+this.octave+")")
         this._top = this.staff.zero + NOTE_TO_OFFSET[this.note+this.octave]
       }
       return this._top
