@@ -179,16 +179,35 @@ $.extend(Note.prototype,{
   },
   /**
     * Méthode à appeler à la fin de toute animation
+    * 
     * @method on_complete
+    * @param {String} type_obj  Le type de l'objet qui appelle la méthode
+    *                           Peut-être 'note', 'alteration'
     */
-  on_complete:function()
+  on_complete:function(type_obj)
   {
     dlog("-> note.on_complete "+this.note_str)
     this.suplines_if_necessary()
-    this.unexergue()
-    NEXT_STEP()
+    if(this.is_complete_with(type_obj))
+    {
+      this.unexergue()
+      NEXT_STEP()
+    }
   },
-  
+  /**
+    * Return true si tous les objets de la note sont affichés
+    * @method is_complete_with
+    * @param  {String} type_obj Le type de l'objet (cf. `on_complete`)
+    * @return {Boolean} True si tous les éléments sont affichés
+    */
+  is_complete_with:function(type_obj)
+  {
+    if(undefined == this.tbl_complete) this.tbl_complete = {note:false, alteration:false}
+    this.tbl_complete[type_obj] = true
+    for(var tobj in this.tbl_complete) if(false == this.tbl_complete[tobj]) return false
+    delete this.tbl_complete
+    return true
+  },
   /**
     * Met la note en exergue (bleue et au-dessus)
     * @method exergue
@@ -250,7 +269,11 @@ $.extend(Note.prototype,{
   show:function(params)
   {
     dlog("-> note.show "+this.note_str)
-    this.show_note(params)
+    // On essaie de construire tout en même temps avec le nouveau traitement
+    // de on_complete
+    if(undefined == params) params = {}
+    this.show_note($.extend(params, {complete:$.proxy(this.on_complete, this, 'note')}))
+    this.show_alteration($.extend(params, {complete:$.proxy(this.on_complete, this, 'alteration')}))
   },
   /**
     * Affiche JUSTE la note
@@ -259,9 +282,6 @@ $.extend(Note.prototype,{
   show_note:function(params)
   {
     dlog("-> note.show_note "+this.note_str)
-    dlog("params (dans show_note) :");dlog(params)
-    if(undefined == params) params = {}
-    params.complete = $.proxy(this.show_alteration, this)
     Anim.Dom.show(this.obj, params)
   },
   /**
@@ -275,11 +295,11 @@ $.extend(Note.prototype,{
     * @method show_alteration
     * @async
     */
-  show_alteration:function()
+  show_alteration:function(params)
   {
     dlog("-> note.show_alteration "+this.note_str)
-    if(this.alteration) Anim.Dom.show(this.obj_alt, {complete:$.proxy(this.on_complete, this)})
-    else this.on_complete()
+    if(this.alteration) Anim.Dom.show(this.obj_alt, params)
+    else params.complete()
   },
   /**
     * Positionne la note en fonction de sa hauteur de note
