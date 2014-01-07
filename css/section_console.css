@@ -17,3 +17,13 @@ section#section_console textarea#console {
   font-size         :12.3pt;
   padding           :12pt;
 }
+
+/* Style de la sélection */
+textarea#console::selection {
+  background  : white;
+  color       : blue;
+}
+textarea#console::-moz-selection {
+  background  : white;
+  color       : blue;
+}

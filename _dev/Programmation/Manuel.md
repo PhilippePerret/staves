@@ -1,23 +1,56 @@
 #Manuel pour la programmation de l'application
 
-Note&nbsp;: J'appelle chaque élément (ligne) de l'animation un `pas` (step).
 
+* [Affichage de tout objet animation](#show_objet_animation)
+* [Passage au pas (étape) suivant](#passage_step_suivante)
+* [Traitement du code de l'animation](#traitement_code_animation)
+
+<a name="nomenclature"></a>
+##Nomenclature
+
+J'appelle chaque ligne de l'animation un `pas` ou un `step`.
+
+<a name="show_objet_animation"></a>
+##Affichage de tout objet animation
+
+C'est la méthode :
+
+    Anim.Dom.show(instance|DOM objet, <parameters>)
+  
+… qui se charge de l'affichage de tout objet animation.
+
+Où les paramètres peuvent contenir la propriété `complete` qui définira la fonction pour suivre. 
+
+Par défaut, cette fonction pour suivre est toujours `NEXT_STEP` pour passer à l'étape suivante.
+
+<a name="passage_step_suivante"></a>
 ##Passage au pas suivant
 
 Pour passer à l'étape suivante (`Anim.next_step`), on peut utiliser le raccourci :
 
 NEXT_STEP()
 
-Cette constante peut aussi s'utiliser pour définir une “fonction pour suivre”. Par exemple, dans le déplacement d'une note (`Note::moveTo`), on appelle la méthode `Courbe.move` en lui donnant en paramètre la méthode à appeler quand le déplacement sera terminé. On peut utiliser `NEXT_STEP` pour ça&nbsp;:
 
-    Courbe.move({
-      x_dep    : 10,
-      x_max    : 30,
-      y_dep    : 100,
-      y_fin    : 50,
-      complete : NEXT_STEP
-    })
+Mais dans beaucoup de cas, un `objet` animé est constitué de plusieurs éléments, comme la note, qui peut avoir une altération et des lignes supplémentaires.
 
+Dans ce cas, on se sert de la propriété `complete` dans les paramètres qu'on envoie à `Anim.Dom.show`
+
+Par exemple, pour une note, on trouve cette enchaînement&nbsp;:
+
+    <note> appelle la méthode Anim.Dom.add pour s'ajouter à l'animation
+    Anim.Dom.add appelle la méthode <note>.show
+    <note>.show appelle <note>.show_note 
+      ... qui affiche la note
+      ... puis appelle <note>.show_alteration
+    <note>.show_alteration
+      ... qui affiche l'altération si elle existe
+      ... puis appelle <note>.on_complete
+    <note>.on_comlete
+      ... qui affiche les notes supplémentaires si nécessaires
+      ... puis appelle enfin NEXT_STEP pour passer à l'étape suivante
+      
+
+<a name="traitement_code_animation"></a>
 ##Traitement du code de l'animation
 
 

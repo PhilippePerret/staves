@@ -56,11 +56,29 @@ $.extend(Txt.prototype,{
   },
   /**
     * Masque le texte (sans le détruire)
+    * Note
+    * ----
     * @method hide
+    * @param  {Object} params Paramètres optionnels, et notamment :
+    *   @param {Function} params.complete La méthode poursuivre, si elle doit être
+    *                                     différente de NEXT_STEP
     */
-  hide:function()
+  hide:function(params)
   {
-    this.obj.hide(MODE_FLASH ? 0 : Anim.transition.show)
+    if(undefined == params) params = {}
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    if(MODE_FLASH){
+      this.obj.css('opacity', 0) 
+      params.complete()
+    }
+    else 
+    {
+      this.obj.animate(
+        {opacity:0},
+        Anim.transition.show,
+        params.complete
+      )
+    }
   },
   /**
     * (Ré-)affiche le texte

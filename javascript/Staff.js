@@ -11,7 +11,7 @@ window.Staff = function(params)
 {
   this.class  = "Staff"
   this.cle    = SOL
-  this.id     = (new Date()).getTime()
+  this.id     = "staff"+(new Date()).getTime()
   
   /**
     * Décalage vertical par défaut de l'image
@@ -25,6 +25,13 @@ window.Staff = function(params)
     * @default 0
     */
   this.left = 20
+  /**
+    * Indice (1-start) de la portée dans l'animation
+    * Notes
+    *   * Il sera défini au moment de la création de la portée (`create`)
+    * @property {Number} indice
+    */
+  this.indice = null
   
   // On dispatche les valeurs transmises
   var me = this
@@ -53,6 +60,7 @@ $.extend(Staff,{
     var staff = new Staff({cle:cle, top:this.top_next_staff(params)})
     staff.build()
     Anim.staves.push(staff)
+    staff.indice = Anim.staves.length // ! 1-start
     return staff
   },
   
@@ -81,7 +89,7 @@ $.extend(Staff.prototype, {
     */
   build:function()
   {
-    Anim.add(this)
+    Anim.Dom.add(this)
   },
   /**
     * Affiche les objets de l'élément
@@ -128,7 +136,7 @@ $.extend(Staff.prototype, {
     do {
       top += inc
       style = "top:"+top+"px;left:"+(Anim.current_x - 2)+"px;"
-      Anim.add('<img class="supline" src="img/note/supline.png" style="'+style+'" />')
+      Anim.Dom.add('<img class="supline" src="img/note/supline.png" style="'+style+'" />')
     }
     while((params.above && ((top - 12) > (params.upto))) || (!params.above && (top < params.upto)))
   }

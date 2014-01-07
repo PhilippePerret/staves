@@ -26,10 +26,11 @@ Anim.Dom = {
     * @param  {Any} obj L'objet (Note, Txt, etc.) à afficher
     * @param  {Object} params Les paramètres optionnels
     *   @param  {Number} params.duree   Le temps pour faire apparaitre l'objet
-    *   @param  {Function} params.complete  La méthode pour suivre
+    *   @param  {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
     */
   show:function(obj, params)
   {
+    dlog("-> Anim.Dom.show / params:");dlog(params)
     if(undefined == params) params = {}
     if(undefined == params.complete) params.complete = NEXT_STEP
     if(MODE_FLASH)
@@ -62,7 +63,7 @@ Anim.Dom = {
     */
   add:function(instance)
   {
-    dlog("-> Anim.add")
+    dlog("-> Anim.Dom.add")
     var a_simple_string = 'string' == typeof instance, code_html ;
     if(a_simple_string)
     {
@@ -81,7 +82,7 @@ Anim.Dom = {
     {
       // Positionne et affiche l'objet
       instance.positionne()
-      instance.show((MODE_FLASH || instance.class == 'Staff') ? 0 : Anim.transition.show)
+      instance.show()
     }
   },
   

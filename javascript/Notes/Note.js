@@ -183,6 +183,7 @@ $.extend(Note.prototype,{
     */
   on_complete:function()
   {
+    dlog("-> note.on_complete "+this.note_str)
     this.suplines_if_necessary()
     this.unexergue()
     NEXT_STEP()
@@ -227,7 +228,7 @@ $.extend(Note.prototype,{
     */
   build:function()
   {
-    Anim.add(this)
+    Anim.Dom.add(this)
     this.suplines_if_necessary()
   },
   /**
@@ -248,6 +249,7 @@ $.extend(Note.prototype,{
     */
   show:function(params)
   {
+    dlog("-> note.show "+this.note_str)
     this.show_note(params)
   },
   /**
@@ -256,6 +258,8 @@ $.extend(Note.prototype,{
     */
   show_note:function(params)
   {
+    dlog("-> note.show_note "+this.note_str)
+    dlog("params (dans show_note) :");dlog(params)
     if(undefined == params) params = {}
     params.complete = $.proxy(this.show_alteration, this)
     Anim.Dom.show(this.obj, params)
@@ -265,7 +269,7 @@ $.extend(Note.prototype,{
     * WARNING
     *   * Cet appel doit obligatoirement être le dernier pour afficher la
     *     note, et il doit toujours se faire, car c'est la méthode qui se
-    *     charge d'appeler NEXT_STEP()
+    *     charge d'appeler on_complete
     *   * La méthode est asynchrone s'il y a une altération
     *
     * @method show_alteration
@@ -273,8 +277,9 @@ $.extend(Note.prototype,{
     */
   show_alteration:function()
   {
-    if(this.alteration) Anim.Dom.show(this.obj_alt)
-    else NEXT_STEP()
+    dlog("-> note.show_alteration "+this.note_str)
+    if(this.alteration) Anim.Dom.show(this.obj_alt, {complete:$.proxy(this.on_complete, this)})
+    else this.on_complete()
   },
   /**
     * Positionne la note en fonction de sa hauteur de note
@@ -400,6 +405,15 @@ Object.defineProperties(Note.prototype,{
         this._top = this.staff.zero + NOTE_TO_OFFSET[this.note+this.octave]
       }
       return this._top
+    }
+  },
+  /**
+    * Retourne la note courante sous forme de string (débuggage)
+    * @property {String} note_str
+    */
+  "note_str":{
+    get:function(){
+      return "["+this.staff.indice+":"+this.note+this.octave+"/left:"+this.left+"]"
     }
   },
   /**

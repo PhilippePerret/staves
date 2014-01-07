@@ -30,10 +30,9 @@ Anim.Step = {
     dlog("-> Anim.Step.run / Anim.current_step:"+Anim.current_step)
     try
     {
-      dlog("run:this.Objects."+Anim.current_step)
-      dlog("ndo3 defini ? "+(undefined == Anim.Objects.ndo3 ? "NON" : "oui"))
+      // dlog("run:this.Objects."+Anim.current_step)
       eval('Anim.Objects.'+Anim.current_step)
-      dlog("run OK")
+      // dlog("run OK")
     }
     catch(err)
     {

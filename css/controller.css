@@ -16,8 +16,8 @@ section#controller div.buttons {
 }
 
 input#btn_anim_start {
-  background-color  : #5BFF7C;
-  color             : #AF2F4F;
+  background-color  : #00A200;
+  color             : #FFFFFF;
 }
 
 section#controller div.buttons input[type="button"]{
