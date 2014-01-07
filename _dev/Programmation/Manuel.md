@@ -26,7 +26,7 @@ Par défaut, cette fonction pour suivre est toujours `NEXT_STEP` pour passer à 
 <a name="passage_step_suivante"></a>
 ##Passage au pas suivant
 
-Pour passer à l'étape suivante (`Anim.next_step`), on peut utiliser le raccourci :
+Pour passer à l'étape suivante (`Anim.Step.next`), on peut utiliser le raccourci :
 
 NEXT_STEP()
 
@@ -83,21 +83,21 @@ Car le code séquence :
 
 ## Définir l'appel à la séquence suivante
 
-Quelque soit la situation, il faut que le résultat de la séquence appelle la méthode `Anim.next_step()` pour pouvoir passer à la suite.
+Quelque soit la situation, il faut que le résultat de la séquence appelle la méthode `Anim.Step.next()` pour pouvoir passer à la suite.
 
-Si un délai est nécessaire, au lieu d'appeler directement `next_step`, on peut appeler `Anim.wait` (qui est un raccourci de `Anim.Objects.WAIT`).
+Si un délai est nécessaire, au lieu d'appeler directement `Anim.Step.next`, on peut appeler `Anim.wait` (qui est un raccourci de `Anim.Objects.WAIT`).
 
 Par exemple, quand on crée une note, la fin de la fonction `NOTE` appelle&nbsp;:
 
     Anim.wait(1)
 
-… car si elle appelait tout de suite la méthode `next_step` une erreur serait produite puisque la fonction n'aurait pas encore renvoyé l'instance créée (en d'autres termes, la séquence ne serait pas encore terminée).
+… car si elle appelait tout de suite la méthode `Anim.Step.next` une erreur serait produite puisque la fonction n'aurait pas encore renvoyé l'instance créée (en d'autres termes, la séquence ne serait pas encore terminée).
 
 Au lieu de ça on a :
 
-1.Le code maNote=NOTE(a3) est joué (évalué) par next_step
+1.Le code maNote=NOTE(a3) est joué (évalué) par Anim.Step.next
 2.La méthode NOTE crée l'instance
 3.La méthode NOTE appelle `Anim.wait(1)` pour attendre 1 seconde
-4.Pendant ce temps, next_step reçoit l'instance note et la met dans `maNote` (en réalité dans `Anim.Objects.maNote`)
-5.La méthode `next_step` a le temps de se finir
-6.La méthode Anim.Objects.WAIT appelle `Anim.next_step` pour passer à la suite
+4.Pendant ce temps, Anim.Step.next reçoit l'instance note et la met dans `maNote` (en réalité dans `Anim.Objects.maNote`)
+5.La méthode `Anim.Step.next` a le temps de se finir
+6.La méthode Anim.Objects.WAIT appelle `Anim.Step.next` pour passer à la suite

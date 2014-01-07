@@ -17,7 +17,7 @@ $.extend(window.ObjetClass.prototype,{
     *   @param  {Number} params.duree   La durée pour apparaitre (en millisecondes)
     *                                   Default: 400
     *   @param  {Function} params.complete  La méthode pour suivre
-    *                                       default: NEXT_STEP (Anim.next_step)
+    *                                       default: NEXT_STEP (Anim.Step.auto_next)
     */
   show:function(params)
   {

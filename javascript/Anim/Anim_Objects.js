@@ -27,8 +27,8 @@ FONCTIONS_ANIM_OBJETS = {
     */
   WAIT:function(laps)
   {
-    if(MODE_FLASH) return Anim.auto_next_step()
-    Anim.timer = setTimeout($.proxy(Anim.auto_next_step, Anim), laps * 1000)
+    if(MODE_FLASH) return Anim.Step.auto_next()
+    Anim.timer = setTimeout($.proxy(Anim.Step.auto_next, Anim.Step), laps * 1000)
   },
   WRITE:function(texte)
   {

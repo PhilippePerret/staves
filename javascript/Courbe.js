@@ -28,7 +28,7 @@ $.extend(window.Courbe,{
     *   @param  {Number} params.x_fin   Position x de fin
     *   @param  {Number} params.y_fin   Position y de fin
     *   @param  {Function}  params.complete   Méthode à appeler à la fin
-    *                                         Default: NEXT_STEP (Anim.next_step)
+    *                                         Default: NEXT_STEP (Anim.Step.next)
     */
   move:function(obj, params)
   {

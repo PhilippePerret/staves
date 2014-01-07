@@ -23,11 +23,3 @@ input#btn_anim_start {
 section#controller div.buttons input[type="button"]{
   font-size : 14pt;
 }
-
-/* Affiche de l'étape courante */
-section#controller div#current_step {
-  padding     : 7px 12px;
-  min-height  : 18px;;
-  font-family : Courier;
-  font-size   : 9.3pt;
-}

@@ -105,16 +105,6 @@ $.extend(window.Anim,{
   
 
   /**
-    * Écrit l'étape courante
-    * @method write_current_step
-    * Note: l'étape courante ({String}) se trouve dans this.current_step
-    */
-  write_current_step:function()
-  {
-    $('div#current_step').html(this.current_step)
-  },
-  
-  /**
     * Active ou désactive le mode "pas à pas"
     * @method def_mode_pas_a_pas
     * @param  {Boolean} active    Si true, active le mode Pas à pas
@@ -123,19 +113,6 @@ $.extend(window.Anim,{
   {
     this.MODE_PAS_A_PAS = active
     Flash.show("Le mode pas à pas est "+(active ? 'activé' : 'désactivé'))
-  },
-  /**
-    * Active ou désactive l'affichage de l'étape courante
-    * Notes
-    *   * Pour le moment, ça ne consiste qu'à afficher ou masquer le div qui contient
-    *     l'étape courante.
-    *
-    * @method def_mode_show_step
-    * @param  {Boolean} activer   Si true, on doit activer le mode
-    */
-  def_mode_show_step:function(activer)
-  {
-    $('div#current_step')[activer?'show':'hide']()
   },
   /**
     * Reset l'animation (au démarrage)
@@ -236,8 +213,8 @@ $.extend(window.Anim,{
     {
       if(rajax.ok)
       {
-        this.steps  = null
-        this.name   = name
+        this.Step.list  = null
+        this.name       = name
         Console.set(rajax.raw_code.stripSlashes())
       }
       else F.error(rajax.message)
@@ -266,11 +243,3 @@ $.extend(window.Anim,{
   }
 })
 
-/**
-  * Raccourci pour définir de passer à l'étape suivante
-  * @for window
-  * @property NEXT_STEP
-  * @static
-  * @final
-  */
-var NEXT_STEP = $.proxy(Anim.auto_next_step, Anim)
