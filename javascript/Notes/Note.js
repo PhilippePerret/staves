@@ -82,6 +82,7 @@ window.NOTE = function(note, params)
 window.Note = function(params)
 {
   ObjetClass.call(this)
+  this.class      = 'Note'
   this.note       = null
   this.octave     = null
   this.alteration = null
@@ -171,11 +172,20 @@ $.extend(Note.prototype,{
     var top_init = parseInt(this.top,10)
     this.analyse_note(hauteur)
     this.exergue()
-    this.obj.animate(
-      {top:this.top}, 
-      MODE_FLASH ? 0 : Anim.transition.note_moved, 
-      $.proxy(this.complete, this)
-    )
+    this.operation(this.objets, 'moveTo', {top: this.top})
+  },
+  /**
+    * Appelée en fin de l'opération 'moveTo' ci-dessus, juste avant 
+    * le passage à l'étape suivante.
+    * @method on_complete_moveTo
+    */
+  on_complete_moveTo:function()
+  {
+    dlog("-> note.on_complete_moveTo")
+    this.suplines_if_necessary()
+    this.unexergue()
+    // S'il n'y a pas d'altération et qu'il y en avait une, il faut la supprimer
+    
   },
   /**
     * Méthode qui "complete" vraiment l'affichage et passe à l'étape
@@ -227,7 +237,12 @@ $.extend(Note.prototype,{
   exergue:function()
   {
     this.obj[0].src = "img/note/rond-couleur.png"
-    this.obj.css({'z-index':20})
+    this.obj.css('z-index','20')
+    if(this.alteration)
+    {
+      this.obj_alt[0].src = "img/note/"+this.filename_alteration+"-couleur.png"
+      this.obj_alt.css('z-index', "20")
+    }
   },
   /**
     * Sorte la note de son exergue
@@ -235,8 +250,14 @@ $.extend(Note.prototype,{
     */
   unexergue:function()
   {
+    dlog("-> unexergue (this.class="+this.class+")")
     this.obj[0].src = "img/note/rond-noir.png"
-    this.obj.css({'z-index':10})
+    this.obj.css('z-index','10')
+    if(this.alteration)
+    {
+      this.obj_alt[0].src = "img/note/"+this.filename_alteration+".png"
+      this.obj_alt.css('z-index', "10")
+    }
   },
   
   /**
@@ -248,35 +269,19 @@ $.extend(Note.prototype,{
   remove:function()
   {
     this.exergue()
-    this.obj.fadeOut(Anim.transition.show, $.proxy(this.on_complete_remove,this,'note'))
-    if(this.alteration) this.obj_alt.fadeOut(Anim.transition.show,$.proxy(this.on_complete_remove,this,'alteration'))
-    else this.on_complete_remove('alteration')
-  },
-  on_complete_remove:function(type_obj)
-  {
-    dlog("-> note.on_complete_remove("+type_obj+")")
-    if(undefined == this.tbl_complete_remove)this.tbl_complete_remove = {note:false, alteration:false}
-    this.tbl_complete_remove[type_obj] = true
-    for(var tobj in this.tbl_complete_remove){
-      if(this.tbl_complete_remove[tobj] == false) return
-    }
-    delete this.tbl_complete_remove
-    this.complete_remove()
+    this.operation(this.objets, 'remove')
   },
   /**
-    * En fin de dissolution, supprime l'objet DOM et passe à l'étape suivante.
-    * @method complete_remove
+    * Méthode appelée près l'opération 'remove' ci-dessus, juste avant qu'on
+    * ne passe à l'étape suivante.
+    * @method on_complete_remove
     */
-  complete_remove:function()
+  on_complete_remove:function()
   {
-    dlog("-> note.complete_remove")
     this.obj.remove()
     if(this.alteration) this.obj_alt.remove()
-    NEXT_STEP()
   },
   
-  // Fin des méthodes pour composer le code de l'animation
-  /* --------------------------------------------------------------------- */
   /**
     * Construit la note
     * @method build
@@ -461,6 +466,18 @@ Object.defineProperties(Note.prototype,{
         this._top = this.staff.zero + NOTE_TO_OFFSET[this.note+this.octave]
       }
       return this._top
+    }
+  },
+  /** Retourne la liste ({Array}) des objets DOM de la note
+    * (pour le moment, la note elle-même et éventuellement son altération)
+    * @property {Array} objets
+    */
+  "objets":{
+    get:function()
+    {
+      var objets = [this.obj]
+      if(this.alteration) objets.push(this.obj_alt)
+      return objets
     }
   },
   /**

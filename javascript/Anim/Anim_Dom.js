@@ -63,7 +63,7 @@ Anim.Dom = {
     */
   add:function(instance)
   {
-    dlog("-> Anim.Dom.add")
+    // dlog("-> Anim.Dom.add")
     var a_simple_string = 'string' == typeof instance, code_html ;
     if(a_simple_string)
     {

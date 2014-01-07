@@ -115,7 +115,7 @@ $.extend(window.Anim,{
     Flash.show("Le mode pas à pas est "+(active ? 'activé' : 'désactivé'))
   },
   /**
-    * Reset l'animation (au démarrage)
+    * Reset l'animation (au (re)-démarrage)
     * @method reset
     */
   reset:function()
@@ -125,6 +125,7 @@ $.extend(window.Anim,{
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
     this.staves     = []
     this.current_x  = 100 // TODO: à recalculer d'après l'armure et la métrique
+    Console.cursor_offset = 0
   },
   
   /** Raccourci pour Anim.Dom.show
