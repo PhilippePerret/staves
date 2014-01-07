@@ -264,6 +264,7 @@ $.extend(Note.prototype,{
     * Méthode propre pour afficher la note
     *
     * @method show
+    * @async
     * @param {Object} params Les paramètres optionnels
     */
   show:function(params)
@@ -278,6 +279,7 @@ $.extend(Note.prototype,{
   /**
     * Affiche JUSTE la note
     * @method show_note
+    * @async
     */
   show_note:function(params)
   {
@@ -286,10 +288,8 @@ $.extend(Note.prototype,{
   },
   /**
     * Affiche JUSTE l'altération (if any)
-    * WARNING
-    *   * Cet appel doit obligatoirement être le dernier pour afficher la
-    *     note, et il doit toujours se faire, car c'est la méthode qui se
-    *     charge d'appeler on_complete
+    * Notes
+    * -----
     *   * La méthode est asynchrone s'il y a une altération
     *
     * @method show_alteration

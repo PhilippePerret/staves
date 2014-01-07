@@ -21,21 +21,20 @@ C'est la méthode :
 
 Où les paramètres peuvent contenir la propriété `complete` qui définira la fonction pour suivre. 
 
-Par défaut, cette fonction pour suivre est toujours `NEXT_STEP` pour passer à l'étape suivante.
+Par défaut, cette fonction pour suivre est `NEXT_STEP` pour passer à l'étape suivante.
 
 <a name="passage_step_suivante"></a>
 ##Passage au pas suivant
 
 Pour passer à l'étape suivante (`Anim.Step.next`), on peut utiliser le raccourci :
 
-NEXT_STEP()
-
+    NEXT_STEP()
 
 Mais dans beaucoup de cas, un `objet` animé est constitué de plusieurs éléments, comme la note, qui peut avoir une altération et des lignes supplémentaires.
 
 Dans ce cas, on se sert de la propriété `complete` dans les paramètres qu'on envoie à `Anim.Dom.show`
 
-Par exemple, pour une note, on trouve cette enchaînement&nbsp;:
+Par exemple, pour une note, on TROUVAIT AVANT cette enchaînement&nbsp;:
 
     <note> appelle la méthode Anim.Dom.add pour s'ajouter à l'animation
     Anim.Dom.add appelle la méthode <note>.show
@@ -49,6 +48,7 @@ Par exemple, pour une note, on trouve cette enchaînement&nbsp;:
       ... qui affiche les notes supplémentaires si nécessaires
       ... puis appelle enfin NEXT_STEP pour passer à l'étape suivante
       
+*Voir maintenant le nouveau traitement de la note, où tout les éléments sont construits en même temps, et la méthode `<note>.on_complete` regarde si tous les éléments sont construits, et quand c'est le cas, elle passe à l'étape suivante.*
 
 <a name="traitement_code_animation"></a>
 ##Traitement du code de l'animation

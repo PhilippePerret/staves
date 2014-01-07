@@ -241,7 +241,19 @@ On crée un accord avec :
 Par exemple&nbsp;:
 
     accDom=CHORD('c3 eb3 g3')
-   
+    
+####Création d'un accord sur plusieurs portées
+
+On peut poser l'accord sur différentes portées en ajoutant `<indice portée>:` devant la note (*rappel&nbsp;: l'indice portée est "1-start", donc "1" pour la première portée en comptant depuis le haut*).
+  
+Noter qu'il est inutile d'indiquer l'indice portée de la portée active.
+  
+Par exemple (en imaginant que la portée 1 est la portée active)&nbsp;:
+
+    acc=CHORD('2:c3 2:g3 e4 g4')
+
+… placera "c3" et "g3" sur la 2<sup>e</sup> portée (certainement la clé de fa) et les notes "e4" et "g4" sur la 1<sup>ère</sup> portée qui est la portée active.
+
 <a name="chord_ref_note"></a> 
 ###Référence aux notes de l'accord
 
