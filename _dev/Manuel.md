@@ -42,10 +42,16 @@ Chaque pas (chaque “step”) exécute une action. Ces pas se définissent dans
 **Bien noter que chaque ligne représente un pas, il est impossible de définir plusieurs actions sur la même ligne (en réalité c'est faux, mais c'est dangereux ;-)).**
 
 Ces pas peuvent&nbsp;:
-* Construire une note (et l'afficher)
-* Construire une portée
-* Écrire un texte associé à un objet (note, portée, barre, etc.)
-* Déplacer un objet quelconque (surtout les notes, les portées ne se déplacent pas)
+
+* Construire une portée&nbsp;;
+* Construire une note (et l'afficher)&nbsp;;
+* Construire un accord&nbsp;;
+* Construire une gamme&nbsp;;
+* Écrire un texte associé à un objet (note, portée, barre, etc.)&nbsp;;
+* Déplacer un objet quelconque (des notes, des textes, etc.)&nbsp;;
+* Supprimer une note&nbsp;;
+* Mettre une note en exergue (entourée d'un cercle de couleur)&nbsp;;
+* etc.
 
 <a name="code_composition"></a>
 ###Composer le code de l'animation
@@ -348,6 +354,13 @@ Toutes les valeurs à part `bottom` xou `top` sont optionnelles&nbsp;:
 Si `staff` n'est pas précisé, on prendra la portée active.
 
 Si `xoffset` n'est pas précisé, on prendra le décalage courant (ce qui représente le cas le plus fréquent, entendu qu'on va rarement supprimer une ligne supplémentaire "en arrière").
+
+*Note&nbsp;: lors d'un déplacement, une suppression ou tout autre effet qui doit rendre obsolète la ligne supplémentaire, il est préférable de déclencher la suppression des lignes supplémentaires AVANT la commande sur la note. Par exemple, pour un déplacement&nbsp;:*
+
+    note=NOTE(c4) // ajoute une ligne supplément en bas
+    WAIT(2)
+    REMOVE_SUPLINE({bottom:1})
+    note.moveTo(c5)
 
 ####Précision des indices
 

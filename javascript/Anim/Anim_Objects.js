@@ -86,14 +86,14 @@ FONCTIONS_ANIM_OBJETS = {
   REMOVE_SUPLINE:function(params)
   {
     if(undefined == params) return F.error("Il faut donner les paramètres pour la suppression des lignes supplémentaires !")
-    if(undefined == params.staff) params.staff = Anim.current_staff
+    if(undefined == params.staff) params.staff = Anim.current_staff.indice
     if(undefined == params.xoffset) params.xoffset = Anim.current_x
     if(params.bottom)
     {
       if('number' == typeof params.bottom) params.bottom = [params.bottom]
       L(params.bottom).each(function(indice_supline){
         var id = "supline-"+params.staff+params.xoffset+"-"+indice_supline+"bot"
-        $('img#'+id).remove()
+        $('img#'+id).fadeOut(Anim.transition.show)
       })
     }
     if(params.top)
@@ -101,7 +101,7 @@ FONCTIONS_ANIM_OBJETS = {
       if('number' == typeof params.top) params.top = [params.top]
       L(params.top).each(function(indice_supline){
         var id = "supline-"+params.staff+params.xoffset+"-"+indice_supline+"top"
-        $('img#'+id).remove()        
+        $('img#'+id).fadeOut(Anim.transition.show)        
       })
     }
     NEXT_STEP()

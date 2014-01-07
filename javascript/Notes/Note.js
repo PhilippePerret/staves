@@ -247,8 +247,32 @@ $.extend(Note.prototype,{
     */
   remove:function()
   {
+    this.exergue()
+    this.obj.fadeOut(Anim.transition.show, $.proxy(this.on_complete_remove,this,'note'))
+    if(this.alteration) this.obj_alt.fadeOut(Anim.transition.show,$.proxy(this.on_complete_remove,this,'alteration'))
+    else this.on_complete_remove('alteration')
+  },
+  on_complete_remove:function(type_obj)
+  {
+    dlog("-> note.on_complete_remove("+type_obj+")")
+    if(undefined == this.tbl_complete_remove)this.tbl_complete_remove = {note:false, alteration:false}
+    this.tbl_complete_remove[type_obj] = true
+    for(var tobj in this.tbl_complete_remove){
+      if(this.tbl_complete_remove[tobj] == false) return
+    }
+    delete this.tbl_complete_remove
+    this.complete_remove()
+  },
+  /**
+    * En fin de dissolution, supprime l'objet DOM et passe à l'étape suivante.
+    * @method complete_remove
+    */
+  complete_remove:function()
+  {
+    dlog("-> note.complete_remove")
     this.obj.remove()
     if(this.alteration) this.obj_alt.remove()
+    NEXT_STEP()
   },
   
   // Fin des méthodes pour composer le code de l'animation

@@ -302,21 +302,26 @@ sup {
 	}
 }
 </style>
-<title>Application Staves</title>
+<title>Staff Animation</title>
 
 </head>
 <body>
-<h1>Application Staves</h1>
+<h1>Staff Animation</h1>
 
-<p>Cette application permet de faire des animations autour des notes de musique, à fin pédagogique.</p>
+<p>(Animation de portée)</p>
+
+<p>Cette application permet de faire des animations musicales (écrites), à des fins pédagogiques, pour les insérer dans des screencasts.</p>
 
 <ul>
 <li><a href="#animation">Animation</a></li>
 <li><a href="#notes">Les notes</a></li>
 <li><a href="#chords">Les accords</a></li>
-<li><a href="#animation">Les portées</a></li>
+<li><a href="#les_staves">Les portées</a></li>
+<li><a href="#textes">Les textes</a></li>
 </ul>
 
+
+<hr />
 
 <p><a name="animation"></a></p>
 
@@ -343,13 +348,35 @@ sup {
 
 <h3>Introduction</h3>
 
-<p>Une animation est composée de <code>pas</code> (step). Chaque pas exécute une action. Ces pas se définissent dans la console (ie dans le code) en passant à la ligne. <strong>Chaque ligne représente donc un pas.</strong></p>
+<p>Une animation est composée de <code>pas</code> (step) qui vont être exécutés l'un après l'autre, produisant des choses aussi diverses que&nbsp;:</p>
 
-<p>Ces pas peuvent&nbsp;:
-* Construire une note (et l'afficher)
-* Construire une portée
-* Écrire un texte associé à un objet (note, portée, barre, etc.)
-* Déplacer un objet quelconque (surtout les notes, les portées ne se déplacent pas)</p>
+<ul>
+<li>L'apparitioin d'une portée&nbsp;;</li>
+<li>L'écriture d'une note ou d'un accord sur la portée&nbsp;;</li>
+<li>Le déplacement de notes&nbsp;;</li>
+<li>L'écriture de textes explicatifs&nbsp;;</li>
+<li>etc.</li>
+</ul>
+
+
+<p>Chaque pas (chaque “step”) exécute une action. Ces pas se définissent dans la console située à gauche de l'écran (le bloc noir). Chaque pas se trouve sur une ligne distincte. Donc chaque ligne est un nouveau pas, une nouvelle étape de l'animation.</p>
+
+<p><strong>Bien noter que chaque ligne représente un pas, il est impossible de définir plusieurs actions sur la même ligne (en réalité c'est faux, mais c'est dangereux ;-)).</strong></p>
+
+<p>Ces pas peuvent&nbsp;:</p>
+
+<ul>
+<li>Construire une portée&nbsp;;</li>
+<li>Construire une note (et l'afficher)&nbsp;;</li>
+<li>Construire un accord&nbsp;;</li>
+<li>Construire une gamme&nbsp;;</li>
+<li>Écrire un texte associé à un objet (note, portée, barre, etc.)&nbsp;;</li>
+<li>Déplacer un objet quelconque (des notes, des textes, etc.)&nbsp;;</li>
+<li>Supprimer une note&nbsp;;</li>
+<li>Mettre une note en exergue (entourée d'un cercle de couleur)&nbsp;;</li>
+<li>etc.</li>
+</ul>
+
 
 <p><a name="code_composition"></a></p>
 
@@ -587,6 +614,19 @@ note_autre_staff=NOTE('2:'+a4)
 <pre><code>accDom=CHORD('c3 eb3 g3')
 </code></pre>
 
+<h4>Création d'un accord sur plusieurs portées</h4>
+
+<p>On peut poser l'accord sur différentes portées en ajoutant <code>&lt;indice portée&gt;:</code> devant la note (<em>rappel&nbsp;: l'indice portée est "1-start", donc "1" pour la première portée en comptant depuis le haut</em>).</p>
+
+<p>Noter qu'il est inutile d'indiquer l'indice portée de la portée active.</p>
+
+<p>Par exemple (en imaginant que la portée 1 est la portée active)&nbsp;:</p>
+
+<pre><code>acc=CHORD('2:c3 2:g3 e4 g4')
+</code></pre>
+
+<p>… placera "c3" et "g3" sur la 2<sup>e</sup> portée (certainement la clé de fa) et les notes "e4" et "g4" sur la 1<sup>ère</sup> portée qui est la portée active.</p>
+
 <p><a name="chord_ref_note"></a></p>
 
 <h3>Référence aux notes de l'accord</h3>
@@ -614,14 +654,20 @@ accDom[1].moveTo('c4')
 <pre><code>&lt;nom variable accord&gt;.remove()
 </code></pre>
 
-<p><a name="staves"></a></p>
+<hr />
+
+<p><a name="les_staves"></a></p>
 
 <h2>Les portées</h2>
 
 <h3>Table des matières</h3>
 
-<p><em><a href="#create_staff">Créer une portée</a>
-</em><a href="#active_staff">Activer une portée</a></p>
+<ul>
+<li><a href="#create_staff">Créer une portée</a></li>
+<li><a href="#active_staff">Activer une portée</a></li>
+<li><a href="#remove_suplines">Supprimer les lignes supplémentaires</a></li>
+</ul>
+
 
 <p><a name="create_staff"></a></p>
 
@@ -656,5 +702,152 @@ accDom[1].moveTo('c4')
 
 <pre><code>ACTIVE_STAFF(1)
 </code></pre>
+
+<p><a name="remove_suplines"></a></p>
+
+<h3>Supprimer des lignes supplémentaires</h3>
+
+<p>Pour le moment, la suppression de lignes supplémentaires n'est pas automatique, afin de laisser toute liberté à la programmation de l'animation.</p>
+
+<p>On détruit ces lignes à l'aide de la commande&nbsp;:</p>
+
+<pre><code>REMOVE_SUPLINE(&lt;parameters&gt;)
+</code></pre>
+
+<p>Une ligne supplémentaire est caractéristée par&nbsp;:</p>
+
+<ul>
+<li>La portée qui la porte&nbsp;;</li>
+<li>Son indice à partir de la portée&nbsp;;</li>
+<li>Sa position supérieure ou inférieure&nbsp;;</li>
+<li>Son décalage à gauche (“frame” de l'animation).</li>
+</ul>
+
+
+<p>Cela détermine les paramètres de <code>&lt;parameters&gt;</code>.</p>
+
+<pre><code>{
+  staff: indice 1-start de la portée (depuis le haut),
+  bottom: liste d'indices ou indice de la ligne à supprimer en bas,
+  top: liste d'indices ou indice de la ligne à supprimer en haut,
+  xoffset: décalage gauche (frame)
+}
+</code></pre>
+
+<p>Toutes les valeurs à part <code>bottom</code> xou <code>top</code> sont optionnelles&nbsp;:</p>
+
+<p>Si <code>staff</code> n'est pas précisé, on prendra la portée active.</p>
+
+<p>Si <code>xoffset</code> n'est pas précisé, on prendra le décalage courant (ce qui représente le cas le plus fréquent, entendu qu'on va rarement supprimer une ligne supplémentaire "en arrière").</p>
+
+<p><em>Note&nbsp;: lors d'un déplacement, une suppression ou tout autre effet qui doit rendre obsolète la ligne supplémentaire, il est préférable de déclencher la suppression des lignes supplémentaires AVANT la commande sur la note. Par exemple, pour un déplacement&nbsp;:</em></p>
+
+<pre><code>note=NOTE(c4) // ajoute une ligne supplément en bas
+WAIT(2)
+REMOVE_SUPLINE({bottom:1})
+note.moveTo(c5)
+</code></pre>
+
+<h4>Précision des indices</h4>
+
+<p>Les indices peuvent être une simple valeur numérique&nbsp;:</p>
+
+<pre><code>bottom:1 / top:1
+</code></pre>
+
+<p>… ou une liste d'indices</p>
+
+<pre><code>top:[1,2] / bottom:[1,2]
+</code></pre>
+
+<p>Noter que ces indices sont "1-start" et se comptent toujours À PARTIR DE LA portée, donc en descendant pour <code>bottom</code> et en montant pour <code>top</code>.</p>
+
+<p>Noter aussi que <code>bottom</code> et <code>top</code> sont complètement indépendants, pour <code>bottom</code> on ne tient compte QUE des lignes supplémentaires inférieures et pour <code>top</code> on ne tient compte QUE des lignes supplémentaires supérieures.</p>
+
+<hr />
+
+<p><a name="textes"></a></p>
+
+<h2>Les Textes</h2>
+
+<h3>Table des matières</h3>
+
+<ul>
+<li><a href="#intro_textes">Introduction aux textes</a></li>
+<li><a href="#create_texte">Créer un texte</a>
+
+<ul>
+<li><a href="#create_texte_animation">Créer un texte pour l'animation</a></li>
+<li><a href="#create_texte_objet">Créer un texte pour un objet</a></li>
+</ul>
+</li>
+<li><a href="#supprimer_texte">Supprimer un texte</a>
+
+<ul>
+<li><a href="#supprimer_texte_objet">Supprimer le texte d'un objet</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p><a name="intro_textes"></a></p>
+
+<h3>Introduction</h3>
+
+<p>Les textes peuvent exister pour l'animation en général (ils sont alors écrits en haut à gauche et chaque nouveau texte remplace l'ancien), mais ils peuvent être associés aussi à tout objet de l'animation, note, portée, mesure, barre, etc.</p>
+
+<p><a name="create_texte"></a></p>
+
+<h3>Créer un texte</h3>
+
+<p><a name="create_texte_animation"></a></p>
+
+<h4>Créer un texte pour l'animation</h4>
+
+<p>Utiliser la commande&nbsp;:</p>
+
+<pre><code>WRITE("&lt;le texte&gt;")
+</code></pre>
+
+<p><a name="create_texte_objet"></a></p>
+
+<h4>Créer un texte pour un objet</h4>
+
+<p>Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuite appeler sa méthode <code>write</code> (écrire)&nbsp;:</p>
+
+<pre><code>maNote=NOTE(a4)
+maNote.write("C'est un LA 4")
+</code></pre>
+
+<p><a name="supprimer_texte"></a></p>
+
+<h3>Supprimer un texte</h3>
+
+<p><a name="supprimer_texte_objet"></a></p>
+
+<h4>Supprimer un texte d'objet</h4>
+
+<p>Pour supprimer le texte de l'objet, c'est-à-dire de le faire disparaitre de l'affichage, utiliser la méthode <code>hide</code> (cacher) du texte de l'objet&nbsp;:</p>
+
+<pre><code>&lt;note&gt;.texte.hide()
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maNote=NOTE(a4)
+# Écrire le texte
+maNote.write("C'est un LA 4")
+# Attendre 2 secondes
+WAIT(2)
+# Supprimer le texte
+maNote.texte.hide()
+</code></pre>
+
+<p>Noter que cette méthode supprime l'affichage du texte, mais l'objet <code>texte</code> existe toujours pour l'objet et on peut le ré-utiliser plus tard, par exemple avec&nbsp;:</p>
+
+<pre><code>maNote.texte.show()
+</code></pre>
+
+<p>… qui ré-affichera ce texte.</p>
 </body>
 </html>

@@ -1,0 +1,6 @@
+NEW_STAFF(SOL)
+do3=NOTE(c4)
+WAIT(2)
+REMOVE_SUPLINE({bottom:1})
+do3.remove()
+n=NOTE(a4)
