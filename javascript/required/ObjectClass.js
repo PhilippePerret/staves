@@ -51,9 +51,16 @@ $.extend(window.ObjetClass.prototype,{
     // On commence à créer une table pour savoir quand le traitement sur les
     // objets sera terminé. En clé, on utilise l'identifiant de l'objet DOM
     this.tbl_operation = {}
-    L(objets).each(function(obj){ me.tbl_operation[obj[0].id] = false })
+    dlog("Je définis tbl_operation /objets:");dlog(objets)
+    var objets_corriged = []
+    L(objets).each(function(obj){ 
+      if(undefined == obj[0]) return
+      me.tbl_operation[obj[0].id] = false 
+      objets_corriged.push(obj)
+    })
+    dlog("Fin définition tbl_operation")
     // On envoie ensuite chaque objet dans la méthode `method`
-    L(objets).each(function(obj){
+    L(objets_corriged).each(function(obj){
       var complete = $.proxy(me.on_complete_operation, me, operation, obj[0].id)
       switch(operation)
       {

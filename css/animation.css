@@ -1,7 +1,7 @@
 section#animation {
   position  : fixed;
   top       : 8px;
-  left      : 360px;
+  left      : 0px;
   background-color  : #F8F7F3; /* effet papier */
   width     : 900px;
   height    : 430px;

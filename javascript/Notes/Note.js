@@ -170,8 +170,11 @@ $.extend(Note.prototype,{
   moveTo:function(hauteur)
   {
     var top_init = parseInt(this.top,10)
+    if(this.alteration) this.remove_alteration()
     this.analyse_note(hauteur)
+    if(this.note == "a") dlog("-> moveTo avec LA")
     this.exergue()
+    if(this.note == "a") dlog("Je vais appeler operation moveTo avec LA")
     this.operation(this.objets, 'moveTo', {top: this.top})
   },
   /**
@@ -183,8 +186,24 @@ $.extend(Note.prototype,{
   {
     dlog("-> note.on_complete_moveTo")
     this.suplines_if_necessary()
-    this.unexergue()
-    // S'il n'y a pas d'altération et qu'il y en avait une, il faut la supprimer
+    this.unexergue()    
+  },
+  /**
+    * Détruit l'alteration
+    * Notes
+    *   * La méthode est appelé systématiquement quand la note est déplacée
+    *
+    * @method remove_alteration
+    */
+  remove_alteration:function()
+  {
+    dlog("-> note.remove_alteration / alteration = "+this.alteration)
+    if(!this.alteration) return
+    var me = this
+    delete me.alteration
+    this.obj_alt.animate({opacity:0}, Anim.transition.show,function(){
+      me.obj_alt.remove()
+    })
     
   },
   /**
@@ -236,13 +255,15 @@ $.extend(Note.prototype,{
     */
   exergue:function()
   {
+    if(this.note == "a") dlog("-> exergue avec LA")
     this.obj[0].src = "img/note/rond-couleur.png"
     this.obj.css('z-index','20')
-    if(this.alteration)
+    if(this.alteration && this.obj_alt.length)
     {
       this.obj_alt[0].src = "img/note/"+this.filename_alteration+"-couleur.png"
       this.obj_alt.css('z-index', "20")
     }
+    if(this.note == "a") dlog("-> FIN exergue avec LA")
   },
   /**
     * Sorte la note de son exergue
@@ -253,7 +274,7 @@ $.extend(Note.prototype,{
     dlog("-> unexergue (this.class="+this.class+")")
     this.obj[0].src = "img/note/rond-noir.png"
     this.obj.css('z-index','10')
-    if(this.alteration)
+    if(this.alteration && this.obj_alt.length)
     {
       this.obj_alt[0].src = "img/note/"+this.filename_alteration+".png"
       this.obj_alt.css('z-index', "10")
@@ -272,7 +293,7 @@ $.extend(Note.prototype,{
     this.operation(this.objets, 'remove')
   },
   /**
-    * Méthode appelée près l'opération 'remove' ci-dessus, juste avant qu'on
+    * Méthode appelée après l'opération 'remove' ci-dessus, juste avant qu'on
     * ne passe à l'étape suivante.
     * @method on_complete_remove
     */
@@ -311,36 +332,7 @@ $.extend(Note.prototype,{
   show:function(params)
   {
     dlog("-> note.show "+this.note_str)
-    // On essaie de construire tout en même temps avec le nouveau traitement
-    // de on_complete
-    if(undefined == params) params = {}
-    this.show_note($.extend(params, {complete:$.proxy(this.on_complete, this, 'note')}))
-    this.show_alteration($.extend(params, {complete:$.proxy(this.on_complete, this, 'alteration')}))
-  },
-  /**
-    * Affiche JUSTE la note
-    * @method show_note
-    * @async
-    */
-  show_note:function(params)
-  {
-    dlog("-> note.show_note "+this.note_str)
-    Anim.Dom.show(this.obj, params)
-  },
-  /**
-    * Affiche JUSTE l'altération (if any)
-    * Notes
-    * -----
-    *   * La méthode est asynchrone s'il y a une altération
-    *
-    * @method show_alteration
-    * @async
-    */
-  show_alteration:function(params)
-  {
-    dlog("-> note.show_alteration "+this.note_str)
-    if(this.alteration) Anim.Dom.show(this.obj_alt, params)
-    else params.complete()
+    this.operation(this.objets, 'show')
   },
   /**
     * Positionne la note en fonction de sa hauteur de note
@@ -442,7 +434,7 @@ $.extend(Note.prototype,{
     if(["b", "d", "x", "t"].indexOf(note_str[0]) > -1)
     {
       this.alteration = note_str.shift()
-    }
+    } else delete this.alteration
     this.octave = note_str.shift()
     if(this.octave == "-") this.octave = "-" + note_str.shift()
     this.octave = parseInt(this.octave,10)

@@ -1,6 +1,0 @@
-NEW_STAFF(SOL)
-do3=NOTE(cd4)
-WAIT(1)
-REMOVE_SUPLINE({bottom:1})
-do3.remove()
-n=NOTE(a4)
