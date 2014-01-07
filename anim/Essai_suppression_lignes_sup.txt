@@ -1,0 +1,6 @@
+NEW_STAFF(SOL)
+NEW_STAFF(FA)
+ACTIVE_STAFF(1)
+do3=NOTE(c4)
+do3.moveTo(c5)
+REMOVE_SUPLINE({staff:1, bottom:[1]})

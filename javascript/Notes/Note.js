@@ -174,8 +174,25 @@ $.extend(Note.prototype,{
     this.obj.animate(
       {top:this.top}, 
       MODE_FLASH ? 0 : Anim.transition.note_moved, 
-      $.proxy(this.on_complete, this)
+      $.proxy(this.complete, this)
     )
+  },
+  /**
+    * Méthode qui "complete" vraiment l'affichage et passe à l'étape
+    * suivante. Elle sort la note de son exergue si nécessaire.
+    * Notes
+    * -----
+    *   * Noter que la méthode ne doit être appelée directement que lorsqu'on
+    *     est sûr que tous les éléments sont traités ou affichés (cf. on_complete).
+    *     La méthode `moveTo` peut le faire par exemple.
+    *
+    * @method complete
+    */
+  complete:function()
+  {
+    this.suplines_if_necessary()
+    this.unexergue()
+    NEXT_STEP()
   },
   /**
     * Méthode à appeler à la fin de toute animation
@@ -187,12 +204,7 @@ $.extend(Note.prototype,{
   on_complete:function(type_obj)
   {
     dlog("-> note.on_complete "+this.note_str)
-    this.suplines_if_necessary()
-    if(this.is_complete_with(type_obj))
-    {
-      this.unexergue()
-      NEXT_STEP()
-    }
+    if(this.is_complete_with(type_obj)) this.complete()
   },
   /**
     * Return true si tous les objets de la note sont affichés

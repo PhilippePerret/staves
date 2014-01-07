@@ -4,9 +4,9 @@ section#section_console {
   left      : 8px;
   width     : 348px;
   height    : 540px;
+  border    : 0;
   background-color  : white;
   color             : white;
-  border    : 0;
 }
 
 section#section_console textarea#console {
@@ -17,6 +17,7 @@ section#section_console textarea#console {
   font-family       :Courier;
   font-size         :11.6pt;
   padding           :9pt;
+  border            :0;
 }
 
 /* Style de la sélection */

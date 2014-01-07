@@ -7,9 +7,11 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Animation](#animation)
 * [Les notes](#notes)
 * [Les accords](#chords)
-* [Les portées](#animation)
+* [Les portées](#les_staves)
 * [Les textes](#textes)
 
+
+---------------------------------------------------------------------
 
 <a name="animation"></a>
 ##Création d'une animation
@@ -276,13 +278,16 @@ Pour détruire l'accord, utiliser&nbsp;:
 
     <nom variable accord>.remove()
 
-<a name="staves"></a>
+---------------------------------------------------------------------
+
+<a name="les_staves"></a>
 ##Les portées
 
 ###Table des matières
 
-*[Créer une portée](#create_staff)
-*[Activer une portée](#active_staff)
+* [Créer une portée](#create_staff)
+* [Activer une portée](#active_staff)
+* [Supprimer les lignes supplémentaires](#remove_suplines)
 
 <a name="create_staff"></a>
 ###Créer une portée
@@ -312,6 +317,55 @@ Activer une portée signifie que tous les pas suivants la viseront. Par exemple,
     
     ACTIVE_STAFF(1)
     
+    
+<a name="remove_suplines"></a>
+###Supprimer des lignes supplémentaires
+
+Pour le moment, la suppression de lignes supplémentaires n'est pas automatique, afin de laisser toute liberté à la programmation de l'animation.
+
+On détruit ces lignes à l'aide de la commande&nbsp;:
+
+    REMOVE_SUPLINE(<parameters>)
+  
+Une ligne supplémentaire est caractéristée par&nbsp;:
+
+* La portée qui la porte&nbsp;;
+* Son indice à partir de la portée&nbsp;;
+* Sa position supérieure ou inférieure&nbsp;;
+* Son décalage à gauche (“frame” de l'animation).
+
+Cela détermine les paramètres de `<parameters>`.
+  
+    {
+      staff: indice 1-start de la portée (depuis le haut),
+      bottom: liste d'indices ou indice de la ligne à supprimer en bas,
+      top: liste d'indices ou indice de la ligne à supprimer en haut,
+      xoffset: décalage gauche (frame)
+    }
+
+Toutes les valeurs à part `bottom` xou `top` sont optionnelles&nbsp;:
+
+Si `staff` n'est pas précisé, on prendra la portée active.
+
+Si `xoffset` n'est pas précisé, on prendra le décalage courant (ce qui représente le cas le plus fréquent, entendu qu'on va rarement supprimer une ligne supplémentaire "en arrière").
+
+####Précision des indices
+
+Les indices peuvent être une simple valeur numérique&nbsp;:
+
+    bottom:1 / top:1
+
+… ou une liste d'indices
+
+    top:[1,2] / bottom:[1,2]
+
+Noter que ces indices sont "1-start" et se comptent toujours À PARTIR DE LA portée, donc en descendant pour `bottom` et en montant pour `top`.
+
+Noter aussi que `bottom` et `top` sont complètement indépendants, pour `bottom` on ne tient compte QUE des lignes supplémentaires inférieures et pour `top` on ne tient compte QUE des lignes supplémentaires supérieures.
+
+
+---------------------------------------------------------------------
+
 <a name="textes"></a>
 ##Les Textes
 

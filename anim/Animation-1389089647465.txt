@@ -1,7 +1,0 @@
-NEW_STAFF(SOL)
-NEW_STAFF(FA)
-ACTIVE_STAFF(1)
-diese=NOTE(\'cd4\')
-bemol=NOTE(\'ab4\')
-dbldiese=NOTE(\'2:cx3\')
-dblbemol=NOTE(\'gt5\')

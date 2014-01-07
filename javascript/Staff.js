@@ -118,11 +118,13 @@ $.extend(Staff.prototype, {
   /**
     * Ajoute des lignes supplémentaires à la portée
     * Notes
+    * -----
+    *   * Les lignes portent l'identifiant "<indice portée>-<left>-<indice>"
+    *     pour pouvoir être supprimées par REMOVE_SUPLINE
     *   * @rappel : les lignes sont séparées par 12px
     * @method add_sup_lines
     * @protected
     * @param  {Object} params   Paramètres optionnels
-    *   @param  {Number}  params.number   OBSOLÈTE Nombre de lignes à ajouter (default:1)
     *   @param  {Boolean} params.above    Si true (default) ajouter au-dessus
     *   @param  {Number}  params.upto     Des lignes jusqu'à ce nombre
     *
@@ -133,10 +135,13 @@ $.extend(Staff.prototype, {
     if(undefined == params.above)  params.above  = true
     var i=0, style, depart = (params.above ? 12 : 48), inc = (params.above ? - 12 : 12) ;
     var top = this.top + depart
+    var supline_indice = 0, supline_id
     do {
-      top += inc
+      top             += inc
+      supline_indice  += 1
       style = "top:"+top+"px;left:"+(Anim.current_x - 2)+"px;"
-      Anim.Dom.add('<img class="supline" src="img/note/supline.png" style="'+style+'" />')
+      supline_id = "supline-"+this.indice+Anim.current_x+"-"+supline_indice+(params.above?'top':'bot')
+      Anim.Dom.add('<img id="'+supline_id+'" class="supline" src="img/note/supline.png" style="'+style+'" />')
     }
     while((params.above && ((top - 12) > (params.upto))) || (!params.above && (top < params.upto)))
   }

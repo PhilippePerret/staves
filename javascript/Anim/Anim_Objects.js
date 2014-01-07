@@ -74,6 +74,39 @@ FONCTIONS_ANIM_OBJETS = {
   },
   
   /**
+    * Suppression des lignes supplémentaires
+    * @method REMOVE_SUPLINE
+    * @param  {Object}  params  Les paramètres pour supprimer
+    *   @param  {Number}  params.staff    L'indice-portée de la portée dont il faut supprimer des lignes
+    *                                     Par défaut, c'est la portée active.
+    *   @param  {Number|Array}  params.bottom   La ou les lignes à supprimer en bas
+    *   @param  {Number|Array}  params.top      La ou les lignes à supprimer en haut
+    *   @param  {Number}        params.xoffset  Position horiztonale de la ligne (Anim.current_x par défaut)
+    */
+  REMOVE_SUPLINE:function(params)
+  {
+    if(undefined == params) return F.error("Il faut donner les paramètres pour la suppression des lignes supplémentaires !")
+    if(undefined == params.staff) params.staff = Anim.current_staff
+    if(undefined == params.xoffset) params.xoffset = Anim.current_x
+    if(params.bottom)
+    {
+      if('number' == typeof params.bottom) params.bottom = [params.bottom]
+      L(params.bottom).each(function(indice_supline){
+        var id = "supline-"+params.staff+params.xoffset+"-"+indice_supline+"bot"
+        $('img#'+id).remove()
+      })
+    }
+    if(params.top)
+    {
+      if('number' == typeof params.top) params.top = [params.top]
+      L(params.top).each(function(indice_supline){
+        var id = "supline-"+params.staff+params.xoffset+"-"+indice_supline+"top"
+        $('img#'+id).remove()        
+      })
+    }
+    NEXT_STEP()
+  },
+  /**
     * Nettoie l'animation. Si `with_staves` est true, on efface aussi les
     * portée
     * Notes
