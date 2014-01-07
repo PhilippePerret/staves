@@ -46,9 +46,9 @@ for(var octave = 0; octave < 7; ++octave)
   */
 OFFSET_ALTERATION = {
   'b' : {top: 12, left: 14},
-  'd' : {top: 5,  left: 14},
-  'x' : {top: 5,  left: 17},
-  't' : {top: 12, left: 17}
+  'd' : {top: 5,  left: 16},
+  'x' : {top: -1, left: 19},
+  't' : {top: 9,  left: 17}
 }
 
 
@@ -504,8 +504,8 @@ Object.defineProperties(Note.prototype,{
       {
       case 'b'  : return "bemol";
       case 'd'  : return "diese";
-      case 'x'  : return "double-diese";
-      case 't'  : return "double-bemol";
+      case 'x'  : return "dbl-diese";
+      case 't'  : return "dbl-bemol";
       }
     }
   },

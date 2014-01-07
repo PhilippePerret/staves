@@ -21,9 +21,9 @@ section#section_console textarea#console {
 /* Style de la sélection */
 textarea#console::selection {
   background  : white;
-  color       : blue;
+  color       : green;
 }
 textarea#console::-moz-selection {
   background  : white;
-  color       : blue;
+  color       : green;
 }
