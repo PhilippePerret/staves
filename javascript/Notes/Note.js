@@ -204,12 +204,11 @@ $.extend(Note.prototype,{
   {
     dlog("-> note.remove_alteration / alteration = "+this.alteration)
     if(!this.alteration) return
+    delete this.alteration
     var me = this
-    delete me.alteration
     this.obj_alt.animate({opacity:0}, Anim.transition.show,function(){
       me.obj_alt.remove()
-    })
-    
+      })
   },
   /**
     * Méthode qui "complete" vraiment l'affichage et passe à l'étape

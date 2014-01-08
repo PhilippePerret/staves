@@ -34,6 +34,10 @@ $.extend(window.Anim,{
   
   /**
     * Définition de la vitesse (ou plutôt la durée) des transitions
+    * Notes
+    * -----
+    *   Cf. le mode "flash" qui peut modifier ces valeurs
+    *       `mode_flash`
     * @property {Object} transition
     *   @property {Number} transition.step  Délai entre chaque étape (en millisecondes)
     *   @property {Number} transition.show Vitesse d'apparition de tout élément
@@ -42,9 +46,32 @@ $.extend(window.Anim,{
   transition:{
     step        : 500,
     show        : 400,
-    note_moved  : 1000
+    note_moved  : 1000,
+    wait        : 1000 // multiplicateur de secondes
   },
-
+  transition_reg:{
+    step        : 500,
+    show        : 400,
+    note_moved  : 1000,
+    wait        : 1000 // multiplicateur de secondes
+  },
+  transition_flash:{
+    step        : 1,
+    show        : 1,
+    note_moved  : 1,
+    wait        : 1
+  },
+  /**
+    * Activer ou désactiver le mode flash
+    * En mode flash, l'animation se passe très vite jusqu'à un certain point
+    * d'où on repart normalement.
+    * @method mode_flash
+    * @param  {Boolean} activer True si on doit activer le mode flash
+    */
+  mode_flash:function(activer)
+  {
+    this.transition = this['transition_'+(activer ? 'flash' : 'reg')]
+  },
   /**
     * Valeurs par défauts
     * @property {Object} defaut
@@ -101,7 +128,7 @@ $.extend(window.Anim,{
     * @method wait
     * @param  {Number} laps Nombre de secondes (peut être un flottant)
     */
-  wait:function(laps){ this.Objects.WAIT(MODE_FLASH ? 0 : laps) },
+  wait:function(laps){ this.Objects.WAIT(MODE_FLASH ? 0.001 : laps) },
   
 
   /**
