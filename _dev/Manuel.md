@@ -8,7 +8,8 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Les notes](#notes)
 * [Les accords](#chords)
 * [Les portées](#les_staves)
-* [Les textes](#textes)
+* [Les gammes](#les_gammes)
+* [Les textes](#les_textes)
 
 
 ---------------------------------------------------------------------
@@ -24,6 +25,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
   * [Faire une pause](#pause_animation)
   * [Avancer sur la portée](#left_staff)
   * [Écrire un texte général](#texte_animation)
+  * [Resetter l'animation](#reset_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
 
 <a name="intro_animation"></a>
@@ -107,6 +109,20 @@ WRITE(<le texte à écrire>)
   WRITE("Ce qu'il faut remarquer à ce moment-là.")
   
 *Noter que les objets tels que les notes ont également leur propre méthode textuelle, qui permet d'aligner le textes directement à ces notes, accords, etc.*
+
+<a name="reset_animation"></a>
+####Reset(-ter) l'animation
+
+La commande `RESET` (sans parenthèses ni arguments) permet de repartir de rien en cours d'animation, c'est-à-dire&nbsp;:
+
+* Effacer tous les objets SAUF les portées et les clés&nbsp;;
+* Remettre le "curseur" tout à gauche (endroit où seront donc affichés les nouveaux objets).
+
+Usage&nbsp;:
+
+    RESET
+
+*Voir aussi la commande `CLEAR` ci-dessous qui permet la même chose mais de façon plus ciblée.*
 
 <a name="clean_animation"></a>
 ####Nettoyer l'animation
@@ -376,10 +392,14 @@ Noter que ces indices sont "1-start" et se comptent toujours À PARTIR DE LA por
 
 Noter aussi que `bottom` et `top` sont complètement indépendants, pour `bottom` on ne tient compte QUE des lignes supplémentaires inférieures et pour `top` on ne tient compte QUE des lignes supplémentaires supérieures.
 
+<a name="les_gammes"></a>
+##Les gammes
+
+On peut produire en une seule 
 
 ---------------------------------------------------------------------
 
-<a name="textes"></a>
+<a name="les_textes"></a>
 ##Les Textes
 
 ###Table des matières

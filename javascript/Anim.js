@@ -150,6 +150,7 @@ $.extend(window.Anim,{
     $('section#animation').html('')
     this.Objects    = {}
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
+    Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
     this.staves     = []
     this.current_x  = 100 // TODO: à recalculer d'après l'armure et la métrique
     Console.cursor_offset = 0

@@ -2,8 +2,8 @@
 NEW_STAFF(SOL)
 SCALE(\'c\')
 WAIT(4)
-RESET()
+RESET
 SCALE(\'cb\')
 WAIT(4)
-RESET()
+RESET
 SCALE(\'fd\')

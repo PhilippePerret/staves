@@ -109,23 +109,7 @@ FONCTIONS_ANIM_OBJETS = {
       }
     }
   },
-  
-  /**
-    * Méthode qui reset l'affichage
-    * Produit
-    * -------
-    *   * Remet la position left (x) à la position de départ
-    *   * Efface tout sauf les portées
-    *
-    * @method RESET
-    */
-  RESET:function()
-  {
-    Anim.current_x = 100
-    $('section#animation *:not(.staffline, .cle)').remove()
-    NEXT_STEP()
-  },
-  
+    
   /**
     * Méthode pour attendre +laps+ secondes avant de poursuivre
     * l'animation
@@ -239,4 +223,25 @@ FONCTIONS_ANIM_OBJETS = {
     NEXT_STEP()
   }
 }
+METHODES_ANIM_OBJETS = {
+  /**
+    * Méthode qui reset l'affichage
+    * Produit
+    * -------
+    *   * Remet la position left (x) à la position de départ
+    *   * Efface tout sauf les portées
+    *   * Propriété complexe => appeler sans parenthèses
+    *
+    * @method RESET
+    */
+  "RESET":{
+    get:function(){
+      Anim.current_x = 100
+      $('section#animation *:not(.staffline, .cle)').remove()
+      NEXT_STEP()
+    }
+  }
+}
+
 $.extend(Anim.Objects, FONCTIONS_ANIM_OBJETS)
+Object.defineProperties(Anim.Objects, METHODES_ANIM_OBJETS)
