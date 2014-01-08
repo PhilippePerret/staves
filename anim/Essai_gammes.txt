@@ -1,0 +1,9 @@
+# Essai gammes
+NEW_STAFF(SOL)
+SCALE(\'c\')
+WAIT(4)
+RESET()
+SCALE(\'cb\')
+WAIT(4)
+RESET()
+SCALE(\'fd\')

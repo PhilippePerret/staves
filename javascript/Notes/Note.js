@@ -2,55 +2,6 @@
   * @module Note
   */
 
-/**
-  * En clé, la note et son octave et en valeur son décalage par
-  * rapport à la portée. Donc il faut ajouter cette valeur à la hauteur
-  * de la portée pour placer la note.
-  *
-  * @property {Object} NOTE_TO_OFFSET
-  * @static
-  * @final
-  */
-
-REAL_INDICES_NOTES = {
-  'c' : 1,
-  'd' : 3,
-  'e' : 5,
-  'f' : 6,
-  'g' : 8,
-  'a' : 10,
-  'b' : 12
-}
-
-/* Construire automatiquement le tableau */
-NOTES = ["c", "d", "e", "f", "g", "a", "b"]
-
-NOTE_TO_OFFSET = {}
-for(var octave = 0; octave < 7; ++octave)
-{
-  for(var inote=0; inote<7;++inote)
-  {
-    // zéro : octave=4 inote=5
-    note    = NOTES[inote]
-    valeur  = (1 + parseInt(inote)) + (octave * 7) // a4 = 6 + (4*7) = 34
-    offset  = (- (valeur - 32) * 6) + 1
-    NOTE_TO_OFFSET[note+octave] = offset
-  }
-}
-
-/**
-  * Décalage de l'altération par rapport à la note en fonction de son type
-  * @property {Object} OFFSET_ALTERATION
-  * @static
-  * @final
-  */
-OFFSET_ALTERATION = {
-  'b' : {top: 12, left: 14},
-  'd' : {top: 5,  left: 16},
-  'x' : {top: -1, left: 19},
-  't' : {top: 9,  left: 17}
-}
-
 
 // console.dir(NOTE_TO_OFFSET)
 

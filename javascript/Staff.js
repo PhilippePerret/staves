@@ -75,6 +75,28 @@ $.extend(Staff,{
     var top = 50 + (100 * Anim.staves.length)
     if(params && params.offset) top += params.offset
     return top
+  },
+  
+  /**
+    * Retourne le meilleur octave pour la gamme
+    * @method best_octave_scale
+    * @param  {String} cle    La clé de la portée
+    * @param  {Number} inote  L'indice de la note (0=DO, 1=RE, 2=MI, etc.)
+    * @return {Number} Le meilleur octave trouvé
+    */
+  best_octave_scale:function(cle, inote)
+  {
+    switch(cle)
+    {
+    case SOL  : return 4 // quelle que soit la note
+    case FA   :
+      if(inote >= 2/* mi */) return 2
+      else return 3
+    case UT3  :
+      return 2 // TODO à mieux régler
+    case UT4  :
+      return 2 // TODO à mieux régler
+    }
   }
 })
 /* ---------------------------------------------------------------------
