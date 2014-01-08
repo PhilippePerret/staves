@@ -139,7 +139,7 @@ $.extend(window.Anim,{
   def_mode_pas_a_pas:function(active)
   {
     this.MODE_PAS_A_PAS = active
-    Flash.show("Le mode pas à pas est "+(active ? 'activé' : 'désactivé'))
+    // Flash.show("Le mode pas à pas est "+(active ? 'activé' : 'désactivé'))
   },
   /**
     * Reset l'animation (au (re)-démarrage)

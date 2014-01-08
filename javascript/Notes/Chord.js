@@ -11,7 +11,7 @@
   *                 En réalité, c'est plus qu'une liste puisque l'objet Array
   *                 contient aussi des méthodes propres aux accords.
   */
-window.CHORD = function(strnotes)
+window.CHORD = function(strnotes, params)
 {
   var notes = strnotes.split(' ')
   var acc = [null]
@@ -19,46 +19,11 @@ window.CHORD = function(strnotes)
     acc.push(NOTE(strnote,{dont_build:true}))
   })
   // On ajoute les méthodes et propriétés de l'accord
-  $.extend(acc, CHORD_METHODS)
-  Object.defineProperties(acc, CHORD_PROPERTIES)
+  $.extend(acc, GROUPNOTES_METHODS)
+  Object.defineProperties(acc, GROUPNOTES_PROPERTIES)
   
   // On peut construire les notes
   Anim.wait(1)
   acc.each_note(function(note){note.build()})
   return acc
-}
-
-/**
-  * Méthodes de tout accord
-  * @class CHORD_METHODS
-  * @static
-  */
-window.CHORD_METHODS = {
-  /**
-    * Exécute une fonction sur toutes les notes de l'accord
-    * @method each_note
-    * @param  {Function} fn La fonction à exécuter
-    */
-  each_note:function(fn)
-  {
-    for(var i=1, len=this.length; i<len; ++i)
-    {
-      fn(this[i])
-    }
-  },
-  
-  /**
-    * Destruction de l'accord (destruction de chaque note)
-    * @method build
-    */
-  remove:function()
-  {
-    this.each_note(function(note){note.remove()})
-  }
-}
-
-window.CHORD_PROPERTIES = {
-  "prop":{
-    get:function(){return null}
-  }
 }

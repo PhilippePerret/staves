@@ -1,5 +1,3 @@
-* Renseigner RESET (manuel)
-* Renseigner SCALE (manuel)
 
 # Fonctionnalités à créer
 

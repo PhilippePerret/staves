@@ -5,7 +5,7 @@
 Cette application permet de faire des animations musicales (écrites), à des fins pédagogiques, pour les insérer dans des screencasts.
 
 * [Animation](#animation)
-* [Les notes](#notes)
+* [Les notes](#les_notes)
 * [Les accords](#chords)
 * [Les portées](#les_staves)
 * [Les gammes](#les_gammes)
@@ -141,17 +141,20 @@ Le pas à utiliser est :
 
 
 ---------------------------------------------------------------------
-<a name="notes"></a>
+<a name="les_notes"></a>
 ##Les Notes
 
 ###Table des matières
 
-*[Désignation des notes](#designation_notes)
-*[Constantes notes](#constantes_notes)
-*[Créer une note](#creation_note)
-*[Déplacer une note](#move_note)
-*[Placer une note sur une portée précise](#note_on_staff)
-*[Détruire d'une note](#note_remove)
+* [Désignation des notes](#designation_notes)
+  * [Les altérations](#les_alterations)
+* [Constantes notes](#constantes_notes)
+* [Créer une note](#creation_note)
+* [Déplacer une note](#move_note)
+* [Placer une note sur une portée précise](#note_on_staff)
+* [Mettre une note en exergue/La sortir de l'exergue](#note_exergue_unexergue)
+* [Entourer une note (exergue plus forte)](#entourer_une_note)
+* [Détruire d'une note](#note_remove)
 
 <a name="designation_notes"></a>
 ###Désignation des notes
@@ -164,6 +167,7 @@ Les notes doivent être désignées par :
 * L'altération est soit rien (note naturelle), soit un signe (cf. ci-dessous "b", "d", "x", ou "t").
 * Vient ensuite l'octave, un nombre, négatif si nécessaire (*mais pour le moment, on va seulement jusqu'à l'octave 0, les autres ne sont pas gérés*).
 
+<a name="les_alterations"></a>
 ####Marque des altérations
 
 La valeur `<alteration>` ci-dessus peut être :
@@ -235,6 +239,52 @@ Par exemple&nbsp;:
   
 *Noter que cela ne rend pas la portée active.*
   
+<a name="note_exergue_unexergue"></a>
+###Mettre une note en exergue (ou la retirer de l'exergue)
+
+Utiliser la méthode `exergue()` (pour mettre en exergue, en couleur) et `unexergue()` (pour la sortir de l'exergue).
+
+Exemple&nbsp;:
+
+    maNote=NOTE('cx5')
+    maNote.exergue()   # => note en couleur
+    WAIT(4)
+    maNote.unexergue()  # => etat normal
+
+Cf. aussi [Entourer une note](#entourer_une_note) ci-dessous.
+
+<a name="entourer_une_note"></a>
+###Entourer une note
+
+Pour mettre en exergue une note de façon plus forte que la méthode [exergue](#note_exergue_unexergue), on peut utiliser la méthode `surround()` qui entoure la note d'un cercle de couleur.
+
+Syntaxe&nbsp;:
+
+<note>.surround([<parameters>])
+  
+… où `<note>` est une instance de Note, et `<parameters>` sont les paramètres optionnels envoyés.
+    
+Par exemple&nbsp;:
+
+    maNote=NOTE(c5)
+    maNote.surround() # => entoure d'un cercle rouge
+
+    oNote=NOTE(a4)
+    oNote.surround({color:blue, rectangle:true})
+    # => entoure d'un rectangle bleu
+
+Les paramètres peuvent être&nbsp;:
+
+<dl>
+  <dt>color:{String|Constante}</dt>
+  <dd>La couleur, parmi 'blue', 'red', 'orange', 'green', 'black' (les valeurs peuvent se définir avec ou sans guillemets).</dd>
+  <dt>rectangle:{Boolean}</dt>
+  <dd>Si true, un rectangle au lieu d'un rond.</dd>
+  <dt>margin:{Number}</dt>
+  <dd>Joue sur le diamètre du cercle/rectangle pour laisser plus ou moins de place. Utile lorsque plusieurs notes assez proches sont entourées</dd>
+</dl>
+
+
 <a name="note_remove"></a>
 ###Détruire d'une note
 
@@ -392,10 +442,90 @@ Noter que ces indices sont "1-start" et se comptent toujours À PARTIR DE LA por
 
 Noter aussi que `bottom` et `top` sont complètement indépendants, pour `bottom` on ne tient compte QUE des lignes supplémentaires inférieures et pour `top` on ne tient compte QUE des lignes supplémentaires supérieures.
 
+---------------------------------------------------------------------
+
 <a name="les_gammes"></a>
 ##Les gammes
 
-On peut produire en une seule 
+###Table des matières
+
+* [Introduction](#introduction_gammes)
+* [Paramètres de définition des gammes](#parametres_gammes)
+* [Utilisation des notes de la gammes](#utilisation_notes_gammes)
+
+<a name="introduction_gammes">
+###Introduction
+On peut produire en un seul pas une gamme à l'aide de la commande :
+
+<var>=SCALE(<tonalité>[, <paramters>])
+
+* `<var>` est un nom de variable quelconque
+* `<tonalité>` est la tonalité exprimée par une seule lettre (anglaise) de "a" (la) à "g" (sol). On peut ajouter toutes les altérations voulues (cf. [Les altérations](#les_alterations)). Noter que par défaut, suivant la portée active, l'animation affiche ses notes à la hauteur où elles produiront le moins de lignes supplémentaires.
+* `<parameters>` est une liste de paramètres optionnels. Cf. ci-dessous.
+  
+<a name="parametres_gammes"></a>
+###Paramètres de définition des gammes
+
+Ils constituent le second argument de la commande `SCALE`, après la note de la tonalité.
+
+C'est un objet de propriétés&nbsp;:
+
+    maGamme=SCALE('a',{
+      octave : 2,
+      for    : 5,
+      etc.
+    })
+
+####Liste des propriétés
+
+<dl>
+  <dt>type : {String}</dt>
+  <dd>Le type de gamme, parmi : 'MAJ' : Gamme majeure (défaut), 'min_h' : Mineure harmonique, 'min_ma' : MINeure Mélodique Ascendante, 'min_md' : MINeure Mélodique Descendante.
+  </dd>
+  <dt>octave : {Number}</dt>
+  <dd>L'octave à laquelle il faut affiche la gamme. Par défaut, celui qui produira le moins de ligne supplémentaires, donc celui dont le plus grand nombre de notes se trouve *dans* la portée.
+  </dd>
+  <dt>staff : {Number}</dt>
+  <dd>L'indice de la portée sur laquelle il faut écrire la gamme. Par défaut, la portée active.</dd>
+  <dt>offset : {Number}</dt>
+  <dd>Le décalage horizontal pour commencer la gamme. Par défaut le décalage courant (la position du “pointeur”).</dd>
+  <dt>asc : {Boolean}</dt>
+  <dd>Si TRUE (défaut), la gamme sera ascendante, sinon, elle descendra.</dd>
+  <dt>for : {Number}</dt>
+  <dd>Le nombre de notes de la gamme à afficher. Par défaut, 8 pour pouvoir les afficher toutes, de la tonique à la tonique.</dd>
+  <dt>from : {Number}</dt>
+  <dd>La première note de la gamme de laquelle partir (1-start)</dd>
+</dl>
+
+<a name="utilisation_notes_gammes"></a>
+###Utilisation des notes de la gamme
+
+Comme pour tout “groupe de notes” (accord, motif, etc.) les notes de la gamme peuvent être ensuite traitées séparément, comme des notes “normales”.
+
+Soit une gamme&nbsp;:
+
+    maGamme=SCALE('d')
+
+On récupère ses notes par&nbsp;:
+
+    maGamme[<indice note>]
+  
+Cet `indice` est “1-start”, c'est-à-dire que la première note porte l'indice 1, la seconde note porte l'indice 2, etc.
+  
+Par exemple, si je veux poser un texte sur la deuxième note&nbsp;:
+  
+    maGamme[2].write("Une seconde !")
+
+Comme pour tout “groupe de notes”, si l'on veut mettre un élément (note) du groupe dans une variable, ce code n'est pas possible&nbsp;:
+
+    maNote=maGamme[2]
+    maNote.write("Une seconde !") # => # ERREUR #
+
+Pour ce faire, il faut impérativement utiliser&nbsp;:
+
+    maNote=Anim.Objects.maGamme[2]
+    maNote.write("Une seconde !")
+  
 
 ---------------------------------------------------------------------
 

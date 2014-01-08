@@ -317,7 +317,8 @@ sup {
 <li><a href="#notes">Les notes</a></li>
 <li><a href="#chords">Les accords</a></li>
 <li><a href="#les_staves">Les portées</a></li>
-<li><a href="#textes">Les textes</a></li>
+<li><a href="#les_gammes">Les gammes</a></li>
+<li><a href="#les_textes">Les textes</a></li>
 </ul>
 
 
@@ -338,6 +339,7 @@ sup {
 <li><a href="#pause_animation">Faire une pause</a></li>
 <li><a href="#left_staff">Avancer sur la portée</a></li>
 <li><a href="#texte_animation">Écrire un texte général</a></li>
+<li><a href="#reset_animation">Resetter l'animation</a></li>
 <li><a href="#clean_animation">"Nettoyer" l'animation (tout effacer)</a></li>
 </ul>
 </li>
@@ -442,6 +444,25 @@ LEFT(100)
 
 <p><em>Noter que les objets tels que les notes ont également leur propre méthode textuelle, qui permet d'aligner le textes directement à ces notes, accords, etc.</em></p>
 
+<p><a name="reset_animation"></a></p>
+
+<h4>Reset(-ter) l'animation</h4>
+
+<p>La commande <code>RESET</code> (sans parenthèses ni arguments) permet de repartir de rien en cours d'animation, c'est-à-dire&nbsp;:</p>
+
+<ul>
+<li>Effacer tous les objets SAUF les portées et les clés&nbsp;;</li>
+<li>Remettre le "curseur" tout à gauche (endroit où seront donc affichés les nouveaux objets).</li>
+</ul>
+
+
+<p>Usage&nbsp;:</p>
+
+<pre><code>RESET
+</code></pre>
+
+<p><em>Voir aussi la commande <code>CLEAR</code> ci-dessous qui permet la même chose mais de façon plus ciblée.</em></p>
+
 <p><a name="clean_animation"></a></p>
 
 <h4>Nettoyer l'animation</h4>
@@ -466,12 +487,20 @@ LEFT(100)
 
 <h3>Table des matières</h3>
 
-<p><em><a href="#designation_notes">Désignation des notes</a>
-</em><a href="#constantes_notes">Constantes notes</a>
-<em><a href="#creation_note">Créer une note</a>
-</em><a href="#move_note">Déplacer une note</a>
-<em><a href="#note_on_staff">Placer une note sur une portée précise</a>
-</em><a href="#note_remove">Détruire d'une note</a></p>
+<ul>
+<li><a href="#designation_notes">Désignation des notes</a>
+
+<ul>
+<li><a href="#les_alterations">Les altérations</a></li>
+</ul>
+</li>
+<li><a href="#constantes_notes">Constantes notes</a></li>
+<li><a href="#creation_note">Créer une note</a></li>
+<li><a href="#move_note">Déplacer une note</a></li>
+<li><a href="#note_on_staff">Placer une note sur une portée précise</a></li>
+<li><a href="#note_remove">Détruire d'une note</a></li>
+</ul>
+
 
 <p><a name="designation_notes"></a></p>
 
@@ -488,6 +517,8 @@ LEFT(100)
 <li>Vient ensuite l'octave, un nombre, négatif si nécessaire (<em>mais pour le moment, on va seulement jusqu'à l'octave 0, les autres ne sont pas gérés</em>).</li>
 </ul>
 
+
+<p><a name="les_alterations"></a></p>
 
 <h4>Marque des altérations</h4>
 
@@ -766,7 +797,109 @@ note.moveTo(c5)
 
 <hr />
 
-<p><a name="textes"></a></p>
+<p><a name="les_gammes"></a></p>
+
+<h2>Les gammes</h2>
+
+<h3>Table des matières</h3>
+
+<ul>
+<li><a href="#introduction_gammes">Introduction</a></li>
+<li><a href="#parametres_gammes">Paramètres de définition des gammes</a></li>
+<li><a href="#utilisation_notes_gammes">Utilisation des notes de la gammes</a></li>
+</ul>
+
+
+<p><a name="introduction_gammes"></p>
+
+<h3>Introduction</h3>
+
+<p>On peut produire en un seul pas une gamme à l'aide de la commande :</p>
+
+<p><var>=SCALE(&lt;tonalité>[, <paramters>])</p>
+
+<ul>
+<li><code>&lt;var&gt;</code> est un nom de variable quelconque</li>
+<li><code>&lt;tonalité&gt;</code> est la tonalité exprimée par une seule lettre (anglaise) de "a" (la) à "g" (sol). On peut ajouter toutes les altérations voulues (cf. <a href="#les_alterations">Les altérations</a>). Noter que par défaut, suivant la portée active, l'animation affiche ses notes à la hauteur où elles produiront le moins de lignes supplémentaires.</li>
+<li><code>&lt;parameters&gt;</code> est une liste de paramètres optionnels. Cf. ci-dessous.</li>
+</ul>
+
+
+<p><a name="parametres_gammes"></a></p>
+
+<h3>Paramètres de définition des gammes</h3>
+
+<p>Ils constituent le second argument de la commande <code>SCALE</code>, après la note de la tonalité.</p>
+
+<p>C'est un objet de propriétés&nbsp;:</p>
+
+<pre><code>maGamme=SCALE('a',{
+  octave : 2,
+  for    : 5,
+  etc.
+})
+</code></pre>
+
+<h4>Liste des propriétés</h4>
+
+<dl>
+  <dt>type : {String}</dt>
+  <dd>Le type de gamme, parmi : 'MAJ' : Gamme majeure (défaut), 'min_h' : Mineure harmonique, 'min_ma' : MINeure Mélodique Ascendante, 'min_md' : MINeure Mélodique Descendante.
+  </dd>
+  <dt>octave : {Number}</dt>
+  <dd>L'octave à laquelle il faut affiche la gamme. Par défaut, celui qui produira le moins de ligne supplémentaires, donc celui dont le plus grand nombre de notes se trouve *dans* la portée.
+  </dd>
+  <dt>staff : {Number}</dt>
+  <dd>L'indice de la portée sur laquelle il faut écrire la gamme. Par défaut, la portée active.</dd>
+  <dt>offset : {Number}</dt>
+  <dd>Le décalage horizontal pour commencer la gamme. Par défaut le décalage courant (la position du “pointeur”).</dd>
+  <dt>asc : {Boolean}</dt>
+  <dd>Si TRUE (défaut), la gamme sera ascendante, sinon, elle descendra.</dd>
+  <dt>for : {Number}</dt>
+  <dd>Le nombre de notes de la gamme à afficher. Par défaut, 8 pour pouvoir les afficher toutes, de la tonique à la tonique.</dd>
+  <dt>from : {Number}</dt>
+  <dd>La première note de la gamme de laquelle partir (1-start)</dd>
+</dl>
+
+
+<p><a name="utilisation_notes_gammes"></a></p>
+
+<h3>Utilisation des notes de la gamme</h3>
+
+<p>Comme pour tout “groupe de notes” (accord, motif, etc.) les notes de la gamme peuvent être ensuite traitées séparément, comme des notes “normales”.</p>
+
+<p>Soit une gamme&nbsp;:</p>
+
+<pre><code>maGamme=SCALE('d')
+</code></pre>
+
+<p>On récupère ses notes par&nbsp;:</p>
+
+<pre><code>maGamme[&lt;indice note&gt;]
+</code></pre>
+
+<p>Cet <code>indice</code> est “1-start”, c'est-à-dire que la première note porte l'indice 1, la seconde note porte l'indice 2, etc.</p>
+
+<p>Par exemple, si je veux poser un texte sur la deuxième note&nbsp;:</p>
+
+<pre><code>maGamme[2].write("Une seconde !")
+</code></pre>
+
+<p>Comme pour tout “groupe de notes”, si l'on veut mettre un élément (note) du groupe dans une variable, ce code n'est pas possible&nbsp;:</p>
+
+<pre><code>maNote=maGamme[2]
+maNote.write("Une seconde !") # =&gt; # ERREUR #
+</code></pre>
+
+<p>Pour ce faire, il faut impérativement utiliser&nbsp;:</p>
+
+<pre><code>maNote=Anim.Objects.maGamme[2]
+maNote.write("Une seconde !")
+</code></pre>
+
+<hr />
+
+<p><a name="les_textes"></a></p>
 
 <h2>Les Textes</h2>
 

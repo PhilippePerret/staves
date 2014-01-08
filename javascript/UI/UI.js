@@ -10,6 +10,40 @@ if(undefined == window.UI) window.UI = {}
 $.extend(UI,{
   
   /**
+    * Redimensionne les éléments dans la fenêtre
+    * @method onresize_window
+    */
+  onresize_window:function(evt)
+  {
+    var w = window,
+        d = document,
+        e = d.documentElement,
+        g = d.getElementsByTagName('body')[0],
+        x = w.innerWidth || e.clientWidth || g.clientWidth,
+        y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+  
+    // dlog("Dimension : "+x)
+    anim_width      = parseInt(x * 70/100)
+    dlog("Largeur animation : "+anim_width)
+    anim_height     = parseInt(y * 78/100)
+    dlog("Hauteur animation : "+anim_height)
+    console_width   = x - ( anim_width + 10 + 32)
+  
+    $('section#animation').css({
+      width : anim_width+"px", 
+      height: anim_height+"px"}
+    )
+    $('section#section_console').css({
+      width : console_width+"px",
+      height: anim_height+"px"
+    })
+    controller_width = $('section#controller').width()
+    $('section#controller').css({
+      top   : (anim_height + 40)+"px",
+      left  : (anim_width - controller_width + 30) + "px"
+    })
+  },
+  /**
     * Peuple le menu des applications avec la liste +name_list+
     * @method peuple_liste_animations
     * @param {Array} name_list  Liste des affixes d'animation
@@ -45,3 +79,11 @@ $.extend(UI,{
   
   
 })
+
+/**
+  * Appelé quand on redimensionne la page
+  * @method onresize
+  * @for window
+  */
+window.onresize = UI.onresize_window
+
