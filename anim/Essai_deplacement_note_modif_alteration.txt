@@ -6,3 +6,5 @@ REMOVE_SUPLINE({bottom:1})
 no.moveTo(f4)
 # Test 2 : déplacement d\'une note sans altération vers une note avec altération
 no.moveTo(\'at4\')
+WAIT(1)
+no.moveTo(\'cb6\')

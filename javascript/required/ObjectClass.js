@@ -73,6 +73,10 @@ $.extend(window.ObjetClass.prototype,{
       case 'moveTo':
         if(undefined == params.left)  params.left = obj.left
         if(undefined == params.top)   params.top  = obj.top
+        if('function' != typeof obj.animate)
+        {
+          throw "```Obj n'est pas un set jquery : "+obj.toString() + "```"
+        }
         obj.animate({top:params.top+"px", left:params.left+"px"}, Anim.transition.note_moved, complete)
         break
       }

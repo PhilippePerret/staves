@@ -128,8 +128,12 @@ $.extend(Note.prototype,{
    */
   
   /**
-    * Reset la note (pour recalculer les valeurs après un changement de hauteur,
+    * Reset la note (pour forcer le recalcul des valeurs après un changement de hauteur,
     * d'altération, etc.)
+    * WARNING
+    *   Ne surtout pas mettre ici la destruction de la note, de l'alteration (même
+    *   la variable).
+    *
     * @method reset
     */
   reset:function()
@@ -162,7 +166,10 @@ $.extend(Note.prototype,{
     * -----
     *   * Le déplacement a été simplifié : la note change de couleur et 
     *     se déplace de façon rectiligne en passant au-dessus des autres
-    *
+    *   * L'option prise, par rapport à l'altération, est de la faire disparaitre
+    *     et ré-apparaitre à la nouvelle position. Sinon c'est trop compliqué
+    *     (et pas nécessaire) de la faire se déplacer aussi.
+    *     Cf. la méthode `analyse_note` qui s'en charge le cas échéant.
     * @method moveTo
     * @param  {String}  hauteur   La nouvelle hauteur
     * @param  {Object}  params    Les paramètres optionnels
@@ -170,12 +177,9 @@ $.extend(Note.prototype,{
   moveTo:function(hauteur)
   {
     var top_init = parseInt(this.top,10)
-    if(this.alteration) this.remove_alteration()
     this.analyse_note(hauteur)
-    if(this.note == "a") dlog("-> moveTo avec LA")
     this.exergue()
-    if(this.note == "a") dlog("Je vais appeler operation moveTo avec LA")
-    this.operation(this.objets, 'moveTo', {top: this.top})
+    this.operation([this.obj], 'moveTo', {top: this.top})
   },
   /**
     * Appelée en fin de l'opération 'moveTo' ci-dessus, juste avant 
@@ -191,7 +195,8 @@ $.extend(Note.prototype,{
   /**
     * Détruit l'alteration
     * Notes
-    *   * La méthode est appelé systématiquement quand la note est déplacée
+    *   * La méthode est appelée lorsqu'il y a changement de hauteur de la
+    *     note, et qu'elle perd son altération
     *
     * @method remove_alteration
     */
@@ -263,7 +268,6 @@ $.extend(Note.prototype,{
       this.obj_alt[0].src = "img/note/"+this.filename_alteration+"-couleur.png"
       this.obj_alt.css('z-index', "20")
     }
-    if(this.note == "a") dlog("-> FIN exergue avec LA")
   },
   /**
     * Sorte la note de son exergue
@@ -276,7 +280,7 @@ $.extend(Note.prototype,{
     this.obj.css('z-index','10')
     if(this.alteration && this.obj_alt.length)
     {
-      this.obj_alt[0].src = "img/note/"+this.filename_alteration+".png"
+      this.obj_alt[0].src = this.src_alteration
       this.obj_alt.css('z-index', "10")
     }
   },
@@ -335,6 +339,21 @@ $.extend(Note.prototype,{
     this.operation(this.objets, 'show')
   },
   /**
+    * Méthode qui masque l'altération
+    * Note
+    * ----
+    *   * Elle doit exister
+    *     Cette méthode est utile pour par exemple déplacer l'altération lorsqu'il
+    *     y a un changement de hauteur.
+    *
+    * @method hide_alteration
+    * @param  {Function} complete   La fonction à appeler ensuite.
+    */
+  hide_alteration:function(complete)
+  {
+    this.obj_alt.animate({opacity:0}, Anim.transition.show, complete)
+  },
+  /**
     * Positionne la note en fonction de sa hauteur de note
     * et de la hauteur de la portée
     * @method positionne
@@ -348,11 +367,19 @@ $.extend(Note.prototype,{
     //   'value in NOTE_TO_OFFSET':NOTE_TO_OFFSET[this.note+this.octave]
     // })
     this.obj.css({top:this.top+"px", left:this.left+"px"})
-    if(this.alteration)
-    {
-      var off = OFFSET_ALTERATION[this.alteration]
-      this.obj_alt.css({top:(this.top - off.top)+"px", left:(this.left - off.left)+"px"})
-    }
+    if(this.alteration) this.positionne_alteration()
+  },
+  /**
+    * Position l'altération
+    * Notes
+    * -----
+    *   * Chaque type d'altération possède son propre positionnement.
+    * @method positionne_alteration
+    */
+  positionne_alteration:function()
+  {
+    var off = OFFSET_ALTERATION[this.alteration]
+    this.obj_alt.css({top:(this.top - off.top)+"px", left:(this.left - off.left)+"px"})
   },
   /**
     * Return TRUE si la note nécessite des lignes supplémentaires
@@ -406,10 +433,18 @@ $.extend(Note.prototype,{
   
   /**
     * Analyse la note fournie en argument
-    * La méthode définit :
-    *   - La note (this.note)
-    *   - Le top de la note (this.top)
-    *   - L'octave (this.octave)
+    *
+    * Produit
+    * -------
+    *   – La définition de la portée  this.staff
+    *   - La définition de la note    this.note
+    *   - Calcul le top de la note    this.top
+    *   - Définit l'octave            this.octave
+    *   – Définit l'altération        this.alteration     ou undefined
+    *
+    *   - Si c'est un changement de hauteur, et que la note possédait une
+    *     altération, modifie l'altération (le src de l'image).
+    *
     * @method analyse_note
     * @param {String} note_str  Un string de la forme :
     *                           "[<portée>:]<note 1 lettre><altération><octave>"
@@ -421,6 +456,8 @@ $.extend(Note.prototype,{
   {
     var dnote, staff ;
     this.reset()
+    
+    // === Définit la portée ===//
     if(note_str.indexOf(':') > -1)
     {
       dnote       = note_str.split(':')
@@ -430,14 +467,88 @@ $.extend(Note.prototype,{
       this.staff  = Anim.current_staff
     }
     note_str = note_str.split('')
+
+    // === Définition de la note === //
     this.note   = note_str.shift()
+    
+    /*
+     *  Analyse de l'altération
+     *  -----------------------
+     *  En cas de changement de hauteur, trois situations peuvent se produire,
+     *  nécessitant un résultat différent :
+     *  1.  La note possédait une altération, elle n'en possède plus
+     *      => détruire l'altération courante
+     *  2.  La note ne possédait pas d'altération, elle en possède une
+     *      => Il faut construire l'altération
+     *  3.  La note possédait une altération, elle en possède une autre.
+     *      => Il faut modifier l'altération courante.
+     *  Note: Rien à faire quand 4. les deux notes ne possèdent pas d'altération,
+     *        ou 5. les deux notes possèdent la même altération.
+     */
     if(["b", "d", "x", "t"].indexOf(note_str[0]) > -1)
     {
+      if(this.alteration)
+      {
+        this.old_alteration = this.alteration.toString()
+      }
+      // === Définition de l'altération ===//
       this.alteration = note_str.shift()
-    } else delete this.alteration
+      
+      if(this.old_alteration)
+      {
+        if(this.old_alteration != this.alteration)
+        { // Quand l'ancienne et la nouvelle altération ne sont pas identiques.
+          this.hide_alteration($.proxy(this.update_alteration,this))
+        } 
+        else
+        { // Quand l'ancienne altération et la nouvelle sont les mêmes
+          // Dans ce cas, on va masquer l'altération courante, la repositionner
+          // puis la faire ré-apparaitre.
+          this.hide_alteration($.proxy(this.positionne_and_show_alteration,this))
+        }
+      }
+      else
+      {
+        // Construction de l'altération (sauf nouvelle note) et positionnement
+        if(this.obj.length)
+        {
+          Anim.Dom.add(this.html_img_alt)
+          this.positionne_and_show_alteration()
+        }
+      }
+    } 
+    else 
+    {
+      if(this.alteration) this.remove_alteration()
+      delete this.alteration
+    }
+    
+    // === Définition de l'octave ===//
     this.octave = note_str.shift()
     if(this.octave == "-") this.octave = "-" + note_str.shift()
     this.octave = parseInt(this.octave,10)
+    
+  },
+  positionne_and_show_alteration:function()
+  {
+    this.positionne_alteration()
+    this.obj_alt.animate({opacity:1},Anim.transition.show)
+  },
+  
+  /**
+    * Actualise l'altération
+    * Notes
+    * -----
+    *   * Cette méthode n'est appelée QUE si une altération existe, mais
+    *     qu'il faut la modifier. Elle se sert de la nouvelle valeur de
+    *     `this.alteration`.
+    *
+    * @method update_alteration
+    */
+  update_alteration:function()
+  {
+    this.obj_alt[0].src = this.src_alteration
+    this.positionne_and_show_alteration()
   }
   
 })
@@ -560,6 +671,13 @@ Object.defineProperties(Note.prototype,{
   },
   
   /**
+    * Path (src) de l'altération
+    * @property {String} src_alteration
+    */
+  "src_alteration":{
+    get:function(){return "img/note/"+this.filename_alteration+".png"}
+  },
+  /**
     * Retourne le nom du fichier en fonction de l'altération
     * @property {String} filename_alteration
     */
@@ -581,7 +699,7 @@ Object.defineProperties(Note.prototype,{
   "html_img_alt":{
     get:function(){
       return '<img class="alteration" id="'+this.dom_id+'-alt" ' +
-              'src="img/note/'+this.filename_alteration+'.png" />'
+              'src="'+this.src_alteration+'" />'
     }
   }
 })
