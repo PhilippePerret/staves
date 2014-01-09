@@ -145,8 +145,23 @@ FONCTIONS_ANIM_OBJETS = {
     $('section#animation *'+not).remove()
     if(with_staves) Anim.staves = []
     NEXT_STEP()
+  },
+  
+  /**
+    * Modifie la vitesse de l'animation
+    * @method SPEED
+    * @param {Number} indice_vitesse Une valeur de 0 à 20
+    */
+  SPEED:function(indice_vitesse)
+  {
+    if(undefined == indice_vitesse) indice_vitesse = 10
+    if(isNaN(indice_vitesse)) throw "Il faut donner un nombre pour la vitesse ! (SPEED)"
+    if(indice_vitesse < 0 || indice_vitesse > 20) throw "L'indice vitesse est invalide (SPEED(0&lt;->21))"
+    Anim.set_speed(indice_vitesse + 1)
+    NEXT_STEP(no_timeout = true)
   }
 }
+
 METHODES_ANIM_OBJETS = {
   /**
     * Méthode qui reset l'affichage

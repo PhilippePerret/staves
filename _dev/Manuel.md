@@ -27,6 +27,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
   * [Écrire un texte général](#texte_animation)
   * [Resetter l'animation](#reset_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
+* [Vitesse de l'animation](#vitesse_animation)
 
 <a name="intro_animation"></a>
 ###Introduction
@@ -137,7 +138,20 @@ Le pas à utiliser est :
     
     CLEAR(true) // efface aussi les portées
     
-    
+<a name="vitesse_animation"></a>
+###Vitesse de l'animation
+
+On peut régler la vitesse de l'animation de façon interactive avec le “slider” se trouvant dans le contrôleur (sous le bouton “Start”).
+
+Mais on peut aussi définir dans le code cette vitesse à l'aide de la commande&nbsp;:
+
+    SPEED(<valeur>)
+  
+… avec `<valeur>` pouvant être un nombre de 0 à 20, `10` étant la vitesse normale, 0 étant la vitesse la plus lente et 20 la plus rapide.
+  
+Pour remettre la vitesse à la vitesse normale&nbsp;:
+  
+    SPEED() // pas d'argument
 
 
 ---------------------------------------------------------------------

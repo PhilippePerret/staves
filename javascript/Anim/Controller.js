@@ -63,6 +63,15 @@ $.extend(Anim,{
     })
   },
   /**
+    * Règle la vitesse (avec la commande SPEED)
+    * @method set_speed
+    * @param {Number} speed Une valeur de 1 à 21
+    */
+  set_speed:function(speed)
+  {
+    $('div#vitesse_animation').slider('value', speed)
+  },
+  /**
     * Change la vitesse de l'animation
     * Notes
     *   * Appelé par le slider de vitesse du contrôleur
