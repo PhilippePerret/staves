@@ -1,5 +1,5 @@
 div.staff, img.cle, img.note, img.alteration, img.silence, img.barre,
-div.text {
+div.text, img.circle {
   position    : absolute;
   opacity     : 0;
 }

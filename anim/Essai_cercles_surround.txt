@@ -1,0 +1,4 @@
+# Essai cercle (surround)
+NEW_STAFF(SOL)
+no=NOTE(a4)
+no.surround()

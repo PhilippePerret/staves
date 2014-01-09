@@ -4,10 +4,25 @@
   *
   * @class ObjetClass
   * @constructor
+  * @param  {Object} params   Paramètres optionnels, pour dispatcher des valeurs
+  *                           de propriétés dans l'instance.
   */
-window.ObjetClass = function()
+window.ObjetClass = function(params)
 {
+  /**
+    * Taille de l'objet
+    * -----------------
+    * Utiliser la propriété complexe `width` pour le (re-)définir
+    *
+    * @property {Number} _width    La taille du cercle
+    */
+  this._width = 30
   
+  if(undefined != params)
+  {
+    var me = this
+    L(params).each(function(prop,value){ me[prop] = value})
+  }
 }
 $.extend(window.ObjetClass.prototype,{
   /**
@@ -26,6 +41,32 @@ $.extend(window.ObjetClass.prototype,{
     Anim.show(this.obj, params)
   },
   
+  /**
+    * Destruction de l'objet DOM de l'objet
+    * Notes
+    * -----
+    *   * Pour être utilisé, l'objet doit obligatoirement posséder une propriété
+    *     `obj` qui retourne son objet DOM
+    *
+    * @method remove
+    * @async
+    * @param  {Object} params   Les paramètres optionnels
+    *   @param  {Function} params.complete    La méthode pour suivre (NEXT_STEP par défaut)
+    *
+    */
+  remove:function(params)
+  {
+    return this.operation([this.obj], 'remove', params)
+  },
+  
+  /**
+    * Positionne l'objet à son top/left
+    * @method positionne
+    */
+  positionne:function()
+  {
+    if(this.obj) this.obj.css({top:this.top, left:this.left})
+  },
   /**
     * Tentative d'une méthode générale qui permette de gérer un traitement 
     * asynchrone de plusieurs éléments DOM de l'objet.
@@ -106,5 +147,43 @@ $.extend(window.ObjetClass.prototype,{
     delete this.tbl_operation
     if('function' == typeof this['on_complete_'+operation]) this['on_complete_'+operation]()
     NEXT_STEP()
+  }
+})
+
+Object.defineProperties(ObjetClass.prototype,{
+  /**
+    * Offset vertical du cercle
+    * @property {Number} top
+    */
+  "top":{
+    get:function(){return this._top},
+    set:function(top){
+      this._top = top
+      if(this.obj) this.obj.css('top', top)
+    }
+  },
+  /**
+    * Offset horizontal du cercle
+    * @property {Number} left
+    */
+  "left":{
+    get:function(){return this._left},
+    set:function(left){
+      this._left = left
+      if(this.obj) this.obj.css('left', left)
+    }
+  },
+  /**
+    * Taille de l'objet
+    * Si `this.obj` existe, la redéfinition de la valeur modifie la taille de
+    * l'objet
+    * @property {Number} width
+    */  
+  "width":{
+    get:function(){return this._width || this.DEFAULT_WIDTH},
+    set:function(w){
+      this._width = w
+      if(this.obj) this.obj.css('width', w+"px")
+    }
   }
 })

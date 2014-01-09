@@ -71,29 +71,13 @@ window.Note = function(params)
 Note.prototype = Object.create( ObjetClass.prototype )
 Note.prototype.constructor = Note
 
-$.extend(Note.prototype,{
-  /* ---------------------------------------------------------------------
-   *
-   *  Méthodes pour composer le code de l'animation
-   *  
-   */
-  
-  /**
-    * Reset la note (pour forcer le recalcul des valeurs après un changement de hauteur,
-    * d'altération, etc.)
-    * WARNING
-    *   Ne surtout pas mettre ici la destruction de la note, de l'alteration (même
-    *   la variable).
-    *
-    * @method reset
-    */
-  reset:function()
-  {
-    delete this.suplines
-    delete this._top
-    delete this._midi
-  },
 
+/* ---------------------------------------------------------------------
+ *
+ *  Méthodes pour composer le code de l'animation
+ *  
+ */
+$.extend(Note.prototype,{
   /**
     * Écrit un texte au-dessus ou en dessous de la note
     * Notes
@@ -132,6 +116,92 @@ $.extend(Note.prototype,{
     this.exergue()
     this.operation([this.obj], 'moveTo', {top: this.top})
   },
+  /**
+    * Entoure la note
+    * Notes
+    * -----
+    *   * La méthode définit la propriété 'circle' du cercle
+    * @method surround
+    * @param  {Object} params   Les paramètres d'entourage
+    *   @param  {String}  params.color   La couleur du cercle (rouge par défaut)
+    *   @param  {Number}  params.margin  L'espace entre la note et l'entourage
+    *   @param  {Boolean} params.square   Si true, on place un carré plutôt qu'un rond
+    */
+  surround:function(params)
+  {
+    if(this.circle) this.circle.remove()
+    if(undefined == params) params = {}
+    params = $.extend(params, {top:this.top - 6, left:this.left - 6})
+    this.circle = new Circle(params)
+    Anim.Dom.add(this.circle)
+  },
+  
+  /**
+    * Met la note en exergue (bleue et au-dessus)
+    * @method exergue
+    */
+  exergue:function()
+  {
+    if(this.note == "a") dlog("-> exergue avec LA")
+    this.obj[0].src = "img/note/rond-couleur.png"
+    this.obj.css('z-index','20')
+    if(this.alteration && this.obj_alt.length)
+    {
+      this.obj_alt[0].src = "img/note/"+this.filename_alteration+"-couleur.png"
+      this.obj_alt.css('z-index', "20")
+    }
+  },
+  /**
+    * Sorte la note de son exergue
+    * @method unexergue
+    */
+  unexergue:function()
+  {
+    dlog("-> unexergue (this.class="+this.class+")")
+    this.obj[0].src = "img/note/rond-noir.png"
+    this.obj.css('z-index','10')
+    if(this.alteration && this.obj_alt.length)
+    {
+      this.obj_alt[0].src = this.src_alteration
+      this.obj_alt.css('z-index', "10")
+    }
+  },
+  
+  /**
+    * Destruction de la note
+    * Notes
+    *   * Pour le moment, je détruis seulement son objet DOM
+    * @method remove
+    */
+  remove:function()
+  {
+    this.exergue()
+    this.operation(this.objets, 'remove')
+  }
+  
+})
+
+/* ---------------------------------------------------------------------
+ *  
+ */
+$.extend(Note.prototype,{
+  
+  /**
+    * Reset la note (pour forcer le recalcul des valeurs après un changement de hauteur,
+    * d'altération, etc.)
+    * WARNING
+    *   Ne surtout pas mettre ici la destruction de la note, de l'alteration (même
+    *   la variable).
+    *
+    * @method reset
+    */
+  reset:function()
+  {
+    delete this.suplines
+    delete this._top
+    delete this._midi
+  },
+
   /**
     * Appelée en fin de l'opération 'moveTo' ci-dessus, juste avant 
     * le passage à l'étape suivante.
@@ -203,48 +273,6 @@ $.extend(Note.prototype,{
     for(var tobj in this.tbl_complete) if(false == this.tbl_complete[tobj]) return false
     delete this.tbl_complete
     return true
-  },
-  /**
-    * Met la note en exergue (bleue et au-dessus)
-    * @method exergue
-    */
-  exergue:function()
-  {
-    if(this.note == "a") dlog("-> exergue avec LA")
-    this.obj[0].src = "img/note/rond-couleur.png"
-    this.obj.css('z-index','20')
-    if(this.alteration && this.obj_alt.length)
-    {
-      this.obj_alt[0].src = "img/note/"+this.filename_alteration+"-couleur.png"
-      this.obj_alt.css('z-index', "20")
-    }
-  },
-  /**
-    * Sorte la note de son exergue
-    * @method unexergue
-    */
-  unexergue:function()
-  {
-    dlog("-> unexergue (this.class="+this.class+")")
-    this.obj[0].src = "img/note/rond-noir.png"
-    this.obj.css('z-index','10')
-    if(this.alteration && this.obj_alt.length)
-    {
-      this.obj_alt[0].src = this.src_alteration
-      this.obj_alt.css('z-index', "10")
-    }
-  },
-  
-  /**
-    * Destruction de la note
-    * Notes
-    *   * Pour le moment, je détruis seulement son objet DOM
-    * @method remove
-    */
-  remove:function()
-  {
-    this.exergue()
-    this.operation(this.objets, 'remove')
   },
   /**
     * Méthode appelée après l'opération 'remove' ci-dessus, juste avant qu'on
