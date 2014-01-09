@@ -14,10 +14,25 @@
 window.Circle = function(params)
 {
   /**
+    * Classe d'un cercle
+    * @property {String} class
+    * @static
+    * @final
+    */
+  this.class = 'circle'
+  
+  /**
     * @property {String} id   Identifiant absolu du cercle
     */
   this.id = 'cir'+(new Date()).getTime()
 
+  /**
+    * Le possesseur du cercle, en général une note
+    *
+    * @property {Object} owner
+    */
+  this.owner = null
+  
   /**
     * Taille par défaut du cercle
     * @property {Number} DEFAULT_WIDTH
@@ -27,6 +42,13 @@ window.Circle = function(params)
   this.DEFAULT_WIDTH = 30
   
   /**
+    * Si `square` est TRUE, on dessine un cadre au lieu d'un cercle
+    * @property {Boolean} square
+    * @default false
+    */
+  this.square = false
+  
+  /**
     * Couleur du cercle
     * Notes
     * -----
@@ -34,6 +56,9 @@ window.Circle = function(params)
     *
     * @property {String} _color   La couleur du cercle
     */
+  this._color = 'blue'
+
+
   ObjetClass.call(this, params)
 }
 Circle.prototype = Object.create( ObjetClass.prototype )
@@ -61,10 +86,39 @@ Object.defineProperties(Circle.prototype, {
     */
   "src":{
     get:function(){
-      return "../lib/img/divers/cercle/"+this.color+".png"
+      return "../lib/img/divers/"+(this.square ? 'square':'cercle')+"/"+this.color+".png"
     }
   },
   
+  /**
+    * La taille du cercle
+    * Notes
+    * -----
+    *   * Gère les différents possesseurs et leurs propriétés. Par exemple, un cercle
+    *     pour une note sans altération et une note avec altération n'auront pas la
+    *     même taille.
+    *   * Si la propriété est re-définit et que l'objet existe, on change sa taille.
+    * @property {Number} width
+    */
+  "width":{
+    set:function(w){
+      this._width = w
+      if(this.obj) this.obj.css('width', w+'px')
+    },
+    get:function(){
+      if(this.owner)
+      {
+        switch(this.owner.class)
+        {
+        case 'Note':
+          this._width = 30 + (this.owner.alteration ? 18 : 0)
+          break
+        }
+      }
+      if(!this._width) this._width == this.DEFAULT_WIDTH
+      return this._width
+    }
+  },
   /**
     * Retourne le code HTML du cercle
     * @property {String} code_html

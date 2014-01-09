@@ -131,11 +131,21 @@ $.extend(Note.prototype,{
   {
     if(this.circle) this.circle.remove()
     if(undefined == params) params = {}
-    params = $.extend(params, {top:this.top - 6, left:this.left - 6})
+    var x = this.left - (6 + (this.alteration ? 18 : 0))
+    var y = this.top  - (6 + (this.alteration ? 9  : 0))
+    params = $.extend(params, {owner:this, top:y, left:x})
     this.circle = new Circle(params)
     Anim.Dom.add(this.circle)
   },
-  
+  /**
+    * Retirer le cercle entourant la note
+    * @method unsurround
+    */
+  unsurround:function()
+  {
+    if(!this.circle) return F.error("La note "+this.note_str+" n'est pas entourée !")
+    this.circle.remove()
+  },
   /**
     * Met la note en exergue (bleue et au-dessus)
     * @method exergue

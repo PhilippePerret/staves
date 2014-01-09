@@ -107,7 +107,7 @@ $.extend(window.ObjetClass.prototype,{
         obj.animate({opacity:1}, Anim.transition.show, complete)
         break
       case 'remove':
-        obj.animate({opacity:0}, Anim.transition.show, complete)
+        obj.animate({opacity:0}, Anim.transition.show, function(){obj.remove(); complete()})
         break
       case 'moveTo':
         if(undefined == params.left)  params.left = obj.left

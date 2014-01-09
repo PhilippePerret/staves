@@ -2,3 +2,14 @@
 NEW_STAFF(SOL)
 no=NOTE(a4)
 no.surround()
+WAIT(2)
+no2=NOTE(\'cd4\')
+no2.surround({color:red})
+no.circle.remove()
+no.surround({square:true})
+WAIT(2)
+no2.unsurround()
+# Devrait changer la taille du rectangle
+no.moveTo(\'ad4\')
+WAIT(2)
+RESET

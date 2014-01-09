@@ -284,9 +284,18 @@ Les paramètres peuvent être&nbsp;:
   <dd>Joue sur le diamètre du cercle/rectangle pour laisser plus ou moins de place. Utile lorsque plusieurs notes assez proches sont entourées</dd>
 </dl>
 
+####Retirer le cercle
+
+Deux commandes pour retirer le cercle de la note&nbsp;:
+
+    maNote.circle.remove()
+
+Ou&nbsp;:
+
+    maNote.unsurround()
 
 <a name="note_remove"></a>
-###Détruire d'une note
+###Détruire une note
 
 Pour détruire la note (la supprimer de l'affichage, utiliser :
 
