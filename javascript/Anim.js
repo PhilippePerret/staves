@@ -33,6 +33,13 @@ $.extend(window.Anim,{
   name: null,
   
   /**
+    * Coefficiant de vitesse (déterminé par le slider)
+    * De -100 à 100
+    * @property {Float} coef_speed
+    */
+  coef_speed: 1,
+  
+  /**
     * Définition de la vitesse (ou plutôt la durée) des transitions
     * Notes
     * -----
@@ -49,12 +56,40 @@ $.extend(window.Anim,{
     note_moved  : 1000,
     wait        : 1000 // multiplicateur de secondes
   },
+  /**
+    * Data vitesse (constantes)
+    * Serviront à calculer transition_reg en cas de modification de
+    * la vitesse de l'animation
+    * @property {Object} TRANSITIONS
+    * @static
+    * @final
+    */
+  TRANSITIONS:{
+    step        : 500,
+    show        : 400,
+    note_moved  : 1000,
+    wait        : 1000 // multiplicateur de secondes
+  },
+  /**
+    * Vitesses normales
+    * Notes
+    * -----
+    *   * Ces valeurs pourront être modifiées par le `coef_speed` déterminé
+    *     par le slider
+    * @property {Object} transition_reg
+    */
   transition_reg:{
     step        : 500,
     show        : 400,
     note_moved  : 1000,
     wait        : 1000 // multiplicateur de secondes
   },
+  /**
+    * Vitesses flash
+    * @property {Object} transition_flash
+    * @static
+    * @final
+    */
   transition_flash:{
     step        : 1,
     show        : 1,

@@ -46,6 +46,40 @@ $.extend(Anim,{
     delete this.Step.list
     $('input#btn_anim_start').val("Start")
     this.on = false
+  },
+
+  /**
+    * Définit le slider de vitesse de l'animation
+    * @method set_slider
+    */
+  set_slider:function()
+  {
+    $('div#vitesse_animation').slider({
+      step    : 1,
+      value   : 11,
+      min     : 1,
+      max     : 21,
+      change  : $.proxy(Anim.on_change_vitesse, Anim)
+    })
+  },
+  /**
+    * Change la vitesse de l'animation
+    * Notes
+    *   * Appelé par le slider de vitesse du contrôleur
+    *     OU par la commande SPEED(...) — qui modifie le slider
+    *   * Ne pas mettre d'argument (car le premier est l'évènement)
+    *
+    * @method on_change_vitesse
+    */
+  on_change_vitesse:function()
+  {
+    var new_coef = $('div#vitesse_animation').slider('value')
+    this.coef_speed = parseFloat(11 / new_coef)
+    for(var prop in this.TRANSITIONS)
+    {
+      this.transition_reg[prop] = parseInt(this.TRANSITIONS[prop] * this.coef_speed)
+    }
+    this.transition = this.transition_reg
   }
   
 })
