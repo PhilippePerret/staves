@@ -116,6 +116,27 @@ $.extend(Note.prototype,{
     this.exergue()
     this.operation([this.obj], 'moveTo', {top: this.top})
   },
+  
+  /**
+    * Construit une flèche partant de la note
+    * @method arrow
+    * @param {Object} params Paramètres optionnels
+    *   @param  {Number} params.orientation   L'angle d'orientation de la flèche
+    *                                         Par défaut : 180 (horizontal)
+    */
+  arrow:function(params)
+  {
+    if(this._arrow) this._arrow.remove()
+    $.extend(this.arrow, ARROW_METHODS)
+    this.arrow.owner = this
+    if(undefined == params) params = {}
+    var x = this.left + 20
+    var y = this.top
+    params = $.extend(params, {owner:this, top:y, left:x})
+    this._arrow = new Arrow(params)
+    Anim.Dom.add(this._arrow)
+  },
+  
   /**
     * Entoure la note
     * Notes

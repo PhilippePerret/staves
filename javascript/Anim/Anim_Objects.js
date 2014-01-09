@@ -33,6 +33,11 @@ FONCTIONS_ANIM_OBJETS = {
     * @method CHORD
     */
   CHORD:function(notes, params){CHORD(notes, params)},
+  /** Commande pour construire une flèche sans la placer dans une variable
+    * cf. la fonction ARROW
+    * @method ARROW
+    */
+  ARROW:function(params){ARROW(params)},
   
   /**
     * Méthode pour attendre +laps+ secondes avant de poursuivre
@@ -160,6 +165,7 @@ FONCTIONS_ANIM_OBJETS = {
     Anim.set_speed(indice_vitesse + 1)
     NEXT_STEP(no_timeout = true)
   }
+  
 }
 
 METHODES_ANIM_OBJETS = {

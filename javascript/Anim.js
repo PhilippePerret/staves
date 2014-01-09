@@ -68,6 +68,7 @@ $.extend(window.Anim,{
     step        : 500,
     show        : 400,
     note_moved  : 1000,
+    transform   : 500,  // Transformation comme l'allongement
     wait        : 1000 // multiplicateur de secondes
   },
   /**
@@ -82,7 +83,8 @@ $.extend(window.Anim,{
     step        : 500,
     show        : 400,
     note_moved  : 1000,
-    wait        : 1000 // multiplicateur de secondes
+    transform   : 500,  // Transformation comme l'allongement
+    wait        : 1000  // multiplicateur de secondes
   },
   /**
     * Vitesses flash
@@ -94,6 +96,7 @@ $.extend(window.Anim,{
     step        : 1,
     show        : 1,
     note_moved  : 1,
+    transform   : 1,
     wait        : 1
   },
   /**
