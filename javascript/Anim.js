@@ -100,6 +100,27 @@ $.extend(window.Anim,{
     wait        : 1
   },
   /**
+    * Toutes les préférences
+    * @property {Object} prefs
+    * @static
+    */
+  prefs:{
+    offset_harmony      : 0,
+    offset_chord_mark   : 0
+  },
+  /**
+    * Définit une préférence (souvent : à la volée)
+    * @method set_pref
+    * @param  {String} pref       La préférence à régler
+    * @param  {Number} offset     Le décalage à lui faire subir par rapport à la position courante
+    * @param  {Boolean} next_step Si true (default) passe à l'étape suivante (sans timeout)
+    */
+  set_pref:function(pref, offset, next_step)
+  {
+    this.prefs[pref] += offset
+    if(undefined == next_step || next_step == true) NEXT_STEP(no_timeout=true)
+  },
+  /**
     * Activer ou désactiver le mode flash
     * En mode flash, l'animation se passe très vite jusqu'à un certain point
     * d'où on repart normalement.
@@ -192,6 +213,10 @@ $.extend(window.Anim,{
     this.staves     = []
     this.current_x  = 100 // TODO: à recalculer d'après l'armure et la métrique
     Console.cursor_offset = 0
+    // Il faut remettre toutes les préférences au départ
+    L(this.prefs).each(function(key, value){
+      if(key.substring(0,7) == 'offset_') Anim.prefs[key] = 0
+    })
   },
   
   /** Raccourci pour Anim.Dom.show

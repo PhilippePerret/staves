@@ -164,6 +164,33 @@ FONCTIONS_ANIM_OBJETS = {
     if(indice_vitesse < 0 || indice_vitesse > 20) throw "L'indice vitesse est invalide (SPEED(0&lt;->21))"
     Anim.set_speed(indice_vitesse + 1)
     NEXT_STEP(no_timeout = true)
+  },
+  
+  /* ---------------------------------------------------------------------
+   *    PRÉFÉRENCES
+   */
+  
+  /**
+    * Décalage des marques d'harmonie par rapport à la portée
+    * @method OFFSET_HARMONIE
+    * @param {Number} offset    Décalage par rapport à la valeur courante
+    *
+    */
+  OFFSET_HARMONY:function(offset)
+  {
+    Anim.set_pref('offset_harmony', offset)
+  },
+  /**
+    * Décalage des marques d'accords par rapport à la portée
+    * Noter que la valeur sera retirée, pour qu'une valeur positive éloigne de
+    * la portée
+    * @method OFFSET_CHORD_MARK
+    * @param {Number} offset    Décalage par rapport à la valeur courante
+    *
+    */
+  OFFSET_CHORD_MARK:function(offset)
+  {
+    Anim.set_pref('offset_chord_mark', offset)
   }
   
 }

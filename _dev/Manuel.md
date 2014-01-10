@@ -575,10 +575,10 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
   * [Types spéciaux de texte (accord, harmonie, etc.)](#types_speciaux_texte)
   * [Créer un texte pour l'animation](#create_texte_animation)
   * [Créer un texte pour un objet](#create_texte_objet)
-  
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)
-  
+* [Définir des valeurs par défaut](#valeur_defaut_textes)
+
 <a name="intro_textes"></a>
 ###Introduction
 
@@ -671,6 +671,26 @@ Noter que cette méthode supprime l'affichage du texte, mais l'objet `texte` exi
     maNote.texte.show()
 
 … qui ré-affichera ce texte.
+
+<a name="valeur_defaut_textes"></a>
+###Définir les valeurs par défaut
+
+Noter que toutes ces valeurs peuvent être redéfinies “à la volée“ en cours d'animation.
+
+####Décalage des marques de l'harmonie par rapport à la portée
+
+Une valeur positive fera descendre les marques, les éloignant de la portée, une valeur négative rapprochera les marques de la portée.
+
+    OFFSET_HARMONY(<decalage par rapport a valeur actuelle>)
+  
+####Décalage des marques des accords au-dessus de la portée
+
+Une valeur positive fera MONTER l'accord, l'éloignant de la portée, une valeur négative rapprochera la marque de la portée.
+
+    OFFSET_CHORD_MARK(<decalage par rapport à la valeur actuelle>)
+    
+
+---------------------------------------------------------------------
 
 <a name="les_fleches"></a>
 ##Les flèches

@@ -265,6 +265,7 @@ Object.defineProperties(Txt.prototype,{
     * -----
     *   * Ce top dépend de pas mal de choses et notamment du type du texte (finger,
     *     harmony, etc.)
+    *   * Il peut être également influencer par les décalages des préférences
     *
     * @property {Number} top
     */
@@ -279,8 +280,11 @@ Object.defineProperties(Txt.prototype,{
         {
         case harmony:
         case cadence:
-          top += 60; break;
-        case chord:   top -= 40; break;
+          top += 60 + Anim.prefs.offset_harmony
+          break
+        case chord:   
+          top -= 40 + Anim.prefs.offset_chord_mark
+          break
         default:
           top = Math.min(top, this.owner.top) - 20
         }
@@ -311,6 +315,11 @@ Object.defineProperties(Txt.prototype,{
       return this._left
     }
   },
+  /**
+    * Retourne le vrai décalage left du texte par rapport à l'objet en
+    * fonction de son type
+    * @property {Number} real_left
+    */
   "real_left":{
     get:function()
     {
