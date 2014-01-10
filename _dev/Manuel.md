@@ -572,8 +572,10 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
 
 * [Introduction aux textes](#intro_textes)
 * [Créer un texte](#create_texte)
+  * [Types spéciaux de texte (accord, harmonie, etc.)](#types_speciaux_texte)
   * [Créer un texte pour l'animation](#create_texte_animation)
   * [Créer un texte pour un objet](#create_texte_objet)
+  
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)
   
@@ -584,6 +586,50 @@ Les textes peuvent exister pour l'animation en général (ils sont alors écrits
 
 <a name="create_texte"></a>
 ###Créer un texte
+
+<a name="types_speciaux_texte"></a>
+####Types spéciaux de texte
+
+Par défaut, un texte est "normal", il s'écrit tel qu'il est défini.
+
+Mais il existe des types qui peuvent être définis grâce à la propriété `type` envoyée en paramètres&nbsp;:
+
+<dl>
+  <dt>harmony</dt>
+  <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie cadencielle.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels.</dd>
+  <dt>chord</dt>
+  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence.</dd>
+</dl>
+
+Par exemple, pour indiquer que l'accord est un premier degré sous son deuxième renversement&nbsp;:
+
+    monAccord=CHORD('g4 c5 e5')
+    monAccord.write("I**",{type:harmony})
+
+Il existe aussi le raccourci&nbsp;:
+
+    monAccord.harmony("I**")
+
+Noter que pour allonger la barre inférieur de la marque d'harmonie, on peut ajouter le paramètre `width` qui sera le nombre de pixels désiré. Par exemple&nbsp;:
+
+    monAccord.write("I**", {type:harmony, width:100})
+    OU
+    monAccord.harmony("I**", {width:100})
+
+Pour indiquer une **CADENCE** (ajout de barre en bas et sur le bord droit du texte)&nbsp;:
+
+    monAccord.write("I", {type:cadence})
+    OU
+    monAccord.cadence("I")
+
+Pour indiquer le **NOM DE L'ACCORD** au-dessus des notes&nbsp;:
+
+    monAccord.write("C", {type:chord})
+
+… ou le raccourci `chord_mark`&nbsp;:
+
+    monAccord.chord_mark("C")
+
 
 <a name="create_texte_animation"></a>
 ####Créer un texte pour l'animation

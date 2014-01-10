@@ -172,18 +172,18 @@ Object.defineProperties(ObjetClass.prototype,{
       this._left = left
       if(this.obj) this.obj.css('left', left)
     }
-  },
-  /**
-    * Taille de l'objet
-    * Si `this.obj` existe, la redéfinition de la valeur modifie la taille de
-    * l'objet
-    * @property {Number} width
-    */  
-  "width":{
-    get:function(){return this._width || this.DEFAULT_WIDTH},
-    set:function(w){
-      this._width = w
-      if(this.obj) this.obj.css('width', w+"px")
-    }
-  }
+  }//,
+  // /**
+  //   * Taille de l'objet
+  //   * Si `this.obj` existe, la redéfinition de la valeur modifie la taille de
+  //   * l'objet
+  //   * @property {Number} width
+  //   */  
+  // "width":{
+  //   get:function(){return this._width || this.DEFAULT_WIDTH},
+  //   set:function(w){
+  //     this._width = w
+  //     if(this.obj) this.obj.css('width', w+"px")
+  //   }
+  // }
 })

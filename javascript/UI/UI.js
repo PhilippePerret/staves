@@ -24,9 +24,7 @@ $.extend(UI,{
   
     // dlog("Dimension : "+x)
     anim_width      = parseInt(x * 70/100)
-    dlog("Largeur animation : "+anim_width)
     anim_height     = parseInt(y * 78/100)
-    dlog("Hauteur animation : "+anim_height)
     console_width   = x - ( anim_width + 10 + 32)
   
     $('section#animation').css({

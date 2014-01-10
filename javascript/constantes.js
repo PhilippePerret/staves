@@ -16,5 +16,6 @@ const green   = 'green'
 const GREEN   = 'green'
 
 const harmony = 'harmony'
+const cadence = 'cadence'
 const chord   = 'chord'
 const finger  = 'finger'

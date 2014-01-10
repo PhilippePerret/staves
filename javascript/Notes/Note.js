@@ -331,7 +331,7 @@ $.extend(Note.prototype,{
     */
   show:function(params)
   {
-    dlog("-> note.show "+this.note_str)
+    // dlog("-> note.show "+this.note_str)
     this.operation(this.objets, 'show')
   },
   /**

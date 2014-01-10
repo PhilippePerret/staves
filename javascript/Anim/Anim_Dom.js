@@ -30,7 +30,7 @@ Anim.Dom = {
     */
   show:function(obj, params)
   {
-    dlog("-> Anim.Dom.show / params:");dlog(params)
+    // dlog("-> Anim.Dom.show / params:");dlog(params)
     if(undefined == params) params = {}
     if(undefined == params.complete) params.complete = NEXT_STEP
     if(MODE_FLASH)

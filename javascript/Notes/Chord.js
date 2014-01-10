@@ -11,10 +11,7 @@
   */
 window.CHORD = function(strnotes, params)
 {
-  dlog("-> CHORD")
-  var accord = new Chord(strnotes, params)
-  dlog("instance Chord:");dlog(accord)
-  return accord
+  return new Chord(strnotes, params)
 }
 
 /**
@@ -28,18 +25,52 @@ window.CHORD = function(strnotes, params)
   */
 window.Chord = function(strnotes, params)
 {
+  /**
+    * Identifiant absolu de l'accord
+    * Note : Pour le moment, il n'est pas utilisé, mais plus tard, on pourra
+    * imaginer consigner les mêmes types d'éléments dans des Hash de Anim.Objects
+    * @property {String} id
+    */
+  this.id = 'chd'+(new Date()).getTime()
+  /**
+    * Class d'un type accord
+    * @property {String} class
+    * @static @final 
+    * @default 'chord'
+    */
   this.class = 'chord'
   /**
+    * Position left de l'accord (par défault le Anim.current_x courant)
+    * @property {Number} left
+    */
+  this.left = Anim.current_x
+  /**
     * Liste {Array} des instances {Note} des notes de l'accord
+    * Notes
+    * -----
+    *   * Les notes (strnotes) seront dispatchés une fois que le left
+    *     sera éventuellement redéfini par les paramètres
+    *
     * @property {Array of Note} notes
     */
   this.notes = [null]
-  var notes = strnotes.split(' ')
+  
+  /**
+    * La portée de l'accord
+    * Note : Elle peut être surclassée par les paramètres
+    * @property {Staff} staff
+    * @static
+    */
+  this.staff = Anim.current_staff
+  
+  if(undefined == params) params = {}
+  for(var prop in params) this[prop] = params[prop]
+  
   var me = this
-  L(notes).each(function(strnote){
+  L(strnotes.split(' ')).each(function(strnote){
     me.notes.push(NOTE(strnote,{dont_build:true}))
   })
-
+  
   // On peut construire les notes
   Anim.wait(1)
   this.build()  

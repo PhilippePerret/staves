@@ -21,7 +21,7 @@ window.METHODES_TEXTE = {
     */
   write:function(texte, params)
   {
-    dlog("-> <Note>.write")
+    // dlog("-> <Note>.write")
     if(undefined == params) params = {}
     params.texte  = texte
     this.texte    = TXT(this, params)
@@ -38,6 +38,31 @@ window.METHODES_TEXTE = {
     if(undefined == params) params = {}
     params.type = harmony
     this.write(texte, params)
+  },
+  /**
+    * Raccourci pour écrire un texte de type cadence
+    * @method cadence
+    * @param  {String} texte    Le texte à écrire
+    * @param  {Object} params   Paramètres optionnels
+    */
+  cadence:function(texte, params)
+  {
+    if(undefined == params) params = {}
+    params.type = cadence
+    this.write(texte, params)
+  },
+  /**
+    * Raccourci pour écrire un texte de type 'chord' (un accord placé au-dessus
+    * de la portée et au-dessus de l'élément porteur)
+    * @method chord_mark
+    * @param  {String} accord   L'accord à marquer
+    * @param  {Object} params   Les paramètres optionnels
+    */
+  chord_mark:function(accord, params)
+  {
+    if(undefined == params) params = {}
+    params.type = chord
+    this.write(accord, params)
   }
 }
 /**
@@ -59,9 +84,10 @@ window.PROPERTIES_TEXTE = {
   */
 window.TXT = function(owner, params)
 {
-  if(!MODE_FLASH) Anim.wait(1)
+  // Anim.wait(1)
   return new Txt(owner, params)
 }
+// Alias
 window.TEXTE = window.TXT
 
 /**
@@ -79,12 +105,11 @@ window.Txt = function(owner, params)
   this.vOffset  = null
   this.hOffset  = null
 
-  if(undefined != params && 'string'==typeof params){
-    this.texte = params
-    delete params
-  }
   ObjetClass.call(this, params)
-  
+  // Apparemment, ça ne fonctionne pas, de dispatcher les paramètres avec
+  // ObjetClass, donc je le fais ici
+  // var me = this
+  // L(params || {}).each(function(k,v){me[k] = v})
 }
 Txt.prototype = Object.create( ObjetClass.prototype )
 Txt.prototype.constructor = Txt
@@ -133,7 +158,7 @@ $.extend(Txt.prototype,{
     */
   show:function(params)
   {
-    dlog("-> <Txt>.show("+params+")")
+    // dlog("-> <Txt>.show("+params+")")
     if(MODE_FLASH)
     {
       this.obj[0].style.opacity = 1
@@ -158,7 +183,9 @@ $.extend(Txt.prototype,{
     */
   positionne:function()
   {
-    this.obj.css({top:this.top+"px", left:this.real_left+"px"})
+    var dpos = {top:this.top+"px", left:this.real_left+"px"}
+    if(this.width) dpos.width = this.width+"px"
+    this.obj.css(dpos)
   },
   /**
     * Ré-initialisation du texte après la définition de valeur qui peuvent
@@ -193,13 +220,14 @@ Object.defineProperties(Txt.prototype,{
           switch(type)
           {
           case harmony:
+          case cadence:
             // Un texte d'harmonie peut se terminer par des "*" qui 
             // définissent le renversement
             if(found = t.match(/([\*•]+)$/))
             {
-              dlog("Oui, le texte se finit par des * : " + found + ":"+(typeof found))
               var renv = found[1].replace(/\*/g, '•')
               var renv_len = renv.length
+              if(renv_len == 2) renv = "&nbsp;"+renv // pour bon alignement
               t = t.substring(0, t.length - renv_len)
               return '<div class="center inline">'+
                         '<div class="renversement">'+renv+'</div>' +
@@ -249,8 +277,10 @@ Object.defineProperties(Txt.prototype,{
         var top = this.owner.staff.top || Anim.current_staff.top
         switch(this.type)
         {
-        case harmony: top += 60; break;
-        case chord:   top -= 20; break;
+        case harmony:
+        case cadence:
+          top += 60; break;
+        case chord:   top -= 40; break;
         default:
           top = Math.min(top, this.owner.top) - 20
         }
@@ -284,15 +314,21 @@ Object.defineProperties(Txt.prototype,{
   "real_left":{
     get:function()
     {
-      var left = this.owner.left
+      var left = this.left
       switch(this.type)
       {
       case harmony:
+        var w_box = this.obj.width()
+        this._real_left = left - w_box + 7
+        break
+      case cadence:
         // Pour un texte d'harmonie, le bord droit doit être aligné au possesseur,
         // à peine plus à droite.
         var w_box = this.obj.width()
-        dlog({'left':left, 'width box text':w_box, 'real left': left-w_box})
         this._real_left = left - w_box + 4
+        break
+      case chord:
+        this._real_left = left - 10
         break
       default:
         this._real_left = left - 10
@@ -319,7 +355,9 @@ Object.defineProperties(Txt.prototype,{
     get:function(){
       var css = ['text']
       if(this.type) css.push(this.type)
-      return '<div id="'+this.id+'" class="'+css.join(' ')+'">'+this.texte+'</div>'
+      var style = []
+      if(this.width) style.push("width:"+this.width+"px;")
+      return '<div id="'+this.id+'" class="'+css.join(' ')+'" style="'+style.join('')+'">'+this.texte+'</div>'
     }
   }
 })

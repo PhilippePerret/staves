@@ -7,27 +7,40 @@ div.text {
 
 /* Style pour un NOM D'ACCORD */
 div.text.chord {
+  font-family     : Verdana;
+  font-size       : 14pt;
   font-weight     : bold;
 }
-/* Style pour un CHIFFRAGE D'HARMONIE */
-div.text.harmony {
-  padding       : 20px 10px 1px;
-  text-align    : left;
-  border-width  : 0 1px 1px 0;
-  border-style  : solid;
-  border-color  : #000;
+/* Style pour CHIFFRAGE D'HARMONIE et CADENCE */
+div.text.harmony, div.text.cadence {
   font-family   : 'Times New Roman';
   font-variant  : small-caps;
   font-size     : 18pt;
   font-weight   : bold;
 }
 
-div.text.harmony div.renversement {
+/* Style pour un CHIFFRAGE D'HARMONIE */
+div.text.harmony {
+  padding       : 20px 10px 1px;
+  text-align    : right;
+}
+/* Style pour une CADENCE */
+div.text.cadence {
+  padding       : 20px 10px 1px;
+  text-align    : right;
+  border-width  : 0 1px 1px 0;
+  border-style  : solid;
+  border-color  : #000;
+}
+
+
+div.text.harmony div.renversement,
+div.text.cadence div.renversement {
   display     : inline-block;
   position    : absolute;
   font-family : Courier;
   font-size   : 14pt;
-  left        : -3px;
+  right       : -1px;
   top         : 8px;
   width       : 40px;
   text-align  : center;
