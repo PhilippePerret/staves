@@ -214,8 +214,8 @@ De l'octave 0 (qui n'existe pas en français) à l'octave 7 il existe des consta
 
 Les deux formules suivantes sont donc possible :
 
-no=NOTE(ad5)
-no=NOTE('ad5')
+    no=NOTE(ad5)
+    no=NOTE('ad5')
 
 Note: Attention à ne pas donner à une variable note le nom d'une de ces constantes. Par exemple, si on fait :
 
@@ -290,7 +290,7 @@ Pour mettre en exergue une note de façon plus forte que la méthode [exergue](#
 
 Syntaxe&nbsp;:
 
-<note>.surround([<parameters>])
+    <note>.surround([<parameters>])
   
 … où `<note>` est une instance de Note, et `<parameters>` sont les paramètres optionnels envoyés.
     
@@ -436,7 +436,7 @@ Activer une portée signifie que tous les pas suivants la viseront. Par exemple,
 
     ACTIVE_STAFF(<indice de la portee>)
   
-… où `<indice de la portee>` est son rang dans l'affichage, en partant de 1 et du haut. Donc la portée la plus en haut s'active par :
+… où `<indice de la portee>` est son rang dans l'affichage, en partant de 1 et du haut. Donc la portée la plus en haut s'active par&nbsp;:
     
     ACTIVE_STAFF(1)
     
@@ -508,7 +508,7 @@ Noter aussi que `bottom` et `top` sont complètement indépendants, pour `bottom
 ###Introduction
 On peut produire en un seul pas une gamme à l'aide de la commande :
 
-<var>=SCALE(<tonalité>[, <paramters>])
+    <var>=SCALE(<tonalité>[, <paramters>])
 
 * `<var>` est un nom de variable quelconque
 * `<tonalité>` est la tonalité exprimée par une seule lettre (anglaise) de "a" (la) à "g" (sol). On peut ajouter toutes les altérations voulues (cf. [Les altérations](#les_alterations)). Noter que par défaut, suivant la portée active, l'animation affiche ses notes à la hauteur où elles produiront le moins de lignes supplémentaires.
@@ -803,7 +803,7 @@ Produira une animation qui fera s'allonger la flèche de sa longueur actuelle à
 
 Noter que cette méthode **crée réellement une animation** c'est-à-dire fait varier sous nos yeux la taille de la flèche. Si on veut définir la taille de la flèche au départ, utiliser plutôt le paramètre `width` dans les paramètres envoyés à la création de la flèche (cf. [définition de la flèche](#definition_arrow)).
 
-<a name="method_move_arrow">></a>
+<a name="method_move_arrow"></a>
 ####Déplacer la flèche
 
 Une flèche se déplace à l'aide de la méthode&nbsp;:
@@ -853,3 +853,5 @@ Par exemple&nbsp;:
 
 <a name="fleches_independantes"></a>
 ###Flèches indépendantes
+
+[TODO]

@@ -577,8 +577,9 @@ LEFT(100)
 
 <p>Les deux formules suivantes sont donc possible :</p>
 
-<p>no=NOTE(ad5)
-no=NOTE('ad5')</p>
+<pre><code>no=NOTE(ad5)
+no=NOTE('ad5')
+</code></pre>
 
 <p>Note: Attention à ne pas donner à une variable note le nom d'une de ces constantes. Par exemple, si on fait :</p>
 
@@ -669,7 +670,8 @@ maNote.unexergue()  # =&gt; etat normal
 
 <p>Syntaxe&nbsp;:</p>
 
-<p><note>.surround([<parameters>])</p>
+<pre><code>&lt;note&gt;.surround([&lt;parameters&gt;])
+</code></pre>
 
 <p>… où <code>&lt;note&gt;</code> est une instance de Note, et <code>&lt;parameters&gt;</code> sont les paramètres optionnels envoyés.</p>
 
@@ -842,7 +844,7 @@ maNote.write("Une seconde !")
 <pre><code>ACTIVE_STAFF(&lt;indice de la portee&gt;)
 </code></pre>
 
-<p>… où <code>&lt;indice de la portee&gt;</code> est son rang dans l'affichage, en partant de 1 et du haut. Donc la portée la plus en haut s'active par :</p>
+<p>… où <code>&lt;indice de la portee&gt;</code> est son rang dans l'affichage, en partant de 1 et du haut. Donc la portée la plus en haut s'active par&nbsp;:</p>
 
 <pre><code>ACTIVE_STAFF(1)
 </code></pre>
@@ -929,7 +931,8 @@ note.moveTo(c5)
 
 <p>On peut produire en un seul pas une gamme à l'aide de la commande :</p>
 
-<p><var>=SCALE(&lt;tonalité>[, <paramters>])</p>
+<pre><code>&lt;var&gt;=SCALE(&lt;tonalité&gt;[, &lt;paramters&gt;])
+</code></pre>
 
 <ul>
 <li><code>&lt;var&gt;</code> est un nom de variable quelconque</li>
@@ -1290,7 +1293,7 @@ maNote.arrow.size(100)
 
 <p>Noter que cette méthode <strong>crée réellement une animation</strong> c'est-à-dire fait varier sous nos yeux la taille de la flèche. Si on veut définir la taille de la flèche au départ, utiliser plutôt le paramètre <code>width</code> dans les paramètres envoyés à la création de la flèche (cf. <a href="#definition_arrow">définition de la flèche</a>).</p>
 
-<p><a name="method_move_arrow">></a></p>
+<p><a name="method_move_arrow"></a></p>
 
 <h4>Déplacer la flèche</h4>
 
@@ -1348,5 +1351,7 @@ maNote.arrow.remove() &lt;--
 <p><a name="fleches_independantes"></a></p>
 
 <h3>Flèches indépendantes</h3>
+
+<p>[TODO]</p>
 </body>
 </html>
