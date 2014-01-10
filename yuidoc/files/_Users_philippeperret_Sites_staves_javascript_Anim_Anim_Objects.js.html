@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -146,6 +168,29 @@ if(undefined == window.Anim) window.Anim = {}
 Anim.Objects = {}
 
 FONCTIONS_ANIM_OBJETS = {
+
+  /**
+    * Commande pour construire une gamme sans la placer dans une variable
+    * Cf. la fonction SCALE.
+    * @method SCALE
+    */
+  SCALE:function(scale, params){SCALE(scale, params)},
+  /** Commande pour construire une note sans la placer dans une variable
+    * cf. la fonction NOTE
+    * @method NOTE
+    */
+  NOTE:function(note, params){NOTE(note, params)},
+  /** Commande pour construire un accord sans le placer dans une variable
+    * cf. la fonction CHORD
+    * @method CHORD
+    */
+  CHORD:function(notes, params){CHORD(notes, params)},
+  /** Commande pour construire une flèche sans la placer dans une variable
+    * cf. la fonction ARROW
+    * @method ARROW
+    */
+  ARROW:function(params){ARROW(params)},
+  
   /**
     * Méthode pour attendre +laps+ secondes avant de poursuivre
     * l&#x27;animation
@@ -157,7 +202,8 @@ FONCTIONS_ANIM_OBJETS = {
     */
   WAIT:function(laps)
   {
-    Anim.timer = setTimeout($.proxy(Anim.auto_next_step, Anim), laps * 1000)
+    if(MODE_FLASH) return Anim.Step.auto_next()
+    Anim.timer = setTimeout($.proxy(Anim.Step.auto_next, Anim.Step), laps * Anim.transition.wait)
   },
   WRITE:function(texte)
   {
@@ -173,7 +219,22 @@ FONCTIONS_ANIM_OBJETS = {
   NEW_STAFF:function(cle, params)
   {
     Anim.current_staff = Staff.create(cle, params || {})
-    NEXT_STEP()
+    NEXT_STEP(no_timeout = true)
+  },
+  
+  /**
+    * Déplace le &quot;marker&quot; vers la droite sur les portées (pour inscription) 
+    * Note
+    *   * Cela redéfinit la valeur de Anim.current_x
+    * @method LEFT
+    * @param  {Number} offset   Optionnellement, le déplacement à effectuer (en pixels)
+    *                           Par défaut, Anim.defaut.hoffset
+    */
+  LEFT:function(offset)
+  {
+    if(undefined == offset) offset = Anim.defaut.hoffset
+    Anim.current_x += parseInt(offset,10)
+    NEXT_STEP(no_timeout = true)
   },
   
   /**
@@ -184,9 +245,42 @@ FONCTIONS_ANIM_OBJETS = {
   ACTIVE_STAFF:function(indice)
   {
     Anim.current_staff = Anim.staves[indice-1]
-    NEXT_STEP()
+    NEXT_STEP(no_timeout = true)
   },
   
+  /**
+    * Suppression des lignes supplémentaires
+    * @method REMOVE_SUPLINE
+    * @param  {Object}  params  Les paramètres pour supprimer
+    *   @param  {Number}  params.staff    L&#x27;indice-portée de la portée dont il faut supprimer des lignes
+    *                                     Par défaut, c&#x27;est la portée active.
+    *   @param  {Number|Array}  params.bottom   La ou les lignes à supprimer en bas
+    *   @param  {Number|Array}  params.top      La ou les lignes à supprimer en haut
+    *   @param  {Number}        params.xoffset  Position horiztonale de la ligne (Anim.current_x par défaut)
+    */
+  REMOVE_SUPLINE:function(params)
+  {
+    if(undefined == params) return F.error(&quot;Il faut donner les paramètres pour la suppression des lignes supplémentaires !&quot;)
+    if(undefined == params.staff) params.staff = Anim.current_staff.indice
+    if(undefined == params.xoffset) params.xoffset = Anim.current_x
+    if(params.bottom)
+    {
+      if(&#x27;number&#x27; == typeof params.bottom) params.bottom = [params.bottom]
+      L(params.bottom).each(function(indice_supline){
+        var id = &quot;supline-&quot;+params.staff+params.xoffset+&quot;-&quot;+indice_supline+&quot;bot&quot;
+        $(&#x27;img#&#x27;+id).fadeOut(Anim.transition.show)
+      })
+    }
+    if(params.top)
+    {
+      if(&#x27;number&#x27; == typeof params.top) params.top = [params.top]
+      L(params.top).each(function(indice_supline){
+        var id = &quot;supline-&quot;+params.staff+params.xoffset+&quot;-&quot;+indice_supline+&quot;top&quot;
+        $(&#x27;img#&#x27;+id).fadeOut(Anim.transition.show)        
+      })
+    }
+    NEXT_STEP()
+  },
   /**
     * Nettoie l&#x27;animation. Si &#x60;with_staves&#x60; est true, on efface aussi les
     * portée
@@ -204,12 +298,83 @@ FONCTIONS_ANIM_OBJETS = {
   {
     if(undefined == with_staves) with_staves = false
     var not = &quot;&quot;
-    if(!with_staves) not = &quot;:not(.staff, .cle)&quot;
+    if(!with_staves) not = &quot;:not(.staffline, .cle)&quot;
     $(&#x27;section#animation *&#x27;+not).remove()
     if(with_staves) Anim.staves = []
+    NEXT_STEP()
+  },
+  
+  /**
+    * Modifie la vitesse de l&#x27;animation
+    * @method SPEED
+    * @param {Number} indice_vitesse Une valeur de 0 à 20
+    */
+  SPEED:function(indice_vitesse)
+  {
+    if(undefined == indice_vitesse) indice_vitesse = 10
+    if(isNaN(indice_vitesse)) throw &quot;Il faut donner un nombre pour la vitesse ! (SPEED)&quot;
+    if(indice_vitesse &lt; 0 || indice_vitesse &gt; 20) throw &quot;L&#x27;indice vitesse est invalide (SPEED(0&amp;lt;-&gt;21))&quot;
+    Anim.set_speed(indice_vitesse + 1)
+    NEXT_STEP(no_timeout = true)
+  },
+  
+  /* ---------------------------------------------------------------------
+   *    PRÉFÉRENCES
+   */
+  
+  /**
+    * Décalage des marques d&#x27;harmonie par rapport à la portée
+    * @method OFFSET_HARMONIE
+    * @param {Number} offset    Décalage par rapport à la valeur courante
+    *
+    */
+  OFFSET_HARMONY:function(offset)
+  {
+    Anim.set_pref(&#x27;offset_harmony&#x27;, offset)
+  },
+  /**
+    * Décalage des marques d&#x27;accords par rapport à la portée
+    * Noter que la valeur sera retirée, pour qu&#x27;une valeur positive éloigne de
+    * la portée
+    * @method OFFSET_CHORD_MARK
+    * @param {Number} offset    Décalage par rapport à la valeur courante
+    *
+    */
+  OFFSET_CHORD_MARK:function(offset)
+  {
+    Anim.set_pref(&#x27;offset_chord_mark&#x27;, offset)
+  }
+  
+}
+
+METHODES_ANIM_OBJETS = {
+  /**
+    * Méthode qui reset l&#x27;affichage
+    * Produit
+    * -------
+    *   * Remet la position left (x) à la position de départ
+    *   * Efface tout sauf les portées
+    *   * Propriété complexe =&gt; appeler sans parenthèses
+    *
+    * @method RESET
+    */
+  &quot;RESET&quot;:{
+    get:function(){
+      Anim.current_x = 100
+      $(&#x27;section#animation *:not(.staffline, .cle)&#x27;).remove()
+      NEXT_STEP(no_timeout = true)
+    }
+  },
+  &quot;RESET_PREFERENCES&quot;:{
+    get:function(){
+      Anim.reset_prefs()
+      NEXT_STEP(no_timeout = true)
+    }
   }
 }
+
 $.extend(Anim.Objects, FONCTIONS_ANIM_OBJETS)
+Object.defineProperties(Anim.Objects, METHODES_ANIM_OBJETS)
     </pre>
 </div>
 

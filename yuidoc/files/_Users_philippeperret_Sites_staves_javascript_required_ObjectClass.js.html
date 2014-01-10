@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -134,10 +156,25 @@
   *
   * @class ObjetClass
   * @constructor
+  * @param  {Object} params   Paramètres optionnels, pour dispatcher des valeurs
+  *                           de propriétés dans l&#x27;instance.
   */
-window.ObjetClass = function()
+window.ObjetClass = function(params)
 {
+  /**
+    * Taille de l&#x27;objet
+    * -----------------
+    * Utiliser la propriété complexe &#x60;width&#x60; pour le (re-)définir
+    *
+    * @property {Number} _width    La taille du cercle
+    */
+  this._width = 30
   
+  if(undefined != params)
+  {
+    var me = this
+    L(params).each(function(prop,value){ me[prop] = value})
+  }
 }
 $.extend(window.ObjetClass.prototype,{
   /**
@@ -147,14 +184,180 @@ $.extend(window.ObjetClass.prototype,{
     *   @param  {Number} params.duree   La durée pour apparaitre (en millisecondes)
     *                                   Default: 400
     *   @param  {Function} params.complete  La méthode pour suivre
-    *                                       default: NEXT_STEP (Anim.next_step)
+    *                                       default: NEXT_STEP (Anim.Step.auto_next)
     */
   show:function(params)
   {
     if(undefined == params) params = {}
     if(undefined == params.complete) params.complete = NEXT_STEP
     Anim.show(this.obj, params)
+  },
+  
+  /**
+    * Destruction de l&#x27;objet DOM de l&#x27;objet
+    * Notes
+    * -----
+    *   * Pour être utilisé, l&#x27;objet doit obligatoirement posséder une propriété
+    *     &#x60;obj&#x60; qui retourne son objet DOM
+    *
+    * @method remove
+    * @async
+    * @param  {Object} params   Les paramètres optionnels
+    *   @param  {Function} params.complete    La méthode pour suivre (NEXT_STEP par défaut)
+    *
+    */
+  remove:function(params)
+  {
+    return this.operation([this.obj], &#x27;remove&#x27;, params)
+  },
+  
+  /**
+    * Positionne l&#x27;objet à son top/left
+    * @method positionne
+    */
+  positionne:function()
+  {
+    if(this.obj) this.obj.css({top:this.top, left:this.left})
+  },
+  /**
+    * Tentative d&#x27;une méthode générale qui permette de gérer un traitement 
+    * asynchrone de plusieurs éléments DOM de l&#x27;objet.
+    * Par exemple : on doit retirer une note qui possède une alteration et une
+    * marque de jeu (piqué). Pour la faire disparaitre, on utilise la méthode
+    * &#x60;animate&#x60; de jQuery qui est asynchrone. Et c&#x27;est seulement lorsque les trois
+    * élément du DOM ont été retiré (la note, l&#x27;altération, la marque du jeu) qu&#x27;on
+    * peut passer à la suite.
+    * Pour se faire, la méthode a besoin de connaître les objets à traiter.
+    * On les donne en premier argument ({Array}). Ensuite, la méthode a besoin de
+    * connaître l&#x27;opération à exécuter (&#x27;show&#x27;, &#x27;remove&#x27;, &#x27;moveTo&#x27;, etc.). On la
+    * donne en second argument.
+    * Enfin, la méthode a besoin des paramètres propres à cette méthode, par exemple
+    * la nouvelle position pour un &#x27;moveTo&#x27;.
+    * @method operation
+    * @param  {Array} objets La liste des objets (DOM) à traiter
+    * @param  {String} operation  L&#x27;opération à jouer
+    * @param  {Object} params Les paramètres nécessaires à l&#x27;opération
+    */
+  operation:function(objets, operation, params)
+  {
+    var me = this
+    // On commence à créer une table pour savoir quand le traitement sur les
+    // objets sera terminé. En clé, on utilise l&#x27;identifiant de l&#x27;objet DOM
+    this.tbl_operation = {}
+    var objets_corriged = []
+    L(objets).each(function(obj){ 
+      if(undefined == obj[0]) return
+      me.tbl_operation[obj[0].id] = false 
+      objets_corriged.push(obj)
+    })
+    // On envoie ensuite chaque objet dans la méthode &#x60;method&#x60;
+    L(objets_corriged).each(function(obj){
+      var complete = $.proxy(me.on_complete_operation, me, operation, obj[0].id)
+      switch(operation)
+      {
+      case &#x27;show&#x27;:
+        obj.animate({opacity:1}, Anim.transition.show, complete)
+        break
+      case &#x27;remove&#x27;:
+        obj.animate({opacity:0}, Anim.transition.show, function(){obj.remove(); complete()})
+        break
+      case &#x27;moveTo&#x27;:
+        if(undefined == params.left)  params.left = obj.left
+        if(undefined == params.top)   params.top  = obj.top
+        if(&#x27;function&#x27; != typeof obj.animate)
+        {
+          throw &quot;&#x60;&#x60;&#x60;Obj n&#x27;est pas un set jquery : &quot;+obj.toString() + &quot;&#x60;&#x60;&#x60;&quot;
+        }
+        var dpos = {top:params.top+&quot;px&quot;, left:params.left+&quot;px&quot;}
+        obj.animate(dpos, Anim.transition.note_moved, complete)
+        break
+      }
+    })
+  },
+  /**
+    * Méthode qui fonctionne en parallèle avec &#x60;operation&#x60; pour savoir si on 
+    * peut passer à l&#x27;étape suivante.
+    * On peut passer à l&#x27;étape suivante lorsque tous les objets reçus par &#x60;operation&#x60;
+    * ont été traités.
+    * Notes
+    * -----
+    *   Si une méthode &#x27;on_complete_&lt;operation&gt;&#x27; existe, elle est appelée avant
+    *   de passer à l&#x27;étape suivante.
+    *
+    * @method on_complete_operation
+    * @param  {String} operation  L&#x27;opération qui a été exécutée.
+    * @param  {String} obj_id   Identifiant de l&#x27;objet qui a terminé son traitement
+    */
+  on_complete_operation:function(operation, obj_id)
+  {
+    this.tbl_operation[obj_id] = true
+    for(var id in this.tbl_operation)
+    {
+      if(this.tbl_operation[id] == false) return // on ne peut pas finir
+    }
+    // Si on arrive ici, c&#x27;est qu&#x27;on peut finir
+    delete this.tbl_operation
+    if(&#x27;function&#x27; == typeof this[&#x27;on_complete_&#x27;+operation]) this[&#x27;on_complete_&#x27;+operation]()
+    NEXT_STEP()
   }
+})
+
+Object.defineProperties(ObjetClass.prototype,{
+  /**
+    * Offset vertical du cercle
+    * @property {Number} top
+    */
+  &quot;top&quot;:{
+    get:function(){return this._top},
+    set:function(top){
+      this._top = top
+      if(this.obj) this.obj.css(&#x27;top&#x27;, top)
+    }
+  },
+  /**
+    * Offset horizontal du cercle
+    * @property {Number} left
+    */
+  &quot;left&quot;:{
+    get:function(){return this._left},
+    set:function(left){
+      this._left = left
+      if(this.obj) this.obj.css(&#x27;left&#x27;, left)
+    }
+  },
+  /**
+    * Le milieu horizontal de l&#x27;objet (en tenant compte vraiment de sa taille)
+    * @property {Number} center_x
+    */
+  &quot;center_x&quot;:{
+    get:function(){
+      return parseInt(this.left + (this.obj.width() / 2), 10)
+    }
+  },
+  /**
+    * Le milieu vertical de l&#x27;objet
+    * @property {Number} center_y
+    */
+  &quot;center_y&quot;:{
+    get:function(){
+      return parseInt(this.top + (this.obj.height() / 2), 10)
+    }
+  }
+  
+  // /**
+  //   * NE PAS UTILISER, ÇA EMPÊCHE DE DÉFINIR LES VALEURS
+  //   * Taille de l&#x27;objet
+  //   * Si &#x60;this.obj&#x60; existe, la redéfinition de la valeur modifie la taille de
+  //   * l&#x27;objet
+  //   * @property {Number} width
+  //   */  
+  // &quot;width&quot;:{
+  //   get:function(){return this._width || this.DEFAULT_WIDTH},
+  //   set:function(w){
+  //     this._width = w
+  //     if(this.obj) this.obj.css(&#x27;width&#x27;, w+&quot;px&quot;)
+  //   }
+  // }
 })
     </pre>
 </div>

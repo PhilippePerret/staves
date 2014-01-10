@@ -315,7 +315,7 @@ sup {
 <ul>
 <li><a href="#animation">Animation</a></li>
 <li><a href="#les_notes">Les notes</a></li>
-<li><a href="#chords">Les accords</a></li>
+<li><a href="#les_chords">Les accords</a></li>
 <li><a href="#les_staves">Les portées</a></li>
 <li><a href="#les_gammes">Les gammes</a></li>
 <li><a href="#les_textes">Les textes</a></li>
@@ -345,8 +345,11 @@ sup {
 </ul>
 </li>
 <li><a href="#vitesse_animation">Vitesse de l'animation</a></li>
+<li><a href="#reiniti_preferences">Ré-initialiser toutes les valeurs de préférences</a></li>
 </ul>
 
+
+<h3>Réinitialiser les préférences</h3>
 
 <p><a name="intro_animation"></a></p>
 
@@ -455,6 +458,7 @@ LEFT(100)
 <ul>
 <li>Effacer tous les objets SAUF les portées et les clés&nbsp;;</li>
 <li>Remettre le "curseur" tout à gauche (endroit où seront donc affichés les nouveaux objets).</li>
+<li>Remettre toutes les valeurs par défaut.</li>
 </ul>
 
 
@@ -498,6 +502,17 @@ LEFT(100)
 
 <pre><code>SPEED() // pas d'argument
 </code></pre>
+
+<p><a name="reiniti_preferences"></a></p>
+
+<h4>Ré-initialiser toutes les valeurs de préférence</h4>
+
+<p>Pour remettre toutes les valeurs de décalages aux valeurs de départ, utiliser la commande (SANS PARENTHÈSES)&nbsp;:</p>
+
+<pre><code>RESET_PREFERENCES
+</code></pre>
+
+<p><em>Noter que ça ne ré-initialise que les décalages des éléments, tels que les textes de marque de l'harmonie ou des accords, etc. Pour une ré-initialisation complète, utiliser la commande <a href="#reset_animation"><code>RESET</code></a>.</em></p>
 
 <hr />
 
@@ -703,7 +718,7 @@ oNote.surround({color:blue, rectangle:true})
 
 <hr />
 
-<p><a name="chords"></a></p>
+<p><a name="les_chords"></a></p>
 
 <h2>Les Accords</h2>
 
@@ -746,19 +761,33 @@ oNote.surround({color:blue, rectangle:true})
 
 <h3>Référence aux notes de l'accord</h3>
 
-<p>On fait appel aux notes de l'accord par :</p>
+<p>Comme tous les types d'objets possédant plusieurs notes (Accords, Gammes, Motifs), on fait appel aux différentes notes à l'aide de la méthode <code>note</code> appelée sur l'objet :</p>
 
-<pre><code>&lt;nom accord&gt;[&lt;indice note&gt;]
+<pre><code>&lt;nom accord&gt;.note(&lt;indice note&gt;)
 </code></pre>
 
-<p>… où <code>&lt;indice note&gt;</code> est l'indice 1-start.</p>
+<p>… où <code>&lt;indice note&gt;</code> est l'indice 1-start (1 = première note fournie).</p>
 
 <p>Par exemple&nbsp;:</p>
 
 <pre><code>accDom=CHORD('c3 eb3 g3')
-accDom[1].moveTo('c4')
+accDom.note(1).moveTo('c4')
 // Prends la première note (c3) et la déplace en c4.
 </code></pre>
+
+<p>Comme pour tout “groupe de notes”, si l'on veut affecter une note de l'accord à une variable (pour l'utiliser plus facilement ensuite), on ne peut pas procéder ainsi&nbsp;:</p>
+
+<pre><code>maNote=monAccord.note(2)
+maNote.write("Une seconde !") # =&gt; # ERREUR #
+</code></pre>
+
+<p>Pour ce faire, il faut impérativement utiliser&nbsp;:</p>
+
+<pre><code>maNote=Anim.Objects.monAccord.note(2)
+maNote.write("Une seconde !")
+</code></pre>
+
+<p>Donc ajouter <code>Anim.Objects</code> devant <code>monAcccord.note(2)</code>, <code>Anim.Objects</code> étant la propriété qui contient tous les objets de l'animation.</p>
 
 <p><a name="chord_remove"></a></p>
 
@@ -950,7 +979,7 @@ note.moveTo(c5)
 
 <h3>Utilisation des notes de la gamme</h3>
 
-<p>Comme pour tout “groupe de notes” (accord, motif, etc.) les notes de la gamme peuvent être ensuite traitées séparément, comme des notes “normales”.</p>
+<p>Comme pour tout “groupe de notes” (accord, motif, etc.) les notes de la gamme peuvent être ensuite traitées séparément grâce à la méthode <code>note</code> appelé sur l'objet (ici appelée sur la gamme)</p>
 
 <p>Soit une gamme&nbsp;:</p>
 
@@ -959,25 +988,25 @@ note.moveTo(c5)
 
 <p>On récupère ses notes par&nbsp;:</p>
 
-<pre><code>maGamme[&lt;indice note&gt;]
+<pre><code>maGamme.note(&lt;indice note&gt;)
 </code></pre>
 
 <p>Cet <code>indice</code> est “1-start”, c'est-à-dire que la première note porte l'indice 1, la seconde note porte l'indice 2, etc.</p>
 
 <p>Par exemple, si je veux poser un texte sur la deuxième note&nbsp;:</p>
 
-<pre><code>maGamme[2].write("Une seconde !")
+<pre><code>maGamme.note(2).write("Une seconde !")
 </code></pre>
 
 <p>Comme pour tout “groupe de notes”, si l'on veut mettre un élément (note) du groupe dans une variable, ce code n'est pas possible&nbsp;:</p>
 
-<pre><code>maNote=maGamme[2]
+<pre><code>maNote=maGamme.note(2)
 maNote.write("Une seconde !") # =&gt; # ERREUR #
 </code></pre>
 
 <p>Pour ce faire, il faut impérativement utiliser&nbsp;:</p>
 
-<pre><code>maNote=Anim.Objects.maGamme[2]
+<pre><code>maNote=Anim.Objects.maGamme.note(2)
 maNote.write("Une seconde !")
 </code></pre>
 
@@ -994,6 +1023,7 @@ maNote.write("Une seconde !")
 <li><a href="#create_texte">Créer un texte</a>
 
 <ul>
+<li><a href="#types_speciaux_texte">Types spéciaux de texte (accord, harmonie, etc.)</a></li>
 <li><a href="#create_texte_animation">Créer un texte pour l'animation</a></li>
 <li><a href="#create_texte_objet">Créer un texte pour un objet</a></li>
 </ul>
@@ -1004,6 +1034,7 @@ maNote.write("Une seconde !")
 <li><a href="#supprimer_texte_objet">Supprimer le texte d'un objet</a></li>
 </ul>
 </li>
+<li><a href="#valeur_defaut_textes">Définir des valeurs par défaut</a></li>
 </ul>
 
 
@@ -1016,6 +1047,57 @@ maNote.write("Une seconde !")
 <p><a name="create_texte"></a></p>
 
 <h3>Créer un texte</h3>
+
+<p><a name="types_speciaux_texte"></a></p>
+
+<h4>Types spéciaux de texte</h4>
+
+<p>Par défaut, un texte est "normal", il s'écrit tel qu'il est défini.</p>
+
+<p>Mais il existe des types qui peuvent être définis grâce à la propriété <code>type</code> envoyée en paramètres&nbsp;:</p>
+
+<dl>
+  <dt>harmony</dt>
+  <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie cadencielle.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels.</dd>
+  <dt>chord</dt>
+  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence.</dd>
+</dl>
+
+
+<p>Par exemple, pour indiquer que l'accord est un premier degré sous son deuxième renversement&nbsp;:</p>
+
+<pre><code>monAccord=CHORD('g4 c5 e5')
+monAccord.write("I**",{type:harmony})
+</code></pre>
+
+<p>Il existe aussi le raccourci&nbsp;:</p>
+
+<pre><code>monAccord.harmony("I**")
+</code></pre>
+
+<p>Noter que pour allonger la barre inférieur de la marque d'harmonie, on peut ajouter le paramètre <code>width</code> qui sera le nombre de pixels désiré. Par exemple&nbsp;:</p>
+
+<pre><code>monAccord.write("I**", {type:harmony, width:100})
+OU
+monAccord.harmony("I**", {width:100})
+</code></pre>
+
+<p>Pour indiquer une <strong>CADENCE</strong> (ajout de barre en bas et sur le bord droit du texte)&nbsp;:</p>
+
+<pre><code>monAccord.write("I", {type:cadence})
+OU
+monAccord.cadence("I")
+</code></pre>
+
+<p>Pour indiquer le <strong>NOM DE L'ACCORD</strong> au-dessus des notes&nbsp;:</p>
+
+<pre><code>monAccord.write("C", {type:chord})
+</code></pre>
+
+<p>… ou le raccourci <code>chord_mark</code>&nbsp;:</p>
+
+<pre><code>monAccord.chord_mark("C")
+</code></pre>
 
 <p><a name="create_texte_animation"></a></p>
 
@@ -1066,6 +1148,35 @@ maNote.texte.hide()
 </code></pre>
 
 <p>… qui ré-affichera ce texte.</p>
+
+<p><a name="valeur_defaut_textes"></a></p>
+
+<h3>Définir les valeurs par défaut</h3>
+
+<p>Noter que toutes ces valeurs peuvent être redéfinies “à la volée“ en cours d'animation.</p>
+
+<h4>Décalage des marques de l'harmonie par rapport à la portée</h4>
+
+<p>Une valeur positive fera descendre les marques, les éloignant de la portée, une valeur négative rapprochera les marques de la portée.</p>
+
+<pre><code>OFFSET_HARMONY(&lt;decalage par rapport a valeur actuelle&gt;)
+</code></pre>
+
+<h4>Décalage des marques des accords au-dessus de la portée</h4>
+
+<p>Une valeur positive fera MONTER l'accord, l'éloignant de la portée, une valeur négative rapprochera la marque de la portée.</p>
+
+<pre><code>OFFSET_CHORD_MARK(&lt;decalage par rapport à la valeur actuelle&gt;)
+</code></pre>
+
+<h4>Ré-initialiser toutes les valeurs de préférence</h4>
+
+<p>Pour remettre toutes les valeurs aux valeurs de départ, utiliser la commande (SANS PARENTHÈSES)&nbsp;:</p>
+
+<pre><code>RESET_PREFERENCES
+</code></pre>
+
+<hr />
 
 <p><a name="les_fleches"></a></p>
 

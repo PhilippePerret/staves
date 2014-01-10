@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -133,6 +155,79 @@
   */
 
 /**
+  * Méthodes qui doivent être héritées ($.extend) par tout objet
+  * pouvant contenir un texte (Note, Accords, etc.)
+  * @property {Object} METHODES_TEXTE
+  * @for window
+  */
+window.METHODES_TEXTE = {
+  /**
+    * Écrit un texte au-dessus ou en dessous du possesseur du texte
+    * Notes
+    * -----
+    *   * L&#x27;étape suivante doit être appelée par l&#x27;affichage du texte (Txt::show)
+    *
+    * @method write
+    * @param  {String} texte Le texte à écrire
+    * @param  {Object} params Les paramètres optionnels
+    */
+  write:function(texte, params)
+  {
+    // dlog(&quot;-&gt; &lt;Note&gt;.write&quot;)
+    if(undefined == params) params = {}
+    params.texte  = texte
+    this.texte    = TXT(this, params)
+    this.texte.build()
+  },
+  /**
+    * Raccourci pour écrire un texte d&#x27;harmony
+    * @method harmony
+    * @param  {String} texte  Le texte à écrire
+    * @param  {Object} params   Paramètres optionnels
+    */
+  harmony:function(texte, params)
+  {
+    if(undefined == params) params = {}
+    params.type = harmony
+    this.write(texte, params)
+  },
+  /**
+    * Raccourci pour écrire un texte de type cadence
+    * @method cadence
+    * @param  {String} texte    Le texte à écrire
+    * @param  {Object} params   Paramètres optionnels
+    */
+  cadence:function(texte, params)
+  {
+    if(undefined == params) params = {}
+    params.type = cadence
+    this.write(texte, params)
+  },
+  /**
+    * Raccourci pour écrire un texte de type &#x27;chord&#x27; (un accord placé au-dessus
+    * de la portée et au-dessus de l&#x27;élément porteur)
+    * @method chord_mark
+    * @param  {String} accord   L&#x27;accord à marquer
+    * @param  {Object} params   Les paramètres optionnels
+    */
+  chord_mark:function(accord, params)
+  {
+    if(undefined == params) params = {}
+    params.type = chord
+    this.write(accord, params)
+  }
+}
+/**
+  * Propriétés qui doivent être héritées (Object.defineProperties) par tout objet
+  * pouvant contenir un texte (Note, Accords, etc.)
+  * @property {Object} PROPERTIES_TEXTE
+  * @for window
+  */
+window.PROPERTIES_TEXTE = {
+  
+}
+
+/**
   * Fonction pour créer une instance Texte
   * @method TXT
   * @param  {Staff|Note|Barre|Mesure} owner Le porteur du texte
@@ -141,9 +236,11 @@
   */
 window.TXT = function(owner, params)
 {
-  Anim.wait(1)
+  // Anim.wait(1)
   return new Txt(owner, params)
 }
+// Alias
+window.TEXTE = window.TXT
 
 /**
   * @class Txt
@@ -153,21 +250,18 @@ window.TXT = function(owner, params)
   */
 window.Txt = function(owner, params)
 {
-  this.id       = (new Date()).getTime()
-  
-  ObjetClass.call(this)
-  
+  this.id       = &#x27;txt&#x27;+(new Date()).getTime()
+
   this.owner    = owner
   this.texte    = null
   this.vOffset  = null
   this.hOffset  = null
-  
-  if(&#x27;string&#x27;==typeof params) this.texte = params
-  else if (&#x27;object&#x27;==typeof params)
-  {
-    var me = this
-    L(params).each(function(k,v){me[k] = v})
-  }
+
+  ObjetClass.call(this, params)
+  // Apparemment, ça ne fonctionne pas, de dispatcher les paramètres avec
+  // ObjetClass, donc je le fais ici
+  // var me = this
+  // L(params || {}).each(function(k,v){me[k] = v})
 }
 Txt.prototype = Object.create( ObjetClass.prototype )
 Txt.prototype.constructor = Txt
@@ -180,48 +274,241 @@ $.extend(Txt.prototype,{
     */
   build:function()
   {
-    Anim.add(this)
+    // dlog(&quot;-&gt; &lt;Txt&gt;.build&quot;)
+    Anim.Dom.add(this)
+    return this
   },
-  // /**
-  //   * Affiche les objets de l&#x27;élément
-  //   * @method show
-  //   * @param  {Number} vitesse La vitesse d&#x27;apparition
-  //   */
-  // show:function(vitesse)
-  // {
-  //   this.obj.show(vitesse)
-  // },
+  /**
+    * Masque le texte (sans le détruire)
+    * Note
+    * ----
+    * @method hide
+    * @param  {Object} params Paramètres optionnels, et notamment :
+    *   @param {Function} params.complete La méthode poursuivre, si elle doit être
+    *                                     différente de NEXT_STEP
+    */
+  hide:function(params)
+  {
+    if(undefined == params) params = {}
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    if(MODE_FLASH){
+      this.obj.css(&#x27;opacity&#x27;, 0) 
+      params.complete()
+    }
+    else 
+    {
+      this.obj.animate(
+        {opacity:0},
+        Anim.transition.show,
+        params.complete
+      )
+    }
+  },
+  /**
+    * (Ré-)affiche le texte
+    * @method show
+    */
+  show:function(params)
+  {
+    // dlog(&quot;-&gt; &lt;Txt&gt;.show(&quot;+params+&quot;)&quot;)
+    if(MODE_FLASH)
+    {
+      this.obj[0].style.opacity = 1
+      NEXT_STEP()
+    }
+    else
+    {
+      if(undefined == params) params = {}
+      Anim.Dom.show(this.obj, $.extend(params, {complete:NEXT_STEP} ))
+    } 
+  },
+  
   /**
     * Positionne l&#x27;élément (en fonction de son possesseur)
     * Notes
-    *   * Le texte est toujours placé au-dessus de la portée, sauf
-    *     indication contraire, et sauf si la note est au-dessus de la
-    *     portée.
+    *   * Le texte est placé à différents endroit de la portée en fonction
+    *     du type de texte.
+    *   * Le left doit être recalculé, une fois qu&#x27;on connait la taille du texte,
+    *     pour être calé correctement contre le possesseur.
+    *
     * @method positionne
     */
   positionne:function()
   {
-    var top_staff = Anim.current_staff.top
-    var top_owner = this.owner.top
-    var top = Math.min(top_staff, top_owner) - 20
-    this.obj.css({top:top+&quot;px&quot;, left:(this.owner.left - 10)+&quot;px&quot;})
+    var dpos = {top:this.top+&quot;px&quot;, left:this.real_left+&quot;px&quot;}
+    if(this.width) dpos.width = this.width+&quot;px&quot;
+    this.obj.css(dpos)
+  },
+  /**
+    * Ré-initialisation du texte après la définition de valeur qui peuvent
+    * obliger à un recalcul
+    * @method reset
+    */
+  reset:function()
+  {
+    delete this._texte
+    delete this._top
+    delete this._left
+    delete this._width
   }
 })
 
 Object.defineProperties(Txt.prototype,{
+  /* ---------------------------------------------------------------------
+   *  PROPERTIES
+   */
+  /**
+    * Le texte 
+    * Notes
+    *   * Suivant le type de l&#x27;instance (&#x60;type&#x60;), il peut être transformé
+    * @property {String} texte
+    */
+  &quot;texte&quot;:{
+    set:function(t){this.raw_texte = t; this.reset()},
+    get:function(){
+      if(undefined == this._texte)
+      {
+        this._texte = function(t, type)
+        {
+          switch(type)
+          {
+          case harmony:
+          case cadence:
+            // Un texte d&#x27;harmonie peut se terminer par des &quot;*&quot; qui 
+            // définissent le renversement
+            if(found = t.match(/([\*•]+)$/))
+            {
+              var renv = found[1].replace(/\*/g, &#x27;•&#x27;)
+              var renv_len = renv.length
+              t = t.substring(0, t.length - renv_len)
+              return &#x27;&lt;div class=&quot;center inline&quot;&gt;&#x27;+
+                        &#x27;&lt;div class=&quot;renversement&quot;&gt;&#x27;+renv+&#x27;&lt;/div&gt;&#x27; +
+                        t +
+                      &#x27;&lt;/div&gt;&#x27;
+            }
+            return t
+          case chord:
+            return t
+          }
+          return t // par défaut
+        }(this.raw_texte, this.type)
+      }
+      return this._texte
+    }
+  },
+  /**
+    * Le type du texte, s&#x27;il est défini
+    * Ce type peut être (pour le moment)
+    *   - harmony   Un texte pour un chiffrage d&#x27;harmonie
+    *   - chord     Un accord
+    *   - finger    Un doigté
+    * @property {String} type
+    */
+  &quot;type&quot;:{
+    set:function(type){
+      this._type = type
+      this.reset()
+    },
+    get:function(){return this._type}
+  },
+  /**
+    * Retourne le TOP DU TEXTE
+    * Notes
+    * -----
+    *   * Ce top dépend de pas mal de choses et notamment du type du texte (finger,
+    *     harmony, etc.)
+    *   * Il peut être également influencer par les décalages des préférences
+    *
+    * @property {Number} top
+    */
+  &quot;top&quot;:{
+    set:function(top){this._top = top; this.reset()},
+    get:function(){
+      if(undefined == this._top)
+      {
+        // On part toujours de la hauteur top de la portée du texte
+        var top = this.owner.staff.top || Anim.current_staff.top
+        switch(this.type)
+        {
+        case harmony:
+        case cadence:
+          top += 60 + Anim.prefs.offset_harmony
+          break
+        case chord:   
+          top -= 40 + Anim.prefs.offset_chord_mark
+          break
+        default:
+          top = Math.min(top, this.owner.top) - 20
+        }
+        this._top = top
+      }
+      return this._top
+    }
+  },
+  /**
+    * Retourne le décalage horizontal du texte
+    * Notes
+    * -----
+    *   * Pour certains types, comme &#x60;harmony&#x60;, il doit être calculé pour
+    *     pouvoir placer son bord droit au bout du possesseur.
+    *     Mais cela ne peut être fait qu&#x27;une fois qu&#x27;on connait la taille du
+    *     texte, donc c&#x27;est la méthode &#x60;positionne&#x60; qui s&#x27;en charge. c&#x27;est quand
+    *     elle appelle this.left qu&#x27;on le calcule.
+    *
+    * @property {Number} left
+    */
+  &quot;left&quot;:{
+    set:function(left){this._left = left; this.reset()},
+    get:function(){
+      if(undefined == this._left)
+      {
+        this._left = this.owner.left
+      }
+      return this._left
+    }
+  },
+  /**
+    * Retourne le vrai décalage left du texte par rapport à l&#x27;objet en
+    * fonction de son type
+    * @property {Number} real_left
+    */
+  &quot;real_left&quot;:{
+    get:function()
+    {
+      var left = this.left
+      switch(this.type)
+      {
+      case harmony:
+        var w_box = this.obj.width()
+        this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
+        break
+      case cadence:
+        // Pour un texte d&#x27;harmonie, le bord droit doit être aligné au possesseur,
+        // à peine plus à droite.
+        var w_box = this.obj.width()
+        this._real_left = left - w_box + 4
+        break
+      case chord:
+        // On doit le placer bien au center
+        var w_box = this.obj.width()
+        this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
+        break
+      default:
+        this._real_left = left - 10
+      }
+      return this._real_left
+    }
+  },
+  
+  /* ---------------------------------------------------------------------
+   *  DOM  
+   */
   /**
     * Return l&#x27;objet DOM du texte
     * @property {jQuerySet} obj
     */
   &quot;obj&quot;:{
-    get:function(){return $(&#x27;div#&#x27;+this.dom_id)}
-  },
-  /**
-    * L&#x27;ID DOM de l&#x27;objet DOM du texte
-    * @property {String} dom_id
-    */
-  &quot;dom_id&quot;:{
-    get:function(){return &quot;text-&quot;+this.id}
+    get:function(){return $(&#x27;div#&#x27;+this.id)}
   },
   /**
     * Return le code HTML pour le texte
@@ -229,7 +516,11 @@ Object.defineProperties(Txt.prototype,{
     */
   &quot;code_html&quot;:{
     get:function(){
-      return &#x27;&lt;div id=&quot;&#x27;+this.dom_id+&#x27;&quot; class=&quot;text&quot; style=&quot;opacity:0;&quot;&gt;&#x27;+this.texte+&#x27;&lt;/div&gt;&#x27;
+      var css = [&#x27;text&#x27;]
+      if(this.type) css.push(this.type)
+      var style = []
+      if(this.width) style.push(&quot;width:&quot;+this.width+&quot;px;&quot;)
+      return &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;&#x27;+css.join(&#x27; &#x27;)+&#x27;&quot; style=&quot;&#x27;+style.join(&#x27;&#x27;)+&#x27;&quot;&gt;&#x27;+this.texte+&#x27;&lt;/div&gt;&#x27;
     }
   }
 })

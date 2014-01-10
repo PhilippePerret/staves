@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Console.js</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/required/GroupNotes.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -146,49 +146,116 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Console.js Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/required/GroupNotes.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+  * Méthodes pouvant être utilisées par tout &quot;groupe de notes&quot;, comme pour les
+  * accords (chord), les motifs (motif) ou les gammes (scale)
+  *
+  * Notes
+  * -----
+  * Pour pouvoir être utilisées, il suffit de mettre les notes dans un array (avec
+  * un premier élément null car tous les décomptes sont 1-start) puis d&#x27;étendre
+  * cette liste avec GROUPNOTES_METHODS :
+  *   &#x60;$.extend(groupnotes, GROUPNOTES_METHODS)&#x60;
+  * et de définir ses propriétés (cf. plus bas) : 
+  *   &#x60;Object.defineProperties(&lt;groupnotes&gt;, GROUPNOTES_PROPERTIES)&#x60;
+  *
+  * @class GROUPNOTES_METHODS METHODES_GROUPNOTES
+  * @static
+  */
+window.GROUPNOTES_METHODS = {
+  /**
+    * Retourne la note d&#x27;indice (1-start) +indice+
+    * @method note
+    * @param  {Number} indice Indice 1-start de la note à retourner
+    * @return {Note} L&#x27;instance de la note désirée
+    */
+  note:function(indice)
+  {
+    return this[indice]
+  },
+  
+  /**
+    * Exécute une fonction sur toutes les notes de l&#x27;accord
+    * @method each_note
+    * @param  {Function} fn La fonction à exécuter
+    */
+  each_note:function(fn)
+  {
+    for(var i=1, len=this.length; i&lt;len; ++i)
+    {
+      fn(this[i])
+    }
+  },
+  
+  /**
+    * Destruction de l&#x27;accord (destruction de chaque note)
+    * @method build
+    */
+  remove:function()
+  {
+    this.each_note(function(note){note.remove()})
+  }
+}
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:5</code></a>
-        </div>
-    
+window.GROUPNOTES_PROPERTIES = {
 
-    
-</div>
+}
 
-
-
-<div class="box intro">
-    
-</div>
-
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Console.html">
-                        Console
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+/**
+  * Remplacement des méthodes ci-dessus pour une utilisation plus rationnelle:
+  * Un objet qui gère un groupe de notes (comme Chord ou Scale) définit une 
+  * propriété &#x60;notes&#x60; qui contient la liste des instances Note (1-start) et
+  * cette propriété qui est utilisée
+  * @property {Object} METHODES_GROUPNOTES
+  * @for window
+  */
+window.METHODES_GROUPNOTES = {
+  /**
+    * Construit les notes du groupe de notes
+    * @method build
+    */
+  build:function()
+  {
+    this.each_note(function(note){note.build()})
+  },
+  /**
+    * Retourne la note d&#x27;indice (1-start) +indice+
+    * @method note
+    * @param  {Number} indice Indice 1-start de la note à retourner
+    * @return {Note} L&#x27;instance de la note désirée
+    */
+  note:function(indice)
+  {
+    return this.notes[indice]
+  },
+  
+  /**
+    * Exécute une fonction sur toutes les notes de l&#x27;accord
+    * @method each_note
+    * @param  {Function} fn La fonction à exécuter
+    */
+  each_note:function(fn)
+  {
+    for(var i=1, len=this.notes.length; i&lt;len; ++i)
+    {
+      fn(this.notes[i])
+    }
+  },
+  
+  /**
+    * Destruction de l&#x27;accord (destruction de chaque note)
+    * @method build
+    */
+  remove:function()
+  {
+    this.each_note(function(note){note.remove()})
+  }
+}
+    </pre>
 </div>
 
                     </div>

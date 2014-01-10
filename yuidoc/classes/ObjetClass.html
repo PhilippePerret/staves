@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -160,7 +182,17 @@ que les notes, les textes, etc.</p>
     <h3 class="name"><code>ObjetClass</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -203,6 +235,31 @@ que les notes, les textes, etc.</p>
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels, pour dispatcher des valeurs
+                          de propriétés dans l&#39;instance.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
 
     
 
@@ -220,6 +277,8 @@ que les notes, les textes, etc.</p>
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
         
         
     </ul>
@@ -235,7 +294,80 @@ que les notes, les textes, etc.</p>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
+                                <a href="#method_on_complete_operation">on_complete_operation</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_operation">operation</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_positionne">positionne</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_remove">remove</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_show">show</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property__width    La taille du cercle">_width    La taille du cercle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_center_x">center_x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_center_y">center_y</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_left">left</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_top">top</a>
 
                                 
                                 
@@ -248,13 +380,442 @@ que les notes, les textes, etc.</p>
             
 
             
-
-            
         </div>
 
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_on_complete_operation" class="method item">
+    <h3 class="name"><code>on_complete_operation</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>operation</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>obj_id</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l125"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:125</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode qui fonctionne en parallèle avec <code>operation</code> pour savoir si on 
+peut passer à l&#39;étape suivante.
+On peut passer à l&#39;étape suivante lorsque tous les objets reçus par <code>operation</code>
+ont été traités.</p>
+<h2 id="notes">Notes</h2>
+<p>  Si une méthode &#39;on<em>complete</em><operation>&#39; existe, elle est appelée avant
+  de passer à l&#39;étape suivante.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">operation</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>L&#39;opération qui a été exécutée.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">obj_id</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Identifiant de l&#39;objet qui a terminé son traitement</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_operation" class="method item">
+    <h3 class="name"><code>operation</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>objets</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>operation</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l70"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:70</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Tentative d&#39;une méthode générale qui permette de gérer un traitement 
+asynchrone de plusieurs éléments DOM de l&#39;objet.
+Par exemple : on doit retirer une note qui possède une alteration et une
+marque de jeu (piqué). Pour la faire disparaitre, on utilise la méthode
+<code>animate</code> de jQuery qui est asynchrone. Et c&#39;est seulement lorsque les trois
+élément du DOM ont été retiré (la note, l&#39;altération, la marque du jeu) qu&#39;on
+peut passer à la suite.
+Pour se faire, la méthode a besoin de connaître les objets à traiter.
+On les donne en premier argument ({Array}). Ensuite, la méthode a besoin de
+connaître l&#39;opération à exécuter (&#39;show&#39;, &#39;remove&#39;, &#39;moveTo&#39;, etc.). On la
+donne en second argument.
+Enfin, la méthode a besoin des paramètres propres à cette méthode, par exemple
+la nouvelle position pour un &#39;moveTo&#39;.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">objets</code>
+                        <span class="type">Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La liste des objets (DOM) à traiter</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">operation</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>L&#39;opération à jouer</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres nécessaires à l&#39;opération</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_positionne" class="method item">
+    <h3 class="name"><code>positionne</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l62"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:62</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Positionne l&#39;objet à son top/left</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_remove" class="method item">
+    <h3 class="name"><code>remove</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag async">async</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l44"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:44</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Destruction de l&#39;objet DOM de l&#39;objet</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Pour être utilisé, l&#39;objet doit obligatoirement posséder une propriété
+<code>obj</code> qui retourne son objet DOM</li>
+</ul>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La méthode pour suivre (NEXT_STEP par défaut)</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="method_show" class="method item">
@@ -299,7 +860,7 @@ que les notes, les textes, etc.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l13"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:13</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l28"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:28</code></a>
         
         </p>
 
@@ -359,7 +920,7 @@ que les notes, les textes, etc.</p>
 
                                 <div class="param-description">
                                     <p>La méthode pour suivre
-                                      default: NEXT_STEP (Anim.next_step)</p>
+                                      default: NEXT_STEP (Anim.Step.auto_next)</p>
 
                                 </div>
 
@@ -383,6 +944,238 @@ que les notes, les textes, etc.</p>
             </div>
         
 
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property__width    La taille du cercle" class="property item">
+    <h3 class="name"><code>_width    La taille du cercle</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l12"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:12</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <h2 id="taille-de-l-objet">Taille de l&#39;objet</h2>
+<p>Utiliser la propriété complexe <code>width</code> pour le (re-)définir</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_center_x" class="property item">
+    <h3 class="name"><code>center_x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l176"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:176</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Le milieu horizontal de l&#39;objet (en tenant compte vraiment de sa taille)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_center_y" class="property item">
+    <h3 class="name"><code>center_y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l185"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:185</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Le milieu vertical de l&#39;objet</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_left" class="property item">
+    <h3 class="name"><code>left</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l165"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:165</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Offset horizontal du cercle</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_top" class="property item">
+    <h3 class="name"><code>top</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l154"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:154</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Offset vertical du cercle</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

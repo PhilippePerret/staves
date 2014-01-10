@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -134,7 +156,7 @@
 
     
         
-            Module: <a href="../modules/Note.html">Note</a>
+            Module: <a href="../modules/Anim_Step.html">Anim_Step</a>
         
     
 
@@ -174,7 +196,84 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
+                                <a href="#method_build">build</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_build">build</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_cadence">cadence</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_chord_mark">chord_mark</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_each_note">each_note</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_harmony">harmony</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_note">note</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_Note">Note</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_onresize">onresize</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_SCALE">SCALE</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_TXT">TXT</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_write">write</a>
 
                                 
                                 
@@ -191,6 +290,27 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
+                                <a href="#property_METHODES_GROUPNOTES">METHODES_GROUPNOTES</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_METHODES_TEXTE">METHODES_TEXTE</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_MODE_FLASH">MODE_FLASH</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_NEXT_STEP">NEXT_STEP</a>
 
                                 
@@ -200,19 +320,8 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_NOTE_TO_OFFSET">NOTE_TO_OFFSET</a>
+                                <a href="#property_PROPERTIES_TEXTE">PROPERTIES_TEXTE</a>
 
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_OFFSET_ALTERATION">OFFSET_ALTERATION</a>
-
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -229,6 +338,660 @@
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_build" class="method item">
+    <h3 class="name"><code>build</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UI.js.html">UI.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l97"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:97</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Destruction de l&#39;accord (destruction de chaque note)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_build" class="method item">
+    <h3 class="name"><code>build</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UI.js.html">UI.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l65"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:65</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Construit les notes du groupe de notes</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_cadence" class="method item">
+    <h3 class="name"><code>cadence</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>texte</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Txt.js.html">Txt.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l42"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:42</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Raccourci pour écrire un texte de type cadence</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">texte</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le texte à écrire</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_chord_mark" class="method item">
+    <h3 class="name"><code>chord_mark</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>accord</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Txt.js.html">Txt.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l54"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:54</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Raccourci pour écrire un texte de type &#39;chord&#39; (un accord placé au-dessus
+de la portée et au-dessus de l&#39;élément porteur)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">accord</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>L&#39;accord à marquer</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres optionnels</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_each_note" class="method item">
+    <h3 class="name"><code>each_note</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>fn</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UI.js.html">UI.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l84"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:84</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Exécute une fonction sur toutes les notes de l&#39;accord</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">fn</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La fonction à exécuter</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_harmony" class="method item">
+    <h3 class="name"><code>harmony</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>texte</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Txt.js.html">Txt.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l30"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:30</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Raccourci pour écrire un texte d&#39;harmony</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">texte</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le texte à écrire</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_note" class="method item">
+    <h3 class="name"><code>note</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>indice</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Note.html" class="crosslink">Note</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UI.js.html">UI.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l73"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:73</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Retourne la note d&#39;indice (1-start) +indice+</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">indice</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Indice 1-start de la note à retourner</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Note.html" class="crosslink">Note</a></span>:
+                    
+                    <p>L&#39;instance de la note désirée</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
 
                 
                     <div id="method_Note" class="method item">
@@ -272,6 +1035,8 @@
         
             
                 
+                    <p>Provided by the <a href="../modules/Note.html">Note</a> module.</p>
+                
                 <p>
                 
                 Defined in
@@ -279,7 +1044,7 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Note.js.html#l57"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Note.js:57</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Note.js.html#l8"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Note.js:8</code></a>
         
         </p>
 
@@ -360,12 +1125,707 @@
 </div>
 
                 
+                    <div id="method_onresize" class="method item">
+    <h3 class="name"><code>onresize</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UI.js.html">UI.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_UI_UI.js.html#l81"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;UI&#x2F;UI.js:81</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Appelé quand on redimensionne la page</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_SCALE" class="method item">
+    <h3 class="name"><code>SCALE</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>scale</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Scale.js.html">Scale.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Scale.js.html#l4"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Scale.js:4</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Objet construisant une gamme</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">scale</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La gamme à construire, exprimée par une note et une altération</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">staff</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Indice de la portée. Défaut : la portée courante.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">type</code>
+                                    <span class="type">String</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Le type de gamme parmi :</p>
+<pre><code>                                * &#39;MAJ&#39; (défaut = gamme majeure), 
+                                * &#39;min_h&#39; (mineure harmonique), 
+                                * &#39;min_ma&#39; (mineure mélodique ascendante)
+                                * &#39;min_md&#39; (mineur mélodique descendante)</code></pre>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">offset</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Le décalage pixel entre chaque note. Par défault
+                                    le décalage optimal en fonction des altérations</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">octave</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Octave de la note de départ. Par défaut, la meilleure position
+                                    par rapport à la portée et la note, pour produire le
+                                    moins de lignes supplémentaires possible.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">asc</code>
+                                    <span class="type">Boolean</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Ascendante ou descendante (true par défaut)</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">from</code>
+                                    <span class="type">String</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La note de laquelle on doit partir, si c&#39;est
+                                    une autre note que la fondamentale.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">for</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Le nombre de notes à écrire (8 par défaut)</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                    <p>un Array des instances notes dont les méthodes et propriétés ont
+                été étendus par GROUPNOTES_METHODS et GROUPNOTES_PROPERTIES.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_TXT" class="method item">
+    <h3 class="name"><code>TXT</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>owner</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Txt.html" class="crosslink">Txt</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Txt.js.html">Txt.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l78"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:78</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Fonction pour créer une instance Texte</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">owner</code>
+                        <span class="type"><a href="../classes/Staff.html" class="crosslink">Staff</a> | <a href="../classes/Note.html" class="crosslink">Note</a> | Barre | Mesure</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le porteur du texte</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">String | Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres ou le texte</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Txt.html" class="crosslink">Txt</a></span>:
+                    
+                    <p>L&#39;instance texte créée</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_write" class="method item">
+    <h3 class="name"><code>write</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>texte</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Txt.js.html">Txt.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l12"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:12</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Écrit un texte au-dessus ou en dessous du possesseur du texte</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>L&#39;étape suivante doit être appelée par l&#39;affichage du texte (Txt::show)</li>
+</ul>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">texte</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le texte à écrire</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres optionnels</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
             </div>
         
 
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_METHODES_GROUPNOTES" class="property item">
+    <h3 class="name"><code>METHODES_GROUPNOTES</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UI.js.html">UI.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l56"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Remplacement des méthodes ci-dessus pour une utilisation plus rationnelle:
+Un objet qui gère un groupe de notes (comme Chord ou Scale) définit une 
+propriété <code>notes</code> qui contient la liste des instances Note (1-start) et
+cette propriété qui est utilisée</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_METHODES_TEXTE" class="property item">
+    <h3 class="name"><code>METHODES_TEXTE</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Txt.js.html">Txt.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:5</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthodes qui doivent être héritées ($.extend) par tout objet
+pouvant contenir un texte (Note, Accords, etc.)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_MODE_FLASH" class="property item">
+    <h3 class="name"><code>MODE_FLASH</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Anim.html">Anim</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l8"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:8</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Constante permettant de passer ou d&#39;arrêter le mode &quot;flash&quot; qui permet
+de jouer très rapidement une partie de l&#39;animation.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="property_NEXT_STEP" class="property item">
@@ -388,8 +1848,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Anim.html">Anim</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -397,7 +1855,7 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l281"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:281</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Step.js.html#l148"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Step.js:148</code></a>
         
         </p>
 
@@ -419,8 +1877,8 @@
 </div>
 
                 
-                    <div id="property_NOTE_TO_OFFSET" class="property item">
-    <h3 class="name"><code>NOTE_TO_OFFSET</code></h3>
+                    <div id="property_PROPERTIES_TEXTE" class="property item">
+    <h3 class="name"><code>PROPERTIES_TEXTE</code></h3>
     <span class="type">Object</span>
 
     
@@ -428,16 +1886,14 @@
     
 
     
-        <span class="flag final">final</span>
-    
 
-    
-        <span class="flag static">static</span>
     
 
     <div class="meta">
         
             
+                
+                    <p>Provided by the <a href="../modules/Txt.js.html">Txt.js</a> module.</p>
                 
                 <p>
                 
@@ -446,7 +1902,7 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Note.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Note.js:5</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l68"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:68</code></a>
         
         </p>
 
@@ -456,58 +1912,8 @@
     </div>
 
     <div class="description">
-        <p>En clé, la note et son octave et en valeur son décalage par
-rapport à la portée. Donc il faut ajouter cette valeur à la hauteur
-de la portée pour placer la note.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_OFFSET_ALTERATION" class="property item">
-    <h3 class="name"><code>OFFSET_ALTERATION</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Note.js.html#l41"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Note.js:41</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Décalage de l&#39;altération par rapport à la note en fonction de son type</p>
+        <p>Propriétés qui doivent être héritées (Object.defineProperties) par tout objet
+pouvant contenir un texte (Note, Accords, etc.)</p>
 
     </div>
 

@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -141,7 +163,7 @@ window.Staff = function(params)
 {
   this.class  = &quot;Staff&quot;
   this.cle    = SOL
-  this.id     = (new Date()).getTime()
+  this.id     = &quot;staff&quot;+(new Date()).getTime()
   
   /**
     * Décalage vertical par défaut de l&#x27;image
@@ -155,6 +177,13 @@ window.Staff = function(params)
     * @default 0
     */
   this.left = 20
+  /**
+    * Indice (1-start) de la portée dans l&#x27;animation
+    * Notes
+    *   * Il sera défini au moment de la création de la portée (&#x60;create&#x60;)
+    * @property {Number} indice
+    */
+  this.indice = null
   
   // On dispatche les valeurs transmises
   var me = this
@@ -183,6 +212,7 @@ $.extend(Staff,{
     var staff = new Staff({cle:cle, top:this.top_next_staff(params)})
     staff.build()
     Anim.staves.push(staff)
+    staff.indice = Anim.staves.length // ! 1-start
     return staff
   },
   
@@ -197,6 +227,28 @@ $.extend(Staff,{
     var top = 50 + (100 * Anim.staves.length)
     if(params &amp;&amp; params.offset) top += params.offset
     return top
+  },
+  
+  /**
+    * Retourne le meilleur octave pour la gamme
+    * @method best_octave_scale
+    * @param  {String} cle    La clé de la portée
+    * @param  {Number} inote  L&#x27;indice de la note (0=DO, 1=RE, 2=MI, etc.)
+    * @return {Number} Le meilleur octave trouvé
+    */
+  best_octave_scale:function(cle, inote)
+  {
+    switch(cle)
+    {
+    case SOL  : return 4 // quelle que soit la note
+    case FA   :
+      if(inote &gt;= 2/* mi */) return 2
+      else return 3
+    case UT3  :
+      return 2 // TODO à mieux régler
+    case UT4  :
+      return 2 // TODO à mieux régler
+    }
   }
 })
 /* ---------------------------------------------------------------------
@@ -211,17 +263,17 @@ $.extend(Staff.prototype, {
     */
   build:function()
   {
-    Anim.add(this)
+    Anim.Dom.add(this)
   },
   /**
     * Affiche les objets de l&#x27;élément
     * @method show
     * @param  {Number} vitesse La vitesse d&#x27;apparition
     */
-  show:function(vitesse)
+  show:function()
   {
-    this.img_staff.show(vitesse)
-    this.img_cle.show(vitesse)
+    this.img_staff.show()
+    this.img_cle.css(&#x27;opacity&#x27;, &#x27;1&#x27;)
   },
   
   /**
@@ -240,11 +292,13 @@ $.extend(Staff.prototype, {
   /**
     * Ajoute des lignes supplémentaires à la portée
     * Notes
+    * -----
+    *   * Les lignes portent l&#x27;identifiant &quot;&lt;indice portée&gt;-&lt;left&gt;-&lt;indice&gt;&quot;
+    *     pour pouvoir être supprimées par REMOVE_SUPLINE
     *   * @rappel : les lignes sont séparées par 12px
     * @method add_sup_lines
     * @protected
     * @param  {Object} params   Paramètres optionnels
-    *   @param  {Number}  params.number   OBSOLÈTE Nombre de lignes à ajouter (default:1)
     *   @param  {Boolean} params.above    Si true (default) ajouter au-dessus
     *   @param  {Number}  params.upto     Des lignes jusqu&#x27;à ce nombre
     *
@@ -255,10 +309,13 @@ $.extend(Staff.prototype, {
     if(undefined == params.above)  params.above  = true
     var i=0, style, depart = (params.above ? 12 : 48), inc = (params.above ? - 12 : 12) ;
     var top = this.top + depart
+    var supline_indice = 0, supline_id
     do {
-      top += inc
+      top             += inc
+      supline_indice  += 1
       style = &quot;top:&quot;+top+&quot;px;left:&quot;+(Anim.current_x - 2)+&quot;px;&quot;
-      Anim.add(&#x27;&lt;img class=&quot;supline&quot; src=&quot;img/note/supline.png&quot; style=&quot;&#x27;+style+&#x27;&quot; /&gt;&#x27;)
+      supline_id = &quot;supline-&quot;+this.indice+Anim.current_x+&quot;-&quot;+supline_indice+(params.above?&#x27;top&#x27;:&#x27;bot&#x27;)
+      Anim.Dom.add(&#x27;&lt;img id=&quot;&#x27;+supline_id+&#x27;&quot; class=&quot;supline&quot; src=&quot;img/note/supline.png&quot; style=&quot;&#x27;+style+&#x27;&quot; /&gt;&#x27;)
     }
     while((params.above &amp;&amp; ((top - 12) &gt; (params.upto))) || (!params.above &amp;&amp; (top &lt; params.upto)))
   }
@@ -331,7 +388,7 @@ Object.defineProperties(Staff.prototype,{
         c += &#x27;&lt;img style=&quot;top:&#x27;+(top + i * 12)+&#x27;px;&quot; class=&quot;staffline&quot; src=&quot;img/line.png&quot; /&gt;&#x27;
         // top += 12
       }
-      return c //&#x27;&lt;div id=&quot;&#x27;+this.dom_id+&#x27;&quot; class=&quot;staff&quot; style=&quot;opacity:0;&quot;&gt;&#x27;+c+&#x27;&lt;/div&gt;&#x27;
+      return c
     }
   },
   /**
@@ -340,7 +397,7 @@ Object.defineProperties(Staff.prototype,{
     */
   &quot;html_img_cle&quot;:{
     get:function(){
-      return &#x27;&lt;img id=&quot;&#x27;+this.dom_id_cle+&#x27;&quot; style=&quot;display:none;&quot; class=&quot;cle&quot; src=&quot;img/cle/&#x27;+this.cle+&#x27;.png&quot; /&gt;&#x27;
+      return &#x27;&lt;img id=&quot;&#x27;+this.dom_id_cle+&#x27;&quot; class=&quot;cle&quot; src=&quot;img/cle/&#x27;+this.cle+&#x27;.png&quot; /&gt;&#x27;
     }
   }
   

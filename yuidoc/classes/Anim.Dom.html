@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -232,7 +254,7 @@
             
                 <li class="arg">
                     
-                        <code>code_html</code>
+                        <code>instance</code>
                     
                 </li>
             
@@ -265,7 +287,7 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l30"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:30</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l50"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:50</code></a>
         
         </p>
 
@@ -279,9 +301,6 @@
         <p>Ajoute un objet DOM à l&#39;animation
 Notes</p>
 <ul>
-<li>On ajoute toujours l&#39;élément masqué, mais c&#39;est ici que la méthode
-ajouter <code>style=&quot;opacity:0;&quot;</code> donc inutile de le mettre dans le
-code.</li>
 <li>Pour pouvoir fonctionner, l&#39;instance doit toujours définir : <ul>
 <li>la propriété <code>code_html</code> qui définit le code HTML de l&#39;instance</li>
 <li>la méthode <code>positionne</code> qui positionne l&#39;élément.</li>
@@ -300,14 +319,16 @@ code.</li>
             
                 <li class="param">
                     
-                        <code class="param-name">code_html</code>
-                        <span class="type">HTMLString</span>
+                        <code class="param-name">instance</code>
+                        <span class="type">HTMLString | Instance</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Le code HTML de l&#39;élément.</p>
+                        <pre><code>                          L&#39;instance ou le code HTML de l&#39;élément. Si c&#39;est
+                          une instance, elle doit répondre à la méthode
+                          <code>code_html</code> qui renvoie le code HTML à afficher</code></pre>
 
                     </div>
 
@@ -384,6 +405,16 @@ code.</li>
 
     <div class="description">
         <p>Affiche un objet quelconque de l&#39;animation</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>La méthode est toujours en fin de chaine donc elle doit toujours
+appeler NEXT_STEP(). Mais si la méthode <code>params.complete</code> est
+définie, elle peut être appelée au lieu de NEXT_STEP, en sachant
+que cette méthode <code>complete</code> devra se charger OBLIGATOIREMENT
+d&#39;appeler NEXT_STEP().
+Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
+éléments, comme une note altérée avec lignes supplémentaires</li>
+</ul>
 
     </div>
 
@@ -446,7 +477,7 @@ code.</li>
                                 
 
                                 <div class="param-description">
-                                    <p>La méthode pour suivre</p>
+                                    <p>La méthode pour suivre (NEXT_STEP par défaut)</p>
 
                                 </div>
 
@@ -498,7 +529,7 @@ code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l74"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:74</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l92"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:92</code></a>
         
         </p>
 

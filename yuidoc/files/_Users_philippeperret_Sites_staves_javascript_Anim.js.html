@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -132,6 +154,21 @@
   * @module Anim
   */
 
+/* ---------------------------------------------------------------------
+  * Constantes utiles
+  */
+/**
+  * Constante permettant de passer ou d&#x27;arrêter le mode &quot;flash&quot; qui permet
+  * de jouer très rapidement une partie de l&#x27;animation.
+  *
+  * @property {Boolean} MODE_FLASH
+  * @for window
+  * @default false
+  *
+  */
+window.MODE_FLASH = false
+
+/* --------------------------------------------------------------------- */
 /**
   * Objet Anim pour jouer l&#x27;animation
   *
@@ -140,14 +177,119 @@
   */
 if(undefined == window.Anim) window.Anim = {}
 $.extend(window.Anim,{
+  
+  /**
+    * Nom de l&#x27;animation (ie l&#x27;affixe de son fichier de code)
+    * @property {String|Null} name
+    */
+  name: null,
+  
+  /**
+    * Coefficiant de vitesse (déterminé par le slider)
+    * De -100 à 100
+    * @property {Float} coef_speed
+    */
+  coef_speed: 1,
+  
   /**
     * Définition de la vitesse (ou plutôt la durée) des transitions
+    * Notes
+    * -----
+    *   Cf. le mode &quot;flash&quot; qui peut modifier ces valeurs
+    *       &#x60;mode_flash&#x60;
     * @property {Object} transition
+    *   @property {Number} transition.step  Délai entre chaque étape (en millisecondes)
     *   @property {Number} transition.show Vitesse d&#x27;apparition de tout élément
+    *   @property {Number} transition.note_moved  Délai de déplacement des notes (en millisecondes ?)
     */
   transition:{
+    step        : 500,
     show        : 400,
-    note_moved  : 1000
+    note_moved  : 1000,
+    wait        : 1000 // multiplicateur de secondes
+  },
+  /**
+    * Data vitesse (constantes)
+    * Serviront à calculer transition_reg en cas de modification de
+    * la vitesse de l&#x27;animation
+    * @property {Object} TRANSITIONS
+    * @static
+    * @final
+    */
+  TRANSITIONS:{
+    step        : 500,
+    show        : 400,
+    note_moved  : 1000,
+    transform   : 500,  // Transformation comme l&#x27;allongement
+    wait        : 1000 // multiplicateur de secondes
+  },
+  /**
+    * Vitesses normales
+    * Notes
+    * -----
+    *   * Ces valeurs pourront être modifiées par le &#x60;coef_speed&#x60; déterminé
+    *     par le slider
+    * @property {Object} transition_reg
+    */
+  transition_reg:{
+    step        : 500,
+    show        : 400,
+    note_moved  : 1000,
+    transform   : 500,  // Transformation comme l&#x27;allongement
+    wait        : 1000  // multiplicateur de secondes
+  },
+  /**
+    * Vitesses flash
+    * @property {Object} transition_flash
+    * @static
+    * @final
+    */
+  transition_flash:{
+    step        : 1,
+    show        : 1,
+    note_moved  : 1,
+    transform   : 1,
+    wait        : 1
+  },
+  /**
+    * Toutes les préférences
+    * @property {Object} prefs
+    * @static
+    */
+  prefs:{
+    offset_harmony      : 0,
+    offset_chord_mark   : 0
+  },
+  /**
+    * Définit une préférence (souvent : à la volée)
+    * @method set_pref
+    * @param  {String} pref       La préférence à régler
+    * @param  {Number} offset     Le décalage à lui faire subir par rapport à la position courante
+    * @param  {Boolean} next_step Si true (default) passe à l&#x27;étape suivante (sans timeout)
+    */
+  set_pref:function(pref, offset, next_step)
+  {
+    this.prefs[pref] += offset
+    if(undefined == next_step || next_step == true) NEXT_STEP(no_timeout=true)
+  },
+  /**
+    * Activer ou désactiver le mode flash
+    * En mode flash, l&#x27;animation se passe très vite jusqu&#x27;à un certain point
+    * d&#x27;où on repart normalement.
+    * @method mode_flash
+    * @param  {Boolean} activer True si on doit activer le mode flash
+    */
+  mode_flash:function(activer)
+  {
+    this.transition = this[&#x27;transition_&#x27;+(activer ? &#x27;flash&#x27; : &#x27;reg&#x27;)]
+  },
+  /**
+    * Valeurs par défauts
+    * @property {Object} defaut
+    *   @property {Number} default.hoffset  Décalage droite par défaut, en pixels
+    */
+  defaut:{
+    hoffset       : 40,
   },
   
   /**
@@ -188,92 +330,18 @@ $.extend(window.Anim,{
   on:false,
   
   /**
-    * === Main ===
-    *
-    * Joue l&#x27;animation courante
+    * Attends +laps+ secondes avant de passer à l&#x27;étape suivante
     * Notes
     * -----
-    *   * La méthode est également appelée à chaque pas en mode &quot;pas à pas&quot;
-    * @method start
-    * @param  {Object} params   Paramètres optionnels
-    */
-  start:function(params){
-    if(this.on &amp;&amp; !this.MODE_PAS_A_PAS) return this.stop()
-    else if(false == this.on)
-    {
-      this.reset()
-      if(!this.steps) this.steps = Console.steps
-      var btn_name = this.MODE_PAS_A_PAS ? &#x27;Next&#x27; : &#x27;Stop&#x27;
-      $(&#x27;input#btn_anim_start&#x27;).val(btn_name)
-      this.on = true
-    } 
-    this.next_step()
-  },
-  /**
-    * Stoppe l&#x27;animation, parce qu&#x27;on est au bout ou parce que 
-    * c&#x27;est demandé
-    * @method stop
-    */
-  stop:function()
-  {
-    if(this.timer) clearTimeout(this.timer)
-    delete this.timer
-    delete this.steps
-    $(&#x27;input#btn_anim_start&#x27;).val(&quot;Start&quot;)
-    this.on = false
-  },
-  
-  /**
-    * Méthode qui joue la séquence suivante
-    * @method next_step
-    */
-  next_step:function()
-  {
-    if(this.timer) clearTimeout(this.timer)
-    if(!this.steps) return this.stop()
-    this.current_step = this.steps.shift().trim()
-    // Passer les commentaires
-    if(this.current_step.substring(0,1) == &quot;#&quot;) return this.next_step()
-    this.write_current_step()
-    /* === Évaluation du code === */
-    eval(&#x27;this.Objects.&#x27;+this.current_step)
-    if(!this.steps || this.steps.length == 0) this.stop()
-  },
-  
-  /**
-    * Passe à l&#x27;étape suivante, mais seulement si le mode pas à pas n&#x27;est
-    * pas enclenché
-    * @method auto_next_step
-    */
-  auto_next_step:function()
-  {
-    if(this.MODE_PAS_A_PAS) return
-    this.next_step()
-  },
-  
-  /**
-    * Attends +laps+ secondes avant de passer à l&#x27;étape suivante
+    *   * C&#x27;est un raccourci de Anim.Objects.WAIT qui peut être utilisé
+    *     dans la programmation.
     *
-    * @note C&#x27;est un raccourci de Anim.Objects.WAIT
     * @method wait
     * @param  {Number} laps Nombre de secondes (peut être un flottant)
     */
-  wait:function(laps){ this.Objects.WAIT(laps) },
+  wait:function(laps){ this.Objects.WAIT(MODE_FLASH ? 0.001 : laps) },
   
-  /** Raccourci pour Anim.Dom.add
-      @method add */
-  add:function(instance){return this.Dom.add(instance)},
-  
-  /**
-    * Écrit l&#x27;étape courante
-    * @method write_current_step
-    * Note: l&#x27;étape courante ({String}) se trouve dans this.current_step
-    */
-  write_current_step:function()
-  {
-    $(&#x27;div#current_step&#x27;).html(this.current_step)
-  },
-  
+
   /**
     * Active ou désactive le mode &quot;pas à pas&quot;
     * @method def_mode_pas_a_pas
@@ -282,22 +350,37 @@ $.extend(window.Anim,{
   def_mode_pas_a_pas:function(active)
   {
     this.MODE_PAS_A_PAS = active
-    Flash.show(&quot;Le mode pas à pas est &quot;+(active ? &#x27;activé&#x27; : &#x27;désactivé&#x27;))
+    // Flash.show(&quot;Le mode pas à pas est &quot;+(active ? &#x27;activé&#x27; : &#x27;désactivé&#x27;))
   },
-  
   /**
-    * Reset l&#x27;animation (au démarrage)
+    * Reset l&#x27;animation (au (re)-démarrage)
     * @method reset
     */
   reset:function()
   {
     $(&#x27;section#animation&#x27;).html(&#x27;&#x27;)
-    this.Objects  = {}
+    this.Objects    = {}
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
-    this.staves   = []
+    Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
+    this.staves     = []
+    this.current_x  = 100 // TODO: à recalculer d&#x27;après l&#x27;armure et la métrique
+    Console.cursor_offset = 0
+    this.reset_prefs()
+  },
+  /**
+    * Reset les préférences
+    * @method reset_prefs
+    */
+  reset_prefs:function()
+  {
+    // Il faut remettre toutes les préférences au départ
+    L(this.prefs).each(function(key, value){
+      if(key.substring(0,7) == &#x27;offset_&#x27;) Anim.prefs[key] = 0
+    })
   },
   
   /** Raccourci pour Anim.Dom.show
+    * OBSOLÈTE
     * @method show */
   show:function(obj, params){this.Dom.show(obj,params)},
  
@@ -369,7 +452,11 @@ $.extend(window.Anim,{
     */
   load:function(name, rajax)
   {
-    if(name == &quot;0&quot;) return // premier menu
+    if(name == &quot;0&quot;)
+    {
+      this.name = null
+      return // premier menu
+    } 
     if(undefined == rajax)
     {
       Ajax.send({script:&quot;animation/load&quot;, name:name}, $.proxy(this.load, this, name))
@@ -378,8 +465,8 @@ $.extend(window.Anim,{
     {
       if(rajax.ok)
       {
-        this.steps  = null
-        this.name   = name
+        this.Step.list  = null
+        this.name       = name
         Console.set(rajax.raw_code.stripSlashes())
       }
       else F.error(rajax.message)
@@ -408,14 +495,7 @@ $.extend(window.Anim,{
   }
 })
 
-/**
-  * Raccourci pour définir de passer à l&#x27;étape suivante
-  * @for window
-  * @property NEXT_STEP
-  * @static
-  * @final
-  */
-var NEXT_STEP = $.proxy(Anim.auto_next_step, Anim)
+
     </pre>
 </div>
 

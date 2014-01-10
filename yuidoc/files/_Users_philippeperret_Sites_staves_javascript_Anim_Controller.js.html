@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Console.js</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/Anim/Controller.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -146,49 +146,105 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Console.js Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Anim/Controller.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*
+ *  Attention, il NE s&#x27;agit PAS d&#x27;un objet Anim.Controller, mais 
+ *  de l&#x27;extension de la class Anim
+ *  
+ */
+/**
+  * Toutes les méthodes qui gèrent le contrôleur de l&#x27;animation
+  *
+  * @module Controller.js
+  * @for Anim
+  */
+if(undefined == window.Anim) window.Anim = {}
+$.extend(Anim,{
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:5</code></a>
-        </div>
-    
+  /**
+    * === Main ===
+    *
+    * Joue l&#x27;animation courante
+    * Notes
+    * -----
+    *   * La méthode est également appelée à chaque pas en mode &quot;pas à pas&quot;
+    * @method start
+    * @param  {Object} params   Paramètres optionnels
+    */
+  start:function(params){
+    if(this.on &amp;&amp; !this.MODE_PAS_A_PAS) return this.stop()
+    else if(false == this.on)
+    {
+      this.reset()
+      if(!this.Step.list) this.Step.list = Console.steps
+      var btn_name = this.MODE_PAS_A_PAS ? &#x27;Next&#x27; : &#x27;Stop&#x27;
+      $(&#x27;input#btn_anim_start&#x27;).val(btn_name)
+      this.on = true
+    } 
+    this.Step.next()
+  },
+  /**
+    * Stoppe l&#x27;animation, parce qu&#x27;on est au bout ou parce que 
+    * c&#x27;est demandé
+    * @method stop
+    */
+  stop:function()
+  {
+    if(this.timer) clearTimeout(this.timer)
+    delete this.timer
+    delete this.Step.list
+    $(&#x27;input#btn_anim_start&#x27;).val(&quot;Start&quot;)
+    this.on = false
+  },
 
-    
-</div>
-
-
-
-<div class="box intro">
-    
-</div>
-
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Console.html">
-                        Console
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+  /**
+    * Définit le slider de vitesse de l&#x27;animation
+    * @method set_slider
+    */
+  set_slider:function()
+  {
+    $(&#x27;div#vitesse_animation&#x27;).slider({
+      step    : 1,
+      value   : 11,
+      min     : 1,
+      max     : 21,
+      change  : $.proxy(Anim.on_change_vitesse, Anim)
+    })
+  },
+  /**
+    * Règle la vitesse (avec la commande SPEED)
+    * @method set_speed
+    * @param {Number} speed Une valeur de 1 à 21
+    */
+  set_speed:function(speed)
+  {
+    $(&#x27;div#vitesse_animation&#x27;).slider(&#x27;value&#x27;, speed)
+  },
+  /**
+    * Change la vitesse de l&#x27;animation
+    * Notes
+    *   * Appelé par le slider de vitesse du contrôleur
+    *     OU par la commande SPEED(...) — qui modifie le slider
+    *   * Ne pas mettre d&#x27;argument (car le premier est l&#x27;évènement)
+    *
+    * @method on_change_vitesse
+    */
+  on_change_vitesse:function()
+  {
+    var new_coef = $(&#x27;div#vitesse_animation&#x27;).slider(&#x27;value&#x27;)
+    this.coef_speed = parseFloat(11 / new_coef)
+    for(var prop in this.TRANSITIONS)
+    {
+      this.transition_reg[prop] = parseInt(this.TRANSITIONS[prop] * this.coef_speed)
+    }
+    this.transition = this.transition_reg
+  }
+  
+})
+    </pre>
 </div>
 
                     </div>

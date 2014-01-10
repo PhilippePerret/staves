@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Console.js</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/Graphic/Circle.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -146,49 +146,163 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Console.js Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Graphic/Circle.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+  * @module Circle.js
+  */
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:5</code></a>
-        </div>
-    
+/**
+  * Modèle Circle, pour la gestion des cercles d&#x27;exergue
+  * Notes
+  * -----
+  *   * Elle hérite de la class ObjetClass
+  *
+  * @class Circle
+  * @constructor
+  */
+window.Circle = function(params)
+{
+  /**
+    * Classe d&#x27;un cercle
+    * @property {String} class
+    * @static
+    * @final
+    */
+  this.class = &#x27;circle&#x27;
+  
+  /**
+    * @property {String} id   Identifiant absolu du cercle
+    */
+  this.id = &#x27;cir&#x27;+(new Date()).getTime()
 
-    
-</div>
+  /**
+    * Le possesseur du cercle, en général une note
+    *
+    * @property {Object} owner
+    */
+  this.owner = null
+  
+  /**
+    * Taille par défaut du cercle
+    * @property {Number} DEFAULT_WIDTH
+    * @static
+    * @final
+    */
+  this.DEFAULT_WIDTH = 30
+  
+  /**
+    * Si &#x60;square&#x60; est TRUE, on dessine un cadre au lieu d&#x27;un cercle
+    * @property {Boolean} square
+    * @default false
+    */
+  this.square = false
+  
+  /**
+    * Couleur du cercle
+    * Notes
+    * -----
+    *   * On peut l&#x27;obtenir et la redéfinir avec la propriété complexe &#x60;color&#x60;
+    *
+    * @property {String} _color   La couleur du cercle
+    */
+  this._color = &#x27;blue&#x27;
 
 
+  ObjetClass.call(this, params)
+}
+Circle.prototype = Object.create( ObjetClass.prototype )
+Circle.prototype.constructor = Circle
 
-<div class="box intro">
-    
-</div>
+Object.defineProperties(Circle.prototype, {
+  /**
+    * Objet DOM du cercle s&#x27;il est construit
+    * @property {jQuerySet} obj
+    * @default NULL
+    */
+  &quot;obj&quot;:{
+    get:function(){
+      if(undefined == this._obj)
+      {
+        this._obj = $(&#x27;img#&#x27;+this.id)
+        if(this._obj.length == 0) this._obj = null
+      }
+      return this._obj
+    }
+  },
+  /**
+    * Source (src) du cercle en fonction de sa couleur
+    * @property {String} src
+    */
+  &quot;src&quot;:{
+    get:function(){
+      return &quot;../lib/img/divers/&quot;+(this.square ? &#x27;square&#x27;:&#x27;cercle&#x27;)+&quot;/&quot;+this.color+&quot;.png&quot;
+    }
+  },
+  
+  /**
+    * La taille du cercle
+    * Notes
+    * -----
+    *   * Gère les différents possesseurs et leurs propriétés. Par exemple, un cercle
+    *     pour une note sans altération et une note avec altération n&#x27;auront pas la
+    *     même taille.
+    *   * Si la propriété est re-définit et que l&#x27;objet existe, on change sa taille.
+    * @property {Number} width
+    */
+  &quot;width&quot;:{
+    set:function(w){
+      this._width = w
+      if(this.obj) this.obj.css(&#x27;width&#x27;, w+&#x27;px&#x27;)
+    },
+    get:function(){
+      if(this.owner)
+      {
+        switch(this.owner.class)
+        {
+        case &#x27;Note&#x27;:
+          this._width = 30 + (this.owner.alteration ? 18 : 0)
+          break
+        }
+      }
+      if(!this._width) this._width == this.DEFAULT_WIDTH
+      return this._width
+    }
+  },
+  /**
+    * Retourne le code HTML du cercle
+    * @property {String} code_html
+    */
+  &quot;code_html&quot;:{
+    get:function(){
+      return &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;circle&quot; src=&quot;&#x27;+this.src+&#x27;&quot; style=&quot;width:&#x27;+this.width+&#x27;px;&quot; /&gt;&#x27;
+    }
+  },
+  /**
+    * Couleur du cercle.
+    * Note
+    * ----
+    *   * La définition de cette valeur modifie le src de l&#x27;objet s&#x27;il est
+    *     construit.
+    *   * La couleur est blue par défaut
+    *
+    * @property {String} color
+    * @default &#x27;blue&#x27;
+    */
+  &quot;color&quot;:{
+    set:function(couleur){
+      this._color = couleur
+      if(this.obj) this.obj[0].src = this.src
+    },
+    get:function(){
+      return this._color || &#x27;blue&#x27;
+    }
+  }
+})
 
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Console.html">
-                        Console
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

@@ -29,6 +29,10 @@ Cette application permet de faire des animations musicales (écrites), à des fi
   * [Resetter l'animation](#reset_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
 * [Vitesse de l'animation](#vitesse_animation)
+* [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
+
+
+###Réinitialiser les préférences
 
 <a name="intro_animation"></a>
 ###Introduction
@@ -119,6 +123,7 @@ La commande `RESET` (sans parenthèses ni arguments) permet de repartir de rien 
 
 * Effacer tous les objets SAUF les portées et les clés&nbsp;;
 * Remettre le "curseur" tout à gauche (endroit où seront donc affichés les nouveaux objets).
+* Remettre toutes les valeurs par défaut.
 
 Usage&nbsp;:
 
@@ -153,6 +158,16 @@ Mais on peut aussi définir dans le code cette vitesse à l'aide de la commande&
 Pour remettre la vitesse à la vitesse normale&nbsp;:
   
     SPEED() // pas d'argument
+
+
+<a name="reiniti_preferences"></a>
+####Ré-initialiser toutes les valeurs de préférence
+
+Pour remettre toutes les valeurs de décalages aux valeurs de départ, utiliser la commande (SANS PARENTHÈSES)&nbsp;:
+
+    RESET_PREFERENCES
+
+*Noter que ça ne ré-initialise que les décalages des éléments, tels que les textes de marque de l'harmonie ou des accords, etc. Pour une ré-initialisation complète, utiliser la commande [`RESET`](#reset_animation).*
 
 
 ---------------------------------------------------------------------
@@ -689,7 +704,7 @@ Une valeur positive fera MONTER l'accord, l'éloignant de la portée, une valeur
 
     OFFSET_CHORD_MARK(<decalage par rapport à la valeur actuelle>)
     
-####Ré-initialiser toutes les valeurs
+####Ré-initialiser toutes les valeurs de préférence
 
 Pour remettre toutes les valeurs aux valeurs de départ, utiliser la commande (SANS PARENTHÈSES)&nbsp;:
 

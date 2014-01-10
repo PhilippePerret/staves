@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -136,62 +158,106 @@
 /**
   * @method CHORD
   * @param  {String} strnotes La suite des notes, séparées par des espaces
-  * @return {Array} Une liste de note, sauf premier élément
-  *                 car les indices des notes doivent être 1-start.
-  *                 En réalité, c&#x27;est plus qu&#x27;une liste puisque l&#x27;objet Array
-  *                 contient aussi des méthodes propres aux accords.
+  * @param  {Object} params   Paramètres optionnels
+  * @return {Chord} Instance de Chord
   */
-window.CHORD = function(strnotes)
+window.CHORD = function(strnotes, params)
 {
-  var notes = strnotes.split(&#x27; &#x27;)
-  var acc = [null]
-  L(notes).each(function(strnote){
-    acc.push(NOTE(strnote,{dont_build:true}))
-  })
-  // On ajoute les méthodes et propriétés de l&#x27;accord
-  $.extend(acc, CHORD_METHODS)
-  Object.defineProperties(acc, CHORD_PROPERTIES)
-  
-  // On peut construire les notes
-  Anim.wait(1)
-  acc.each_note(function(note){note.build()})
-  return acc
+  return new Chord(strnotes, params)
 }
 
 /**
-  * Méthodes de tout accord
-  * @class CHORD_METHODS
-  * @static
+  * Class Chord
+  * Gestion des accords
+  * Notes
+  * -----
+  *
+  * @class Chord
+  * @constructor
   */
-window.CHORD_METHODS = {
+window.Chord = function(strnotes, params)
+{
   /**
-    * Exécute une fonction sur toutes les notes de l&#x27;accord
-    * @method each_note
-    * @param  {Function} fn La fonction à exécuter
+    * Identifiant absolu de l&#x27;accord
+    * Note : Pour le moment, il n&#x27;est pas utilisé, mais plus tard, on pourra
+    * imaginer consigner les mêmes types d&#x27;éléments dans des Hash de Anim.Objects
+    * @property {String} id
     */
-  each_note:function(fn)
-  {
-    for(var i=1, len=this.length; i&lt;len; ++i)
-    {
-      fn(this[i])
-    }
-  },
+  this.id = &#x27;chd&#x27;+(new Date()).getTime()
+  /**
+    * Class d&#x27;un type accord
+    * @property {String} class
+    * @static @final 
+    * @default &#x27;chord&#x27;
+    */
+  this.class = &#x27;chord&#x27;
+  /**
+    * Position left de l&#x27;accord (par défault le Anim.current_x courant)
+    * @property {Number} left
+    */
+  this.left = Anim.current_x
+  /**
+    * Liste {Array} des instances {Note} des notes de l&#x27;accord
+    * Notes
+    * -----
+    *   * Les notes (strnotes) seront dispatchés une fois que le left
+    *     sera éventuellement redéfini par les paramètres
+    *
+    * @property {Array of Note} notes
+    */
+  this.notes = [null]
   
   /**
-    * Destruction de l&#x27;accord (destruction de chaque note)
-    * @method build
+    * La portée de l&#x27;accord
+    * Note : Elle peut être surclassée par les paramètres
+    * @property {Staff} staff
+    * @static
     */
-  remove:function()
-  {
-    this.each_note(function(note){note.remove()})
-  }
+  this.staff = Anim.current_staff
+  
+  if(undefined == params) params = {}
+  for(var prop in params) this[prop] = params[prop]
+  
+  var me = this
+  L(strnotes.split(&#x27; &#x27;)).each(function(strnote){
+    me.notes.push(NOTE(strnote,{dont_build:true}))
+  })
+  
+  // On peut construire les notes
+  Anim.wait(1)
+  this.build()  
 }
+$.extend(Chord.prototype, METHODES_TEXTE)
+$.extend(Chord.prototype, METHODES_GROUPNOTES)
 
-window.CHORD_PROPERTIES = {
-  &quot;prop&quot;:{
-    get:function(){return null}
+$.extend(Chord.prototype,{})
+Object.defineProperties(Chord.prototype, {
+  /**
+    * Le milieu horizontal de l&#x27;objet (en tenant compte vraiment de sa taille)
+    * @property {Number} center_x
+    */
+  &quot;center_x&quot;:{
+    get:function(){
+      dlog(&quot;-&gt; Chord.center_x&quot;)
+      var max_width = 0
+      this.each_note(function(note){if(note.obj.width() &gt; max_width) max_width = note.obj.width()})
+      return parseInt(this.left + (max_width / 2), 10)
+    }
+  },
+  /**
+    * Le milieu vertical de l&#x27;objet
+    * @property {Number} center_y
+    */
+  &quot;center_y&quot;:{
+    get:function(){
+      var h_accord = 12
+      this.each_note(function(note){ h_accord += note.top })
+      return parseInt(this.top + (h_accord / 2), 10)
+    }
   }
-}
+  
+})
+
     </pre>
 </div>
 

@@ -78,6 +78,7 @@ window.Arrow = function(params)
     * méthode Arrow ci-dessous à sa méthode maNote.arrow.
     * Mais si une flèche est créée sans être associée à un objet, elle doit
     * pouvoir travailler de la même façon, d'où la définition ci-dessous.
+    * @property {Object} owner
     */
   this.owner = {_arrow:this}
   

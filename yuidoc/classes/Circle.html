@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Txt</title>
+    <title>Circle</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -146,7 +146,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Txt Class</h1>
+                        <h1>Circle Class</h1>
 <div class="box meta">
     
 
@@ -154,13 +154,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l93"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:93</code></a>
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:5</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Txt.js.html">Txt.js</a>
+            Module: <a href="../modules/Circle.js.html">Circle.js</a>
         
     
 
@@ -170,33 +170,22 @@
 
 
 <div class="box intro">
-    
+    <p>Modèle Circle, pour la gestion des cercles d&#39;exergue</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Elle hérite de la class ObjetClass</li>
+</ul>
+
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Txt" class="method item">
-    <h3 class="name"><code>Txt</code></h3>
+        <div id="method_Circle" class="method item">
+    <h3 class="name"><code>Circle</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>owner</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -224,7 +213,7 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l93"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:93</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:5</code></a>
         
         </p>
 
@@ -238,46 +227,6 @@
         
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">owner</code>
-                        <span class="type"><a href="../classes/Staff.html" class="crosslink">Staff</a> | <a href="../classes/Note.html" class="crosslink">Note</a> | Barre | etc.</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Le porteur du texte</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">String | Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Le texte ou les paramètres du texte</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -293,8 +242,6 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
         
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
         
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
@@ -307,55 +254,28 @@
             <h2 class="off-left">Item Index</h2>
 
             
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method">
-                                <a href="#method_build">build</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_hide">hide</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_positionne">positionne</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_reset">reset</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_show">show</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
 
             
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property__color   La couleur du cercle">_color   La couleur du cercle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_class">class</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
                         
                             <li class="index-item property">
                                 <a href="#property_code_html">code_html</a>
@@ -365,7 +285,23 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_left">left</a>
+                                <a href="#property_color">color</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_DEFAULT_WIDTH">DEFAULT_WIDTH</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_id   Identifiant absolu du cercle">id   Identifiant absolu du cercle</a>
 
                                 
                                 
@@ -379,28 +315,28 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_real_left">real_left</a>
+                                <a href="#property_owner">owner</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_texte">texte</a>
+                                <a href="#property_square">square</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_top">top</a>
+                                <a href="#property_src">src</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_type">type</a>
+                                <a href="#property_width">width</a>
 
                                 
                                 
@@ -416,22 +352,15 @@
         </div>
 
         
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="method_build" class="method item">
-    <h3 class="name"><code>build</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
+                    <div id="property__color   La couleur du cercle" class="property item">
+    <h3 class="name"><code>_color   La couleur du cercle</code></h3>
+    <span class="type">String</span>
 
     
 
@@ -452,10 +381,9 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l119"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:119</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l51"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:51</code></a>
         
         </p>
-
 
         
 
@@ -463,177 +391,10 @@
     </div>
 
     <div class="description">
-        <p>Écrit le texte (en fait, construit son élément et le positionne)</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_hide" class="method item">
-    <h3 class="name"><code>hide</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l129"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:129</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Masque le texte (sans le détruire)</p>
-<h2 id="note">Note</h2>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Paramètres optionnels, et notamment :</p>
-
-                    </div>
-
-                    
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">complete</code>
-                                    <span class="type">Function</span>
-                                
-
-                                <div class="param-description">
-                                    <p>La méthode poursuivre, si elle doit être
-                                    différente de NEXT_STEP</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_positionne" class="method item">
-    <h3 class="name"><code>positionne</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l174"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:174</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Positionne l&#39;élément (en fonction de son possesseur)
-Notes</p>
+        <p>Couleur du cercle</p>
+<h2 id="notes">Notes</h2>
 <ul>
-<li>Le texte est placé à différents endroit de la portée en fonction
-du type de texte.</li>
-<li>Le left doit être recalculé, une fois qu&#39;on connait la taille du texte,
-pour être calé correctement contre le possesseur.</li>
+<li>On peut l&#39;obtenir et la redéfinir avec la propriété complexe <code>color</code></li>
 </ul>
 
     </div>
@@ -646,25 +407,20 @@ pour être calé correctement contre le possesseur.</li>
 </div>
 
                 
-                    <div id="method_reset" class="method item">
-    <h3 class="name"><code>reset</code></h3>
-
-    
-        <span class="paren">()</span>
-    
+                    <div id="property_class" class="property item">
+    <h3 class="name"><code>class</code></h3>
+    <span class="type">String</span>
 
     
 
     
 
     
-
+        <span class="flag final">final</span>
     
 
     
-
-    
-
+        <span class="flag static">static</span>
     
 
     <div class="meta">
@@ -678,10 +434,9 @@ pour être calé correctement contre le possesseur.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l190"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:190</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l16"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:16</code></a>
         
         </p>
-
 
         
 
@@ -689,8 +444,7 @@ pour être calé correctement contre le possesseur.</li>
     </div>
 
     <div class="description">
-        <p>Ré-initialisation du texte après la définition de valeur qui peuvent
-obliger à un recalcul</p>
+        <p>Classe d&#39;un cercle</p>
 
     </div>
 
@@ -700,74 +454,11 @@ obliger à un recalcul</p>
 
     
 </div>
-
-                
-                    <div id="method_show" class="method item">
-    <h3 class="name"><code>show</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l155"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:155</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>(Ré-)affiche le texte</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
 
                 
                     <div id="property_code_html" class="property item">
     <h3 class="name"><code>code_html</code></h3>
-    <span class="type">HTLMString</span>
+    <span class="type">String</span>
 
     
 
@@ -788,7 +479,7 @@ obliger à un recalcul</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l361"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:361</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l122"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:122</code></a>
         
         </p>
 
@@ -798,7 +489,7 @@ obliger à un recalcul</p>
     </div>
 
     <div class="description">
-        <p>Return le code HTML pour le texte</p>
+        <p>Retourne le code HTML du cercle</p>
 
     </div>
 
@@ -810,8 +501,61 @@ obliger à un recalcul</p>
 </div>
 
                 
-                    <div id="property_left" class="property item">
-    <h3 class="name"><code>left</code></h3>
+                    <div id="property_color" class="property item">
+    <h3 class="name"><code>color</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l131"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:131</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Couleur du cercle.</p>
+<h2 id="note">Note</h2>
+<ul>
+<li>La définition de cette valeur modifie le src de l&#39;objet s&#39;il est
+construit.</li>
+<li>La couleur est blue par défaut</li>
+</ul>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &#x27;blue&#x27;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_DEFAULT_WIDTH" class="property item">
+    <h3 class="name"><code>DEFAULT_WIDTH</code></h3>
     <span class="type">Number</span>
 
     
@@ -819,6 +563,55 @@ obliger à un recalcul</p>
     
 
     
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l36"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:36</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Taille par défaut du cercle</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_id   Identifiant absolu du cercle" class="property item">
+    <h3 class="name"><code>id   Identifiant absolu du cercle</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
 
     
 
@@ -833,7 +626,7 @@ obliger à un recalcul</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l296"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:296</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l24"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:24</code></a>
         
         </p>
 
@@ -843,16 +636,7 @@ obliger à un recalcul</p>
     </div>
 
     <div class="description">
-        <p>Retourne le décalage horizontal du texte</p>
-<h2 id="notes">Notes</h2>
-<ul>
-<li>Pour certains types, comme <code>harmony</code>, il doit être calculé pour
-pouvoir placer son bord droit au bout du possesseur.
-Mais cela ne peut être fait qu&#39;une fois qu&#39;on connait la taille du
-texte, donc c&#39;est la méthode <code>positionne</code> qui s&#39;en charge. c&#39;est quand
-elle appelle this.left qu&#39;on le calcule.</li>
-</ul>
-
+        
     </div>
 
     
@@ -886,7 +670,7 @@ elle appelle this.left qu&#39;on le calcule.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l354"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:354</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l68"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:68</code></a>
         
         </p>
 
@@ -896,10 +680,12 @@ elle appelle this.left qu&#39;on le calcule.</li>
     </div>
 
     <div class="description">
-        <p>Return l&#39;objet DOM du texte</p>
+        <p>Objet DOM du cercle s&#39;il est construit</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> NULL</p>
     
 
     
@@ -908,9 +694,9 @@ elle appelle this.left qu&#39;on le calcule.</li>
 </div>
 
                 
-                    <div id="property_real_left" class="property item">
-    <h3 class="name"><code>real_left</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_owner" class="property item">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type">Object</span>
 
     
 
@@ -931,7 +717,7 @@ elle appelle this.left qu&#39;on le calcule.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l318"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:318</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l29"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:29</code></a>
         
         </p>
 
@@ -941,8 +727,7 @@ elle appelle this.left qu&#39;on le calcule.</li>
     </div>
 
     <div class="description">
-        <p>Retourne le vrai décalage left du texte par rapport à l&#39;objet en
-fonction de son type</p>
+        <p>Le possesseur du cercle, en général une note</p>
 
     </div>
 
@@ -954,8 +739,55 @@ fonction de son type</p>
 </div>
 
                 
-                    <div id="property_texte" class="property item">
-    <h3 class="name"><code>texte</code></h3>
+                    <div id="property_square" class="property item">
+    <h3 class="name"><code>square</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l44"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:44</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Si <code>square</code> est TRUE, on dessine un cadre au lieu d&#39;un cercle</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_src" class="property item">
+    <h3 class="name"><code>src</code></h3>
     <span class="type">String</span>
 
     
@@ -977,7 +809,7 @@ fonction de son type</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l208"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:208</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l83"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:83</code></a>
         
         </p>
 
@@ -987,11 +819,7 @@ fonction de son type</p>
     </div>
 
     <div class="description">
-        <p>Le texte 
-Notes</p>
-<ul>
-<li>Suivant le type de l&#39;instance (<code>type</code>), il peut être transformé</li>
-</ul>
+        <p>Source (src) du cercle en fonction de sa couleur</p>
 
     </div>
 
@@ -1003,8 +831,8 @@ Notes</p>
 </div>
 
                 
-                    <div id="property_top" class="property item">
-    <h3 class="name"><code>top</code></h3>
+                    <div id="property_width" class="property item">
+    <h3 class="name"><code>width</code></h3>
     <span class="type">Number</span>
 
     
@@ -1026,7 +854,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l262"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:262</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Circle.js.html#l93"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Circle.js:93</code></a>
         
         </p>
 
@@ -1036,63 +864,13 @@ Notes</p>
     </div>
 
     <div class="description">
-        <p>Retourne le TOP DU TEXTE</p>
+        <p>La taille du cercle</p>
 <h2 id="notes">Notes</h2>
 <ul>
-<li>Ce top dépend de pas mal de choses et notamment du type du texte (finger,
-harmony, etc.)</li>
-<li>Il peut être également influencer par les décalages des préférences</li>
-</ul>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_type" class="property item">
-    <h3 class="name"><code>type</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Txt.js.html#l247"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Txt.js:247</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Le type du texte, s&#39;il est défini
-Ce type peut être (pour le moment)</p>
-<ul>
-<li>harmony   Un texte pour un chiffrage d&#39;harmonie</li>
-<li>chord     Un accord</li>
-<li>finger    Un doigté</li>
+<li>Gère les différents possesseurs et leurs propriétés. Par exemple, un cercle
+pour une note sans altération et une note avec altération n&#39;auront pas la
+même taille.</li>
+<li>Si la propriété est re-définit et que l&#39;objet existe, on change sa taille.</li>
 </ul>
 
     </div>

@@ -209,6 +209,7 @@ Object.defineProperties(Txt.prototype,{
     * Le texte 
     * Notes
     *   * Suivant le type de l'instance (`type`), il peut être transformé
+    * @property {String} texte
     */
   "texte":{
     set:function(t){this.raw_texte = t; this.reset()},

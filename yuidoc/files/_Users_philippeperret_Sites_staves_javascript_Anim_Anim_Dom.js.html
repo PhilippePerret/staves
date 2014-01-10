@@ -45,11 +45,17 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
-                <li><a href="../classes/CHORD_METHODS.html">CHORD_METHODS</a></li>
+                <li><a href="../classes/Arrow.html">Arrow</a></li>
+            
+                <li><a href="../classes/Chord.html">Chord</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Note.html">Note</a></li>
             
@@ -57,7 +63,11 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/Scale.html">Scale</a></li>
+            
                 <li><a href="../classes/Staff.html">Staff</a></li>
+            
+                <li><a href="../classes/Step.html">Step</a></li>
             
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
@@ -75,13 +85,25 @@
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
+                <li><a href="../modules/Anim_Step.html">Anim_Step</a></li>
+            
+                <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
+                <li><a href="../modules/Circle.js.html">Circle.js</a></li>
+            
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
+            
+                <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/Note.html">Note</a></li>
+            
+                <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
@@ -142,36 +164,58 @@ if(undefined == window.Anim) window.Anim = {}
 Anim.Dom = {
   /**
     * Affiche un objet quelconque de l&#x27;animation
+    * Notes
+    * -----
+    *   * La méthode est toujours en fin de chaine donc elle doit toujours
+    *     appeler NEXT_STEP(). Mais si la méthode &#x60;params.complete&#x60; est
+    *     définie, elle peut être appelée au lieu de NEXT_STEP, en sachant
+    *     que cette méthode &#x60;complete&#x60; devra se charger OBLIGATOIREMENT
+    *     d&#x27;appeler NEXT_STEP().
+    *     Cela arrive par exemple lorsqu&#x27;un objet est constitué de plusieurs
+    *     éléments, comme une note altérée avec lignes supplémentaires
+    *
     * @method show
     * @param  {Any} obj L&#x27;objet (Note, Txt, etc.) à afficher
     * @param  {Object} params Les paramètres optionnels
     *   @param  {Number} params.duree   Le temps pour faire apparaitre l&#x27;objet
-    *   @param  {Function} params.complete  La méthode pour suivre
+    *   @param  {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
     */
   show:function(obj, params)
   {
+    // dlog(&quot;-&gt; Anim.Dom.show / params:&quot;);dlog(params)
     if(undefined == params) params = {}
-    obj.animate(
-      {opacity:1}, 
-      params.duree || 1000, 
-      params.complete ? params.complete : null
-      )
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    if(MODE_FLASH)
+    {
+      obj.css(&#x27;opacity&#x27;,1)
+      params.complete()
+    }
+    else
+    {
+      obj.animate(
+        {opacity:1}, 
+        params.duree || 1000, 
+        params.complete
+        )
+    }
   },
   /**
     * Ajoute un objet DOM à l&#x27;animation
     * Notes
-    *   * On ajoute toujours l&#x27;élément masqué, mais c&#x27;est ici que la méthode
-    *     ajouter &#x60; style=&quot;opacity:0;&quot;&#x60; donc inutile de le mettre dans le
-    *     code.
     *   * Pour pouvoir fonctionner, l&#x27;instance doit toujours définir : 
     *     - la propriété &#x60;code_html&#x60; qui définit le code HTML de l&#x27;instance
     *     - la méthode &#x60;positionne&#x60; qui positionne l&#x27;élément.
     *     - la méthode &#x60;show&#x60; qui l&#x27;affiche
     * @method add
-    * @param  {HTMLString} code_html  Le code HTML de l&#x27;élément.
+    * @param  {HTMLString|Instance} instance 
+    *                               L&#x27;instance ou le code HTML de l&#x27;élément. Si c&#x27;est
+    *                               une instance, elle doit répondre à la méthode
+    *                               &#x60;code_html&#x60; qui renvoie le code HTML à afficher
+    *                                   
     */
   add:function(instance)
   {
+    // dlog(&quot;-&gt; Anim.Dom.add&quot;)
     var a_simple_string = &#x27;string&#x27; == typeof instance, code_html ;
     if(a_simple_string)
     {
@@ -180,10 +224,6 @@ Anim.Dom = {
     else
     {
       code_html = instance.code_html
-    }
-    if(code_html.indexOf(&#x27;opacity:0&#x27;)&lt;0)
-    {
-      code_html = code_html.substring(0, code_html.length-1) + &#x27; style=&quot;opacity:0;&quot;&gt;&#x27;
     }
     this.section.append(code_html)
     if(a_simple_string)
@@ -194,7 +234,7 @@ Anim.Dom = {
     {
       // Positionne et affiche l&#x27;objet
       instance.positionne()
-      instance.show(instance.class == &#x27;Staff&#x27; ? 0 : Anim.transition.show)
+      instance.show()
     }
   },
   

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Staff</title>
+    <title>Arrow</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -146,7 +146,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Staff Class</h1>
+                        <h1>Arrow Class</h1>
 <div class="box meta">
     
 
@@ -154,13 +154,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:5</code></a>
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l22"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:22</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Staff.html">Staff</a>
+            Module: <a href="../modules/Arrow.js.html">Arrow.js</a>
         
     
 
@@ -170,27 +170,22 @@
 
 
 <div class="box intro">
-    
+    <p>Modèle Arrow, pour la gestion des flèches</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Elle hérite de la class ObjetClass</li>
+</ul>
+
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Staff" class="method item">
-    <h3 class="name"><code>Staff</code></h3>
+        <div id="method_Arrow" class="method item">
+    <h3 class="name"><code>Arrow</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -218,7 +213,7 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:5</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l22"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:22</code></a>
         
         </p>
 
@@ -232,30 +227,6 @@
         
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Les paramètres optionnels (n&#39;importe quelle propriété)</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -290,50 +261,43 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method protected">
-                                <a href="#method_add_sup_lines">add_sup_lines</a>
+                            <li class="index-item method">
+                                <a href="#method_ARROW">ARROW</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_best_octave_scale">best_octave_scale</a>
+                                <a href="#method_modify">modify</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_build">build</a>
+                                <a href="#method_move">move</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_create">create</a>
+                                <a href="#method_remove">remove</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_positionne">positionne</a>
+                                <a href="#method_rotate">rotate</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_show">show</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_top_next_staff">top_next_staff</a>
+                                <a href="#method_width">width</a>
 
                                 
                                 
@@ -350,6 +314,29 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
+                                <a href="#property__color   La couleur du cercle">_color   La couleur du cercle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_angle">angle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_class">class</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_code_html">code_html</a>
 
                                 
@@ -357,42 +344,23 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_dom_id">dom_id</a>
+                                <a href="#property_color">color</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_html_img">html_img</a>
+                                <a href="#property_DEFAULT_WIDTH">DEFAULT_WIDTH</a>
 
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_html_img_cle">html_img_cle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_img">img</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_img_cle">img_cle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_indice">indice</a>
+                                <a href="#property_id   Identifiant absolu du cercle">id   Identifiant absolu du cercle</a>
 
                                 
                                 
@@ -406,6 +374,41 @@
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_obj">obj</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_owner">owner</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_owner">owner</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_src">src</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_style">style</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_top">top</a>
 
                                 
@@ -413,7 +416,7 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_zero">zero</a>
+                                <a href="#property_width">width</a>
 
                                 
                                 
@@ -433,8 +436,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_add_sup_lines" class="method item protected">
-    <h3 class="name"><code>add_sup_lines</code></h3>
+                    <div id="method_ARROW" class="method item">
+    <h3 class="name"><code>ARROW</code></h3>
 
     
         <div class="args">
@@ -454,8 +457,6 @@
 
     
 
-    
-        <span class="flag protected">protected</span>
     
 
     
@@ -477,7 +478,7 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l140"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:140</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:5</code></a>
         
         </p>
 
@@ -488,13 +489,7 @@
     </div>
 
     <div class="description">
-        <p>Ajoute des lignes supplémentaires à la portée</p>
-<h2 id="notes">Notes</h2>
-<ul>
-<li>Les lignes portent l&#39;identifiant &quot;<indice portée>-<left>-<indice>&quot;
-pour pouvoir être supprimées par REMOVE_SUPLINE</li>
-<li>@rappel : les lignes sont séparées par 12px</li>
-</ul>
+        <p>Ajoute une flèche indépendante des objets</p>
 
     </div>
 
@@ -513,7 +508,7 @@ pour pouvoir être supprimées par REMOVE_SUPLINE</li>
                     
 
                     <div class="param-description">
-                        <p>Paramètres optionnels</p>
+                        <p>Les paramètres pour la flèche</p>
 
                     </div>
 
@@ -522,379 +517,40 @@ pour pouvoir être supprimées par REMOVE_SUPLINE</li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">above</code>
-                                    <span class="type">Boolean</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Si true (default) ajouter au-dessus</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">upto</code>
+                                    <code class="param-name">left</code>
                                     <span class="type">Number</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Des lignes jusqu&#39;à ce nombre</p>
+                                    <p>Le décalage horizontal</p>
 
                                 </div>
 
                                 
                             </li>
                             
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_best_octave_scale" class="method item">
-    <h3 class="name"><code>best_octave_scale</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>cle</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>inote</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l80"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:80</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Retourne le meilleur octave pour la gamme</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">cle</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>La clé de la portée</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">inote</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>L&#39;indice de la note (0=DO, 1=RE, 2=MI, etc.)</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                    <p>Le meilleur octave trouvé</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_build" class="method item">
-    <h3 class="name"><code>build</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l107"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:107</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Construit la portée</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Paramètres supplémentaire</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_create" class="method item">
-    <h3 class="name"><code>create</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>cle</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l45"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:45</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Crée une nouvelle portée de clé +cle+ et de métrique +metrique+ sous
-la dernière portée affichée (et l&#39;enregistre dans this.staves)
-Notes</p>
-<ul>
-<li>Cette méthode ne met pas la portée en portée courante, c&#39;est la méthode
-appelante qui doit s&#39;en charger.</li>
-</ul>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">cle</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>La clé de la portée (obligatoire)</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Les paramètres éventuels</p>
-
-                    </div>
-
-                    
-                        <ul class="params-list">
+                            <li class="param">
+                                
+                                    <code class="param-name">top</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Le décalage vertical</p>
+
+                                </div>
+
+                                
+                            </li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">metrique</code>
+                                    <code class="param-name">color</code>
                                     <span class="type">String</span>
                                 
 
                                 <div class="param-description">
-                                    <p>La métrique optionnelle</p>
+                                    <p>La couleur de la flèche</p>
 
                                 </div>
 
@@ -903,12 +559,26 @@ appelante qui doit s&#39;en charger.</li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">offset</code>
+                                    <code class="param-name">angle</code>
                                     <span class="type">Number</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Le décalage par rapport à la dernière portée</p>
+                                    <p>L&#39;angle de la flèche</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">width</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La longueur de la flèche</p>
 
                                 </div>
 
@@ -929,8 +599,142 @@ appelante qui doit s&#39;en charger.</li>
 </div>
 
                 
-                    <div id="method_positionne" class="method item">
-    <h3 class="name"><code>positionne</code></h3>
+                    <div id="method_modify" class="method item">
+    <h3 class="name"><code>modify</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>method</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>complete</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l92"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:92</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode générale pour modifier la flèche (appelée par les autres
+méthodes)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">method</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La méthode de mofication (p.e. &#39;css&#39;)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres de la modification</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">complete</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La méthode pour suivre</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_move" class="method item">
+    <h3 class="name"><code>move</code></h3>
 
     
         <div class="args">
@@ -971,7 +775,7 @@ appelante qui doit s&#39;en charger.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l127"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:127</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l114"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:114</code></a>
         
         </p>
 
@@ -982,7 +786,7 @@ appelante qui doit s&#39;en charger.</li>
     </div>
 
     <div class="description">
-        <p>Positionne la portée, la clé et la métrique (if any)</p>
+        <p>Déplacer la flèche</p>
 
     </div>
 
@@ -1001,185 +805,7 @@ appelante qui doit s&#39;en charger.</li>
                     
 
                     <div class="param-description">
-                        <p>Paramètres optionnels</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_show" class="method item">
-    <h3 class="name"><code>show</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>vitesse</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l116"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:116</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Affiche les objets de l&#39;élément</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">vitesse</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>La vitesse d&#39;apparition</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_top_next_staff" class="method item">
-    <h3 class="name"><code>top_next_staff</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l67"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:67</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Retourne le top de la prochaine portée</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Paramètres optionnels</p>
+                        <p>Paramètres du déplacement</p>
 
                     </div>
 
@@ -1188,12 +814,26 @@ appelante qui doit s&#39;en charger.</li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">offset</code>
+                                    <code class="param-name">x</code>
                                     <span class="type">Number</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Le décalage éventuel par rapport à la position naturelle</p>
+                                    <p>Déplacement  horizontal (en pixels)</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">y</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Déplacement vertical (en pixels)</p>
 
                                 </div>
 
@@ -1201,6 +841,239 @@ appelante qui doit s&#39;en charger.</li>
                             </li>
                             
                         </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_remove" class="method item">
+    <h3 class="name"><code>remove</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l153"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:153</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Détruire la flèche</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_rotate" class="method item">
+    <h3 class="name"><code>rotate</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>angle</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l129"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:129</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Fait pivoter la flèche de l&#39;angle +angle+</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">angle</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>L&#39;angle de rotation (positif si sens non trigo)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_width" class="method item">
+    <h3 class="name"><code>width</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>px</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l143"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:143</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Change la taille de la flèche</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">px</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La nouvelle taille en pixels</p>
+
+                    </div>
+
                     
                 </li>
             
@@ -1222,53 +1095,8 @@ appelante qui doit s&#39;en charger.</li>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_code_html" class="property item">
-    <h3 class="name"><code>code_html</code></h3>
-    <span class="type">HTMLString</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l218"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:218</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Return le code HTML complet de la portée</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_dom_id" class="property item">
-    <h3 class="name"><code>dom_id</code></h3>
+                    <div id="property__color   La couleur du cercle" class="property item">
+    <h3 class="name"><code>_color   La couleur du cercle</code></h3>
     <span class="type">String</span>
 
     
@@ -1290,7 +1118,7 @@ appelante qui doit s&#39;en charger.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l211"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:211</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l61"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:61</code></a>
         
         </p>
 
@@ -1300,7 +1128,11 @@ appelante qui doit s&#39;en charger.</li>
     </div>
 
     <div class="description">
-        <p>Return l&#39;ID DOM de l&#39;image de la portée</p>
+        <p>Couleur de la flèche</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>On peut l&#39;obtenir et la redéfinir avec la propriété complexe <code>color</code></li>
+</ul>
 
     </div>
 
@@ -1312,188 +1144,8 @@ appelante qui doit s&#39;en charger.</li>
 </div>
 
                 
-                    <div id="property_html_img" class="property item">
-    <h3 class="name"><code>html_img</code></h3>
-    <span class="type">HTMLString</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l227"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:227</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Return le code HTML pour la portée</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_html_img_cle" class="property item">
-    <h3 class="name"><code>html_img_cle</code></h3>
-    <span class="type">HTMLString</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l242"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:242</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Return le code HTML pour la clé</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_img" class="property item">
-    <h3 class="name"><code>img</code></h3>
-    <span class="type">JQuerySet</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l196"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:196</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Return l&#39;élément DOM de la portée contenue dans son DIV</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_img_cle" class="property item">
-    <h3 class="name"><code>img_cle</code></h3>
-    <span class="type">JQuerySet</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l203"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:203</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Return l&#39;élément DOM de la clé</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_indice" class="property item">
-    <h3 class="name"><code>indice</code></h3>
+                    <div id="property_angle" class="property item">
+    <h3 class="name"><code>angle</code></h3>
     <span class="type">Number</span>
 
     
@@ -1515,7 +1167,7 @@ appelante qui doit s&#39;en charger.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l28"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:28</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l243"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:243</code></a>
         
         </p>
 
@@ -1525,12 +1177,248 @@ appelante qui doit s&#39;en charger.</li>
     </div>
 
     <div class="description">
-        <p>Indice (1-start) de la portée dans l&#39;animation
-Notes</p>
+        <p>Angle de la flèche</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_class" class="property item">
+    <h3 class="name"><code>class</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l33"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:33</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Classe d&#39;une flèche</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_code_html" class="property item">
+    <h3 class="name"><code>code_html</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l205"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:205</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Retourne le code HTML de la flèche</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_color" class="property item">
+    <h3 class="name"><code>color</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l255"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:255</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Couleur de la flèche</p>
+<h2 id="note">Note</h2>
 <ul>
-<li>Il sera défini au moment de la création de la portée (<code>create</code>)</li>
+<li>La définition de cette valeur modifie le src de l&#39;objet s&#39;il est
+construit.</li>
+<li>La couleur est blue par défaut</li>
 </ul>
 
+    </div>
+
+    
+        <p><strong>Default:</strong> &#x27;blue&#x27;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_DEFAULT_WIDTH" class="property item">
+    <h3 class="name"><code>DEFAULT_WIDTH</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l53"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:53</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Taille par défaut de la flèche</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_id   Identifiant absolu du cercle" class="property item">
+    <h3 class="name"><code>id   Identifiant absolu du cercle</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l41"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:41</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
     </div>
 
     
@@ -1564,7 +1452,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l22"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:22</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l226"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:226</code></a>
         
         </p>
 
@@ -1574,12 +1462,245 @@ Notes</p>
     </div>
 
     <div class="description">
-        <p>Décalage horizontal par défaut de l&#39;image</p>
+        <p>Décalage horizontal de la flèche (par défaut le décalage courant)</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> 0</p>
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_obj" class="property item">
+    <h3 class="name"><code>obj</code></h3>
+    <span class="type">JQuerySet</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l163"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:163</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Objet DOM de la flèche s&#39;il est construit</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> NULL</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_owner" class="property item">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l71"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:71</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Le possesseur de la flèche.
+Voir par exemple la note : elle définit une flèche avec :
+  maNote.arrow()
+Ensuite, pour pouvoir appeler des méthodes par :
+  maNote.arrow.<method>(<paramètres>)
+… maNote a mis son _arrow à l&#39;instance Arrow, et a ajouté les
+méthode Arrow ci-dessous à sa méthode maNote.arrow.
+Mais si une flèche est créée sans être associée à un objet, elle doit
+pouvoir travailler de la même façon, d&#39;où la définition ci-dessous.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_owner" class="property item">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l46"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:46</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Le possesseur de la flèche, en général une note</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_src" class="property item">
+    <h3 class="name"><code>src</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l178"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:178</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Source (src) de la flèche en fonction de sa couleur</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_style" class="property item">
+    <h3 class="name"><code>style</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l214"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:214</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Attribut &#39;style&#39; de la balise HTML de la flèche</p>
+
+    </div>
+
     
 
     
@@ -1611,7 +1732,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l16"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:16</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l235"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:235</code></a>
         
         </p>
 
@@ -1621,12 +1742,10 @@ Notes</p>
     </div>
 
     <div class="description">
-        <p>Décalage vertical par défaut de l&#39;image</p>
+        <p>Décalage vertical de la flèche (par défaut la hauteur de la portée)</p>
 
     </div>
 
-    
-        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -1635,8 +1754,8 @@ Notes</p>
 </div>
 
                 
-                    <div id="property_zero" class="property item">
-    <h3 class="name"><code>zero</code></h3>
+                    <div id="property_width" class="property item">
+    <h3 class="name"><code>width</code></h3>
     <span class="type">Number</span>
 
     
@@ -1658,7 +1777,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Staff.js.html#l174"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Staff.js:174</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l188"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:188</code></a>
         
         </p>
 
@@ -1668,11 +1787,10 @@ Notes</p>
     </div>
 
     <div class="description">
-        <p>Le &quot;zéro&quot; de la portée, en fonction de sa clé, qui permettra
-de positionner les notes.
-Notes</p>
+        <p>La taille de la flèche</p>
+<h2 id="notes">Notes</h2>
 <ul>
-<li>Ce zéro doit correspondre à la hauteur de la note A4</li>
+<li>Si la propriété est re-définit et que l&#39;objet existe, on change sa taille.</li>
 </ul>
 
     </div>
