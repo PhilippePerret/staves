@@ -55,20 +55,22 @@ window.Chord = function(strnotes, params)
     */
   this.notes = [null]
   
-  /**
-    * La portée de l'accord
-    * Note : Elle peut être surclassée par les paramètres
-    * @property {Staff} staff
-    * @static
-    */
-  this.staff = Anim.current_staff
+  // /** OBSOLÈTE : PROPRIÉTÉ COMPLEXE DE ObjectClass
+  //   * La portée de l'accord
+  //   * Note : Elle peut être surclassée par les paramètres
+  //   * @property {Staff} staff
+  //   * @static
+  //   */
+  // this.staff = Anim.current_staff
   
   if(undefined == params) params = {}
-  for(var prop in params) this[prop] = params[prop]
+  for(var prop in params){
+    this[prop] = params[prop]
+  } 
   
   var me = this
   L(strnotes.split(' ')).each(function(strnote){
-    me.notes.push(NOTE(strnote,{dont_build:true}))
+    me.notes.push(NOTE(strnote,{dont_build:true, staff:me.staff}))
   })
   
   // On peut construire les notes
@@ -81,12 +83,28 @@ $.extend(Chord.prototype, METHODES_GROUPNOTES)
 $.extend(Chord.prototype,{})
 Object.defineProperties(Chord.prototype, {
   /**
+    * Portée de l'accord ({Staff})
+    * Pour la définir, on peut soit envoyer la portée, soit envoyer son indice 1-start
+    *
+    * @property {Staff} staff
+    */
+  "staff":{
+    set:function(staff)
+    {
+      if('number' == typeof staff) this._staff = Anim.staves[staff - 1]
+      else if (staff.class == 'staff') this._staff = staff
+      else delete this._staff
+    },
+    get:function(){
+      return this._staff || Anim.current_staff
+    }
+  },
+  /**
     * Le milieu horizontal de l'objet (en tenant compte vraiment de sa taille)
     * @property {Number} center_x
     */
   "center_x":{
     get:function(){
-      dlog("-> Chord.center_x")
       var max_width = 0
       this.each_note(function(note){if(note.obj.width() > max_width) max_width = note.obj.width()})
       return parseInt(this.left + (max_width / 2), 10)

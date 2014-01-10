@@ -8,16 +8,7 @@
   *                           de propriétés dans l'instance.
   */
 window.ObjetClass = function(params)
-{
-  /**
-    * Taille de l'objet
-    * -----------------
-    * Utiliser la propriété complexe `width` pour le (re-)définir
-    *
-    * @property {Number} _width    La taille du cercle
-    */
-  this._width = 30
-  
+{  
   if(undefined != params)
   {
     var me = this
@@ -151,6 +142,23 @@ $.extend(window.ObjetClass.prototype,{
 })
 
 Object.defineProperties(ObjetClass.prototype,{
+  /**
+    * Portée de l'objet ({Staff})
+    * Pour la définir, on peut soit envoyer la portée, soit envoyer son indice 1-start
+    *
+    * @property {Staff} staff
+    */
+  "staff":{
+    set:function(staff)
+    {
+      if('number' == typeof staff) this._staff = Anim.staves[staff - 1]
+      else if (staff.class == 'staff') this._staff = staff
+      else delete this._staff
+    },
+    get:function(){
+      return this._staff || Anim.current_staff
+    }
+  },
   /**
     * Offset vertical du cercle
     * @property {Number} top

@@ -8,5 +8,8 @@ $(document).ready(function(){
   UI.onresize_window()
   
   Anim.load_list_animations()
+  
+  // Pour forcer à choisir la bonne animation
+  Console.set('')
 
 })

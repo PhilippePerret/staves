@@ -1,0 +1,6 @@
+# Animation pour analyse du
+# premier prélude du CBT 1
+NEW_STAFF(SOL)
+NEW_STAFF(FA)
+do1b=CHORD('c4 e4',{staff:2})
+do1a=CHORD('g4 c5 e5',{staff:1})

@@ -16,7 +16,7 @@
 window.NOTE = function(note, params)
 {
   if(undefined == params) params = {}
-  var n = new Note(note)
+  var n = new Note(note, params)
   if(!params.dont_build)
   {
     n.build()
@@ -28,22 +28,16 @@ window.NOTE = function(note, params)
 /**
   * @class Note
   * @constructor
-  * @param  {Object|String} La note ou les données de la note
+  * @param  {String} note   La note
+  * @param  {Object|String} Les paramètres optionnels
   */
-window.Note = function(params)
+window.Note = function(note, params)
 {
-  ObjetClass.call(this)
   this.class      = 'Note'
   this.note       = null
   this.octave     = null
   this.alteration = null
-  
-  /**
-    * La portée sur laquelle se trouve la note (instance Staff)
-    * @property {Staff} staff
-    */
-  this.staff  = null
-  
+    
   this.left   = Anim.current_x
   
   /**
@@ -55,18 +49,20 @@ window.Note = function(params)
     */
   this.texte = null
   
-  if('string'==typeof params)
-  { // => Une note précisée par "<note une lettre><altération><octave>"
-    // <altération> optionnelle peut être "b" ou "#"
-    // <octave> peut être "4" ou "-4"
-    this.analyse_note(params)
-  }
-  else
-  {
-    var me = this
-    L(params).each(function(k,v){ me[k] = v })
-  }
+  ObjetClass.call(this, params)
+
+  this.analyse_note(note)
+  var me = this
+  L(params).each(function(k,v){ me[k] = v })
+
+  // On peut calculer l'identifiant
   this.id = this.note + (this.alteration || "") + this.octave + (new Date()).getTime()
+
+  // dlog("Note "+this.note+this.octave+":")
+  // dlog({
+  //   staff: this.staff.cle
+  // })
+
 }
 Note.prototype = Object.create( ObjetClass.prototype )
 Note.prototype.constructor = Note
@@ -157,7 +153,6 @@ $.extend(Note.prototype,{
     */
   exergue:function()
   {
-    if(this.note == "a") dlog("-> exergue avec LA")
     this.obj[0].src = "img/note/rond-couleur.png"
     this.obj.css('z-index','20')
     if(this.alteration && this.obj_alt.length)
@@ -172,7 +167,6 @@ $.extend(Note.prototype,{
     */
   unexergue:function()
   {
-    dlog("-> unexergue (this.class="+this.class+")")
     this.obj[0].src = "img/note/rond-noir.png"
     this.obj.css('z-index','10')
     if(this.alteration && this.obj_alt.length)
@@ -227,7 +221,6 @@ $.extend(Note.prototype,{
     */
   on_complete_moveTo:function()
   {
-    dlog("-> note.on_complete_moveTo")
     this.suplines_if_necessary()
     this.unexergue()    
   },
@@ -241,7 +234,6 @@ $.extend(Note.prototype,{
     */
   remove_alteration:function()
   {
-    dlog("-> note.remove_alteration / alteration = "+this.alteration)
     if(!this.alteration) return
     delete this.alteration
     var me = this
@@ -275,7 +267,6 @@ $.extend(Note.prototype,{
     */
   on_complete:function(type_obj)
   {
-    dlog("-> note.on_complete "+this.note_str)
     if(this.is_complete_with(type_obj)) this.complete()
   },
   /**
@@ -626,25 +617,15 @@ Object.defineProperties(Note.prototype,{
     * @property {jQuerySet} obj
     */
   "obj":{
-    get:function(){ return $('img#'+this.dom_id)}
+    get:function(){ return $('img#'+this.id)}
   },
   /**
     * Retourne l'objet DOM de l'alteration de la note, if any
     * @property {jQuerySet} obj_alt
     */
   "obj_alt":{
-    get:function(){ return $('img#'+this.dom_id+'-alt')}
+    get:function(){ return $('img#'+this.id+'-alt')}
   },
-  /**
-    * Retourne l'ID DOM de la note
-    * @property {String} dom_id
-    */
-  "dom_id":{
-    get:function(){return "note-"+this.id}
-  },
-  
- 
-  
   /**
     * Retourne le code HTML pour la note (et ses altérations, effets, etc.)
     * @property {HTMLString} code_html
@@ -662,7 +643,7 @@ Object.defineProperties(Note.prototype,{
     */
   "html_img":{
     get:function(){
-      return '<img class="note" id="'+this.dom_id+'" src="img/note/rond-noir.png" />'
+      return '<img class="note" id="'+this.id+'" src="img/note/rond-noir.png" />'
     }
   },
   
@@ -694,7 +675,7 @@ Object.defineProperties(Note.prototype,{
     */
   "html_img_alt":{
     get:function(){
-      return '<img class="alteration" id="'+this.dom_id+'-alt" ' +
+      return '<img class="alteration" id="'+this.id+'-alt" ' +
               'src="'+this.src_alteration+'" />'
     }
   }

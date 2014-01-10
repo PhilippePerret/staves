@@ -9,7 +9,7 @@
   */
 window.Staff = function(params)
 {
-  this.class  = "Staff"
+  this.class  = "staff"
   this.cle    = SOL
   this.id     = "staff"+(new Date()).getTime()
   
@@ -198,7 +198,7 @@ Object.defineProperties(Staff.prototype,{
     * @property {jQuerySet} img
     */
   "img_staff":{
-    get:function(){return $('div#'+this.dom_id)}
+    get:function(){return $('div#'+this.id)}
   },
   /**
     * Return l'élément DOM de la clé
@@ -208,11 +208,6 @@ Object.defineProperties(Staff.prototype,{
     get:function(){return $('img#'+this.dom_id_cle)}
   },
   
-  /**
-    * Return l'ID DOM de l'image de la portée
-    * @property {String} dom_id
-    */
-  "dom_id":{get:function(){return "staff-"+this.id}},
   "dom_id_cle":{get:function(){return "staff_cle-"+this.id}},
   
   /**

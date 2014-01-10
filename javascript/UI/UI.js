@@ -22,7 +22,6 @@ $.extend(UI,{
         x = w.innerWidth || e.clientWidth || g.clientWidth,
         y = w.innerHeight|| e.clientHeight|| g.clientHeight;
   
-    // dlog("Dimension : "+x)
     anim_width      = parseInt(x * 70/100)
     anim_height     = parseInt(y * 78/100)
     console_width   = x - ( anim_width + 10 + 32)
