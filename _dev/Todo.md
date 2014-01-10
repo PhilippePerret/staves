@@ -1,11 +1,8 @@
-* Poursuivre le travail sur les flèches
-  > Documenter le manuel (il y a pas mal de méthodes)
-  > Voir comment implémenter une méthode `cible` ou `pointeTo` qui permette
-    de donner en argument l'objet vers lequel la flèche doit pointer. Sinon,
-    il faudra tout simplement trouver le bon angle.
-  > Voir le "left" suivant à mettre pour que les notes soient à bonnes distances
-    ou alors régler la taille par défaut des flèches pour que ça le soit
-  > Essayer de trouver une tournure qui permette de tout définir
+* Travail sur le type de texte
+  > Affecter ce type à la balise HTML s'il est défini
+  > Affecter des types automatiquement
+  > Définir les left et top automatiquement en fonction des types (de
+    façon indépendante des objets)
 
 # Fonctionnalités à créer
 

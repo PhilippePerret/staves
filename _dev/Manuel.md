@@ -6,7 +6,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 
 * [Animation](#animation)
 * [Les notes](#les_notes)
-* [Les accords](#chords)
+* [Les accords](#les_chords)
 * [Les portées](#les_staves)
 * [Les gammes](#les_gammes)
 * [Les textes](#les_textes)
@@ -319,7 +319,7 @@ Pour détruire la note (la supprimer de l'affichage, utiliser :
 
 ---------------------------------------------------------------------
 
-<a name="chords"></a>
+<a name="les_chords"></a>
 ##Les Accords
 
 ###Table des matières
@@ -355,18 +355,30 @@ Par exemple (en imaginant que la portée 1 est la portée active)&nbsp;:
 <a name="chord_ref_note"></a> 
 ###Référence aux notes de l'accord
 
-On fait appel aux notes de l'accord par :
+Comme tous les types d'objets possédant plusieurs notes (Accords, Gammes, Motifs), on fait appel aux différentes notes à l'aide de la méthode `note` appelée sur l'objet :
 
-    <nom accord>[<indice note>]
+    <nom accord>.note(<indice note>)
   
-… où `<indice note>` est l'indice 1-start.
+… où `<indice note>` est l'indice 1-start (1 = première note fournie).
   
 Par exemple&nbsp;:
 
     accDom=CHORD('c3 eb3 g3')
-    accDom[1].moveTo('c4')
+    accDom.note(1).moveTo('c4')
     // Prends la première note (c3) et la déplace en c4.
   
+Comme pour tout “groupe de notes”, si l'on veut affecter une note de l'accord à une variable (pour l'utiliser plus facilement ensuite), on ne peut pas procéder ainsi&nbsp;:
+
+    maNote=monAccord.note(2)
+    maNote.write("Une seconde !") # => # ERREUR #
+
+Pour ce faire, il faut impérativement utiliser&nbsp;:
+
+    maNote=Anim.Objects.monAccord.note(2)
+    maNote.write("Une seconde !")
+
+Donc ajouter `Anim.Objects` devant `monAcccord.note(2)`, `Anim.Objects` étant la propriété qui contient tous les objets de l'animation.
+
 <a name="chord_remove"></a>
 ###Destruction d'un accord
 
@@ -524,7 +536,7 @@ C'est un objet de propriétés&nbsp;:
 <a name="utilisation_notes_gammes"></a>
 ###Utilisation des notes de la gamme
 
-Comme pour tout “groupe de notes” (accord, motif, etc.) les notes de la gamme peuvent être ensuite traitées séparément, comme des notes “normales”.
+Comme pour tout “groupe de notes” (accord, motif, etc.) les notes de la gamme peuvent être ensuite traitées séparément grâce à la méthode `note` appelé sur l'objet (ici appelée sur la gamme)
 
 Soit une gamme&nbsp;:
 
@@ -532,22 +544,22 @@ Soit une gamme&nbsp;:
 
 On récupère ses notes par&nbsp;:
 
-    maGamme[<indice note>]
+    maGamme.note(<indice note>)
   
 Cet `indice` est “1-start”, c'est-à-dire que la première note porte l'indice 1, la seconde note porte l'indice 2, etc.
   
 Par exemple, si je veux poser un texte sur la deuxième note&nbsp;:
   
-    maGamme[2].write("Une seconde !")
+    maGamme.note(2).write("Une seconde !")
 
 Comme pour tout “groupe de notes”, si l'on veut mettre un élément (note) du groupe dans une variable, ce code n'est pas possible&nbsp;:
 
-    maNote=maGamme[2]
+    maNote=maGamme.note(2)
     maNote.write("Une seconde !") # => # ERREUR #
 
 Pour ce faire, il faut impérativement utiliser&nbsp;:
 
-    maNote=Anim.Objects.maGamme[2]
+    maNote=Anim.Objects.maGamme.note(2)
     maNote.write("Une seconde !")
   
 

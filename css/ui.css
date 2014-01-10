@@ -2,3 +2,6 @@
 .fright{float:right;}
 .left{text-align:left;}
 .right{text-align:right;}
+
+.center {text-align:center;}
+div.inline {display:inline-block;}

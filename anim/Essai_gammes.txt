@@ -6,4 +6,6 @@ RESET
 SCALE(\'cb\')
 WAIT(4)
 RESET
-SCALE(\'fd\')
+g=SCALE(\'fd\')
+WAIT(2)
+g.note(3).moveTo(a4)

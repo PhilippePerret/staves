@@ -77,24 +77,8 @@ Note.prototype.constructor = Note
  *  Méthodes pour composer le code de l'animation
  *  
  */
+
 $.extend(Note.prototype,{
-  /**
-    * Écrit un texte au-dessus ou en dessous de la note
-    * Notes
-    * -----
-    *   * L'étape suivante doit être appelée par l'affichage du texte (Txt::show)
-    * @method write
-    * @param  {String} texte Le texte à écrire
-    * @param  {Object} params Les paramètres optionnels
-    */
-  write:function(texte, params)
-  {
-    dlog("-> <Note>.write")
-    if(undefined == params) params = {}
-    params.texte  = texte
-    this.texte    = TXT(this, params)
-    this.texte.build()
-  },
   /**
     * Déplace la note à la hauteur +hauteur+
     * Notes
@@ -211,6 +195,9 @@ $.extend(Note.prototype,{
   }
   
 })
+
+$.extend(Note.prototype, METHODES_TEXTE)
+Object.defineProperties(Note.prototype, PROPERTIES_TEXTE)
 
 /* ---------------------------------------------------------------------
  *  

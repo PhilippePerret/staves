@@ -14,3 +14,7 @@ const orange  = 'orange'
 const ORANGE  = 'orange'
 const green   = 'green'
 const GREEN   = 'green'
+
+const harmony = 'harmony'
+const chord   = 'chord'
+const finger  = 'finger'
