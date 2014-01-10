@@ -4,6 +4,8 @@
 
 const black   = 'black'
 const BLACK   = 'black'
+const noir    = 'black'
+// const noire   = 'black' // non : le garder pour les figures rythmiques
 const blue    = 'blue'
 const BLUE    = 'blue'
 const red     = 'red'

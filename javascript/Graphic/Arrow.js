@@ -66,7 +66,7 @@ window.Arrow = function(params)
     *
     * @property {String} _color   La couleur du cercle
     */
-  this._color = 'blue'
+  this._color = 'black'
 
   /**
     * Le possesseur de la flèche.
@@ -144,7 +144,7 @@ ARROW_METHODS = {
     * @method width
     * @param  {Number} px La nouvelle taille en pixels
     */
-  width:function(px)
+  size:function(px)
   {
     var h = this.owner._arrow.obj.height()
     this.modify('animate', {width:px+"px", height:h+"px"})
@@ -197,15 +197,6 @@ Object.defineProperties(Arrow.prototype, {
       if(this.obj) this.obj.css('width', w+'px')
     },
     get:function(){
-      if(this.owner)
-      {
-        switch(this.owner.class)
-        {
-        case 'Note':
-          this._width = 30 + (this.owner.alteration ? 18 : 0)
-          break
-        }
-      }
       if(!this._width) this._width == this.DEFAULT_WIDTH
       return this._width
     }
@@ -216,7 +207,19 @@ Object.defineProperties(Arrow.prototype, {
     */
   "code_html":{
     get:function(){
-      return '<img id="'+this.id+'" class="arrow" src="'+this.src+'" style="width:'+this.width+'px;" />'
+      return '<img id="'+this.id+'" class="arrow" src="'+this.src+'" style="'+this.style+'" />'
+    }
+  },
+  /**
+    * Attribut 'style' de la balise HTML de la flèche
+    * @property {String} style
+    */
+  "style":{
+    get:function(){
+      var h = this.height || 15
+      var w = this.width
+      var a = this.angle
+      return "width:"+w+"px;height:"+this.height+"px;transform: rotate("+a+"deg); transform-origin: 0% 50% 0px;"
     }
   },
   /**
@@ -237,7 +240,19 @@ Object.defineProperties(Arrow.prototype, {
     set:function(top){this._top = top}
   },
   /**
-    * Couleur du cercle.
+    * Angle de la flèche
+    * @property {Number} angle
+    */
+  "angle":{
+    set:function(angle){
+      this._angle = angle
+    },
+    get:function(){
+      return this._angle || 0
+    }
+  },
+  /**
+    * Couleur de la flèche
     * Note
     * ----
     *   * La définition de cette valeur modifie le src de l'objet s'il est
