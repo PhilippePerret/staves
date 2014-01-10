@@ -172,8 +172,28 @@ Object.defineProperties(ObjetClass.prototype,{
       this._left = left
       if(this.obj) this.obj.css('left', left)
     }
-  }//,
+  },
+  /**
+    * Le milieu horizontal de l'objet (en tenant compte vraiment de sa taille)
+    * @property {Number} center_x
+    */
+  "center_x":{
+    get:function(){
+      return parseInt(this.left + (this.obj.width() / 2), 10)
+    }
+  },
+  /**
+    * Le milieu vertical de l'objet
+    * @property {Number} center_y
+    */
+  "center_y":{
+    get:function(){
+      return parseInt(this.top + (this.obj.height() / 2), 10)
+    }
+  }
+  
   // /**
+  //   * NE PAS UTILISER, ÇA EMPÊCHE DE DÉFINIR LES VALEURS
   //   * Taille de l'objet
   //   * Si `this.obj` existe, la redéfinition de la valeur modifie la taille de
   //   * l'objet

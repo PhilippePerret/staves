@@ -328,7 +328,10 @@ Object.defineProperties(Txt.prototype,{
         this._real_left = left - w_box + 4
         break
       case chord:
-        this._real_left = left - 10
+        // On doit le placer bien au center
+        var w_box = this.obj.width()
+        dlog("center x de "+this.owner.id+":"+this.owner.center_x)
+        this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
         break
       default:
         this._real_left = left - 10

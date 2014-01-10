@@ -77,3 +77,31 @@ window.Chord = function(strnotes, params)
 }
 $.extend(Chord.prototype, METHODES_TEXTE)
 $.extend(Chord.prototype, METHODES_GROUPNOTES)
+
+$.extend(Chord.prototype,{})
+Object.defineProperties(Chord.prototype, {
+  /**
+    * Le milieu horizontal de l'objet (en tenant compte vraiment de sa taille)
+    * @property {Number} center_x
+    */
+  "center_x":{
+    get:function(){
+      dlog("-> Chord.center_x")
+      var max_width = 0
+      this.each_note(function(note){if(note.obj.width() > max_width) max_width = note.obj.width()})
+      return parseInt(this.left + (max_width / 2), 10)
+    }
+  },
+  /**
+    * Le milieu vertical de l'objet
+    * @property {Number} center_y
+    */
+  "center_y":{
+    get:function(){
+      var h_accord = 12
+      this.each_note(function(note){ h_accord += note.top })
+      return parseInt(this.top + (h_accord / 2), 10)
+    }
+  }
+  
+})
