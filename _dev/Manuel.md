@@ -10,6 +10,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Les portées](#les_staves)
 * [Les gammes](#les_gammes)
 * [Les textes](#les_textes)
+* [Les flèches](#les_fleches)
 
 
 ---------------------------------------------------------------------
@@ -612,3 +613,145 @@ Noter que cette méthode supprime l'affichage du texte, mais l'objet `texte` exi
     maNote.texte.show()
 
 … qui ré-affichera ce texte.
+
+<a name="les_fleches"></a>
+##Les flèches
+
+###Table des matières
+
+* [Introduction aux flèches](#intro_fleches)
+* [Associer une flèche à un objet](#associer_fleche_a_objet)
+* [Définition de la flèche (paramètres)](#definition_arrow)
+* [Méthodes d'animation des flèches](#methodes_animation_fleches)
+* [Angle des flèches](#angle_des_fleches)
+* [Détruire la flèche](#remove_arrow)
+* [Flèches indépendantes](#fleches_independantes)
+
+<a name="intro_fleches"></a>
+###Introduction
+On peut créer des flèches indépendantes (cf. [Flèches indépendantes](#fleches_independantes)) mais le plus judicieux est de les associer à des objets, à commencer par des notes.
+
+<a name="associer_fleche_a_objet"></a>
+###Associer une flèche à un objet
+
+Pour associer une flèche à un objet quelconque (p.e. une note) on utilise la méthode (de l'objet) :
+
+    arrow(<parameters>)
+
+Par exemple, pour faire partir une flèche d'une note&nbsp;:
+
+    maNote=NOTE(a4)
+    maNote.arrow({color:red, angle:90})
+
+… ce qui produira une flèche rouge, partant de la note avec un angle de 90 degré (cf. ci-dessous [les angles](#angle_des_fleches)).
+
+<a name="definition_arrow"></a>
+###Définition de la flèche
+
+Lors de la création de la flèche avec la méthode `arrow` (ou ARROW pour une [flèche indépendante](#fleches_independantes)) on peut envoyer ces paramètres optionnels à la méthode&nbsp;:
+
+    maNote.arrow({
+      width:  {Number} longueur fleche en pixels
+      angle:  {Number} Angle en degres
+      color:  {String} La couleur (constante ou string)
+      top:    {Number} Placement vertical de la fleche (pixels)
+      left:   {Number} Placement horizontal de la fleche (pixels)
+      height: {Number} Hauteur de la fleche
+    })
+
+Les valeurs **top** et **left** sont calculées automatiquement pour que la flèche soit placée correctement à droite de l'objet.
+
+L'**angle** est de 0 degré par défaut, c'est-à-dire que la flèche sera horizontale et pointera à droite (pour une autre valeur cf. [Angle des flèches](#angle_des_fleches)).
+
+La **color** (couleur) est noire par défaut. On peut utiliser toutes les constantes de couleur pré-définies, c'est-à-dire (les valeurs françaises sont des valeurs valides aussi)&nbsp;:
+
+    black   noir
+    red     rouge
+    blue    bleu
+    green   vert
+    orange
+
+<a name="methodes_animation_fleches"></a>
+###Méthodes d'animation des flèches
+
+* [Faire tourner la flèche](#arrow_rotate)
+* [Changer la taille de la flèche](#method_arrow_size)
+* [Déplacer la flèche](#method_move_arrow)
+
+
+<a name="arrow_rotate"></a>
+####Faire tourner la flèche
+
+    <fleche>.rotate(<angle>)
+  
+Par exemple, pour une flèche associée à une note&nbsp;:
+
+    maNote=NOTE(c4)
+    maNote.arrow()
+    maNote.arrow.rotate(45)
+
+<a name="method_arrow_size"></a>
+####Changer la taille (longueur) de la flèche
+
+    <fleche>.size(<longueur de la fleche>)
+
+Par exemple&nbsp;:
+  
+    maNote=NOTE(b4)
+    maNote.arrow({color:bleu})
+    maNote.arrow.size(100)
+
+Produira une animation qui fera s'allonger la flèche de sa longueur actuelle à la longueur `100px`.
+
+Noter que cette méthode **crée réellement une animation** c'est-à-dire fait varier sous nos yeux la taille de la flèche. Si on veut définir la taille de la flèche au départ, utiliser plutôt le paramètre `width` dans les paramètres envoyés à la création de la flèche (cf. [définition de la flèche](#definition_arrow)).
+
+<a name="method_move_arrow">></a>
+####Déplacer la flèche
+
+Une flèche se déplace à l'aide de la méthode&nbsp;:
+
+    <fleche>.move(<parameters>)
+  
+… où les paramètres peuvent être&nbsp;:
+  
+    move({
+      x : {Number} Déplacement horizontal (en pixels)
+      y : {Number} Déplacement vertical (en pixels)
+    })
+
+Par exemple, si une flèche associée à une note doit se déplacer en descendant et en se déplaçant vers la droite&nbsp;:
+
+    maNote=NOTE(g4)
+    maNote.arrow()
+    WAIT(2)
+    maNote.arrow.move({x:50, y:50}) <--
+
+Une valeur positives produira toujours un déplacement vers la droite (->) pour `x` et un déplacement vers le bas pour `y`, un valeur négative produira un déplacement vers la gauche (<-) pour `x` et un déplacement vers le haut pour `y`.
+
+<a name="angle_des_fleches"></a>
+###Angle des flèches
+
+Repère pour la définition de l'angle d'une flèche&nbsp;:
+
+    angle = 0   => flèche horizontale pointant à droite
+    angle = 90  => flèche verticale pointant en bas
+    angle = -90 => flèche verticale pointant en haut
+    angle = 180 => flèche horizontale pointant à gauche
+
+Noter que pour les valeurs entre 90 et -90 (donc pointant vers la gauche), il faut modifier le `left` de la flèche pour qu'elle ne traverse pas la note.
+
+<a name="remove_arrow"></a>
+###Détruire la flèche
+
+Pour détruire la flèche (la retirer de l'affichage), utiliser sa méthode `remove`.
+
+Par exemple&nbsp;:
+
+    maNote=NOTE(c3)
+    maNote.arrow()
+    WAIT(2)
+    maNote.arrow.remove() <--
+
+
+<a name="fleches_independantes"></a>
+###Flèches indépendantes

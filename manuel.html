@@ -314,11 +314,12 @@ sup {
 
 <ul>
 <li><a href="#animation">Animation</a></li>
-<li><a href="#notes">Les notes</a></li>
+<li><a href="#les_notes">Les notes</a></li>
 <li><a href="#chords">Les accords</a></li>
 <li><a href="#les_staves">Les portées</a></li>
 <li><a href="#les_gammes">Les gammes</a></li>
 <li><a href="#les_textes">Les textes</a></li>
+<li><a href="#les_fleches">Les flèches</a></li>
 </ul>
 
 
@@ -343,6 +344,7 @@ sup {
 <li><a href="#clean_animation">"Nettoyer" l'animation (tout effacer)</a></li>
 </ul>
 </li>
+<li><a href="#vitesse_animation">Vitesse de l'animation</a></li>
 </ul>
 
 
@@ -479,9 +481,27 @@ LEFT(100)
 <pre><code>CLEAR(true) // efface aussi les portées
 </code></pre>
 
+<p><a name="vitesse_animation"></a></p>
+
+<h3>Vitesse de l'animation</h3>
+
+<p>On peut régler la vitesse de l'animation de façon interactive avec le “slider” se trouvant dans le contrôleur (sous le bouton “Start”).</p>
+
+<p>Mais on peut aussi définir dans le code cette vitesse à l'aide de la commande&nbsp;:</p>
+
+<pre><code>SPEED(&lt;valeur&gt;)
+</code></pre>
+
+<p>… avec <code>&lt;valeur&gt;</code> pouvant être un nombre de 0 à 20, <code>10</code> étant la vitesse normale, 0 étant la vitesse la plus lente et 20 la plus rapide.</p>
+
+<p>Pour remettre la vitesse à la vitesse normale&nbsp;:</p>
+
+<pre><code>SPEED() // pas d'argument
+</code></pre>
+
 <hr />
 
-<p><a name="notes"></a></p>
+<p><a name="les_notes"></a></p>
 
 <h2>Les Notes</h2>
 
@@ -498,6 +518,8 @@ LEFT(100)
 <li><a href="#creation_note">Créer une note</a></li>
 <li><a href="#move_note">Déplacer une note</a></li>
 <li><a href="#note_on_staff">Placer une note sur une portée précise</a></li>
+<li><a href="#note_exergue_unexergue">Mettre une note en exergue/La sortir de l'exergue</a></li>
+<li><a href="#entourer_une_note">Entourer une note (exergue plus forte)</a></li>
 <li><a href="#note_remove">Détruire d'une note</a></li>
 </ul>
 
@@ -608,9 +630,71 @@ note_autre_staff=NOTE('2:'+a4)
 
 <p><em>Noter que cela ne rend pas la portée active.</em></p>
 
+<p><a name="note_exergue_unexergue"></a></p>
+
+<h3>Mettre une note en exergue (ou la retirer de l'exergue)</h3>
+
+<p>Utiliser la méthode <code>exergue()</code> (pour mettre en exergue, en couleur) et <code>unexergue()</code> (pour la sortir de l'exergue).</p>
+
+<p>Exemple&nbsp;:</p>
+
+<pre><code>maNote=NOTE('cx5')
+maNote.exergue()   # =&gt; note en couleur
+WAIT(4)
+maNote.unexergue()  # =&gt; etat normal
+</code></pre>
+
+<p>Cf. aussi <a href="#entourer_une_note">Entourer une note</a> ci-dessous.</p>
+
+<p><a name="entourer_une_note"></a></p>
+
+<h3>Entourer une note</h3>
+
+<p>Pour mettre en exergue une note de façon plus forte que la méthode <a href="#note_exergue_unexergue">exergue</a>, on peut utiliser la méthode <code>surround()</code> qui entoure la note d'un cercle de couleur.</p>
+
+<p>Syntaxe&nbsp;:</p>
+
+<p><note>.surround([<parameters>])</p>
+
+<p>… où <code>&lt;note&gt;</code> est une instance de Note, et <code>&lt;parameters&gt;</code> sont les paramètres optionnels envoyés.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maNote=NOTE(c5)
+maNote.surround() # =&gt; entoure d'un cercle rouge
+
+oNote=NOTE(a4)
+oNote.surround({color:blue, rectangle:true})
+# =&gt; entoure d'un rectangle bleu
+</code></pre>
+
+<p>Les paramètres peuvent être&nbsp;:</p>
+
+<dl>
+  <dt>color:{String|Constante}</dt>
+  <dd>La couleur, parmi 'blue', 'red', 'orange', 'green', 'black' (les valeurs peuvent se définir avec ou sans guillemets).</dd>
+  <dt>rectangle:{Boolean}</dt>
+  <dd>Si true, un rectangle au lieu d'un rond.</dd>
+  <dt>margin:{Number}</dt>
+  <dd>Joue sur le diamètre du cercle/rectangle pour laisser plus ou moins de place. Utile lorsque plusieurs notes assez proches sont entourées</dd>
+</dl>
+
+
+<h4>Retirer le cercle</h4>
+
+<p>Deux commandes pour retirer le cercle de la note&nbsp;:</p>
+
+<pre><code>maNote.circle.remove()
+</code></pre>
+
+<p>Ou&nbsp;:</p>
+
+<pre><code>maNote.unsurround()
+</code></pre>
+
 <p><a name="note_remove"></a></p>
 
-<h3>Détruire d'une note</h3>
+<h3>Détruire une note</h3>
 
 <p>Pour détruire la note (la supprimer de l'affichage, utiliser :</p>
 
@@ -982,5 +1066,176 @@ maNote.texte.hide()
 </code></pre>
 
 <p>… qui ré-affichera ce texte.</p>
+
+<p><a name="les_fleches"></a></p>
+
+<h2>Les flèches</h2>
+
+<h3>Table des matières</h3>
+
+<ul>
+<li><a href="#intro_fleches">Introduction aux flèches</a></li>
+<li><a href="#associer_fleche_a_objet">Associer une flèche à un objet</a></li>
+<li><a href="#definition_arrow">Définition de la flèche (paramètres)</a></li>
+<li><a href="#methodes_animation_fleches">Méthodes d'animation des flèches</a></li>
+<li><a href="#angle_des_fleches">Angle des flèches</a></li>
+<li><a href="#remove_arrow">Détruire la flèche</a></li>
+<li><a href="#fleches_independantes">Flèches indépendantes</a></li>
+</ul>
+
+
+<p><a name="intro_fleches"></a></p>
+
+<h3>Introduction</h3>
+
+<p>On peut créer des flèches indépendantes (cf. <a href="#fleches_independantes">Flèches indépendantes</a>) mais le plus judicieux est de les associer à des objets, à commencer par des notes.</p>
+
+<p><a name="associer_fleche_a_objet"></a></p>
+
+<h3>Associer une flèche à un objet</h3>
+
+<p>Pour associer une flèche à un objet quelconque (p.e. une note) on utilise la méthode (de l'objet) :</p>
+
+<pre><code>arrow(&lt;parameters&gt;)
+</code></pre>
+
+<p>Par exemple, pour faire partir une flèche d'une note&nbsp;:</p>
+
+<pre><code>maNote=NOTE(a4)
+maNote.arrow({color:red, angle:90})
+</code></pre>
+
+<p>… ce qui produira une flèche rouge, partant de la note avec un angle de 90 degré (cf. ci-dessous <a href="#angle_des_fleches">les angles</a>).</p>
+
+<p><a name="definition_arrow"></a></p>
+
+<h3>Définition de la flèche</h3>
+
+<p>Lors de la création de la flèche avec la méthode <code>arrow</code> (ou ARROW pour une <a href="#fleches_independantes">flèche indépendante</a>) on peut envoyer ces paramètres optionnels à la méthode&nbsp;:</p>
+
+<pre><code>maNote.arrow({
+  width:  {Number} longueur fleche en pixels
+  angle:  {Number} Angle en degres
+  color:  {String} La couleur (constante ou string)
+  top:    {Number} Placement vertical de la fleche (pixels)
+  left:   {Number} Placement horizontal de la fleche (pixels)
+  height: {Number} Hauteur de la fleche
+})
+</code></pre>
+
+<p>Les valeurs <strong>top</strong> et <strong>left</strong> sont calculées automatiquement pour que la flèche soit placée correctement à droite de l'objet.</p>
+
+<p>L'<strong>angle</strong> est de 0 degré par défaut, c'est-à-dire que la flèche sera horizontale et pointera à droite (pour une autre valeur cf. <a href="#angle_des_fleches">Angle des flèches</a>).</p>
+
+<p>La <strong>color</strong> (couleur) est noire par défaut. On peut utiliser toutes les constantes de couleur pré-définies, c'est-à-dire (les valeurs françaises sont des valeurs valides aussi)&nbsp;:</p>
+
+<pre><code>black   noir
+red     rouge
+blue    bleu
+green   vert
+orange
+</code></pre>
+
+<p><a name="methodes_animation_fleches"></a></p>
+
+<h3>Méthodes d'animation des flèches</h3>
+
+<ul>
+<li><a href="#arrow_rotate">Faire tourner la flèche</a></li>
+<li><a href="#method_arrow_size">Changer la taille de la flèche</a></li>
+<li><a href="#method_move_arrow">Déplacer la flèche</a></li>
+</ul>
+
+
+<p><a name="arrow_rotate"></a></p>
+
+<h4>Faire tourner la flèche</h4>
+
+<pre><code>&lt;fleche&gt;.rotate(&lt;angle&gt;)
+</code></pre>
+
+<p>Par exemple, pour une flèche associée à une note&nbsp;:</p>
+
+<pre><code>maNote=NOTE(c4)
+maNote.arrow()
+maNote.arrow.rotate(45)
+</code></pre>
+
+<p><a name="method_arrow_size"></a></p>
+
+<h4>Changer la taille (longueur) de la flèche</h4>
+
+<pre><code>&lt;fleche&gt;.size(&lt;longueur de la fleche&gt;)
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maNote=NOTE(b4)
+maNote.arrow({color:bleu})
+maNote.arrow.size(100)
+</code></pre>
+
+<p>Produira une animation qui fera s'allonger la flèche de sa longueur actuelle à la longueur <code>100px</code>.</p>
+
+<p>Noter que cette méthode <strong>crée réellement une animation</strong> c'est-à-dire fait varier sous nos yeux la taille de la flèche. Si on veut définir la taille de la flèche au départ, utiliser plutôt le paramètre <code>width</code> dans les paramètres envoyés à la création de la flèche (cf. <a href="#definition_arrow">définition de la flèche</a>).</p>
+
+<p><a name="method_move_arrow">></a></p>
+
+<h4>Déplacer la flèche</h4>
+
+<p>Une flèche se déplace à l'aide de la méthode&nbsp;:</p>
+
+<pre><code>&lt;fleche&gt;.move(&lt;parameters&gt;)
+</code></pre>
+
+<p>… où les paramètres peuvent être&nbsp;:</p>
+
+<pre><code>move({
+  x : {Number} Déplacement horizontal (en pixels)
+  y : {Number} Déplacement vertical (en pixels)
+})
+</code></pre>
+
+<p>Par exemple, si une flèche associée à une note doit se déplacer en descendant et en se déplaçant vers la droite&nbsp;:</p>
+
+<pre><code>maNote=NOTE(g4)
+maNote.arrow()
+WAIT(2)
+maNote.arrow.move({x:50, y:50}) &lt;--
+</code></pre>
+
+<p>Une valeur positives produira toujours un déplacement vers la droite (->) pour <code>x</code> et un déplacement vers le bas pour <code>y</code>, un valeur négative produira un déplacement vers la gauche (&lt;-) pour <code>x</code> et un déplacement vers le haut pour <code>y</code>.</p>
+
+<p><a name="angle_des_fleches"></a></p>
+
+<h3>Angle des flèches</h3>
+
+<p>Repère pour la définition de l'angle d'une flèche&nbsp;:</p>
+
+<pre><code>angle = 0   =&gt; flèche horizontale pointant à droite
+angle = 90  =&gt; flèche verticale pointant en bas
+angle = -90 =&gt; flèche verticale pointant en haut
+angle = 180 =&gt; flèche horizontale pointant à gauche
+</code></pre>
+
+<p>Noter que pour les valeurs entre 90 et -90 (donc pointant vers la gauche), il faut modifier le <code>left</code> de la flèche pour qu'elle ne traverse pas la note.</p>
+
+<p><a name="remove_arrow"></a></p>
+
+<h3>Détruire la flèche</h3>
+
+<p>Pour détruire la flèche (la retirer de l'affichage), utiliser sa méthode <code>remove</code>.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maNote=NOTE(c3)
+maNote.arrow()
+WAIT(2)
+maNote.arrow.remove() &lt;--
+</code></pre>
+
+<p><a name="fleches_independantes"></a></p>
+
+<h3>Flèches indépendantes</h3>
 </body>
 </html>
