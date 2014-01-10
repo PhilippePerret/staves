@@ -3,6 +3,7 @@
   > Affecter des types automatiquement
   > Définir les left et top automatiquement en fonction des types (de
     façon indépendante des objets)
+    
 
 # Fonctionnalités à créer
 

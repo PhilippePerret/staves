@@ -213,6 +213,14 @@ $.extend(window.Anim,{
     this.staves     = []
     this.current_x  = 100 // TODO: à recalculer d'après l'armure et la métrique
     Console.cursor_offset = 0
+    this.reset_prefs()
+  },
+  /**
+    * Reset les préférences
+    * @method reset_prefs
+    */
+  reset_prefs:function()
+  {
     // Il faut remettre toutes les préférences au départ
     L(this.prefs).each(function(key, value){
       if(key.substring(0,7) == 'offset_') Anim.prefs[key] = 0

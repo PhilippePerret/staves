@@ -689,6 +689,11 @@ Une valeur positive fera MONTER l'accord, l'éloignant de la portée, une valeur
 
     OFFSET_CHORD_MARK(<decalage par rapport à la valeur actuelle>)
     
+####Ré-initialiser toutes les valeurs
+
+Pour remettre toutes les valeurs aux valeurs de départ, utiliser la commande (SANS PARENTHÈSES)&nbsp;:
+
+    RESET_PREFERENCES
 
 ---------------------------------------------------------------------
 

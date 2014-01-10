@@ -210,7 +210,13 @@ METHODES_ANIM_OBJETS = {
     get:function(){
       Anim.current_x = 100
       $('section#animation *:not(.staffline, .cle)').remove()
-      NEXT_STEP()
+      NEXT_STEP(no_timeout = true)
+    }
+  },
+  "RESET_PREFERENCES":{
+    get:function(){
+      Anim.reset_prefs()
+      NEXT_STEP(no_timeout = true)
     }
   }
 }
