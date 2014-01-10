@@ -16,7 +16,11 @@ if(undefined == window.Anim) window.Anim = {}
 Anim.Objects = {}
 
 FONCTIONS_ANIM_OBJETS = {
-
+  /**
+    * Retourne la portée d'indice +indice+ (1-start)
+    * @method STAFF
+    */
+  STAFF:function(istaff){ return Anim.staves[istaff - 1]},
   /**
     * Commande pour construire une gamme sans la placer dans une variable
     * Cf. la fonction SCALE.
@@ -109,23 +113,17 @@ FONCTIONS_ANIM_OBJETS = {
   REMOVE_SUPLINE:function(params)
   {
     if(undefined == params) return F.error("Il faut donner les paramètres pour la suppression des lignes supplémentaires !")
-    if(undefined == params.staff) params.staff = Anim.current_staff.indice
+    if(undefined == params.staff)   params.staff = Anim.current_staff.indice
     if(undefined == params.xoffset) params.xoffset = Anim.current_x
     if(params.bottom)
     {
       if('number' == typeof params.bottom) params.bottom = [params.bottom]
-      L(params.bottom).each(function(indice_supline){
-        var id = "supline-"+params.staff+params.xoffset+"-"+indice_supline+"bot"
-        $('img#'+id).fadeOut(Anim.transition.show)
-      })
+      Staff.erase_suplines(params.staff, params.xoffset, 'bot', params.bottom)
     }
     if(params.top)
     {
       if('number' == typeof params.top) params.top = [params.top]
-      L(params.top).each(function(indice_supline){
-        var id = "supline-"+params.staff+params.xoffset+"-"+indice_supline+"top"
-        $('img#'+id).fadeOut(Anim.transition.show)        
-      })
+      Staff.erase_suplines(params.staff, params.xoffset, 'top', params.top)
     }
     NEXT_STEP()
   },
@@ -196,6 +194,20 @@ FONCTIONS_ANIM_OBJETS = {
 }
 
 METHODES_ANIM_OBJETS = {
+  /**
+    * Pseudo-méthode pour passer en mode flash
+    * @method MODE_FLASH
+    */
+  "MODE_FLASH":{
+    get:function(){ MODE_FLASH = true; NEXT_STEP(no_timeout=true)}
+  },
+  /**
+    * Pseudo-méthode pour sortir du mode flash
+    * @method STOP_MODE_FLASH
+    */
+  "STOP_MODE_FLASH":{
+    get:function(){ MODE_FLASH = false; NEXT_STEP(no_timeout=true)}
+  },
   /**
     * Méthode qui reset l'affichage
     * Produit

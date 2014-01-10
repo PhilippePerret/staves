@@ -296,14 +296,14 @@ $.extend(Staff.prototype, {
     *   * Les lignes portent l&#x27;identifiant &quot;&lt;indice portée&gt;-&lt;left&gt;-&lt;indice&gt;&quot;
     *     pour pouvoir être supprimées par REMOVE_SUPLINE
     *   * @rappel : les lignes sont séparées par 12px
-    * @method add_sup_lines
+    * @method add_suplines
     * @protected
     * @param  {Object} params   Paramètres optionnels
     *   @param  {Boolean} params.above    Si true (default) ajouter au-dessus
     *   @param  {Number}  params.upto     Des lignes jusqu&#x27;à ce nombre
     *
     */
-  add_sup_lines:function(params)
+  add_suplines:function(params)
   {
     if(undefined == params) params = {}
     if(undefined == params.above)  params.above  = true

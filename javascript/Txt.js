@@ -229,12 +229,12 @@ Object.defineProperties(Txt.prototype,{
               var renv = found[1].replace(/\*/g, '•')
               var renv_len = renv.length
               t = t.substring(0, t.length - renv_len)
-              return '<div class="center inline">'+
-                        '<div class="renversement">'+renv+'</div>' +
-                        t +
-                      '</div>'
             }
-            return t
+            else renv = '&nbsp;'
+            return '<div class="center inline">'+
+                      '<div class="renversement">'+renv+'</div>' +
+                      t +
+                    '</div>'
           case chord:
             return t
           }

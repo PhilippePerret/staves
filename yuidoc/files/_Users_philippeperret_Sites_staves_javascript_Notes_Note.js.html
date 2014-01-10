@@ -471,7 +471,7 @@ $.extend(Note.prototype,{
   suplines_if_necessary:function()
   {
     var dsuplines = this.need_suplines(this.staff.cle)
-    if(dsuplines) this.staff.add_sup_lines($.extend(dsuplines,{upto:this.top}))
+    if(dsuplines) this.staff.add_suplines($.extend(dsuplines,{upto:this.top}))
   },
   
   /**

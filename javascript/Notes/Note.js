@@ -51,17 +51,14 @@ window.Note = function(note, params)
   
   ObjetClass.call(this, params)
 
+  // C'est la note qui a toujours le dernier mot sur les paramètres. Par exemple,
+  // avec un accord, Chord met sa staff dans les paramètres. Mais si des notes
+  // sont définies par "2:...", le "2" qui signifie 2e portée doit prendre le
+  // dessus.
   this.analyse_note(note)
-  var me = this
-  L(params).each(function(k,v){ me[k] = v })
 
   // On peut calculer l'identifiant
   this.id = this.note + (this.alteration || "") + this.octave + (new Date()).getTime()
-
-  // dlog("Note "+this.note+this.octave+":")
-  // dlog({
-  //   staff: this.staff.cle
-  // })
 
 }
 Note.prototype = Object.create( ObjetClass.prototype )
@@ -310,7 +307,7 @@ $.extend(Note.prototype,{
   suplines_if_necessary:function()
   {
     var dsuplines = this.need_suplines(this.staff.cle)
-    if(dsuplines) this.staff.add_sup_lines($.extend(dsuplines,{upto:this.top}))
+    if(dsuplines) this.staff.add_suplines( dsuplines )
   },
   
   /**
@@ -382,38 +379,101 @@ $.extend(Note.prototype,{
     * @return {Object} NULL si la note ne nécessite pas de lignes supplémentaires, 
     *                       ou un object contenant :above et :number, la donnée
     *                       à envoyer à Staff pour construire les lignes supplémentaires
+    
+Il faudrait arriver à :
+
+Clé de SOL
+==========
+  En dessous
+  ----------
+  do4   => 1 ligne supplémentaire quel que soit son altération
+  si3   => 1 ligne
+  la3   => 2 lignes
+  sol3  => 2 lignes
+  fa3   => 3 lignes
+  mi3   => 3 lignes
+  => Lignes si do4 || octave < 3
+
+  Au-dessus
+  ---------
+  la5   => 1 ligne
+  si5   => 1 ligne
+  do6   => 2 lignes
+  re6   => 2 lignes
+  mi6   => 3 lignes
+  fa6   => 3 lignes
+  => Lignes si indice_note >= 6 && octave == 5 || octave > 5
+    
     */
   need_suplines:function(key)
   {
     if(undefined == this.suplines || undefined == this.suplines[key])
     {
       if(undefined == this.suplines) this.suplines = {}
-      this.suplines[key] = function(key, note, midi){
+      this.suplines[key] = function(key, note, octave, midi){
+        var oct, ino, lis, n, fin=false, nombre_lignes=0 ;
+        var notoc = note + octave
         switch(key)
         {
         case SOL :
-          if(midi < 60){ // strictement inférieur à 60
-            return {above:false, number: parseInt((midi - 60) / 4)}
-          } else if (midi < 82){ // entre 60 et 81
-            if(midi <= 62 && note == "c") return {above:false, number:1}
-            else if (midi >= 80 && note == "a") return {above:true, number:1}
-            else return null
-          } else { // Supérieur ou égal à 82
-             return {above:true, number: Math.floor((midi - 82) / 4)}
+          if(notoc == "c4" || octave < 4)
+          { // => Lignes supplémentaires en dessous
+            lis = [c4, a3, f3, d3, b2, g2, e2, c2, a1, f1, d1]
+            ino = -1
+            oct = 4
+            do {
+              ino += 1
+              not = NOTES_ENVERS[ino]
+              if(ino == 1) oct -= 1
+              if( lis.indexOf(not+oct) >-1 ) ++ nombre_lignes
+              if(not+oct == notoc) return {top:false, number: nombre_lignes}
+            } while( oct > 0)
           }
+          else if(notoc == "a5" || notoc == "b5" || octave > 5)
+          { // Lignes supplémentaires au-dessus
+            lis = [a5, c6, e6, g6, b6, d7, f7, a7]
+            ino = 4
+            oct = 5
+            do {
+              ino += 1
+              if(ino == 7){ ino = 0; oct += 1}
+              not = NOTES[ino]
+              if( lis.indexOf(not + oct) > -1) ++ nombre_lignes
+              if(not+oct == notoc) return {top:true, number: nombre_lignes}
+            } while( oct < 8)
+          }
+          else return null
         case FA  :
-          if(midi < 28){ // Strictement inférieur à 28
-            return {above:false, number: parseInt((midi - 28) / 4)}
-          } else if( midi <= 60 ){ // entre 28 et 60
-            if(midi <= 30 && note == "e") return {above:false, number:1}
-            else if( midi >= 58 && note == "c") return {above:true, number:1}
-            else return null
-          } else {
-            return {above:true, number: parseInt((midi - 60) / 4)}
+          if(octave >= 3)
+          { // Lignes supplémentaires au-dessus
+            lis = [c4, e4, g4, b4, d5, f5, a5]
+            ino = -1 // pour commencer à 0 = do
+            oct = 3
+            do {
+              ino += 1
+              if(ino == 7){ ino = 0; oct += 1}
+              not = NOTES[ino]
+              if( lis.indexOf(not + oct) > -1) ++ nombre_lignes
+              if(not+oct == notoc) return {top:true, number: nombre_lignes}
+            } while( oct < 6)
           }
+          else if(["e2","d2","c2"].indexOf(notoc)>-1 || octave < 2)
+          { // Lignes supplémentaires en dessous
+            lis = [e2, c2, a1, f1, d1, 'b0', 'g0', 'e0', 'c0']
+            ino = 4 // pour commencer à 5 = e2
+            oct = 2
+            do {
+              ino += 1
+              not = NOTES_ENVERS[ino]
+              if(ino == 1) oct -= 1
+              if( lis.indexOf(not+oct) >-1 ) ++ nombre_lignes
+              if(not+oct == notoc) return {top:false, number: nombre_lignes}
+            } while( oct > 0)
+          }
+          else return null
         default: return null; // pour le moment
         }
-      }(key, this.note, this.midi)
+      }(key, this.note, this.octave, this.midi)
     }
     return this.suplines[key]
   },
@@ -448,10 +508,9 @@ $.extend(Note.prototype,{
     if(note_str.indexOf(':') > -1)
     {
       dnote       = note_str.split(':')
-      this.staff  = Anim.staves[parseInt(dnote.shift(),10) - 1]
+      // this.staff  = Anim.staves[parseInt(dnote.shift(),10) - 1]
+      this.staff  = parseInt(dnote.shift(),10)
       note_str    = dnote.shift()
-    } else {
-      this.staff  = Anim.current_staff
     }
     note_str = note_str.split('')
 

@@ -95,8 +95,11 @@ Anim.Step = {
     if(this.timer) clearTimeout(this.timer)
     if(!this.list) return Anim.stop()
     this.set_current()
+    if(undefined == this.current) return
     // Passer les commentaires
     if(this.current.substring(0,1) == "#") return this.next()
+    // Passer les lignes vides 
+    if(this.current.trim() == "") return this.next()
     /* === On joue l'étape === */
     this.run()
     if(!this.list || this.list.length == 0) Anim.stop()
@@ -114,6 +117,7 @@ Anim.Step = {
   {
     // On prend le code tel quel pour pouvoir gérer la sélection du code
     this.current = this.list.shift()
+    if(undefined == this.current) return
     Console.move_cursor({for:this.current.length + 1})
     this.current = this.current.trim() // => le texte épuré de l'étape
   },

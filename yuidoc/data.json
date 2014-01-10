@@ -3285,7 +3285,7 @@
             "line": 140,
             "description": "Ajoute des lignes supplémentaires à la portée\nNotes\n-----\n  * Les lignes portent l'identifiant \"<indice portée>-<left>-<indice>\"\n    pour pouvoir être supprimées par REMOVE_SUPLINE\n  * @rappel : les lignes sont séparées par 12px",
             "itemtype": "method",
-            "name": "add_sup_lines",
+            "name": "add_suplines",
             "access": "protected",
             "tagname": "",
             "params": [

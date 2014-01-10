@@ -108,6 +108,8 @@ $.extend(window.ObjetClass.prototype,{
           throw "```Obj n'est pas un set jquery : "+obj.toString() + "```"
         }
         var dpos = {top:params.top+"px", left:params.left+"px"}
+        // if(MODE_FLASH){ obj.css(dpos); complete() }
+        // else 
         obj.animate(dpos, Anim.transition.note_moved, complete)
         break
       }

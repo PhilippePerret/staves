@@ -53,7 +53,8 @@ REAL_INDICES_NOTES = {
   * @final
   */
 NOTES = ["c", "d", "e", "f", "g", "a", "b", "c", "d", "e", "f", "g", "a", "b", "c"]
-
+NOTES_ENVERS = $.merge([], NOTES)
+NOTES_ENVERS.reverse() // => [c, b, a, g, f, e, d, c, b, a]
 /**
   * Définition des positions en hauteur des notes en fonction de leur octave
   * @property {Object} NOTE_TO_OFFSET

@@ -29,6 +29,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
   * [Resetter l'animation](#reset_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
 * [Vitesse de l'animation](#vitesse_animation)
+* [Activer/désactiver le Mode “Flash](#mode_flash)
 * [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
 
 
@@ -159,9 +160,26 @@ Pour remettre la vitesse à la vitesse normale&nbsp;:
   
     SPEED() // pas d'argument
 
+<a name="mode_flash"></a>
+###Activer/désactiver le mode “Flash”
+
+Le mode “Flash” permet de jouer très rapidement une partie de l'animation. C'est utile lorsqu'une partie est calée, mais qu'on ne veut pas la rejouer systématiquement au même rythme pour atteindre la portion en cours d'élaboration.
+
+Dans ce cas, on met le code à passer entre&nbsp;:
+
+    MODE_FLASH
+    ..............
+    ...  code  ...
+    ...   à    ...
+    ... passer ...
+    ..............
+    STOP_MODE_FLASH
+
+*Noter que le résultat ne sera pas du tout le même que si l'on commentait les lignes de code à passer, puisque l'animation ne se trouverait peut-être pas dans le même état.*
+
 
 <a name="reiniti_preferences"></a>
-####Ré-initialiser toutes les valeurs de préférence
+###Ré-initialiser toutes les valeurs de préférence
 
 Pour remettre toutes les valeurs de décalages aux valeurs de départ, utiliser la commande (SANS PARENTHÈSES)&nbsp;:
 
@@ -410,17 +428,26 @@ Pour détruire l'accord, utiliser&nbsp;:
 
 * [Créer une portée](#create_staff)
 * [Activer une portée](#active_staff)
+* [Récupérer une portée](#recuperer_staff)
 * [Supprimer les lignes supplémentaires](#remove_suplines)
 
 <a name="create_staff"></a>
 ###Créer une portée
 
-Pour afficher une portée, utiliser le pas&nbsp;:
+Pour créer une portée, utiliser le pas&nbsp;:
 
-    NEW_STAFF(<clé>)
+    NEW_STAFF(<cle>[, <params>])
 
 … où `<cle>` peut être `SOL`, `FA`, `UT3`, `UT4`.
   
+… et `<params>` peut contenir :
+  
+    NEW_STAFF(<cle>, {
+      offset : decalage supplementaire par rapport à précédente (pixels)
+    })
+  
+*Noter que par défaut, il y aura toujours un décalage entre deux portées créées, ce `offset` ne fait qu'aggrandir l'espacement (s'il est positif) ou le rétrécir (s'il est négatif)*
+
 Par exemple&nbsp;:
   
     NEW_STAFF(SOL)
@@ -440,12 +467,40 @@ Activer une portée signifie que tous les pas suivants la viseront. Par exemple,
     
     ACTIVE_STAFF(1)
     
-    
+<a name="recuperer_staff"></a>
+###Récupérer une portée
+
+On peut récupérer une portée (pour la “travailler” dessus) à l'aide de la commande&nbsp;:
+
+    STAFF(<indice 1-start>)
+
+Par exemple, pour supprimer la deuxième porée construite&nbsp;:
+
+    STAFF(2).remove()
+
+Noter que pour mettre la portée dans une variable, il faut impérativement utiliser&nbsp;:
+
+maPortee=Anim.Objects.STAFF(x)
+
+  
 <a name="remove_suplines"></a>
 ###Supprimer des lignes supplémentaires
 
 Pour le moment, la suppression de lignes supplémentaires n'est pas automatique, afin de laisser toute liberté à la programmation de l'animation.
 
+Utiliser la commande&nbsp;:
+
+    STAFF(<indice 1-start>).remove_suplines({
+      top     : <indice ou liste d‘indice a supprimer au-dessus>,
+      bottom  : <indice ou liste d‘indices a supprimer en dessous>,
+      xoffset : <decalage horizontal>
+    })
+    
+* N'utiliser que `top` et `bottom` au besoin&nbsp;;
+* Les indices des lignes se comptent À PARTIR DE LA PORTÉE (donc en montant pour `top` et en descendant pour `bottom`)&nbsp;;
+* `xoffset` n'est à préciser que si les lignes à supprimer ne se trouvent pas sur le décalage horizontal courant (suppression arrière, rare).
+
+####Autre commande pour supprimer des lignes supplémentaires
 On détruit ces lignes à l'aide de la commande&nbsp;:
 
     REMOVE_SUPLINE(<parameters>)

@@ -4,6 +4,7 @@
 * [Affichage de tout objet animation](#show_objet_animation)
 * [Passage au pas (étape) suivant](#passage_step_suivante)
 * [Traitement du code de l'animation](#traitement_code_animation)
+* [Portée](#les_portees)
 
 <a name="nomenclature"></a>
 ##Nomenclature
@@ -101,3 +102,8 @@ Au lieu de ça on a :
 4.Pendant ce temps, Anim.Step.next reçoit l'instance note et la met dans `maNote` (en réalité dans `Anim.Objects.maNote`)
 5.La méthode `Anim.Step.next` a le temps de se finir
 6.La méthode Anim.Objects.WAIT appelle `Anim.Step.next` pour passer à la suite
+
+<a name="les_portees"></a>
+##Les portées
+
+Le `top` de la portée correspond exactement au top de la ligne supérieure.

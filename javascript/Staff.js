@@ -97,6 +97,22 @@ $.extend(Staff,{
     case UT4  :
       return 2 // TODO à mieux régler
     }
+  },
+  
+  /**
+    * Efface des lignes supplémentaires
+    * @method erase_suplines
+    * @param  {Number} istaff   Indice de la portée
+    * @param  {Number} xoffset  Décalage horizontal où se trouve la ligne
+    * @param  {String} endroit  'bot' ou 'top' pour bottom ou top
+    * @param  {Array}  indices  Indices 1-start des lignes supplémentaires à supprimer
+    */
+  erase_suplines:function(istaff, xoffset, endroit, indices)
+  {
+    L(indices).each(function(indice_supline){
+      var id = "supline-"+istaff+xoffset+"-"+(indice_supline - 1)+endroit
+      $('img#'+id).fadeOut(Anim.transition.show)
+    })
   }
 })
 /* ---------------------------------------------------------------------
@@ -144,29 +160,50 @@ $.extend(Staff.prototype, {
     *   * Les lignes portent l'identifiant "<indice portée>-<left>-<indice>"
     *     pour pouvoir être supprimées par REMOVE_SUPLINE
     *   * @rappel : les lignes sont séparées par 12px
-    * @method add_sup_lines
+    * @method add_suplines
     * @protected
     * @param  {Object} params   Paramètres optionnels
-    *   @param  {Boolean} params.above    Si true (default) ajouter au-dessus
-    *   @param  {Number}  params.upto     Des lignes jusqu'à ce nombre
+    *   @param  {Boolean} params.top      Si true (default) ajouter au-dessus
+    *   @param  {Number}  params.number   Le nombre de lignes
     *
     */
-  add_sup_lines:function(params)
+  add_suplines:function(params)
   {
-    if(undefined == params) params = {}
-    if(undefined == params.above)  params.above  = true
-    var i=0, style, depart = (params.above ? 12 : 48), inc = (params.above ? - 12 : 12) ;
-    var top = this.top + depart
-    var supline_indice = 0, supline_id
-    do {
-      top             += inc
-      supline_indice  += 1
-      style = "top:"+top+"px;left:"+(Anim.current_x - 2)+"px;"
-      supline_id = "supline-"+this.indice+Anim.current_x+"-"+supline_indice+(params.above?'top':'bot')
-      Anim.Dom.add('<img id="'+supline_id+'" class="supline" src="img/note/supline.png" style="'+style+'" />')
+    if(undefined == params) return F.error("Staff.add_suplines ne peut être appelé sans paramètres…")
+    var ontop    = params.top == true
+    var hauteur  = ontop ? this.top - 12 : this.top + (5 * 12) ;
+    var incre    = ontop ? -12 : + 12
+    dlog("-> add_suplines")
+    dlog({
+      ontop:ontop, hauteur:hauteur, inc:incre, nombre:params.number
+    })
+    var prefid   = "supline-"+this.indice+Anim.current_x+"-"
+    var suffid   = ontop ? 'top' : 'bot'
+    // On ajoute le nombre de lignes nécessaires
+    for(var i = 0; i < params.number; i++)
+    {
+      style = "top:"+hauteur+"px;left:"+(Anim.current_x - 2)+"px;"
+      sid   = prefid + i + suffid
+      Anim.Dom.add('<img id="'+sid+'" class="supline" src="img/note/supline.png" style="'+style+'" />')
+      hauteur += incre
     }
-    while((params.above && ((top - 12) > (params.upto))) || (!params.above && (top < params.upto)))
-  }
+  },
+  /**
+    * Supprime des lignes supplémentaires
+    * @method remove_suplines
+    * @param {Object} params  Paramètres de suppression
+    *   @param {Array|Number} params.top    Ligne(s) à supprimer au-dessus
+    *   @param {Array|Number} params.bottom Ligne(s) à supprimer en dessous
+    */
+  remove_suplines:function(params)
+  {
+    params.staff = this.indice
+    Anim.Objects.REMOVE_SUPLINE(params)
+  },
+  /** Alias pour remove_suplines
+    * @method remove_supline
+    */
+  remove_supline:function(params){return this.remove_suplines(params)}
   
 })
 

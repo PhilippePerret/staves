@@ -1,6 +1,26 @@
 # Animation pour analyse du
 # premier prélude du CBT 1
+# --- Premier accord DO ---
 NEW_STAFF(SOL)
-NEW_STAFF(FA)
-do1b=CHORD('c4 e4',{staff:2})
-do1a=CHORD('g4 c5 e5',{staff:1})
+NEW_STAFF(FA, {offset:20})
+ACTIVE_STAFF(1)
+do1=CHORD('2:c4 2:e4 g4 c5 e5')
+do1.note(2).moveTo('1:e4')
+STAFF(2).remove_supline({top:2})
+do1.note(1).moveTo('1:c4')
+STAFF(2).remove_supline({top:1})
+do1.note(4).remove()
+do1.note(5).remove()
+WAIT(2)
+do1.harmony('I')
+
+# --- Mesure 2 : accord Dm7 ---
+LEFT()
+rem1=CHORD('2:c4 2:d4 a4 d5 f5')
+rem1.note(2).moveTo('1:d4')
+rem1.note(4).remove()
+rem1.note(5).moveTo('f4')
+rem1.note(1).moveTo('1:c5')
+STAFF(2).remove_supline({top:1})
+WAIT(2)
+rem1.harmony('II7***')

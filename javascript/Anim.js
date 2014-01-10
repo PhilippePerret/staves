@@ -95,7 +95,7 @@ $.extend(window.Anim,{
   transition_flash:{
     step        : 1,
     show        : 1,
-    note_moved  : 1,
+    note_moved  : 5,
     transform   : 1,
     wait        : 1
   },
@@ -227,10 +227,10 @@ $.extend(window.Anim,{
     })
   },
   
-  /** Raccourci pour Anim.Dom.show
-    * OBSOLÈTE
-    * @method show */
-  show:function(obj, params){this.Dom.show(obj,params)},
+  // /** Raccourci pour Anim.Dom.show
+  //   * OBSOLÈTE
+  //   * @method show */
+  // show:function(obj, params){this.Dom.show(obj,params)},
  
   /**
     * Enregistre l'animation courante
@@ -291,6 +291,14 @@ $.extend(window.Anim,{
     }
   },
   
+  /**
+    * Recharge l'animation courante (utile quand on la code dans un fichier)
+    * @method reload
+    */
+  reload:function()
+  {
+    this.load(this.name)
+  },
   /**
     * Charge l'animation de nom +name+
     * @method load
