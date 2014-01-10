@@ -227,7 +227,6 @@ Object.defineProperties(Txt.prototype,{
             {
               var renv = found[1].replace(/\*/g, '•')
               var renv_len = renv.length
-              if(renv_len == 2) renv = "&nbsp;"+renv // pour bon alignement
               t = t.substring(0, t.length - renv_len)
               return '<div class="center inline">'+
                         '<div class="renversement">'+renv+'</div>' +
@@ -328,7 +327,7 @@ Object.defineProperties(Txt.prototype,{
       {
       case harmony:
         var w_box = this.obj.width()
-        this._real_left = left - w_box + 7
+        this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
         break
       case cadence:
         // Pour un texte d'harmonie, le bord droit doit être aligné au possesseur,
@@ -339,7 +338,6 @@ Object.defineProperties(Txt.prototype,{
       case chord:
         // On doit le placer bien au center
         var w_box = this.obj.width()
-        dlog("center x de "+this.owner.id+":"+this.owner.center_x)
         this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
         break
       default:

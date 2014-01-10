@@ -21,8 +21,8 @@ div.text.harmony, div.text.cadence {
 
 /* Style pour un CHIFFRAGE D'HARMONIE */
 div.text.harmony {
-  padding       : 20px 10px 1px;
-  text-align    : right;
+  padding       : 20px 0;
+  text-align    : center;
 }
 /* Style pour une CADENCE */
 div.text.cadence {
@@ -36,13 +36,10 @@ div.text.cadence {
 
 div.text.harmony div.renversement,
 div.text.cadence div.renversement {
-  display     : inline-block;
-  position    : absolute;
+  display     : block;
   font-family : Courier;
   font-size   : 14pt;
-  right       : -1px;
-  top         : 8px;
-  width       : 40px;
+  height      : 7.8pt;
   text-align  : center;
 }
 /* Style pour un DOIGTÉ */
