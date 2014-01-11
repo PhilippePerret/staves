@@ -2,9 +2,9 @@
 # premier prélude du CBT 1
 
 # --- Valeurs par défault ---
-DEFAULT('next', 60)
-DEFAULT('harmony', 44)
-DEFAULT('staff_offset', 120)
+DEFAULT(\'next\', 60)
+DEFAULT(\'harmony\', 48)
+DEFAULT(\'staff_offset\', 120)
 
 # --- Les portées ---
 NEW_STAFF(SOL)
@@ -12,29 +12,29 @@ NEW_STAFF(FA)
 ACTIVE_STAFF(1)
 
 # --- Premier accord DO ---
-do1=CHORD('2:c4 2:e4 g4 c5 e5')
+do1=CHORD(\'2:c4 2:e4 g4 c5 e5\')
 WAIT(2)
-do1.note(2).moveTo('1:e4')
+do1.note(2).moveTo(\'1:e4\')
 STAFF(2).remove_supline({top:2})
 do1.note(5).remove()
-do1.note(1).moveTo('1:c4')
+do1.note(1).moveTo(\'1:c4\')
 STAFF(2).remove_supline({top:1})
 do1.note(4).remove()
 WAIT(1)
-do1.chord_mark('C Maj')
+do1.chord_mark(\'C Maj\')
 WAIT(1)
-do1.harmony('I')
+do1.harmony(\'I\')
 
 # --- Mesure 2 : accord Dm7 ---
 NEXT()
-rem1=CHORD('2:c4 2:d4 a4 d5 f5')
+rem1=CHORD(\'2:c4 2:d4 a4 d5 f5\')
 WAIT(2)
-rem1.note(2).moveTo('1:d4')
+rem1.note(2).moveTo(\'1:d4\')
 rem1.note(4).remove()
-rem1.note(5).moveTo('f4')
-rem1.note(1).moveTo('1:c5')
+rem1.note(5).moveTo(\'f4\')
+rem1.note(1).moveTo(\'1:c5\')
 STAFF(2).remove_supline({top:1})
 WAIT(1)
-rem1.chord_mark('Dm7')
+rem1.chord_mark(\'Dm7\')
 WAIT(1)
-rem1.harmony('II7***')
+rem1.harmony(\'II7***\')
