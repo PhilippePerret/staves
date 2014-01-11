@@ -287,8 +287,8 @@ $.extend(window.Anim,{
   reset_prefs:function()
   {
     // Il faut remettre toutes les préférences au départ
-    L(this.prefs).each(function(key, value){
-      if(key.substring(0,7) == 'offset_') Anim.prefs[key] = 0
+    L(this.prefs_default).each(function(key, value){
+      Anim.set_pref(key, value)
     })
   },
   

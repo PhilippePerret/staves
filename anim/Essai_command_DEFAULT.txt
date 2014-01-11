@@ -2,7 +2,7 @@
 
 # Essai \'top_staff\'
 # -----------------
-DEFAULT(\'top_staff\', 100)
+DEFAULT(\'staff_top\', 100)
 NEW_STAFF(SOL)
 
 # Essai \'next\'
@@ -19,8 +19,8 @@ DEFAULT(\'next\')
 
 # Essai \'harmony\'
 # ---------------
-
+NEXT()
 NOTE(c4).harmony(\'II\').chord_mark(\'A Maj\')
 DEFAULT({harmony: 100, chord_mark: 100})
 NEXT()
-NOTE(f4).harmony(\'IV\')
+NOTE(f4).harmony(\'IV\').chord_mark(\'Dm7\')
