@@ -809,9 +809,17 @@ Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuit
 <a name="supprimer_texte_objet"></a>
 ####Supprimer un texte d'objet
 
-Pour supprimer le texte de l'objet, c'est-à-dire de le faire disparaitre de l'affichage, utiliser la méthode `hide` (cacher) du texte de l'objet&nbsp;:
+Pour supprimer le texte de l'objet, c'est-à-dire de le faire disparaitre de l'affichage, utiliser la méthode `hide` (cacher) ou `remove` du texte de l'objet&nbsp;:
 
-    <note>.texte.hide()
+    <note>.texte[<type>].hide() / remove()
+
+Où `<type>` est le type de texte&nbsp;:
+  
+* 'regular' pour un texte normal (sans type)
+* 'chord'   pour un accord
+* 'cadence' pour une cadence
+* 'harmony' pour une harmonie
+* 'modulation' pour une modulation.
   
 Par exemple&nbsp;:
   
@@ -821,14 +829,19 @@ Par exemple&nbsp;:
     # Attendre 2 secondes
     WAIT(2)
     # Supprimer le texte
-    maNote.texte.hide()
+    maNote.texte['regular'].hide()
   
 Noter que cette méthode supprime l'affichage du texte, mais l'objet `texte` existe toujours pour l'objet et on peut le ré-utiliser plus tard, par exemple avec&nbsp;:
 
-    maNote.texte.show()
+    maNote.texte['regular'].show()
 
 … qui ré-affichera ce texte.
 
+En revanche, si on utilise&nbsp;:
+
+    maNote.texte['regular'].remove()
+
+… alors l'objet sera vraiment détruit.
 
 
 ---------------------------------------------------------------------
@@ -987,6 +1000,7 @@ On peut régler à tout moment (et en particulier au début de l'animation) tout
 ###Table des matières
 
 * [Réglage de la vitesse](#prefs_speed)
+* [Astuce pour le réglage des positions](#prefs_tips_reglage)
 * [Réglage de la position des portées](#prefs_staves)
 * [Réglage de la position horizontale initiale (curseur)](#prefs_x_start)
 * [Réglage de l'avancée à chaque NEXT (curseur)](#prefs_set_next)
@@ -1010,6 +1024,19 @@ Ou&nbsp;:
 **Pour remettre les valeurs par défaut**
 
     DEFAULT('speed')
+
+<a name="prefs_tips_reglage"></a>
+###Astuce pour le réglage des positions
+
+Ci-dessous, on peut découvrir le fonctionnement de la commande `DEFAULT` pour redéfinir des valeurs de l'animation, et notamment des positionnements d'élément.
+
+Pour pouvoir trouver la valeur-pixel à affecter, le mieux est de procéder ainsi&nbsp;:
+
+1. Trouver dans ce manuel le paramètre à modifier pour obtenir le positionnement recherché.
+2. Une fois ce paramètre déterminé, regarder sa valeur actuelle dans le bloc des infos de l'animation (qui doit se trouver en bas à droite de la page). Au bout d'une ligne commençant par ce paramètre, vous pouvez trouver sa valeur.
+3. Ensuite, déplacer la règle de mesure (en bas à gauche de l'animation — l'animation, pas la page) à l'endroit du changement pour estimer les nouvelles valeurs à donner (50, 100 et 150 sont en pixels).
+4. Régler le paramètre avec la valeur estimée et essayer.
+
 
 <a name="prefs_staves"></a>
 ###Réglage de la position des portées
@@ -1054,7 +1081,9 @@ Ou&nbsp;:
 Pour remettre la valeur par défaut&nbsp;:
   
     DEFAULT('x_start')
-  
+
+Pour déterminer facilement la valeur, cf. [Astuces pour le réglage des positions](#prefs_tips_reglage).
+
 <a name="prefs_set_next"></a>
 ###Réglage de la position `next`
 
@@ -1082,6 +1111,8 @@ Ou&nbsp;:
 
     DEFAULT('next')
     DEFAULT('offset_next')
+
+Pour déterminer facilement la valeur, cf. [Astuces pour le réglage des positions](#prefs_tips_reglage).
 
 <a name="prefs_position_harmony"></a>
 ###Réglage de la position des textes d'harmonie et de cadence
@@ -1113,6 +1144,8 @@ On peut utiliser aussi la commande spéciale&nbsp;:
     DEFAULT('harmony')
     DEFAULT('offset_harmony')
 
+Pour déterminer facilement la valeur, cf. [Astuces pour le réglage des positions](#prefs_tips_reglage).
+
 <a name="prefs_position_chord_mark"></a>
 ###Réglage de la position des marques d'accord
 
@@ -1143,6 +1176,8 @@ On peut utiliser aussi la commande spéciale&nbsp;:
     DEFAULT('chord_mark')
     DEFAULT('offset_chord_mark')
 
+Pour déterminer facilement la valeur, cf. [Astuces pour le réglage des positions](#prefs_tips_reglage).
+
 <a name="prefs_position_modulation"></a>
 ###Position de la marque de modulation
 
@@ -1158,7 +1193,8 @@ Pour revenir à la position par défaut&nbsp;:
   
     DEFAULT('modulation_x')
   
-Conseil pour ajuster la valeur&nbsp;: Lire la valeur actuelle dans les infos de l'animation (normalement, le cadre se trouve en bas à droite et on doit y trouver une rangée contenant la définition de `modulation_x`), et la modifier en conséquence.
+Pour déterminer facilement la valeur, cf. [Astuces pour le réglage des positions](#prefs_tips_reglage).
+
   
 **Régler la position horizontale relative**
 
