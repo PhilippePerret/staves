@@ -234,7 +234,7 @@ $.extend(Note.prototype,{
     if(!this.alteration) return
     delete this.alteration
     var me = this
-    this.obj_alt.animate({opacity:0}, Anim.transition.show,function(){
+    this.obj_alt.animate({opacity:0}, Anim.delai_for('show'),function(){
       me.obj_alt.remove()
       })
   },
@@ -335,7 +335,7 @@ $.extend(Note.prototype,{
     */
   hide_alteration:function(complete)
   {
-    this.obj_alt.animate({opacity:0}, Anim.transition.show, complete)
+    this.obj_alt.animate({opacity:0}, Anim.delai_for('show'), complete)
   },
   /**
     * Positionne la note en fonction de sa hauteur de note
@@ -578,7 +578,7 @@ Clé de SOL
   positionne_and_show_alteration:function()
   {
     this.positionne_alteration()
-    this.obj_alt.animate({opacity:1},Anim.transition.show)
+    this.obj_alt.animate({opacity:1}, Anim.delai_for('show'))
   },
   
   /**

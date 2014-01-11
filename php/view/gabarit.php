@@ -14,6 +14,7 @@
 	<section id="animation"></section>
   <?php include "./php/view/controller.php" ?>
   <?php include "./php/view/console.php" ?>
+  <?php include "./php/view/infos.php" ?>
   <?php include "./php/view/footer.php" ?>
 </body>
 </html>

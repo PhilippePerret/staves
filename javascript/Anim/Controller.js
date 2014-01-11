@@ -31,6 +31,7 @@ $.extend(Anim,{
       var btn_name = this.MODE_PAS_A_PAS ? 'Next' : 'Stop'
       $('input#btn_anim_start').val(btn_name)
       this.on = true
+      UI.Regle.hide()
     } 
     this.Step.next()
   },
@@ -46,6 +47,7 @@ $.extend(Anim,{
     delete this.Step.list
     $('input#btn_anim_start').val("Start")
     this.on = false
+    UI.Regle.show()    
   },
 
   /**

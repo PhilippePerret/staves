@@ -72,7 +72,7 @@ $.extend(Staff,{
     */
   top_next_staff:function(params)
   {
-    var top = 50 + (100 * Anim.staves.length)
+    var top = Anim.prefs.staff_top + (Anim.prefs.staff_offset * Anim.staves.length)
     if(params && params.offset) top += params.offset
     return top
   },

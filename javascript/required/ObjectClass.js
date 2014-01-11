@@ -95,10 +95,10 @@ $.extend(window.ObjetClass.prototype,{
       switch(operation)
       {
       case 'show':
-        obj.animate({opacity:1}, Anim.transition.show, complete)
+        obj.animate({opacity:1}, Anim.delai_for('show'), complete)
         break
       case 'remove':
-        obj.animate({opacity:0}, Anim.transition.show, function(){obj.remove(); complete()})
+        obj.animate({opacity:0}, Anim.delai_for('show'), function(){obj.remove(); complete()})
         break
       case 'moveTo':
         if(undefined == params.left)  params.left = obj.left
@@ -110,7 +110,7 @@ $.extend(window.ObjetClass.prototype,{
         var dpos = {top:params.top+"px", left:params.left+"px"}
         // if(MODE_FLASH){ obj.css(dpos); complete() }
         // else 
-        obj.animate(dpos, Anim.transition.note_moved, complete)
+        obj.animate(dpos, Anim.delai_for('note_moved'), complete)
         break
       }
     })

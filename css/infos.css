@@ -1,0 +1,25 @@
+section#infos {
+  position  : fixed;
+  bottom    : 0;
+  right     : 0;
+  width         : 260px;
+  padding       : 8px;
+  font-family   : Courier;
+  font-size     : 7.5pt;
+}
+
+section#infos > div.odd {
+  background-color    : white;
+}
+section#infos > div.even {
+  background-color    : #ddd;
+}
+section#infos label {
+  display       : inline-block;
+  width         : 120px;
+  text-align    : left;
+  padding-right : 4px;
+}
+section#infos span.value {
+  font-weight     : bold;
+}

@@ -24,3 +24,27 @@ section#tools select#animation {
 section#tools input[type="button"]#btn_save_anim {
   background-color : #cfc;
 }
+
+/* La règle à mesurer */
+div#regle {
+  position : absolute;
+  height   : 20px;
+  width    : 300px;
+  z-index  : 4000;
+}
+div#regle div.divregle {
+  position: absolute;
+  bottom  : 0px;
+  height  : 10px;
+  width   : 100px;
+  border-width  : 0 1px 1px 1px;
+  border-style  : solid;
+  border-color  : #000;
+}
+div#regle div.mesregle {
+  position  : absolute;
+  top       : 4px;
+}
+div#regle div#regle50  { left:16px;  }
+div#regle div#regle100 { left:90px;  }
+div#regle div#regle150 { left:215px; }

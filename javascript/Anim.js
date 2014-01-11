@@ -100,24 +100,86 @@ $.extend(window.Anim,{
     wait        : 1
   },
   /**
+    * Toutes les préférences par défaut
+    * @property {Object} prefs_default
+    * @static
+    * @final
+    */
+  prefs_default:{
+    next          :40,  
+    harmony       :60, 
+    chord_mark    :40, 
+    speed         :1,
+    staff_top     :50,
+    staff_offset  :100
+  },
+  /**
     * Toutes les préférences
     * @property {Object} prefs
     * @static
     */
   prefs:{
+    // Positions absolues
+    /**
+      * Décalage à droite quand la commande NEXT est utilisée
+      * @property {Number} next */
+    next                : 40,
+    /**
+      * Décalage de la marque d'harmonie ou de cadence par rapport à
+      * la portée.
+      * @property {Number} harmony */
+    harmony             : 60,
+    /**
+      * Décalage de la marque d'accord par rapport à la portée.
+      * @property {Number} chord_mark */
+    chord_mark          : 40,
+    /**
+      * Coefficiant vitesse
+      * @property {Number} speed */
+    speed               : 1,
+    /** Décalage haut de la première portée affichée
+      * @property {Number} staff_top */
+    staff_top     :50,
+    /** Décalage entre portée
+      * @property {Number} staff_offset */
+    staff_offset  :100,
+    // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
+    offset_next         : 0,
     offset_harmony      : 0,
     offset_chord_mark   : 0
   },
   /**
-    * Définit une préférence (souvent : à la volée)
+    * Définit une préférence
+    * Notes
+    * -----
+    *   * La préférence peut être de deux types : soit une valeur absolue, soit
+    *     une valeur relative (cf. prefs ci-dessus)
+    *   * Pour ré-initialiser une valeur à sa valeur par défaut, on envoie une value
+    *     non définie.
+    *
     * @method set_pref
     * @param  {String} pref       La préférence à régler
-    * @param  {Number} offset     Le décalage à lui faire subir par rapport à la position courante
+    * @param  {Number} value      La valeur à donner. Si non défini, ce sera la valeur par défaut
     * @param  {Boolean} next_step Si true (default) passe à l'étape suivante (sans timeout)
     */
-  set_pref:function(pref, offset, next_step)
+  set_pref:function(pref, value, next_step)
   {
-    this.prefs[pref] += offset
+    if(pref.substring(0,7)=='offset_')
+    {
+      if(undefined == value) this.prefs[pref] = 0
+      else this.prefs[pref] += value
+    } 
+    else {
+      if(undefined == value) value = this.prefs_default[pref]
+      // Contrôle de certaines valeurs
+      try
+      {
+        if(pref == 'speed' && value == 0) throw "Le coefficiant de vitesse (speed) ne peut pas être 0…"
+      } catch(err) { return F.error(err) }
+      this.prefs[pref]            = value
+      this.prefs['offset_'+pref]  = 0
+    }
+    this.Infos.show_pref(pref, value)
     if(undefined == next_step || next_step == true) NEXT_STEP(no_timeout=true)
   },
   /**
@@ -130,14 +192,6 @@ $.extend(window.Anim,{
   mode_flash:function(activer)
   {
     this.transition = this['transition_'+(activer ? 'flash' : 'reg')]
-  },
-  /**
-    * Valeurs par défauts
-    * @property {Object} defaut
-    *   @property {Number} default.hoffset  Décalage droite par défaut, en pixels
-    */
-  defaut:{
-    hoffset       : 40,
   },
   
   /**
@@ -177,6 +231,17 @@ $.extend(window.Anim,{
     */
   on:false,
   
+  /**
+    * Retourne la vitesse de transition de clé +key+ (dans Anim.transition)
+    * pondéré par le coefficiant de vitesse (Anim.prefs.speed)
+    * @method delai_for
+    * @param {String} key   La clé définissant le type de transition
+    * @return {Number} la valeur correspondante
+    */
+  delai_for:function(key)
+  {
+    return this.transition[key] * this.prefs.speed
+  },
   /**
     * Attends +laps+ secondes avant de passer à l'étape suivante
     * Notes

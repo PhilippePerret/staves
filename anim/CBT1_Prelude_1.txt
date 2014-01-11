@@ -15,7 +15,7 @@ WAIT(2)
 do1.harmony('I')
 
 # --- Mesure 2 : accord Dm7 ---
-LEFT()
+NEXT()
 rem1=CHORD('2:c4 2:d4 a4 d5 f5')
 rem1.note(2).moveTo('1:d4')
 rem1.note(4).remove()

@@ -106,7 +106,7 @@ ARROW_METHODS = {
     else
     {
       this.owner._arrow.obj.animate(
-        params, Anim.transition.transform, complete || NEXT_STEP
+        params, Anim.delai_for('transform'), complete || NEXT_STEP
       )
     }
     

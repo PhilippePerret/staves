@@ -8,7 +8,32 @@
   */
 if(undefined == window.UI) window.UI = {}
 $.extend(UI,{
-  
+  /**
+    * Prépare l'interface au chargement de l'application
+    * @method prepare
+    */
+  prepare:function()
+  {
+    this.Regle.prepare()
+    this.onresize_window()
+  },
+  /**
+    * Gestion de la portion de règle à mesurer posée sur le plan de l'animation.
+    * @class Regle
+    * @for UI
+    * @static
+    */
+  Regle:{
+    obj:null, // le div de la règle
+    show:function(){this.obj.show()},
+    hide:function(){this.obj.hide()},
+    prepare:function(){
+      this.obj = $('div#regle')
+      this.obj.
+        draggable({containment:'document'}).
+        css({top:'480px', left:'25px'})
+    }
+  },
   /**
     * Redimensionne les éléments dans la fenêtre
     * @method onresize_window
@@ -39,6 +64,8 @@ $.extend(UI,{
       top   : (anim_height + 40)+"px",
       left  : (anim_width - controller_width + 30) + "px"
     })
+    // La position de la règle de mesure
+    this.Regle.obj.css({top:(anim_height - 10)+'px'})
   },
   /**
     * Peuple le menu des applications avec la liste +name_list+

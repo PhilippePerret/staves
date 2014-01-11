@@ -8,6 +8,6 @@ ndo5=NOTE(c5)
 ndo3=NOTE(\'2:c3\')
 ndo3.write(\"Ce do 3 devrait se trouver sur la portée de FA\")
 # On regarde si la portée sol est toujours la portée active
-LEFT()
+NEXT()
 na4=NOTE(a4)
 na4.write(\"Ce la4 devrait se trouver sur la portée SOL\")

@@ -14,3 +14,13 @@
     <input type="button" value="Aide" onclick="aide()" />
   </div>
 </section>
+
+<!-- La règle à mesurer, mais posée où on veut -->
+<div id="regle">
+  <div id="regle50" class="mesregle">50</div>
+  <div id="regle100" class="mesregle">100</div>
+  <div id="regle150" class="mesregle">150</div>
+  <div class="divregle" style="width:50px;"></div>
+  <div class="divregle" style="width:100px;left:50px;"></div>
+  <div class="divregle" style="width:150px;left:150px;"></div>
+</div>

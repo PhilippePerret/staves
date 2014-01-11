@@ -3,9 +3,12 @@ $(document).ready(function(){
   // Régler le mode pas à pas 
   Anim.def_mode_pas_a_pas($('input#cb_mode_pas_a_pas')[0].checked)
   
-  Anim.set_slider()
+  // Préparer l'interface (dont la règle)
+  UI.prepare()
+  // Prépare la section Infos
+  Anim.Infos.prepare()
   
-  UI.onresize_window()
+  Anim.set_slider()
   
   Anim.load_list_animations()
   

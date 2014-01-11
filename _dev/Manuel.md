@@ -4,18 +4,19 @@
 
 Cette application permet de faire des animations musicales (écrites), à des fins pédagogiques, pour les insérer dans des screencasts.
 
-* [Animation](#animation)
+* [Animation](#l_animation)
 * [Les notes](#les_notes)
 * [Les accords](#les_chords)
 * [Les portées](#les_staves)
 * [Les gammes](#les_gammes)
 * [Les textes](#les_textes)
 * [Les flèches](#les_fleches)
+* [Régler toutes les valeurs de l'animation](#set_preferences)
 
 
 ---------------------------------------------------------------------
 
-<a name="animation"></a>
+<a name="l_animation"></a>
 ##Création d'une animation
 
 ###Table des matières
@@ -92,16 +93,16 @@ Par exemple, pour attendre 4 secondes&nbsp;:
 
 La commande pour écrire à la suite des dernières notes sur la portée, on utilise la commande&nbsp;:
 
-    LEFT([<nombre pixels>])
+    NEXT([<nombre pixels>])
   
 Par défaut (sans argument), le déplacement sera de 40px (`Anim.defaut.hoffset`). Sinon, le déplacement sera de la valeur précisée.
 
 Par exemple&nbsp;:
 
-    LEFT() 
+    NEXT() 
     // => les notes suivantes s'écriront 40px plus à gauche
 
-    LEFT(100)
+    NEXT(100)
     // => les notes suivantes s'écriront 100px plus à gauche
 
 <a name="texte_animation"></a>
@@ -150,6 +151,8 @@ Le pas à utiliser est :
 
 On peut régler la vitesse de l'animation de façon interactive avec le “slider” se trouvant dans le contrôleur (sous le bouton “Start”).
 
+*Pour régler la vitesse de façon très fine, cf. aussi [Réglage de la vitesse dans les préférences](#prefs_speed).*
+
 Mais on peut aussi définir dans le code cette vitesse à l'aide de la commande&nbsp;:
 
     SPEED(<valeur>)
@@ -159,6 +162,7 @@ Mais on peut aussi définir dans le code cette vitesse à l'aide de la commande&
 Pour remettre la vitesse à la vitesse normale&nbsp;:
   
     SPEED() // pas d'argument
+
 
 <a name="mode_flash"></a>
 ###Activer/désactiver le mode “Flash”
@@ -248,11 +252,17 @@ On peut utiliser plutôt&nbsp;:
 <a name="creation_note"></a>
 ###Créer une note
 
-    <variable name>=NOTE(<note>)
+    <variable name> = NOTE(<note>)
   
 * `<variable>` peut avoir le nom qu'on veut, HORMIS un nom de constante, comme `a5`.
 * La `<note>` peut être soit un string soit une constante (cf. [Désignation des notes](#designation_notes))
-* Une telle séquence (un pas) ne doit pas comporter d'espaces.
+
+On peut aussi, si l'on est certain que la note ne sera pas utilisée après (déplacée, supprimée, mise en exergue, etc.) ne pas l'affecter à une variable et composer immédiatement son aspect.
+
+Par exemple, pour placer une note LA 4 avec une marque de cadence et un accord&nbsp;:
+
+    NEW_STAFF(SOL)
+    NOTE(a4).cadence('V I').chord_mark('A Maj')
 
 <a name="move_note"></a>
 ###Déplacer une note
@@ -647,7 +657,7 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
   * [Créer un texte pour un objet](#create_texte_objet)
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)
-* [Définir des valeurs par défaut](#valeur_defaut_textes)
+* [Définir les positions des textes](#set_preferences)
 
 <a name="intro_textes"></a>
 ###Introduction
@@ -666,10 +676,14 @@ Mais il existe des types qui peuvent être définis grâce à la propriété `ty
 
 <dl>
   <dt>harmony</dt>
-  <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie cadencielle.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels.</dd>
+  <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels.</dd>
+  <dt>cadence</dt>
+  <dd>Écrit le texte sous la portée, à la position courante, sous forme de marque cadentielle (donc avec des traits "__|" pour marquer la fin de la partie).</dd>
   <dt>chord</dt>
   <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence.</dd>
 </dl>
+
+Pour indiquer une **HAMRONIE**&nbsp;:
 
 Par exemple, pour indiquer que l'accord est un premier degré sous son deuxième renversement&nbsp;:
 
@@ -680,17 +694,21 @@ Il existe aussi le raccourci&nbsp;:
 
     monAccord.harmony("I**")
 
+*Pour le positionnement de la marque, cf. [Position des textes d'harmonie et de cadence](#prefs_position_harmony).*
+
 Noter que pour allonger la barre inférieur de la marque d'harmonie, on peut ajouter le paramètre `width` qui sera le nombre de pixels désiré. Par exemple&nbsp;:
 
     monAccord.write("I**", {type:harmony, width:100})
     OU
     monAccord.harmony("I**", {width:100})
 
-Pour indiquer une **CADENCE** (ajout de barre en bas et sur le bord droit du texte)&nbsp;:
+Pour indiquer une **CADENCE**&nbsp;:
 
     monAccord.write("I", {type:cadence})
     OU
     monAccord.cadence("I")
+
+*Pour le positionnement de la marque, cf. [Position des textes d'harmonie et de cadence](#prefs_position_harmony).*
 
 Pour indiquer le **NOM DE L'ACCORD** au-dessus des notes&nbsp;:
 
@@ -700,6 +718,7 @@ Pour indiquer le **NOM DE L'ACCORD** au-dessus des notes&nbsp;:
 
     monAccord.chord_mark("C")
 
+*Pour le positionnement de la marque de l'accord cf. [Réglage de la position de l'accord](#prefs_position_chord_mark).*
 
 <a name="create_texte_animation"></a>
 ####Créer un texte pour l'animation
@@ -742,28 +761,7 @@ Noter que cette méthode supprime l'affichage du texte, mais l'objet `texte` exi
 
 … qui ré-affichera ce texte.
 
-<a name="valeur_defaut_textes"></a>
-###Définir les valeurs par défaut
 
-Noter que toutes ces valeurs peuvent être redéfinies “à la volée“ en cours d'animation.
-
-####Décalage des marques de l'harmonie par rapport à la portée
-
-Une valeur positive fera descendre les marques, les éloignant de la portée, une valeur négative rapprochera les marques de la portée.
-
-    OFFSET_HARMONY(<decalage par rapport a valeur actuelle>)
-  
-####Décalage des marques des accords au-dessus de la portée
-
-Une valeur positive fera MONTER l'accord, l'éloignant de la portée, une valeur négative rapprochera la marque de la portée.
-
-    OFFSET_CHORD_MARK(<decalage par rapport à la valeur actuelle>)
-    
-####Ré-initialiser toutes les valeurs de préférence
-
-Pour remettre toutes les valeurs aux valeurs de départ, utiliser la commande (SANS PARENTHÈSES)&nbsp;:
-
-    RESET_PREFERENCES
 
 ---------------------------------------------------------------------
 
@@ -910,3 +908,161 @@ Par exemple&nbsp;:
 ###Flèches indépendantes
 
 [TODO]
+
+---------------------------------------------------------------------
+
+<a name="set_preferences"></a>
+##Régler les valeurs par défaut
+
+On peut régler à tout moment (et en particulier au début de l'animation) toutes les valeurs par défaut, particulièrement tout ce qui concerne les positionnements.
+
+###Table des matières
+
+* [Réglage de la vitesse](#prefs_speed)
+* [Réglage de la position des portée](#prefs_staves)
+* [Réglage de l'avancée à chaque NEXT (curseur)](#prefs_set_next)
+* [Position des textes d'harmonie et de cadence](#prefs_position_harmony)
+* [Position des marques d'accord](#prefs_position_chord_mark)
+* [Ré-initialiser toutes les valeurs par défaut](#prefs_reinitialiser_default)
+
+<a name="prefs_speed"></a>
+###Réglage de la vitesse
+
+    DEFAULT({speed: <coefficiant>})
+
+Ou&nbsp;:
+
+    DEFAULT('speed', <coefficiant>)
+
+… où `<coefficiant>` est un nombre différent de zéro, qui accélère l'animation s'il est < 1 (p.e. `0.5`) et qui la ralentit s'il est supérieur à 1 (p.e. `5`)
+
+**Pour remettre les valeurs par défaut**
+
+    DEFAULT('speed')
+
+<a name="prefs_staves"></a>
+###Réglage de la position des portées
+
+**Pour régler la position verticale de la première portée&nbsp;:**
+
+    DEFAULT('staff_top', <nombre de pixels>)
+  
+Ou&nbsp;:
+
+    DEFAULT({staff_top: <nombre de pixels>})
+  
+Pour remettre la valeur par défaut&nbsp;:
+  
+    DEFAULT('staff_top')
+    
+*Noter que si cette valeur est modifiée en cours d'animation (à la volée), cela affectera la position des portées suivantes.*
+
+**Pour régler l'espace vertical entre les portées&nbsp;:**
+
+    DEFAULT('staff_offset', <nombre de pixels>)
+
+Ou&nbsp;:
+
+    DEFAULT({staff_offset: <nombre de pixels>})
+
+Pour remettre la valeur par défaut&nbsp;:
+
+    DEFAULT('staff_offset')
+
+
+<a name="prefs_set_next"></a>
+###Réglage de la position `next`
+
+La position `next` détermine de combien de pixels le “curseur” se déplacera à droite lorsque la commande `NEXT` sera utilisée (déterminant la position où seront créés les prochains objets)
+
+**Pour la régler de façon absolue**
+
+    DEFAULT({next: <nombre pixels>})
+
+Ou&nbsp;:
+
+    DEFAULT('next', <nombre pixels>)
+  
+**Pour la régler de façon relative**
+
+(par rapport au `next` courant)
+
+    DEFAULT({offset_next: <nombre de pixels>})
+
+Ou&nbsp;:
+
+    DEFAULT('offset_next', <nombre pixels>)
+
+**Pour remettre les valeurs par défaut**
+
+    DEFAULT('next')
+    DEFAULT('offset_next')
+
+<a name="prefs_position_harmony"></a>
+###Réglage de la position des textes d'harmonie et de cadence
+
+*(Pour les marques d'harmonie et de cadence, cf. [Types spéciaux de texte](#types_speciaux_texte))*
+
+**Pour la régler de façon absolue**
+
+    DEFAULT({harmony: <nombre de pixels>})
+
+Ou&nbsp;:
+
+    DEFAULT('harmony', <nombre pixels>)
+
+**Pour la régler de façon relative** (par rapport à décalage courant)
+
+    DEFAULT({offset_harmony: <nombre de pixels>})
+
+Ou&nbsp;:
+
+    DEFAULT('offset_harmony', <nombre pixels>)
+
+On peut utiliser aussi la commande spéciale&nbsp;:
+
+    OFFSET_HARMONY(<nombre de pixels>)
+
+**Pour remettre les valeurs par défaut**
+
+    DEFAULT('harmony')
+    DEFAULT('offset_harmony')
+
+<a name="prefs_position_chord_mark"></a>
+###Réglage de la position des marques d'accord
+
+*(Pour les marques d'accords, cf. [Types spéciaux de texte](#types_speciaux_texte))*
+
+**Pour régler la position de façon absolue**
+
+    DEFAULT({chord_mark: <nombre de pixels>})
+
+Ou&nbsp;:
+
+    DEFAULT('chord_mark', <nombre pixels>)
+
+**Pour régler la position de façon relative** (par rapport à décalage courant)
+
+    DEFAULT({offset_chord_mark: <nombre de pixels>})
+
+Ou&nbsp;:
+
+    DEFAULT('offset_chord_mark', <nombre pixels>)
+
+On peut utiliser aussi la commande spéciale&nbsp;:
+
+    OFFSET_CHORD_MARK(<nombre de pixels>)
+
+**Pour remettre les valeurs par défaut**
+
+    DEFAULT('chord_mark')
+    DEFAULT('offset_chord_mark')
+
+<a name="prefs_reinitialiser_default"></a>
+###Ré-initialiser toutes les valeurs par défaut
+
+Pour remettre toutes les valeurs aux valeurs par défaut, utiliser la commande (SANS PARENTHÈSES)&nbsp;:
+
+    RESET_PREFERENCES
+
+-

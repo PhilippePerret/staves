@@ -13,43 +13,53 @@ window.METHODES_TEXTE = {
     * Écrit un texte au-dessus ou en dessous du possesseur du texte
     * Notes
     * -----
+    *   * La méthode placera le texte (instance {Txt} dans la propriété `texte`
+    *     avec en clé le type de texte ('regular', 'harmony', 'chord_mark', etc.)
     *   * L'étape suivante doit être appelée par l'affichage du texte (Txt::show)
     *
     * @method write
     * @param  {String} texte Le texte à écrire
     * @param  {Object} params Les paramètres optionnels
+    * @return {Object} L'instance Note courante (pour chainage)
     */
   write:function(texte, params)
   {
     // dlog("-> <Note>.write")
     if(undefined == params) params = {}
     params.texte  = texte
-    this.texte    = TXT(this, params)
-    this.texte.build()
+    if(undefined == params.type) params.type = 'regular'
+    if(!this.texte) this.texte = {}
+    this.texte[params.type] = TXT(this, params)
+    this.texte[params.type].build()
+    return this
   },
   /**
     * Raccourci pour écrire un texte d'harmony
     * @method harmony
     * @param  {String} texte  Le texte à écrire
     * @param  {Object} params   Paramètres optionnels
+    * @return {Object} L'instance Note courante (pour chainage)
     */
   harmony:function(texte, params)
   {
     if(undefined == params) params = {}
     params.type = harmony
     this.write(texte, params)
+    return this
   },
   /**
     * Raccourci pour écrire un texte de type cadence
     * @method cadence
     * @param  {String} texte    Le texte à écrire
     * @param  {Object} params   Paramètres optionnels
+    * @return {Object} L'instance Note courante (pour chainage)
     */
   cadence:function(texte, params)
   {
     if(undefined == params) params = {}
     params.type = cadence
     this.write(texte, params)
+    return this
   },
   /**
     * Raccourci pour écrire un texte de type 'chord' (un accord placé au-dessus
@@ -57,12 +67,14 @@ window.METHODES_TEXTE = {
     * @method chord_mark
     * @param  {String} accord   L'accord à marquer
     * @param  {Object} params   Les paramètres optionnels
+    * @return {Object} L'instance Note courante (pour chainage)
     */
   chord_mark:function(accord, params)
   {
     if(undefined == params) params = {}
     params.type = chord
     this.write(accord, params)
+    return this
   }
 }
 /**
@@ -147,7 +159,7 @@ $.extend(Txt.prototype,{
     {
       this.obj.animate(
         {opacity:0},
-        Anim.transition.show,
+        Anim.delai_for('show'),
         params.complete
       )
     }
@@ -280,10 +292,10 @@ Object.defineProperties(Txt.prototype,{
         {
         case harmony:
         case cadence:
-          top += 60 + Anim.prefs.offset_harmony
+          top += Anim.prefs.harmony + Anim.prefs.offset_harmony
           break
         case chord:   
-          top -= 40 + Anim.prefs.offset_chord_mark
+          top -= Anim.prefs.chord_mark + Anim.prefs.offset_chord_mark
           break
         default:
           top = Math.min(top, this.owner.top) - 20

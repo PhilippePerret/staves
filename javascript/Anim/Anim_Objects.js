@@ -26,17 +26,17 @@ FONCTIONS_ANIM_OBJETS = {
     * Cf. la fonction SCALE.
     * @method SCALE
     */
-  SCALE:function(scale, params){SCALE(scale, params)},
+  SCALE:function(scale, params){return SCALE(scale, params)},
   /** Commande pour construire une note sans la placer dans une variable
     * cf. la fonction NOTE
     * @method NOTE
     */
-  NOTE:function(note, params){NOTE(note, params)},
+  NOTE:function(note, params){return NOTE(note, params)},
   /** Commande pour construire un accord sans le placer dans une variable
     * cf. la fonction CHORD
     * @method CHORD
     */
-  CHORD:function(notes, params){CHORD(notes, params)},
+  CHORD:function(notes, params){return CHORD(notes, params)},
   /** Commande pour construire une flèche sans la placer dans une variable
     * cf. la fonction ARROW
     * @method ARROW
@@ -78,14 +78,15 @@ FONCTIONS_ANIM_OBJETS = {
     * Déplace le "marker" vers la droite sur les portées (pour inscription) 
     * Note
     *   * Cela redéfinit la valeur de Anim.current_x
-    * @method LEFT
-    * @param  {Number} offset   Optionnellement, le déplacement à effectuer (en pixels)
-    *                           Par défaut, Anim.defaut.hoffset
+    * @method NEXT
+    * @param  {Number} offset   Optionnellement, le déplacement exact à effectuer (en pixels)
+    *                           Par défaut, Anim.prefs.next
     */
-  LEFT:function(offset)
+  NEXT:function(offset)
   {
-    if(undefined == offset) offset = Anim.defaut.hoffset
+    if(undefined == offset) offset = Anim.prefs.next + Anim.prefs.offset_next
     Anim.current_x += parseInt(offset,10)
+    Anim.Infos.show_offset_cursor()
     NEXT_STEP(no_timeout = true)
   },
   
@@ -167,7 +168,38 @@ FONCTIONS_ANIM_OBJETS = {
   /* ---------------------------------------------------------------------
    *    PRÉFÉRENCES
    */
-  
+  /**
+    * Pour définir les valeurs par défaut
+    * Notes
+    * -----
+    *   * Il y a deux types de préférences : les préférences absolues et les
+    *     préférences relatives. Les relatives se reconnaissent au fait que leur
+    *     nom commence toujours par "offset_".
+    *   * Lorsqu'une valeur absolue est définie, la même valeur offset est toujours
+    *     (re)mise à 0 pour obtenir vraiment la valeur recherchée.
+    *
+    * @method DEFAULT
+    * @param  {Object|String} clevalue   Valeurs par défaut à régler, avec en
+    *                             clé le nom de préférence et en valeur la valeur
+    *                             à lui donner.
+    *                             OU la clé seule (+value+ doit être défini)
+    * @param  {Number}  value   Si +clevalue+ est un string (propriété), il faut définir la valeur à lui donner.
+    *                           Si value n'est pas définie, ça sera la valeur par défaut.
+    */
+  DEFAULT:function(clevalue, value)
+  {
+    if('string' == typeof clevalue)
+    {
+      Anim.set_pref(clevalue, value, next_step=false)
+    }
+    else
+    {
+      L(clevalue).each(function(k,v){
+        Anim.set_pref(k, v, next_step=false)
+      })
+    }
+    NEXT_STEP(no_timeout=true)
+  },
   /**
     * Décalage des marques d'harmonie par rapport à la portée
     * @method OFFSET_HARMONIE

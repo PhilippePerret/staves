@@ -42,7 +42,7 @@ Anim.Dom = {
     {
       obj.animate(
         {opacity:1}, 
-        params.duree || 1000, 
+        params.duree || Anim.delai_for('show'),
         params.complete
         )
     }

@@ -1,0 +1,26 @@
+# Test command DEFAULT
+
+# Essai \'top_staff\'
+# -----------------
+DEFAULT(\'top_staff\', 100)
+NEW_STAFF(SOL)
+
+# Essai \'next\'
+# ------------
+DEFAULT(\'next\', 200)
+
+n = NOTE(a4)
+
+NEXT()
+
+n = NOTE(b4)
+
+DEFAULT(\'next\')
+
+# Essai \'harmony\'
+# ---------------
+
+NOTE(c4).harmony(\'II\').chord_mark(\'A Maj\')
+DEFAULT({harmony: 100, chord_mark: 100})
+NEXT()
+NOTE(f4).harmony(\'IV\')
