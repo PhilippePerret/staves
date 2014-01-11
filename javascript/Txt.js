@@ -126,6 +126,25 @@ window.Txt = function(owner, params)
 Txt.prototype = Object.create( ObjetClass.prototype )
 Txt.prototype.constructor = Txt
 
+/* ---------------------------------------------------------------------
+ *  Méthodes de classe
+ *  
+ */
+$.extend(Txt, {
+  /**
+    * Traite le chiffrage (romain) dans +texte+
+    * @method traite_chiffrage_in
+    * @param {String} texte   Le texte initial
+    * @return {String} Le texte corrigé
+    */
+  traite_chiffrage_in:function(texte)
+  {
+    return texte.replace(/([0-9]+e?)/g,function(match, chiffrage, offset, s){
+      return '<span class="chiffrage">'+chiffrage+'</span>'
+    })
+  }
+})
+
 $.extend(Txt.prototype,{
   
   /**
@@ -210,7 +229,8 @@ $.extend(Txt.prototype,{
     delete this._top
     delete this._left
     delete this._width
-  }
+  },
+  
 })
 
 Object.defineProperties(Txt.prototype,{
@@ -243,12 +263,13 @@ Object.defineProperties(Txt.prototype,{
               t = t.substring(0, t.length - renv_len)
             }
             else renv = '&nbsp;'
+            t = Txt.traite_chiffrage_in(t)
             return '<div class="center inline">'+
                       '<div class="renversement">'+renv+'</div>' +
                       t +
                     '</div>'
           case chord:
-            return t
+            return Txt.traite_chiffrage_in(t)
           }
           return t // par défaut
         }(this.raw_texte, this.type)

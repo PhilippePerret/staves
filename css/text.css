@@ -18,6 +18,10 @@ div.text.harmony, div.text.cadence {
   font-size     : 18pt;
   font-weight   : bold;
 }
+span.chiffrage {
+  font-size     : 0.7em;
+  font-variant  : normal !important;
+}
 
 /* Style pour un CHIFFRAGE D'HARMONIE */
 div.text.harmony {
