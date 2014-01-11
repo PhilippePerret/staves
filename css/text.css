@@ -9,7 +9,6 @@ div.text {
 div.text.chord {
   font-family     : Verdana;
   font-size       : 12pt;
-  font-weight     : bold;
 }
 /* Style pour CHIFFRAGE D'HARMONIE et CADENCE */
 div.text.harmony, div.text.cadence, div.text.modulation {

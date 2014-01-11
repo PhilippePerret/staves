@@ -97,6 +97,9 @@ $.extend(window.ObjetClass.prototype,{
       case 'show':
         obj.animate({opacity:1}, Anim.delai_for('show'), complete)
         break
+      case 'hide':
+        obj.animate({opacity:0}, Anim.delai_for('show'), complete)
+        break
       case 'remove':
         obj.animate({opacity:0}, Anim.delai_for('show'), function(){obj.remove(); complete()})
         break

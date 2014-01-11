@@ -305,10 +305,18 @@ Utiliser la méthode `exergue()` (pour mettre en exergue, en couleur) et `unexer
 Exemple&nbsp;:
 
     maNote=NOTE('cx5')
-    maNote.exergue()   # => note en couleur
+    maNote.exergue()   # => note en couleur (bleu par defaut)
     WAIT(4)
     maNote.unexergue()  # => etat normal
 
+On peut définir la couleur, entre `red` (rouge) `green` (vert) ou `blue` (bleu, par défaut)&nbsp;:
+
+    maNote.exergue({color:<couleur>})
+
+Ou même simplement&nbsp;:
+    
+    maNote.exergue(green)
+    
 Cf. aussi [Entourer une note](#entourer_une_note) ci-dessous.
 
 <a name="entourer_une_note"></a>

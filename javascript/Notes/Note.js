@@ -96,8 +96,7 @@ $.extend(Note.prototype,{
       Anim.staves[staff_init - 1].notes.remove(this)
       this.staff_changed = true
     } 
-    this.exergue()
-    this.operation([this.obj], 'moveTo', {top: this.top})
+    this.exergue({complete:$.proxy(this.operation, this, [this.obj], 'moveTo', {top: this.top})})
   },
   
   /**
@@ -153,30 +152,45 @@ $.extend(Note.prototype,{
   /**
     * Met la note en exergue (bleue et au-dessus)
     * @method exergue
+    * @params {Object|String} params        Paramètres optionnels pour définir l'exergue.
+    *                                       OU seulement la couleur en String (constante)
+    *   @params {String} params.color       La couleur de l'exergue (constante ou def)
+    *   @params {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
     */
-  exergue:function()
+  exergue:function(params)
   {
-    this.obj[0].src = "img/note/rond-couleur.png"
+    if(undefined == params)             params          = {}
+    else if ('string' == typeof params) params          = {color:params}
+    if(undefined == params.color)       params.color    = blue
+    if(undefined == params.complete)    params.complete = NEXT_STEP
+    
+    this.color = params.color
+    this.obj[0].src = this.src
     this.obj.css('z-index','20')
     if(this.alteration && this.obj_alt.length)
     {
-      this.obj_alt[0].src = "img/note/"+this.filename_alteration+"-couleur.png"
+      this.obj_alt[0].src = this.src_alteration
       this.obj_alt.css('z-index', "20")
     }
+    if('function'==typeof params.complete) params.complete()
   },
   /**
     * Sorte la note de son exergue
     * @method unexergue
     */
-  unexergue:function()
+  unexergue:function(params)
   {
-    this.obj[0].src = "img/note/rond-noir.png"
+    if(undefined == params)           params = {}
+    if(undefined == params.complete)  params.complete = NEXT_STEP
+    delete this.color
+    this.obj[0].src = this.src
     this.obj.css('z-index','10')
     if(this.alteration && this.obj_alt.length)
     {
       this.obj_alt[0].src = this.src_alteration
       this.obj_alt.css('z-index', "10")
     }
+    if('function'==typeof params.complete) params.complete()
   },
   
   /**
@@ -188,11 +202,27 @@ $.extend(Note.prototype,{
     */
   remove:function()
   {
-    this.exergue()
-    this.operation(this.objets, 'remove')
+    this.exergue({complete:$.proxy(this.operation, this, this.objets, 'remove')})
     this.staff.notes.remove(this)
-  }
+  },
   
+  /**
+    * Masque la note
+    * @method hide
+    */
+  hide:function()
+  {
+    this.operation(this.objets, 'hide')
+  },
+  
+  /**
+    * Ré-affiche une note masquée par `hide`
+    * @method show
+    */
+  show:function()
+  {
+    this.operation(this.objets, 'show')
+  }
 })
 
 $.extend(Note.prototype, METHODES_TEXTE)
@@ -234,8 +264,9 @@ $.extend(Note.prototype,{
       this.staff.notes.add(this)
       delete this.staff_changed
     }
-    this.update_affichage()
-    this.unexergue()    
+    // `complete` réglé ci-dessous juste pour qu'il est une valeur et ne
+    // soit pas remplacé par NEXT_STEP
+    this.unexergue({complete:$.proxy(this.update_affichage, this)})    
     if(upper = this.staff.notes.hasConjointeUpper(this)) upper.update_affichage()
   },
   /**
@@ -269,8 +300,7 @@ $.extend(Note.prototype,{
   complete:function()
   {
     this.suplines_if_necessary()
-    this.unexergue()
-    NEXT_STEP()
+    this.unexergue() // poursuivra avec NEXT_STEP
   },
   /**
     * Méthode à appeler à la fin de toute animation
@@ -789,17 +819,28 @@ Object.defineProperties(Note.prototype,{
     */
   "html_img":{
     get:function(){
-      return '<img class="note" id="'+this.id+'" src="img/note/rond-noir.png" />'
+      return '<img class="note" id="'+this.id+'" src="'+this.src+'" />'
     }
   },
   
+  /**
+    * Path (src) de la note (en fonction de son type et de sa couleur)
+    * Note : pour le moment, c'est toujours un simple rond
+    * @property {String} src
+    */
+  "src":{
+    get:function(){
+      return "img/note/rond-"+(this.color || 'noir')+".png"
+    }
+  },
   /**
     * Path (src) de l'altération
     * @property {String} src_alteration
     */
   "src_alteration":{
-    get:function(){return "img/note/"+this.filename_alteration+".png"}
+    get:function(){return "img/note/"+this.filename_alteration+"-"+(this.color||'noir')+".png"}
   },
+  
   /**
     * Retourne le nom du fichier en fonction de l'altération
     * @property {String} filename_alteration

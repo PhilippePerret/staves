@@ -153,7 +153,10 @@ $.extend(Txt, {
     */
   traite_chiffrage_in:function(texte)
   {
-    return texte.replace(/([0-9]+e?)/g,function(match, chiffrage, offset, s){
+    // Pour le moment, on remplace "7dim" par "7-"
+    texte = texte.replace(/7dim/g, '7-')
+    return texte.replace(/([0-9]+e?M?\-?)/g,function(match, chiffrage, offset, s){
+      chiffrage = chiffrage.replace(/(e|\-)/, '<sup>$1</sup>')
       return '<span class="chiffrage">'+chiffrage+'</span>'
     })
   }
