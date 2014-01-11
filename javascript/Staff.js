@@ -148,7 +148,7 @@ window.OBJECT_STAFF_NOTES = {
     if(!this.list[note.left]) return null
     arr = $.merge([], this.list[note.left])
     while(tested = arr.shift()) {
-      if(tested.note+tested.octave == upper && tested.staff.indice == this.staff.indice) return tested
+      if(tested.note+tested.octave == upper && tested.staff.indice == note.staff.indice) return tested
     }
     return null
   },
@@ -163,7 +163,7 @@ window.OBJECT_STAFF_NOTES = {
     var arr, len, tested, inote = 0, under = note.conjointe_under;
     arr = $.merge([], this.list[note.left] || [])
     while(tested = arr.shift()){
-      if(tested.note+tested.octave == under && tested.staff.indice == this.staff.indice) return tested
+      if(tested.note+tested.octave == under && tested.staff.indice == note.staff.indice) return tested
     }
     return null
   },
@@ -180,7 +180,7 @@ window.OBJECT_STAFF_NOTES = {
   {
     if(undefined == this.list[note.left]) this.list[note.left] = []
     this.list[note.left].push(note)
-    if(upper = this.hasConjointeUpper(note)) upper.decale()
+    if(upper = this.hasConjointeUpper(note)) upper.update_affichage()
   },
   /**
     * Retire une note de la portée

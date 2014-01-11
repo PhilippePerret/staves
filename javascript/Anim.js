@@ -283,10 +283,7 @@ $.extend(window.Anim,{
     this.Objects    = {}
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
     Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
-    L(this.staves || []).each(function(staff){ 
-      dlog("Je détruis la staff "+staff.indice)
-      staff=null; delete staff;}
-    )
+    L(this.staves || []).each(function(staff){staff=null; delete staff;})
     this.staves     = []
     this.current_x  = this.prefs.x_start
     Console.cursor_offset = 0
