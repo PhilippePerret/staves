@@ -176,13 +176,15 @@ $.extend(Note.prototype,{
   /**
     * Destruction de la note
     * Notes
-    *   * Pour le moment, je détruis seulement son objet DOM
+    *   * Pour le moment, je détruis seulement son objet DOM et je la retire
+    *     de la portée.
     * @method remove
     */
   remove:function()
   {
     this.exergue()
     this.operation(this.objets, 'remove')
+    this.staff.notes.remove(this)
   }
   
 })
@@ -209,6 +211,8 @@ $.extend(Note.prototype,{
     delete this.suplines
     delete this._top
     delete this._midi
+    delete this._indice
+    delete this._indice_real
   },
 
   /**
@@ -299,6 +303,7 @@ $.extend(Note.prototype,{
   {
     Anim.Dom.add(this)
     this.suplines_if_necessary()
+    this.staff.notes.add(this)
   },
   /**
     * Ajoute les lignes supplémentaires si nécessaire
@@ -350,8 +355,22 @@ $.extend(Note.prototype,{
     //   'key in NOTE_TO_OFFSET': this.note+this.octave,
     //   'value in NOTE_TO_OFFSET':NOTE_TO_OFFSET[this.note+this.octave]
     // })
-    this.obj.css({top:this.top+"px", left:this.left+"px"})
+    this.obj.css({top:this.top+'px', left:this.real_left+'px', height:Anim.prefs.note_size+'px'})
     if(this.alteration) this.positionne_alteration()
+  },
+  /**
+    * Décale la note quand elle a une conjointe supérieure
+    * Notes
+    *   * La méthode est appelée lorsqu'une nouvelle note est créée et qu'on
+    *   * Il ne faut surtout pas appeler la méthode positionne dans cette situation,
+    *     car ça tournerait en rond, les deux notes ne faisant que de se recaler
+    *     l'une l'autre.
+    * détecte celle-ci.
+    * @method decale
+    */
+  decale:function()
+  {
+    this.obj.css({left:this.real_left+'px'})
   },
   /**
     * Position l'altération
@@ -617,6 +636,18 @@ Object.defineProperties(Note.prototype,{
       return this._top
     }
   },
+  /**
+    * Retourne la vraie valeur left pour l'affichage, en fonction des notes
+    * conjointes qui peuvent se trouver sur la portée à cet endroit-là
+    * @property {Number} real_left
+    */
+  "real_left":{
+    get:function(){
+      var offset = 0
+      if(this.staff.notes.hasConjointeUnder(this) != null) offset += 12.5
+      return this.left + offset
+    }
+  },
   /** Retourne la liste ({Array}) des objets DOM de la note
     * (pour le moment, la note elle-même et éventuellement son altération)
     * @property {Array} objets
@@ -639,6 +670,51 @@ Object.defineProperties(Note.prototype,{
     }
   },
   /**
+    * Note conjointe au-dessus de la note
+    * Notes : Il serait aussi possible de retourner la valeur midi
+    * @property {String} conjointe_upper   "<note><octave>"
+    */
+  "conjointe_upper":{
+    get:function(){
+      var note_up = NOTES[this.indice + 1]
+      var octa_up = this.octave + (note_up == 'c' ? 1 : 0)
+      return note_up + octa_up // p.e. "c4" pour "b3"
+    }
+  },
+  /**
+    * Note conjointe en dessous de la note
+    * Notes : Il serait aussi possible de retourner la valeur midi
+    * @property {String} conjointe_under   "<note><octave>"
+    */
+  "conjointe_under":{
+    get:function(){
+      var note_down = this.indice == 0 ? 'b' : NOTES[this.indice - 1]
+      var octa_down = this.octave + (note_down == 'b' ? -1 : 0)
+      return note_down + octa_down
+    }
+  },
+  /**
+    * Indice de la note dans NOTES (0-start, donc 0 pour Do, 1 pour ré, etc.)
+    * @property {Number} indice
+    */
+  "indice":{
+    get:function(){
+      if(undefined == this._indice) this._indice = NOTES.indexOf(this.note)
+      return this._indice
+    }
+  },
+  /**
+    * Indice “réel“ de la note (1-start, donc 0 pour Do, 1 pour Do#, 2 pour Ré, etc.)
+    * @property {Number} indice_real
+    */
+  "indice_real":
+  {
+    get:function(){
+      if(undefined == this._indice_real) this._indice_real = REAL_INDICES_NOTES[this.note]
+      return this._indice_real
+    }
+  },
+  /**
     * Retourne la valeur numérique de la note
     * Note
     *   * Elle est calculée pour qu'un C3 correspond à 60
@@ -655,7 +731,7 @@ Object.defineProperties(Note.prototype,{
         //    -> inote = 1 / octave = 4 => 1 + (4*7) => 
         // A#3 ?
         //  inote = 10 / octave = 3 => 10 + (3*7) + 31 => 10 + 21 + 31 => 62
-        var inote = REAL_INDICES_NOTES[this.note]
+        var inote = this.indice_real
         this._midi = inote + ((this.octave - 1) * 24) - 13
         if(this.alteration)
         {

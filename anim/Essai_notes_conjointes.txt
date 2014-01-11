@@ -1,0 +1,3 @@
+# Essai notes conjointes
+NEW_STAFF(SOL)
+a = CHORD(\'c4 d4 f4 a4 b4\')

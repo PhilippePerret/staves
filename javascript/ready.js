@@ -10,6 +10,8 @@ $(document).ready(function(){
   
   Anim.set_slider()
   
+  // Pour test courant
+  Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'Essai_notes_conjointes')
   Anim.load_list_animations()
   
   // Pour forcer à choisir la bonne animation

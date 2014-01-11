@@ -923,6 +923,7 @@ On peut régler à tout moment (et en particulier au début de l'animation) tout
 * [Réglage de l'avancée à chaque NEXT (curseur)](#prefs_set_next)
 * [Position des textes d'harmonie et de cadence](#prefs_position_harmony)
 * [Position des marques d'accord](#prefs_position_chord_mark)
+* [Taille des notes](#prefs_note_size)
 * [Ré-initialiser toutes les valeurs par défaut](#prefs_reinitialiser_default)
 
 <a name="prefs_speed"></a>
@@ -1057,6 +1058,21 @@ On peut utiliser aussi la commande spéciale&nbsp;:
 
     DEFAULT('chord_mark')
     DEFAULT('offset_chord_mark')
+
+<a name="prefs_note_size"></a>
+###Réglage de la taille des notes
+
+*Note&nbsp;: C'est une donnée qu'il vaut mieux ne pas modifier puisqu'elle est calculée automatiquement par rapport à la taille de la portée.*
+
+    DEFAULT('note_size', <hauteur en pixel (flottant)>)
+  
+Ou&nbsp;:
+  
+    DEFAULT({note_size: <hauteur en pixel>})
+    
+Pour remettre la valeur par défaut&nbsp;:
+    
+    DEFAULT('note_size')
 
 <a name="prefs_reinitialiser_default"></a>
 ###Ré-initialiser toutes les valeurs par défaut

@@ -111,7 +111,8 @@ $.extend(window.Anim,{
     chord_mark    :40, 
     speed         :1,
     staff_top     :50,
-    staff_offset  :100
+    staff_offset  :100,
+    note_size     :14.3
   },
   /**
     * Toutes les préférences
@@ -143,6 +144,9 @@ $.extend(window.Anim,{
     /** Décalage entre portée
       * @property {Number} staff_offset */
     staff_offset  :100,
+    /** Taille des notes (et altérations)
+      * @property {Number} note_size */
+    note_size     :14.3,
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
     offset_next         : 0,
     offset_harmony      : 0,
@@ -388,6 +392,7 @@ $.extend(window.Anim,{
       {
         this.Step.list  = null
         this.name       = name
+        $('select#animations').val(name)
         Console.set(rajax.raw_code.stripSlashes())
       }
       else F.error(rajax.message)
@@ -410,6 +415,7 @@ $.extend(window.Anim,{
       if(rajax.ok)
       {
         UI.peuple_liste_animations(rajax.list)
+        if(this.load_list_animations.poursuivre) this.load_list_animations.poursuivre()
       }
       else F.error(rajax.message)
     }

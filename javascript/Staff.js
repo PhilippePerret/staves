@@ -33,6 +33,9 @@ window.Staff = function(params)
     */
   this.indice = null
   
+  // On définit l'objet complexe this.notes (qui permet de conserver les notes)
+  $.extend(this.notes, OBJECT_STAFF_NOTES)
+  
   // On dispatche les valeurs transmises
   var me = this
   L(params || {}).each(function(k,v){me[k]=v})
@@ -116,6 +119,82 @@ $.extend(Staff,{
   }
 })
 /* ---------------------------------------------------------------------
+    Méthodes pour la propriété-object `notes`
+   --------------------------------------------------------------------- */
+window.OBJECT_STAFF_NOTES = {
+  /**
+    * Liste de toutes les notes de la portée.
+    * En clé : l'offset ou se trouve la note (note.left), en valeur une liste
+    * de toutes les notes se trouvant à cet offset
+    * @property {Object} list
+    * @static
+    */
+  list:{},
+  /**
+    * Retourne True si la note +note+ possède une note conjointe supérieure
+    * au même niveau
+    * @method hasConjointeUpper
+    * @return {Note|Null} la note conjointe supérieure si elle existe, ou NULL
+    */
+  hasConjointeUpper:function(note)
+  {
+    var arr, len, tested, inote = 0, upper = note.conjointe_upper;
+    if(!this.list[note.left]) return null
+    arr = $.merge([], this.list[note.left])
+    while(tested = arr.shift()) {
+      dlog(tested.note+tested.octave+" ? "+upper)
+      if(tested.note+tested.octave == upper) return tested
+    }
+    return null
+  },
+  /**
+    * Retourne True si la note +note+ possède une note conjointe en dessous
+    * au même décalage left
+    * @method hasConjointeUnder
+    * @return {Note|Null} la note conjointe supérieure si elle existe, ou NULL
+    */
+  hasConjointeUnder:function(note)
+  {
+    var arr, len, tested, inote = 0, under = note.conjointe_under;
+    arr = $.merge([], this.list[note.left] || [])
+    while(tested = arr.shift()){
+      if(tested.note+tested.octave == under) return tested
+    }
+    return null
+  },
+  /**
+    * Ajoute une note à la portée
+    * Notes
+    *   * La méthode s'occupe aussi de gérer les notes conjointes. Si la
+    *     note ajoutée a une note conjointe au-dessus, cette note au-dessus
+    *     est décalée vers la gauche
+    * @method add
+    * @param {Note} Instance de la note à ajouter
+    */
+  add:function(note)
+  {
+    if(undefined == this.list[note.left]) this.list[note.left] = []
+    this.list[note.left].push(note)
+    if(upper = this.hasConjointeUpper(note)) upper.decale()
+  },
+  /**
+    * Retire une note de la portée
+    * Notes : ça la retire simplement de la donnée, pas de l'affichage
+    * @method add
+    * @param {Note} Instance de la note à ajouter
+    */
+  remove:function(note)
+  {
+    var arr = this.list[note.left]
+    var new_arr = []
+    L(arr).each(function(n){
+      if(n.id == note.id) return
+      new_arr.push(n)
+    })
+    this.list[note.left] = new_arr
+  }
+}
+/* ---------------------------------------------------------------------
      Méthodes d'instance
    --------------------------------------------------------------------- */
 $.extend(Staff.prototype, {
@@ -130,7 +209,7 @@ $.extend(Staff.prototype, {
     Anim.Dom.add(this)
   },
   /**
-    * Affiche les objets de l'élément
+    * Affiche les objets de la portée
     * @method show
     * @param  {Number} vitesse La vitesse d'apparition
     */
@@ -154,6 +233,14 @@ $.extend(Staff.prototype, {
   },
   
   /**
+    * Objet complexe conservant les notes de la portée
+    * Notes
+    * -----
+    *   * Il est défini à l'instanciation de la portée
+    * @property {Object} notes
+    */
+  notes:{},
+  /**
     * Ajoute des lignes supplémentaires à la portée
     * Notes
     * -----
@@ -173,10 +260,10 @@ $.extend(Staff.prototype, {
     var ontop    = params.top == true
     var hauteur  = ontop ? this.top - 12 : this.top + (5 * 12) ;
     var incre    = ontop ? -12 : + 12
-    dlog("-> add_suplines")
-    dlog({
-      ontop:ontop, hauteur:hauteur, inc:incre, nombre:params.number
-    })
+    // dlog("-> add_suplines")
+    // dlog({
+    //   ontop:ontop, hauteur:hauteur, inc:incre, nombre:params.number
+    // })
     var prefid   = "supline-"+this.indice+Anim.current_x+"-"
     var suffid   = ontop ? 'top' : 'bot'
     // On ajoute le nombre de lignes nécessaires
