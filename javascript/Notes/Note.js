@@ -236,6 +236,7 @@ $.extend(Note.prototype,{
     }
     this.update_affichage()
     this.unexergue()    
+    if(upper = this.staff.notes.hasConjointeUpper(this)) upper.update_affichage()
   },
   /**
     * Détruit l'alteration
@@ -380,10 +381,6 @@ $.extend(Note.prototype,{
     */
   update_affichage:function()
   {
-    // Noter que c'est normal que ça arrive (left ≠ real_left) mais cela
-    // est symptomatique d'une note conjointe, donc il faut vérifier, après
-    // une opération, si la note n'est pas à repositionner.
-    // if(this.left != this.real_left) 
     this.obj.animate({left:this.real_left+'px'},250)
   },
   /**

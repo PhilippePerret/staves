@@ -108,7 +108,7 @@ $.extend(window.Anim,{
   prefs_default:{
     x_start       :100,
     next          :40,  
-    harmony       :60, 
+    harmony       :70, 
     chord_mark    :40, 
     speed         :1,
     staff_top     :50,
@@ -136,7 +136,7 @@ $.extend(window.Anim,{
       * la portée.
       * @property {Number} harmony 
       */
-    harmony             : 60,
+    harmony             : 70,
     /**
       * Décalage de la marque d'accord par rapport à la portée.
       * @property {Number} chord_mark 
@@ -287,6 +287,7 @@ $.extend(window.Anim,{
     */
   reset:function()
   {
+    Flash.clean()
     $('section#animation').html('')
     this.Objects    = {}
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)

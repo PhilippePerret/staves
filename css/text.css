@@ -25,12 +25,12 @@ span.chiffrage {
 
 /* Style pour un CHIFFRAGE D'HARMONIE */
 div.text.harmony {
-  padding       : 20px 0;
+  padding       : 10px 0;
   text-align    : center;
 }
 /* Style pour une CADENCE */
 div.text.cadence {
-  padding       : 20px 10px 1px;
+  padding       : 10px 10px 1px;
   text-align    : right;
   border-width  : 0 1px 1px 0;
   border-style  : solid;
