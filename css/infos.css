@@ -6,6 +6,8 @@ section#infos {
   padding       : 8px;
   font-family   : Courier;
   font-size     : 7.5pt;
+  max-height    : 98px;
+  overflow      : auto;
 }
 
 section#infos > div.odd {
