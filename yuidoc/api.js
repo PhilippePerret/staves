@@ -9,9 +9,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "Console",
         "Courbe",
         "GROUPNOTES_METHODS METHODES_GROUPNOTES",
+        "Infos",
         "Note",
         "ObjetClass",
         "Objets",
+        "Regle",
         "Scale",
         "Staff",
         "Step",
@@ -24,6 +26,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Anim_Dom.js",
         "Anim_Objects.js",
         "Anim_Step",
+        "Anim_infos",
         "Arrow.js",
         "Chord.js",
         "Circle.js",
@@ -45,6 +48,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Anim_Dom.js",
             "name": "Anim_Dom.js"
+        },
+        {
+            "displayName": "Anim_infos",
+            "name": "Anim_infos"
         },
         {
             "displayName": "Anim_Objects.js",

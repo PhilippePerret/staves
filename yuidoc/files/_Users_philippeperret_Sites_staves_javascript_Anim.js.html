@@ -57,11 +57,15 @@
             
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
+                <li><a href="../classes/Infos.html">Infos</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
             
@@ -82,6 +86,8 @@
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
@@ -247,9 +253,25 @@ $.extend(window.Anim,{
   transition_flash:{
     step        : 1,
     show        : 1,
-    note_moved  : 1,
+    note_moved  : 5,
     transform   : 1,
     wait        : 1
+  },
+  /**
+    * Toutes les préférences par défaut
+    * @property {Object} prefs_default
+    * @static
+    * @final
+    */
+  prefs_default:{
+    x_start       :100,
+    next          :40,  
+    harmony       :60, 
+    chord_mark    :40, 
+    speed         :1,
+    staff_top     :50,
+    staff_offset  :100,
+    note_size     :14.3
   },
   /**
     * Toutes les préférences
@@ -257,19 +279,81 @@ $.extend(window.Anim,{
     * @static
     */
   prefs:{
+    // Positions absolues
+    /** Position left de départ pour chaque portée
+      * @property {Number} x_start 
+      */
+    x_start             : 100,
+    /**
+      * Décalage à droite quand la commande NEXT est utilisée
+      * @property {Number} next 
+      */
+    next                : 40,
+    /**
+      * Décalage de la marque d&#x27;harmonie ou de cadence par rapport à
+      * la portée.
+      * @property {Number} harmony 
+      */
+    harmony             : 60,
+    /**
+      * Décalage de la marque d&#x27;accord par rapport à la portée.
+      * @property {Number} chord_mark 
+      */
+    chord_mark          : 40,
+    /**
+      * Coefficiant vitesse
+      * @property {Number} speed 
+      */
+    speed               : 1,
+    /** Décalage haut de la première portée affichée
+      * @property {Number} staff_top 
+      */
+    staff_top     :50,
+    /** Décalage entre portée
+      * @property {Number} staff_offset 
+      */
+    staff_offset  :100,
+    /** Taille des notes (et altérations)
+      * @property {Number} note_size 
+      */
+    note_size     :14.3,
+    // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
+    offset_next         : 0,
     offset_harmony      : 0,
     offset_chord_mark   : 0
   },
   /**
-    * Définit une préférence (souvent : à la volée)
+    * Définit une préférence
+    * Notes
+    * -----
+    *   * La préférence peut être de deux types : soit une valeur absolue, soit
+    *     une valeur relative (cf. prefs ci-dessus)
+    *   * Pour ré-initialiser une valeur à sa valeur par défaut, on envoie une value
+    *     non définie.
+    *
     * @method set_pref
     * @param  {String} pref       La préférence à régler
-    * @param  {Number} offset     Le décalage à lui faire subir par rapport à la position courante
+    * @param  {Number} value      La valeur à donner. Si non défini, ce sera la valeur par défaut
     * @param  {Boolean} next_step Si true (default) passe à l&#x27;étape suivante (sans timeout)
     */
-  set_pref:function(pref, offset, next_step)
+  set_pref:function(pref, value, next_step)
   {
-    this.prefs[pref] += offset
+    if(pref.substring(0,7)==&#x27;offset_&#x27;)
+    {
+      if(undefined == value) this.prefs[pref] = 0
+      else this.prefs[pref] += value
+    } 
+    else {
+      if(undefined == value) value = this.prefs_default[pref]
+      // Contrôle de certaines valeurs
+      try
+      {
+        if(pref == &#x27;speed&#x27; &amp;&amp; value == 0) throw &quot;Le coefficiant de vitesse (speed) ne peut pas être 0…&quot;
+      } catch(err) { return F.error(err) }
+      this.prefs[pref]            = value
+      if(undefined != this.prefs[&#x27;offset_&#x27;+pref]) this.prefs[&#x27;offset_&#x27;+pref]  = 0
+    }
+    this.Infos.show_pref(pref, value)
     if(undefined == next_step || next_step == true) NEXT_STEP(no_timeout=true)
   },
   /**
@@ -282,14 +366,6 @@ $.extend(window.Anim,{
   mode_flash:function(activer)
   {
     this.transition = this[&#x27;transition_&#x27;+(activer ? &#x27;flash&#x27; : &#x27;reg&#x27;)]
-  },
-  /**
-    * Valeurs par défauts
-    * @property {Object} defaut
-    *   @property {Number} default.hoffset  Décalage droite par défaut, en pixels
-    */
-  defaut:{
-    hoffset       : 40,
   },
   
   /**
@@ -330,6 +406,17 @@ $.extend(window.Anim,{
   on:false,
   
   /**
+    * Retourne la vitesse de transition de clé +key+ (dans Anim.transition)
+    * pondéré par le coefficiant de vitesse (Anim.prefs.speed)
+    * @method delai_for
+    * @param {String} key   La clé définissant le type de transition
+    * @return {Number} la valeur correspondante
+    */
+  delai_for:function(key)
+  {
+    return this.transition[key] * this.prefs.speed
+  },
+  /**
     * Attends +laps+ secondes avant de passer à l&#x27;étape suivante
     * Notes
     * -----
@@ -362,8 +449,9 @@ $.extend(window.Anim,{
     this.Objects    = {}
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
     Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
+    L(this.staves || []).each(function(staff){staff=null; delete staff;})
     this.staves     = []
-    this.current_x  = 100 // TODO: à recalculer d&#x27;après l&#x27;armure et la métrique
+    this.current_x  = this.prefs.x_start
     Console.cursor_offset = 0
     this.reset_prefs()
   },
@@ -374,15 +462,15 @@ $.extend(window.Anim,{
   reset_prefs:function()
   {
     // Il faut remettre toutes les préférences au départ
-    L(this.prefs).each(function(key, value){
-      if(key.substring(0,7) == &#x27;offset_&#x27;) Anim.prefs[key] = 0
+    L(this.prefs_default).each(function(key, value){
+      Anim.set_pref(key, value)
     })
   },
   
-  /** Raccourci pour Anim.Dom.show
-    * OBSOLÈTE
-    * @method show */
-  show:function(obj, params){this.Dom.show(obj,params)},
+  // /** Raccourci pour Anim.Dom.show
+  //   * OBSOLÈTE
+  //   * @method show */
+  // show:function(obj, params){this.Dom.show(obj,params)},
  
   /**
     * Enregistre l&#x27;animation courante
@@ -444,6 +532,14 @@ $.extend(window.Anim,{
   },
   
   /**
+    * Recharge l&#x27;animation courante (utile quand on la code dans un fichier)
+    * @method reload
+    */
+  reload:function()
+  {
+    this.load(this.name)
+  },
+  /**
     * Charge l&#x27;animation de nom +name+
     * @method load
     * @async
@@ -467,6 +563,7 @@ $.extend(window.Anim,{
       {
         this.Step.list  = null
         this.name       = name
+        $(&#x27;select#animations&#x27;).val(name)
         Console.set(rajax.raw_code.stripSlashes())
       }
       else F.error(rajax.message)
@@ -489,6 +586,7 @@ $.extend(window.Anim,{
       if(rajax.ok)
       {
         UI.peuple_liste_animations(rajax.list)
+        if(this.load_list_animations.poursuivre) this.load_list_animations.poursuivre()
       }
       else F.error(rajax.message)
     }

@@ -57,11 +57,15 @@
             
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
+                <li><a href="../classes/Infos.html">Infos</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
             
@@ -82,6 +86,8 @@
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
@@ -161,7 +167,7 @@
   */
 window.Staff = function(params)
 {
-  this.class  = &quot;Staff&quot;
+  this.class  = &quot;staff&quot;
   this.cle    = SOL
   this.id     = &quot;staff&quot;+(new Date()).getTime()
   
@@ -184,6 +190,10 @@ window.Staff = function(params)
     * @property {Number} indice
     */
   this.indice = null
+  
+  // On définit l&#x27;objet complexe this.notes (qui permet de conserver les notes)
+  this.notes = $.extend(deep = true, {}, OBJECT_STAFF_NOTES)
+  this.notes.staff = this
   
   // On dispatche les valeurs transmises
   var me = this
@@ -224,7 +234,7 @@ $.extend(Staff,{
     */
   top_next_staff:function(params)
   {
-    var top = 50 + (100 * Anim.staves.length)
+    var top = Anim.prefs.staff_top + (Anim.prefs.staff_offset * Anim.staves.length)
     if(params &amp;&amp; params.offset) top += params.offset
     return top
   },
@@ -249,8 +259,104 @@ $.extend(Staff,{
     case UT4  :
       return 2 // TODO à mieux régler
     }
+  },
+  
+  /**
+    * Efface des lignes supplémentaires
+    * @method erase_suplines
+    * @param  {Number} istaff   Indice de la portée
+    * @param  {Number} xoffset  Décalage horizontal où se trouve la ligne
+    * @param  {String} endroit  &#x27;bot&#x27; ou &#x27;top&#x27; pour bottom ou top
+    * @param  {Array}  indices  Indices 1-start des lignes supplémentaires à supprimer
+    */
+  erase_suplines:function(istaff, xoffset, endroit, indices)
+  {
+    L(indices).each(function(indice_supline){
+      var id = &quot;supline-&quot;+istaff+xoffset+&quot;-&quot;+(indice_supline - 1)+endroit
+      $(&#x27;img#&#x27;+id).fadeOut(Anim.transition.show)
+    })
   }
 })
+/* ---------------------------------------------------------------------
+    Méthodes pour la propriété-object &#x60;notes&#x60;
+   --------------------------------------------------------------------- */
+window.OBJECT_STAFF_NOTES = {
+  /**
+    * L&#x27;instance {Staff}
+    * @property {Staff} staff
+    */
+  staff:null,
+  /**
+    * Liste de toutes les notes de la portée.
+    * En clé : l&#x27;offset ou se trouve la note (note.left), en valeur une liste
+    * de toutes les notes se trouvant à cet offset
+    * @property {Object} list
+    * @static
+    */
+  list:{},
+  /**
+    * Retourne True si la note +note+ possède une note conjointe supérieure
+    * au même niveau
+    * @method hasConjointeUpper
+    * @return {Note|Null} la note conjointe supérieure si elle existe, ou NULL
+    */
+  hasConjointeUpper:function(note)
+  {
+    var arr, len, tested, inote = 0, upper = note.conjointe_upper;
+    if(!this.list[note.left]) return null
+    arr = $.merge([], this.list[note.left])
+    while(tested = arr.shift()) {
+      if(tested.note+tested.octave == upper &amp;&amp; tested.staff.indice == note.staff.indice) return tested
+    }
+    return null
+  },
+  /**
+    * Retourne True si la note +note+ possède une note conjointe en dessous
+    * au même décalage left
+    * @method hasConjointeUnder
+    * @return {Note|Null} la note conjointe supérieure si elle existe, ou NULL
+    */
+  hasConjointeUnder:function(note)
+  {
+    var arr, len, tested, inote = 0, under = note.conjointe_under;
+    arr = $.merge([], this.list[note.left] || [])
+    while(tested = arr.shift()){
+      if(tested.note+tested.octave == under &amp;&amp; tested.staff.indice == note.staff.indice) return tested
+    }
+    return null
+  },
+  /**
+    * Ajoute une note à la portée
+    * Notes
+    *   * La méthode s&#x27;occupe aussi de gérer les notes conjointes. Si la
+    *     note ajoutée a une note conjointe au-dessus, cette note au-dessus
+    *     est décalée vers la gauche
+    * @method add
+    * @param {Note} Instance de la note à ajouter
+    */
+  add:function(note)
+  {
+    if(undefined == this.list[note.left]) this.list[note.left] = []
+    this.list[note.left].push(note)
+    if(upper = this.hasConjointeUpper(note)) upper.update_affichage()
+  },
+  /**
+    * Retire une note de la portée
+    * Notes : ça la retire simplement de la donnée, pas de l&#x27;affichage
+    * @method add
+    * @param {Note} Instance de la note à ajouter
+    */
+  remove:function(note)
+  {
+    var arr = this.list[note.left]
+    var new_arr = []
+    L(arr).each(function(n){
+      if(n.id == note.id) return
+      new_arr.push(n)
+    })
+    this.list[note.left] = new_arr
+  }
+}
 /* ---------------------------------------------------------------------
      Méthodes d&#x27;instance
    --------------------------------------------------------------------- */
@@ -266,7 +372,7 @@ $.extend(Staff.prototype, {
     Anim.Dom.add(this)
   },
   /**
-    * Affiche les objets de l&#x27;élément
+    * Affiche les objets de la portée
     * @method show
     * @param  {Number} vitesse La vitesse d&#x27;apparition
     */
@@ -290,6 +396,14 @@ $.extend(Staff.prototype, {
   },
   
   /**
+    * Objet complexe conservant les notes de la portée
+    * Notes
+    * -----
+    *   * Il est défini à l&#x27;instanciation de la portée
+    * @property {Object} notes
+    */
+  notes:{},
+  /**
     * Ajoute des lignes supplémentaires à la portée
     * Notes
     * -----
@@ -299,26 +413,47 @@ $.extend(Staff.prototype, {
     * @method add_suplines
     * @protected
     * @param  {Object} params   Paramètres optionnels
-    *   @param  {Boolean} params.above    Si true (default) ajouter au-dessus
-    *   @param  {Number}  params.upto     Des lignes jusqu&#x27;à ce nombre
+    *   @param  {Boolean} params.top      Si true (default) ajouter au-dessus
+    *   @param  {Number}  params.number   Le nombre de lignes
     *
     */
   add_suplines:function(params)
   {
-    if(undefined == params) params = {}
-    if(undefined == params.above)  params.above  = true
-    var i=0, style, depart = (params.above ? 12 : 48), inc = (params.above ? - 12 : 12) ;
-    var top = this.top + depart
-    var supline_indice = 0, supline_id
-    do {
-      top             += inc
-      supline_indice  += 1
-      style = &quot;top:&quot;+top+&quot;px;left:&quot;+(Anim.current_x - 2)+&quot;px;&quot;
-      supline_id = &quot;supline-&quot;+this.indice+Anim.current_x+&quot;-&quot;+supline_indice+(params.above?&#x27;top&#x27;:&#x27;bot&#x27;)
-      Anim.Dom.add(&#x27;&lt;img id=&quot;&#x27;+supline_id+&#x27;&quot; class=&quot;supline&quot; src=&quot;img/note/supline.png&quot; style=&quot;&#x27;+style+&#x27;&quot; /&gt;&#x27;)
+    if(undefined == params) return F.error(&quot;Staff.add_suplines ne peut être appelé sans paramètres…&quot;)
+    var ontop    = params.top == true
+    var hauteur  = ontop ? this.top - 12 : this.top + (5 * 12) ;
+    var incre    = ontop ? -12 : + 12
+    // dlog(&quot;-&gt; add_suplines&quot;)
+    // dlog({
+    //   ontop:ontop, hauteur:hauteur, inc:incre, nombre:params.number
+    // })
+    var prefid   = &quot;supline-&quot;+this.indice+Anim.current_x+&quot;-&quot;
+    var suffid   = ontop ? &#x27;top&#x27; : &#x27;bot&#x27;
+    // On ajoute le nombre de lignes nécessaires
+    for(var i = 0; i &lt; params.number; i++)
+    {
+      style = &quot;top:&quot;+hauteur+&quot;px;left:&quot;+(Anim.current_x - 2)+&quot;px;&quot;
+      sid   = prefid + i + suffid
+      Anim.Dom.add(&#x27;&lt;img id=&quot;&#x27;+sid+&#x27;&quot; class=&quot;supline&quot; src=&quot;img/note/supline.png&quot; style=&quot;&#x27;+style+&#x27;&quot; /&gt;&#x27;)
+      hauteur += incre
     }
-    while((params.above &amp;&amp; ((top - 12) &gt; (params.upto))) || (!params.above &amp;&amp; (top &lt; params.upto)))
-  }
+  },
+  /**
+    * Supprime des lignes supplémentaires
+    * @method remove_suplines
+    * @param {Object} params  Paramètres de suppression
+    *   @param {Array|Number} params.top    Ligne(s) à supprimer au-dessus
+    *   @param {Array|Number} params.bottom Ligne(s) à supprimer en dessous
+    */
+  remove_suplines:function(params)
+  {
+    params.staff = this.indice
+    Anim.Objects.REMOVE_SUPLINE(params)
+  },
+  /** Alias pour remove_suplines
+    * @method remove_supline
+    */
+  remove_supline:function(params){return this.remove_suplines(params)}
   
 })
 
@@ -350,7 +485,7 @@ Object.defineProperties(Staff.prototype,{
     * @property {jQuerySet} img
     */
   &quot;img_staff&quot;:{
-    get:function(){return $(&#x27;div#&#x27;+this.dom_id)}
+    get:function(){return $(&#x27;div#&#x27;+this.id)}
   },
   /**
     * Return l&#x27;élément DOM de la clé
@@ -360,11 +495,6 @@ Object.defineProperties(Staff.prototype,{
     get:function(){return $(&#x27;img#&#x27;+this.dom_id_cle)}
   },
   
-  /**
-    * Return l&#x27;ID DOM de l&#x27;image de la portée
-    * @property {String} dom_id
-    */
-  &quot;dom_id&quot;:{get:function(){return &quot;staff-&quot;+this.id}},
   &quot;dom_id_cle&quot;:{get:function(){return &quot;staff_cle-&quot;+this.id}},
   
   /**

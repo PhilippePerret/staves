@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>/Users/philippeperret/Sites/staves/javascript/UI/UI.js</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Infos.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -152,124 +152,120 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/UI/UI.js</h1>
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Anim/Anim_Infos.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-  * @module UI.js
+  * @module Anim_infos
   */
 
 /**
-  * @class UI
+  * Gestion des informations de l&#x27;animation courante (dans la section #infos)
+  *
+  * @class Infos
   * @static
+  * @for Anim
   */
-if(undefined == window.UI) window.UI = {}
-$.extend(UI,{
+if(undefined == window.Anim) window.Anim = {}
+window.Anim.Infos = {
   /**
-    * Prépare l&#x27;interface au chargement de l&#x27;application
+    * L&#x27;objet DOM de la section infos
+    * @property {jQuerySet} section
+    */
+  section:null,
+  /**
+    * Prépare la section infos
     * @method prepare
     */
   prepare:function()
   {
-    this.Regle.prepare()
-    this.onresize_window()
-  },
-  /**
-    * Gestion de la portion de règle à mesurer posée sur le plan de l&#x27;animation.
-    * @class Regle
-    * @for UI
-    * @static
-    */
-  Regle:{
-    obj:null, // le div de la règle
-    show:function(){this.obj.show()},
-    hide:function(){this.obj.hide()},
-    prepare:function(){
-      this.obj = $(&#x27;div#regle&#x27;)
-      this.obj.
-        draggable({containment:&#x27;document&#x27;}).
-        css({top:&#x27;480px&#x27;, left:&#x27;25px&#x27;})
-    }
-  },
-  /**
-    * Redimensionne les éléments dans la fenêtre
-    * @method onresize_window
-    */
-  onresize_window:function(evt)
-  {
-    var w = window,
-        d = document,
-        e = d.documentElement,
-        g = d.getElementsByTagName(&#x27;body&#x27;)[0],
-        x = w.innerWidth || e.clientWidth || g.clientWidth,
-        y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-  
-    anim_width      = parseInt(x * 70/100)
-    anim_height     = parseInt(y * 78/100)
-    console_width   = x - ( anim_width + 10 + 32)
-  
-    $(&#x27;section#animation&#x27;).css({
-      width : anim_width+&quot;px&quot;, 
-      height: anim_height+&quot;px&quot;}
-    )
-    $(&#x27;section#section_console&#x27;).css({
-      width : console_width+&quot;px&quot;,
-      height: anim_height+&quot;px&quot;
-    })
-    controller_width = $(&#x27;section#controller&#x27;).width()
-    $(&#x27;section#controller&#x27;).css({
-      top   : (anim_height + 40)+&quot;px&quot;,
-      left  : (anim_width - controller_width + 30) + &quot;px&quot;
-    })
-    // La position de la règle de mesure
-    this.Regle.obj.css({top:(anim_height - 10)+&#x27;px&#x27;})
-  },
-  /**
-    * Peuple le menu des applications avec la liste +name_list+
-    * @method peuple_liste_animations
-    * @param {Array} name_list  Liste des affixes d&#x27;animation
-    */
-  peuple_liste_animations:function(name_list)
-  {
-    $(&#x27;select#animations&#x27;).html(&#x27;&lt;option value=&quot;0&quot;&gt;Charger l\&#x27;animation…&lt;/option&gt;&#x27;)
-    L(name_list).each(function(name){
-      $(&#x27;select#animations&#x27;).append(&#x27;&lt;option value=&quot;&#x27;+name+&#x27;&quot;&gt;&#x27;+name+&#x27;&lt;/option&gt;&#x27;)
+    this.section = $(&#x27;section#infos&#x27;)
+    var me = this
+    // Position actuelle du curseur
+    this.section.append(this.div_infos_for(&#x27;current_x&#x27;, Anim.current_x, &quot;Position curseur&quot;))
+    // Les valeurs des préférences
+    L(Anim.prefs).each(function(k, v){
+      me.section.append(
+        &#x27;&lt;div id=&quot;infos-&#x27;+k+&#x27;&quot; class=&quot;&#x27;+me.oddeven()+&#x27;&quot;&gt;&#x27;+
+          &#x27;&lt;label&gt;&#x27;+k.replace(/_/g,&#x27; &#x27;)+&#x27;&lt;/label&gt;&#x27;+&#x27;&lt;span id=&quot;infos-prefs-&#x27;+k+&#x27;-value&quot; class=&quot;value&quot;&gt;&#x27;+v+&#x27;&lt;/span&gt;&#x27;+
+        &#x27;&lt;/div&gt;&#x27;
+      )
     })
   },
-  
   /**
-    * Modifie le nom courant de l&#x27;animation
-    * Note
-    *   * La méthode est appelée après avoir changé le nom du fichier
-    *     enregistré
-    *   * La méthode modifie également le nom Anim.name
-    *
-    * @method change_animation_name
-    * @param  {String} L&#x27;ancien nom (le nom actuel)
-    * @param  {String} Le nouveau nom
+    * Retourne la valeur odd ou even pour la ligne à écrire
+    * @method oddeven
+    * @return {String} une fois &quot;odd&quot; et une fois &quot;event&quot;
     */
-  change_animation_name:function(old_name, new_name)
+  oddeven_value: &#x27;odd&#x27;,
+  oddeven:function()
   {
-    code = &#x27;&lt;option value=&quot;&#x27;+new_name+&#x27;&quot;&gt;&#x27;+new_name+&#x27;&lt;/option&gt;&#x27;
-    old_option = $(&#x27;select#animations option[value=&quot;&#x27;+old_name+&#x27;&quot;]&#x27;)
-    $(code).insertAfter(old_option)
-    old_option.remove()
-    Anim.name = new_name
-    $(&#x27;select#animations&#x27;).val(new_name)
+    this.oddeven_value = this.oddeven_value == &#x27;odd&#x27; ? &#x27;even&#x27;:&#x27;odd&#x27;
+    return this.oddeven_value
+  },
+  /**
+    * Retourne le DIV pour l&#x27;information de clé +key+
+    * @method div_infos_for
+    * @param {String}         key     La clé visée
+    * @param {String|Number}  value   La valeur à afficher
+    * @param {String}         label_alt   Label optionnel à utiliser au lieu de +key+
+    * @return {String} Le code HTML du div.
+    */
+  div_infos_for:function(key, value, label_alt)
+  {
+    return  &#x27;&lt;div id=&quot;infos-&#x27;+key+&#x27;&quot; class=&quot;&#x27;+this.oddeven()+&#x27;&quot;&gt;&#x27;+
+              &#x27;&lt;label&gt;&#x27;+(label_alt || key).replace(/_/g,&#x27; &#x27;)+&#x27;&lt;/label&gt;&#x27;+
+              &#x27;&lt;span id=&quot;infos-&#x27;+key+&#x27;-value&quot; class=&quot;value&quot;&gt;&#x27;+value+&#x27;&lt;/span&gt;&#x27;+
+            &#x27;&lt;div&gt;&#x27;
+  },
+  /**
+    * Retourne le selector jQuery pour l&#x27;info de clé +key+
+    * @method jid_key
+    * @param {String} key   La clé
+    */
+  jid_key:function(key)
+  {
+    return &quot;span#infos-&quot;+key+&quot;-value&quot;
+  },
+  /**
+    * Affiche toutes les infos courantes
+    * (au démarrage de l&#x27;animation)
+    * @method show
+    */
+  show:function()
+  {
+    var me = this
+    // Valeur des préférences
+    L(Anim.prefs).each(function(k,v){$(me.jid_key(&#x27;prefs-&#x27;+k)).html(v)})
+    // Valeur du décalage (next) actuel
+    this.show_offset_cursor()
+  },
+  /**
+    * Actualise une valeur dans l&#x27;affichage
+    * @method set
+    * @param {String} key   La clé exacte pour construire de DOM id
+    * @param {Number|String} value  La valeur à afficher
+    */
+  set:function(key, value)
+  {
+    $(this.jid_key(key)).html(value)
+  },
+  /**
+    * Actualise l&#x27;affichage d&#x27;une préférence (Anim.prefs)
+    * @method show_pref
+    * @param  {String} kpref  La clé dans Anim.prefs
+    * @param  {Number|String} vpref   La valeur à afficher
+    */
+  show_pref:function(kpref, vpref)
+  {
+    this.set(&#x27;prefs-&#x27;+kpref, vpref)
+  },
+  show_offset_cursor:function()
+  {
+    this.set(&#x27;offset_cursor&#x27;, Anim.current_x)
   }
-  
-  
-})
-
-/**
-  * Appelé quand on redimensionne la page
-  * @method onresize
-  * @for window
-  */
-window.onresize = UI.onresize_window
-
-
+}
     </pre>
 </div>
 

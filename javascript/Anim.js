@@ -123,33 +123,41 @@ $.extend(window.Anim,{
   prefs:{
     // Positions absolues
     /** Position left de départ pour chaque portée
-      * @property {Number} x_start */
+      * @property {Number} x_start 
+      */
     x_start             : 100,
     /**
       * Décalage à droite quand la commande NEXT est utilisée
-      * @property {Number} next */
+      * @property {Number} next 
+      */
     next                : 40,
     /**
       * Décalage de la marque d'harmonie ou de cadence par rapport à
       * la portée.
-      * @property {Number} harmony */
+      * @property {Number} harmony 
+      */
     harmony             : 60,
     /**
       * Décalage de la marque d'accord par rapport à la portée.
-      * @property {Number} chord_mark */
+      * @property {Number} chord_mark 
+      */
     chord_mark          : 40,
     /**
       * Coefficiant vitesse
-      * @property {Number} speed */
+      * @property {Number} speed 
+      */
     speed               : 1,
     /** Décalage haut de la première portée affichée
-      * @property {Number} staff_top */
+      * @property {Number} staff_top 
+      */
     staff_top     :50,
     /** Décalage entre portée
-      * @property {Number} staff_offset */
+      * @property {Number} staff_offset 
+      */
     staff_offset  :100,
     /** Taille des notes (et altérations)
-      * @property {Number} note_size */
+      * @property {Number} note_size 
+      */
     note_size     :14.3,
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
     offset_next         : 0,

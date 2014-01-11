@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>/Users/philippeperret/Sites/staves/javascript/UI/UI.js</title>
+    <title>Infos</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -152,125 +152,67 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/UI/UI.js</h1>
+                        <h1>Infos Class</h1>
+<div class="box meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
-  * @module UI.js
-  */
+    
 
-/**
-  * @class UI
-  * @static
-  */
-if(undefined == window.UI) window.UI = {}
-$.extend(UI,{
-  /**
-    * Prépare l&#x27;interface au chargement de l&#x27;application
-    * @method prepare
-    */
-  prepare:function()
-  {
-    this.Regle.prepare()
-    this.onresize_window()
-  },
-  /**
-    * Gestion de la portion de règle à mesurer posée sur le plan de l&#x27;animation.
-    * @class Regle
-    * @for UI
-    * @static
-    */
-  Regle:{
-    obj:null, // le div de la règle
-    show:function(){this.obj.show()},
-    hide:function(){this.obj.hide()},
-    prepare:function(){
-      this.obj = $(&#x27;div#regle&#x27;)
-      this.obj.
-        draggable({containment:&#x27;document&#x27;}).
-        css({top:&#x27;480px&#x27;, left:&#x27;25px&#x27;})
-    }
-  },
-  /**
-    * Redimensionne les éléments dans la fenêtre
-    * @method onresize_window
-    */
-  onresize_window:function(evt)
-  {
-    var w = window,
-        d = document,
-        e = d.documentElement,
-        g = d.getElementsByTagName(&#x27;body&#x27;)[0],
-        x = w.innerWidth || e.clientWidth || g.clientWidth,
-        y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-  
-    anim_width      = parseInt(x * 70/100)
-    anim_height     = parseInt(y * 78/100)
-    console_width   = x - ( anim_width + 10 + 32)
-  
-    $(&#x27;section#animation&#x27;).css({
-      width : anim_width+&quot;px&quot;, 
-      height: anim_height+&quot;px&quot;}
-    )
-    $(&#x27;section#section_console&#x27;).css({
-      width : console_width+&quot;px&quot;,
-      height: anim_height+&quot;px&quot;
-    })
-    controller_width = $(&#x27;section#controller&#x27;).width()
-    $(&#x27;section#controller&#x27;).css({
-      top   : (anim_height + 40)+&quot;px&quot;,
-      left  : (anim_width - controller_width + 30) + &quot;px&quot;
-    })
-    // La position de la règle de mesure
-    this.Regle.obj.css({top:(anim_height - 10)+&#x27;px&#x27;})
-  },
-  /**
-    * Peuple le menu des applications avec la liste +name_list+
-    * @method peuple_liste_animations
-    * @param {Array} name_list  Liste des affixes d&#x27;animation
-    */
-  peuple_liste_animations:function(name_list)
-  {
-    $(&#x27;select#animations&#x27;).html(&#x27;&lt;option value=&quot;0&quot;&gt;Charger l\&#x27;animation…&lt;/option&gt;&#x27;)
-    L(name_list).each(function(name){
-      $(&#x27;select#animations&#x27;).append(&#x27;&lt;option value=&quot;&#x27;+name+&#x27;&quot;&gt;&#x27;+name+&#x27;&lt;/option&gt;&#x27;)
-    })
-  },
-  
-  /**
-    * Modifie le nom courant de l&#x27;animation
-    * Note
-    *   * La méthode est appelée après avoir changé le nom du fichier
-    *     enregistré
-    *   * La méthode modifie également le nom Anim.name
-    *
-    * @method change_animation_name
-    * @param  {String} L&#x27;ancien nom (le nom actuel)
-    * @param  {String} Le nouveau nom
-    */
-  change_animation_name:function(old_name, new_name)
-  {
-    code = &#x27;&lt;option value=&quot;&#x27;+new_name+&#x27;&quot;&gt;&#x27;+new_name+&#x27;&lt;/option&gt;&#x27;
-    old_option = $(&#x27;select#animations option[value=&quot;&#x27;+old_name+&#x27;&quot;]&#x27;)
-    $(code).insertAfter(old_option)
-    old_option.remove()
-    Anim.name = new_name
-    $(&#x27;select#animations&#x27;).val(new_name)
-  }
-  
-  
-})
+    
+        <div class="foundat">
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Infos.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Infos.js:5</code></a>
+        </div>
+    
 
-/**
-  * Appelé quand on redimensionne la page
-  * @method onresize
-  * @for window
-  */
-window.onresize = UI.onresize_window
+    
+        
+            Module: <a href="../modules/Anim_infos.html">Anim_infos</a>
+        
+    
+
+    
+</div>
 
 
-    </pre>
+
+<div class="box intro">
+    <p>Gestion des informations de l&#39;animation courante (dans la section #infos)</p>
+
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>

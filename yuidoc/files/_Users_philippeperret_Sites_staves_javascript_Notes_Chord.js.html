@@ -57,11 +57,15 @@
             
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
+                <li><a href="../classes/Infos.html">Infos</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
             
@@ -82,6 +86,8 @@
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
@@ -207,20 +213,22 @@ window.Chord = function(strnotes, params)
     */
   this.notes = [null]
   
-  /**
-    * La portée de l&#x27;accord
-    * Note : Elle peut être surclassée par les paramètres
-    * @property {Staff} staff
-    * @static
-    */
-  this.staff = Anim.current_staff
+  // /** OBSOLÈTE : PROPRIÉTÉ COMPLEXE DE ObjectClass
+  //   * La portée de l&#x27;accord
+  //   * Note : Elle peut être surclassée par les paramètres
+  //   * @property {Staff} staff
+  //   * @static
+  //   */
+  // this.staff = Anim.current_staff
   
   if(undefined == params) params = {}
-  for(var prop in params) this[prop] = params[prop]
+  for(var prop in params){
+    this[prop] = params[prop]
+  } 
   
   var me = this
   L(strnotes.split(&#x27; &#x27;)).each(function(strnote){
-    me.notes.push(NOTE(strnote,{dont_build:true}))
+    me.notes.push(NOTE(strnote,{dont_build:true, staff:me.staff}))
   })
   
   // On peut construire les notes
@@ -233,12 +241,28 @@ $.extend(Chord.prototype, METHODES_GROUPNOTES)
 $.extend(Chord.prototype,{})
 Object.defineProperties(Chord.prototype, {
   /**
+    * Portée de l&#x27;accord ({Staff})
+    * Pour la définir, on peut soit envoyer la portée, soit envoyer son indice 1-start
+    *
+    * @property {Staff} staff
+    */
+  &quot;staff&quot;:{
+    set:function(staff)
+    {
+      if(&#x27;number&#x27; == typeof staff) this._staff = Anim.staves[staff - 1]
+      else if (staff.class == &#x27;staff&#x27;) this._staff = staff
+      else delete this._staff
+    },
+    get:function(){
+      return this._staff || Anim.current_staff
+    }
+  },
+  /**
     * Le milieu horizontal de l&#x27;objet (en tenant compte vraiment de sa taille)
     * @property {Number} center_x
     */
   &quot;center_x&quot;:{
     get:function(){
-      dlog(&quot;-&gt; Chord.center_x&quot;)
       var max_width = 0
       this.each_note(function(note){if(note.obj.width() &gt; max_width) max_width = note.obj.width()})
       return parseInt(this.left + (max_width / 2), 10)

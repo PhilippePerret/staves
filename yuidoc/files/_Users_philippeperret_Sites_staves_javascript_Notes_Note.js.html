@@ -57,11 +57,15 @@
             
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
+                <li><a href="../classes/Infos.html">Infos</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
             
@@ -82,6 +86,8 @@
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
@@ -168,7 +174,7 @@
 window.NOTE = function(note, params)
 {
   if(undefined == params) params = {}
-  var n = new Note(note)
+  var n = new Note(note, params)
   if(!params.dont_build)
   {
     n.build()
@@ -180,22 +186,16 @@ window.NOTE = function(note, params)
 /**
   * @class Note
   * @constructor
-  * @param  {Object|String} La note ou les données de la note
+  * @param  {String} note   La note
+  * @param  {Object|String} Les paramètres optionnels
   */
-window.Note = function(params)
+window.Note = function(note, params)
 {
-  ObjetClass.call(this)
   this.class      = &#x27;Note&#x27;
   this.note       = null
   this.octave     = null
   this.alteration = null
-  
-  /**
-    * La portée sur laquelle se trouve la note (instance Staff)
-    * @property {Staff} staff
-    */
-  this.staff  = null
-  
+    
   this.left   = Anim.current_x
   
   /**
@@ -207,18 +207,17 @@ window.Note = function(params)
     */
   this.texte = null
   
-  if(&#x27;string&#x27;==typeof params)
-  { // =&gt; Une note précisée par &quot;&lt;note une lettre&gt;&lt;altération&gt;&lt;octave&gt;&quot;
-    // &lt;altération&gt; optionnelle peut être &quot;b&quot; ou &quot;#&quot;
-    // &lt;octave&gt; peut être &quot;4&quot; ou &quot;-4&quot;
-    this.analyse_note(params)
-  }
-  else
-  {
-    var me = this
-    L(params).each(function(k,v){ me[k] = v })
-  }
+  ObjetClass.call(this, params)
+
+  // C&#x27;est la note qui a toujours le dernier mot sur les paramètres. Par exemple,
+  // avec un accord, Chord met sa staff dans les paramètres. Mais si des notes
+  // sont définies par &quot;2:...&quot;, le &quot;2&quot; qui signifie 2e portée doit prendre le
+  // dessus.
+  this.analyse_note(note)
+
+  // On peut calculer l&#x27;identifiant
   this.id = this.note + (this.alteration || &quot;&quot;) + this.octave + (new Date()).getTime()
+
 }
 Note.prototype = Object.create( ObjetClass.prototype )
 Note.prototype.constructor = Note
@@ -248,7 +247,13 @@ $.extend(Note.prototype,{
   moveTo:function(hauteur)
   {
     var top_init = parseInt(this.top,10)
+    var staff_init = parseInt(this.staff.indice)
     this.analyse_note(hauteur)
+    if(staff_init != this.staff.indice)
+    {
+      Anim.staves[staff_init - 1].notes.remove(this)
+      this.staff_changed = true
+    } 
     this.exergue()
     this.operation([this.obj], &#x27;moveTo&#x27;, {top: this.top})
   },
@@ -309,7 +314,6 @@ $.extend(Note.prototype,{
     */
   exergue:function()
   {
-    if(this.note == &quot;a&quot;) dlog(&quot;-&gt; exergue avec LA&quot;)
     this.obj[0].src = &quot;img/note/rond-couleur.png&quot;
     this.obj.css(&#x27;z-index&#x27;,&#x27;20&#x27;)
     if(this.alteration &amp;&amp; this.obj_alt.length)
@@ -324,7 +328,6 @@ $.extend(Note.prototype,{
     */
   unexergue:function()
   {
-    dlog(&quot;-&gt; unexergue (this.class=&quot;+this.class+&quot;)&quot;)
     this.obj[0].src = &quot;img/note/rond-noir.png&quot;
     this.obj.css(&#x27;z-index&#x27;,&#x27;10&#x27;)
     if(this.alteration &amp;&amp; this.obj_alt.length)
@@ -337,13 +340,15 @@ $.extend(Note.prototype,{
   /**
     * Destruction de la note
     * Notes
-    *   * Pour le moment, je détruis seulement son objet DOM
+    *   * Pour le moment, je détruis seulement son objet DOM et je la retire
+    *     de la portée.
     * @method remove
     */
   remove:function()
   {
     this.exergue()
     this.operation(this.objets, &#x27;remove&#x27;)
+    this.staff.notes.remove(this)
   }
   
 })
@@ -370,6 +375,8 @@ $.extend(Note.prototype,{
     delete this.suplines
     delete this._top
     delete this._midi
+    delete this._indice
+    delete this._indice_real
   },
 
   /**
@@ -379,8 +386,13 @@ $.extend(Note.prototype,{
     */
   on_complete_moveTo:function()
   {
-    dlog(&quot;-&gt; note.on_complete_moveTo&quot;)
     this.suplines_if_necessary()
+    if(this.staff_changed)
+    {
+      this.staff.notes.add(this)
+      delete this.staff_changed
+    }
+    this.update_affichage()
     this.unexergue()    
   },
   /**
@@ -393,11 +405,10 @@ $.extend(Note.prototype,{
     */
   remove_alteration:function()
   {
-    dlog(&quot;-&gt; note.remove_alteration / alteration = &quot;+this.alteration)
     if(!this.alteration) return
     delete this.alteration
     var me = this
-    this.obj_alt.animate({opacity:0}, Anim.transition.show,function(){
+    this.obj_alt.animate({opacity:0}, Anim.delai_for(&#x27;show&#x27;),function(){
       me.obj_alt.remove()
       })
   },
@@ -427,7 +438,6 @@ $.extend(Note.prototype,{
     */
   on_complete:function(type_obj)
   {
-    dlog(&quot;-&gt; note.on_complete &quot;+this.note_str)
     if(this.is_complete_with(type_obj)) this.complete()
   },
   /**
@@ -463,6 +473,7 @@ $.extend(Note.prototype,{
   {
     Anim.Dom.add(this)
     this.suplines_if_necessary()
+    this.staff.notes.add(this)
   },
   /**
     * Ajoute les lignes supplémentaires si nécessaire
@@ -471,7 +482,7 @@ $.extend(Note.prototype,{
   suplines_if_necessary:function()
   {
     var dsuplines = this.need_suplines(this.staff.cle)
-    if(dsuplines) this.staff.add_suplines($.extend(dsuplines,{upto:this.top}))
+    if(dsuplines) this.staff.add_suplines( dsuplines )
   },
   
   /**
@@ -499,7 +510,7 @@ $.extend(Note.prototype,{
     */
   hide_alteration:function(complete)
   {
-    this.obj_alt.animate({opacity:0}, Anim.transition.show, complete)
+    this.obj_alt.animate({opacity:0}, Anim.delai_for(&#x27;show&#x27;), complete)
   },
   /**
     * Positionne la note en fonction de sa hauteur de note
@@ -514,8 +525,24 @@ $.extend(Note.prototype,{
     //   &#x27;key in NOTE_TO_OFFSET&#x27;: this.note+this.octave,
     //   &#x27;value in NOTE_TO_OFFSET&#x27;:NOTE_TO_OFFSET[this.note+this.octave]
     // })
-    this.obj.css({top:this.top+&quot;px&quot;, left:this.left+&quot;px&quot;})
+    this.obj.css({top:this.top+&#x27;px&#x27;, left:this.real_left+&#x27;px&#x27;, height:Anim.prefs.note_size+&#x27;px&#x27;})
     if(this.alteration) this.positionne_alteration()
+  },
+  /**
+    * Cette méthode vise à rafraichir l&#x27;affichage de la note après un
+    * changement important, comme un déplacement, qui a pu supprimer par
+    * exemple une note conjointe et donc un décalage à gauche.
+    * À l&#x27;avenir, cette méthode devra gérer tous les cas, par exemple l&#x27;altération
+    * qu&#x27;il faut peut-être recaler aussi
+    * @method update_affichage
+    */
+  update_affichage:function()
+  {
+    // Noter que c&#x27;est normal que ça arrive (left ≠ real_left) mais cela
+    // est symptomatique d&#x27;une note conjointe, donc il faut vérifier, après
+    // une opération, si la note n&#x27;est pas à repositionner.
+    // if(this.left != this.real_left) 
+    this.obj.animate({left:this.real_left+&#x27;px&#x27;},250)
   },
   /**
     * Position l&#x27;altération
@@ -543,38 +570,101 @@ $.extend(Note.prototype,{
     * @return {Object} NULL si la note ne nécessite pas de lignes supplémentaires, 
     *                       ou un object contenant :above et :number, la donnée
     *                       à envoyer à Staff pour construire les lignes supplémentaires
+    
+Il faudrait arriver à :
+
+Clé de SOL
+==========
+  En dessous
+  ----------
+  do4   =&gt; 1 ligne supplémentaire quel que soit son altération
+  si3   =&gt; 1 ligne
+  la3   =&gt; 2 lignes
+  sol3  =&gt; 2 lignes
+  fa3   =&gt; 3 lignes
+  mi3   =&gt; 3 lignes
+  =&gt; Lignes si do4 || octave &lt; 3
+
+  Au-dessus
+  ---------
+  la5   =&gt; 1 ligne
+  si5   =&gt; 1 ligne
+  do6   =&gt; 2 lignes
+  re6   =&gt; 2 lignes
+  mi6   =&gt; 3 lignes
+  fa6   =&gt; 3 lignes
+  =&gt; Lignes si indice_note &gt;= 6 &amp;&amp; octave == 5 || octave &gt; 5
+    
     */
   need_suplines:function(key)
   {
     if(undefined == this.suplines || undefined == this.suplines[key])
     {
       if(undefined == this.suplines) this.suplines = {}
-      this.suplines[key] = function(key, note, midi){
+      this.suplines[key] = function(key, note, octave, midi){
+        var oct, ino, lis, n, fin=false, nombre_lignes=0 ;
+        var notoc = note + octave
         switch(key)
         {
         case SOL :
-          if(midi &lt; 60){ // strictement inférieur à 60
-            return {above:false, number: parseInt((midi - 60) / 4)}
-          } else if (midi &lt; 82){ // entre 60 et 81
-            if(midi &lt;= 62 &amp;&amp; note == &quot;c&quot;) return {above:false, number:1}
-            else if (midi &gt;= 80 &amp;&amp; note == &quot;a&quot;) return {above:true, number:1}
-            else return null
-          } else { // Supérieur ou égal à 82
-             return {above:true, number: Math.floor((midi - 82) / 4)}
+          if(notoc == &quot;c4&quot; || octave &lt; 4)
+          { // =&gt; Lignes supplémentaires en dessous
+            lis = [c4, a3, f3, d3, b2, g2, e2, c2, a1, f1, d1]
+            ino = -1
+            oct = 4
+            do {
+              ino += 1
+              not = NOTES_ENVERS[ino]
+              if(ino == 1) oct -= 1
+              if( lis.indexOf(not+oct) &gt;-1 ) ++ nombre_lignes
+              if(not+oct == notoc) return {top:false, number: nombre_lignes}
+            } while( oct &gt; 0)
           }
+          else if(notoc == &quot;a5&quot; || notoc == &quot;b5&quot; || octave &gt; 5)
+          { // Lignes supplémentaires au-dessus
+            lis = [a5, c6, e6, g6, b6, d7, f7, a7]
+            ino = 4
+            oct = 5
+            do {
+              ino += 1
+              if(ino == 7){ ino = 0; oct += 1}
+              not = NOTES[ino]
+              if( lis.indexOf(not + oct) &gt; -1) ++ nombre_lignes
+              if(not+oct == notoc) return {top:true, number: nombre_lignes}
+            } while( oct &lt; 8)
+          }
+          else return null
         case FA  :
-          if(midi &lt; 28){ // Strictement inférieur à 28
-            return {above:false, number: parseInt((midi - 28) / 4)}
-          } else if( midi &lt;= 60 ){ // entre 28 et 60
-            if(midi &lt;= 30 &amp;&amp; note == &quot;e&quot;) return {above:false, number:1}
-            else if( midi &gt;= 58 &amp;&amp; note == &quot;c&quot;) return {above:true, number:1}
-            else return null
-          } else {
-            return {above:true, number: parseInt((midi - 60) / 4)}
+          if(octave &gt;= 3)
+          { // Lignes supplémentaires au-dessus
+            lis = [c4, e4, g4, b4, d5, f5, a5]
+            ino = -1 // pour commencer à 0 = do
+            oct = 3
+            do {
+              ino += 1
+              if(ino == 7){ ino = 0; oct += 1}
+              not = NOTES[ino]
+              if( lis.indexOf(not + oct) &gt; -1) ++ nombre_lignes
+              if(not+oct == notoc) return {top:true, number: nombre_lignes}
+            } while( oct &lt; 6)
           }
+          else if([&quot;e2&quot;,&quot;d2&quot;,&quot;c2&quot;].indexOf(notoc)&gt;-1 || octave &lt; 2)
+          { // Lignes supplémentaires en dessous
+            lis = [e2, c2, a1, f1, d1, &#x27;b0&#x27;, &#x27;g0&#x27;, &#x27;e0&#x27;, &#x27;c0&#x27;]
+            ino = 4 // pour commencer à 5 = e2
+            oct = 2
+            do {
+              ino += 1
+              not = NOTES_ENVERS[ino]
+              if(ino == 1) oct -= 1
+              if( lis.indexOf(not+oct) &gt;-1 ) ++ nombre_lignes
+              if(not+oct == notoc) return {top:false, number: nombre_lignes}
+            } while( oct &gt; 0)
+          }
+          else return null
         default: return null; // pour le moment
         }
-      }(key, this.note, this.midi)
+      }(key, this.note, this.octave, this.midi)
     }
     return this.suplines[key]
   },
@@ -609,10 +699,9 @@ $.extend(Note.prototype,{
     if(note_str.indexOf(&#x27;:&#x27;) &gt; -1)
     {
       dnote       = note_str.split(&#x27;:&#x27;)
-      this.staff  = Anim.staves[parseInt(dnote.shift(),10) - 1]
+      // this.staff  = Anim.staves[parseInt(dnote.shift(),10) - 1]
+      this.staff  = parseInt(dnote.shift(),10)
       note_str    = dnote.shift()
-    } else {
-      this.staff  = Anim.current_staff
     }
     note_str = note_str.split(&#x27;&#x27;)
 
@@ -680,7 +769,7 @@ $.extend(Note.prototype,{
   positionne_and_show_alteration:function()
   {
     this.positionne_alteration()
-    this.obj_alt.animate({opacity:1},Anim.transition.show)
+    this.obj_alt.animate({opacity:1}, Anim.delai_for(&#x27;show&#x27;))
   },
   
   /**
@@ -719,6 +808,18 @@ Object.defineProperties(Note.prototype,{
       return this._top
     }
   },
+  /**
+    * Retourne la vraie valeur left pour l&#x27;affichage, en fonction des notes
+    * conjointes qui peuvent se trouver sur la portée à cet endroit-là
+    * @property {Number} real_left
+    */
+  &quot;real_left&quot;:{
+    get:function(){
+      var offset = 0
+      if(this.staff.notes.hasConjointeUnder(this) != null) offset += 12.5
+      return this.left + offset
+    }
+  },
   /** Retourne la liste ({Array}) des objets DOM de la note
     * (pour le moment, la note elle-même et éventuellement son altération)
     * @property {Array} objets
@@ -741,6 +842,51 @@ Object.defineProperties(Note.prototype,{
     }
   },
   /**
+    * Note conjointe au-dessus de la note
+    * Notes : Il serait aussi possible de retourner la valeur midi
+    * @property {String} conjointe_upper   &quot;&lt;note&gt;&lt;octave&gt;&quot;
+    */
+  &quot;conjointe_upper&quot;:{
+    get:function(){
+      var note_up = NOTES[this.indice + 1]
+      var octa_up = this.octave + (note_up == &#x27;c&#x27; ? 1 : 0)
+      return note_up + octa_up // p.e. &quot;c4&quot; pour &quot;b3&quot;
+    }
+  },
+  /**
+    * Note conjointe en dessous de la note
+    * Notes : Il serait aussi possible de retourner la valeur midi
+    * @property {String} conjointe_under   &quot;&lt;note&gt;&lt;octave&gt;&quot;
+    */
+  &quot;conjointe_under&quot;:{
+    get:function(){
+      var note_down = this.indice == 0 ? &#x27;b&#x27; : NOTES[this.indice - 1]
+      var octa_down = this.octave + (note_down == &#x27;b&#x27; ? -1 : 0)
+      return note_down + octa_down
+    }
+  },
+  /**
+    * Indice de la note dans NOTES (0-start, donc 0 pour Do, 1 pour ré, etc.)
+    * @property {Number} indice
+    */
+  &quot;indice&quot;:{
+    get:function(){
+      if(undefined == this._indice) this._indice = NOTES.indexOf(this.note)
+      return this._indice
+    }
+  },
+  /**
+    * Indice “réel“ de la note (1-start, donc 0 pour Do, 1 pour Do#, 2 pour Ré, etc.)
+    * @property {Number} indice_real
+    */
+  &quot;indice_real&quot;:
+  {
+    get:function(){
+      if(undefined == this._indice_real) this._indice_real = REAL_INDICES_NOTES[this.note]
+      return this._indice_real
+    }
+  },
+  /**
     * Retourne la valeur numérique de la note
     * Note
     *   * Elle est calculée pour qu&#x27;un C3 correspond à 60
@@ -757,7 +903,7 @@ Object.defineProperties(Note.prototype,{
         //    -&gt; inote = 1 / octave = 4 =&gt; 1 + (4*7) =&gt; 
         // A#3 ?
         //  inote = 10 / octave = 3 =&gt; 10 + (3*7) + 31 =&gt; 10 + 21 + 31 =&gt; 62
-        var inote = REAL_INDICES_NOTES[this.note]
+        var inote = this.indice_real
         this._midi = inote + ((this.octave - 1) * 24) - 13
         if(this.alteration)
         {
@@ -778,25 +924,15 @@ Object.defineProperties(Note.prototype,{
     * @property {jQuerySet} obj
     */
   &quot;obj&quot;:{
-    get:function(){ return $(&#x27;img#&#x27;+this.dom_id)}
+    get:function(){ return $(&#x27;img#&#x27;+this.id)}
   },
   /**
     * Retourne l&#x27;objet DOM de l&#x27;alteration de la note, if any
     * @property {jQuerySet} obj_alt
     */
   &quot;obj_alt&quot;:{
-    get:function(){ return $(&#x27;img#&#x27;+this.dom_id+&#x27;-alt&#x27;)}
+    get:function(){ return $(&#x27;img#&#x27;+this.id+&#x27;-alt&#x27;)}
   },
-  /**
-    * Retourne l&#x27;ID DOM de la note
-    * @property {String} dom_id
-    */
-  &quot;dom_id&quot;:{
-    get:function(){return &quot;note-&quot;+this.id}
-  },
-  
- 
-  
   /**
     * Retourne le code HTML pour la note (et ses altérations, effets, etc.)
     * @property {HTMLString} code_html
@@ -814,7 +950,7 @@ Object.defineProperties(Note.prototype,{
     */
   &quot;html_img&quot;:{
     get:function(){
-      return &#x27;&lt;img class=&quot;note&quot; id=&quot;&#x27;+this.dom_id+&#x27;&quot; src=&quot;img/note/rond-noir.png&quot; /&gt;&#x27;
+      return &#x27;&lt;img class=&quot;note&quot; id=&quot;&#x27;+this.id+&#x27;&quot; src=&quot;img/note/rond-noir.png&quot; /&gt;&#x27;
     }
   },
   
@@ -846,7 +982,7 @@ Object.defineProperties(Note.prototype,{
     */
   &quot;html_img_alt&quot;:{
     get:function(){
-      return &#x27;&lt;img class=&quot;alteration&quot; id=&quot;&#x27;+this.dom_id+&#x27;-alt&quot; &#x27; +
+      return &#x27;&lt;img class=&quot;alteration&quot; id=&quot;&#x27;+this.id+&#x27;-alt&quot; &#x27; +
               &#x27;src=&quot;&#x27;+this.src_alteration+&#x27;&quot; /&gt;&#x27;
     }
   }

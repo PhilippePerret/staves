@@ -57,11 +57,15 @@
             
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
+                <li><a href="../classes/Infos.html">Infos</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
             
@@ -82,6 +86,8 @@
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
@@ -160,16 +166,7 @@
   *                           de propriétés dans l&#x27;instance.
   */
 window.ObjetClass = function(params)
-{
-  /**
-    * Taille de l&#x27;objet
-    * -----------------
-    * Utiliser la propriété complexe &#x60;width&#x60; pour le (re-)définir
-    *
-    * @property {Number} _width    La taille du cercle
-    */
-  this._width = 30
-  
+{  
   if(undefined != params)
   {
     var me = this
@@ -234,9 +231,9 @@ $.extend(window.ObjetClass.prototype,{
     * Enfin, la méthode a besoin des paramètres propres à cette méthode, par exemple
     * la nouvelle position pour un &#x27;moveTo&#x27;.
     * @method operation
-    * @param  {Array} objets La liste des objets (DOM) à traiter
-    * @param  {String} operation  L&#x27;opération à jouer
-    * @param  {Object} params Les paramètres nécessaires à l&#x27;opération
+    * @param  {Array}   objets La liste des objets (DOM) à traiter
+    * @param  {String}  operation  L&#x27;opération à jouer
+    * @param  {Object}  params Les paramètres nécessaires à l&#x27;opération
     */
   operation:function(objets, operation, params)
   {
@@ -256,10 +253,10 @@ $.extend(window.ObjetClass.prototype,{
       switch(operation)
       {
       case &#x27;show&#x27;:
-        obj.animate({opacity:1}, Anim.transition.show, complete)
+        obj.animate({opacity:1}, Anim.delai_for(&#x27;show&#x27;), complete)
         break
       case &#x27;remove&#x27;:
-        obj.animate({opacity:0}, Anim.transition.show, function(){obj.remove(); complete()})
+        obj.animate({opacity:0}, Anim.delai_for(&#x27;show&#x27;), function(){obj.remove(); complete()})
         break
       case &#x27;moveTo&#x27;:
         if(undefined == params.left)  params.left = obj.left
@@ -269,7 +266,9 @@ $.extend(window.ObjetClass.prototype,{
           throw &quot;&#x60;&#x60;&#x60;Obj n&#x27;est pas un set jquery : &quot;+obj.toString() + &quot;&#x60;&#x60;&#x60;&quot;
         }
         var dpos = {top:params.top+&quot;px&quot;, left:params.left+&quot;px&quot;}
-        obj.animate(dpos, Anim.transition.note_moved, complete)
+        // if(MODE_FLASH){ obj.css(dpos); complete() }
+        // else 
+        obj.animate(dpos, Anim.delai_for(&#x27;note_moved&#x27;), complete)
         break
       }
     })
@@ -303,6 +302,23 @@ $.extend(window.ObjetClass.prototype,{
 })
 
 Object.defineProperties(ObjetClass.prototype,{
+  /**
+    * Portée de l&#x27;objet ({Staff})
+    * Pour la définir, on peut soit envoyer la portée, soit envoyer son indice 1-start
+    *
+    * @property {Staff} staff
+    */
+  &quot;staff&quot;:{
+    set:function(staff)
+    {
+      if(&#x27;number&#x27; == typeof staff) this._staff = Anim.staves[staff - 1]
+      else if (staff.class == &#x27;staff&#x27;) this._staff = staff
+      else delete this._staff
+    },
+    get:function(){
+      return this._staff || Anim.current_staff
+    }
+  },
   /**
     * Offset vertical du cercle
     * @property {Number} top

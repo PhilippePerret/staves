@@ -57,11 +57,15 @@
             
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
+                <li><a href="../classes/Infos.html">Infos</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
             
@@ -82,6 +86,8 @@
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
             
@@ -165,43 +171,53 @@ window.METHODES_TEXTE = {
     * Écrit un texte au-dessus ou en dessous du possesseur du texte
     * Notes
     * -----
+    *   * La méthode placera le texte (instance {Txt} dans la propriété &#x60;texte&#x60;
+    *     avec en clé le type de texte (&#x27;regular&#x27;, &#x27;harmony&#x27;, &#x27;chord_mark&#x27;, etc.)
     *   * L&#x27;étape suivante doit être appelée par l&#x27;affichage du texte (Txt::show)
     *
     * @method write
     * @param  {String} texte Le texte à écrire
     * @param  {Object} params Les paramètres optionnels
+    * @return {Object} L&#x27;instance Note courante (pour chainage)
     */
   write:function(texte, params)
   {
     // dlog(&quot;-&gt; &lt;Note&gt;.write&quot;)
     if(undefined == params) params = {}
     params.texte  = texte
-    this.texte    = TXT(this, params)
-    this.texte.build()
+    if(undefined == params.type) params.type = &#x27;regular&#x27;
+    if(!this.texte) this.texte = {}
+    this.texte[params.type] = TXT(this, params)
+    this.texte[params.type].build()
+    return this
   },
   /**
     * Raccourci pour écrire un texte d&#x27;harmony
     * @method harmony
     * @param  {String} texte  Le texte à écrire
     * @param  {Object} params   Paramètres optionnels
+    * @return {Object} L&#x27;instance Note courante (pour chainage)
     */
   harmony:function(texte, params)
   {
     if(undefined == params) params = {}
     params.type = harmony
     this.write(texte, params)
+    return this
   },
   /**
     * Raccourci pour écrire un texte de type cadence
     * @method cadence
     * @param  {String} texte    Le texte à écrire
     * @param  {Object} params   Paramètres optionnels
+    * @return {Object} L&#x27;instance Note courante (pour chainage)
     */
   cadence:function(texte, params)
   {
     if(undefined == params) params = {}
     params.type = cadence
     this.write(texte, params)
+    return this
   },
   /**
     * Raccourci pour écrire un texte de type &#x27;chord&#x27; (un accord placé au-dessus
@@ -209,12 +225,14 @@ window.METHODES_TEXTE = {
     * @method chord_mark
     * @param  {String} accord   L&#x27;accord à marquer
     * @param  {Object} params   Les paramètres optionnels
+    * @return {Object} L&#x27;instance Note courante (pour chainage)
     */
   chord_mark:function(accord, params)
   {
     if(undefined == params) params = {}
     params.type = chord
     this.write(accord, params)
+    return this
   }
 }
 /**
@@ -299,7 +317,7 @@ $.extend(Txt.prototype,{
     {
       this.obj.animate(
         {opacity:0},
-        Anim.transition.show,
+        Anim.delai_for(&#x27;show&#x27;),
         params.complete
       )
     }
@@ -381,12 +399,12 @@ Object.defineProperties(Txt.prototype,{
               var renv = found[1].replace(/\*/g, &#x27;•&#x27;)
               var renv_len = renv.length
               t = t.substring(0, t.length - renv_len)
-              return &#x27;&lt;div class=&quot;center inline&quot;&gt;&#x27;+
-                        &#x27;&lt;div class=&quot;renversement&quot;&gt;&#x27;+renv+&#x27;&lt;/div&gt;&#x27; +
-                        t +
-                      &#x27;&lt;/div&gt;&#x27;
             }
-            return t
+            else renv = &#x27;&amp;nbsp;&#x27;
+            return &#x27;&lt;div class=&quot;center inline&quot;&gt;&#x27;+
+                      &#x27;&lt;div class=&quot;renversement&quot;&gt;&#x27;+renv+&#x27;&lt;/div&gt;&#x27; +
+                      t +
+                    &#x27;&lt;/div&gt;&#x27;
           case chord:
             return t
           }
@@ -432,10 +450,10 @@ Object.defineProperties(Txt.prototype,{
         {
         case harmony:
         case cadence:
-          top += 60 + Anim.prefs.offset_harmony
+          top += Anim.prefs.harmony + Anim.prefs.offset_harmony
           break
         case chord:   
-          top -= 40 + Anim.prefs.offset_chord_mark
+          top -= Anim.prefs.chord_mark + Anim.prefs.offset_chord_mark
           break
         default:
           top = Math.min(top, this.owner.top) - 20
