@@ -177,7 +177,7 @@ $.extend(window.Anim,{
         if(pref == 'speed' && value == 0) throw "Le coefficiant de vitesse (speed) ne peut pas être 0…"
       } catch(err) { return F.error(err) }
       this.prefs[pref]            = value
-      this.prefs['offset_'+pref]  = 0
+      if(undefined != this.prefs['offset_'+pref]) this.prefs['offset_'+pref]  = 0
     }
     this.Infos.show_pref(pref, value)
     if(undefined == next_step || next_step == true) NEXT_STEP(no_timeout=true)
