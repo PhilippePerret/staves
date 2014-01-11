@@ -366,9 +366,14 @@ Pour détruire la note (la supprimer de l'affichage, utiliser :
 ##Les Accords
 
 ###Table des matières
-*[Création d'un accord](#chord_creation)
-*[Référence aux notes de l'accord](#chord_ref_note)
-*[Destruction d'un accord](#chord_remove)
+
+* [Création d'un accord](#chord_creation)
+* [Référence aux notes de l'accord](#chord_ref_note)
+* [Écrire le nom de l'accord](#write_chord_name)
+* [Écrire l'harmonie](#write_harmony)
+* [Écrire une cadence](#write_cadence)
+* [Écrire une modulation](#chord_write_modulation)
+* [Destruction d'un accord](#chord_remove)
 
 <a name="chord_creation"></a>
 ###Création d'un accord
@@ -421,6 +426,27 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
     maNote.write("Une seconde !")
 
 Donc ajouter `Anim.Objects` devant `monAcccord.note(2)`, `Anim.Objects` étant la propriété qui contient tous les objets de l'animation.
+
+<a name="write_chord_name"></a>
+###Écrire le nom de l'accord
+
+Une marque d'accord est un texte. Cf. [Écrire un accord](#text_chord_mark).
+
+
+<a name="write_harmony"></a>
+###Écrire l'harmonie
+
+Une marque d'harmonie est un texte. Cf.[Écrire l'harmonie](#text_harmonie).
+
+<a name="write_cadence"></a>
+###Écrire une cadence
+
+Une cadence est un texte. Cf. [Écrire une cadence](#text_cadence).
+
+<a name="chord_write_modulation"></a>
+###Écrire une modulation
+
+Une marque de modulation est un texte. Cf. [Écrire une modulation](#text_modulation).
 
 <a name="chord_remove"></a>
 ###Destruction d'un accord
@@ -675,17 +701,20 @@ Par défaut, un texte est "normal", il s'écrit tel qu'il est défini.
 Mais il existe des types qui peuvent être définis grâce à la propriété `type` envoyée en paramètres&nbsp;:
 
 <dl>
-  <dt>harmony</dt>
-  <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels.</dd>
-  <dt>cadence</dt>
-  <dd>Écrit le texte sous la portée, à la position courante, sous forme de marque cadentielle (donc avec des traits "__|" pour marquer la fin de la partie).</dd>
   <dt>chord</dt>
-  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence.</dd>
+  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence. Cf. <a href="#text_chord_mark">Écrire un accord</a>.</dd>
+  <dt>harmony</dt>
+  <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels. Cf. <a href="#text_harmonie">Écrire l'harmonie</a>.</dd>
+  <dt>cadence</dt>
+  <dd>Écrit le texte sous la portée, à la position courante, sous forme de marque cadentielle (donc avec des traits "__|" pour marquer la fin de la partie). Cf. <a href="#text_cadence">Écrire une cadence</a>.</dd>
+  <dt>modulation</dt>
+  <dd>Écrit le texte pour une modulation, au-dessus de la portée et de travers. Cf. <a href="#text_modulation">Écrire une modulation</a>.</dd>
 </dl>
 
-Pour indiquer une **HAMRONIE**&nbsp;:
+<a name="text_harmonie"></a>
+###Écrire l'harmonie
 
-Par exemple, pour indiquer que l'accord est un premier degré sous son deuxième renversement&nbsp;:
+Pour indiquer une harmonie, par exemple pour indiquer que l'accord est un premier degré sous la forme de son deuxième renversement&nbsp;:
 
     monAccord=CHORD('g4 c5 e5')
     monAccord.write("I**",{type:harmony})
@@ -702,6 +731,9 @@ Noter que pour allonger la barre inférieur de la marque d'harmonie, on peut ajo
     OU
     monAccord.harmony("I**", {width:100})
 
+<a name="text_cadence"></a>
+###Écrire une cadence
+
 Pour indiquer une **CADENCE**&nbsp;:
 
     monAccord.write("I", {type:cadence})
@@ -710,7 +742,10 @@ Pour indiquer une **CADENCE**&nbsp;:
 
 *Pour le positionnement de la marque, cf. [Position des textes d'harmonie et de cadence](#prefs_position_harmony).*
 
-Pour indiquer le **NOM DE L'ACCORD** au-dessus des notes&nbsp;:
+<a name="text_chord_mark"></a>
+###Écrire un accord
+
+Pour indiquer le **NOM DE L'ACCORD** au-dessus des notes (ou d'un autre objet)&nbsp;:
 
     monAccord.write("C", {type:chord})
 
@@ -720,8 +755,41 @@ Pour indiquer le **NOM DE L'ACCORD** au-dessus des notes&nbsp;:
 
 *Pour le positionnement de la marque de l'accord cf. [Réglage de la position de l'accord](#prefs_position_chord_mark).*
 
+
+<a name="text_modulation"></a>
+###Écrire une modulation
+
+Pour écrire une modulation (au-dessus de la portée, nom de l'accord de travers), utiliser&nbsp;:
+
+    <objet>.modulation(<nom>[, <parameters>])
+  
+Par exemple&nbsp;:
+  
+    monAccord = CHORD('c4 d4 fd4 a4')
+    monAccord.modulation('Sol')
+
+Ou&nbsp;:
+
+    monAccord.write('Sol', {type:modulation})
+
+**Texte sous la barre**
+
+Le ton de la modulation est indiqué au-dessus de la barre transversal, mais un autre texte peut être écrit SOUS la barre. Pour ce faire, il suffit de le mettre après l'accord de la tonalité, en le séparant d'une espace.
+
+monAccord.modulation('Sol Dom de Dom')
+
+… produira quelque chose comme (mais incliné)&nbsp;:
+
+    | SOL
+    |---------
+    | Dom de Dom
+    |
+    |
+
+*Pour le positionnement de la marque de modulation cf. [Réglage de la position de la marque de modulation](#prefs_position_modulation).*
+
 <a name="create_texte_animation"></a>
-####Créer un texte pour l'animation
+###Créer un texte pour l'animation
 
 Utiliser la commande&nbsp;:
 
@@ -924,6 +992,7 @@ On peut régler à tout moment (et en particulier au début de l'animation) tout
 * [Réglage de l'avancée à chaque NEXT (curseur)](#prefs_set_next)
 * [Position des textes d'harmonie et de cadence](#prefs_position_harmony)
 * [Position des marques d'accord](#prefs_position_chord_mark)
+* [Position de la marque de modulation](#prefs_position_modulation)
 * [Taille des notes](#prefs_note_size)
 * [Ré-initialiser toutes les valeurs par défaut](#prefs_reinitialiser_default)
 
@@ -1073,6 +1142,39 @@ On peut utiliser aussi la commande spéciale&nbsp;:
 
     DEFAULT('chord_mark')
     DEFAULT('offset_chord_mark')
+
+<a name="prefs_position_modulation"></a>
+###Position de la marque de modulation
+
+Pour placer la marque de modulation, on peut utiliser pour la position verticale et la position horizontale une valeur absolue ou une valeur relative (relative aux positions actuelles).
+
+**Régler la position horizontale absolue**
+
+    DEFAULT('modulation_x', <nombre de pixels>)
+  
+Ce `<nombre de pixels>` sera retiré au `left`, donc si le nombre est positif, la marque recule vers la gauche.
+  
+Pour revenir à la position par défaut&nbsp;:
+  
+    DEFAULT('modulation_x')
+  
+Conseil pour ajuster la valeur&nbsp;: Lire la valeur actuelle dans les infos de l'animation (normalement, le cadre se trouve en bas à droite et on doit y trouver une rangée contenant la définition de `modulation_x`), et la modifier en conséquence.
+  
+**Régler la position horizontale relative**
+
+Pour modifier la position relativement à la position courante&nbsp;:
+
+    DEFAULT('offset_modulation_x', <nombre de pixels de decalage>)
+
+**Régler la position verticale absolue**
+
+    DEFAULT('modulation_y', <pixels par rapport au haut de la portée>)
+  
+**Régler la position verticale relative**
+
+    DEFAULT('offset_modulation_y', <décalage par rapport à la position courante>)
+
+Un nombre positif baissera la marque, un nombre négative la remontera.
 
 <a name="prefs_note_size"></a>
 ###Réglage de la taille des notes

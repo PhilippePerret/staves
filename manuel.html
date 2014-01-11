@@ -756,9 +756,16 @@ oNote.surround({color:blue, rectangle:true})
 
 <h3>Table des matières</h3>
 
-<p><em><a href="#chord_creation">Création d'un accord</a>
-</em><a href="#chord_ref_note">Référence aux notes de l'accord</a>
-*<a href="#chord_remove">Destruction d'un accord</a></p>
+<ul>
+<li><a href="#chord_creation">Création d'un accord</a></li>
+<li><a href="#chord_ref_note">Référence aux notes de l'accord</a></li>
+<li><a href="#write_chord_name">Écrire le nom de l'accord</a></li>
+<li><a href="#write_harmony">Écrire l'harmonie</a></li>
+<li><a href="#write_cadence">Écrire une cadence</a></li>
+<li><a href="#chord_write_modulation">Écrire une modulation</a></li>
+<li><a href="#chord_remove">Destruction d'un accord</a></li>
+</ul>
+
 
 <p><a name="chord_creation"></a></p>
 
@@ -820,6 +827,30 @@ maNote.write("Une seconde !")
 </code></pre>
 
 <p>Donc ajouter <code>Anim.Objects</code> devant <code>monAcccord.note(2)</code>, <code>Anim.Objects</code> étant la propriété qui contient tous les objets de l'animation.</p>
+
+<p><a name="write_chord_name"></a></p>
+
+<h3>Écrire le nom de l'accord</h3>
+
+<p>Une marque d'accord est un texte. Cf. <a href="#text_chord_mark">Écrire un accord</a>.</p>
+
+<p><a name="write_harmony"></a></p>
+
+<h3>Écrire l'harmonie</h3>
+
+<p>Une marque d'harmonie est un texte. Cf.<a href="#text_harmonie">Écrire l'harmonie</a>.</p>
+
+<p><a name="write_cadence"></a></p>
+
+<h3>Écrire une cadence</h3>
+
+<p>Une cadence est un texte. Cf. <a href="#text_cadence">Écrire une cadence</a>.</p>
+
+<p><a name="chord_write_modulation"></a></p>
+
+<h3>Écrire une modulation</h3>
+
+<p>Une marque de modulation est un texte. Cf. <a href="#text_modulation">Écrire une modulation</a>.</p>
 
 <p><a name="chord_remove"></a></p>
 
@@ -1136,18 +1167,22 @@ maNote.write("Une seconde !")
 <p>Mais il existe des types qui peuvent être définis grâce à la propriété <code>type</code> envoyée en paramètres&nbsp;:</p>
 
 <dl>
-  <dt>harmony</dt>
-  <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels.</dd>
-  <dt>cadence</dt>
-  <dd>Écrit le texte sous la portée, à la position courante, sous forme de marque cadentielle (donc avec des traits "__|" pour marquer la fin de la partie).</dd>
   <dt>chord</dt>
-  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence.</dd>
+  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence. Cf. <a href="#text_chord_mark">Écrire un accord</a>.</dd>
+  <dt>harmony</dt>
+  <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels. Cf. <a href="#text_harmonie">Écrire l'harmonie</a>.</dd>
+  <dt>cadence</dt>
+  <dd>Écrit le texte sous la portée, à la position courante, sous forme de marque cadentielle (donc avec des traits "__|" pour marquer la fin de la partie). Cf. <a href="#text_cadence">Écrire une cadence</a>.</dd>
+  <dt>modulation</dt>
+  <dd>Écrit le texte pour une modulation, au-dessus de la portée et de travers. Cf. <a href="#text_modulation">Écrire une modulation</a>.</dd>
 </dl>
 
 
-<p>Pour indiquer une <strong>HAMRONIE</strong>&nbsp;:</p>
+<p><a name="text_harmonie"></a></p>
 
-<p>Par exemple, pour indiquer que l'accord est un premier degré sous son deuxième renversement&nbsp;:</p>
+<h3>Écrire l'harmonie</h3>
+
+<p>Pour indiquer une harmonie, par exemple pour indiquer que l'accord est un premier degré sous la forme de son deuxième renversement&nbsp;:</p>
 
 <pre><code>monAccord=CHORD('g4 c5 e5')
 monAccord.write("I**",{type:harmony})
@@ -1167,6 +1202,10 @@ OU
 monAccord.harmony("I**", {width:100})
 </code></pre>
 
+<p><a name="text_cadence"></a></p>
+
+<h3>Écrire une cadence</h3>
+
 <p>Pour indiquer une <strong>CADENCE</strong>&nbsp;:</p>
 
 <pre><code>monAccord.write("I", {type:cadence})
@@ -1176,7 +1215,11 @@ monAccord.cadence("I")
 
 <p><em>Pour le positionnement de la marque, cf. <a href="#prefs_position_harmony">Position des textes d'harmonie et de cadence</a>.</em></p>
 
-<p>Pour indiquer le <strong>NOM DE L'ACCORD</strong> au-dessus des notes&nbsp;:</p>
+<p><a name="text_chord_mark"></a></p>
+
+<h3>Écrire un accord</h3>
+
+<p>Pour indiquer le <strong>NOM DE L'ACCORD</strong> au-dessus des notes (ou d'un autre objet)&nbsp;:</p>
 
 <pre><code>monAccord.write("C", {type:chord})
 </code></pre>
@@ -1188,9 +1231,44 @@ monAccord.cadence("I")
 
 <p><em>Pour le positionnement de la marque de l'accord cf. <a href="#prefs_position_chord_mark">Réglage de la position de l'accord</a>.</em></p>
 
+<p><a name="text_modulation"></a></p>
+
+<h3>Écrire une modulation</h3>
+
+<p>Pour écrire une modulation (au-dessus de la portée, nom de l'accord de travers), utiliser&nbsp;:</p>
+
+<pre><code>&lt;objet&gt;.modulation(&lt;nom&gt;[, &lt;parameters&gt;])
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monAccord = CHORD('c4 d4 fd4 a4')
+monAccord.modulation('Sol')
+</code></pre>
+
+<p>Ou&nbsp;:</p>
+
+<pre><code>monAccord.write('Sol', {type:modulation})
+</code></pre>
+
+<p>Le ton de la modulation est indiqué au-dessus de la barre transversal, mais un autre texte peut être écrit SOUS la barre. Pour ce faire, il suffit de le mettre après l'accord de la tonalité, en le séparant d'une espace.</p>
+
+<p>monAccord.modulation('Sol Dom de Dom')</p>
+
+<p>… produira quelque chose comme (mais incliné)&nbsp;:</p>
+
+<pre><code>| SOL
+|---------
+| Dom de Dom
+|
+|
+</code></pre>
+
+<p><em>Pour le positionnement de la marque de modulation cf. <a href="#prefs_position_modulation">Réglage de la position de la marque de modulation</a>.</em></p>
+
 <p><a name="create_texte_animation"></a></p>
 
-<h4>Créer un texte pour l'animation</h4>
+<h3>Créer un texte pour l'animation</h3>
 
 <p>Utiliser la commande&nbsp;:</p>
 
@@ -1425,9 +1503,13 @@ maNote.arrow.remove() &lt;--
 
 <ul>
 <li><a href="#prefs_speed">Réglage de la vitesse</a></li>
+<li><a href="#prefs_staves">Réglage de la position des portées</a></li>
+<li><a href="#prefs_x_start">Réglage de la position horizontale initiale (curseur)</a></li>
 <li><a href="#prefs_set_next">Réglage de l'avancée à chaque NEXT (curseur)</a></li>
 <li><a href="#prefs_position_harmony">Position des textes d'harmonie et de cadence</a></li>
 <li><a href="#prefs_position_chord_mark">Position des marques d'accord</a></li>
+<li><a href="#prefs_position_modulation">Position de la marque de modulation</a></li>
+<li><a href="#prefs_note_size">Taille des notes</a></li>
 <li><a href="#prefs_reinitialiser_default">Ré-initialiser toutes les valeurs par défaut</a></li>
 </ul>
 
@@ -1445,6 +1527,66 @@ maNote.arrow.remove() &lt;--
 </code></pre>
 
 <p>… où <code>&lt;coefficiant&gt;</code> est un nombre différent de zéro, qui accélère l'animation s'il est &lt; 1 (p.e. <code>0.5</code>) et qui la ralentit s'il est supérieur à 1 (p.e. <code>5</code>)</p>
+
+<p><strong>Pour remettre les valeurs par défaut</strong></p>
+
+<pre><code>DEFAULT('speed')
+</code></pre>
+
+<p><a name="prefs_staves"></a></p>
+
+<h3>Réglage de la position des portées</h3>
+
+<p><strong>Pour régler la position verticale de la première portée&nbsp;:</strong></p>
+
+<pre><code>DEFAULT('staff_top', &lt;nombre de pixels&gt;)
+</code></pre>
+
+<p>Ou&nbsp;:</p>
+
+<pre><code>DEFAULT({staff_top: &lt;nombre de pixels&gt;})
+</code></pre>
+
+<p>Pour remettre la valeur par défaut&nbsp;:</p>
+
+<pre><code>DEFAULT('staff_top')
+</code></pre>
+
+<p><em>Noter que si cette valeur est modifiée en cours d'animation (à la volée), cela affectera la position des portées suivantes.</em></p>
+
+<p><strong>Pour régler l'espace vertical entre les portées&nbsp;:</strong></p>
+
+<pre><code>DEFAULT('staff_offset', &lt;nombre de pixels&gt;)
+</code></pre>
+
+<p>Ou&nbsp;:</p>
+
+<pre><code>DEFAULT({staff_offset: &lt;nombre de pixels&gt;})
+</code></pre>
+
+<p>Pour remettre la valeur par défaut&nbsp;:</p>
+
+<pre><code>DEFAULT('staff_offset')
+</code></pre>
+
+<p><a name="prefs_x_start"></a></p>
+
+<h3>Réglage de la position horizontale initiale</h3>
+
+<p>Cette position correspond à la position du “curseur”, c'est-à-dire l'endroit où seront marqués les premiers éléments sur la portée (hors clé, armure et métrique).</p>
+
+<pre><code>DEFAULT('x_start', &lt;nombre pixels&gt;)
+</code></pre>
+
+<p>Ou&nbsp;:</p>
+
+<pre><code>DEFAULT({x_start: &lt;nombre pixels&gt;})
+</code></pre>
+
+<p>Pour remettre la valeur par défaut&nbsp;:</p>
+
+<pre><code>DEFAULT('x_start')
+</code></pre>
 
 <p><a name="prefs_set_next"></a></p>
 
@@ -1472,6 +1614,12 @@ maNote.arrow.remove() &lt;--
 <p>Ou&nbsp;:</p>
 
 <pre><code>DEFAULT('offset_next', &lt;nombre pixels&gt;)
+</code></pre>
+
+<p><strong>Pour remettre les valeurs par défaut</strong></p>
+
+<pre><code>DEFAULT('next')
+DEFAULT('offset_next')
 </code></pre>
 
 <p><a name="prefs_position_harmony"></a></p>
@@ -1505,6 +1653,12 @@ maNote.arrow.remove() &lt;--
 <pre><code>OFFSET_HARMONY(&lt;nombre de pixels&gt;)
 </code></pre>
 
+<p><strong>Pour remettre les valeurs par défaut</strong></p>
+
+<pre><code>DEFAULT('harmony')
+DEFAULT('offset_harmony')
+</code></pre>
+
 <p><a name="prefs_position_chord_mark"></a></p>
 
 <h3>Réglage de la position des marques d'accord</h3>
@@ -1534,6 +1688,70 @@ maNote.arrow.remove() &lt;--
 <p>On peut utiliser aussi la commande spéciale&nbsp;:</p>
 
 <pre><code>OFFSET_CHORD_MARK(&lt;nombre de pixels&gt;)
+</code></pre>
+
+<p><strong>Pour remettre les valeurs par défaut</strong></p>
+
+<pre><code>DEFAULT('chord_mark')
+DEFAULT('offset_chord_mark')
+</code></pre>
+
+<p><a name="prefs_position_modulation"></a></p>
+
+<h3>Position de la marque de modulation</h3>
+
+<p>Pour placer la marque de modulation, on peut utiliser pour la position verticale et la position horizontale une valeur absolue ou une valeur relative (relative aux positions actuelles).</p>
+
+<p><strong>Régler la position horizontale absolue</strong></p>
+
+<pre><code>DEFAULT('modulation_x', &lt;nombre de pixels&gt;)
+</code></pre>
+
+<p>Ce <code>&lt;nombre de pixels&gt;</code> sera retiré au <code>left</code>, donc si le nombre est positif, la marque recule vers la gauche.</p>
+
+<p>Pour revenir à la position par défaut&nbsp;:</p>
+
+<pre><code>DEFAULT('modulation_x')
+</code></pre>
+
+<p>Conseil pour ajuster la valeur&nbsp;: Lire la valeur actuelle dans les infos de l'animation (normalement, le cadre se trouve en bas à droite et on doit y trouver une rangée contenant la définition de <code>modulation_x</code>), et la modifier en conséquence.</p>
+
+<p><strong>Régler la position horizontale relative</strong></p>
+
+<p>Pour modifier la position relativement à la position courante&nbsp;:</p>
+
+<pre><code>DEFAULT('offset_modulation_x', &lt;nombre de pixels de decalage&gt;)
+</code></pre>
+
+<p><strong>Régler la position verticale absolue</strong></p>
+
+<pre><code>DEFAULT('modulation_y', &lt;pixels par rapport au haut de la portée&gt;)
+</code></pre>
+
+<p><strong>Régler la position verticale relative</strong></p>
+
+<pre><code>DEFAULT('offset_modulation_y', &lt;décalage par rapport à la position courante&gt;)
+</code></pre>
+
+<p>Un nombre positif baissera la marque, un nombre négative la remontera.</p>
+
+<p><a name="prefs_note_size"></a></p>
+
+<h3>Réglage de la taille des notes</h3>
+
+<p><em>Note&nbsp;: C'est une donnée qu'il vaut mieux ne pas modifier puisqu'elle est calculée automatiquement par rapport à la taille de la portée.</em></p>
+
+<pre><code>DEFAULT('note_size', &lt;hauteur en pixel (flottant)&gt;)
+</code></pre>
+
+<p>Ou&nbsp;:</p>
+
+<pre><code>DEFAULT({note_size: &lt;hauteur en pixel&gt;})
+</code></pre>
+
+<p>Pour remettre la valeur par défaut&nbsp;:</p>
+
+<pre><code>DEFAULT('note_size')
 </code></pre>
 
 <p><a name="prefs_reinitialiser_default"></a></p>

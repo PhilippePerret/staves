@@ -62,6 +62,20 @@ window.METHODES_TEXTE = {
     return this
   },
   /**
+    * Ajoute une marque de modulation
+    * @method modulation
+    * @param {String} texte   Le texte de la modulation (au moins la note)
+    * @param {Object} params  Les paramètres optionnels
+    * @return {Object} L'instance Note courante (pour chainage)
+    */
+  modulation:function(texte, params)
+  {
+    if(undefined == params) params = {}
+    params.type = modulation
+    this.write(texte, params)
+    return this
+  },
+  /**
     * Raccourci pour écrire un texte de type 'chord' (un accord placé au-dessus
     * de la portée et au-dessus de l'élément porteur)
     * @method chord_mark
@@ -240,7 +254,10 @@ Object.defineProperties(Txt.prototype,{
   /**
     * Le texte 
     * Notes
+    *   * C'est ici qu'un type particulier de texte peut être mis en forme très
+    *     exactement. Voir p.e. les cadences ou les modulations
     *   * Suivant le type de l'instance (`type`), il peut être transformé
+    *
     * @property {String} texte
     */
   "texte":{
@@ -270,6 +287,16 @@ Object.defineProperties(Txt.prototype,{
                     '</div>'
           case chord:
             return Txt.traite_chiffrage_in(t)
+          case modulation:
+            var dt, alt = null
+            if(t.indexOf(' '))
+            {
+              dt  = t.split(' ')
+              t   = dt.shift()
+              alt = dt.join(' ')
+            }
+            return '<div class="mark_modulation">'+t+'</div>' +
+                    (alt ? '<div class="text_alt_mod">'+alt+'</div>' : "")
           }
           return t // par défaut
         }(this.raw_texte, this.type)
@@ -318,6 +345,9 @@ Object.defineProperties(Txt.prototype,{
         case chord:   
           top -= Anim.prefs.chord_mark + Anim.prefs.offset_chord_mark
           break
+        case modulation:
+          top -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y
+          break
         default:
           top = Math.min(top, this.owner.top) - 20
         }
@@ -344,6 +374,13 @@ Object.defineProperties(Txt.prototype,{
       if(undefined == this._left)
       {
         this._left = this.owner.left
+        switch(this.type)
+        {
+        case modulation:
+          this._left += Anim.prefs.modulation_x
+          break
+        default:
+        }
       }
       return this._left
     }

@@ -12,8 +12,10 @@ div.text.chord {
   font-weight     : bold;
 }
 /* Style pour CHIFFRAGE D'HARMONIE et CADENCE */
-div.text.harmony, div.text.cadence {
+div.text.harmony, div.text.cadence, div.text.modulation {
   font-family   : 'Times New Roman';
+}
+div.text.harmony, div.text.cadence {
   font-variant  : small-caps;
   font-size     : 18pt;
   font-weight   : bold;
@@ -36,7 +38,34 @@ div.text.cadence {
   border-style  : solid;
   border-color  : #000;
 }
-
+/* Style pour une MODULATION */
+div.text.modulation {
+  border-left       : 2px solid #AAAAAA;
+  height            : 64px;
+}
+div.text.modulation div.mark_modulation {
+  position          : absolute;
+  top               : -18px;
+  left              : -16px;
+  min-width         : 56px;
+  border-bottom     : 2px solid;
+  transform         : rotate(-38deg);
+  transform-origin  : 0 0 0;
+  padding-bottom    : 0px;
+  font-size         : 14pt;
+  font-weight       : bold;
+  font-variant      : small-caps;
+}
+div.text.modulation div.text_alt_mod {
+  position          : absolute;
+  top               : 0px;
+  left              : 2px;
+  transform         : rotate(-38deg);
+  transform-origin  : 0 0 0;
+  padding-bottom    : 0px;
+  white-space       : nowrap;
+  font-size         : 9pt;
+}
 
 div.text.harmony div.renversement,
 div.text.cadence div.renversement {

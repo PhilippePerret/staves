@@ -1,0 +1,4 @@
+# Essai marque modulation
+NEW_STAFF(SOL)
+acc = CHORD(\'c4 e4 g4\')
+acc.modulation(\'Sol Dom de Dom\')

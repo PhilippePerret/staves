@@ -109,9 +109,11 @@ $.extend(window.Anim,{
     x_start       :100,
     next          :40,  
     harmony       :70, 
+    modulation_x  :-5,
+    modulation_y  :16,
     chord_mark    :40, 
     speed         :1,
-    staff_top     :50,
+    staff_top     :60,
     staff_offset  :100,
     note_size     :14.3
   },
@@ -122,6 +124,17 @@ $.extend(window.Anim,{
     */
   prefs:{
     // Positions absolues
+    /** Décalage haut de la première portée affichée
+      * @property {Number} staff_top 
+      */
+    staff_top     :60,
+    /** Décalage entre portée
+      * @property {Number} staff_offset 
+      */
+    staff_offset  :100,
+    /** Taille des notes (et altérations)
+      * @property {Number} note_size 
+      */
     /** Position left de départ pour chaque portée
       * @property {Number} x_start 
       */
@@ -131,6 +144,17 @@ $.extend(window.Anim,{
       * @property {Number} next 
       */
     next                : 40,
+    /**
+      * Décalage vertical de la marque de modulation par rapport à la portée
+      * @property {Number} modulation_y
+      */
+    modulation_y        : 16,
+    /**
+      * Décalage horizontal de la marque de modulation par rapport à l'objet
+      * qui la porte (souvent, un accord ou une note)
+      * @property {Number} modulation_y
+      */
+    modulation_x        : -5,
     /**
       * Décalage de la marque d'harmonie ou de cadence par rapport à
       * la portée.
@@ -147,22 +171,13 @@ $.extend(window.Anim,{
       * @property {Number} speed 
       */
     speed               : 1,
-    /** Décalage haut de la première portée affichée
-      * @property {Number} staff_top 
-      */
-    staff_top     :50,
-    /** Décalage entre portée
-      * @property {Number} staff_offset 
-      */
-    staff_offset  :100,
-    /** Taille des notes (et altérations)
-      * @property {Number} note_size 
-      */
     note_size     :14.3,
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
     offset_next         : 0,
     offset_harmony      : 0,
-    offset_chord_mark   : 0
+    offset_chord_mark   : 0,
+    offset_modulation_y : 0,
+    offset_modulation_x : 0
   },
   /**
     * Définit une préférence
