@@ -109,8 +109,8 @@ $.extend(window.Anim,{
     x_start       :100,
     next          :40,  
     harmony       :70, 
-    modulation_x  :-5,
-    modulation_y  :16,
+    modulation_x  :-13,
+    modulation_y  :26,
     chord_mark    :40, 
     speed         :1,
     staff_top     :60,
@@ -148,13 +148,13 @@ $.extend(window.Anim,{
       * Décalage vertical de la marque de modulation par rapport à la portée
       * @property {Number} modulation_y
       */
-    modulation_y        : 16,
+    modulation_y        : 26,
     /**
       * Décalage horizontal de la marque de modulation par rapport à l'objet
       * qui la porte (souvent, un accord ou une note)
       * @property {Number} modulation_y
       */
-    modulation_x        : -5,
+    modulation_x        : -13,
     /**
       * Décalage de la marque d'harmonie ou de cadence par rapport à
       * la portée.

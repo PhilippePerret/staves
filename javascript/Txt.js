@@ -281,6 +281,13 @@ Object.defineProperties(Txt.prototype,{
             }
             else renv = '&nbsp;'
             t = Txt.traite_chiffrage_in(t)
+            // On remplace aussi les "---" par des "———" qui dessinent bien
+            // une ligne
+            t = t.replace(/(\-\-+)/g, function(match, tirets, offset, s){
+              var trait = ""
+              while(trait.length < tirets.length) trait += '—'
+              return trait
+            })
             return '<div class="center inline">'+
                       '<div class="renversement">'+renv+'</div>' +
                       t +
@@ -394,21 +401,21 @@ Object.defineProperties(Txt.prototype,{
     get:function()
     {
       var left = this.left
+      var w_box = this.obj.width()
       switch(this.type)
       {
       case harmony:
-        var w_box = this.obj.width()
-        this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
+        // this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
+        // J'essaie de le placer comme une cadence
+        this._real_left = left - w_box + 18
         break
       case cadence:
         // Pour un texte d'harmonie, le bord droit doit être aligné au possesseur,
         // à peine plus à droite.
-        var w_box = this.obj.width()
         this._real_left = left - w_box + 4
         break
       case chord:
         // On doit le placer bien au center
-        var w_box = this.obj.width()
         this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
         break
       default:
