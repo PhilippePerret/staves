@@ -34,7 +34,8 @@ window.Staff = function(params)
   this.indice = null
   
   // On définit l'objet complexe this.notes (qui permet de conserver les notes)
-  $.extend(this.notes, OBJECT_STAFF_NOTES)
+  this.notes = $.extend(deep = true, {}, OBJECT_STAFF_NOTES)
+  this.notes.staff = this
   
   // On dispatche les valeurs transmises
   var me = this
@@ -123,6 +124,11 @@ $.extend(Staff,{
    --------------------------------------------------------------------- */
 window.OBJECT_STAFF_NOTES = {
   /**
+    * L'instance {Staff}
+    * @property {Staff} staff
+    */
+  staff:null,
+  /**
     * Liste de toutes les notes de la portée.
     * En clé : l'offset ou se trouve la note (note.left), en valeur une liste
     * de toutes les notes se trouvant à cet offset
@@ -142,8 +148,7 @@ window.OBJECT_STAFF_NOTES = {
     if(!this.list[note.left]) return null
     arr = $.merge([], this.list[note.left])
     while(tested = arr.shift()) {
-      dlog(tested.note+tested.octave+" ? "+upper)
-      if(tested.note+tested.octave == upper) return tested
+      if(tested.note+tested.octave == upper && tested.staff.indice == this.staff.indice) return tested
     }
     return null
   },
@@ -158,7 +163,7 @@ window.OBJECT_STAFF_NOTES = {
     var arr, len, tested, inote = 0, under = note.conjointe_under;
     arr = $.merge([], this.list[note.left] || [])
     while(tested = arr.shift()){
-      if(tested.note+tested.octave == under) return tested
+      if(tested.note+tested.octave == under && tested.staff.indice == this.staff.indice) return tested
     }
     return null
   },

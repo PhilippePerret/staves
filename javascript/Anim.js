@@ -106,6 +106,7 @@ $.extend(window.Anim,{
     * @final
     */
   prefs_default:{
+    x_start       :100,
     next          :40,  
     harmony       :60, 
     chord_mark    :40, 
@@ -121,6 +122,9 @@ $.extend(window.Anim,{
     */
   prefs:{
     // Positions absolues
+    /** Position left de départ pour chaque portée
+      * @property {Number} x_start */
+    x_start             : 100,
     /**
       * Décalage à droite quand la commande NEXT est utilisée
       * @property {Number} next */
@@ -279,8 +283,12 @@ $.extend(window.Anim,{
     this.Objects    = {}
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
     Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
+    L(this.staves || []).each(function(staff){ 
+      dlog("Je détruis la staff "+staff.indice)
+      staff=null; delete staff;}
+    )
     this.staves     = []
-    this.current_x  = 100 // TODO: à recalculer d'après l'armure et la métrique
+    this.current_x  = this.prefs.x_start
     Console.cursor_offset = 0
     this.reset_prefs()
   },

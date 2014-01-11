@@ -89,7 +89,13 @@ $.extend(Note.prototype,{
   moveTo:function(hauteur)
   {
     var top_init = parseInt(this.top,10)
+    var staff_init = parseInt(this.staff.indice)
     this.analyse_note(hauteur)
+    if(staff_init != this.staff.indice)
+    {
+      Anim.staves[staff_init - 1].notes.remove(this)
+      this.staff_changed = true
+    } 
     this.exergue()
     this.operation([this.obj], 'moveTo', {top: this.top})
   },
@@ -223,6 +229,12 @@ $.extend(Note.prototype,{
   on_complete_moveTo:function()
   {
     this.suplines_if_necessary()
+    if(this.staff_changed)
+    {
+      this.staff.notes.add(this)
+      delete this.staff_changed
+    }
+    this.update_affichage()
     this.unexergue()    
   },
   /**
@@ -359,9 +371,25 @@ $.extend(Note.prototype,{
     if(this.alteration) this.positionne_alteration()
   },
   /**
+    * Cette méthode vise à rafraichir l'affichage de la note après un
+    * changement important, comme un déplacement, qui a pu supprimer par
+    * exemple une note conjointe et donc un décalage à gauche.
+    * À l'avenir, cette méthode devra gérer tous les cas, par exemple l'altération
+    * qu'il faut peut-être recaler aussi
+    * @method update_affichage
+    */
+  update_affichage:function()
+  {
+    // Noter que c'est normal que ça arrive (left ≠ real_left) mais cela
+    // est symptomatique d'une note conjointe, donc il faut vérifier, après
+    // une opération, si la note n'est pas à repositionner.
+    if(this.left != this.real_left) this.obj.css({left:this.real_left+'px'})
+  },
+  /**
     * Décale la note quand elle a une conjointe supérieure
     * Notes
-    *   * La méthode est appelée lorsqu'une nouvelle note est créée et qu'on
+    *   * La méthode est appelée lorsqu'une note conjointe inférieure existe
+    *
     *   * Il ne faut surtout pas appeler la méthode positionne dans cette situation,
     *     car ça tournerait en rond, les deux notes ne faisant que de se recaler
     *     l'une l'autre.

@@ -73,9 +73,9 @@ $.extend(window.ObjetClass.prototype,{
     * Enfin, la méthode a besoin des paramètres propres à cette méthode, par exemple
     * la nouvelle position pour un 'moveTo'.
     * @method operation
-    * @param  {Array} objets La liste des objets (DOM) à traiter
-    * @param  {String} operation  L'opération à jouer
-    * @param  {Object} params Les paramètres nécessaires à l'opération
+    * @param  {Array}   objets La liste des objets (DOM) à traiter
+    * @param  {String}  operation  L'opération à jouer
+    * @param  {Object}  params Les paramètres nécessaires à l'opération
     */
   operation:function(objets, operation, params)
   {

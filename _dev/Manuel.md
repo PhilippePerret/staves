@@ -919,7 +919,8 @@ On peut régler à tout moment (et en particulier au début de l'animation) tout
 ###Table des matières
 
 * [Réglage de la vitesse](#prefs_speed)
-* [Réglage de la position des portée](#prefs_staves)
+* [Réglage de la position des portées](#prefs_staves)
+* [Réglage de la position horizontale initiale (curseur)](#prefs_x_start)
 * [Réglage de l'avancée à chaque NEXT (curseur)](#prefs_set_next)
 * [Position des textes d'harmonie et de cadence](#prefs_position_harmony)
 * [Position des marques d'accord](#prefs_position_chord_mark)
@@ -970,7 +971,21 @@ Pour remettre la valeur par défaut&nbsp;:
 
     DEFAULT('staff_offset')
 
+<a name="prefs_x_start"></a>
+###Réglage de la position horizontale initiale
 
+Cette position correspond à la position du “curseur”, c'est-à-dire l'endroit où seront marqués les premiers éléments sur la portée (hors clé, armure et métrique).
+
+    DEFAULT('x_start', <nombre pixels>)
+
+Ou&nbsp;:
+
+    DEFAULT({x_start: <nombre pixels>})
+
+Pour remettre la valeur par défaut&nbsp;:
+  
+    DEFAULT('x_start')
+  
 <a name="prefs_set_next"></a>
 ###Réglage de la position `next`
 
