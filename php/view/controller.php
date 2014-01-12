@@ -8,6 +8,7 @@
       <label for="cb_mode_pas_a_pas">Mode pas à pas</label>
     </div>
     <input id="btn_anim_start" type="button" value="Start" onclick="$.proxy(Anim.start,Anim)()" />
+    <input id="btn_anim_start_selection" type="button" value="Sélection" onclick="$.proxy(Anim.start_selection,Anim)()" />
   </div>
   <div id="vitesse_animation" style="background-color:white"></div>
 </section>

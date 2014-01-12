@@ -33,7 +33,7 @@ Anim.Step = {
     * Notes
     * -----
     *   * Pour le moment, la méthode prend le code dans Anim.Step.current
-    *     TODO: Mais plus tard, ce code devrai être géré dans ce Anim.Step
+    *     TODO: Mais plus tard, ce code devrait être géré dans ce Anim.Step
     *   * Un timer peut avoir été défini (si Anim.transition.step est ≠ 0)
     *   * Le bloc 'try' a une double fonction ici : en mode normal, il génère
     *     une erreur mais poursuit le code. En mode flash, il peut arriver que
@@ -47,9 +47,7 @@ Anim.Step = {
     // dlog("-> Anim.Step.run / Anim.Step.current:"+this.current)
     try
     {
-      // dlog("run:this.Objects."+this.current)
       eval('Anim.Objects.'+this.current)
-      // dlog("run OK")
     }
     catch(err)
     {

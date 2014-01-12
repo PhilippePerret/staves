@@ -28,11 +28,51 @@ $.extend(Anim,{
     {
       this.reset()
       if(!this.Step.list) this.Step.list = Console.steps
-      var btn_name = this.MODE_PAS_A_PAS ? 'Next' : 'Stop'
-      $('input#btn_anim_start').val(btn_name)
-      this.on = true
-      UI.Regle.hide()
     } 
+    this.play()
+  },
+  /**
+    * Pour jouer seulement le texte sélectionné
+    * @method start_selection
+    */
+  start_selection:function()
+  {
+    if(this.on && this.MODE_PAS_A_PAS) this.Step.next()
+    else
+    {
+      // Il faut resetter avant de relever la liste, car cette relève va
+      // ajuster la position actuelle du curseur alors que reset la remet 
+      // à zéro.
+      this.reset()
+      this.Step.list = Console.steps_selection()
+      this.play()
+    }
+  },
+  /**
+    * Règle l'interface, soit pour le jeu, soit pour l'arrêt
+    * @method set_interface
+    */
+  set_interface:function()
+  {
+    $('input#btn_anim_start').val(function(on, stp2stp){
+      if(on) return stp2stp ? 'Next' : 'Stop'
+      else   return "Start"
+    }(this.on, this.MODE_PAS_A_PAS))
+    UI.Regle.hide()
+  },
+  /**
+    * Démarre véritablement l'animation
+    * Notes
+    * -----
+    *   * Cette méthode a été inaugurée pour gérer les différents traitement
+    *     entre jouer tout le code et ne jouer qu'une sélection du code.
+    *
+    * @method play
+    */
+  play:function()
+  {
+    this.on = true
+    this.set_interface()
     this.Step.next()
   },
   /**
@@ -47,7 +87,7 @@ $.extend(Anim,{
     delete this.Step.list
     $('input#btn_anim_start').val("Start")
     this.on = false
-    UI.Regle.show()    
+    UI.Regle.wait_and_show()
   },
 
   /**

@@ -18,23 +18,6 @@ $.extend(UI,{
     this.onresize_window()
   },
   /**
-    * Gestion de la portion de règle à mesurer posée sur le plan de l'animation.
-    * @class Regle
-    * @for UI
-    * @static
-    */
-  Regle:{
-    obj:null, // le div de la règle
-    show:function(){this.obj.show()},
-    hide:function(){this.obj.hide()},
-    prepare:function(){
-      this.obj = $('div#regle')
-      this.obj.
-        draggable({containment:'document'}).
-        css({top:'480px', left:'25px'})
-    }
-  },
-  /**
     * Redimensionne les éléments dans la fenêtre
     * @method onresize_window
     */
