@@ -57,6 +57,17 @@ $.extend(window.Console,{
   select:function(params)
   {
     Selection.select(this.console, {start:params.start, end:params.end})
+  },
+  
+  /**
+    * La méthode est appelée lorsque le code console a été modifié. Cela
+    * permet d'initialiser les étapes retenues.
+    * @method onchange_code
+    */
+  onchange_code:function()
+  {
+    if(this._etapes)          delete this._etapes
+    if(this._steps_selection) delete this._steps_selection
   }
   
 })
@@ -91,13 +102,16 @@ Object.defineProperties(window.Console,{
     */
   "steps":{
     get:function(){
-      var etapes = [], cur_offset = 0, pas ;
-      L(this.raw.split("\n")).each(function(line){
-        pas = new Pas({code:line, offset_start:cur_offset})
-        etapes.push( pas )
-        cur_offset += pas.length
-      })
-      return etapes
+      if(undefined == this._etapes)
+      {
+        this._etapes = [], cur_offset = 0, pas ;
+        L(this.raw.split("\n")).each(function(line){
+          pas = new Pas({code:line, offset_start:cur_offset})
+          this._etapes.push( pas )
+          cur_offset += pas.length
+        })
+      }
+      return this._etapes
     }
   },
   /**

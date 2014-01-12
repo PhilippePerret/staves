@@ -2,5 +2,5 @@
   
 ?>
 <section id="section_console">
-  <textarea id="console"></textarea>
+  <textarea id="console" onchange="$.proxy(Console.onchange_code, Console)()"></textarea>
 </section>
