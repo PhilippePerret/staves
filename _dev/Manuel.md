@@ -30,6 +30,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
   * [Resetter l'animation](#reset_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
 * [Vitesse de l'animation](#vitesse_animation)
+* [Jouer l'animation](#run_animation)
 * [Activer/désactiver le Mode “Flash](#mode_flash)
 * [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
 
@@ -149,7 +150,7 @@ Le pas à utiliser est :
 <a name="vitesse_animation"></a>
 ###Vitesse de l'animation
 
-On peut régler la vitesse de l'animation de façon interactive avec le “slider” se trouvant dans le contrôleur (sous le bouton “Start”).
+On peut régler la vitesse de l'animation de façon interactive avec le “slider” se trouvant dans le contrôleur (sous le bouton “Play”).
 
 *Pour régler la vitesse de façon très fine, cf. aussi [Réglage de la vitesse dans les préférences](#prefs_speed).*
 
@@ -163,6 +164,52 @@ Pour remettre la vitesse à la vitesse normale&nbsp;:
   
     SPEED() // pas d'argument
 
+<a name="run_animation"></a>
+###Jouer l'animation
+
+Pour jouer l'animation, cliquer simplement sur le bouton “Play”.
+
+<a name="run_only_selection"></a>
+###Jouer une portion de l'animation
+
+En composant l'animation, on peut vouloir ne tester qu'une partie de code qu'on est en train de programmer sans avoir à rejouer tout ce qui précède.
+
+Il existe deux moyens de le faire avec “STAVES”&nbsp;: le premier consiste à sélectionner simplement le code à jouer (version rapide, mais non modifiable). Le second consiste à placer des repères pour définir la sélection à jouer (cf. [Jouer une portion par repère](#run_with_repairs_selection))
+
+<a name="run_with_repairs_selection"></a>
+####Jouer une partie de l'animation entre repères
+
+Cette méthode est la plus pratique si on compte modifier le code au cours de différents essais et modifications.
+
+1. Dans le code, placer <u>**au-dessus**</u> de la première ligne de code à interpréter (sur une seule ligne ne contenant QUE ce repère)&nbsp;:
+
+        #!START
+2. Placer <u>**en dessous**</u> de la dernière ligne à interpréter (sur une seule ligne ne contenant QUE ce repère)&nbsp;:
+
+        #!END
+3. Dans le menu à côté du bouton “Play”, choisir l'item “Entre repères”&nbsp;;
+4. Cliquer sur le bouton “Play”
+
+<a name="run_selection_with_selection"></a>
+####Jouer une partie de l'animation par sélection
+
+Pour ce faire&nbsp;:
+
+1. Sélectionner <u>soigneusement</u> la portion de code à tester (“soigneusement” signifie&nbsp;: en étant sûr de bien placer la sélection du début d'une ligne au début d'une autre ou à la toute fin du code. Cf. la procédure la plus simple ci-dessous)
+2. Choisir l'item “Sélection” dans le menu à coté du bouton “Play”.
+3. Cliquer sur le bouton “Play”
+
+Pour rejouer la même sélection (mais seulement si le code n'a pas été modifié), cliquer à nouveau sur “Play”.
+
+####Méthode pour sélectionner correctement la portion de code
+
+Le plus simple, pour sélectionner correctement la portion de code à tester, est de procéder comme suit&nbsp;:
+
+1. Placer le curseur au début de la première ligne de code
+2. Relâcher la souris
+3. Faire défiler le code de la console jusqu'à afficher la dernière ligne de code à tester.
+4. Presser la touche Majuscule
+5. Tout en tenant la touche Majuscule, cliquer au bout de la dernière ligne du code à tester.
 
 <a name="mode_flash"></a>
 ###Activer/désactiver le mode “Flash”

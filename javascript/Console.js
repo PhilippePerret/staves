@@ -10,19 +10,7 @@
   */
 if(undefined == window.Console) Console = {}
 $.extend(window.Console,{
-  
-  /**
-    * Décalage actuel du "curseur", c'est-à-dire de la fin de la sélection
-    * Notes
-    * -----
-    *   * Normalement, doit devenir obsolète avec l'utilisation de l'instance Pas
-    *     puisque l'étape conserve son offset et le gère.
-    *
-    * @method {Number} cursor_offset
-    * @default 0
-    */
-  cursor_offset:0,
-  
+    
   /**
     * Mets un code en console.
     * @method set
@@ -32,80 +20,6 @@ $.extend(window.Console,{
   {
     if('string'!=typeof code) code = code.join("\n")
     this.console.val(code)
-  },
-  
-  /**
-    * Déplace le "curseur" de la console, c'est-à-dire exactement sa
-    * portion de sélection.
-    * Notes
-    * -----
-    *   * La nouvelle position courante (this.cursor_offset) est mise à la 
-    *     nouvelle position params.to.
-    *   * Doit devenir OBSOLETE avec l'utilisation de l'instance Pas
-    *
-    * @method move_cursor
-    * @param {Object} params Les paramètres obligatoires
-    *   @param  {Number} params.for  Le nombre de caractères à sélectionner depuis la position courante
-    */
-  move_cursor:function(params)
-  {
-    this.select({start:this.cursor_offset, end:this.cursor_offset + params.for})
-    this.cursor_offset += parseInt(params.for,10)
-  },
-  /**
-    * Retourne les étapes sélectionnés. Permet de ne jouer qu'une partie du code.
-    * Notes
-    * -----
-    *   * Mais l'opération n'est pas aussi simple que ça : il faut jouer les
-    *     code qui gèrent les portées et autres réglages par défaut.
-    *     Donc l'opération se fait en deux temps :
-    *     1.  On prend le code sélectionné pour connaitre l'offset et le contenu
-    *     2.  On passe en revue l'intégralité du code en conservant les lignes
-    *         qui doivent être jouées.
-    *   * La méthode règle aussi le `cursor_offset` pour pouvoir suivre correctement
-    *     le code. On pourrait imaginer faire une petite correction pour être sûr
-    *     de prendre le code depuis le premier caractère.
-    *   * On mémorise les informations pour pouvoir rejouer la même sélection
-    *
-    * @method steps_selection
-    * @return {Array} La liste des étapes sélectionnées et étapes précédentes
-    *                 nécessaires.
-    */
-  steps_selection:function()
-  {
-    if(this.steps_selection.steps)
-    { // => On a déjà calculé la sélection, on la rejoue
-      this.cursor_offset = this.steps_selection.cursor
-    }
-    else
-    { // => Première sélection, on la calcule
-      var sel   = this.get_selection()
-      var steps = []
-      // == On crée les instances étapes ==
-      Pas.last_id = 0
-      var cur_offset = parseInt(sel.start,10)
-      var pas ;
-      L(sel.content.split("\n")).each(function(line){
-        pas = new Pas({code:line, offset_start:cur_offset})
-        steps.push(pas)
-        cur_offset += pas.length
-      })
-      // == Relève des steps à jouer nécessairement ==
-      var befor = this.get_code(0, sel.start, as_list=true)
-      var steps_before = []
-      cur_offset = 0
-      L(befor).each(function(line){
-        if(line.contains('STAFF') || line.contains('DEFAULT') || line.contains('NEXT'))
-        {
-          steps_before.push(new Pas({code:line, offset_start:cur_offset}))
-        }
-        cur_offset += line.length + 1
-      })
-      this.cursor_offset = sel.start
-      this.steps_selection.steps  = steps_before.concat(steps)
-      this.steps_selection.cursor = parseInt(sel.start,10)
-    }
-    return this.steps_selection.steps
   },
   /**
     * Retourne le code depuis le caractère +from+ (0-start) jusqu'au caractère
@@ -143,7 +57,6 @@ $.extend(window.Console,{
   select:function(params)
   {
     Selection.select(this.console, {start:params.start, end:params.end})
-    this.cursor_offset = params.end
   }
   
 })
@@ -162,8 +75,14 @@ Object.defineProperties(window.Console,{
     * @property {String} raw
     */
   "raw":{
-    get:function(){return this.console.val().trim()}
+    get:function(){return this.console.val()}
   },
+  /**
+    * Retourne le code brut mais trimé
+    * @property {String} raw_trimed
+    */
+  "raw_trimed":{get:function(){return this.raw.trim()}},
+  
   /**
     * Récupère le code dans la console, comme une liste de pas
     *
@@ -179,6 +98,87 @@ Object.defineProperties(window.Console,{
         cur_offset += pas.length
       })
       return etapes
+    }
+  },
+  /**
+    * Retourne les étapes sélectionnées. Permet de ne jouer qu'une partie du code.
+    * Notes
+    * -----
+    *   * Mais l'opération n'est pas aussi simple que ça : il faut jouer les
+    *     code qui gèrent les portées et autres réglages par défaut.
+    *     Donc l'opération se fait en deux temps :
+    *     1.  On prend le code sélectionné pour connaitre l'offset et le contenu
+    *     2.  On passe en revue l'intégralité du code en conservant les lignes
+    *         qui doivent être jouées.
+    *   * La méthode règle aussi le `cursor_offset` pour pouvoir suivre correctement
+    *     le code. On pourrait imaginer faire une petite correction pour être sûr
+    *     de prendre le code depuis le premier caractère.
+    *   * On mémorise les informations pour pouvoir rejouer la même sélection
+    *
+    * @property {Array of Pas} steps_selection La liste des étapes sélectionnées et étapes précédentes
+    *                                   nécessaires.
+    */
+  "steps_selection":{
+    get:function(){
+      if( !this._steps_selection )
+      { // => Première sélection (ou modification du code), on la calcule
+        var sel   = this.get_selection()
+        if(sel.content == "")
+        {
+          F.error("Il faut sélectionner le code à jouer !")
+          return null
+        }
+        var steps = []
+        // == On crée les instances étapes ==
+        Pas.last_id = 0
+        var cur_offset = parseInt(sel.start,10)
+        var pas ;
+        L(sel.content.split("\n")).each(function(line){
+          pas = new Pas({code:line, offset_start:cur_offset})
+          steps.push(pas)
+          cur_offset += pas.length
+        })
+        // == Relève des steps à jouer nécessairement ==
+        var befor = this.get_code(0, sel.start, as_list=true)
+        var steps_before = []
+        cur_offset = 0
+        L(befor).each(function(line){
+          if(line.contains('STAFF') || line.contains('DEFAULT') || line.contains('NEXT'))
+          {
+            steps_before.push(new Pas({code:line, offset_start:cur_offset}))
+          }
+          cur_offset += line.length + 1
+        })
+        this._steps_selection  = steps_before.concat(steps)
+        
+      } else {
+        
+      }
+      // Il faut renvoyer un clone car l'exécution des étapes mange (shift) dans
+      // cette liste renvoyée.
+      return $.merge([], this._steps_selection)
+    }
+  },
+  /**
+    * Liste des étapes entre les repères #!START et #!END (+ les étapes indispensables avant)
+    * Notes
+    *   * Pour définir la liste on utilise la propriété `steps_selection` simplement
+    *     en sélectionnant la portion de texte voulu avant.
+    *
+    * @property {Array of Pas} steps_between_repairs
+    */
+  "steps_between_repairs":{
+    get:function(){
+      var start = this.raw.indexOf("\n#!START\n")
+      var end   = this.raw.indexOf("\n#!END\n")
+      if(start < -1 || end < -1)
+      {
+        F.error("Il faut placer les repères `#!START` et `#!END` dans le code (et les placer sur une ligne vierge) !")
+        return null
+      }
+      this.select({start:start+1, end:end})
+      delete this._steps_selection 
+      return this.steps_selection
     }
   }
 })

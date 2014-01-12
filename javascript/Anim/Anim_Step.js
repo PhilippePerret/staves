@@ -29,24 +29,7 @@ Anim.Step = {
   current:null,
   
   /**
-    * Joue l'étape (évalue son code)
-    * Notes
-    * -----
-    *   * Pour le moment, la méthode prend le code dans Anim.Step.current
-    *     TODO: Mais plus tard, ce code devrait être géré dans ce Anim.Step
-    *   * Un timer peut avoir été défini (si Anim.transition.step est ≠ 0)
-    *   * Le bloc 'try' a une double fonction ici : en mode normal, il génère
-    *     une erreur mais poursuit le code. En mode flash, il peut arriver que
-    *     ça aille trop vite pour les éléments soient affichés, donc on fait 
-    *     une courte pause avant de ré-évaluer l'étape. On essaie un maximum de
-    *     3 fois puis on abandonne.
-    * @method run
-    */
-  run:function()
-  {
-  },
-  /**
-    * Méthode qui joue la séquence suivante
+    * Méthode qui définit et exécute l'étape suivante
     * @method next
     */
   next:function()
@@ -94,20 +77,25 @@ Anim.Step = {
     */
   auto_next:function(no_timeout)
   {
-    if(Anim.timer) clearTimeout(Anim.timer)
-    if(this.MODE_PAS_A_PAS) return
+    if(this.timer) clearTimeout(this.timer)
+    if(this.mode_pas_a_pas) return
     if(MODE_FLASH || no_timeout || Anim.transition.step == 0)
     {
       this.next()
     }
     else
     {
-      Anim.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.transition.step)
+      this.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.transition.step)
     }
   }
-  
 }
-
+Object.defineProperties(Anim.Step,{
+  "mode_pas_a_pas":{
+    get:function(){
+      return Anim.play_type == 'stepbystep'
+    }
+  }
+})
 /**
   * Raccourci pour définir de passer à l'étape suivante
   * @for window

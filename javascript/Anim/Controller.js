@@ -18,35 +18,39 @@ $.extend(Anim,{
     * Joue l'animation courante
     * Notes
     * -----
-    *   * La méthode est également appelée à chaque pas en mode "pas à pas"
+    *   * La méthode est appelée chaque fois qu'on clique le bouton “Play”
+    *   * Elle réagit différemment en fonction du mode de jeu (this.play_type)
+    *
     * @method start
     * @param  {Object} params   Paramètres optionnels
     */
   start:function(params){
-    if(this.on && !this.MODE_PAS_A_PAS) return this.stop()
-    else if(false == this.on)
-    {
-      this.reset()
-      if(!this.Step.list) this.Step.list = Console.steps
-    } 
-    this.play()
-  },
-  /**
-    * Pour jouer seulement le texte sélectionné
-    * @method start_selection
-    */
-  start_selection:function()
-  {
-    if(this.on && this.MODE_PAS_A_PAS) this.Step.next()
-    else
-    {
-      // Il faut resetter avant de relever la liste, car cette relève va
-      // ajuster la position actuelle du curseur alors que reset la remet 
-      // à zéro. OBSOLETE car maintenant l'instance Pas mémorise son offset
-      this.reset()
-      this.Step.list = Console.steps_selection()
+    if(this.on && this.Step.mode_pas_a_pas)
+    { // En cours de jeu en mode pas à pas
+      this.Step.next()
+    }
+    else if(this.pause_on)
+    { // => redémarrage après pause
       this.play()
     }
+    else if(this.on)
+    { // => Stop demandé
+      this.stop()
+    } 
+    else
+    { // Démarrage du jeu
+      this.reset()
+      this.Step.list = function(playtype){
+        switch(playtype)
+        {
+        case 'all'        :
+        case 'stepbystep' : return Console.steps
+        case 'selection'  : return Console.steps_selection
+        case 'repairs'    : return Console.steps_between_repairs
+        }
+      }(this.play_type)
+      if(this.Step.list) this.play()
+    } 
   },
   /**
     * Règle l'interface, soit pour le jeu, soit pour l'arrêt
@@ -54,12 +58,10 @@ $.extend(Anim,{
     */
   set_interface:function()
   {
-    $('input#btn_anim_start').val(function(on, stp2stp){
-      if(on) return stp2stp ? 'Next' : 'Stop'
-      else   return "Start"
-    }(this.on, this.MODE_PAS_A_PAS))
-    if(this.on) UI.Regle.hide()
-    else        UI.Regle.wait_and_show()
+    // dlog("-> set_interface [on="+this.on+"/pause_on="+this.pause_on+"]")
+    this.stop_button.css('visibility', this.on ? 'visible':'hidden')
+    this.pause_button[this.on && !this.pause_on ?'show':'hide']()
+    this.start_button[!this.on || this.pause_on ?'show':'hide']()
   },
   /**
     * Démarre véritablement l'animation
@@ -72,9 +74,20 @@ $.extend(Anim,{
     */
   play:function()
   {
-    this.on = true
+    this.on       = true
+    this.pause_on = false
     this.set_interface()
+    UI.Regle.hide()
     this.Step.next()
+  },
+  /**
+    * Pause demandée
+    * @method pause
+    */
+  pause:function()
+  {
+    this.pause_on = true
+    this.set_interface()
   },
   /**
     * Stoppe l'animation, parce qu'on est au bout ou parce que 
@@ -83,11 +96,13 @@ $.extend(Anim,{
     */
   stop:function()
   {
-    this.on = false
+    this.on       = false
+    this.pause_on = false
     if(this.timer) clearTimeout(this.timer)
     delete this.timer
     delete this.Step.list
     this.set_interface()
+    UI.Regle.wait_and_show()
   },
 
   /**
@@ -133,4 +148,28 @@ $.extend(Anim,{
     this.transition = this.transition_reg
   }
   
+})
+
+Object.defineProperties(Anim,{
+  /** 
+    * Objet DOM du bouton Start
+    * @property {jQuerySet} start_button
+    */
+  "start_button":{
+    get:function(){return $('img#btn_anim_start')}
+  },
+  /** 
+    * Objet DOM du bouton Stop
+    * @property {jQuerySet} stop_button
+    */
+  "stop_button":{
+    get:function(){return $('img#btn_anim_stop')}
+  },
+  /** 
+    * Objet DOM du bouton Pause
+    * @property {jQuerySet} pause_button
+    */
+  "pause_button":{
+    get:function(){return $('img#btn_anim_pause')}
+  },
 })

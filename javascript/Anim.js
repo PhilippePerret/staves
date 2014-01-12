@@ -226,14 +226,6 @@ $.extend(window.Anim,{
   },
   
   /**
-    * Mode pas à pas
-    * Si true, on passe d'un pas de l'animation à un autre en cliquant
-    * sur le bouton pour jouer l'animation
-    * @property {Boolean} MODE_PAS_A_PAS
-    */
-  MODE_PAS_A_PAS:false,
-  
-  /**
     * Liste des portées affichées
     * @property {Array} staves
     */
@@ -261,6 +253,12 @@ $.extend(window.Anim,{
     * @default false
     */
   on:false,
+  /**
+    * True quand la pause est activé
+    * @property {Boolean} pause_on
+    * @default false
+    */
+  pause_on:false,
   
   /**
     * Retourne la vitesse de transition de clé +key+ (dans Anim.transition)
@@ -285,17 +283,6 @@ $.extend(window.Anim,{
     */
   wait:function(laps){ this.Objects.WAIT(MODE_FLASH ? 0.001 : laps) },
   
-
-  /**
-    * Active ou désactive le mode "pas à pas"
-    * @method def_mode_pas_a_pas
-    * @param  {Boolean} active    Si true, active le mode Pas à pas
-    */
-  def_mode_pas_a_pas:function(active)
-  {
-    this.MODE_PAS_A_PAS = active
-    // Flash.show("Le mode pas à pas est "+(active ? 'activé' : 'désactivé'))
-  },
   /**
     * Reset l'animation (au (re)-démarrage)
     * @method reset
@@ -305,13 +292,23 @@ $.extend(window.Anim,{
     Flash.clean()
     $('section#animation').html('')
     this.Objects    = {}
+    this.Step.list  = null
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
     Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
     L(this.staves || []).each(function(staff){staff=null; delete staff;})
     this.staves     = []
     this.current_x  = this.prefs.x_start
-    Console.cursor_offset = 0
     this.reset_prefs()
+  },
+  /**
+    * Appelé au chargement de l'application
+    * @method on_load
+    */
+  on_load:function()
+  {
+    Anim.Infos.prepare()
+    Anim.set_slider()
+    this.play_type = $('select#play_type').val()
   },
   /**
     * Reset les préférences
@@ -321,15 +318,35 @@ $.extend(window.Anim,{
   {
     // Il faut remettre toutes les préférences au départ
     L(this.prefs_default).each(function(key, value){
-      Anim.set_pref(key, value)
+      Anim.set_pref(key, value, next_step = false)
     })
   },
   
-  // /** Raccourci pour Anim.Dom.show
-  //   * OBSOLÈTE
-  //   * @method show */
-  // show:function(obj, params){this.Dom.show(obj,params)},
- 
+  /**
+    * Méthode appelée quand on change le "play type", donc ce qu'il faut
+    * jouer de l'animation et comment il faut le jouer. Elle affiche un message
+    * d'information.
+    * @method onchange_play_type
+    */
+  onchange_play_type:function(play_type)
+  {
+    this.play_type = play_type
+    F.show(function(playtype){
+      switch(playtype)
+      {
+      case 'all':
+        return "L'intégralité de l'animation sera jouée."
+      case 'selection':
+        return "Seul le code sélectionné sera joué."
+      case 'repairs':
+        return "Seul le code entre `#!START` et `#!END` sera joué."
+      case 'stepbystep':
+        return "L'animation sera jouée pas à pas"
+      default:
+        return "Bleurk… (dans Anim.onchange_play_type)"
+      }
+    }(play_type))
+  },
   /**
     * Enregistre l'animation courante
     * @method save

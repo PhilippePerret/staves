@@ -15,11 +15,14 @@ section#controller div.buttons {
   color             : white;
 }
 
-input#btn_anim_start {
-  background-color  : #00A200;
-  color             : #FFFFFF;
+section#controller img.btn_controller {
+  width             : 52px;
+  vertical-align    : sub;
 }
 
-section#controller div.buttons input[type="button"]{
-  font-size : 14pt;
+section#controller select#play_type,
+section#controller select#play_type * {
+  font-size   : 14pt;
+  border      : 0;
+  text-align  : center;
 }
