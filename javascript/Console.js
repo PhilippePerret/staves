@@ -104,14 +104,15 @@ Object.defineProperties(window.Console,{
     get:function(){
       if(undefined == this._etapes)
       {
-        this._etapes = [], cur_offset = 0, pas ;
+        this._etapes = []
+        var me = this, cur_offset = 0, pas ;
         L(this.raw.split("\n")).each(function(line){
           pas = new Pas({code:line, offset_start:cur_offset})
-          this._etapes.push( pas )
+          me._etapes.push( pas )
           cur_offset += pas.length
         })
       }
-      return this._etapes
+      return $.merge([], this._etapes) // clone
     }
   },
   /**

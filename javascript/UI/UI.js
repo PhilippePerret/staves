@@ -19,6 +19,9 @@ $.extend(UI,{
   },
   /**
     * Redimensionne les éléments dans la fenêtre
+    * Notes
+    *   * La méthode est appelée au chargement de l'application
+    *
     * @method onresize_window
     */
   onresize_window:function(evt)
@@ -34,7 +37,9 @@ $.extend(UI,{
     anim_height     = parseInt(y * 78/100)
     console_width   = x - ( anim_width + 10 + 32)
   
-    $('section#animation').css({
+    var oanim     = $('section#animation')
+    var pos_anim  = oanim.position()
+    oanim.css({
       width : anim_width+"px", 
       height: anim_height+"px"}
     )
@@ -49,6 +54,15 @@ $.extend(UI,{
     })
     // La position de la règle de mesure
     this.Regle.obj.css({top:(anim_height - 10)+'px'})
+    // Positions pour la grille (grid)
+    Anim.Grid.obj.css({
+      top     :pos_anim.top+'px', 
+      left    :pos_anim.left+'px',
+      width   :anim_width+'px',
+      height  :anim_height+'px'
+    })
+    Anim.Grid.cursor.css({height:(anim_height-10)+'px'})
+    Anim.Grid.set_cursor()
   },
   /**
     * Peuple le menu des applications avec la liste +name_list+

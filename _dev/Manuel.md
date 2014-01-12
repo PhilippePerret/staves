@@ -5,6 +5,7 @@
 Cette application permet de faire des animations musicales (écrites), à des fins pédagogiques, pour les insérer dans des screencasts.
 
 * [Animation](#l_animation)
+* [Déplacement du curseur de position](#le_curseur_de_position)
 * [Les notes](#les_notes)
 * [Les accords](#les_chords)
 * [Les portées](#les_staves)
@@ -25,7 +26,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Composer le code de l'animation](#code_composition)
   * [Commentaires dans le code](#code_comments)
   * [Faire une pause](#pause_animation)
-  * [Avancer sur la portée](#left_staff)
+  * [Se déplacer sur la portée](#move_on_staff)
   * [Écrire un texte général](#texte_animation)
   * [Resetter l'animation](#reset_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
@@ -89,22 +90,10 @@ Par exemple, pour attendre 4 secondes&nbsp;:
   
 *Note&nbsp;: C'est un “pas” comme les autres, donc il doit être mis sur une ligne seule comme toute étape.*
 
-<a name="left_staff"></a>
+<a name="move_on_staff"></a>
 ####Se déplacer sur la portée
 
-La commande pour écrire à la suite des dernières notes sur la portée, on utilise la commande&nbsp;:
-
-    NEXT([<nombre pixels>])
-  
-Par défaut (sans argument), le déplacement sera de 40px (`Anim.defaut.hoffset`). Sinon, le déplacement sera de la valeur précisée.
-
-Par exemple&nbsp;:
-
-    NEXT() 
-    // => les notes suivantes s'écriront 40px plus à gauche
-
-    NEXT(100)
-    // => les notes suivantes s'écriront 100px plus à gauche
+Pour tous les déplacements sur la portée, voir [Déplacement du curseur de position](#le_curseur_de_position)
 
 <a name="texte_animation"></a>
 ####Écrire un texte général
@@ -188,6 +177,7 @@ Il existe plusieurs moyens de le faire avec “STAVES”&nbsp;:
 2. Placer le curseur dans la première ligne de code à jouer (inutile ici de le placer en début de ligne, il suffit de le mettre dans la ligne de code par laquelle commencer)&nbsp;;
 3. Presser le bouton Play.
 
+Noter cependant une chose importante&nbsp;: si le code à partir du curseur fait référence à des éléments précédemment créés, le jeu de l'animation échouera (elle n'exécute le code qu'à partir du curseur).
 
 <a name="run_with_repairs_selection"></a>
 ####Jouer une partie de l'animation entre repères
@@ -251,6 +241,73 @@ Pour remettre toutes les valeurs de décalages aux valeurs de départ, utiliser 
 
 *Noter que ça ne ré-initialise que les décalages des éléments, tels que les textes de marque de l'harmonie ou des accords, etc. Pour une ré-initialisation complète, utiliser la commande [`RESET`](#reset_animation).*
 
+---------------------------------------------------------------------
+
+<a name="le_curseur_de_position"></a>
+##Déplacement du curseur de position
+
+Le “curseur de position” est la ligne verticale bleue qui traverse verticalement l'animation (invisible quand on la joue) qui indique où seront positionnés les prochains éléments.
+
+*Noter que ce “curseur de position” n'a rien à voir avec la position courante de l'animation, entendu qu'une animation n'est pas, sauf rare exception, un déplacement continu le long d'une portée. Pour l'explication d'une gamme, par exemple, il peut y avoir un affichage fixe le long duquel on se déplace indifféremment.*
+
+###Table des matières
+
+* [Déplacement du curseur vers la droite](#move_cursor_to_right)
+* [Revenir au début des portées](#move_cursor_to_depart)
+* [Placer le curseur à une position précise](#set_cursor_to_position)
+
+<a name="move_cursor_to_right"><a>
+###Déplacement du curseur vers la droite
+
+La commande pour écrire à la suite des dernières notes sur la portée, on utilise la commande&nbsp;:
+
+    NEXT([<nombre pixels>])
+  
+Cela déplacera le curseur de position d'une valeur par défaut de 40px. Cette valeur peut être modifiée grâce à `DEFAULT('next', <nouveau nombre de pixels>)` (cf. [Réglage de l'avancée à chaque NEXT (curseur)](#prefs_set_next)).
+
+Par exemple&nbsp;:
+
+    NEXT() 
+    // => les notes suivantes s'écriront 40px plus à droite
+
+On peut également effectuer un déplacement précis en indiquant le nombre de pixels en argument.
+
+    NEXT([<nombre pixels>])
+
+Par exemple, pour déplacer le curseur de position de 100px vers la gauche (donc un retour en arrière)&nbsp;:
+
+    NEXT(-100)
+    // => les notes suivantes s'écriront 100px plus à gauche
+
+<a name="move_cursor_to_depart"></a>
+###Revenir au début des portées (RESET_CURSOR)
+
+Pour revenir au début des portées, on peut bien entendu utiliser la commande précédente avec un nombre négatif. Si l'on se trouve à la position 500, il suffit d'indiquer&nbsp;:
+
+    NEXT(-500)
+
+… pour se replacer au début.
+
+Mais une commande permet d'effecter ce retour plus simplement, sans connaitre la position courante&nbsp;:
+
+    RESET_CURSOR
+
+Cela remet automatiquement le curseur au début, donc à gauche, en tenant compte des altérations et métriques que peuvent contenir les portées.
+
+*Pour modifier cette position de début, utiliser la commande `DEFAULT('x_start', <nouvelle valeur>)` (cf. [Réglage de la position horizontale initiale (curseur)](#prefs_x_start)).*
+
+<a name="set_cursor_to_position"></a>
+###Placer le curseur à une position précise (SET_CURSOR)
+
+Pour placer la curseur à une position précise, utiliser la commande&nbsp;:
+
+    SET_CURSOR(<position left en pixel>)
+    
+Par exemple, pour se positionner à 100px exactement&nbsp;:
+
+    SET_CURSOR(100)
+
+Les prochains `NEXT()` partiront de cette nouvelle position.
 
 ---------------------------------------------------------------------
 <a name="les_notes"></a>

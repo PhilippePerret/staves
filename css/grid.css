@@ -1,0 +1,29 @@
+div#grid {
+  position : absolute;
+  z-index  : 0;
+}
+
+/* Le cursor et les marques de position left sont semblables en aspect */
+div#grid div#cursor_position,
+div#grid div.mark_left {
+  position    : absolute;
+  top         : 16px;
+  background-color : transparent;
+  border-style : solid;
+  font-size   : 6.5pt;
+}
+
+div#grid div#cursor_position {
+  border-color    : #DEDEFF;
+  border-width : 0 0 0 2px;
+  color       : #FF00CF;
+}
+
+/* Une marque pour indiquer une position left */
+div#grid div.mark_left {
+  opacity       : 0.5;
+  border-width : 0 0 0 1px;
+  border-color  : red;
+  color         : red;
+}
+div#grid div.mark_left:hover{opacity:1;font-size:2em;}

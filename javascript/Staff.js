@@ -71,8 +71,8 @@ $.extend(Staff,{
   /**
     * Retourne le top de la prochaine portée
     * @method top_next_staff
-    * @param  {Object} params   Paramètres optionnels
-    *   @param  {Number} params.offset    Le décalage éventuel par rapport à la position naturelle
+    * @param  {Object} params           Paramètres optionnels
+    *   @param  {Number} params.offset  Le décalage éventuel par rapport à la position naturelle
     */
   top_next_staff:function(params)
   {
@@ -120,7 +120,8 @@ $.extend(Staff,{
   }
 })
 /* ---------------------------------------------------------------------
-    Méthodes pour la propriété-object `notes`
+    Méthodes pour la propriété-object `notes` de la portée (qui contient
+    toutes ses notes)
    --------------------------------------------------------------------- */
 window.OBJECT_STAFF_NOTES = {
   /**
@@ -218,12 +219,53 @@ $.extend(Staff.prototype, {
     * @method show
     * @param  {Number} vitesse La vitesse d'apparition
     */
-  show:function()
+  show:function(vitesse)
   {
-    this.img_staff.show()
-    this.img_cle.css('opacity', '1')
+    if(undefined == vitesse) vitesse = 200
+    var me = this
+    L(this.objets).each(function(obj){
+      obj.animate({opacity:1}, vitesse, me.on_complete)
+    })
   },
-  
+  /**
+    * Methode à appeler par toute opération opérant sur les objets
+    * Lorsque chaque objet a été traité, on passe à l'étape suivante.
+    * @method on_complete
+    */
+  on_complete:function()
+  {
+    if(undefined == this.decompte_complete) this.decompte_complete = 0
+    ++this.decompte_complete
+    if(this.decompte_complete == this.nombre_objets)
+    {
+      delete this.decompte_complete
+      NEXT_STEP(no_timeout = true)
+    }
+  },
+  /**
+    * Masque la portée (sans la détruire)
+    * @method hide
+    */
+  hide:function()
+  {
+    this.img_staff.hide(Anim.transition.show)
+    this.img_cle.animate({opacity:'0'}, Anim.transition.show)
+  },
+  /**
+    * Destruction de la portée (et retrait de la liste des portées)
+    * @method remove
+    */
+  remove:function()
+  {
+    Anim.staves.splice(this.indice - 1, 1)
+    var me = this
+    L(this.objets).each(function(obj){ 
+      obj.animate({opacity:0}, 200, function(){
+        this.remove()
+        me.on_complete()
+      })
+    })
+  },  
   /**
     * Positionne la portée, la clé et la métrique (if any)
     * @method positionne
@@ -323,7 +365,22 @@ Object.defineProperties(Staff.prototype,{
     }
   },
   /**
+    * Liste des objets DOM que possède la portée
+    * @property {Array} objets
+    */
+  "objets":{
+    get:function(){
+      var objs = [this.img_staff]
+      if(this.img_cle.length) objs.push(this.img_cle)
+      if(this.img_armure.length) objs.push(this.img_armure)
+      if(this.img_metrique.length) objs.push(this.img_metrique)
+      this.nombre_objets = objs.length
+      return objs
+    }
+  },
+  /**
     * Return l'élément DOM de la portée contenue dans son DIV
+    * (ie l'ensemble de ses images de lignes)
     * @property {jQuerySet} img
     */
   "img_staff":{
@@ -336,16 +393,34 @@ Object.defineProperties(Staff.prototype,{
   "img_cle":{
     get:function(){return $('img#'+this.dom_id_cle)}
   },
-  
   "dom_id_cle":{get:function(){return "staff_cle-"+this.id}},
   
+  /**
+    * Objet DOM pour l'armure (if any)
+    * @property {jQuerySet} img_armure
+    */
+  "img_armure":{
+    get:function(){return $('div#'+this.dom_id_armure)}
+  },
+  "dom_id_armure":{get:function(){return "staff_armure-"+this.id}},
+  /**
+    * Objet DOM pour la métrique (if any)
+    * @property {jQuerySet} img_metrique
+    */
+  "img_metrique":{
+    get:function(){return $('div#'+this.dom_id_metrique)}
+  },
+  "dom_id_metrique":{get:function(){return "staff_metrique-"+this.id}},
   /**
     * Return le code HTML complet de la portée
     * @property {HTMLString} code_html
     */
   "code_html":{
     get:function(){
-      return this.html_img_cle + this.html_img
+      return  this.html_img           +
+              this.html_img_cle       + 
+              this.html_img_metrique  +
+              this.html_img_armure
     }
   },
   /**
@@ -357,10 +432,10 @@ Object.defineProperties(Staff.prototype,{
       var i=0, c = "", top = this.top ;
       for(; i<5; ++i)
       {
-        c += '<img style="top:'+(top + i * 12)+'px;" class="staffline" src="img/line.png" />'
+        c += '<img style="top:'+(i * 12)+'px;" class="staffline" src="img/line.png" />'
         // top += 12
       }
-      return c
+      return '<div id="'+this.id+'" style="top:'+this.top+'px;" class="staff">'+c+'</div>'
     }
   },
   /**
@@ -370,6 +445,36 @@ Object.defineProperties(Staff.prototype,{
   "html_img_cle":{
     get:function(){
       return '<img id="'+this.dom_id_cle+'" class="cle" src="img/cle/'+this.cle+'.png" />'
+    }
+  },
+  /**
+    * Return le code HTML pour la métrique
+    * Notes
+    * -----
+    *   * C'est un DIV principal contenant les éléments
+    *
+    * @property {String} html_img_metrique
+    */
+  "html_img_metrique":{
+    get:function(){
+      if(!this.metrique) return ""
+      var c = ""
+      return '<div id="'+this.dom_id_metrique+'" class="metrique">'+c+'</div>'
+    }
+  },
+  /**
+    * Return le code HTML pour l'armure
+    * Notes
+    * -----
+    *   * C'est un DIV principal contenant les éléments
+    *
+    * @property {String} html_img_armure
+    */
+  "html_img_armure":{
+    get:function(){
+      if(!this.armure) return ""
+      var c = ""
+      return '<div id="'+this.dom_id_armure+'" class="armure">'+c+'</div>'
     }
   }
   

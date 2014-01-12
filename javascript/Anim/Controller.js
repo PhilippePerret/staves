@@ -54,7 +54,7 @@ $.extend(Anim,{
     } 
   },
   /**
-    * Règle l'interface, soit pour le jeu, soit pour l'arrêt
+    * Règle l'interface, soit pour le jeu, soit pour l'arrêt, soit pour la pause
     * @method set_interface
     */
   set_interface:function()
@@ -63,6 +63,8 @@ $.extend(Anim,{
     this.stop_button.css('visibility', this.on ? 'visible':'hidden')
     this.pause_button[this.on && !this.pause_on && !this.Step.mode_pas_a_pas ?'show':'hide']()
     this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?'show':'hide']()
+    if(!this.on || this.pause_on) this.Grid.show()
+    else this.Grid.hide()
   },
   /**
     * Démarre véritablement l'animation
@@ -99,11 +101,20 @@ $.extend(Anim,{
   {
     this.on       = false
     this.pause_on = false
-    if(this.timer) clearTimeout(this.timer)
-    delete this.timer
+    this.kill_timer()
     delete this.Step.list
+    this.timer = setTimeout($.proxy(this.real_stop,this), this.prefs.delai_after_show*1000)
+  },
+  
+  /**
+    * Procède vraiment au stop, en faisant réapparaitre les éléments
+    * @method real_stop
+    */
+  real_stop:function()
+  {
+    this.kill_timer()
     this.set_interface()
-    UI.Regle.wait_and_show()
+    UI.Regle.show()
   },
 
   /**

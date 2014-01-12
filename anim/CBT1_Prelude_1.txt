@@ -1,6 +1,6 @@
 # Animation pour analyse du
 # premier prélude du CBT 1
-
+#!START
 # --- Valeurs par défault ---
 DEFAULT(\'next\', 75)
 DEFAULT(\'harmony\', 65)
@@ -13,7 +13,7 @@ DEFAULT('chord_mark', 35)
 NEW_STAFF(SOL)
 NEW_STAFF(FA)
 ACTIVE_STAFF(1)
-
+#!END
 # --- Premier accord DO ---
 do1=CHORD(\'2:c4 2:e4 g4 c5 e5\')
 WAIT(2)
@@ -186,6 +186,11 @@ acc.note(5).show()
 acc.note(4).show()
 WAIT(4)
 # EXPLICATION DU FAIT QU'ON VIENT D'ATTEINDRE UN "BOUT"
+
+# --- On doit passer à une autre portée ---
+STAFF(2).remove()
+NEW_STAFF(SOL, {offset:40})
+NEW_STAFF(FA)
 
 # --- Mesure 12 : C#7dim ---
 NEXT()

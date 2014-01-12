@@ -89,7 +89,10 @@ FONCTIONS_ANIM_OBJETS = {
     Anim.Infos.show_offset_cursor()
     NEXT_STEP(no_timeout = true)
   },
-  
+  SET_CURSOR:function(left)
+  {
+    
+  },
   /**
     * Activer la portée +indice+ (1-start)
     * @method ACTIVE_STAFF
@@ -241,6 +244,15 @@ METHODES_ANIM_OBJETS = {
     get:function(){ MODE_FLASH = false; NEXT_STEP(no_timeout=true)}
   },
   /**
+    * Remet le curseur de position à la position de départ (début des portées)
+    * @method RESET_CURSOR
+    */
+  "RESET_CURSOR":{
+    get:function(){
+      Anim.current_x = parseInt(Anim.prefs.x_start,10)
+    }
+  },
+  /**
     * Méthode qui reset l'affichage
     * Produit
     * -------
@@ -252,7 +264,7 @@ METHODES_ANIM_OBJETS = {
     */
   "RESET":{
     get:function(){
-      Anim.current_x = 100
+      RESET_CURSOR
       $('section#animation *:not(.staffline, .cle)').remove()
       NEXT_STEP(no_timeout = true)
     }

@@ -1,0 +1,12 @@
+# Essai Grid
+NEW_STAFF(SOL)
+NEW_STAFF(FA)
+NOTE(c4)
+NEXT()
+WAIT(2)
+NOTE(e4)
+NEXT()
+WAIT(3)
+NOTE(g4)
+NEXT()
+NOTE(b4)

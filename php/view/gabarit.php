@@ -12,6 +12,7 @@
   <?php include "./php/view/header.php" ?>
   <?php include "./php/view/tools.php" ?>
 	<section id="animation"></section>
+  <?php include "./php/view/grid.php" ?>
   <?php include "./php/view/controller.php" ?>
   <?php include "./php/view/console.php" ?>
   <?php include "./php/view/infos.php" ?>

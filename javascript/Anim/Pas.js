@@ -113,7 +113,7 @@ $.extend(Pas.prototype,{
     {
       if(this.tries_exec && this.tries_exec > 2)
       {
-        errMess = "# ERROR:"+error+". J'ai essayé de jouer 3 fois le code `this.Objects."+this.current.code+"` (étape #"+this.current.id+") en vain. Je poursuis, sans bien être sûr du résultat produit…"
+        errMess = "# ERROR:"+error+". J'ai essayé de jouer 3 fois le code `this.Objects."+this.code+"` (étape #"+this.id+") en vain. Je poursuis, sans bien être sûr du résultat produit…"
         F.error(errMess)
         dlog("#ERROR# "+ errMess)
       }
@@ -128,7 +128,7 @@ $.extend(Pas.prototype,{
     }
     else // mode non flash (normal)
     {
-      errMess = "# Erreur: "+error+ " survenue avec le code `this.Objects."+this.current.code+"` (#"+this.current.id+"). Mais j'essaie de poursuivre."
+      errMess = "# Erreur: "+error+ " survenue avec le code `this.Objects."+this.code+"` (#"+this.id+"). Mais j'essaie de poursuivre."
       F.error(errMess)
       dlog("#ERROR# "+errMess)
     }

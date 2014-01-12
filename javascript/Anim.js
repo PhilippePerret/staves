@@ -115,7 +115,8 @@ $.extend(window.Anim,{
     speed         :1,
     staff_top     :60,
     staff_offset  :100,
-    note_size     :14.3
+    note_size     :14.3,
+    delai_after_show  :3
   },
   /**
     * Toutes les préférences
@@ -171,6 +172,15 @@ $.extend(window.Anim,{
       * @property {Number} speed 
       */
     speed               : 1,
+    /**
+      * Temps d'attente à la fin de l'anim
+      * @property {Number} delai_after_show
+      */
+    delai_after_show    : 3,
+    /**
+      * Taille des notes
+      * @property {Float} note_size
+      */
     note_size     :14.3,
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
     offset_next         : 0,
@@ -238,16 +248,6 @@ $.extend(window.Anim,{
   current_staff:null,
   
   /**
-    * Le décalage horizontal courant
-    * Notes
-    *   * Ce décalage est défini en fonction de la présence de la métrique ou non
-    *     (TODO à implémenter dans la création de la portée — new_staff)
-    * @property {Number} current_x
-    * @default 100
-    */
-  current_x:100,
-  
-  /**
     * Animation en cours (si true)
     * @property {Boolean} on
     * @default false
@@ -284,6 +284,16 @@ $.extend(window.Anim,{
   wait:function(laps){ this.Objects.WAIT(MODE_FLASH ? 0.001 : laps) },
   
   /**
+    * Détruit le timer éventuel (timeout)
+    * @method kill_timer
+    */
+  kill_timer:function()
+  {
+    if(!this.timer) return
+    clearTimeout(this.timer)
+    delete this.timer
+  },
+  /**
     * Reset l'animation (au (re)-démarrage)
     * @method reset
     */
@@ -297,7 +307,7 @@ $.extend(window.Anim,{
     Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
     L(this.staves || []).each(function(staff){staff=null; delete staff;})
     this.staves     = []
-    this.current_x  = this.prefs.x_start
+    this.current_x = parseInt(this.prefs.x_start,10)
     this.reset_prefs()
   },
   /**
@@ -470,3 +480,18 @@ $.extend(window.Anim,{
   }
 })
 
+Object.defineProperties(Anim,{
+  /**
+    * Position x courante
+    * @property {Number} current_x
+    * @default Anim.prefs.x_start
+    */
+  "current_x":{
+    set:function(x){
+      this._current_x = x
+      this.Grid.set_cursor(x)
+    },
+    get:function(){ return this._current_x || parseInt(Anim.prefs.x_start,10)}
+  }
+  
+})
