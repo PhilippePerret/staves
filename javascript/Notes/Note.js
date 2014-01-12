@@ -398,7 +398,9 @@ $.extend(Note.prototype,{
     //   'key in NOTE_TO_OFFSET': this.note+this.octave,
     //   'value in NOTE_TO_OFFSET':NOTE_TO_OFFSET[this.note+this.octave]
     // })
-    this.obj.css({top:this.top+'px', left:this.real_left+'px', height:Anim.prefs.note_size+'px'})
+    var d = {top:this.top+'px', left:this.real_left+'px'}
+    if(Anim.prefs.note_size != Anim.prefs_default.note_size) d.height = Anim.prefs.note_size+'px';
+    this.obj.css(d)
     if(this.alteration) this.positionne_alteration()
   },
   /**
@@ -678,6 +680,19 @@ Object.defineProperties(Note.prototype,{
     }
   },
   /**
+    * Retourne le “centre_x” de la note, c'est-à-dire la position left qui passe
+    * vraiment au milieu de la note (sauf si elle est décalée à cause d'une
+    * note conjointe)
+    * C'est cette valeur qui doit être utilisée pour positionner des éléments
+    * par rapport à cette note.
+    * @property {Number} centre_x
+    */
+  "centre_x":{
+    get:function(){
+      return this.left + 6
+    }
+  },
+  /**
     * Retourne la vraie valeur left pour l'affichage, en fonction des notes
     * conjointes qui peuvent se trouver sur la portée à cet endroit-là
     * @property {Number} real_left
@@ -712,8 +727,9 @@ Object.defineProperties(Note.prototype,{
   },
   /**
     * Note conjointe au-dessus de la note
+    * La valeur est "<note><octave>"
     * Notes : Il serait aussi possible de retourner la valeur midi
-    * @property {String} conjointe_upper   "<note><octave>"
+    * @property {String} conjointe_upper
     */
   "conjointe_upper":{
     get:function(){
@@ -724,8 +740,9 @@ Object.defineProperties(Note.prototype,{
   },
   /**
     * Note conjointe en dessous de la note
+    * La valeur est "<note><octave>"
     * Notes : Il serait aussi possible de retourner la valeur midi
-    * @property {String} conjointe_under   "<note><octave>"
+    * @property {String} conjointe_under
     */
   "conjointe_under":{
     get:function(){

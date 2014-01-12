@@ -372,7 +372,7 @@ Object.defineProperties(Txt.prototype,{
           case harmony:
           case cadence:
             res = Txt.traite_texte_type_harmony(t)
-            // res.crochets
+            // TODO res.crochets reste à traiter
             return '<div class="center inline">'+
                       '<div class="renversement">'+res.renversement+'</div>' +
                       res.texte +
@@ -479,14 +479,21 @@ Object.defineProperties(Txt.prototype,{
   "real_left":{
     get:function()
     {
-      var left = this.left
+      var left  = this.left
       var w_box = this.obj.width()
+      dlog("-> real left")
+      dlog({
+        'this': this.id+":"+this.type,
+        'left': this.left,
+        'owner left': this.owner.left,
+        'owner centre x':this.owner.centre_x,
+        'owner center x':this.owner.centre_x,
+        'width box' : w_box
+      })
       switch(this.type)
       {
       case harmony:
-        // this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
-        // J'essaie de le placer comme une cadence
-        this._real_left = left - w_box + 18
+        this._real_left = this.owner.centre_x - (w_box / 2)
         break
       case cadence:
         // Pour un texte d'harmonie, le bord droit doit être aligné au possesseur,
@@ -494,8 +501,7 @@ Object.defineProperties(Txt.prototype,{
         this._real_left = left - w_box + 4
         break
       case chord:
-        // On doit le placer bien au center
-        this._real_left = this.owner.center_x - parseInt(w_box/2, 10)
+        this._real_left = this.owner.centre_x - (w_box / 2)
         break
       default:
         this._real_left = left - 10

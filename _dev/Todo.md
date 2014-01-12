@@ -1,3 +1,6 @@
+* Repenser l'alignement des marques d'harmonie :
+  > Un div qui soit centré sur la note (note.left - w_box/2) de type centré
+  
 * Poursuivre les essais avec le premier prélude
   > pour les harmonies et cadences, détecter les nombres et les
     mettre en plus petit (vérifier s'ils sont suivis de "e" comme dans "7e")

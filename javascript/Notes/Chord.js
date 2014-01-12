@@ -100,14 +100,12 @@ Object.defineProperties(Chord.prototype, {
     }
   },
   /**
-    * Le milieu horizontal de l'objet (en tenant compte vraiment de sa taille)
-    * @property {Number} center_x
+    * Le milieu horizontal de l'objet. Il correspond au centre de ses notes
+    * @property {Number} centre_x
     */
-  "center_x":{
+  "centre_x":{
     get:function(){
-      var max_width = 0
-      this.each_note(function(note){if(note.obj.width() > max_width) max_width = note.obj.width()})
-      return parseInt(this.left + (max_width / 2), 10)
+      return parseInt(this.note(1).centre_x,10)
     }
   },
   /**

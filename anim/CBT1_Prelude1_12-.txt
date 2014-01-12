@@ -4,9 +4,9 @@
 
 # --- Valeurs par défault ---
 DEFAULT(\'next\', 75)
-DEFAULT(\'harmony\', 65)
+DEFAULT(\'harmony\', 65+16)
 DEFAULT(\'staff_top\', 120)
-DEFAULT(\'staff_offset\', 120)
+DEFAULT(\'staff_offset\', 120+16)
 DEFAULT('offset_modulation_y', 5)
 DEFAULT('chord_mark', 35)
 
@@ -28,10 +28,10 @@ acc.harmony('VII7dim**')
 WAIT(1)
 acc.modulation('Rém')
 WAIT(1)
-acc.note(5).moveTo('cd5')
 acc.note(2).moveTo('bb3')
+acc.note(5).moveTo('cd5')
 NOTE('g3')
-
-# --- Mesure 13 : Dm ---
-NEXT()
-acc = CHORD('2:f3 2:a3 d4 a4 d5')
+# 
+# # --- Mesure 13 : Dm ---
+# NEXT()
+# acc = CHORD('2:f3 2:a3 d4 a4 d5')

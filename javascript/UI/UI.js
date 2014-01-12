@@ -57,7 +57,7 @@ $.extend(UI,{
     // Positions pour la grille (grid)
     Anim.Grid.obj.css({
       top     :pos_anim.top+'px', 
-      left    :pos_anim.left+'px',
+      left    :(pos_anim.left + 15)+'px',
       width   :anim_width+'px',
       height  :anim_height+'px'
     })

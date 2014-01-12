@@ -187,15 +187,6 @@ Object.defineProperties(ObjetClass.prototype,{
     }
   },
   /**
-    * Le milieu horizontal de l'objet (en tenant compte vraiment de sa taille)
-    * @property {Number} center_x
-    */
-  "center_x":{
-    get:function(){
-      return parseInt(this.left + (this.obj.width() / 2), 10)
-    }
-  },
-  /**
     * Le milieu vertical de l'objet
     * @property {Number} center_y
     */

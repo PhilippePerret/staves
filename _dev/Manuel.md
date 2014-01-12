@@ -323,6 +323,7 @@ Les prochains `NEXT()` partiront de cette nouvelle position.
 * [Placer une note sur une portée précise](#note_on_staff)
 * [Mettre une note en exergue/La sortir de l'exergue](#note_exergue_unexergue)
 * [Entourer une note (exergue plus forte)](#entourer_une_note)
+* [Forcer le recalage d'une note](#forcer_recalage_note)
 * [Détruire d'une note](#note_remove)
 
 <a name="designation_notes"></a>
@@ -476,6 +477,27 @@ Deux commandes pour retirer le cercle de la note&nbsp;:
 Ou&nbsp;:
 
     maNote.unsurround()
+
+<a name="forcer_recalage_note"></a>
+###Forcer le recalage d'une note
+
+Parfois, il peut survenir qu'une note reste déplacée sur le côté à cause d'une note inférieure conjointe alors que la note inférieure n'est plus là.
+
+Par exemple&nbsp;:
+
+    nosi = NOTE(b3)
+    nodo = NOTE(c4)
+    # => c4 sera décalé à droite
+    nosi.moveTo(b2)
+    # => Le si est déplacé mais le do
+    #    reste décalé à droite
+
+Dans ce cas (avant que ce bug #49 ne soit corrigé), on peut utiliser la méthode `reposionne` sur la note pour la remettre bien en place&nbsp;:
+
+    ...
+    nosi.moveTo(b2)
+    nodo.repositionne()
+
 
 <a name="note_remove"></a>
 ###Détruire une note
