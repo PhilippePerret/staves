@@ -103,9 +103,8 @@ $.extend(Anim,{
     this.pause_on = false
     this.kill_timer()
     delete this.Step.list
-    this.timer = setTimeout($.proxy(this.real_stop,this), this.prefs.delai_after_show*1000)
+    this.decompte()
   },
-  
   /**
     * Procède vraiment au stop, en faisant réapparaitre les éléments
     * @method real_stop
@@ -113,8 +112,35 @@ $.extend(Anim,{
   real_stop:function()
   {
     this.kill_timer()
+    $('div#warning').hide()
     this.set_interface()
+    this.stop_button.css('opacity', 1)
     UI.Regle.show()
+  },
+  
+  /**
+    * Affiche un décompte (en fin d'animation)
+    * @method decompte
+    */
+  decompte:function(reste)
+  {
+    this.kill_timer()
+    if(undefined == reste)
+    {
+      reste = this.prefs.delai_after_show + 1
+      $('div#decompte').show()
+    } 
+    reste -= 1
+    if(reste == 0)
+    {
+      $('div#decompte').hide()
+      this.real_stop()
+    } 
+    else
+    {
+      $('div#decompte').html(reste)
+      this.timer = setTimeout($.proxy(this.decompte,this,reste), 1000)
+    }
   },
 
   /**

@@ -294,6 +294,16 @@ $.extend(window.Anim,{
     delete this.timer
   },
   /**
+    * Ré-initialisation complète (par exemple au chargement d'une autre animation)
+    * @method init_all
+    */
+  init_all:function()
+  {
+    delete Console._steps_selection
+    delete Console._etapes
+    this.reset()
+  },
+  /**
     * Reset l'animation (au (re)-démarrage)
     * @method reset
     */
@@ -309,6 +319,9 @@ $.extend(window.Anim,{
     this.staves     = []
     this.current_x = parseInt(this.prefs.x_start,10)
     this.reset_prefs()
+    // Il faut ré-initialiser la grid après avoir re-défini current_x, car
+    // la grid s'en sert pour replacer le curseur de position.
+    this.Grid.init_all()
   },
   /**
     * Appelé au chargement de l'application
@@ -448,7 +461,7 @@ $.extend(window.Anim,{
     {
       if(rajax.ok)
       {
-        this.Step.list  = null
+        this.init_all()
         this.name       = name
         $('select#animations').val(name)
         Console.set(rajax.raw_code.stripSlashes())

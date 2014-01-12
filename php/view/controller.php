@@ -2,6 +2,7 @@
   
 ?>
 <section id="controller">
+  <div id="decompte" style="display:none;"></div>
   <div class="buttons">
     <select id="play_type" onchange="$.proxy(Anim.onchange_play_type,Anim,this.value)()">
       <option value="all">Tout</option>

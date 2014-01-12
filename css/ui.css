@@ -5,3 +5,16 @@
 
 .center {text-align:center;}
 div.inline {display:inline-block;}
+
+div#decompte {
+  position    : absolute;
+  top         : 8px;
+  left        : 9px;
+  color       : red;
+  padding     : 5px 11px 0px;
+  border      : 2px solid;
+  background-color: #FDD;
+  font-size     : 18pt;
+  font-weight   : bold;
+  border-radius : 20px;
+}

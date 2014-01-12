@@ -24,6 +24,18 @@ window.Anim.Grid = {
     */
   lefts:[],
   /**
+    * Ré-initialisation
+    * Par exemple au re-démarrage de l'animation ou au chargement d'une
+    * autre animation.
+    * @method init_all
+    */
+  init_all:function()
+  {
+    $('div#grid *:not(#cursor_position)').remove()
+    this.lefts = []
+    this.set_cursor()
+  },
+  /**
     * Affiche tout ce qui concerne la grille
     * Rappel : tous les éléments de grille sont rangés dans un div#grid
     * @method show

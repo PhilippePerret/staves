@@ -191,6 +191,7 @@ WAIT(4)
 STAFF(2).remove()
 NEW_STAFF(SOL, {offset:40})
 NEW_STAFF(FA)
+RESET_CURSOR
 
 # --- Mesure 12 : C#7dim ---
 NEXT()
