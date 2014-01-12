@@ -42,7 +42,7 @@ $.extend(Anim,{
     {
       // Il faut resetter avant de relever la liste, car cette relève va
       // ajuster la position actuelle du curseur alors que reset la remet 
-      // à zéro.
+      // à zéro. OBSOLETE car maintenant l'instance Pas mémorise son offset
       this.reset()
       this.Step.list = Console.steps_selection()
       this.play()
@@ -58,7 +58,8 @@ $.extend(Anim,{
       if(on) return stp2stp ? 'Next' : 'Stop'
       else   return "Start"
     }(this.on, this.MODE_PAS_A_PAS))
-    UI.Regle.hide()
+    if(this.on) UI.Regle.hide()
+    else        UI.Regle.wait_and_show()
   },
   /**
     * Démarre véritablement l'animation
@@ -82,12 +83,11 @@ $.extend(Anim,{
     */
   stop:function()
   {
+    this.on = false
     if(this.timer) clearTimeout(this.timer)
     delete this.timer
     delete this.Step.list
-    $('input#btn_anim_start').val("Start")
-    this.on = false
-    UI.Regle.wait_and_show()
+    this.set_interface()
   },
 
   /**

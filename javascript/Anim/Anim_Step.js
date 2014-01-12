@@ -16,15 +16,15 @@
 if(undefined == window.Anim) window.Anim = {}
 Anim.Step = {
   /**
-    * Liste de toutes les étapes (code de console splitter par les retours-chariot)
-    * @property {Array} list
+    * Liste de toutes les étapes (instances {Pas})
+    * @property {Array of Pas} list
     * @default null
     */
   list:null,
   
   /**
-    * Étape courante (texte string de la console, sans le retour chariot)
-    * @property {String} current
+    * Étape courante (instance {Pas})
+    * @property {Pas} current
     */
   current:null,
   
@@ -44,45 +44,6 @@ Anim.Step = {
     */
   run:function()
   {
-    // dlog("-> Anim.Step.run / Anim.Step.current:"+this.current)
-    try
-    {
-      eval('Anim.Objects.'+this.current)
-    }
-    catch(err)
-    {
-      if(MODE_FLASH)
-      {
-        if(this.nombre_essais_run && this.nombre_essais_run > 2)
-        {
-          errMess = "# J'ai essayé de jouer 3 fois le code `this.Objects."+this.current+"` en vain. Je poursuis, sans bien être sûr du résultat produit…"
-          F.error(errMess)
-          dlog("#ERROR# "+ errMess)
-        }
-        else
-        {
-          if(undefined == this.nombre_essais_run) this.nombre_essais_run = 0
-          ++ this.nombre_essais_run
-          dlog("this.nombre_essais_run="+this.nombre_essais_run)
-          if(this.timer_essais_run) clearTimeout(this.timer_essais_run)
-          this.timer_essais_run = setTimeout($.proxy(this.run, this), 500)
-          return
-        }
-      }
-      else // mode non flash (normal)
-      {
-        errMess = "# Erreur: "+err+ " survenue avec le code `this.Objects."+this.current+". Mais j'essaie de poursuivre."
-        F.error(errMess)
-        dlog("#ERROR# "+errMess)
-      }
-      NEXT_STEP()
-    }
-    // S'il y a eu plusieurs essais en mode flash
-    if(this.timer_essais_run)
-    {
-      clearTimeout(this.timer_essais_run)
-      delete this.nombre_essais_run
-    }
   },
   /**
     * Méthode qui joue la séquence suivante
@@ -93,31 +54,31 @@ Anim.Step = {
     if(this.timer) clearTimeout(this.timer)
     if(!this.list) return Anim.stop()
     this.set_current()
-    if(undefined == this.current) return
-    // Passer les commentaires
-    if(this.current.substring(0,1) == "#") return this.next()
-    // Passer les lignes vides 
-    if(this.current.trim() == "") return this.next()
+    if(undefined == this.current) return Anim.stop()
+    // Passer les commentaires et les lignes vides
+    if(this.current.is_comment() || this.current.is_empty()) return this.next()
     /* === On joue l'étape === */
-    this.run()
+    this.current.exec()
     if(!this.list || this.list.length == 0) Anim.stop()
   },
   /**
-    * Définit l'étape courante
-    * PRODUIT
-    * -------
-    *   * Définit la propriété `current` (Anim.Step.current)
-    *   * Sélectionne la portion de code dans la console
+    * Définit l'étape courante et la sélectionne dans le code
+    *
+    * Notes
+    * -----
+    *   * Définit la propriété `this.current`
     *
     * @method set_current
     */
   set_current:function()
   {
-    // On prend le code tel quel pour pouvoir gérer la sélection du code
+    if(!this.list || this.list.length == 0)
+    {
+      delete this.current
+      return
+    } 
     this.current = this.list.shift()
-    if(undefined == this.current) return
-    Console.move_cursor({for:this.current.length + 1})
-    this.current = this.current.trim() // => le texte épuré de l'étape
+    this.current.select()
   },
   
   /**

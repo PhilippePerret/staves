@@ -1,3 +1,4 @@
+* Instance Pas pour chaque étape
 * J'en suis à pouvoir jouer seulement la sélection, mais :
   Il faut quand même lire tout le code en ne jouant que ce qui concerne les portées,
   pour qu'elles soient affichées et valides

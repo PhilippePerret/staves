@@ -13,6 +13,11 @@ $.extend(window.Console,{
   
   /**
     * Décalage actuel du "curseur", c'est-à-dire de la fin de la sélection
+    * Notes
+    * -----
+    *   * Normalement, doit devenir obsolète avec l'utilisation de l'instance Pas
+    *     puisque l'étape conserve son offset et le gère.
+    *
     * @method {Number} cursor_offset
     * @default 0
     */
@@ -36,6 +41,7 @@ $.extend(window.Console,{
     * -----
     *   * La nouvelle position courante (this.cursor_offset) est mise à la 
     *     nouvelle position params.to.
+    *   * Doit devenir OBSOLETE avec l'utilisation de l'instance Pas
     *
     * @method move_cursor
     * @param {Object} params Les paramètres obligatoires
@@ -74,14 +80,26 @@ $.extend(window.Console,{
     else
     { // => Première sélection, on la calcule
       var sel   = this.get_selection()
-      var steps = sel.content.split("\n")
-      var befor = this.get_code(0, sel.start)
+      var steps = []
+      // == On crée les instances étapes ==
+      Pas.last_id = 0
+      var cur_offset = parseInt(sel.start,10)
+      var pas ;
+      L(sel.content.split("\n")).each(function(line){
+        pas = new Pas({code:line, offset_start:cur_offset})
+        steps.push(pas)
+        cur_offset += pas.length
+      })
+      // == Relève des steps à jouer nécessairement ==
+      var befor = this.get_code(0, sel.start, as_list=true)
       var steps_before = []
+      cur_offset = 0
       L(befor).each(function(line){
         if(line.contains('STAFF') || line.contains('DEFAULT') || line.contains('NEXT'))
         {
-          steps_before.push(line)
+          steps_before.push(new Pas({code:line, offset_start:cur_offset}))
         }
+        cur_offset += line.length + 1
       })
       this.cursor_offset = sel.start
       this.steps_selection.steps  = steps_before.concat(steps)
@@ -125,6 +143,7 @@ $.extend(window.Console,{
   select:function(params)
   {
     Selection.select(this.console, {start:params.start, end:params.end})
+    this.cursor_offset = params.end
   }
   
 })
@@ -149,11 +168,17 @@ Object.defineProperties(window.Console,{
     * Récupère le code dans la console, comme une liste de pas
     *
     * @property steps
-    * @return {Array} Liste des strings représentant les pas de l'animation
+    * @return {Array of Pas} Liste des instances {Pas} de l'animation
     */
   "steps":{
     get:function(){
-      return this.raw.split("\n")
+      var etapes = [], cur_offset = 0, pas ;
+      L(this.raw.split("\n")).each(function(line){
+        pas = new Pas({code:line, offset_start:cur_offset})
+        etapes.push( pas )
+        cur_offset += pas.length
+      })
+      return etapes
     }
   }
 })
