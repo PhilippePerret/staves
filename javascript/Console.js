@@ -38,7 +38,7 @@ $.extend(window.Console,{
     return code
   },
   /**
-    * Récupère la sélection courante pour la jouer
+    * Récupère la sélection courante
     *
     * @method get_selection 
     * @return {String} Tout le code sélectionné
@@ -191,7 +191,27 @@ Object.defineProperties(window.Console,{
         return null
       }
       this.select({start:start+1, end:end})
-      delete this._steps_selection 
+      delete this._steps_selection  // pour forcer le recalcul
+      return this.steps_selection
+    }
+  },
+  /**
+    * Retourne la liste de toutes les étapes à partir du pointeur (qui peut
+    * se trouver à l'intérieur d'une ligne, pas forcément au début)
+    * Notes:
+    *   * Cette méthode se sert aussi de steps_selection
+    *   * Principe : on cherche le premier retour chariot avant la position du curseur
+    *     et on place la fin de la sélection à la fin du code.
+    * @property {Array of Pas} steps_from_cursor
+    */
+  "steps_from_cursor":{
+    get:function(){
+      var dsel    = this.get_selection()
+      var before  = this.raw.substring(0, dsel.start)
+      var start   = before.lastIndexOf("\n")
+      dlog("50 premiers caractères : "+this.raw.substring(start, 50))
+      this.select({start:start+1, end:this.raw.length})
+      delete this._steps_selection  // pour forcer le recalcul
       return this.steps_selection
     }
   }

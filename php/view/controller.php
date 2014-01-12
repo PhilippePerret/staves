@@ -7,6 +7,7 @@
       <option value="all">Tout</option>
       <option value="selection">La sélection</option>
       <option value="repairs">Entre repères</option>
+      <option value="from_cursor">Depuis curseur</option>
       <option value="stepbystep">Pas à pas</option>
     </select>
     <img id="btn_anim_start" 

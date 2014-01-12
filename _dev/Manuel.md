@@ -174,7 +174,20 @@ Pour jouer l'animation, cliquer simplement sur le bouton “Play”.
 
 En composant l'animation, on peut vouloir ne tester qu'une partie de code qu'on est en train de programmer sans avoir à rejouer tout ce qui précède.
 
-Il existe deux moyens de le faire avec “STAVES”&nbsp;: le premier consiste à sélectionner simplement le code à jouer (version rapide, mais non modifiable). Le second consiste à placer des repères pour définir la sélection à jouer (cf. [Jouer une portion par repère](#run_with_repairs_selection))
+Il existe plusieurs moyens de le faire avec “STAVES”&nbsp;: 
+
+* Sélectionner simplement le code à jouer (version rapide, mais non modifiable — cf. [Jouer la sélection](#run_selection_with_selection))&nbsp;;
+* Jouer l'animation à partir de la position du curseur. Pratique pour les animations longues lorsque l'on code la fin (cf. [Jouer l'animation depuis le curseur](#run_from_cursor))&nbsp;;
+* Placer des repères pour définir la sélection à jouer. Pratique lorsque le code à modifier ne se trouve pas à la fin (cf. [Jouer une portion par repère](#run_with_repairs_selection))&nbsp;;
+
+
+<a name="run_from_cursor"></a>
+####Jouer l'animation depuis le curseur
+
+1. Choisir l'item “Depuis curseur” dans le menu à côté du bouton Play&nbsp;;
+2. Placer le curseur dans la première ligne de code à jouer (inutile ici de le placer en début de ligne, il suffit de le mettre dans la ligne de code par laquelle commencer)&nbsp;;
+3. Presser le bouton Play.
+
 
 <a name="run_with_repairs_selection"></a>
 ####Jouer une partie de l'animation entre repères

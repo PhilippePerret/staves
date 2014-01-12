@@ -341,7 +341,9 @@ $.extend(window.Anim,{
       case 'repairs':
         return "Seul le code entre `#!START` et `#!END` sera joué."
       case 'stepbystep':
-        return "L'animation sera jouée pas à pas"
+        return "L'animation sera jouée pas à pas."
+      case 'from_cursor':
+        return "L'animation sera jouée depuis la position du curseur."
       default:
         return "Bleurk… (dans Anim.onchange_play_type)"
       }
