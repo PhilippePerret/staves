@@ -828,9 +828,10 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
   * [Types spéciaux de texte (accord, harmonie, etc.)](#types_speciaux_texte)
   * [Créer un texte pour l'animation](#create_texte_animation)
   * [Créer un texte pour un objet](#create_texte_objet)
+* [Définir les positions des textes](#set_position_texte)
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)
-* [Définir les positions des textes](#set_preferences)
+
 
 <a name="intro_textes"></a>
 ###Introduction
@@ -960,6 +961,72 @@ Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuit
 
     maNote=NOTE(a4)
     maNote.write("C'est un LA 4")
+
+<a name="set_position_texte"></a>
+###Définition des position des textes
+
+On peut définir les positions de façon générale, dans les préférences. Cf. [Réglage des valeurs par défaut](#set_preferences). Par défaut, les réglages sont pensés pour être efficace dans la plupart des situations, mais on peut avoir à les affiner dans les cas spéciaux.
+
+On peut également modifier la position d'un texte en particulier. Pour cela voir&nbsp;:
+* [Modifier la position verticale](#modify_vertical_position_texte)&nbsp;;
+* [Modifier la position horizontale](#modify_horizontal_position_texte))&nbsp;;
+* [Modifier la portée du texte](#modify_staff_of_texte).
+
+<a name="modify_vertical_position_texte"></a>
+####Modification de la position verticale
+
+La position verticale peut se régler avec la propriété `offset_y` définie dans le second argument des méthodes de texte.
+
+Par exemple&nbsp;:
+
+    STAFF(1).write("Mon texte décalé", {offset_y: 50})
+
+Cela aura pour effet de monter le texte de 50px par rapport à sa position "naturelle".
+
+*Noter pour tous ces réglages qu'une valeur positive ÉLOIGNE toujours le texte de la portée tandis qu'une valeur négative le RAPPROCHE.*
+
+Autre exemple pour place plus bas un texte d'harmonie d'un accord&nbsp;:
+
+    monAccord = CHORD('2:g3 2:b3 d3 g3')
+    monAccord.harmony("I", {offset_y:20})
+
+La marque "I" de l'harmonie sera placé 20 pixels sous sa position naturelle.
+
+<a name="modify_horizontal_position_texte"></a>
+####Modifier la position horizontale
+
+Définir la propriété `offset_x` dans les paramètres (2e argument) des méthodes de texte (`write`, `harmony`, etc.)
+
+Par exemple pour écrire le texte 100px plus à gauche sur la deuxième portée&nbsp;:
+
+    STAFF(2).write("Mon texte décalé", {offset_x:-100})
+
+Pour placer le texte d'une cadence 20 pixels plus loin (plus à droite)&nbsp;:
+
+    monAccord = CHORD('g3 b3 d3')
+    monAccord.cadence("I", {type:parfaite, offset_x:20})
+
+Bien entendu, on peut combiner la décalage horizontal et vertical&nbsp;:
+
+    monAccord.chord_mark("Cm7", {offset_y:10, offset_x:20})
+
+… en évitant toutefois de trop modifier localement les valeurs, ce qui donnerait un moins bon aspect à l'animation. Il vaut mieux trouver des réglages généraux qui conviennent à la situation.
+
+<a name="modify_staff_of_texte"></a>
+####Modifier la portée du texte
+
+Par défaut, la portée du texte est celle de son “possesseur” (l'accord, la note, etc.) ou le cas échéant la portée courante.
+
+On peut néanmoins définir explicitement la portée de référence en définissant la propriété `staff` dans les paramètres envoyés à la méthode de texte (2e argument), avec en valeur l'indice (à partir de 1 et du haut) de la portée.
+
+Par exemple, imaginons deux portées, avec comme portée active la portée 1, c'est-à-dire celle du haut. Sur cette portée, on écrit un accord, et on veut écrire en dessous la cadence. Mais on aimerait que cette cadence, au lieu d'apparaitre sous la première portée (qui est la portée de l'accord qui porte le texte), devra apparaitre sous la deuxième. Voici le code&nbsp;:
+
+    NEW_STAFF(SOL)
+    NEW_STAFF(FA)
+    ACTIVE_STAFF(1)
+    monAccord = CHORD('c4 g4 e4')
+    monAccord.cadence("I", {staff:2, type:plagale})
+
 
 <a name="supprimer_texte"></a>
 ###Supprimer un texte

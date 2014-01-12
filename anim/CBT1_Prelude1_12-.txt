@@ -22,16 +22,16 @@ acc.note(1).remove()
 acc.note(2).moveTo('1:bb4')
 acc.note(5).moveTo('cd4')
 WAIT(1)
-acc.chord_mark('C#7dim')
+acc.chord_mark('C#7dim', {offset_x: 100})
 WAIT(1)
-acc.harmony('VII7dim**')
+acc.harmony('VII7dim**', {staff:2})
 WAIT(1)
 acc.modulation('Rém')
 WAIT(1)
 acc.note(2).moveTo('bb3')
 acc.note(5).moveTo('cd5')
 NOTE('g3')
-# 
-# # --- Mesure 13 : Dm ---
-# NEXT()
-# acc = CHORD('2:f3 2:a3 d4 a4 d5')
+ 
+# --- Mesure 13 : Dm ---
+NEXT()
+acc = CHORD('2:f3 2:a3 d4 a4 d5')

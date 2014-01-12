@@ -17,6 +17,10 @@ const GREEN   = 'green'
 
 const modulation  = 'modulation'
 const harmony     = 'harmony'
-const cadence     = 'cadence'
 const chord       = 'chord'
 const finger      = 'finger'
+const cadence     = 'cadence'
+
+const parfaite    = 'parfaite'
+const plagale     = 'plagale'
+const picarde     = 'picarde'

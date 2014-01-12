@@ -11,6 +11,9 @@ window.ObjetClass = function(params)
 {  
   if(undefined != params)
   {
+    // Si la portée a été définie par un nombre, il faut prendre son instance
+    if(params.staff && 'number' == typeof params.staff) params.staff = Anim.staves[params.staff-1]
+    // Et dispatcher
     var me = this
     L(params).each(function(prop,value){ me[prop] = value})
   }

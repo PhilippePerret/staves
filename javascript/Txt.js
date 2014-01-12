@@ -4,7 +4,7 @@
 
 /**
   * Méthodes qui doivent être héritées ($.extend) par tout objet
-  * pouvant contenir un texte (Note, Accords, etc.)
+  * pouvant contenir un texte (Note, Chord, etc.)
   * @property {Object} METHODES_TEXTE
   * @for window
   */
@@ -38,6 +38,8 @@ window.METHODES_TEXTE = {
     * @method harmony
     * @param  {String} texte  Le texte à écrire
     * @param  {Object} params   Paramètres optionnels
+    *   @param  {Number}  params.staff      La portée sous laquelle il faut placer l'harmonie
+    *   @param  {Number}  params.offset_y   Décalage avec la position normale par rapport à la portée
     * @return {Object} L'instance Note courante (pour chainage)
     */
   harmony:function(texte, params)
@@ -126,16 +128,49 @@ window.Txt = function(owner, params)
 {
   this.id       = 'txt'+(new Date()).getTime()
 
+  /**
+    * Le propriétaire du texte, Staff, Note, Chord, etc.
+    * @property {Object|Staff|Note|Chord|...} owner
+    */
   this.owner    = owner
+  /**
+    * Le texte principal
+    * @property {String} texte
+    */
   this.texte    = null
-  this.vOffset  = null
-  this.hOffset  = null
+  /**
+    * Le texte optionnel "avant". Il sera placé dans un div "flottant" (pour
+    * pouvoir calculer correctement le positionnement du texte principal)
+    * @property {String|Null} texte_before
+    * @default NULL
+    */
+  this.texte_before = null
+  /**
+    * Le texte optionnel "après". Il sera placé après le texte principal dans un
+    * texte flottant, où dans un autre endroit suivant le type du texte. Par exemple,
+    * pour une modulation, ce texte est placé sous la barre.
+    * @property {String|Null} texte_after
+    * @default NULL
+    */
+  this.texte_after = null
+  /**
+    * Décalage vertical par rapport à la position normale
+    * En fonction du type, réagit différemment, mais le principe est toujours
+    * le même : une valeur positive éloigne de la portée
+    * @property {Number} offset_y
+    * @default 0
+    */
+  this.offset_y = 0
+  /**
+    * Décalage horizontal par rapport à la position courante (left)
+    * Une valeur positive pousse vers la droite, une valeur négative vers la gauche
+    * @property {Number} offset_x
+    * @default 0
+    */
+  this.offset_x = 0
 
   ObjetClass.call(this, params)
-  // Apparemment, ça ne fonctionne pas, de dispatcher les paramètres avec
-  // ObjetClass, donc je le fais ici
-  // var me = this
-  // L(params || {}).each(function(k,v){me[k] = v})
+
 }
 Txt.prototype = Object.create( ObjetClass.prototype )
 Txt.prototype.constructor = Txt
@@ -162,6 +197,8 @@ $.extend(Txt, {
     var renv, crochets ;
     
     // Cherche les crochets
+    // TODO : Il faut faire la distinction entre un texte "avant" -> (texte_before)
+    //        et un texte "après" (texte_after) le texte principal
     res       = this.traite_crochets_in(texte)
     crochets  = res.crochets ;
     
@@ -172,11 +209,15 @@ $.extend(Txt, {
     
     // Traite le chiffrage dans le texte restant et les crochets
     texte     = this.traite_chiffrage_in(texte)
-    if(crochets) crochets  = this.traite_chiffrage_in(crochets)
-    
     // Traite les fausses lignes de "-"
     texte     = this.traite_fausse_ligne_in(texte)
-    if(crochets) crochets  = this.traite_fausse_ligne_in(crochets)
+    
+    if(crochets)
+    {
+      crochets = this.traite_chiffrage_in(crochets)
+      crochets = this.traite_fausse_ligne_in(crochets)
+      this.texte_after = crochets
+    } 
     
     return {
       texte         : texte,
@@ -185,7 +226,7 @@ $.extend(Txt, {
     }
   },
   /**
-    * Remplace les marque de simples "-" en tiret semi-long qui créent
+    * Remplace les marques de simples "-" en tiret semi-long qui créent
     * vraiment une ligne médiane
     * @method traite_fausse_ligne_in
     * @param  {String} texte Le texte
@@ -322,12 +363,14 @@ $.extend(Txt.prototype,{
     *     du type de texte.
     *   * Le left doit être recalculé, une fois qu'on connait la taille du texte,
     *     pour être calé correctement contre le possesseur.
+    *   * Le top doit lui aussi être recalculé en fonction de offset_y
+    *
     *
     * @method positionne
     */
   positionne:function()
   {
-    var dpos = {top:this.top+"px", left:this.real_left+"px"}
+    var dpos = {top:(this.real_top)+"px", left:this.real_left+"px"}
     if(this.width) dpos.width = this.width+"px"
     this.obj.css(dpos)
   },
@@ -420,8 +463,7 @@ Object.defineProperties(Txt.prototype,{
     get:function(){
       if(undefined == this._top)
       {
-        // On part toujours de la hauteur top de la portée du texte
-        var top = this.owner.staff.top || Anim.current_staff.top
+        var top   = (this.staff || this.owner.staff || Anim.current_staff).top
         switch(this.type)
         {
         case harmony:
@@ -472,6 +514,22 @@ Object.defineProperties(Txt.prototype,{
     }
   },
   /**
+    * Retourne le vrai top du texte dans le cas où un offset_y a été défini
+    * Agit différemment suivant le type (cf. la définition de la propriété offset_y)
+    * @property {Number} real_top
+    */
+  "real_top":{
+    get:function(){
+      if( !this.offset_y ) return this.top
+      switch(this.type){
+      case chord:
+        return this.top - this.offset_y
+      default:
+        return this.top + this.offset_y
+      }
+    }
+  },
+  /**
     * Retourne le vrai décalage left du texte par rapport à l'objet en
     * fonction de son type
     * @property {Number} real_left
@@ -481,15 +539,14 @@ Object.defineProperties(Txt.prototype,{
     {
       var left  = this.left
       var w_box = this.obj.width()
-      dlog("-> real left")
-      dlog({
-        'this': this.id+":"+this.type,
-        'left': this.left,
-        'owner left': this.owner.left,
-        'owner centre x':this.owner.centre_x,
-        'owner center x':this.owner.centre_x,
-        'width box' : w_box
-      })
+      // dlog("-> real left")
+      // dlog({
+      //   'this': this.id+":"+this.type,
+      //   'left': this.left,
+      //   'owner left': this.owner.left,
+      //   'owner center x':this.owner.centre_x,
+      //   'width box' : w_box
+      // })
       switch(this.type)
       {
       case harmony:
@@ -506,7 +563,7 @@ Object.defineProperties(Txt.prototype,{
       default:
         this._real_left = left - 10
       }
-      return this._real_left
+      return this._real_left + this.offset_x
     }
   },
   
