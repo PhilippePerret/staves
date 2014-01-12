@@ -250,6 +250,7 @@ METHODES_ANIM_OBJETS = {
   "RESET_CURSOR":{
     get:function(){
       Anim.current_x = parseInt(Anim.prefs.x_start,10)
+      NEXT_STEP(no_timeout=true)
     }
   },
   /**

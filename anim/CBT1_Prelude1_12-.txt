@@ -1,0 +1,37 @@
+# Animation pour analyse du
+# premier prélude du CBT 1
+# Mesures 12 - 
+
+# --- Valeurs par défault ---
+DEFAULT(\'next\', 75)
+DEFAULT(\'harmony\', 65)
+DEFAULT(\'staff_top\', 120)
+DEFAULT(\'staff_offset\', 120)
+DEFAULT('offset_modulation_y', 5)
+DEFAULT('chord_mark', 35)
+
+# --- Les portées ---
+NEW_STAFF(SOL)
+NEW_STAFF(FA)
+ACTIVE_STAFF(1)
+
+# --- Mesure 12 : C#7dim ---
+NEXT()
+acc = CHORD('2:g3 2:bb3 e4 g4 cd5')
+acc.note(1).remove()
+acc.note(2).moveTo('1:bb4')
+acc.note(5).moveTo('cd4')
+WAIT(1)
+acc.chord_mark('C#7dim')
+WAIT(1)
+acc.harmony('VII7dim**')
+WAIT(1)
+acc.modulation('Rém')
+WAIT(1)
+acc.note(5).moveTo('cd5')
+acc.note(2).moveTo('bb3')
+NOTE('g3')
+
+# --- Mesure 13 : Dm ---
+NEXT()
+acc = CHORD('2:f3 2:a3 d4 a4 d5')

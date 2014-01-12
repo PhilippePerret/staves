@@ -6,8 +6,9 @@ $(document).ready(function(){
   Anim.on_load()
     
   // Pour test courant
-  // Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'CBT1_Prelude_1')
-  Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'Essai_grid')
+  // Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'CBT1_Prelude1_01-11')
+  Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'CBT1_Prelude1_12-')
+  // Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'Essai_grid')
   Anim.load_list_animations()
   
   // Pour forcer à choisir la bonne animation

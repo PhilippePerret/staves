@@ -1,10 +1,11 @@
 # Animation pour analyse du
 # premier prélude du CBT 1
-#!START
+# Mesures 1 - 11
+
 # --- Valeurs par défault ---
 DEFAULT(\'next\', 75)
 DEFAULT(\'harmony\', 65)
-DEFAULT(\'staff_top\', 80)
+DEFAULT(\'staff_top\', 120)
 DEFAULT(\'staff_offset\', 120)
 DEFAULT('offset_modulation_y', 5)
 DEFAULT('chord_mark', 35)
@@ -13,7 +14,7 @@ DEFAULT('chord_mark', 35)
 NEW_STAFF(SOL)
 NEW_STAFF(FA)
 ACTIVE_STAFF(1)
-#!END
+
 # --- Premier accord DO ---
 do1=CHORD(\'2:c4 2:e4 g4 c5 e5\')
 WAIT(2)
@@ -24,7 +25,7 @@ do1.note(1).moveTo(\'1:c4\')
 STAFF(2).remove_supline({top:1})
 do1.note(4).remove()
 WAIT(1)
-do1.chord_mark(\'C Maj\')
+do1.chord_mark(\'C\')
 WAIT(1)
 do1.harmony(\'I\')
 # On le remet en position
@@ -107,7 +108,7 @@ WAIT(1)
 res.chord_mark('D7')
 WAIT(1)
 res.note(3).exergue(red)
-res.modulation('Sol Dom.')
+res.modulation('Sol [Dom.]')
 res.harmony('V*')
 res.note(3).unexergue()
 WAIT(1)
@@ -187,29 +188,3 @@ acc.note(4).show()
 WAIT(4)
 # EXPLICATION DU FAIT QU'ON VIENT D'ATTEINDRE UN "BOUT"
 
-# --- On doit passer à une autre portée ---
-STAFF(2).remove()
-NEW_STAFF(SOL, {offset:40})
-NEW_STAFF(FA)
-RESET_CURSOR
-
-# --- Mesure 12 : C#7dim ---
-NEXT()
-acc = CHORD('2:g3 2:bb3 e4 g4 cd5')
-acc.note(1).remove()
-acc.note(2).moveTo('1:bb4')
-acc.note(5).moveTo('cd4')
-WAIT(1)
-acc.chord_mark('C#7dim')
-WAIT(1)
-acc.harmony('VII7dim**')
-WAIT(1)
-acc.modulation('Rém')
-WAIT(1)
-acc.note(5).moveTo('cd5')
-acc.note(2).moveTo('bb3')
-NOTE('g3')
-
-# --- Mesure 13 : Dm ---
-NEXT()
-acc = CHORD('2:f3 2:a3 d4 a4 d5')

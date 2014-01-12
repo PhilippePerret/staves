@@ -146,19 +146,115 @@ Txt.prototype.constructor = Txt
  */
 $.extend(Txt, {
   /**
+    * Traite un texte quelconque d'harmonie, que ce soit une modulation,
+    * une cadence, un accord, etc.
+    * La méthode retourne un objet contenant les valeurs ci-dessous :
+    * @method traite_texte_type_harmony
+    * @param  {String} texte    Le texte à traiter
+    * @return {Object}
+    *   * texte           Le texte restant
+    *   * renversement    La marque de renversement trouvée
+    *   * crochets        Le texte entre crochets trouvé
+    *
+    */
+  traite_texte_type_harmony:function(texte)
+  {
+    var renv, crochets ;
+    
+    // Cherche les crochets
+    res       = this.traite_crochets_in(texte)
+    crochets  = res.crochets ;
+    
+    // Cherche un renversement (harmony et cadence)
+    res   = this.traite_renversement_in(res.texte)
+    renv  = res.renversement // toujours défini
+    texte = res.texte
+    
+    // Traite le chiffrage dans le texte restant et les crochets
+    texte     = this.traite_chiffrage_in(texte)
+    if(crochets) crochets  = this.traite_chiffrage_in(crochets)
+    
+    // Traite les fausses lignes de "-"
+    texte     = this.traite_fausse_ligne_in(texte)
+    if(crochets) crochets  = this.traite_fausse_ligne_in(crochets)
+    
+    return {
+      texte         : texte,
+      renversement  : renv,
+      crochets      : crochets
+    }
+  },
+  /**
+    * Remplace les marque de simples "-" en tiret semi-long qui créent
+    * vraiment une ligne médiane
+    * @method traite_fausse_ligne_in
+    * @param  {String} texte Le texte
+    * @return {String} Le texte modifié
+    */
+  traite_fausse_ligne_in:function(texte)
+  {
+    // On remplace aussi les "---" par des "———" qui dessinent bien
+    // une ligne
+    texte = texte.replace(/(\-\-+)/g, function(match, tirets, offset, s){
+      var trait = ""
+      while(trait.length < tirets.length) trait += '—'
+      return trait
+    })
+    return texte
+  },
+  /**
+    * Cherche une marque de renversement dans +texte+
+    * @method traite_renversement_in
+    * @param {String} texte Le texte dans lequel chercher
+    * @return {Object} Un objet contenant {texte, renversement}
+    */
+  traite_renversement_in:function(texte)
+  {
+    // Un texte d'harmonie peut se terminer par des "*" qui 
+    // définissent le renversement
+    var renv, renv_len ;
+    if(found = texte.match(/([\*•]+)/))
+    {
+      renv = found[1].replace(/\*/g, '•')
+      renv_len = renv.length
+      texte = texte.substring(0, texte.length - renv_len).trim()
+    }
+    else renv = '&nbsp;'
+    return {texte:texte, renversement: renv}
+  },
+  /**
+    * Cherche un texte entre crochets dans +texte+
+    * @method traite_crochets_in
+    * @param {String}   texte   Le texte
+    * @return {Object}  Objet contenant {texte, crochets}
+    */
+  traite_crochets_in:function(texte)
+  {
+    var crochets ;
+    // Un texte entre crochets
+    if(found = texte.match(/\[([^\]]+)\]/))
+    {
+      crochets  = found[1]
+      found[0]  = found[0].replace(/([\[\]\(\)\*\.\+\-])/,'\\$1')
+      texte     = texte.replace(new RegExp(found[0]), '').trim()
+    }
+    return {texte:texte, crochets:crochets}
+  },
+  /**
     * Traite le chiffrage (romain) dans +texte+
     * @method traite_chiffrage_in
-    * @param {String} texte   Le texte initial
-    * @return {String} Le texte corrigé
+    * @param {String}   texte   Le texte initial
+    * @return {String}  Le texte corrigé
     */
   traite_chiffrage_in:function(texte)
   {
-    // Pour le moment, on remplace "7dim" par "7-"
-    texte = texte.replace(/7dim/g, '7-')
-    return texte.replace(/([0-9]+e?M?\-?)/g,function(match, chiffrage, offset, s){
-      chiffrage = chiffrage.replace(/(e|\-)/, '<sup>$1</sup>')
+    texte = texte.replace(/7dim/g, '7°')
+    texte = texte.replace(/m/g, '<span style="font-variant:normal;">m</span>')
+    return texte.replace(/([0-9]+e?M?\-?)/g, function(match, chiffrage, offset, s){
+      chiffrage = chiffrage.
+                    replace(/(e|\-)/, '<sup>$1</sup>')
       return '<span class="chiffrage">'+chiffrage+'</span>'
-    })
+      })
   }
 })
 
@@ -270,43 +366,23 @@ Object.defineProperties(Txt.prototype,{
       {
         this._texte = function(t, type)
         {
+          var res ;
           switch(type)
           {
           case harmony:
           case cadence:
-            // Un texte d'harmonie peut se terminer par des "*" qui 
-            // définissent le renversement
-            if(found = t.match(/([\*•]+)$/))
-            {
-              var renv = found[1].replace(/\*/g, '•')
-              var renv_len = renv.length
-              t = t.substring(0, t.length - renv_len)
-            }
-            else renv = '&nbsp;'
-            t = Txt.traite_chiffrage_in(t)
-            // On remplace aussi les "---" par des "———" qui dessinent bien
-            // une ligne
-            t = t.replace(/(\-\-+)/g, function(match, tirets, offset, s){
-              var trait = ""
-              while(trait.length < tirets.length) trait += '—'
-              return trait
-            })
+            res = Txt.traite_texte_type_harmony(t)
+            // res.crochets
             return '<div class="center inline">'+
-                      '<div class="renversement">'+renv+'</div>' +
-                      t +
+                      '<div class="renversement">'+res.renversement+'</div>' +
+                      res.texte +
                     '</div>'
           case chord:
             return Txt.traite_chiffrage_in(t)
           case modulation:
-            var dt, alt = null
-            if(t.indexOf(' '))
-            {
-              dt  = t.split(' ')
-              t   = dt.shift()
-              alt = dt.join(' ')
-            }
-            return '<div class="mark_modulation">'+t+'</div>' +
-                    (alt ? '<div class="text_alt_mod">'+alt+'</div>' : "")
+            res = Txt.traite_texte_type_harmony(t)
+            return '<div class="mark_modulation">'+res.texte+'</div>' +
+                    (res.crochets ? '<div class="text_alt_mod">'+res.crochets+'</div>' : "")
           }
           return t // par défaut
         }(this.raw_texte, this.type)

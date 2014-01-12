@@ -850,11 +850,6 @@ Il existe aussi le raccourci&nbsp;:
 
 *Pour le positionnement de la marque, cf. [Position des textes d'harmonie et de cadence](#prefs_position_harmony).*
 
-Noter que pour allonger la barre inférieur de la marque d'harmonie, on peut ajouter le paramètre `width` qui sera le nombre de pixels désiré. Par exemple&nbsp;:
-
-    monAccord.write("I**", {type:harmony, width:100})
-    OU
-    monAccord.harmony("I**", {width:100})
 
 <a name="text_cadence"></a>
 ###Écrire une cadence
@@ -866,6 +861,22 @@ Pour indiquer une **CADENCE**&nbsp;:
     monAccord.cadence("I")
 
 *Pour le positionnement de la marque, cf. [Position des textes d'harmonie et de cadence](#prefs_position_harmony).*
+
+####Allonger la barre inférieure
+
+Pour allonger la barre inférieur de la marque d'harmonie, on peut ajouter le paramètre `width` qui sera le nombre de pixels désiré. Par exemple&nbsp;:
+
+    monAccord.write("I**", {type:cadence, width:100})
+    OU
+    monAccord.cadence("I**", {width:100})
+
+####Marque à droite de la barre
+
+Pour placer une marque à droite de la barre verticale, donc un texte concernant la suite, mettre ce texte entre crochets dans le texte de la cadence&nbsp;:
+
+monAccord.cadence("I* [texte à droite]")
+
+*Ça peut être par exemple l'index de l'accord dans l'harmonie suivante.*
 
 <a name="text_chord_mark"></a>
 ###Écrire un accord
@@ -899,9 +910,9 @@ Ou&nbsp;:
 
 **Texte sous la barre**
 
-Le ton de la modulation est indiqué au-dessus de la barre transversal, mais un autre texte peut être écrit SOUS la barre. Pour ce faire, il suffit de le mettre après l'accord de la tonalité, en le séparant d'une espace.
+Le ton de la modulation est indiqué au-dessus de la barre transversal, mais un autre texte peut être écrit SOUS la barre. Pour ce faire, il suffit de le mettre entre crochets dans la définition de la modulation&nbsp;:
 
-monAccord.modulation('Sol Dom de Dom')
+    monAccord.modulation('Sol [Dom de Dom]')
 
 … produira quelque chose comme (mais incliné)&nbsp;:
 
