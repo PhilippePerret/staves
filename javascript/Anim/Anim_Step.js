@@ -35,6 +35,7 @@ Anim.Step = {
   next:function()
   {
     if(this.timer) clearTimeout(this.timer)
+    if(Anim.pause_on) return 
     if(!this.list) return Anim.stop()
     this.set_current()
     if(undefined == this.current) return Anim.stop()

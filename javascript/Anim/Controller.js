@@ -60,8 +60,8 @@ $.extend(Anim,{
   {
     // dlog("-> set_interface [on="+this.on+"/pause_on="+this.pause_on+"]")
     this.stop_button.css('visibility', this.on ? 'visible':'hidden')
-    this.pause_button[this.on && !this.pause_on ?'show':'hide']()
-    this.start_button[!this.on || this.pause_on ?'show':'hide']()
+    this.pause_button[this.on && !this.pause_on && !this.Step.mode_pas_a_pas ?'show':'hide']()
+    this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?'show':'hide']()
   },
   /**
     * Démarre véritablement l'animation
