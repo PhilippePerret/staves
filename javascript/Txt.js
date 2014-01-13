@@ -361,6 +361,8 @@ $.extend(Txt.prototype,{
     *   * Le left doit être recalculé, une fois qu'on connait la taille du texte,
     *     pour être calé correctement contre le possesseur.
     *   * Le top doit lui aussi être recalculé en fonction de offset_y
+    *   * Le code contient des boites div `txtbefore` et `txtafter` qui,
+    *     si elles ne sont pas vides, doivent être positionnées correctement.
     *
     *
     * @method positionne
@@ -375,6 +377,28 @@ $.extend(Txt.prototype,{
     if(this.width) this.obj.css({width:this.width+'px'})
     var dpos = {top:(this.real_top)+"px", left:this.real_left+"px"}
     this.obj.css(dpos)
+    this.positionne_texte_before()
+    this.positionne_texte_after()
+  },
+  /**
+    * Position la boite DIV du texte_before
+    * @method positionne_texte_before
+    */
+  positionne_texte_before:function()
+  {
+    if(!this.obj_texte_before || this.type == modulation) return
+    var o = this.obj_texte_before
+    o.css({left: "-"+(o.width()+12)+'px'})
+  },
+  /**
+    * Position la boite DIV du texte_after
+    * @method positionne_texte_after
+    */
+  positionne_texte_after:function()
+  {
+    if(!this.obj_texte_after || this.type == modulation) return
+    var o = this.obj_texte_after
+    o.css({right: "-"+(o.width()+12)+'px'})
   },
   /**
     * Ré-initialisation du texte après la définition de valeur qui peuvent
@@ -595,6 +619,26 @@ Object.defineProperties(Txt.prototype,{
     get:function(){return $('div#'+this.id)}
   },
   /**
+    * Boite DIV contenant (optionnellement) le `texte_before`
+    * @property {jQuerySet} obj_texte_before
+    */
+  "obj_texte_before":{
+    get:function(){
+      var obj = this.obj.find('> div.txtbefore')
+      if(obj.length) return obj
+    }
+  },
+  /**
+    * Boite DIV contenant (optionnellement) le `texte_after`
+    * @property {jQuerySet} obj_texte_after
+    */
+  "obj_texte_after":{
+    get:function(){
+      var obj = this.obj.find('> div.txtafter')
+      if(obj.length) return obj
+    }
+  },
+  /**
     * Return le code HTML pour le texte quelconque
     * Note : Un code HTML pour un texte quelconque est composé de trois parties :
     * un texte "before", un texte "after" et le texte principal. L'alignement est
@@ -617,11 +661,12 @@ Object.defineProperties(Txt.prototype,{
       if(this.type) css.push(this.type)
       var style = []
       if(this.width) style.push("width:"+this.width+"px;")
+      var boites = ""
+      if(this.texte_before) boites += '<div class="txtbefore">'+this.texte_before+'</div>'
+      if(this.texte_main)   boites += '<div class="maintxt">'+this.texte_main+'</div>'
+      if(this.texte_after)  boites += '<div class="txtafter">'+this.texte_after+'</div>'
       return  '<div id="'+this.id+'" class="'+css.join(' ')+'" style="'+style.join('')+'">'+
-                '<div class="beforetxt">' + (this.texte_before || "") +'</div>'+
-                '<div class="maintxt">'   + (this.texte_main   || "") +'</div>'+
-                '<div class="aftertxt">'  + (this.texte_after  || "") +'</div>'+
-               '</div>'
+                boites + '</div>'
     }
   }
 })

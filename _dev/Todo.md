@@ -1,6 +1,3 @@
--#  J'en suis à devoir corriger le traitement du texte (lancer la deuxième partie
-    du prélude et voir l'erreur — voir comment est définie la propriété 'texte')
-  
 * Poursuivre les essais avec le premier prélude
   > Pour cette suite (2e fichier), resserrer les portées, les garder les deux
     pour placer les notes et placer les harmonies en dessous
