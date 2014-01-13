@@ -164,6 +164,7 @@ Object.defineProperties(ObjetClass.prototype,{
       else delete this._staff
     },
     get:function(){
+      if(this.class == 'txt') return this._staff
       return this._staff || Anim.current_staff
     }
   },

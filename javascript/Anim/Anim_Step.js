@@ -66,10 +66,13 @@ Anim.Step = {
   /**
     * Passe à l'étape suivante, mais seulement si le mode pas à pas n'est
     * pas enclenché.
+    *
     * NOTES
     * -----
     *   * Si Anim.transition.step est défini, et que +no_timeout+ n'est pas true,
     *     alors il faut appeler next() seulement après le délai spécifié
+    *   * On ne fait rien si c'est le préambule qui est joué (les étapes avant que 
+    *     l'animation ne démarre vraiment).
     *
     * @method auto_next
     * @param  {Boolean} no_timeout Si true, pas de délai avant d'appeler l'étape suivante

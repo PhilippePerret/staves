@@ -52,6 +52,9 @@ $.extend(Staff,{
     * Notes
     *   * Cette méthode ne met pas la portée en portée courante, c'est la méthode
     *     appelante qui doit s'en charger.
+    *   * Si la portée (son indice) est utilisée dans une préférence (par exemple
+    *     la préférence qui détermine sur quelle portée se marqueront les harmonies)
+    *     alors l'indice sera remplacé par la Staff.
     * @method create
     * @param  {String} cle La clé de la portée (obligatoire)
     * @param  {Object} params Les paramètres éventuels
@@ -65,6 +68,13 @@ $.extend(Staff,{
     staff.build()
     Anim.staves.push(staff)
     staff.indice = Anim.staves.length // ! 1-start
+    // Cette portée est-elle utilisée dans un réglage des préférences
+    L(['staff_harmony', 'staff_chords']).each(function(key){
+      if(('number' == typeof Anim.prefs[key]) && Anim.prefs[key] == staff.indice)
+      {
+        Anim.prefs[key] = staff
+      } 
+    })
     return staff
   },
   

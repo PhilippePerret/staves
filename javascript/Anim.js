@@ -109,18 +109,19 @@ $.extend(window.Anim,{
     */
   prefs_default:{
     decompte          :2,
+    staff_top         :60,
+    staff_offset      :100,
     x_start           :100,
     next              :40,  
     harmony           :70, 
+    staff_harmony     :null,
+    staff_chords      :null,
+    chord_mark        :40, 
     modulation_x      :-13,
     modulation_y      :26,
-    chord_mark        :40, 
     speed             :1,
-    staff_top         :60,
-    staff_offset      :100,
     note_size         :14.3,
-    delai_after_show  :3,
-    staff_harmony     :null
+    delai_after_show  :3
   },
   /**
     * Toutes les préférences
@@ -149,10 +150,20 @@ $.extend(window.Anim,{
     /**
       * Portée qui doit porter l'harmonie. Pour faire porter l'harmonie
       * par une portée particulière, quelle que soit la portée active
-      * @property {Staff} staff_harmony
+      * @note : elle peut être définie même si la portée n'existe pas encore,
+      * puisqu'un check est fait à la création de toute portée (cf. Staff.create)
+      * @property {Staff|Numbre} staff_harmony
       * @default NULL
       */
     staff_harmony  :null,
+    /**
+      * Portée qui doit porter les accords.
+      * @note : elle peut être définie même si la portée n'existe pas encore,
+      * puisqu'un check est fait à la création de toute portée (cf. Staff.create)
+      * @property {Staff|Number} staff_chords
+      * @default NULL
+      */
+    staff_chords    :null,
     /** Position left de départ pour chaque portée
       * @property {Number} x_start 
       */
@@ -240,7 +251,13 @@ $.extend(window.Anim,{
       
       // -- Correction de certaines valeur --
       // On remplace l'indice portée par l'instance portée si nécessaire
-      if(pref == 'staff_harmony' && 'number'==typeof value) value = this.staves[value - 1]
+      // et surtout si la portée existe. Si elle n'existe pas encore, on
+      // guettera le moment où elle sera créée.
+      if(pref == 'staff_harmony' && 'number' == typeof value)
+      {
+        if(undefined != this.staves[value - 1]) value = this.staves[value - 1]
+        // Sinon, elle reste un nombre
+      }
       
       /* == On règle la valeur == */
       this.prefs[pref] = value

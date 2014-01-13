@@ -24,7 +24,7 @@ window.METHODES_TEXTE = {
     */
   write:function(texte, params)
   {
-    // dlog("-> <Note>.write")
+    // dlog("-> <Note>.write("+texte+")")
     if(undefined == params) params = {}
     params.texte  = texte
     if(undefined == params.type) params.type = 'regular'
@@ -34,7 +34,7 @@ window.METHODES_TEXTE = {
     return this
   },
   /**
-    * Raccourci pour écrire un texte d'harmony
+    * Raccourci-write pour écrire un texte d'harmony
     * @method harmony
     * @param  {String} texte  Le texte à écrire
     * @param  {Object} params   Paramètres optionnels
@@ -47,6 +47,7 @@ window.METHODES_TEXTE = {
     if(undefined == params) params = {}
     params.type = harmony
     this.write(texte, params)
+    
     return this
   },
   /**
@@ -112,11 +113,8 @@ window.PROPERTIES_TEXTE = {
   */
 window.TXT = function(owner, params)
 {
-  // Anim.wait(1)
   return new Txt(owner, params)
 }
-// Alias
-window.TEXTE = window.TXT
 
 /**
   * @class Txt
@@ -126,6 +124,8 @@ window.TEXTE = window.TXT
   */
 window.Txt = function(owner, params)
 {
+  this.class = 'txt'
+
   this.id       = 'txt'+(new Date()).getTime()
 
   /**
@@ -133,6 +133,15 @@ window.Txt = function(owner, params)
     * @property {Object|Staff|Note|Chord|...} owner
     */
   this.owner    = owner
+  
+  /*
+    * La portée (seulement si elle est définie dans les paramètres, sinon,
+    * voir `real_staff`)
+    * @property {Staff} staff
+    * NON !!! DÉFINI DANS ObjectClass
+    */
+  // this.staff = null
+  
   /**
     * Le texte complet (fourni à l'instanciation)
     * Attention : c'est une propriété complexe
@@ -176,7 +185,6 @@ window.Txt = function(owner, params)
   this.offset_x = 0
 
   ObjetClass.call(this, params)
-
 }
 Txt.prototype = Object.create( ObjetClass.prototype )
 Txt.prototype.constructor = Txt
@@ -304,7 +312,7 @@ $.extend(Txt.prototype,{
     */
   build:function()
   {
-    // dlog("-> <Txt>.build")
+    // dlog("-> <Txt>.build ("+this.texte_main+")")
     Anim.Dom.add(this)
     return this
   },
@@ -499,12 +507,7 @@ Object.defineProperties(Txt.prototype,{
     get:function(){
       if(undefined == this._top)
       {
-        var top   = (
-                     this.staff          || 
-                     Anim.staff_harmony  || 
-                     this.owner.staff    || 
-                     Anim.current_staff
-                     ).top
+        var top = this.real_staff.top
         switch(this.type)
         {
         case harmony:
@@ -523,6 +526,25 @@ Object.defineProperties(Txt.prototype,{
         this._top = top
       }
       return this._top
+    }
+  },
+  /**
+    * Retourne la “vraie” portée sous laquelle on doit écrire la marque de
+    * texte en fonction de son type.
+    * @property {Staff} real_staff
+    */
+  "real_staff":{
+    get:function(){
+      switch(this.type)
+      {
+      case harmony:
+      case cadence:
+        return this.staff || Anim.prefs.staff_harmony || this.owner.staff || Anim.current_staff
+      case chord :
+        return this.staff || Anim.prefs.staff_chords || this.owner.staff || Anim.current_staff
+      default:
+        return this.staff || this.owner.staff || Anim.current_staff
+      }
     }
   },
   /**
