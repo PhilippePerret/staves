@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -210,6 +220,9 @@ $.extend(Staff,{
     * Notes
     *   * Cette méthode ne met pas la portée en portée courante, c&#x27;est la méthode
     *     appelante qui doit s&#x27;en charger.
+    *   * Si la portée (son indice) est utilisée dans une préférence (par exemple
+    *     la préférence qui détermine sur quelle portée se marqueront les harmonies)
+    *     alors l&#x27;indice sera remplacé par la Staff.
     * @method create
     * @param  {String} cle La clé de la portée (obligatoire)
     * @param  {Object} params Les paramètres éventuels
@@ -223,14 +236,21 @@ $.extend(Staff,{
     staff.build()
     Anim.staves.push(staff)
     staff.indice = Anim.staves.length // ! 1-start
+    // Cette portée est-elle utilisée dans un réglage des préférences
+    L([&#x27;staff_harmony&#x27;, &#x27;staff_chords&#x27;]).each(function(key){
+      if((&#x27;number&#x27; == typeof Anim.prefs[key]) &amp;&amp; Anim.prefs[key] == staff.indice)
+      {
+        Anim.prefs[key] = staff
+      } 
+    })
     return staff
   },
   
   /**
     * Retourne le top de la prochaine portée
     * @method top_next_staff
-    * @param  {Object} params   Paramètres optionnels
-    *   @param  {Number} params.offset    Le décalage éventuel par rapport à la position naturelle
+    * @param  {Object} params           Paramètres optionnels
+    *   @param  {Number} params.offset  Le décalage éventuel par rapport à la position naturelle
     */
   top_next_staff:function(params)
   {
@@ -278,7 +298,8 @@ $.extend(Staff,{
   }
 })
 /* ---------------------------------------------------------------------
-    Méthodes pour la propriété-object &#x60;notes&#x60;
+    Méthodes pour la propriété-object &#x60;notes&#x60; de la portée (qui contient
+    toutes ses notes)
    --------------------------------------------------------------------- */
 window.OBJECT_STAFF_NOTES = {
   /**
@@ -376,12 +397,53 @@ $.extend(Staff.prototype, {
     * @method show
     * @param  {Number} vitesse La vitesse d&#x27;apparition
     */
-  show:function()
+  show:function(vitesse)
   {
-    this.img_staff.show()
-    this.img_cle.css(&#x27;opacity&#x27;, &#x27;1&#x27;)
+    if(undefined == vitesse) vitesse = 200
+    var me = this
+    L(this.objets).each(function(obj){
+      obj.animate({opacity:1}, vitesse, me.on_complete)
+    })
   },
-  
+  /**
+    * Methode à appeler par toute opération opérant sur les objets
+    * Lorsque chaque objet a été traité, on passe à l&#x27;étape suivante.
+    * @method on_complete
+    */
+  on_complete:function()
+  {
+    if(undefined == this.decompte_complete) this.decompte_complete = 0
+    ++this.decompte_complete
+    if(this.decompte_complete == this.nombre_objets)
+    {
+      delete this.decompte_complete
+      NEXT_STEP(no_timeout = true)
+    }
+  },
+  /**
+    * Masque la portée (sans la détruire)
+    * @method hide
+    */
+  hide:function()
+  {
+    this.img_staff.hide(Anim.transition.show)
+    this.img_cle.animate({opacity:&#x27;0&#x27;}, Anim.transition.show)
+  },
+  /**
+    * Destruction de la portée (et retrait de la liste des portées)
+    * @method remove
+    */
+  remove:function()
+  {
+    Anim.staves.splice(this.indice - 1, 1)
+    var me = this
+    L(this.objets).each(function(obj){ 
+      obj.animate({opacity:0}, 200, function(){
+        this.remove()
+        me.on_complete()
+      })
+    })
+  },  
   /**
     * Positionne la portée, la clé et la métrique (if any)
     * @method positionne
@@ -481,7 +543,22 @@ Object.defineProperties(Staff.prototype,{
     }
   },
   /**
+    * Liste des objets DOM que possède la portée
+    * @property {Array} objets
+    */
+  &quot;objets&quot;:{
+    get:function(){
+      var objs = [this.img_staff]
+      if(this.img_cle.length) objs.push(this.img_cle)
+      if(this.img_armure.length) objs.push(this.img_armure)
+      if(this.img_metrique.length) objs.push(this.img_metrique)
+      this.nombre_objets = objs.length
+      return objs
+    }
+  },
+  /**
     * Return l&#x27;élément DOM de la portée contenue dans son DIV
+    * (ie l&#x27;ensemble de ses images de lignes)
     * @property {jQuerySet} img
     */
   &quot;img_staff&quot;:{
@@ -494,16 +571,34 @@ Object.defineProperties(Staff.prototype,{
   &quot;img_cle&quot;:{
     get:function(){return $(&#x27;img#&#x27;+this.dom_id_cle)}
   },
-  
   &quot;dom_id_cle&quot;:{get:function(){return &quot;staff_cle-&quot;+this.id}},
   
+  /**
+    * Objet DOM pour l&#x27;armure (if any)
+    * @property {jQuerySet} img_armure
+    */
+  &quot;img_armure&quot;:{
+    get:function(){return $(&#x27;div#&#x27;+this.dom_id_armure)}
+  },
+  &quot;dom_id_armure&quot;:{get:function(){return &quot;staff_armure-&quot;+this.id}},
+  /**
+    * Objet DOM pour la métrique (if any)
+    * @property {jQuerySet} img_metrique
+    */
+  &quot;img_metrique&quot;:{
+    get:function(){return $(&#x27;div#&#x27;+this.dom_id_metrique)}
+  },
+  &quot;dom_id_metrique&quot;:{get:function(){return &quot;staff_metrique-&quot;+this.id}},
   /**
     * Return le code HTML complet de la portée
     * @property {HTMLString} code_html
     */
   &quot;code_html&quot;:{
     get:function(){
-      return this.html_img_cle + this.html_img
+      return  this.html_img           +
+              this.html_img_cle       + 
+              this.html_img_metrique  +
+              this.html_img_armure
     }
   },
   /**
@@ -515,10 +610,10 @@ Object.defineProperties(Staff.prototype,{
       var i=0, c = &quot;&quot;, top = this.top ;
       for(; i&lt;5; ++i)
       {
-        c += &#x27;&lt;img style=&quot;top:&#x27;+(top + i * 12)+&#x27;px;&quot; class=&quot;staffline&quot; src=&quot;img/line.png&quot; /&gt;&#x27;
+        c += &#x27;&lt;img style=&quot;top:&#x27;+(i * 12)+&#x27;px;&quot; class=&quot;staffline&quot; src=&quot;img/line.png&quot; /&gt;&#x27;
         // top += 12
       }
-      return c
+      return &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; style=&quot;top:&#x27;+this.top+&#x27;px;&quot; class=&quot;staff&quot;&gt;&#x27;+c+&#x27;&lt;/div&gt;&#x27;
     }
   },
   /**
@@ -528,6 +623,36 @@ Object.defineProperties(Staff.prototype,{
   &quot;html_img_cle&quot;:{
     get:function(){
       return &#x27;&lt;img id=&quot;&#x27;+this.dom_id_cle+&#x27;&quot; class=&quot;cle&quot; src=&quot;img/cle/&#x27;+this.cle+&#x27;.png&quot; /&gt;&#x27;
+    }
+  },
+  /**
+    * Return le code HTML pour la métrique
+    * Notes
+    * -----
+    *   * C&#x27;est un DIV principal contenant les éléments
+    *
+    * @property {String} html_img_metrique
+    */
+  &quot;html_img_metrique&quot;:{
+    get:function(){
+      if(!this.metrique) return &quot;&quot;
+      var c = &quot;&quot;
+      return &#x27;&lt;div id=&quot;&#x27;+this.dom_id_metrique+&#x27;&quot; class=&quot;metrique&quot;&gt;&#x27;+c+&#x27;&lt;/div&gt;&#x27;
+    }
+  },
+  /**
+    * Return le code HTML pour l&#x27;armure
+    * Notes
+    * -----
+    *   * C&#x27;est un DIV principal contenant les éléments
+    *
+    * @property {String} html_img_armure
+    */
+  &quot;html_img_armure&quot;:{
+    get:function(){
+      if(!this.armure) return &quot;&quot;
+      var c = &quot;&quot;
+      return &#x27;&lt;div id=&quot;&#x27;+this.dom_id_armure+&#x27;&quot; class=&quot;armure&quot;&gt;&#x27;+c+&#x27;&lt;/div&gt;&#x27;
     }
   }
   

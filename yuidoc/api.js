@@ -9,10 +9,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "Console",
         "Courbe",
         "GROUPNOTES_METHODS METHODES_GROUPNOTES",
+        "Grid",
         "Infos",
         "Note",
         "ObjetClass",
         "Objets",
+        "Pas",
         "Regle",
         "Scale",
         "Staff",
@@ -24,6 +26,7 @@ YUI.add("yuidoc-meta", function(Y) {
     "modules": [
         "Anim",
         "Anim_Dom.js",
+        "Anim_Grid",
         "Anim_Objects.js",
         "Anim_Step",
         "Anim_infos",
@@ -34,9 +37,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "Controller.js",
         "Courbe.js",
         "Note",
+        "Pas.js",
         "Scale.js",
         "Staff",
         "Txt.js",
+        "UI.Regle.js",
         "UI.js",
         "constantes"
     ],
@@ -48,6 +53,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Anim_Dom.js",
             "name": "Anim_Dom.js"
+        },
+        {
+            "displayName": "Anim_Grid",
+            "name": "Anim_Grid"
         },
         {
             "displayName": "Anim_infos",
@@ -97,6 +106,10 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "Note"
         },
         {
+            "displayName": "Pas.js",
+            "name": "Pas.js"
+        },
+        {
             "displayName": "Scale.js",
             "name": "Scale.js"
         },
@@ -111,6 +124,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "UI.js",
             "name": "UI.js"
+        },
+        {
+            "displayName": "UI.Regle.js",
+            "name": "UI.Regle.js"
         }
     ]
 } };

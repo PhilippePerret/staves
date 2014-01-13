@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Controller.js</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/Anim/Pas.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -162,38 +162,221 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Controller.js Module</h1>
-<div class="box clearfix meta">
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Anim/Pas.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+  * @module Pas.js
+  */
+
+/**
+  * Instance des étapes
+  * -------------------
+  *
+  * Notes
+  * -----
+  *   * Mis dans le dossier Anim par convénience, mais appartient à window.
+  *   * L&#x27;instance a été inauguré pour gérer le jeu de la sélection. Avec chaque
+  *     étape doit être conservé son index pour une sélection correcte.
+  *
+  * @class Pas
+  * @for window
+  * @constructor
+  * @param  {Object} params   Les paramètres
+  *   @param  {String}  params.code   Le code à jouer (sans retour chariot) (mandatory)
+  *   @param  {Number}  params.offset_start   Le décalage du code dans la console (mandatory)
+  */
+window.Pas = function(params)
+{
+  /**
+    * Identifiant de l&#x27;étape
+    * @property {Number} id
+    */
+  this.id = ++ Pas.last_id
+  /**
+    * Code de l&#x27;étape
+    * @property {String} code
+    */
+  this.code = null
+  /**
+    * Offset de départ dans le code total
+    * @property {Number} offset_start (0-start)
+    */
+  this.offset_start = null
+  /**
+    * Longueur du code
+    * @property {Number} length
+    */
+  this.length = null
+  /**
+    * Offset de fin dans le code total
+    * @property {Number} offset_end
+    */
+  this.offset_end = null
+  
+  /**
+    * Liste {Array} des erreurs produites au cours de l&#x27;exécution du code
+    * @property {Array} errors
+    * @default []
+    */
+  this.errors = []
+  
+  var me = this
+  L(params).each(function(k,v){me[k]=v})
+  
+  /* Calcul des valeurs nécessaires */
+  this.length     = this.code.length + 1 // le retour chariot
+  this.offset_end = this.offset_start + this.length - 1
+}
+
+/* ---------------------------------------------------------------------
+ *  Méthodes et propriétés de classe
+ *  
+ */
+$.extend(Pas,{
+  /**
+    * Dernier identifiant d&#x27;étape affecté
+    * @property {Number} last_id
+    */
+  last_id: 0
+})
+
+
+/* ---------------------------------------------------------------------
+ *  Méthodes et propriétés d&#x27;instance
+ *  
+ */
+$.extend(Pas.prototype,{
+  
+  /**
+    * == Main ==
+    *
+    * Exécute l&#x27;étape
+    * @method exec
+    */
+  exec:function()
+  {
+    if(this.is_comment || this.is_empty) return false
+    try{ eval(&#x27;Anim.Objects.&#x27;+this.trimed) }
+    catch(err){ this.on_error(err, retry = true) }
+    // S&#x27;il y a eu plusieurs essais en mode flash
+    if(this.timer_tries_exec)
+    {
+      clearTimeout(this.timer_tries_exec)
+      delete this.tries_exec
+    }
+    return true
+  },
+  /**
+    * Méthode appelée en cas d&#x27;erreur, principalement lors de l&#x27;exécution de
+    * l&#x27;étape
+    * @method on_error
+    * @param  {String|Object} error  L&#x27;erreur rencontrée
+    * @param  {Boolean}       retry   Si true, on tente de ré-exécuter l&#x27;étape
+    */
+  on_error:function(error, retry)
+  {
+    var errMess
     
+    if(MODE_FLASH)
+    {
+      if(this.tries_exec &amp;&amp; this.tries_exec &gt; 2)
+      {
+        errMess = &quot;# ERROR:&quot;+error+&quot;. J&#x27;ai essayé de jouer 3 fois le code &#x60;this.Objects.&quot;+this.code+&quot;&#x60; (étape #&quot;+this.id+&quot;) en vain. Je poursuis, sans bien être sûr du résultat produit…&quot;
+        F.error(errMess)
+        dlog(&quot;#ERROR# &quot;+ errMess)
+      }
+      else
+      {
+        if(undefined == this.tries_exec) this.tries_exec = 0
+        ++ this.tries_exec
+        if(this.timer_tries_exec) clearTimeout(this.timer_tries_exec)
+        this.timer_tries_exec = setTimeout($.proxy(this.exec, this), 500)
+        return
+      }
+    }
+    else // mode non flash (normal)
+    {
+      errMess = &quot;# Erreur: &quot;+error+ &quot; survenue avec le code &#x60;this.Objects.&quot;+this.code+&quot;&#x60; (#&quot;+this.id+&quot;). Mais j&#x27;essaie de poursuivre.&quot;
+      F.error(errMess)
+      dlog(&quot;#ERROR# &quot;+errMess)
+    }
+    this.errors.push(error)
+    NEXT_STEP()
+  },
+  /**
+    * Sélectionne l&#x27;étape dans le code
+    * @method select
+    */
+  select:function()
+  {
+    Console.select({start:this.offset_start, end:this.offset_end})
+  }
+  
+})
 
-    
-
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Controller.js.html#l6"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Controller.js:6</code></a>
-        </div>
-    
-
-    
-</div>
-
-
-
-<div class="box intro">
-    <p>Toutes les méthodes qui gèrent le contrôleur de l&#39;animation</p>
-
-</div>
-
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+/* ---------------------------------------------------------------------
+ *  Propriétés d&#x27;instance complexes
+ *  
+ */
+Object.defineProperties(Pas.prototype,{
+  /**
+    * Code &quot;trimé&quot;
+    * @property {String} trimed
+    */
+  &quot;trimed&quot;:{
+    get:function(){
+      if(undefined == this._trimed) this._trimed = this.code.trim()
+      return this._trimed
+    }
+  },
+  /**
+    * Propriété qui détermine si l&#x27;étape est une étape &quot;préambule&quot; c&#x27;est-à-dire
+    * soit un réglage de préférence (DEFAULT), soit un commentaire, etc., toute
+    * étape qui ne “produit” rien de l&#x27;animation.
+    * @property {Boolean} is_etape_preambule
+    */
+  &quot;is_etape_preambule&quot;:{
+    get:function(){
+      if(undefined == this._is_etape_preambule)
+      {
+        this._is_etape_preambule = this.is_comment || this.is_empty || this.is_setting
+      }
+      return this._is_etape_preambule
+    }
+  },
+  /**
+    * Return TRUE si l&#x27;étape est un commentaire
+    * @property {Boolean} is_comment
+    */
+  &quot;is_comment&quot;:{
+    get:function(){
+      if(undefined == this._is_comment) this._is_comment = (this.trimed.substring(0,1) == &quot;#&quot;)
+      return this._is_comment
+    }
+  },
+  /**
+    * Return TRUE si l&#x27;étape est une ligne vide
+    * @property {Boolean} is_comment
+    */
+  &quot;is_empty&quot;:{
+    get:function(){
+      if(undefined == this._is_empty) this._is_empty = this.trimed == &quot;&quot;
+      return this._is_empty
+    }
+  },
+  /**
+    * Return TRUE si l&#x27;étape est un réglage par défaut
+    * @property {Boolean} is_comment
+    */
+  &quot;is_setting&quot;:{
+    get:function(){return this.trimed.substring(0,7) == &quot;DEFAULT&quot;}
+  }
+  
+  
+})
+    </pre>
 </div>
 
                     </div>

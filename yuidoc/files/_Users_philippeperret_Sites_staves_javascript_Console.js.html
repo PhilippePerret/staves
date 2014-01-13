@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -168,14 +178,7 @@
   */
 if(undefined == window.Console) Console = {}
 $.extend(window.Console,{
-  
-  /**
-    * Décalage actuel du &quot;curseur&quot;, c&#x27;est-à-dire de la fin de la sélection
-    * @method {Number} cursor_offset
-    * @default 0
-    */
-  cursor_offset:0,
-  
+    
   /**
     * Mets un code en console.
     * @method set
@@ -186,25 +189,50 @@ $.extend(window.Console,{
     if(&#x27;string&#x27;!=typeof code) code = code.join(&quot;\n&quot;)
     this.console.val(code)
   },
-  
   /**
-    * Déplace le &quot;curseur&quot; de la console, c&#x27;est-à-dire exactement sa
-    * portion de sélection.
-    * Notes
-    * -----
-    *   * La nouvelle position courante (this.cursor_offset) est mise à la 
-    *     nouvelle position params.to.
-    *
-    * @method move_cursor
-    * @param {Object} params Les paramètres obligatoires
-    *   @param  {Number} params.for  Le nombre de caractères à sélectionner depuis la position courante
+    * Retourne le code depuis le caractère +from+ (0-start) jusqu&#x27;au caractère
+    * +to+. Si +as_list+ est true, sous forme de liste (true par défaut).
+    * @method get_code
+    * @param  {Number} from   Index du premier caractère
+    * @param  {Number} to     Index du dernier caractère
+    * @param  {Boolean} as_list Si True (défaut) sous forme de liste
+    * @return {String|Array}  Le code relevé dans la console
     */
-  move_cursor:function(params)
+  get_code:function(from, to, as_list)
   {
-    this.select({start:this.cursor_offset, end:this.cursor_offset + params.for})
-    this.cursor_offset += parseInt(params.for,10)
+    if(undefined == as_list) as_list = true
+    var code = this.raw.substring(from, to - from + 1)
+    if(as_list) code = code.split(&quot;\n&quot;)
+    return code
   },
-  
+  /**
+    * Expurge de la liste des étapes +liste+ les étapes dite &quot;de préambule&quot; qui
+    * ne font que définir des valeurs (par exemple valeurs par défaut).
+    * Ces étapes sont toujours interprétées avant le décompte.
+    * La méthode produit this.preambule qui sera joué en tout premier lieu.
+    * @method expurge_preambule
+    * @param {Array de Pas} liste Liste des instances d&#x27;étape
+    * @return {Array} La liste des étapes sans les étapes de préambule. C&#x27;est un
+    *                 clone de la liste pour que les méthodes appelantes n&#x27;aient pas à le faire
+    *                 (il faut un clone pour pouvoir conserver la liste, car celle envoyée sera
+    *                  mangée — shift — au cours de l&#x27;opération).
+    */
+  expurge_preambule:function(liste)
+  {
+    this.preambule = []
+    while(liste[0].is_etape_preambule) this.preambule.push(liste.shift())
+    return $.merge([], liste)
+  },
+  /**
+    * Récupère la sélection courante
+    *
+    * @method get_selection 
+    * @return {String} Tout le code sélectionné
+    */
+  get_selection:function()
+  {
+    return Selection.of(this.console)
+  },
   /**
     * Sélectionne une partie du texte (en général, l&#x27;étape courante)
     * @method select
@@ -215,6 +243,17 @@ $.extend(window.Console,{
   select:function(params)
   {
     Selection.select(this.console, {start:params.start, end:params.end})
+  },
+  
+  /**
+    * La méthode est appelée lorsque le code console a été modifié. Cela
+    * permet d&#x27;initialiser les étapes retenues.
+    * @method onchange_code
+    */
+  onchange_code:function()
+  {
+    if(this._etapes)          delete this._etapes
+    if(this._steps_selection) delete this._steps_selection
   }
   
 })
@@ -233,17 +272,147 @@ Object.defineProperties(window.Console,{
     * @property {String} raw
     */
   &quot;raw&quot;:{
-    get:function(){return this.console.val().trim()}
+    get:function(){return this.console.val()}
   },
   /**
+    * Retourne le code brut mais trimé
+    * @property {String} raw_trimed
+    */
+  &quot;raw_trimed&quot;:{get:function(){return this.raw.trim()}},
+  
+  /**
     * Récupère le code dans la console, comme une liste de pas
+    * Moins les étapes de préambule éventuelles.
+    *
+    * Notes
+    * -----
+    *   * La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
+    *     être définies des préférences.
     *
     * @property steps
-    * @return {Array} Liste des strings représentant les pas de l&#x27;animation
+    * @return {Array of Pas} Liste des instances {Pas} de l&#x27;animation
     */
   &quot;steps&quot;:{
     get:function(){
-      return this.raw.split(&quot;\n&quot;)
+      if(undefined == this._etapes)
+      {
+        this._etapes = []
+        var me = this, cur_offset = 0, pas ;
+        L(this.raw.split(&quot;\n&quot;)).each(function(line){
+          pas = new Pas({code:line, offset_start:cur_offset})
+          me._etapes.push( pas )
+          cur_offset += pas.length
+        })
+      }
+      return this.expurge_preambule(this._etapes) // clone
+    }
+  },
+  /**
+    * Retourne les étapes sélectionnées. Permet de ne jouer qu&#x27;une partie du code.
+    * Moins les étapes de préambule éventuelles
+    * Notes
+    * -----
+    *   * Mais l&#x27;opération n&#x27;est pas aussi simple que ça : il faut jouer les
+    *     code qui gèrent les portées et autres réglages par défaut.
+    *     Donc l&#x27;opération se fait en deux temps :
+    *     1.  On prend le code sélectionné pour connaitre l&#x27;offset et le contenu
+    *     2.  On passe en revue l&#x27;intégralité du code en conservant les lignes
+    *         qui doivent être jouées.
+    *   * La méthode règle aussi le &#x60;cursor_offset&#x60; pour pouvoir suivre correctement
+    *     le code. On pourrait imaginer faire une petite correction pour être sûr
+    *     de prendre le code depuis le premier caractère.
+    *   * On mémorise les informations pour pouvoir rejouer la même sélection
+    *   * La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
+    *     être définies des préférences.
+    *
+    * @property {Array of Pas} steps_selection La liste des étapes sélectionnées et étapes précédentes
+    *                                   nécessaires.
+    */
+  &quot;steps_selection&quot;:{
+    get:function(){
+      if( !this._steps_selection )
+      { // =&gt; Première sélection (ou modification du code), on la calcule
+        var sel   = this.get_selection()
+        if(sel.content == &quot;&quot;)
+        {
+          F.error(&quot;Il faut sélectionner le code à jouer !&quot;)
+          return null
+        }
+        var steps = []
+        // == On crée les instances étapes ==
+        Pas.last_id = 0
+        var cur_offset = parseInt(sel.start,10)
+        var pas ;
+        L(sel.content.split(&quot;\n&quot;)).each(function(line){
+          pas = new Pas({code:line, offset_start:cur_offset})
+          steps.push(pas)
+          cur_offset += pas.length
+        })
+        // == Relève des steps à jouer nécessairement ==
+        var befor = this.get_code(0, sel.start, as_list=true)
+        var steps_before = []
+        cur_offset = 0
+        L(befor).each(function(line){
+          if(line.contains(&#x27;STAFF&#x27;) || line.contains(&#x27;DEFAULT&#x27;) || line.contains(&#x27;NEXT&#x27;))
+          {
+            steps_before.push(new Pas({code:line, offset_start:cur_offset}))
+          }
+          cur_offset += line.length + 1
+        })
+        this._steps_selection  = steps_before.concat(steps)
+        
+      } else {
+        
+      }
+      // Il faut renvoyer un clone car l&#x27;exécution des étapes mange (shift) dans
+      // cette liste renvoyée.
+      return this.expurge_preambule(this._steps_selection)
+    }
+  },
+  /**
+    * Liste des étapes entre les repères #!START et #!END (+ les étapes indispensables avant)
+    * Moins les étapes de préambule éventuelles
+    * Notes
+    *   * Pour définir la liste on utilise la propriété &#x60;steps_selection&#x60; simplement
+    *     en sélectionnant la portion de texte voulu avant.
+    *   * La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
+    *     être définies des préférences.
+    *
+    * @property {Array of Pas} steps_between_repairs
+    */
+  &quot;steps_between_repairs&quot;:{
+    get:function(){
+      var start = this.raw.indexOf(&quot;\n#!START\n&quot;)
+      var end   = this.raw.indexOf(&quot;\n#!END\n&quot;)
+      if(start &lt; -1 || end &lt; -1)
+      {
+        F.error(&quot;Il faut placer les repères &#x60;#!START&#x60; et &#x60;#!END&#x60; dans le code (et les placer sur une ligne vierge) !&quot;)
+        return null
+      }
+      this.select({start:start+1, end:end})
+      delete this._steps_selection  // pour forcer le recalcul
+      return this.steps_selection
+    }
+  },
+  /**
+    * Retourne la liste de toutes les étapes à partir du pointeur (qui peut
+    * Moins les étapes de préambule éventuelles
+    * se trouver à l&#x27;intérieur d&#x27;une ligne, pas forcément au début)
+    * Notes:
+    *   * Cette méthode se sert aussi de steps_selection
+    *   * Principe : on cherche le premier retour chariot avant la position du curseur
+    *     et on place la fin de la sélection à la fin du code.
+    * @property {Array of Pas} steps_from_cursor
+    */
+  &quot;steps_from_cursor&quot;:{
+    get:function(){
+      var dsel    = this.get_selection()
+      var before  = this.raw.substring(0, dsel.start)
+      var start   = before.lastIndexOf(&quot;\n&quot;)
+      dlog(&quot;50 premiers caractères : &quot;+this.raw.substring(start, 50))
+      this.select({start:start+1, end:this.raw.length})
+      delete this._steps_selection  // pour forcer le recalcul
+      return this.steps_selection
     }
   }
 })

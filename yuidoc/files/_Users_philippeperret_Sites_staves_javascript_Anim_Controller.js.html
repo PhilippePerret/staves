@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -176,22 +186,103 @@ $.extend(Anim,{
     * Joue l&#x27;animation courante
     * Notes
     * -----
-    *   * La méthode est également appelée à chaque pas en mode &quot;pas à pas&quot;
+    *   * La méthode est appelée chaque fois qu&#x27;on clique le bouton “Play”
+    *   * Elle réagit différemment en fonction du mode de jeu (this.play_type)
+    *
     * @method start
     * @param  {Object} params   Paramètres optionnels
     */
   start:function(params){
-    if(this.on &amp;&amp; !this.MODE_PAS_A_PAS) return this.stop()
-    else if(false == this.on)
-    {
-      this.reset()
-      if(!this.Step.list) this.Step.list = Console.steps
-      var btn_name = this.MODE_PAS_A_PAS ? &#x27;Next&#x27; : &#x27;Stop&#x27;
-      $(&#x27;input#btn_anim_start&#x27;).val(btn_name)
-      this.on = true
-      UI.Regle.hide()
+    if(this.on &amp;&amp; this.Step.mode_pas_a_pas)
+    { // En cours de jeu en mode pas à pas
+      this.Step.next()
+    }
+    else if(this.pause_on)
+    { // =&gt; redémarrage après pause
+      this.play()
+    }
+    else if(this.on)
+    { // =&gt; Stop demandé
+      this.stop()
     } 
-    this.Step.next()
+    else
+    { // Démarrage du jeu
+      this.reset()
+      this.Step.list = function(playtype){
+        switch(playtype)
+        {
+        case &#x27;all&#x27;        :
+        case &#x27;stepbystep&#x27; : return Console.steps
+        case &#x27;selection&#x27;  : return Console.steps_selection
+        case &#x27;repairs&#x27;    : return Console.steps_between_repairs
+        case &#x27;from_cursor&#x27;: return Console.steps_from_cursor
+        }
+      }(this.play_type)
+      if(this.Step.list)
+      { 
+        this.play_preambule()
+        this.play()
+      }
+    } 
+  },
+  /**
+    * Règle l&#x27;interface, soit pour le jeu, soit pour l&#x27;arrêt, soit pour la pause
+    * @method set_interface
+    */
+  set_interface:function()
+  {
+    // dlog(&quot;-&gt; set_interface [on=&quot;+this.on+&quot;/pause_on=&quot;+this.pause_on+&quot;]&quot;)
+    this.stop_button.css(&#x27;visibility&#x27;, this.on ? &#x27;visible&#x27;:&#x27;hidden&#x27;)
+    this.pause_button[this.on &amp;&amp; !this.pause_on &amp;&amp; !this.Step.mode_pas_a_pas ?&#x27;show&#x27;:&#x27;hide&#x27;]()
+    this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?&#x27;show&#x27;:&#x27;hide&#x27;]()
+    if(!this.on || this.pause_on) this.Grid.show()
+    else this.Grid.hide()
+  },
+  
+  /**
+    * Interprète les étapes de préambule
+    * @method play_preambule
+    */
+  play_preambule:function()
+  {
+    this.preambule_on = true
+    while(pas = Console.preambule.shift()) pas.exec()
+    this.preambule_on = false
+  },
+  /**
+    * Démarre véritablement l&#x27;animation
+    * Notes
+    * -----
+    *   * Cette méthode a été inaugurée pour gérer les différents traitement
+    *     entre jouer tout le code et ne jouer qu&#x27;une sélection du code.
+    *
+    * @method play
+    */
+  play:function()
+  {
+    this.on       = true
+    this.pause_on = false
+    this.set_interface()
+    UI.Regle.hide()
+    var delai_before = this.prefs.decompte
+    if(delai_before)
+    {
+      this.decompte.poursuivre = $.proxy(this.Step.next, this.Step)
+      this.decompte(delai_before)
+    }
+    else
+    { // Pas de décompte
+      this.Step.next()
+    } 
+  },
+  /**
+    * Pause demandée
+    * @method pause
+    */
+  pause:function()
+  {
+    this.pause_on = true
+    this.set_interface()
   },
   /**
     * Stoppe l&#x27;animation, parce qu&#x27;on est au bout ou parce que 
@@ -200,12 +291,51 @@ $.extend(Anim,{
     */
   stop:function()
   {
-    if(this.timer) clearTimeout(this.timer)
-    delete this.timer
+    this.on       = false
+    this.pause_on = false
+    this.kill_timer()
     delete this.Step.list
-    $(&#x27;input#btn_anim_start&#x27;).val(&quot;Play&quot;)
-    this.on = false
-    UI.Regle.show()    
+    this.decompte.poursuivre = $.proxy(this.real_stop, this)
+    this.decompte(this.prefs.delai_after_show)
+  },
+  /**
+    * Procède vraiment au stop, en faisant réapparaitre les éléments
+    * @method real_stop
+    */
+  real_stop:function()
+  {
+    this.kill_timer()
+    $(&#x27;div#warning&#x27;).hide()
+    this.set_interface()
+    this.stop_button.css(&#x27;opacity&#x27;, 1)
+    UI.Regle.show()
+  },
+  
+  /**
+    * Affiche un décompte (en fin ou en début d&#x27;animation)
+    * @method decompte
+    * @param  {Number} secs_reste Le nombre de secondes de décompte
+    */
+  decompte:function(reste)
+  {
+    this.kill_timer()
+    if(!this.decompte.on)
+    {
+      this.decompte.on = true
+      $(&#x27;div#decompte&#x27;).show()
+    } 
+    else reste -= 1
+    if(reste == 0)
+    {
+      $(&#x27;div#decompte&#x27;).hide()
+      delete this.decompte.on
+      this.decompte.poursuivre()
+    } 
+    else
+    {
+      $(&#x27;div#decompte&#x27;).html(reste)
+      this.timer = setTimeout($.proxy(this.decompte,this,reste), 1000)
+    }
   },
 
   /**
@@ -251,6 +381,30 @@ $.extend(Anim,{
     this.transition = this.transition_reg
   }
   
+})
+
+Object.defineProperties(Anim,{
+  /** 
+    * Objet DOM du bouton Start
+    * @property {jQuerySet} start_button
+    */
+  &quot;start_button&quot;:{
+    get:function(){return $(&#x27;img#btn_anim_start&#x27;)}
+  },
+  /** 
+    * Objet DOM du bouton Stop
+    * @property {jQuerySet} stop_button
+    */
+  &quot;stop_button&quot;:{
+    get:function(){return $(&#x27;img#btn_anim_stop&#x27;)}
+  },
+  /** 
+    * Objet DOM du bouton Pause
+    * @property {jQuerySet} pause_button
+    */
+  &quot;pause_button&quot;:{
+    get:function(){return $(&#x27;img#btn_anim_pause&#x27;)}
+  },
 })
     </pre>
 </div>

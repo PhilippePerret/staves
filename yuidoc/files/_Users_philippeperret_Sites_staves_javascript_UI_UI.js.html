@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -176,24 +186,10 @@ $.extend(UI,{
     this.onresize_window()
   },
   /**
-    * Gestion de la portion de règle à mesurer posée sur le plan de l&#x27;animation.
-    * @class Regle
-    * @for UI
-    * @static
-    */
-  Regle:{
-    obj:null, // le div de la règle
-    show:function(){this.obj.show()},
-    hide:function(){this.obj.hide()},
-    prepare:function(){
-      this.obj = $(&#x27;div#regle&#x27;)
-      this.obj.
-        draggable({containment:&#x27;document&#x27;}).
-        css({top:&#x27;480px&#x27;, left:&#x27;25px&#x27;})
-    }
-  },
-  /**
     * Redimensionne les éléments dans la fenêtre
+    * Notes
+    *   * La méthode est appelée au chargement de l&#x27;application
+    *
     * @method onresize_window
     */
   onresize_window:function(evt)
@@ -209,7 +205,9 @@ $.extend(UI,{
     anim_height     = parseInt(y * 78/100)
     console_width   = x - ( anim_width + 10 + 32)
   
-    $(&#x27;section#animation&#x27;).css({
+    var oanim     = $(&#x27;section#animation&#x27;)
+    var pos_anim  = oanim.position()
+    oanim.css({
       width : anim_width+&quot;px&quot;, 
       height: anim_height+&quot;px&quot;}
     )
@@ -224,6 +222,15 @@ $.extend(UI,{
     })
     // La position de la règle de mesure
     this.Regle.obj.css({top:(anim_height - 10)+&#x27;px&#x27;})
+    // Positions pour la grille (grid)
+    Anim.Grid.obj.css({
+      top     :pos_anim.top+&#x27;px&#x27;, 
+      left    :(pos_anim.left + 15)+&#x27;px&#x27;,
+      width   :anim_width+&#x27;px&#x27;,
+      height  :anim_height+&#x27;px&#x27;
+    })
+    Anim.Grid.cursor.css({height:(anim_height-10)+&#x27;px&#x27;})
+    Anim.Grid.set_cursor()
   },
   /**
     * Peuple le menu des applications avec la liste +name_list+

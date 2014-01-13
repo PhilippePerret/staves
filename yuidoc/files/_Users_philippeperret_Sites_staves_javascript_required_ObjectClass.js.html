@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -169,6 +179,9 @@ window.ObjetClass = function(params)
 {  
   if(undefined != params)
   {
+    // Si la portée a été définie par un nombre, il faut prendre son instance
+    if(params.staff &amp;&amp; &#x27;number&#x27; == typeof params.staff) params.staff = Anim.staves[params.staff-1]
+    // Et dispatcher
     var me = this
     L(params).each(function(prop,value){ me[prop] = value})
   }
@@ -255,6 +268,9 @@ $.extend(window.ObjetClass.prototype,{
       case &#x27;show&#x27;:
         obj.animate({opacity:1}, Anim.delai_for(&#x27;show&#x27;), complete)
         break
+      case &#x27;hide&#x27;:
+        obj.animate({opacity:0}, Anim.delai_for(&#x27;show&#x27;), complete)
+        break
       case &#x27;remove&#x27;:
         obj.animate({opacity:0}, Anim.delai_for(&#x27;show&#x27;), function(){obj.remove(); complete()})
         break
@@ -339,15 +355,6 @@ Object.defineProperties(ObjetClass.prototype,{
     set:function(left){
       this._left = left
       if(this.obj) this.obj.css(&#x27;left&#x27;, left)
-    }
-  },
-  /**
-    * Le milieu horizontal de l&#x27;objet (en tenant compte vraiment de sa taille)
-    * @property {Number} center_x
-    */
-  &quot;center_x&quot;:{
-    get:function(){
-      return parseInt(this.left + (this.obj.width() / 2), 10)
     }
   },
   /**

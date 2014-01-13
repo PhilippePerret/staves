@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -207,14 +217,28 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_cursor_offset">cursor_offset</a>
+                                <a href="#method_expurge_preambule">expurge_preambule</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_move_cursor">move_cursor</a>
+                                <a href="#method_get_code">get_code</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_get_selection">get_selection</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_onchange_code">onchange_code</a>
 
                                 
                                 
@@ -259,7 +283,35 @@
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_raw_trimed">raw_trimed</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_steps">steps</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_steps_between_repairs">steps_between_repairs</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_steps_from_cursor">steps_from_cursor</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_steps_selection La liste des étapes sélectionnées et étapes précédentes!~YUIDOC_LINE~!                                  nécessaires.">steps_selection La liste des étapes sélectionnées et étapes précédentes!~YUIDOC_LINE~!                                  nécessaires.</a>
 
                                 
                                 
@@ -279,8 +331,346 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_cursor_offset" class="method item">
-    <h3 class="name"><code>cursor_offset</code></h3>
+                    <div id="method_expurge_preambule" class="method item">
+    <h3 class="name"><code>expurge_preambule</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>liste</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l40"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:40</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Expurge de la liste des étapes +liste+ les étapes dite &quot;de préambule&quot; qui
+ne font que définir des valeurs (par exemple valeurs par défaut).
+Ces étapes sont toujours interprétées avant le décompte.
+La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">liste</code>
+                        <span class="type">Array de Pas</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Liste des instances d&#39;étape</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                    <p>La liste des étapes sans les étapes de préambule. C&#39;est un
+                clone de la liste pour que les méthodes appelantes n&#39;aient pas à le faire
+                (il faut un clone pour pouvoir conserver la liste, car celle envoyée sera
+                 mangée — shift — au cours de l&#39;opération).</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_get_code" class="method item">
+    <h3 class="name"><code>get_code</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>from</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>to</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>as_list</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String | Array</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l24"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:24</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Retourne le code depuis le caractère +from+ (0-start) jusqu&#39;au caractère
++to+. Si +as_list+ est true, sous forme de liste (true par défaut).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">from</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index du premier caractère</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">to</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index du dernier caractère</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">as_list</code>
+                        <span class="type">Boolean</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Si True (défaut) sous forme de liste</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String | Array</span>:
+                    
+                    <p>Le code relevé dans la console</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_get_selection" class="method item">
+    <h3 class="name"><code>get_selection</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l58"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:58</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Récupère la sélection courante</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>Tout le code sélectionné</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_onchange_code" class="method item">
+    <h3 class="name"><code>onchange_code</code></h3>
 
     
         <span class="paren">()</span>
@@ -311,7 +701,7 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l14"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:14</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l80"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:80</code></a>
         
         </p>
 
@@ -322,123 +712,11 @@
     </div>
 
     <div class="description">
-        <p>Décalage actuel du &quot;curseur&quot;, c&#39;est-à-dire de la fin de la sélection</p>
+        <p>La méthode est appelée lorsque le code console a été modifié. Cela
+permet d&#39;initialiser les étapes retenues.</p>
 
     </div>
 
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_move_cursor" class="method item">
-    <h3 class="name"><code>move_cursor</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l32"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:32</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Déplace le &quot;curseur&quot; de la console, c&#39;est-à-dire exactement sa
-portion de sélection.</p>
-<h2 id="notes">Notes</h2>
-<ul>
-<li>La nouvelle position courante (this.cursor_offset) est mise à la 
-nouvelle position params.to.</li>
-</ul>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Les paramètres obligatoires</p>
-
-                    </div>
-
-                    
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">for</code>
-                                    <span class="type">Number</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Le nombre de caractères à sélectionner depuis la position courante</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -489,7 +767,7 @@ nouvelle position params.to.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l50"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:50</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l68"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:68</code></a>
         
         </p>
 
@@ -610,7 +888,7 @@ nouvelle position params.to.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l21"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:21</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l14"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:14</code></a>
         
         </p>
 
@@ -688,7 +966,7 @@ nouvelle position params.to.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l65"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:65</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l94"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:94</code></a>
         
         </p>
 
@@ -733,7 +1011,7 @@ nouvelle position params.to.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l73"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:73</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l102"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:102</code></a>
         
         </p>
 
@@ -744,6 +1022,51 @@ nouvelle position params.to.</li>
 
     <div class="description">
         <p>Retourne le code brut de la console</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_raw_trimed" class="property item">
+    <h3 class="name"><code>raw_trimed</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l109"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:109</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Retourne le code brut mais trimé</p>
 
     </div>
 
@@ -778,7 +1101,7 @@ nouvelle position params.to.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l80"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:80</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l115"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:115</code></a>
         
         </p>
 
@@ -788,7 +1111,182 @@ nouvelle position params.to.</li>
     </div>
 
     <div class="description">
-        <p>Récupère le code dans la console, comme une liste de pas</p>
+        <p>Récupère le code dans la console, comme une liste de pas
+Moins les étapes de préambule éventuelles.</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
+être définies des préférences.</li>
+</ul>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_steps_between_repairs" class="property item">
+    <h3 class="name"><code>steps_between_repairs</code></h3>
+    <span class="type">Array of Pas</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l204"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:204</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Liste des étapes entre les repères #!START et #!END (+ les étapes indispensables avant)
+Moins les étapes de préambule éventuelles
+Notes</p>
+<ul>
+<li>Pour définir la liste on utilise la propriété <code>steps_selection</code> simplement
+en sélectionnant la portion de texte voulu avant.</li>
+<li>La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
+être définies des préférences.</li>
+</ul>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_steps_from_cursor" class="property item">
+    <h3 class="name"><code>steps_from_cursor</code></h3>
+    <span class="type">Array of Pas</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l229"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:229</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Retourne la liste de toutes les étapes à partir du pointeur (qui peut
+Moins les étapes de préambule éventuelles
+se trouver à l&#39;intérieur d&#39;une ligne, pas forcément au début)
+Notes:</p>
+<ul>
+<li>Cette méthode se sert aussi de steps_selection</li>
+<li>Principe : on cherche le premier retour chariot avant la position du curseur
+et on place la fin de la sélection à la fin du code.</li>
+</ul>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_steps_selection La liste des étapes sélectionnées et étapes précédentes!~YUIDOC_LINE~!                                  nécessaires." class="property item">
+    <h3 class="name"><code>steps_selection La liste des étapes sélectionnées et étapes précédentes!~YUIDOC_LINE~!                                  nécessaires.</code></h3>
+    <span class="type">Array of Pas</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l142"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:142</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Retourne les étapes sélectionnées. Permet de ne jouer qu&#39;une partie du code.
+Moins les étapes de préambule éventuelles</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Mais l&#39;opération n&#39;est pas aussi simple que ça : il faut jouer les
+code qui gèrent les portées et autres réglages par défaut.
+Donc l&#39;opération se fait en deux temps :<ol>
+<li>On prend le code sélectionné pour connaitre l&#39;offset et le contenu</li>
+<li>On passe en revue l&#39;intégralité du code en conservant les lignes
+qui doivent être jouées.</li>
+</ol>
+</li>
+<li>La méthode règle aussi le <code>cursor_offset</code> pour pouvoir suivre correctement
+le code. On pourrait imaginer faire une petite correction pour être sûr
+de prendre le code depuis le premier caractère.</li>
+<li>On mémorise les informations pour pouvoir rejouer la même sélection</li>
+<li>La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
+être définies des préférences.</li>
+</ul>
 
     </div>
 

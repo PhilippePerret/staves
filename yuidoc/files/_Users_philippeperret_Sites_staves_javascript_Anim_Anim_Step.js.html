@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -174,139 +184,89 @@
 if(undefined == window.Anim) window.Anim = {}
 Anim.Step = {
   /**
-    * Liste de toutes les étapes (code de console splitter par les retours-chariot)
-    * @property {Array} list
+    * Liste de toutes les étapes (instances {Pas})
+    * @property {Array of Pas} list
     * @default null
     */
   list:null,
   
   /**
-    * Étape courante (texte string de la console, sans le retour chariot)
-    * @property {String} current
+    * Étape courante (instance {Pas})
+    * @property {Pas} current
     */
   current:null,
   
   /**
-    * Joue l&#x27;étape (évalue son code)
-    * Notes
-    * -----
-    *   * Pour le moment, la méthode prend le code dans Anim.Step.current
-    *     TODO: Mais plus tard, ce code devrai être géré dans ce Anim.Step
-    *   * Un timer peut avoir été défini (si Anim.transition.step est ≠ 0)
-    *   * Le bloc &#x27;try&#x27; a une double fonction ici : en mode normal, il génère
-    *     une erreur mais poursuit le code. En mode flash, il peut arriver que
-    *     ça aille trop vite pour les éléments soient affichés, donc on fait 
-    *     une courte pause avant de ré-évaluer l&#x27;étape. On essaie un maximum de
-    *     3 fois puis on abandonne.
-    * @method run
-    */
-  run:function()
-  {
-    // dlog(&quot;-&gt; Anim.Step.run / Anim.Step.current:&quot;+this.current)
-    try
-    {
-      // dlog(&quot;run:this.Objects.&quot;+this.current)
-      eval(&#x27;Anim.Objects.&#x27;+this.current)
-      // dlog(&quot;run OK&quot;)
-    }
-    catch(err)
-    {
-      if(MODE_FLASH)
-      {
-        if(this.nombre_essais_run &amp;&amp; this.nombre_essais_run &gt; 2)
-        {
-          errMess = &quot;# J&#x27;ai essayé de jouer 3 fois le code &#x60;this.Objects.&quot;+this.current+&quot;&#x60; en vain. Je poursuis, sans bien être sûr du résultat produit…&quot;
-          F.error(errMess)
-          dlog(&quot;#ERROR# &quot;+ errMess)
-        }
-        else
-        {
-          if(undefined == this.nombre_essais_run) this.nombre_essais_run = 0
-          ++ this.nombre_essais_run
-          dlog(&quot;this.nombre_essais_run=&quot;+this.nombre_essais_run)
-          if(this.timer_essais_run) clearTimeout(this.timer_essais_run)
-          this.timer_essais_run = setTimeout($.proxy(this.run, this), 500)
-          return
-        }
-      }
-      else // mode non flash (normal)
-      {
-        errMess = &quot;# Erreur: &quot;+err+ &quot; survenue avec le code &#x60;this.Objects.&quot;+this.current+&quot;. Mais j&#x27;essaie de poursuivre.&quot;
-        F.error(errMess)
-        dlog(&quot;#ERROR# &quot;+errMess)
-      }
-      NEXT_STEP()
-    }
-    // S&#x27;il y a eu plusieurs essais en mode flash
-    if(this.timer_essais_run)
-    {
-      clearTimeout(this.timer_essais_run)
-      delete this.nombre_essais_run
-    }
-  },
-  /**
-    * Méthode qui joue la séquence suivante
+    * Méthode qui définit et exécute l&#x27;étape suivante
     * @method next
     */
   next:function()
   {
     if(this.timer) clearTimeout(this.timer)
+    if(Anim.pause_on) return 
     if(!this.list) return Anim.stop()
     this.set_current()
-    if(undefined == this.current) return
-    // Passer les commentaires
-    if(this.current.substring(0,1) == &quot;#&quot;) return this.next()
-    // Passer les lignes vides 
-    if(this.current.trim() == &quot;&quot;) return this.next()
-    /* === On joue l&#x27;étape === */
-    this.run()
-    if(!this.list || this.list.length == 0) Anim.stop()
+    if(undefined == this.current) return Anim.stop()
+    /* === On joue l&#x27;étape (sauf commentaires ou lignes vides) === */
+    if(false == this.current.exec()) this.next()
+    else if(!this.list || this.list.length == 0) Anim.stop()
   },
   /**
-    * Définit l&#x27;étape courante
-    * PRODUIT
-    * -------
-    *   * Définit la propriété &#x60;current&#x60; (Anim.Step.current)
-    *   * Sélectionne la portion de code dans la console
+    * Définit l&#x27;étape courante et la sélectionne dans le code
+    *
+    * Notes
+    * -----
+    *   * Définit la propriété &#x60;this.current&#x60;
     *
     * @method set_current
     */
   set_current:function()
   {
-    // On prend le code tel quel pour pouvoir gérer la sélection du code
+    if(!this.list || this.list.length == 0)
+    {
+      delete this.current
+      return
+    } 
     this.current = this.list.shift()
-    if(undefined == this.current) return
-    Console.move_cursor({for:this.current.length + 1})
-    this.current = this.current.trim() // =&gt; le texte épuré de l&#x27;étape
+    this.current.select()
   },
   
   /**
     * Passe à l&#x27;étape suivante, mais seulement si le mode pas à pas n&#x27;est
     * pas enclenché.
+    *
     * NOTES
     * -----
     *   * Si Anim.transition.step est défini, et que +no_timeout+ n&#x27;est pas true,
     *     alors il faut appeler next() seulement après le délai spécifié
+    *   * On ne fait rien si c&#x27;est le préambule qui est joué (les étapes avant que 
+    *     l&#x27;animation ne démarre vraiment).
     *
     * @method auto_next
     * @param  {Boolean} no_timeout Si true, pas de délai avant d&#x27;appeler l&#x27;étape suivante
     */
   auto_next:function(no_timeout)
   {
-    if(Anim.timer) clearTimeout(Anim.timer)
-    if(this.MODE_PAS_A_PAS) return
+    if(Anim.preambule_on) return
+    if(this.timer) clearTimeout(this.timer)
+    if(this.mode_pas_a_pas) return
     if(MODE_FLASH || no_timeout || Anim.transition.step == 0)
     {
       this.next()
     }
     else
     {
-      Anim.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.transition.step)
+      this.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.transition.step)
     }
   }
-  
 }
-
+Object.defineProperties(Anim.Step,{
+  &quot;mode_pas_a_pas&quot;:{
+    get:function(){
+      return Anim.play_type == &#x27;stepbystep&#x27;
+    }
+  }
+})
 /**
   * Raccourci pour définir de passer à l&#x27;étape suivante
   * @for window

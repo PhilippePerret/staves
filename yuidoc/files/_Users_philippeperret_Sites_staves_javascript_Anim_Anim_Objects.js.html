@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -247,7 +257,10 @@ FONCTIONS_ANIM_OBJETS = {
     Anim.Infos.show_offset_cursor()
     NEXT_STEP(no_timeout = true)
   },
-  
+  SET_CURSOR:function(left)
+  {
+    
+  },
   /**
     * Activer la portée +indice+ (1-start)
     * @method ACTIVE_STAFF
@@ -399,6 +412,16 @@ METHODES_ANIM_OBJETS = {
     get:function(){ MODE_FLASH = false; NEXT_STEP(no_timeout=true)}
   },
   /**
+    * Remet le curseur de position à la position de départ (début des portées)
+    * @method RESET_CURSOR
+    */
+  &quot;RESET_CURSOR&quot;:{
+    get:function(){
+      Anim.current_x = parseInt(Anim.prefs.x_start,10)
+      NEXT_STEP(no_timeout=true)
+    }
+  },
+  /**
     * Méthode qui reset l&#x27;affichage
     * Produit
     * -------
@@ -410,7 +433,7 @@ METHODES_ANIM_OBJETS = {
     */
   &quot;RESET&quot;:{
     get:function(){
-      Anim.current_x = 100
+      RESET_CURSOR
       $(&#x27;section#animation *:not(.staffline, .cle)&#x27;).remove()
       NEXT_STEP(no_timeout = true)
     }

@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -259,19 +269,27 @@ $.extend(window.Anim,{
   },
   /**
     * Toutes les préférences par défaut
+    * Notes
+    *   * Cf. les définitions dans &#x60;prefs&#x60; ci-dessous
     * @property {Object} prefs_default
     * @static
     * @final
     */
   prefs_default:{
-    x_start       :100,
-    next          :40,  
-    harmony       :60, 
-    chord_mark    :40, 
-    speed         :1,
-    staff_top     :50,
-    staff_offset  :100,
-    note_size     :14.3
+    decompte          :2,
+    staff_top         :60,
+    staff_offset      :100,
+    x_start           :100,
+    next              :40,  
+    harmony           :70, 
+    staff_harmony     :null,
+    staff_chords      :null,
+    chord_mark        :40, 
+    modulation_x      :-13,
+    modulation_y      :26,
+    speed             :1,
+    note_size         :14.3,
+    delai_after_show  :3
   },
   /**
     * Toutes les préférences
@@ -280,6 +298,40 @@ $.extend(window.Anim,{
     */
   prefs:{
     // Positions absolues
+    /**
+      * Nombre de secondes de décompte avant le lancement de l&#x27;animation
+      * @property {Number} decomte
+      * @default 2
+      */
+    decompte      : 2,
+    /** Décalage haut de la première portée affichée
+      * @property {Number} staff_top 
+      */
+    staff_top     :60,
+    /** Décalage entre portée
+      * @property {Number} staff_offset 
+      */
+    staff_offset  :100,
+    /** Taille des notes (et altérations)
+      * @property {Number} note_size 
+      */
+    /**
+      * Portée qui doit porter l&#x27;harmonie. Pour faire porter l&#x27;harmonie
+      * par une portée particulière, quelle que soit la portée active
+      * @note : elle peut être définie même si la portée n&#x27;existe pas encore,
+      * puisqu&#x27;un check est fait à la création de toute portée (cf. Staff.create)
+      * @property {Staff|Numbre} staff_harmony
+      * @default NULL
+      */
+    staff_harmony  :null,
+    /**
+      * Portée qui doit porter les accords.
+      * @note : elle peut être définie même si la portée n&#x27;existe pas encore,
+      * puisqu&#x27;un check est fait à la création de toute portée (cf. Staff.create)
+      * @property {Staff|Number} staff_chords
+      * @default NULL
+      */
+    staff_chords    :null,
     /** Position left de départ pour chaque portée
       * @property {Number} x_start 
       */
@@ -290,11 +342,22 @@ $.extend(window.Anim,{
       */
     next                : 40,
     /**
+      * Décalage vertical de la marque de modulation par rapport à la portée
+      * @property {Number} modulation_y
+      */
+    modulation_y        : 26,
+    /**
+      * Décalage horizontal de la marque de modulation par rapport à l&#x27;objet
+      * qui la porte (souvent, un accord ou une note)
+      * @property {Number} modulation_y
+      */
+    modulation_x        : -13,
+    /**
       * Décalage de la marque d&#x27;harmonie ou de cadence par rapport à
       * la portée.
       * @property {Number} harmony 
       */
-    harmony             : 60,
+    harmony             : 70,
     /**
       * Décalage de la marque d&#x27;accord par rapport à la portée.
       * @property {Number} chord_mark 
@@ -305,22 +368,22 @@ $.extend(window.Anim,{
       * @property {Number} speed 
       */
     speed               : 1,
-    /** Décalage haut de la première portée affichée
-      * @property {Number} staff_top 
+    /**
+      * Temps d&#x27;attente à la fin de l&#x27;anim
+      * @property {Number} delai_after_show
       */
-    staff_top     :50,
-    /** Décalage entre portée
-      * @property {Number} staff_offset 
-      */
-    staff_offset  :100,
-    /** Taille des notes (et altérations)
-      * @property {Number} note_size 
+    delai_after_show    : 3,
+    /**
+      * Taille des notes
+      * @property {Float} note_size
       */
     note_size     :14.3,
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
     offset_next         : 0,
     offset_harmony      : 0,
-    offset_chord_mark   : 0
+    offset_chord_mark   : 0,
+    offset_modulation_y : 0,
+    offset_modulation_x : 0
   },
   /**
     * Définit une préférence
@@ -330,6 +393,9 @@ $.extend(window.Anim,{
     *     une valeur relative (cf. prefs ci-dessus)
     *   * Pour ré-initialiser une valeur à sa valeur par défaut, on envoie une value
     *     non définie.
+    *   * Certaines valeurs sont à traiter de façon particulière. Par exemple, pour
+    *     &#x60;staff_harmony&#x60;, si ça n&#x27;est pas une instance de Staff, c&#x27;est un indice
+    *     de portée qu&#x27;on transforme en instance de Staff.
     *
     * @method set_pref
     * @param  {String} pref       La préférence à régler
@@ -350,7 +416,19 @@ $.extend(window.Anim,{
       {
         if(pref == &#x27;speed&#x27; &amp;&amp; value == 0) throw &quot;Le coefficiant de vitesse (speed) ne peut pas être 0…&quot;
       } catch(err) { return F.error(err) }
-      this.prefs[pref]            = value
+      
+      // -- Correction de certaines valeur --
+      // On remplace l&#x27;indice portée par l&#x27;instance portée si nécessaire
+      // et surtout si la portée existe. Si elle n&#x27;existe pas encore, on
+      // guettera le moment où elle sera créée.
+      if(pref == &#x27;staff_harmony&#x27; &amp;&amp; &#x27;number&#x27; == typeof value)
+      {
+        if(undefined != this.staves[value - 1]) value = this.staves[value - 1]
+        // Sinon, elle reste un nombre
+      }
+      
+      /* == On règle la valeur == */
+      this.prefs[pref] = value
       if(undefined != this.prefs[&#x27;offset_&#x27;+pref]) this.prefs[&#x27;offset_&#x27;+pref]  = 0
     }
     this.Infos.show_pref(pref, value)
@@ -369,14 +447,6 @@ $.extend(window.Anim,{
   },
   
   /**
-    * Mode pas à pas
-    * Si true, on passe d&#x27;un pas de l&#x27;animation à un autre en cliquant
-    * sur le bouton pour jouer l&#x27;animation
-    * @property {Boolean} MODE_PAS_A_PAS
-    */
-  MODE_PAS_A_PAS:false,
-  
-  /**
     * Liste des portées affichées
     * @property {Array} staves
     */
@@ -389,21 +459,17 @@ $.extend(window.Anim,{
   current_staff:null,
   
   /**
-    * Le décalage horizontal courant
-    * Notes
-    *   * Ce décalage est défini en fonction de la présence de la métrique ou non
-    *     (TODO à implémenter dans la création de la portée — new_staff)
-    * @property {Number} current_x
-    * @default 100
-    */
-  current_x:100,
-  
-  /**
     * Animation en cours (si true)
     * @property {Boolean} on
     * @default false
     */
   on:false,
+  /**
+    * True quand la pause est activé
+    * @property {Boolean} pause_on
+    * @default false
+    */
+  pause_on:false,
   
   /**
     * Retourne la vitesse de transition de clé +key+ (dans Anim.transition)
@@ -428,16 +494,25 @@ $.extend(window.Anim,{
     */
   wait:function(laps){ this.Objects.WAIT(MODE_FLASH ? 0.001 : laps) },
   
-
   /**
-    * Active ou désactive le mode &quot;pas à pas&quot;
-    * @method def_mode_pas_a_pas
-    * @param  {Boolean} active    Si true, active le mode Pas à pas
+    * Détruit le timer éventuel (timeout)
+    * @method kill_timer
     */
-  def_mode_pas_a_pas:function(active)
+  kill_timer:function()
   {
-    this.MODE_PAS_A_PAS = active
-    // Flash.show(&quot;Le mode pas à pas est &quot;+(active ? &#x27;activé&#x27; : &#x27;désactivé&#x27;))
+    if(!this.timer) return
+    clearTimeout(this.timer)
+    delete this.timer
+  },
+  /**
+    * Ré-initialisation complète (par exemple au chargement d&#x27;une autre animation)
+    * @method init_all
+    */
+  init_all:function()
+  {
+    delete Console._steps_selection
+    delete Console._etapes
+    this.reset()
   },
   /**
     * Reset l&#x27;animation (au (re)-démarrage)
@@ -445,15 +520,29 @@ $.extend(window.Anim,{
     */
   reset:function()
   {
+    Flash.clean()
     $(&#x27;section#animation&#x27;).html(&#x27;&#x27;)
     this.Objects    = {}
+    this.Step.list  = null
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
     Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
     L(this.staves || []).each(function(staff){staff=null; delete staff;})
     this.staves     = []
-    this.current_x  = this.prefs.x_start
-    Console.cursor_offset = 0
+    this.current_x = parseInt(this.prefs.x_start,10)
     this.reset_prefs()
+    // Il faut ré-initialiser la grid après avoir re-défini current_x, car
+    // la grid s&#x27;en sert pour replacer le curseur de position.
+    this.Grid.init_all()
+  },
+  /**
+    * Appelé au chargement de l&#x27;application
+    * @method on_load
+    */
+  on_load:function()
+  {
+    Anim.Infos.prepare()
+    Anim.set_slider()
+    this.play_type = $(&#x27;select#play_type&#x27;).val()
   },
   /**
     * Reset les préférences
@@ -463,15 +552,37 @@ $.extend(window.Anim,{
   {
     // Il faut remettre toutes les préférences au départ
     L(this.prefs_default).each(function(key, value){
-      Anim.set_pref(key, value)
+      Anim.set_pref(key, value, next_step = false)
     })
   },
   
-  // /** Raccourci pour Anim.Dom.show
-  //   * OBSOLÈTE
-  //   * @method show */
-  // show:function(obj, params){this.Dom.show(obj,params)},
- 
+  /**
+    * Méthode appelée quand on change le &quot;play type&quot;, donc ce qu&#x27;il faut
+    * jouer de l&#x27;animation et comment il faut le jouer. Elle affiche un message
+    * d&#x27;information.
+    * @method onchange_play_type
+    */
+  onchange_play_type:function(play_type)
+  {
+    this.play_type = play_type
+    F.show(function(playtype){
+      switch(playtype)
+      {
+      case &#x27;all&#x27;:
+        return &quot;L&#x27;intégralité de l&#x27;animation sera jouée.&quot;
+      case &#x27;selection&#x27;:
+        return &quot;Seul le code sélectionné sera joué.&quot;
+      case &#x27;repairs&#x27;:
+        return &quot;Seul le code entre &#x60;#!START&#x60; et &#x60;#!END&#x60; sera joué.&quot;
+      case &#x27;stepbystep&#x27;:
+        return &quot;L&#x27;animation sera jouée pas à pas.&quot;
+      case &#x27;from_cursor&#x27;:
+        return &quot;L&#x27;animation sera jouée depuis la position du curseur.&quot;
+      default:
+        return &quot;Bleurk… (dans Anim.onchange_play_type)&quot;
+      }
+    }(play_type))
+  },
   /**
     * Enregistre l&#x27;animation courante
     * @method save
@@ -561,7 +672,7 @@ $.extend(window.Anim,{
     {
       if(rajax.ok)
       {
-        this.Step.list  = null
+        this.init_all()
         this.name       = name
         $(&#x27;select#animations&#x27;).val(name)
         Console.set(rajax.raw_code.stripSlashes())
@@ -593,7 +704,21 @@ $.extend(window.Anim,{
   }
 })
 
-
+Object.defineProperties(Anim,{
+  /**
+    * Position x courante
+    * @property {Number} current_x
+    * @default Anim.prefs.x_start
+    */
+  &quot;current_x&quot;:{
+    set:function(x){
+      this._current_x = x
+      this.Grid.set_cursor(x)
+    },
+    get:function(){ return this._current_x || parseInt(Anim.prefs.x_start,10)}
+  }
+  
+})
     </pre>
 </div>
 

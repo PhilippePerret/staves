@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/Grid.html">Grid</a></li>
+            
                 <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
             
                 <li><a href="../classes/Infos.html">Infos</a></li>
@@ -64,6 +66,8 @@
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
+            
+                <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
@@ -87,6 +91,8 @@
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
+                <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
+            
                 <li><a href="../modules/Anim_infos.html">Anim_infos</a></li>
             
                 <li><a href="../modules/Anim_Objects.js.html">Anim_Objects.js</a></li>
@@ -109,6 +115,8 @@
             
                 <li><a href="../modules/Note.html">Note</a></li>
             
+                <li><a href="../modules/Pas.js.html">Pas.js</a></li>
+            
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
@@ -116,6 +124,8 @@
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
+            
+                <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
             </ul>
         </div>
@@ -254,8 +264,7 @@ $.extend(Note.prototype,{
       Anim.staves[staff_init - 1].notes.remove(this)
       this.staff_changed = true
     } 
-    this.exergue()
-    this.operation([this.obj], &#x27;moveTo&#x27;, {top: this.top})
+    this.exergue({complete:$.proxy(this.operation, this, [this.obj], &#x27;moveTo&#x27;, {top: this.top})})
   },
   
   /**
@@ -311,30 +320,45 @@ $.extend(Note.prototype,{
   /**
     * Met la note en exergue (bleue et au-dessus)
     * @method exergue
+    * @params {Object|String} params        Paramètres optionnels pour définir l&#x27;exergue.
+    *                                       OU seulement la couleur en String (constante)
+    *   @params {String} params.color       La couleur de l&#x27;exergue (constante ou def)
+    *   @params {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
     */
-  exergue:function()
+  exergue:function(params)
   {
-    this.obj[0].src = &quot;img/note/rond-couleur.png&quot;
+    if(undefined == params)             params          = {}
+    else if (&#x27;string&#x27; == typeof params) params          = {color:params}
+    if(undefined == params.color)       params.color    = blue
+    if(undefined == params.complete)    params.complete = NEXT_STEP
+    
+    this.color = params.color
+    this.obj[0].src = this.src
     this.obj.css(&#x27;z-index&#x27;,&#x27;20&#x27;)
     if(this.alteration &amp;&amp; this.obj_alt.length)
     {
-      this.obj_alt[0].src = &quot;img/note/&quot;+this.filename_alteration+&quot;-couleur.png&quot;
+      this.obj_alt[0].src = this.src_alteration
       this.obj_alt.css(&#x27;z-index&#x27;, &quot;20&quot;)
     }
+    if(&#x27;function&#x27;==typeof params.complete) params.complete()
   },
   /**
     * Sorte la note de son exergue
     * @method unexergue
     */
-  unexergue:function()
+  unexergue:function(params)
   {
-    this.obj[0].src = &quot;img/note/rond-noir.png&quot;
+    if(undefined == params)           params = {}
+    if(undefined == params.complete)  params.complete = NEXT_STEP
+    delete this.color
+    this.obj[0].src = this.src
     this.obj.css(&#x27;z-index&#x27;,&#x27;10&#x27;)
     if(this.alteration &amp;&amp; this.obj_alt.length)
     {
       this.obj_alt[0].src = this.src_alteration
       this.obj_alt.css(&#x27;z-index&#x27;, &quot;10&quot;)
     }
+    if(&#x27;function&#x27;==typeof params.complete) params.complete()
   },
   
   /**
@@ -346,11 +370,27 @@ $.extend(Note.prototype,{
     */
   remove:function()
   {
-    this.exergue()
-    this.operation(this.objets, &#x27;remove&#x27;)
+    this.exergue({complete:$.proxy(this.operation, this, this.objets, &#x27;remove&#x27;)})
     this.staff.notes.remove(this)
-  }
+  },
   
+  /**
+    * Masque la note
+    * @method hide
+    */
+  hide:function()
+  {
+    this.operation(this.objets, &#x27;hide&#x27;)
+  },
+  
+  /**
+    * Ré-affiche une note masquée par &#x60;hide&#x60;
+    * @method show
+    */
+  show:function()
+  {
+    this.operation(this.objets, &#x27;show&#x27;)
+  }
 })
 
 $.extend(Note.prototype, METHODES_TEXTE)
@@ -392,8 +432,10 @@ $.extend(Note.prototype,{
       this.staff.notes.add(this)
       delete this.staff_changed
     }
-    this.update_affichage()
-    this.unexergue()    
+    // &#x60;complete&#x60; réglé ci-dessous juste pour qu&#x27;il est une valeur et ne
+    // soit pas remplacé par NEXT_STEP
+    this.unexergue({complete:$.proxy(this.update_affichage, this)})    
+    if(upper = this.staff.notes.hasConjointeUpper(this)) upper.update_affichage()
   },
   /**
     * Détruit l&#x27;alteration
@@ -426,8 +468,7 @@ $.extend(Note.prototype,{
   complete:function()
   {
     this.suplines_if_necessary()
-    this.unexergue()
-    NEXT_STEP()
+    this.unexergue() // poursuivra avec NEXT_STEP
   },
   /**
     * Méthode à appeler à la fin de toute animation
@@ -525,7 +566,9 @@ $.extend(Note.prototype,{
     //   &#x27;key in NOTE_TO_OFFSET&#x27;: this.note+this.octave,
     //   &#x27;value in NOTE_TO_OFFSET&#x27;:NOTE_TO_OFFSET[this.note+this.octave]
     // })
-    this.obj.css({top:this.top+&#x27;px&#x27;, left:this.real_left+&#x27;px&#x27;, height:Anim.prefs.note_size+&#x27;px&#x27;})
+    var d = {top:this.top+&#x27;px&#x27;, left:this.real_left+&#x27;px&#x27;}
+    if(Anim.prefs.note_size != Anim.prefs_default.note_size) d.height = Anim.prefs.note_size+&#x27;px&#x27;;
+    this.obj.css(d)
     if(this.alteration) this.positionne_alteration()
   },
   /**
@@ -538,10 +581,6 @@ $.extend(Note.prototype,{
     */
   update_affichage:function()
   {
-    // Noter que c&#x27;est normal que ça arrive (left ≠ real_left) mais cela
-    // est symptomatique d&#x27;une note conjointe, donc il faut vérifier, après
-    // une opération, si la note n&#x27;est pas à repositionner.
-    // if(this.left != this.real_left) 
     this.obj.animate({left:this.real_left+&#x27;px&#x27;},250)
   },
   /**
@@ -809,6 +848,19 @@ Object.defineProperties(Note.prototype,{
     }
   },
   /**
+    * Retourne le “centre_x” de la note, c&#x27;est-à-dire la position left qui passe
+    * vraiment au milieu de la note (sauf si elle est décalée à cause d&#x27;une
+    * note conjointe)
+    * C&#x27;est cette valeur qui doit être utilisée pour positionner des éléments
+    * par rapport à cette note.
+    * @property {Number} centre_x
+    */
+  &quot;centre_x&quot;:{
+    get:function(){
+      return this.left + 6
+    }
+  },
+  /**
     * Retourne la vraie valeur left pour l&#x27;affichage, en fonction des notes
     * conjointes qui peuvent se trouver sur la portée à cet endroit-là
     * @property {Number} real_left
@@ -843,8 +895,9 @@ Object.defineProperties(Note.prototype,{
   },
   /**
     * Note conjointe au-dessus de la note
+    * La valeur est &quot;&lt;note&gt;&lt;octave&gt;&quot;
     * Notes : Il serait aussi possible de retourner la valeur midi
-    * @property {String} conjointe_upper   &quot;&lt;note&gt;&lt;octave&gt;&quot;
+    * @property {String} conjointe_upper
     */
   &quot;conjointe_upper&quot;:{
     get:function(){
@@ -855,8 +908,9 @@ Object.defineProperties(Note.prototype,{
   },
   /**
     * Note conjointe en dessous de la note
+    * La valeur est &quot;&lt;note&gt;&lt;octave&gt;&quot;
     * Notes : Il serait aussi possible de retourner la valeur midi
-    * @property {String} conjointe_under   &quot;&lt;note&gt;&lt;octave&gt;&quot;
+    * @property {String} conjointe_under
     */
   &quot;conjointe_under&quot;:{
     get:function(){
@@ -950,17 +1004,28 @@ Object.defineProperties(Note.prototype,{
     */
   &quot;html_img&quot;:{
     get:function(){
-      return &#x27;&lt;img class=&quot;note&quot; id=&quot;&#x27;+this.id+&#x27;&quot; src=&quot;img/note/rond-noir.png&quot; /&gt;&#x27;
+      return &#x27;&lt;img class=&quot;note&quot; id=&quot;&#x27;+this.id+&#x27;&quot; src=&quot;&#x27;+this.src+&#x27;&quot; /&gt;&#x27;
     }
   },
   
+  /**
+    * Path (src) de la note (en fonction de son type et de sa couleur)
+    * Note : pour le moment, c&#x27;est toujours un simple rond
+    * @property {String} src
+    */
+  &quot;src&quot;:{
+    get:function(){
+      return &quot;img/note/rond-&quot;+(this.color || &#x27;noir&#x27;)+&quot;.png&quot;
+    }
+  },
   /**
     * Path (src) de l&#x27;altération
     * @property {String} src_alteration
     */
   &quot;src_alteration&quot;:{
-    get:function(){return &quot;img/note/&quot;+this.filename_alteration+&quot;.png&quot;}
+    get:function(){return &quot;img/note/&quot;+this.filename_alteration+&quot;-&quot;+(this.color||&#x27;noir&#x27;)+&quot;.png&quot;}
   },
+  
   /**
     * Retourne le nom du fichier en fonction de l&#x27;altération
     * @property {String} filename_alteration
