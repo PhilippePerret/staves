@@ -108,6 +108,7 @@ $.extend(window.Anim,{
     * @final
     */
   prefs_default:{
+    decompte          :2,
     x_start           :100,
     next              :40,  
     harmony           :70, 
@@ -128,6 +129,12 @@ $.extend(window.Anim,{
     */
   prefs:{
     // Positions absolues
+    /**
+      * Nombre de secondes de décompte avant le lancement de l'animation
+      * @property {Number} decomte
+      * @default 2
+      */
+    decompte      : 2,
     /** Décalage haut de la première portée affichée
       * @property {Number} staff_top 
       */

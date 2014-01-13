@@ -33,6 +33,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Vitesse de l'animation](#vitesse_animation)
 * [Jouer l'animation](#run_animation)
 * [Activer/désactiver le Mode “Flash](#mode_flash)
+* [Définir le décompte de départ](#set_decompte)
 * [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
 
 
@@ -231,6 +232,16 @@ Dans ce cas, on met le code à passer entre&nbsp;:
 
 *Noter que le résultat ne sera pas du tout le même que si l'on commentait les lignes de code à passer, puisque l'animation ne se trouverait peut-être pas dans le même état.*
 
+<a name="set_decompte"></a>
+###Régler le décompte
+
+Par défaut, l'animation attend deux secondes avant de démarrer.
+
+On peut régler sa valeur par&nbsp;:
+
+DEFAULT('decomte', <nombre de secondes>)
+  
+*Mettre `0` pour supprimer tout décompte.*
 
 <a name="reiniti_preferences"></a>
 ###Ré-initialiser toutes les valeurs de préférence
@@ -1225,6 +1236,7 @@ On peut régler à tout moment (et en particulier au début de l'animation) tout
 ###Table des matières
 
 * [Réglage de la vitesse](#prefs_speed)
+* [Réglage du temps de décompte (section “Animation”)](#set_decompte)
 * [Astuce pour le réglage des positions](#prefs_tips_reglage)
 * [Réglage de la position des portées](#prefs_staves)
 * [Réglage de la position horizontale initiale (curseur)](#prefs_x_start)

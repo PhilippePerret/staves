@@ -81,7 +81,16 @@ $.extend(Anim,{
     this.pause_on = false
     this.set_interface()
     UI.Regle.hide()
-    this.Step.next()
+    var delai_before = this.prefs.decompte
+    if(delai_before)
+    {
+      this.decompte.poursuivre = $.proxy(this.Step.next, this.Step)
+      this.decompte(delai_before)
+    }
+    else
+    { // Pas de décompte
+      this.Step.next()
+    } 
   },
   /**
     * Pause demandée
@@ -103,7 +112,8 @@ $.extend(Anim,{
     this.pause_on = false
     this.kill_timer()
     delete this.Step.list
-    this.decompte()
+    this.decompte.poursuivre = $.proxy(this.real_stop, this)
+    this.decompte(this.prefs.delai_after_show)
   },
   /**
     * Procède vraiment au stop, en faisant réapparaitre les éléments
@@ -119,22 +129,24 @@ $.extend(Anim,{
   },
   
   /**
-    * Affiche un décompte (en fin d'animation)
+    * Affiche un décompte (en fin ou en début d'animation)
     * @method decompte
+    * @param  {Number} secs_reste Le nombre de secondes de décompte
     */
   decompte:function(reste)
   {
     this.kill_timer()
-    if(undefined == reste)
+    if(!this.decompte.on)
     {
-      reste = this.prefs.delai_after_show + 1
+      this.decompte.on = true
       $('div#decompte').show()
     } 
-    reste -= 1
+    else reste -= 1
     if(reste == 0)
     {
       $('div#decompte').hide()
-      this.real_stop()
+      delete this.decompte.on
+      this.decompte.poursuivre()
     } 
     else
     {
