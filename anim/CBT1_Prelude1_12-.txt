@@ -18,10 +18,14 @@ ACTIVE_STAFF(1)
 
 # --- Mesure 12 : C#7dim ---
 acc = CHORD('2:g3 2:bb3 e4 g4 cd5')
+WAIT(2)
+MODE_FLASH
 acc.note(1).hide()
 acc.note(2).hide()
 prov = NOTE('bb4')
-acc.note(5).moveTo('cd4')
+acc.note(5).hide()
+prov2 = NOTE('cd4')
+STOP_MODE_FLASH
 WAIT(1)
 acc.chord_mark('C#7dim')
 WAIT(1)
@@ -29,12 +33,56 @@ acc.modulation('Rém [IIe de C]')
 WAIT(1)
 acc.harmony('VII7dim**')
 WAIT(1)
+MODE_FLASH
 prov.remove()
+prov2.remove()
 STAFF(1).remove_supline({bottom:1})
-acc.note(2).show('bb3')
-acc.note(5).moveTo('cd5')
+acc.note(2).show()
+acc.note(5).show().positionne()
 acc.note(1).show()
- 
+STOP_MODE_FLASH
+
 # # --- Mesure 13 : Dm ---
 NEXT()
 acc = CHORD('2:f3 2:a3 d4 a4 d5')
+WAIT(2)
+acc.note(1).hide()
+prov = NOTE(f4)
+acc.note(2).hide()
+acc.note(5).hide()
+WAIT(2)
+acc.chord_mark('Dm')
+WAIT(1)
+acc.cadence('I',{type:imparfaite, width:100})
+prov.remove()
+MODE_FLASH
+acc.note(1).show()
+acc.note(2).show()
+acc.note(5).show()
+STOP_MODE_FLASH
+
+#!START
+# --- Mesure 14 : B7dim ---
+NEXT()
+acc = CHORD('2:f3 2:ab3 d4 f4 b4')
+MODE_FLASH
+acc.note([1,2,5]).hide()
+prov = NOTE(b3)
+STOP_MODE_FLASH
+WAIT(1)
+acc.chord_mark("B7dim")
+WAIT(1)
+acc.modulation("C(m)")
+WAIT(1)
+acc.harmony('VII**')
+WAIT(2)
+FLASH
+acc.note([1,2,5]).show()
+prov.remove()
+STAFF(1).remove_supline({bottom:1})
+STOP_FLASH
+
+# --- Mesure 15 : C ---
+NEXT()
+acc = CHORD('2:e3 2:g3 c4 g4 c4')
+#!END

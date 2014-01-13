@@ -220,6 +220,16 @@ Le plus simple, pour sélectionner correctement la portion de code à tester, es
 
 Le mode “Flash” permet de jouer très rapidement une partie de l'animation. C'est utile lorsqu'une partie est calée, mais qu'on ne veut pas la rejouer systématiquement au même rythme pour atteindre la portion en cours d'élaboration.
 
+On peut aussi l'utiliser pour accélérer un ensemble de modifications qui pourraient se faire en même temps.
+
+Pour passer en mode flash&nbsp;:
+
+    MODE_FLASH        ou      FLASH
+
+Pour stopper le mode flash et revenir à la vitesse normale
+
+    STOP_MODE_FLASH   ou      STOP_FLASH
+
 Dans ce cas, on met le code à passer entre&nbsp;:
 
     MODE_FLASH
@@ -572,10 +582,26 @@ Par exemple&nbsp;:
     accDom=CHORD('c3 eb3 g3')
     accDom.note(1).moveTo('c4')
     // Prends la première note (c3) et la déplace en c4.
-  
+
+####Opération sur plusieurs notes
+
+La méthode `note` de l'objet peut être également appelé avec une liste d'indice de notes. Toutes les notes subiront alors le même traitement.
+
+Par exemple, pour masquer un ensemble de notes&nbsp;:
+
+    monAccord = CHORD('b3 d4 f4 a4')
+    WAIT(1)
+    monAccord.note([1,2,4]).hide()
+    # => masque la 1ère, 2e et 4e note
+    WAIT(2)
+    monAccord.note([1,2,4]).show()
+    # => ré-affiche les notes
+
+####Affecter une note à une variable
+
 Comme pour tout “groupe de notes”, si l'on veut affecter une note de l'accord à une variable (pour l'utiliser plus facilement ensuite), on ne peut pas procéder ainsi&nbsp;:
 
-    maNote=monAccord.note(2)
+    maNote=monAccord.note(2)      # => # ERREUR #
     maNote.write("Une seconde !") # => # ERREUR #
 
 Pour ce faire, il faut impérativement utiliser&nbsp;:
@@ -584,6 +610,12 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
     maNote.write("Une seconde !")
 
 Donc ajouter `Anim.Objects` devant `monAcccord.note(2)`, `Anim.Objects` étant la propriété qui contient tous les objets de l'animation.
+
+On peut aussi utiliser la méthode pratique `objet(...)`&nbsp;:
+
+    maNote = objet('monAccord.note(2)')
+    
+Mais dans ce cas, noter qu'il faut absolument mettre le paramètre (la référence de l'objet) entre guillemets ou apostrophes.
 
 <a name="write_chord_name"></a>
 ###Écrire le nom de l'accord

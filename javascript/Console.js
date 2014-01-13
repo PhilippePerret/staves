@@ -150,9 +150,6 @@ Object.defineProperties(window.Console,{
     *     1.  On prend le code sélectionné pour connaitre l'offset et le contenu
     *     2.  On passe en revue l'intégralité du code en conservant les lignes
     *         qui doivent être jouées.
-    *   * La méthode règle aussi le `cursor_offset` pour pouvoir suivre correctement
-    *     le code. On pourrait imaginer faire une petite correction pour être sûr
-    *     de prendre le code depuis le premier caractère.
     *   * On mémorise les informations pour pouvoir rejouer la même sélection
     *   * La liste renvoyée est expurgée des pas de "préambule" ou peuvent
     *     être définies des préférences.
@@ -214,8 +211,8 @@ Object.defineProperties(window.Console,{
     */
   "steps_between_repairs":{
     get:function(){
-      var start = this.raw.indexOf("\n#!START\n")
-      var end   = this.raw.indexOf("\n#!END\n")
+      var start = this.raw.indexOf("\n#!START")
+      var end   = this.raw.indexOf("\n#!END")
       if(start < -1 || end < -1)
       {
         F.error("Il faut placer les repères `#!START` et `#!END` dans le code (et les placer sur une ligne vierge) !")

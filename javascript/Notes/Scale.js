@@ -25,7 +25,7 @@
   *   @param  {Number}  params.for      Le nombre de notes à écrire (8 par défaut)
   * 
   * @return {Array} un Array des instances notes dont les méthodes et propriétés ont
-  *                 été étendus par GROUPNOTES_METHODS et GROUPNOTES_PROPERTIES.
+  *                 été étendus par METHODES_GROUPNOTES et PROPERTIES_GROUPNOTES.
   */
 window.SCALE = function(scale, params)
 {

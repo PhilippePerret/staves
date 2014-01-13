@@ -22,5 +22,6 @@ const finger      = 'finger'
 const cadence     = 'cadence'
 
 const parfaite    = 'parfaite'
+const imparfaite  = 'imparfaite'
 const plagale     = 'plagale'
 const picarde     = 'picarde'

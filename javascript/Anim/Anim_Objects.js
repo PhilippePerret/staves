@@ -2,6 +2,18 @@
   * @module Anim_Objects.js
   */
 
+/**
+  * Méthode pratique pour récupérer un objet de l'animation
+  *
+  * @method objet
+  * @for    window
+  * @param  {String} refobjet   La référence de l'objet
+  */
+window.objet = function(refobjet)
+{
+  return eval('Anim.Objects.'+refobjet)
+}
+
 if(undefined == window.Anim) window.Anim = {}
 /**
   * Les objets qui vont être créés par les lignes de code de l'animation,
@@ -236,6 +248,8 @@ METHODES_ANIM_OBJETS = {
   "MODE_FLASH":{
     get:function(){ MODE_FLASH = true; NEXT_STEP(no_timeout=true)}
   },
+  // Alias
+  "FLASH":{get:function(){this.MODE_FLASH}},
   /**
     * Pseudo-méthode pour sortir du mode flash
     * @method STOP_MODE_FLASH
@@ -243,6 +257,8 @@ METHODES_ANIM_OBJETS = {
   "STOP_MODE_FLASH":{
     get:function(){ MODE_FLASH = false; NEXT_STEP(no_timeout=true)}
   },
+  // Alias
+  "STOP_FLASH":{get:function(){this.STOP_MODE_FLASH}},
   /**
     * Remet le curseur de position à la position de départ (début des portées)
     * @method RESET_CURSOR
