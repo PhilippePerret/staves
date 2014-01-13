@@ -240,7 +240,7 @@ Par défaut, l'animation attend deux secondes avant de démarrer.
 On peut régler sa valeur par&nbsp;:
 
 DEFAULT('decomte', <nombre de secondes>)
-  
+
 *Mettre `0` pour supprimer tout décompte.*
 
 <a name="reiniti_preferences"></a>

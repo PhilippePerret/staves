@@ -38,6 +38,24 @@ $.extend(window.Console,{
     return code
   },
   /**
+    * Expurge de la liste des étapes +liste+ les étapes dite "de préambule" qui
+    * ne font que définir des valeurs (par exemple valeurs par défaut).
+    * Ces étapes sont toujours interprétées avant le décompte.
+    * La méthode produit this.preambule qui sera joué en tout premier lieu.
+    * @method expurge_preambule
+    * @param {Array de Pas} liste Liste des instances d'étape
+    * @return {Array} La liste des étapes sans les étapes de préambule. C'est un
+    *                 clone de la liste pour que les méthodes appelantes n'aient pas à le faire
+    *                 (il faut un clone pour pouvoir conserver la liste, car celle envoyée sera
+    *                  mangée — shift — au cours de l'opération).
+    */
+  expurge_preambule:function(liste)
+  {
+    this.preambule = []
+    while(liste[0].is_etape_preambule) this.preambule.push(liste.shift())
+    return $.merge([], liste)
+  },
+  /**
     * Récupère la sélection courante
     *
     * @method get_selection 
@@ -96,6 +114,12 @@ Object.defineProperties(window.Console,{
   
   /**
     * Récupère le code dans la console, comme une liste de pas
+    * Moins les étapes de préambule éventuelles.
+    *
+    * Notes
+    * -----
+    *   * La liste renvoyée est expurgée des pas de "préambule" ou peuvent
+    *     être définies des préférences.
     *
     * @property steps
     * @return {Array of Pas} Liste des instances {Pas} de l'animation
@@ -112,11 +136,12 @@ Object.defineProperties(window.Console,{
           cur_offset += pas.length
         })
       }
-      return $.merge([], this._etapes) // clone
+      return this.expurge_preambule(this._etapes) // clone
     }
   },
   /**
     * Retourne les étapes sélectionnées. Permet de ne jouer qu'une partie du code.
+    * Moins les étapes de préambule éventuelles
     * Notes
     * -----
     *   * Mais l'opération n'est pas aussi simple que ça : il faut jouer les
@@ -129,6 +154,8 @@ Object.defineProperties(window.Console,{
     *     le code. On pourrait imaginer faire une petite correction pour être sûr
     *     de prendre le code depuis le premier caractère.
     *   * On mémorise les informations pour pouvoir rejouer la même sélection
+    *   * La liste renvoyée est expurgée des pas de "préambule" ou peuvent
+    *     être définies des préférences.
     *
     * @property {Array of Pas} steps_selection La liste des étapes sélectionnées et étapes précédentes
     *                                   nécessaires.
@@ -171,14 +198,17 @@ Object.defineProperties(window.Console,{
       }
       // Il faut renvoyer un clone car l'exécution des étapes mange (shift) dans
       // cette liste renvoyée.
-      return $.merge([], this._steps_selection)
+      return this.expurge_preambule(this._steps_selection)
     }
   },
   /**
     * Liste des étapes entre les repères #!START et #!END (+ les étapes indispensables avant)
+    * Moins les étapes de préambule éventuelles
     * Notes
     *   * Pour définir la liste on utilise la propriété `steps_selection` simplement
     *     en sélectionnant la portion de texte voulu avant.
+    *   * La liste renvoyée est expurgée des pas de "préambule" ou peuvent
+    *     être définies des préférences.
     *
     * @property {Array of Pas} steps_between_repairs
     */
@@ -198,6 +228,7 @@ Object.defineProperties(window.Console,{
   },
   /**
     * Retourne la liste de toutes les étapes à partir du pointeur (qui peut
+    * Moins les étapes de préambule éventuelles
     * se trouver à l'intérieur d'une ligne, pas forcément au début)
     * Notes:
     *   * Cette méthode se sert aussi de steps_selection

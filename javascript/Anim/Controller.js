@@ -50,7 +50,11 @@ $.extend(Anim,{
         case 'from_cursor': return Console.steps_from_cursor
         }
       }(this.play_type)
-      if(this.Step.list) this.play()
+      if(this.Step.list)
+      { 
+        this.play_preambule()
+        this.play()
+      }
     } 
   },
   /**
@@ -65,6 +69,17 @@ $.extend(Anim,{
     this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?'show':'hide']()
     if(!this.on || this.pause_on) this.Grid.show()
     else this.Grid.hide()
+  },
+  
+  /**
+    * Interprète les étapes de préambule
+    * @method play_preambule
+    */
+  play_preambule:function()
+  {
+    this.preambule_on = true
+    while(pas = Console.preambule.shift()) pas.exec()
+    this.preambule_on = false
   },
   /**
     * Démarre véritablement l'animation

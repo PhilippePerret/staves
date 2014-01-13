@@ -39,11 +39,9 @@ Anim.Step = {
     if(!this.list) return Anim.stop()
     this.set_current()
     if(undefined == this.current) return Anim.stop()
-    // Passer les commentaires et les lignes vides
-    if(this.current.is_comment() || this.current.is_empty()) return this.next()
-    /* === On joue l'étape === */
-    this.current.exec()
-    if(!this.list || this.list.length == 0) Anim.stop()
+    /* === On joue l'étape (sauf commentaires ou lignes vides) === */
+    if(false == this.current.exec()) this.next()
+    else if(!this.list || this.list.length == 0) Anim.stop()
   },
   /**
     * Définit l'étape courante et la sélectionne dans le code
@@ -78,6 +76,7 @@ Anim.Step = {
     */
   auto_next:function(no_timeout)
   {
+    if(Anim.preambule_on) return
     if(this.timer) clearTimeout(this.timer)
     if(this.mode_pas_a_pas) return
     if(MODE_FLASH || no_timeout || Anim.transition.step == 0)

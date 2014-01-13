@@ -84,11 +84,12 @@ $.extend(Pas.prototype,{
   /**
     * == Main ==
     *
-    * Exécuter l'étape
+    * Exécute l'étape
     * @method exec
     */
   exec:function()
   {
+    if(this.is_comment || this.is_empty) return false
     try{ eval('Anim.Objects.'+this.trimed) }
     catch(err){ this.on_error(err, retry = true) }
     // S'il y a eu plusieurs essais en mode flash
@@ -97,6 +98,7 @@ $.extend(Pas.prototype,{
       clearTimeout(this.timer_tries_exec)
       delete this.tries_exec
     }
+    return true
   },
   /**
     * Méthode appelée en cas d'erreur, principalement lors de l'exécution de
@@ -142,29 +144,8 @@ $.extend(Pas.prototype,{
   select:function()
   {
     Console.select({start:this.offset_start, end:this.offset_end})
-  },
-  
-  /**
-    * Retourne True si le pas est une ligne de commentaires
-    * @method is_comment
-    * @return {Boolean} True si commentaire
-    */
-  is_comment:function()
-  {
-    if(undefined == this._is_comment) this._is_comment = (this.trimed.substring(0,1) == "#")
-    return this._is_comment
-  },
-  
-  /**
-    * Retourne TRUE si le pas est du code vide
-    * @method is_empty
-    * @return {Boolean} True si vide (trimé)
-    */
-  is_empty:function()
-  {
-    if(undefined==this._is_empty) this._is_empty = (this.trimed == "")
-    return this._is_empty
   }
+  
 })
 
 /* ---------------------------------------------------------------------
@@ -181,5 +162,49 @@ Object.defineProperties(Pas.prototype,{
       if(undefined == this._trimed) this._trimed = this.code.trim()
       return this._trimed
     }
+  },
+  /**
+    * Propriété qui détermine si l'étape est une étape "préambule" c'est-à-dire
+    * soit un réglage de préférence (DEFAULT), soit un commentaire, etc., toute
+    * étape qui ne “produit” rien de l'animation.
+    * @property {Boolean} is_etape_preambule
+    */
+  "is_etape_preambule":{
+    get:function(){
+      if(undefined == this._is_etape_preambule)
+      {
+        this._is_etape_preambule = this.is_comment || this.is_empty || this.is_setting
+      }
+      return this._is_etape_preambule
+    }
+  },
+  /**
+    * Return TRUE si l'étape est un commentaire
+    * @property {Boolean} is_comment
+    */
+  "is_comment":{
+    get:function(){
+      if(undefined == this._is_comment) this._is_comment = (this.trimed.substring(0,1) == "#")
+      return this._is_comment
+    }
+  },
+  /**
+    * Return TRUE si l'étape est une ligne vide
+    * @property {Boolean} is_comment
+    */
+  "is_empty":{
+    get:function(){
+      if(undefined == this._is_empty) this._is_empty = this.trimed == ""
+      return this._is_empty
+    }
+  },
+  /**
+    * Return TRUE si l'étape est un réglage par défaut
+    * @property {Boolean} is_comment
+    */
+  "is_setting":{
+    get:function(){return this.trimed.substring(0,7) == "DEFAULT"}
   }
+  
+  
 })

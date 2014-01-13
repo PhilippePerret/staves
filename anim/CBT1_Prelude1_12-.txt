@@ -3,6 +3,7 @@
 # Mesures 12 - 
 
 # --- Valeurs par défault ---
+DEFAULT('decompte', 0)
 DEFAULT(\'next\', 75)
 DEFAULT(\'harmony\', 50)
 DEFAULT(\'staff_top\', 120)
@@ -24,13 +25,13 @@ acc.note(5).moveTo('cd4')
 WAIT(1)
 acc.chord_mark('C#7dim')
 WAIT(1)
-acc.harmony('[avant]VII7dim**[après]', {staff:2})
+acc.harmony('VII7dim**')
 WAIT(1)
 acc.modulation('Rém [IIe de C]')
 WAIT(1)
-acc.note(2).moveTo('bb3')
+acc.note(2).show('bb3')
 acc.note(5).moveTo('cd5')
-NOTE('g3')
+acc.note(1).show()
  
 # # --- Mesure 13 : Dm ---
 # NEXT()
