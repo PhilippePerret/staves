@@ -1,6 +1,6 @@
 #Manuel pour la programmation de l'application
 
-Note : il y a 22 pixels entre le 'left' d'une note et le centre de son affichage
+Note : il y a 6 pixels entre le 'left' d'une note et le centre de son affichage
 Utiliser la méthode <note>.centre pour obtenir le vrai left
 
 * [Affichage de tout objet animation](#show_objet_animation)

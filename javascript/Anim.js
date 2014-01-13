@@ -101,22 +101,25 @@ $.extend(window.Anim,{
   },
   /**
     * Toutes les préférences par défaut
+    * Notes
+    *   * Cf. les définitions dans `prefs` ci-dessous
     * @property {Object} prefs_default
     * @static
     * @final
     */
   prefs_default:{
-    x_start       :100,
-    next          :40,  
-    harmony       :70, 
-    modulation_x  :-13,
-    modulation_y  :26,
-    chord_mark    :40, 
-    speed         :1,
-    staff_top     :60,
-    staff_offset  :100,
-    note_size     :14.3,
-    delai_after_show  :3
+    x_start           :100,
+    next              :40,  
+    harmony           :70, 
+    modulation_x      :-13,
+    modulation_y      :26,
+    chord_mark        :40, 
+    speed             :1,
+    staff_top         :60,
+    staff_offset      :100,
+    note_size         :14.3,
+    delai_after_show  :3,
+    staff_harmony     :null
   },
   /**
     * Toutes les préférences
@@ -136,6 +139,13 @@ $.extend(window.Anim,{
     /** Taille des notes (et altérations)
       * @property {Number} note_size 
       */
+    /**
+      * Portée qui doit porter l'harmonie. Pour faire porter l'harmonie
+      * par une portée particulière, quelle que soit la portée active
+      * @property {Staff} staff_harmony
+      * @default NULL
+      */
+    staff_harmony  :null,
     /** Position left de départ pour chaque portée
       * @property {Number} x_start 
       */
@@ -197,6 +207,9 @@ $.extend(window.Anim,{
     *     une valeur relative (cf. prefs ci-dessus)
     *   * Pour ré-initialiser une valeur à sa valeur par défaut, on envoie une value
     *     non définie.
+    *   * Certaines valeurs sont à traiter de façon particulière. Par exemple, pour
+    *     `staff_harmony`, si ça n'est pas une instance de Staff, c'est un indice
+    *     de portée qu'on transforme en instance de Staff.
     *
     * @method set_pref
     * @param  {String} pref       La préférence à régler
@@ -217,7 +230,13 @@ $.extend(window.Anim,{
       {
         if(pref == 'speed' && value == 0) throw "Le coefficiant de vitesse (speed) ne peut pas être 0…"
       } catch(err) { return F.error(err) }
-      this.prefs[pref]            = value
+      
+      // -- Correction de certaines valeur --
+      // On remplace l'indice portée par l'instance portée si nécessaire
+      if(pref == 'staff_harmony' && 'number'==typeof value) value = this.staves[value - 1]
+      
+      /* == On règle la valeur == */
+      this.prefs[pref] = value
       if(undefined != this.prefs['offset_'+pref]) this.prefs['offset_'+pref]  = 0
     }
     this.Infos.show_pref(pref, value)

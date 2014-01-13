@@ -134,10 +134,16 @@ window.Txt = function(owner, params)
     */
   this.owner    = owner
   /**
-    * Le texte principal
+    * Le texte complet (fourni à l'instanciation)
+    * Attention : c'est une propriété complexe
     * @property {String} texte
     */
-  this.texte    = null
+  // this.texte    = null
+  /**
+    * Le texte principal véritable (ie le texte sans ses crochets éventuels)
+    * @property {String} texte_main
+    */
+  this.texte_main = null
   /**
     * Le texte optionnel "avant". Il sera placé dans un div "flottant" (pour
     * pouvoir calculer correctement le positionnement du texte principal)
@@ -181,49 +187,42 @@ Txt.prototype.constructor = Txt
  */
 $.extend(Txt, {
   /**
-    * Traite un texte quelconque d'harmonie, que ce soit une modulation,
-    * une cadence, un accord, etc.
-    * La méthode retourne un objet contenant les valeurs ci-dessous :
+    * Traite un texte quelconque de type harmonie, accord, cadense, harmony
+    * ou modulation
+    * La méthode ne retourne QUE le renversement éventuel trouvé et renseigne
+    * les valeurs de l'instance fournie en premier argument :
+    *   itxt.texte_main, itxt.texte_before, itxt.texte_after
     * @method traite_texte_type_harmony
-    * @param  {String} texte    Le texte à traiter
-    * @return {Object}
-    *   * texte           Le texte restant
-    *   * renversement    La marque de renversement trouvée
-    *   * crochets        Le texte entre crochets trouvé
-    *
+    * @param  {Object}  itxt     L'instance texte qui contient le texte
+    * @param  {String}  texte    Le texte à traiter (par défaut, celui de l'instance envoyée)
+    * @return {String}  Le renversement éventuellement trouvé, mais la valeur est
+    * toujours définie car lorsqu'il n'y a pas de renversement, on renvoie une
+    * espace insécable.
     */
-  traite_texte_type_harmony:function(texte)
+  traite_texte_type_harmony:function(itxt, texte)
   {
-    var renv, crochets ;
-    
-    // Cherche les crochets
-    // TODO : Il faut faire la distinction entre un texte "avant" -> (texte_before)
-    //        et un texte "après" (texte_after) le texte principal
-    res       = this.traite_crochets_in(texte)
-    crochets  = res.crochets ;
+    if(undefined == texte) texte = itxt.texte
+
+    res = this.traite_crochets_in(texte)
+    itxt.texte_main   = res.texte
+    itxt.texte_before = res.before
+    itxt.texte_after  = res.after
     
     // Cherche un renversement (harmony et cadence)
-    res   = this.traite_renversement_in(res.texte)
-    renv  = res.renversement // toujours défini
-    texte = res.texte
-    
-    // Traite le chiffrage dans le texte restant et les crochets
-    texte     = this.traite_chiffrage_in(texte)
-    // Traite les fausses lignes de "-"
-    texte     = this.traite_fausse_ligne_in(texte)
-    
-    if(crochets)
-    {
-      crochets = this.traite_chiffrage_in(crochets)
-      crochets = this.traite_fausse_ligne_in(crochets)
-      this.texte_after = crochets
-    } 
-    
-    return {
-      texte         : texte,
-      renversement  : renv,
-      crochets      : crochets
-    }
+    res = this.traite_renversement_in(itxt.texte_main)
+    var renversement = res.renversement // toujours défini
+    itxt.texte_main  = res.texte
+    // Chiffrage et fausses lignes
+    var me = this // Attention : la classe Txt, pas l'instance du texte
+    L(['texte_main', 'texte_before', 'texte_after']).each(function(prop){
+      if(itxt[prop])
+      {
+        itxt[prop] = me.traite_chiffrage_in(itxt[prop])
+        itxt[prop] = me.traite_fausse_ligne_in(itxt[prop])
+      } 
+    })
+    // dlog("itxt.texte_main ("+itxt.id+":"+itxt.type+") FIN :"+itxt.texte_main)
+    return renversement
   },
   /**
     * Remplace les marques de simples "-" en tiret semi-long qui créent
@@ -271,15 +270,13 @@ $.extend(Txt, {
     */
   traite_crochets_in:function(texte)
   {
-    var crochets ;
-    // Un texte entre crochets
-    if(found = texte.match(/\[([^\]]+)\]/))
-    {
-      crochets  = found[1]
-      found[0]  = found[0].replace(/([\[\]\(\)\*\.\+\-])/,'\\$1')
-      texte     = texte.replace(new RegExp(found[0]), '').trim()
-    }
-    return {texte:texte, crochets:crochets}
+    var before, after ;
+    found = texte.trim().match(/^(?:\[([^\]]+)\])?([^\[]*)(?:\[([^\]]+)\])?/)
+    // console.dir(found)
+    before = found[1]; if(before) before = before.trim();
+    texte  = found[2];
+    after  = found[3]; if(after) after   = after.trim();
+    return {before:before, after:after, texte:texte.trim()}
   },
   /**
     * Traite le chiffrage (romain) dans +texte+
@@ -370,8 +367,13 @@ $.extend(Txt.prototype,{
     */
   positionne:function()
   {
+    // NOTE : j'ai placé le traitement de la largeur avant le calcul de
+    // real_left, car real_left se sert de la taille du texte, mais ça
+    // risque de poser un problème pour le placement de certains éléments
+    // comme les cadences (qui sont pour le moment les seuls à définir un
+    // width particulier)
+    if(this.width) this.obj.css({width:this.width+'px'})
     var dpos = {top:(this.real_top)+"px", left:this.real_left+"px"}
-    if(this.width) dpos.width = this.width+"px"
     this.obj.css(dpos)
   },
   /**
@@ -386,7 +388,37 @@ $.extend(Txt.prototype,{
     delete this._left
     delete this._width
   },
-  
+  /**
+    * Analyse le texte fourni
+    * La méthode va définir les valeurs de texte_main (tout type), texte_after
+    * et texte_before pour types particuliers de texte comme les harmonies,
+    * les accords, etc.
+    *
+    * @method analyse_texte
+    */
+  analyse_texte:function()
+  {
+    switch(this.type)
+    {
+    case harmony:
+    case cadence:
+      renversement    = Txt.traite_texte_type_harmony(this)
+      this.texte_main = '<div class="center inline">'+
+                '<div class="renversement">'+renversement+'</div>' +
+                (this.texte_main || "") +
+              '</div>'
+      break
+    case chord:
+      this.texte_main = Txt.traite_chiffrage_in(this.texte)
+      break
+    case modulation:
+      Txt.traite_texte_type_harmony(this)
+      this.texte_main = '<div class="mark_modulation">'+(this.texte_main||"")+'</div>'
+      break
+    default:
+      this.texte_main = this.texte
+    }
+  }
 })
 
 Object.defineProperties(Txt.prototype,{
@@ -403,35 +435,8 @@ Object.defineProperties(Txt.prototype,{
     * @property {String} texte
     */
   "texte":{
-    set:function(t){this.raw_texte = t; this.reset()},
-    get:function(){
-      if(undefined == this._texte)
-      {
-        this._texte = function(t, type)
-        {
-          var res ;
-          switch(type)
-          {
-          case harmony:
-          case cadence:
-            res = Txt.traite_texte_type_harmony(t)
-            // TODO res.crochets reste à traiter
-            return '<div class="center inline">'+
-                      '<div class="renversement">'+res.renversement+'</div>' +
-                      res.texte +
-                    '</div>'
-          case chord:
-            return Txt.traite_chiffrage_in(t)
-          case modulation:
-            res = Txt.traite_texte_type_harmony(t)
-            return '<div class="mark_modulation">'+res.texte+'</div>' +
-                    (res.crochets ? '<div class="text_alt_mod">'+res.crochets+'</div>' : "")
-          }
-          return t // par défaut
-        }(this.raw_texte, this.type)
-      }
-      return this._texte
-    }
+    set:function(t){ this.raw_texte = t; this.reset() },
+    get:function(){ return this.raw_texte }
   },
   /**
     * Le type du texte, s'il est défini
@@ -455,6 +460,13 @@ Object.defineProperties(Txt.prototype,{
     *   * Ce top dépend de pas mal de choses et notamment du type du texte (finger,
     *     harmony, etc.)
     *   * Il peut être également influencer par les décalages des préférences
+    *   * Ce top est dépendant en tout premier lieu de la portée sous laquelle on
+    *     doit le placer. Par ordre de priorité, on trouve la recherche de cette
+    *     portée par :
+    *       - la propriété `staff` définie explicitement
+    *       - sinon la valeur par défaut `staff_harmony` (null par défaut)
+    *       - sinon la portée du propriétaire du texte
+    *       - sinon la portée active courante
     *
     * @property {Number} top
     */
@@ -463,7 +475,12 @@ Object.defineProperties(Txt.prototype,{
     get:function(){
       if(undefined == this._top)
       {
-        var top   = (this.staff || this.owner.staff || Anim.current_staff).top
+        var top   = (
+                     this.staff          || 
+                     Anim.staff_harmony  || 
+                     this.owner.staff    || 
+                     Anim.current_staff
+                     ).top
         switch(this.type)
         {
         case harmony:
@@ -578,16 +595,33 @@ Object.defineProperties(Txt.prototype,{
     get:function(){return $('div#'+this.id)}
   },
   /**
-    * Return le code HTML pour le texte
+    * Return le code HTML pour le texte quelconque
+    * Note : Un code HTML pour un texte quelconque est composé de trois parties :
+    * un texte "before", un texte "after" et le texte principal. L'alignement est
+    * toujours fait par rapport au texte principal et le type de texte détermine
+    * ensuite par CSS (ou calcul) la position des deux autres textes.
     * @property {HTLMString} code_html
     */
   "code_html":{
     get:function(){
+      // On doit calculer le texte ici, l'appel à la propriété "texte" affecte
+      // les valeurs de texte_main, texte_before et texte_after
+      this.analyse_texte()
+      // dlog("après analyse_texte:")
+      // dlog({
+      //   main:this.texte_main,
+      //   before:this.texte_before,
+      //   after:this.texte_after
+      // })
       var css = ['text']
       if(this.type) css.push(this.type)
       var style = []
       if(this.width) style.push("width:"+this.width+"px;")
-      return '<div id="'+this.id+'" class="'+css.join(' ')+'" style="'+style.join('')+'">'+this.texte+'</div>'
+      return  '<div id="'+this.id+'" class="'+css.join(' ')+'" style="'+style.join('')+'">'+
+                '<div class="beforetxt">' + (this.texte_before || "") +'</div>'+
+                '<div class="maintxt">'   + (this.texte_main   || "") +'</div>'+
+                '<div class="aftertxt">'  + (this.texte_after  || "") +'</div>'+
+               '</div>'
     }
   }
 })

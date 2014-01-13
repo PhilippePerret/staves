@@ -825,7 +825,7 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
 
 * [Introduction aux textes](#intro_textes)
 * [Créer un texte](#create_texte)
-  * [Types spéciaux de texte (accord, harmonie, etc.)](#types_speciaux_texte)
+  * [Types spéciaux de texte (Accords, harmonie, cadences, etc.)](#types_speciaux_texte)
   * [Créer un texte pour l'animation](#create_texte_animation)
   * [Créer un texte pour un objet](#create_texte_objet)
 * [Définir les positions des textes](#set_position_texte)
@@ -1370,6 +1370,24 @@ On peut utiliser aussi la commande spéciale&nbsp;:
     DEFAULT('offset_harmony')
 
 Pour déterminer facilement la valeur, cf. [Astuces pour le réglage des positions](#prefs_tips_reglage).
+
+####Placement des textes d'harmonie et de cadenece sur une portée précise
+
+Par défaut, les marques d'harmonie et de cadence se place sous la portée de l'objet qui possède ces textes (l'accord, la note, etc.). On peut cependant forcer l'affichage de ce texte, de façon générale (c'est-à-dire pour tous les textes d'harmonie et de cadence à partir de cette définition) grâce au réglage de&nbsp;:
+
+    DEFAULT('staff_harmony', <indice portée>)
+
+Par exemple, pour que ces textes s'affichent sur la 2e portée, même quand la première portée est active ou que l'objet qui porte le texte se trouve sur la première portée&nbsp;:
+
+    DEFAULT('staff_harmony', 2)
+
+Après cette définition, toutes les marques d'harmonie et de cadence se placeront sous la deuxième portée.
+
+Par rappel, on peut aussi définir cette position au moment de la définition de l'harmonie ou de la cadence grâce à la propriété `staff` :
+
+    monAccord.harmony("V**", {staff:2})
+
+… mais ça ne modifie la position QUE pour cette marque d'harmonie.
 
 <a name="prefs_position_chord_mark"></a>
 ###Réglage de la position des marques d'accord

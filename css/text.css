@@ -55,7 +55,8 @@ div.text.modulation div.mark_modulation {
   font-weight       : bold;
   font-variant      : small-caps;
 }
-div.text.modulation div.text_alt_mod {
+/* Le "texte_after" pour une marque de modulation */
+div.text.modulation div.aftertxt {
   position          : absolute;
   top               : 0px;
   left              : 2px;

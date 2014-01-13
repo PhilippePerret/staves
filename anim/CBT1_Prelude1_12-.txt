@@ -4,11 +4,11 @@
 
 # --- Valeurs par défault ---
 DEFAULT(\'next\', 75)
-DEFAULT(\'harmony\', 65+16)
+DEFAULT(\'harmony\', 50)
 DEFAULT(\'staff_top\', 120)
-DEFAULT(\'staff_offset\', 120+16)
-DEFAULT('offset_modulation_y', 5)
+DEFAULT('offset_modulation_y', 15)
 DEFAULT('chord_mark', 35)
+DEFAULT('staff_harmony', 2)
 
 # --- Les portées ---
 NEW_STAFF(SOL)
@@ -16,22 +16,22 @@ NEW_STAFF(FA)
 ACTIVE_STAFF(1)
 
 # --- Mesure 12 : C#7dim ---
-NEXT()
 acc = CHORD('2:g3 2:bb3 e4 g4 cd5')
-acc.note(1).remove()
-acc.note(2).moveTo('1:bb4')
+acc.note(1).hide()
+acc.note(2).hide()
+prov = NOTE('bb4')
 acc.note(5).moveTo('cd4')
 WAIT(1)
-acc.chord_mark('C#7dim', {offset_x: 100})
+acc.chord_mark('C#7dim')
 WAIT(1)
 acc.harmony('VII7dim**', {staff:2})
 WAIT(1)
-acc.modulation('Rém')
+acc.modulation('Rém [IIe de C]')
 WAIT(1)
 acc.note(2).moveTo('bb3')
 acc.note(5).moveTo('cd5')
 NOTE('g3')
  
-# --- Mesure 13 : Dm ---
-NEXT()
-acc = CHORD('2:f3 2:a3 d4 a4 d5')
+# # --- Mesure 13 : Dm ---
+# NEXT()
+# acc = CHORD('2:f3 2:a3 d4 a4 d5')
