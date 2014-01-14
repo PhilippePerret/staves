@@ -182,7 +182,7 @@ window.METHODES_TEXTE = {
     * Notes
     * -----
     *   * La méthode placera le texte (instance {Txt} dans la propriété &#x60;texte&#x60;
-    *     avec en clé le type de texte (&#x27;regular&#x27;, &#x27;harmony&#x27;, &#x27;chord_mark&#x27;, etc.)
+    *     avec en clé le type de texte (&#x27;regular&#x27;, &#x27;harmony&#x27;, &#x27;chord&#x27;, etc.)
     *   * L&#x27;étape suivante doit être appelée par l&#x27;affichage du texte (Txt::show)
     *
     * @method write
@@ -248,12 +248,12 @@ window.METHODES_TEXTE = {
   /**
     * Raccourci pour écrire un texte de type &#x27;chord&#x27; (un accord placé au-dessus
     * de la portée et au-dessus de l&#x27;élément porteur)
-    * @method chord_mark
+    * @method chord
     * @param  {String} accord   L&#x27;accord à marquer
     * @param  {Object} params   Les paramètres optionnels
     * @return {Object} L&#x27;instance Note courante (pour chainage)
     */
-  chord_mark:function(accord, params)
+  chord:function(accord, params)
   {
     if(undefined == params) params = {}
     params.type = chord
@@ -676,7 +676,7 @@ Object.defineProperties(Txt.prototype,{
           top += Anim.prefs.harmony + Anim.prefs.offset_harmony
           break
         case chord:   
-          top -= Anim.prefs.chord_mark + Anim.prefs.offset_chord_mark
+          top -= Anim.prefs.chord + Anim.prefs.offset_chord
           break
         case modulation:
           top -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y

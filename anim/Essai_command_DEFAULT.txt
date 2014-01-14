@@ -20,7 +20,7 @@ DEFAULT(\'next\')
 # Essai \'harmony\'
 # ---------------
 NEXT()
-NOTE(c4).harmony(\'II\').chord_mark(\'A Maj\')
-DEFAULT({harmony: 100, chord_mark: 100})
+NOTE(c4).harmony(\'II\').chord(\'A Maj\')
+DEFAULT({harmony: 100, chord: 100})
 NEXT()
-NOTE(f4).harmony(\'IV\').chord_mark(\'Dm7\')
+NOTE(f4).harmony(\'IV\').chord(\'Dm7\')

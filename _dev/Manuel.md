@@ -402,7 +402,7 @@ On peut aussi, si l'on est certain que la note ne sera pas utilisée après (dé
 Par exemple, pour placer une note LA 4 avec une marque de cadence et un accord&nbsp;:
 
     NEW_STAFF(SOL)
-    NOTE(a4).cadence('V I').chord_mark('A Maj')
+    NOTE(a4).cadence('V I').chord('A Maj')
 
 <a name="move_note"></a>
 ###Déplacer une note
@@ -643,7 +643,7 @@ Mais dans ce cas, noter qu'il faut absolument mettre le paramètre (la référen
 <a name="write_chord_name"></a>
 ###Écrire le nom de l'accord
 
-Une marque d'accord est un texte. Cf. [Écrire un accord](#text_chord_mark).
+Une marque d'accord est un texte. Cf. [Écrire un accord](#text_chord).
 
 
 <a name="write_harmony"></a>
@@ -916,7 +916,7 @@ Mais il existe des types qui peuvent être définis grâce à la propriété `ty
 
 <dl>
   <dt>chord</dt>
-  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence. Cf. <a href="#text_chord_mark">Écrire un accord</a>.</dd>
+  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence. Cf. <a href="#text_chord">Écrire un accord</a>.</dd>
   <dt>harmony</dt>
   <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels. Cf. <a href="#text_harmonie">Écrire l'harmonie</a>.</dd>
   <dt>cadence</dt>
@@ -943,11 +943,32 @@ Il existe aussi le raccourci&nbsp;:
 <a name="text_cadence"></a>
 ###Écrire une cadence
 
-Pour indiquer une **CADENCE**&nbsp;:
+Pour indiquer une **CADENCE** avec la méthode `write`&nbsp;:
 
-    monAccord.write("I", {type:cadence})
-    OU
-    monAccord.cadence("I")
+    monAccord.write("I", {type:cadence, type_cadence:<type de la cadence>})
+
+Mais cette méthode peut être grandement simplifiée en utilisant la méthode `cadence`&nbsp;:
+
+    monAccord.cadence("I", {type:<type de la cadence>})
+
+*Noter qu'ici le `type_cadence` de la méthode `write` a été remplacé par `type`.*
+
+Les cadences possibles sont&nbsp;:
+
+    parfaite        V I
+    italienne       II|IV|VI V I
+    imparfaite      I V
+    plagale         IV I
+    picarde         V IMaj
+    demie           II V
+    rompue          V VI
+    faureenne       I IV V
+
+Noter que ce sont des constantes, on peut les utiliser sans guillemets. Par exemple&nbsp;:
+
+    monAccord.cadence("I*", {type:imparfaite})
+
+Pour une explication détaillée des cadences, cf. [Page wiki sur les cadences](http://fr.wikipedia.org/wiki/Cadence_(musique))
 
 *Pour le positionnement de la marque, cf. [Position des textes d'harmonie et de cadence](#prefs_position_harmony).*
 
@@ -967,18 +988,18 @@ monAccord.cadence("I* [texte à droite]")
 
 *Ça peut être par exemple l'index de l'accord dans l'harmonie suivante.*
 
-<a name="text_chord_mark"></a>
+<a name="text_chord"></a>
 ###Écrire un accord
 
 Pour indiquer le **NOM DE L'ACCORD** au-dessus des notes (ou d'un autre objet)&nbsp;:
 
     monAccord.write("C", {type:chord})
 
-… ou le raccourci `chord_mark`&nbsp;:
+… ou le raccourci `chord`&nbsp;:
 
-    monAccord.chord_mark("C")
+    monAccord.chord("C")
 
-*Pour le positionnement de la marque de l'accord cf. [Réglage de la position de l'accord](#prefs_position_chord_mark).*
+*Pour le positionnement de la marque de l'accord cf. [Réglage de la position de l'accord](#prefs_position_chord).*
 
 
 <a name="text_modulation"></a>
@@ -1074,7 +1095,7 @@ Pour placer le texte d'une cadence 20 pixels plus loin (plus à droite)&nbsp;:
 
 Bien entendu, on peut combiner la décalage horizontal et vertical&nbsp;:
 
-    monAccord.chord_mark("Cm7", {offset_y:10, offset_x:20})
+    monAccord.chord("Cm7", {offset_y:10, offset_x:20})
 
 … en évitant toutefois de trop modifier localement les valeurs, ce qui donnerait un moins bon aspect à l'animation. Il vaut mieux trouver des réglages généraux qui conviennent à la situation.
 
@@ -1298,7 +1319,7 @@ On peut régler à tout moment (et en particulier au début de l'animation) tout
 * [Réglage de la position horizontale initiale (curseur)](#prefs_x_start)
 * [Réglage de l'avancée à chaque NEXT (curseur)](#prefs_set_next)
 * [Position des textes d'harmonie et de cadence](#prefs_position_harmony)
-* [Position des marques d'accord](#prefs_position_chord_mark)
+* [Position des marques d'accord](#prefs_position_chord)
 * [Position de la marque de modulation](#prefs_position_modulation)
 * [Taille des notes](#prefs_note_size)
 * [Ré-initialiser toutes les valeurs par défaut](#prefs_reinitialiser_default)
@@ -1457,26 +1478,26 @@ Par rappel, on peut aussi définir cette position au moment de la définition de
 
 … mais ça ne modifie la position QUE pour cette marque d'harmonie.
 
-<a name="prefs_position_chord_mark"></a>
+<a name="prefs_position_chord"></a>
 ###Réglage de la position des marques d'accord
 
 *(Pour les marques d'accords, cf. [Types spéciaux de texte](#types_speciaux_texte))*
 
 **Pour régler la position de façon absolue**
 
-    DEFAULT({chord_mark: <nombre de pixels>})
+    DEFAULT({chord: <nombre de pixels>})
 
 Ou&nbsp;:
 
-    DEFAULT('chord_mark', <nombre pixels>)
+    DEFAULT('chord', <nombre pixels>)
 
 **Pour régler la position de façon relative** (par rapport à décalage courant)
 
-    DEFAULT({offset_chord_mark: <nombre de pixels>})
+    DEFAULT({offset_chord: <nombre de pixels>})
 
 Ou&nbsp;:
 
-    DEFAULT('offset_chord_mark', <nombre pixels>)
+    DEFAULT('offset_chord', <nombre pixels>)
 
 On peut utiliser aussi la commande spéciale&nbsp;:
 
@@ -1484,8 +1505,8 @@ On peut utiliser aussi la commande spéciale&nbsp;:
 
 **Pour remettre les valeurs par défaut**
 
-    DEFAULT('chord_mark')
-    DEFAULT('offset_chord_mark')
+    DEFAULT('chord')
+    DEFAULT('offset_chord')
 
 Pour déterminer facilement la valeur, cf. [Astuces pour le réglage des positions](#prefs_tips_reglage).
 

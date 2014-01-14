@@ -3691,7 +3691,7 @@
             "line": 193,
             "description": "Décalage de la marque d'accord par rapport à la portée.",
             "itemtype": "property",
-            "name": "chord_mark",
+            "name": "chord",
             "type": "Number",
             "class": "Anim",
             "module": "Anim"
@@ -4736,7 +4736,7 @@
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
             "line": 12,
-            "description": "Écrit un texte au-dessus ou en dessous du possesseur du texte\nNotes\n-----\n  * La méthode placera le texte (instance {Txt} dans la propriété `texte`\n    avec en clé le type de texte ('regular', 'harmony', 'chord_mark', etc.)\n  * L'étape suivante doit être appelée par l'affichage du texte (Txt::show)",
+            "description": "Écrit un texte au-dessus ou en dessous du possesseur du texte\nNotes\n-----\n  * La méthode placera le texte (instance {Txt} dans la propriété `texte`\n    avec en clé le type de texte ('regular', 'harmony', 'chord', etc.)\n  * L'étape suivante doit être appelée par l'affichage du texte (Txt::show)",
             "itemtype": "method",
             "name": "write",
             "params": [
@@ -4850,7 +4850,7 @@
             "line": 80,
             "description": "Raccourci pour écrire un texte de type 'chord' (un accord placé au-dessus\nde la portée et au-dessus de l'élément porteur)",
             "itemtype": "method",
-            "name": "chord_mark",
+            "name": "chord",
             "params": [
                 {
                     "name": "accord",

@@ -634,7 +634,7 @@ no=NOTE('ad5')
 <p>Par exemple, pour placer une note LA 4 avec une marque de cadence et un accord&nbsp;:</p>
 
 <pre><code>NEW_STAFF(SOL)
-NOTE(a4).cadence('V I').chord_mark('A Maj')
+NOTE(a4).cadence('V I').chord('A Maj')
 </code></pre>
 
 <p><a name="move_note"></a></p>
@@ -832,7 +832,7 @@ maNote.write("Une seconde !")
 
 <h3>Écrire le nom de l'accord</h3>
 
-<p>Une marque d'accord est un texte. Cf. <a href="#text_chord_mark">Écrire un accord</a>.</p>
+<p>Une marque d'accord est un texte. Cf. <a href="#text_chord">Écrire un accord</a>.</p>
 
 <p><a name="write_harmony"></a></p>
 
@@ -1168,7 +1168,7 @@ maNote.write("Une seconde !")
 
 <dl>
   <dt>chord</dt>
-  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence. Cf. <a href="#text_chord_mark">Écrire un accord</a>.</dd>
+  <dd>Le type `chord` permet d'écrire un accord au-dessus de l'élément porteur du texte. Il est stylisé en conséquence. Cf. <a href="#text_chord">Écrire un accord</a>.</dd>
   <dt>harmony</dt>
   <dd>Écrit le texte sous la portée, sous forme d'une marque d'harmonie.<br>Si le texte se finit par un certain nombre de "*" ou de "•", ils sont considérés comme des renversements de l'accord et traités visuellement comme tels. Cf. <a href="#text_harmonie">Écrire l'harmonie</a>.</dd>
   <dt>cadence</dt>
@@ -1215,7 +1215,7 @@ monAccord.cadence("I")
 
 <p><em>Pour le positionnement de la marque, cf. <a href="#prefs_position_harmony">Position des textes d'harmonie et de cadence</a>.</em></p>
 
-<p><a name="text_chord_mark"></a></p>
+<p><a name="text_chord"></a></p>
 
 <h3>Écrire un accord</h3>
 
@@ -1224,12 +1224,12 @@ monAccord.cadence("I")
 <pre><code>monAccord.write("C", {type:chord})
 </code></pre>
 
-<p>… ou le raccourci <code>chord_mark</code>&nbsp;:</p>
+<p>… ou le raccourci <code>chord</code>&nbsp;:</p>
 
-<pre><code>monAccord.chord_mark("C")
+<pre><code>monAccord.chord("C")
 </code></pre>
 
-<p><em>Pour le positionnement de la marque de l'accord cf. <a href="#prefs_position_chord_mark">Réglage de la position de l'accord</a>.</em></p>
+<p><em>Pour le positionnement de la marque de l'accord cf. <a href="#prefs_position_chord">Réglage de la position de l'accord</a>.</em></p>
 
 <p><a name="text_modulation"></a></p>
 
@@ -1528,7 +1528,7 @@ maNote.arrow.remove() &lt;--
 <li><a href="#prefs_x_start">Réglage de la position horizontale initiale (curseur)</a></li>
 <li><a href="#prefs_set_next">Réglage de l'avancée à chaque NEXT (curseur)</a></li>
 <li><a href="#prefs_position_harmony">Position des textes d'harmonie et de cadence</a></li>
-<li><a href="#prefs_position_chord_mark">Position des marques d'accord</a></li>
+<li><a href="#prefs_position_chord">Position des marques d'accord</a></li>
 <li><a href="#prefs_position_modulation">Position de la marque de modulation</a></li>
 <li><a href="#prefs_note_size">Taille des notes</a></li>
 <li><a href="#prefs_reinitialiser_default">Ré-initialiser toutes les valeurs par défaut</a></li>
@@ -1702,7 +1702,7 @@ DEFAULT('offset_harmony')
 
 <p>Pour déterminer facilement la valeur, cf. <a href="#prefs_tips_reglage">Astuces pour le réglage des positions</a>.</p>
 
-<p><a name="prefs_position_chord_mark"></a></p>
+<p><a name="prefs_position_chord"></a></p>
 
 <h3>Réglage de la position des marques d'accord</h3>
 
@@ -1710,22 +1710,22 @@ DEFAULT('offset_harmony')
 
 <p><strong>Pour régler la position de façon absolue</strong></p>
 
-<pre><code>DEFAULT({chord_mark: &lt;nombre de pixels&gt;})
+<pre><code>DEFAULT({chord: &lt;nombre de pixels&gt;})
 </code></pre>
 
 <p>Ou&nbsp;:</p>
 
-<pre><code>DEFAULT('chord_mark', &lt;nombre pixels&gt;)
+<pre><code>DEFAULT('chord', &lt;nombre pixels&gt;)
 </code></pre>
 
 <p><strong>Pour régler la position de façon relative</strong> (par rapport à décalage courant)</p>
 
-<pre><code>DEFAULT({offset_chord_mark: &lt;nombre de pixels&gt;})
+<pre><code>DEFAULT({offset_chord: &lt;nombre de pixels&gt;})
 </code></pre>
 
 <p>Ou&nbsp;:</p>
 
-<pre><code>DEFAULT('offset_chord_mark', &lt;nombre pixels&gt;)
+<pre><code>DEFAULT('offset_chord', &lt;nombre pixels&gt;)
 </code></pre>
 
 <p>On peut utiliser aussi la commande spéciale&nbsp;:</p>
@@ -1735,8 +1735,8 @@ DEFAULT('offset_harmony')
 
 <p><strong>Pour remettre les valeurs par défaut</strong></p>
 
-<pre><code>DEFAULT('chord_mark')
-DEFAULT('offset_chord_mark')
+<pre><code>DEFAULT('chord')
+DEFAULT('offset_chord')
 </code></pre>
 
 <p>Pour déterminer facilement la valeur, cf. <a href="#prefs_tips_reglage">Astuces pour le réglage des positions</a>.</p>

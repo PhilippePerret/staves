@@ -116,7 +116,7 @@ $.extend(window.Anim,{
     harmony           :70, 
     staff_harmony     :null,
     staff_chords      :null,
-    chord_mark        :40, 
+    chord        :40, 
     modulation_x      :-13,
     modulation_y      :26,
     speed             :1,
@@ -192,9 +192,9 @@ $.extend(window.Anim,{
     harmony             : 70,
     /**
       * Décalage de la marque d'accord par rapport à la portée.
-      * @property {Number} chord_mark 
+      * @property {Number} chord 
       */
-    chord_mark          : 40,
+    chord          : 40,
     /**
       * Coefficiant vitesse
       * @property {Number} speed 
@@ -213,7 +213,7 @@ $.extend(window.Anim,{
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
     offset_next         : 0,
     offset_harmony      : 0,
-    offset_chord_mark   : 0,
+    offset_chord   : 0,
     offset_modulation_y : 0,
     offset_modulation_x : 0
   },

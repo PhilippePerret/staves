@@ -8,7 +8,7 @@ DEFAULT(\'next\', 75)
 DEFAULT(\'harmony\', 50)
 DEFAULT(\'staff_top\', 120)
 DEFAULT('offset_modulation_y', 15)
-DEFAULT('chord_mark', 35)
+DEFAULT('chord', 35)
 DEFAULT('staff_harmony', 2)
 
 # --- Les portées ---
@@ -25,7 +25,7 @@ provsib = NOTE('bb4')
 provdo  = NOTE('cd4')
 STOP_MODE_FLASH
 WAIT(1)
-acc.chord_mark('C#7dim')
+acc.chord('C#7dim')
 WAIT(1)
 acc.modulation('Rém [IIe de C]')
 WAIT(1)
@@ -47,15 +47,14 @@ acc.note([1,2,5]).fantomize()
 prov = NOTE(f4)
 STOP_FLASH
 WAIT(2)
-acc.chord_mark('Dm')
+acc.chord('Dm')
 WAIT(1)
-acc.cadence('I',{type:imparfaite, width:100})
+acc.cadence('I',{type:imparfaite, width:112})
 FLASH
 prov.remove()
 acc.note([1,2,5]).defantomize()
 STOP_FLASH
 
-#!START
 
 # --- Mesure 14 : B7dim ---
 NEXT()
@@ -65,11 +64,11 @@ acc.note([1,2,5]).fantomize()
 prov = NOTE(b3)
 STOP_FLASH
 WAIT(1)
-acc.chord_mark("B7dim")
+acc.chord("B7dim")
 WAIT(1)
 acc.modulation("C(m)")
 WAIT(1)
-acc.harmony('VII**')
+acc.harmony('VII7dim**')
 WAIT(2)
 FLASH
 acc.note([1,2,5]).defantomize()
@@ -83,7 +82,7 @@ acc = CHORD('2:e3 2:g3 c4 g4 c4')
 acc.note([1,2,5]).fantomize()
 prov = NOTE(e4)
 WAIT(1)
-acc.chord_mark('C')
+acc.chord('C')
 WAIT(1)
 acc.cadence('I', {type:imparfaite, width:112})
 WAIT(1)
@@ -91,5 +90,30 @@ FLASH
 prov.remove()
 acc.note([1,2,5]).defantomize()
 STOP_FLASH
+
+#!START
+
+# --- Mesure 16 : Fa7M ---
+NEXT()
+acc = CHORD('2:e3 2:f3 a3 c4 f4')
+
+# --- Mesure 17 : Dm7 (fin 1ere page) ---
+NEXT()
+acc = CHORD('2:d3 2:f3 a3 c4 f4')
+acc.chord('Dm7')
+acc.harmony('II')
+
+# --- Mesure 18 : G7 (1ere mes. 2e page) ---
+NEXT()
+acc = CHORD('2:g2 2:d3 g3 b3 f4')
+acc.chord('G7')
+acc.harmony('V')
+
+# --- Mesure : 19 : C ---
+NEXT()
+STAFF(1).write("= mesure départ - 1 octave")
+acc = CHORD('2:c3 2:e3 g3 c4 e4')
+acc.chord('C')
+acc.cadence('I', {type:italienne, width:200})
 
 #!END

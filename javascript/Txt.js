@@ -14,7 +14,7 @@ window.METHODES_TEXTE = {
     * Notes
     * -----
     *   * La méthode placera le texte (instance {Txt} dans la propriété `texte`
-    *     avec en clé le type de texte ('regular', 'harmony', 'chord_mark', etc.)
+    *     avec en clé le type de texte ('regular', 'harmony', 'chord', etc.)
     *   * L'étape suivante doit être appelée par l'affichage du texte (Txt::show)
     *
     * @method write
@@ -28,6 +28,11 @@ window.METHODES_TEXTE = {
     if(undefined == params) params = {}
     params.texte  = texte
     if(undefined == params.type) params.type = 'regular'
+    if(params.type_cadence)
+    {
+      params.sous_type = params.type_cadence
+      delete params.type_cadence
+    } 
     if(!this.texte) this.texte = {}
     this.texte[params.type] = TXT(this, params)
     this.texte[params.type].build()
@@ -60,6 +65,7 @@ window.METHODES_TEXTE = {
   cadence:function(texte, params)
   {
     if(undefined == params) params = {}
+    if(params.type) params.sous_type = params.type
     params.type = cadence
     this.write(texte, params)
     return this
@@ -81,12 +87,12 @@ window.METHODES_TEXTE = {
   /**
     * Raccourci pour écrire un texte de type 'chord' (un accord placé au-dessus
     * de la portée et au-dessus de l'élément porteur)
-    * @method chord_mark
+    * @method chord
     * @param  {String} accord   L'accord à marquer
     * @param  {Object} params   Les paramètres optionnels
     * @return {Object} L'instance Note courante (pour chainage)
     */
-  chord_mark:function(accord, params)
+  chord:function(accord, params)
   {
     if(undefined == params) params = {}
     params.type = chord
@@ -471,6 +477,29 @@ Object.defineProperties(Txt.prototype,{
     get:function(){ return this.raw_texte }
   },
   /**
+    * Texte à écrire suivant le type de cadence (si le type du texte est `cadence`
+    * et que `sous_type` est défini)
+    * @property {String} texte_sous_type
+    */
+  "texte_sous_type":{
+    get:function(){
+      switch(this.type)
+      {
+      case cadence:
+        switch(this.sous_type)
+        {
+        case faureenne: return "Fauréenne"
+        case demie    : return "Demi-cadence"
+        default:
+          return this.sous_type.capitalize()
+        }
+        break
+      default:
+        return this.sous_type
+      }
+    }
+  },
+  /**
     * Le type du texte, s'il est défini
     * Ce type peut être (pour le moment)
     *   - harmony   Un texte pour un chiffrage d'harmonie
@@ -515,7 +544,7 @@ Object.defineProperties(Txt.prototype,{
           top += Anim.prefs.harmony + Anim.prefs.offset_harmony
           break
         case chord:   
-          top -= Anim.prefs.chord_mark + Anim.prefs.offset_chord_mark
+          top -= Anim.prefs.chord + Anim.prefs.offset_chord
           break
         case modulation:
           top -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y
@@ -684,9 +713,10 @@ Object.defineProperties(Txt.prototype,{
       var style = []
       if(this.width) style.push("width:"+this.width+"px;")
       var boites = ""
-      if(this.texte_before) boites += '<div class="txtbefore">'+this.texte_before+'</div>'
-      if(this.texte_main)   boites += '<div class="maintxt">'+this.texte_main+'</div>'
-      if(this.texte_after)  boites += '<div class="txtafter">'+this.texte_after+'</div>'
+      if(this.texte_before) boites += '<div class="txtbefore">' + this.texte_before +'</div>'
+      if(this.texte_main)   boites += '<div class="maintxt">'   + this.texte_main   +'</div>'
+      if(this.texte_after)  boites += '<div class="txtafter">'  + this.texte_after  +'</div>'
+      if(this.sous_type)    boites += '<div class="typecadence '+this.sous_type+'">'+this.texte_sous_type+'</div>'
       return  '<div id="'+this.id+'" class="'+css.join(' ')+'" style="'+style.join('')+'">'+
                 boites + '</div>'
     }

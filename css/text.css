@@ -87,6 +87,41 @@ div.text.cadence div.renversement {
   height      : 7.8pt;
   text-align  : center;
 }
+/* Style pour le type de cadence */
+div.text.cadence div.typecadence {
+  border-color: #939393;
+  border-style: solid;
+  border-width: 0 1px 1px;
+  bottom: -19px;
+  color: #5E5E5E;
+  font-family: Arial;
+  font-size: 8pt;
+  letter-spacing: 1.3px;
+  font-variant: normal;
+  font-weight: normal;
+  padding: 2px 8px;
+  position: absolute;
+  right: -1px;
+}
+div.text.cadence div.typecadence.parfaite,
+div.text.cadence div.typecadence.italienne {
+  background-color  : #B10000;
+  color             : #FFFFFF;
+  transform         : rotate(-90deg);
+  transform-origin  : 40px -26px 0;
+}
+div.text.cadence div.typecadence:not(.parfaite)
+/*
+.imparfaite,
+.plagale,
+.rompue,
+.demi,
+.picarde
+*/ 
+{
+  background-color    : #E7E7FF;
+}
+
 /* Style pour un DOIGTÉ */
 div.text.finger {
   background-image:url(img/divers/cercle_doigte.png);

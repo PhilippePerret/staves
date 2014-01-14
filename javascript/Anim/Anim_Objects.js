@@ -235,7 +235,7 @@ FONCTIONS_ANIM_OBJETS = {
     */
   OFFSET_CHORD_MARK:function(offset)
   {
-    Anim.set_pref('offset_chord_mark', offset)
+    Anim.set_pref('offset_chord', offset)
   }
   
 }
