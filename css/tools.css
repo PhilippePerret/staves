@@ -29,22 +29,33 @@ section#tools input[type="button"]#btn_save_anim {
 div#regle {
   position : absolute;
   height   : 20px;
-  width    : 300px;
+  width    : 205px;
   z-index  : 4000;
+  border-bottom :1px solid;
 }
+/* Graduation */
 div#regle div.divregle {
-  position: absolute;
-  bottom  : 0px;
-  height  : 10px;
-  width   : 100px;
-  border-width  : 0 1px 1px 1px;
-  border-style  : solid;
-  border-color  : #000;
+  position      :absolute;
+  bottom        :0px;
+  height        :10px;
+  width         :11px;
+  border-width  :0 1px 0px 1px;
+  border-style  :solid;
+  border-color  :#000;
 }
-div#regle div.mesregle {
-  position  : absolute;
-  top       : 4px;
+/* Valeur de la graduation */
+div#regle div.divregle div.mesregle {
+  position      :absolute;
+  top           :-7px;
+  left          :-4px;
+  font-size     :5pt;
 }
-div#regle div#regle50  { left:16px;  }
-div#regle div#regle100 { left:90px;  }
-div#regle div#regle150 { left:215px; }
+div#regle div.divregle:hover {
+  border-left-color :red !important;
+}
+div#regle div.divregle:hover div.mesregle {
+  font-size     :12pt;
+  top           :-24px;
+  width         :40px;
+  height        :20px;
+}

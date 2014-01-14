@@ -85,7 +85,7 @@ prov = NOTE(e4)
 WAIT(1)
 acc.chord_mark('C')
 WAIT(1)
-acc.cadence('I', {type:imparfaite})
+acc.cadence('I', {type:imparfaite, width:112})
 WAIT(1)
 FLASH
 prov.remove()
