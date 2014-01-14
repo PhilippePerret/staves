@@ -67,11 +67,58 @@ Note.prototype.constructor = Note
 
 /* ---------------------------------------------------------------------
  *
- *  Méthodes pour composer le code de l'animation
+ *  MÉTHODE POUR LE CODE DE L'APPLICATION
+ *  
+ *  Note
+ *    * Quand une méthode est ajoutée, elle doit l'être aussi dans la
+ *      constante `OBJET_TRAITEMENT` du module GroupeNotes.js
  *  
  */
 
 $.extend(Note.prototype,{
+  /**
+    * Ré-affiche une note masquée par `hide`
+    * @method show
+    */
+  show:function()
+  {
+    this.operation(this.objets, 'show')
+  },
+  /**
+    * Masque la note
+    * @method hide
+    */
+  hide:function()
+  {
+    this.operation(this.objets, 'hide')
+  },
+  /**
+    * Rend la note presque invisible, mais toujours présente
+    * @method fantomize
+    */
+  fantomize:function()
+  {
+    this.colorize('shadow')
+  },
+  /**
+    * Remet la note en noir
+    * @method defantomize
+    */
+  defantomize:function()
+  {
+    this.colorize(black)
+  },
+  /**
+    * Colorize la note avec la couleur voulue
+    * @method colorize
+    * @param  {String} color  La couleur voulue (constante 'red', 'blue', etc.)
+    */
+  colorize:function(color)
+  {
+    this.color      = color
+    this.obj[0].src = this.src
+    if(this.alteration) this.obj_alt[0].src = this.src_alteration
+  },
   /**
     * Déplace la note à la hauteur +hauteur+
     * Notes
@@ -175,7 +222,7 @@ $.extend(Note.prototype,{
     if('function'==typeof params.complete) params.complete()
   },
   /**
-    * Sorte la note de son exergue
+    * Sort la note de son exergue
     * @method unexergue
     */
   unexergue:function(params)
@@ -204,25 +251,9 @@ $.extend(Note.prototype,{
   {
     this.exergue({complete:$.proxy(this.operation, this, this.objets, 'remove')})
     this.staff.notes.remove(this)
-  },
-  
-  /**
-    * Masque la note
-    * @method hide
-    */
-  hide:function()
-  {
-    this.operation(this.objets, 'hide')
-  },
-  
-  /**
-    * Ré-affiche une note masquée par `hide`
-    * @method show
-    */
-  show:function()
-  {
-    this.operation(this.objets, 'show')
   }
+  
+  
 })
 
 $.extend(Note.prototype, METHODES_TEXTE)

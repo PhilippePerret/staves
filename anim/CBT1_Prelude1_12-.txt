@@ -20,11 +20,9 @@ ACTIVE_STAFF(1)
 acc = CHORD('2:g3 2:bb3 e4 g4 cd5')
 WAIT(2)
 MODE_FLASH
-acc.note(1).hide()
-acc.note(2).hide()
-prov = NOTE('bb4')
-acc.note(5).hide()
-prov2 = NOTE('cd4')
+acc.note([1,2,5]).fantomize()
+provsib = NOTE('bb4')
+provdo  = NOTE('cd4')
 STOP_MODE_FLASH
 WAIT(1)
 acc.chord_mark('C#7dim')
@@ -34,12 +32,11 @@ WAIT(1)
 acc.harmony('VII7dim**')
 WAIT(1)
 MODE_FLASH
-prov.remove()
-prov2.remove()
+provsib.remove()
+provdo.remove()
 STAFF(1).remove_supline({bottom:1})
-acc.note(2).show()
-acc.note(5).show().positionne()
-acc.note(1).show()
+acc.note([1,2,5]).defantomize()
+acc.note(5).positionne()
 STOP_MODE_FLASH
 
 # # --- Mesure 13 : Dm ---

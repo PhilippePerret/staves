@@ -106,6 +106,12 @@ $.extend(window.ObjetClass.prototype,{
       case 'remove':
         obj.animate({opacity:0}, Anim.delai_for('show'), function(){obj.remove(); complete()})
         break
+      case 'colorize':
+        // Note : la couleur est donnée par une image de la note ou de l'altération
+        // Pour donner une impression de colorisation, on pourrait superposer les
+        // deux couleurs et fondre la première en faisant apparaitre la deuxième.
+        // À voir si l'effet vaut la chandelle…
+        break
       case 'moveTo':
         if(undefined == params.left)  params.left = obj.left
         if(undefined == params.top)   params.top  = obj.top

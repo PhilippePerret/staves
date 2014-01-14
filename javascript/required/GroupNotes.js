@@ -29,14 +29,11 @@ window.OBJET_TRAITEMENT = {
     })
     NEXT_STEP()
   },
-  show:function(params)
-  {
-    this.traite('show', Anim.transition.show)
-  },
-  hide:function(params)
-  {
-    this.traite('hide', Anim.transition.show)
-  }
+  show:function(params){this.traite('show', Anim.transition.show)},
+  hide:function(params){this.traite('hide', Anim.transition.show)},
+  fantomize:function(){this.traite('fantomize')},
+  defantomize:function(){this.traite('defantomize')},
+  colorize:function(color){this.traite('colorize', color)}
   
 }
 // /**

@@ -14,6 +14,8 @@ const orange  = 'orange'
 const ORANGE  = 'orange'
 const green   = 'green'
 const GREEN   = 'green'
+const grey    = 'grey'
+const gris    = 'grey'
 
 const modulation  = 'modulation'
 const harmony     = 'harmony'

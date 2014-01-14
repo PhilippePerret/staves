@@ -1169,6 +1169,7 @@ La **color** (couleur) est noire par défaut. On peut utiliser toutes les consta
     red     rouge
     blue    bleu
     green   vert
+    grey    gris
     orange
 
 <a name="methodes_animation_fleches"></a>
