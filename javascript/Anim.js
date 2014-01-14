@@ -118,7 +118,7 @@ $.extend(window.Anim,{
     harmony           :70, 
     staff_harmony     :null,
     staff_chords      :null,
-    num_measure_y     :-10,
+    num_measure_y     :-8,
     chord             :40, 
     modulation_x      :-13,
     modulation_y      :26,
@@ -184,7 +184,7 @@ $.extend(window.Anim,{
       * Position verticale du numéro de mesure
       * @property {Number} num_measure_y
       */
-    num_measure_y       : -10,
+    num_measure_y       : -8,
     /** Position left de départ pour chaque portée
       * @property {Number} x_start 
       */

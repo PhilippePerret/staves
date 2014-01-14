@@ -16,6 +16,7 @@ NEW_STAFF(FA)
 ACTIVE_STAFF(1)
 
 # --- Premier accord DO ---
+STAFF(1).measure('1')
 do1=CHORD(\'2:c4 2:e4 g4 c5 e5\')
 WAIT(2)
 do1.note(2).moveTo(\'1:e4\')
@@ -34,6 +35,7 @@ CHORD('c5 e5')
 
 # --- Mesure 2 : accord Dm7 ---
 NEXT()
+STAFF(1).measure('2')
 rem1=CHORD(\'2:c4 2:d4 a4 d5 f5\')
 WAIT(2)
 rem1.note(2).moveTo(\'1:d4\')
@@ -53,6 +55,7 @@ NOTE('d5')
 
 # --- Mesure 3 : Sol7• ---
 NEXT()
+STAFF(1).measure('3')
 sol1 = CHORD('2:b3 2:d4 g4 d5 f5')
 WAIT(2)
 sol1.note(2).remove()
@@ -69,6 +72,7 @@ NOTE(d4)
 
 # --- Mesure 4 : Do ---
 NEXT()
+STAFF(1).measure('4')
 do2=CHORD(\'2:c4 2:e4 g4 c5 e5\')
 WAIT(4)
 do2.note(1).moveTo('1:c4')
@@ -80,6 +84,7 @@ do2.cadence('I', {width:200})
 
 # --- Mesure 5 : LAm ---
 NEXT()
+STAFF(1).measure('5')
 lam = CHORD('2:c4 2:e4 a4 e5 a5')
 WAIT(2)
 lam.note(2).remove()
@@ -98,6 +103,7 @@ CHORD('e4 a5')
 
 # --- Mesure 6 : D7 ---
 NEXT()
+STAFF(1).measure('6')
 res = CHORD('2:c4 2:d4 fd4 a4 d5')
 WAIT(2)
 res.note(5).remove()
@@ -117,6 +123,7 @@ NOTE('d5')
 
 # --- Mesure 7 : G ---
 NEXT()
+STAFF(1).measure('7')
 acc = CHORD('2:b3 2:d4 g4 d5 g5')
 acc.note(2).remove()
 acc.note(1).moveTo('1:b4')
@@ -132,6 +139,7 @@ NOTE('d4')
 
 # --- Mesure 8 : C7M ---
 NEXT()
+STAFF(1).measure('8')
 acc = CHORD('2:b3 2:c4 e4 g4 c5')
 acc.note(5).hide()
 acc.note(1).moveTo('1:b4')
@@ -148,6 +156,7 @@ acc.note(5).show()
 
 # --- Mesure 9 : Am7 ---
 NEXT()
+STAFF(1).measure('9')
 acc = CHORD('2:a3 2:c4 e4 g4 c5')
 acc.note(5).hide()
 WAIT(1)
@@ -162,6 +171,7 @@ acc.harmony('II7*')
 
 # --- Mesure 10 : D7 ---
 NEXT()
+STAFF(1).measure('10')
 acc = CHORD('2:d3 2:a3 d4 fd4 c5')
 WAIT(1)
 acc.note(1).remove()
@@ -175,6 +185,7 @@ acc.harmony('V7')
 # NOTER ICI QUE C'EST LE MÊME 
 # QUE L'ACCORD I AU DÉPART
 NEXT()
+STAFF(1).measure('11')
 acc = CHORD('2:g3 2:b3 d4 g4 b4')
 acc.note(5).hide()
 acc.note(4).hide()

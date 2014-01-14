@@ -59,7 +59,12 @@ FONCTIONS_ANIM_OBJETS = {
     * cf. la fonction ARROW
     * @method ARROW
     */
-  ARROW:function(params){ARROW(params)},
+  ARROW:function(params){return ARROW(params)},
+  /** Commande pour créer une image sans la placer dans une variable
+    * cf. la fonction IMAGE
+    * @method IMAGE
+    */
+  IMAGE:function(params){return IMAGE(params)},
   
   /**
     * Méthode pour attendre +laps+ secondes avant de poursuivre

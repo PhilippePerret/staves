@@ -20,7 +20,8 @@ div.text.petit, div.text.small {font-size: 0.8em;}
 div.text.measure {
   font-family : Georgia;
   font-size   : 9pt;
-  padding     : 0px 2px 2px 3px;
+  padding     : 0px 2px 3px 3px;
+  line-height : 7pt;
   border      : 1px solid;
   background-color :white;
 }
