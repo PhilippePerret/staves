@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
+                <li><a href="../classes/Img.html">Img</a></li>
+            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
                 <li><a href="../classes/Motif.html">Motif</a></li>
@@ -116,6 +118,8 @@
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Image.js.html">Image.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -494,16 +498,17 @@ $.extend(Staff.prototype, {
     var ontop    = params.top == true
     var hauteur  = ontop ? this.top - 12 : this.top + (5 * 12) ;
     var incre    = ontop ? -12 : + 12
+    var left     = params.left || Anim.current_x
     // dlog(&quot;-&gt; add_suplines&quot;)
     // dlog({
     //   ontop:ontop, hauteur:hauteur, inc:incre, nombre:params.number
     // })
-    var prefid   = &quot;supline-&quot;+this.indice+Anim.current_x+&quot;-&quot;
+    var prefid   = &quot;supline-&quot;+this.indice+left+&quot;-&quot;
     var suffid   = ontop ? &#x27;top&#x27; : &#x27;bot&#x27;
     // On ajoute le nombre de lignes nécessaires
     for(var i = 0; i &lt; params.number; i++)
     {
-      style = &quot;top:&quot;+hauteur+&quot;px;left:&quot;+(Anim.current_x - 2)+&quot;px;&quot;
+      style = &quot;top:&quot;+hauteur+&quot;px;left:&quot;+(left - 2)+&quot;px;&quot;
       sid   = prefid + i + suffid
       Anim.Dom.add(&#x27;&lt;img id=&quot;&#x27;+sid+&#x27;&quot; class=&quot;supline&quot; src=&quot;img/note/supline.png&quot; style=&quot;&#x27;+style+&#x27;&quot; /&gt;&#x27;)
       hauteur += incre

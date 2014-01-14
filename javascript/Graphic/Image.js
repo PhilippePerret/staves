@@ -9,7 +9,9 @@
   */
 window.IMAGE = function(params)
 {
-  return new Img(params)
+  var image = new Img(params)
+  image.build()
+  return image
 }
 
 /**
@@ -39,7 +41,33 @@ $.extend(Img.prototype,{
     */
   show:function()
   {
-    
+    this.obj.show(Anim.transition.show)
+  },
+  /**
+    * Masque l'image
+    * @method hide
+    */
+  hide:function()
+  {
+    this.obj.hide(Anim.transition.show)
+  },
+  /**
+    * Construit l'image
+    * @method build
+    */
+  build:function()
+  {
+    Anim.Dom.add(this)
+    NEXT_STEP()
+  },
+  /**
+    * Pour positionner l'image
+    * @method positionne
+    */
+  positionne:function()
+  {
+    this.obj.draggable()
+    return this
   }
 })
 Object.defineProperties(Img.prototype,{
@@ -72,7 +100,7 @@ Object.defineProperties(Img.prototype,{
       if(this.width)  style.push('width:'+this.width+'px;')
       if(this.height) style.push('height:'+this.height+'px;')
       style.push('top:'+this.top+'px;left:'+this.left+'px;')
-      return '<img id="'+this.id+'" src="'+this.url+'" style="'+style.join('')+'" />'
+      return '<img id="'+this.id+'" class="image" src="'+this.url+'" style="'+style.join('')+'" />'
     }
   }
     

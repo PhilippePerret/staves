@@ -9,6 +9,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Console",
         "Courbe",
         "Grid",
+        "Img",
         "Infos",
         "Motif",
         "Note",
@@ -38,6 +39,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Controller.js",
         "Courbe.js",
         "GroupNotes.js",
+        "Image.js",
         "Motif.js",
         "Note",
         "Pas.js",
@@ -108,6 +110,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "GroupNotes.js",
             "name": "GroupNotes.js"
+        },
+        {
+            "displayName": "Image.js",
+            "name": "Image.js"
         },
         {
             "displayName": "Motif.js",

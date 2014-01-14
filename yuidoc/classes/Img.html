@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Motif</title>
+    <title>Img</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -174,7 +174,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Motif Class</h1>
+                        <h1>Img Class</h1>
 <div class="box meta">
     
 
@@ -182,13 +182,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l17"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:17</code></a>
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l17"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:17</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Motif.js.html">Motif.js</a>
+            Module: <a href="../modules/Image.js.html">Image.js</a>
         
     
 
@@ -198,20 +198,28 @@
 
 
 <div class="box intro">
-    <p>Class Motif
-Gestion des Motifs (suite de notes)</p>
-<h2 id="notes">Notes</h2>
+    <p>Pour les instances d&#39;image</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Motif" class="method item">
-    <h3 class="name"><code>Motif</code></h3>
+        <div id="method_Img" class="method item">
+    <h3 class="name"><code>Img</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -239,7 +247,7 @@ Gestion des Motifs (suite de notes)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l17"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:17</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l17"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:17</code></a>
         
         </p>
 
@@ -253,6 +261,104 @@ Gestion des Motifs (suite de notes)</p>
         
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres de l&#39;image</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">url</code>
+                                    <span class="type">String</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Adresse de l&#39;image</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">top</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Top de l&#39;image dans l&#39;animation</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">left</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Left de l&#39;image dans l&#39;animation</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">width</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Largeur de l&#39;image</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">height</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Hauteur de l&#39;image</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -295,14 +401,21 @@ Gestion des Motifs (suite de notes)</p>
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_make_instances_with">make_instances_with</a>
+                                <a href="#method_hide">hide</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_MOTIF">MOTIF</a>
+                                <a href="#method_positionne">positionne</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_show">show</a>
 
                                 
                                 
@@ -319,51 +432,21 @@ Gestion des Motifs (suite de notes)</p>
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_center_y">center_y</a>
+                                <a href="#property_code_html">code_html</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_centre_x">centre_x</a>
+                                <a href="#property_obj">obj</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_class">class</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_id">id</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_left">left</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_notes">notes</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_staff">staff</a>
+                                <a href="#property_url">url</a>
 
                                 
                                 
@@ -415,7 +498,7 @@ Gestion des Motifs (suite de notes)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l104"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:104</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l54"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:54</code></a>
         
         </p>
 
@@ -426,9 +509,7 @@ Gestion des Motifs (suite de notes)</p>
     </div>
 
     <div class="description">
-        <p>Construction des notes
-La méthode va surclasser la méthode héritée de METHODES_GROUPNOTES
-car elle doit gérer un affichage temporisé des notes</p>
+        <p>Construit l&#39;image</p>
 
     </div>
 
@@ -440,21 +521,11 @@ car elle doit gérer un affichage temporisé des notes</p>
 </div>
 
                 
-                    <div id="method_make_instances_with" class="method item">
-    <h3 class="name"><code>make_instances_with</code></h3>
+                    <div id="method_hide" class="method item">
+    <h3 class="name"><code>hide</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>strnotes</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -482,7 +553,7 @@ car elle doit gérer un affichage temporisé des notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l73"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:73</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l46"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:46</code></a>
         
         </p>
 
@@ -493,35 +564,10 @@ car elle doit gérer un affichage temporisé des notes</p>
     </div>
 
     <div class="description">
-        <p>Méthode qui a l&#39;instanciation se charge de créer les instances des notes
-du motif</p>
+        <p>Masque l&#39;image</p>
 
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">strnotes</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Les notes envoyées</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -530,33 +576,13 @@ du motif</p>
 </div>
 
                 
-                    <div id="method_MOTIF" class="method item">
-    <h3 class="name"><code>MOTIF</code></h3>
+                    <div id="method_positionne" class="method item">
+    <h3 class="name"><code>positionne</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>strnotes</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Motif.html" class="crosslink">Motif</a></span>
-        </span>
     
 
     
@@ -582,7 +608,7 @@ du motif</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l6"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:6</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l63"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:63</code></a>
         
         </p>
 
@@ -593,65 +619,67 @@ du motif</p>
     </div>
 
     <div class="description">
-        
+        <p>Pour positionner l&#39;image</p>
+
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">strnotes</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>La suite des notes, séparées par des espaces</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Paramètres optionnels</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Motif.html" class="crosslink">Motif</a></span>:
-                    
-                    <p>Instance de Motif</p>
+</div>
 
                 
-            </div>
-        </div>
+                    <div id="method_show" class="method item">
+    <h3 class="name"><code>show</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l38"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:38</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Affiche l&#39;image</p>
+
+    </div>
+
+    
+
     
 
     
@@ -666,9 +694,9 @@ du motif</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_center_y" class="property item">
-    <h3 class="name"><code>center_y</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_code_html" class="property item">
+    <h3 class="name"><code>code_html</code></h3>
+    <span class="type">HTMLString</span>
 
     
 
@@ -689,7 +717,7 @@ du motif</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l174"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:174</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l92"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:92</code></a>
         
         </p>
 
@@ -699,7 +727,7 @@ du motif</p>
     </div>
 
     <div class="description">
-        <p>Le milieu vertical de l&#39;objet</p>
+        <p>Code HTML de l&#39;image</p>
 
     </div>
 
@@ -711,9 +739,9 @@ du motif</p>
 </div>
 
                 
-                    <div id="property_centre_x" class="property item">
-    <h3 class="name"><code>centre_x</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_obj" class="property item">
+    <h3 class="name"><code>obj</code></h3>
+    <span class="type">JQuerySet</span>
 
     
 
@@ -734,7 +762,7 @@ du motif</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l160"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:160</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l86"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:86</code></a>
         
         </p>
 
@@ -744,9 +772,7 @@ du motif</p>
     </div>
 
     <div class="description">
-        <p>Le milieu horizontal de l&#39;objet. Il correspond au centre de ses notes
-Si le motif s&#39;étale sur plusieurs portées, c&#39;est la largeur de la portée
-qui est utilisée</p>
+        <p>L&#39;image DOM</p>
 
     </div>
 
@@ -758,57 +784,8 @@ qui est utilisée</p>
 </div>
 
                 
-                    <div id="property_class" class="property item">
-    <h3 class="name"><code>class</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l35"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:35</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Class d&#39;un type motif</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> &#x27;motif&#x27;</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_id" class="property item">
-    <h3 class="name"><code>id</code></h3>
+                    <div id="property_url" class="property item">
+    <h3 class="name"><code>url</code></h3>
     <span class="type">String</span>
 
     
@@ -830,7 +807,7 @@ qui est utilisée</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l28"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:28</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l74"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:74</code></a>
         
         </p>
 
@@ -840,154 +817,7 @@ qui est utilisée</p>
     </div>
 
     <div class="description">
-        <p>Identifiant absolu du motif
-Note : Pour le moment, il n&#39;est pas utilisé, mais plus tard, on pourra
-imaginer consigner les mêmes types d&#39;éléments dans des Hash de Anim.Objects</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_left" class="property item">
-    <h3 class="name"><code>left</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l42"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:42</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Position left du motif (par défault le Anim.current_x courant)
-Note : C&#39;est seulement le left de sa première note.
-Note : Pourra être redéfini par les paramètres</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_notes" class="property item">
-    <h3 class="name"><code>notes</code></h3>
-    <span class="type">Array of Note</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l49"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:49</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Liste {Array} des instances {Note} des notes du motif</p>
-<h2 id="notes">Notes</h2>
-<ul>
-<li>Les notes (strnotes) seront dispatchés une fois que le left
-sera éventuellement redéfini par les paramètres</li>
-</ul>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_staff" class="property item">
-    <h3 class="name"><code>staff</code></h3>
-    <span class="type"><a href="../classes/Staff.html" class="crosslink">Staff</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Notes_Motif.js.html#l141"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Notes&#x2F;Motif.js:141</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Portée du motif ({Staff})
-Pour la définir, on peut soit envoyer la portée, soit envoyer son indice 1-start
-Note : Le motif peut s&#39;étaler sur plusieurs portées, cette valeur ne correspond
-qu&#39;à la portée de la première note (et encore…).</p>
+        <p>URL de l&#39;image (locale ou distante)</p>
 
     </div>
 

@@ -112,6 +112,19 @@
             "fors": {},
             "namespaces": {}
         },
+        "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js": {
+            "name": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "modules": {
+                "Image.js": 1
+            },
+            "classes": {
+                "Img": 1
+            },
+            "fors": {
+                "window": 1
+            },
+            "namespaces": {}
+        },
         "/Users/philippeperret/Sites/staves/javascript/Notes/Chord.js": {
             "name": "/Users/philippeperret/Sites/staves/javascript/Notes/Chord.js",
             "modules": {
@@ -423,6 +436,20 @@
             "tag": "module",
             "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Circle.js",
             "line": 5
+        },
+        "Image.js": {
+            "name": "Image.js",
+            "submodules": {},
+            "classes": {
+                "Img": 1
+            },
+            "fors": {
+                "window": 1
+            },
+            "namespaces": {},
+            "tag": "module",
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 17
         },
         "Chord.js": {
             "name": "Chord.js",
@@ -771,6 +798,55 @@
             "description": "Modèle Circle, pour la gestion des cercles d'exergue\nNotes\n-----\n  * Elle hérite de la class ObjetClass",
             "is_constructor": 1
         },
+        "Img": {
+            "name": "Img",
+            "shortname": "Img",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Image.js",
+            "namespace": "",
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 17,
+            "description": "Pour les instances d'image",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "params",
+                    "description": "Les paramètres de l'image",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "url",
+                            "description": "Adresse de l'image",
+                            "type": "String"
+                        },
+                        {
+                            "name": "top",
+                            "description": "Top de l'image dans l'animation",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "left",
+                            "description": "Left de l'image dans l'animation",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "width",
+                            "description": "Largeur de l'image",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "height",
+                            "description": "Hauteur de l'image",
+                            "type": "Number"
+                        }
+                    ]
+                }
+            ]
+        },
         "Chord": {
             "name": "Chord",
             "shortname": "Chord",
@@ -1084,11 +1160,24 @@
             "description": "Ajoute un objet DOM à l'animation\nNotes\n  * Pour pouvoir fonctionner, l'instance doit toujours définir : \n    - la propriété `code_html` qui définit le code HTML de l'instance\n    - la méthode `positionne` qui positionne l'élément.\n    - la méthode `show` qui l'affiche",
             "itemtype": "method",
             "name": "add",
+            "async": 1,
             "params": [
                 {
                     "name": "instance",
                     "description": "\n                              L'instance ou le code HTML de l'élément. Si c'est\n                              une instance, elle doit répondre à la méthode\n                              `code_html` qui renvoie le code HTML à afficher",
                     "type": "HTMLString|Instance"
+                },
+                {
+                    "name": "params",
+                    "description": "Les paramètres optionnels",
+                    "type": "Object|Undefined",
+                    "props": [
+                        {
+                            "name": "complete",
+                            "description": "La méthode à appeler en fin de processus (ce processus étant asynchrone)",
+                            "type": "Function"
+                        }
+                    ]
                 }
             ],
             "class": "Anim.Dom",
@@ -1096,7 +1185,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Dom.js",
-            "line": 98,
+            "line": 102,
             "description": "Objet DOM de la section animation",
             "itemtype": "property",
             "name": "section",
@@ -1406,7 +1495,16 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 64,
+            "line": 63,
+            "description": "cf. la fonction IMAGE",
+            "itemtype": "method",
+            "name": "IMAGE",
+            "class": "Anim",
+            "module": "Anim_Objects.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
+            "line": 69,
             "description": "Méthode pour attendre +laps+ secondes avant de poursuivre\nl'animation",
             "itemtype": "method",
             "name": "WAIT",
@@ -1425,7 +1523,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 82,
+            "line": 87,
             "description": "Affiche une nouvelle portée et la met en portée courante",
             "itemtype": "method",
             "name": "SHOW_STAFF",
@@ -1446,12 +1544,16 @@
                     "type": "String"
                 }
             ],
+            "return": {
+                "description": "La nouvelle portée",
+                "type": "Staff"
+            },
             "class": "Anim",
             "module": "Anim_Objects.js"
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 95,
+            "line": 102,
             "description": "Déplace le \"marker\" vers la droite sur les portées (pour inscription) \nNote\n  * Cela redéfinit la valeur de Anim.current_x",
             "itemtype": "method",
             "name": "NEXT",
@@ -1467,7 +1569,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 114,
+            "line": 121,
             "description": "Activer la portée +indice+ (1-start)",
             "itemtype": "method",
             "name": "ACTIVE_STAFF",
@@ -1483,7 +1585,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 125,
+            "line": 132,
             "description": "Suppression des lignes supplémentaires",
             "itemtype": "method",
             "name": "REMOVE_SUPLINE",
@@ -1521,7 +1623,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 152,
+            "line": 159,
             "description": "Nettoie l'animation. Si `with_staves` est true, on efface aussi les\nportée\nNotes\n-----\n  * Tous les objets créés resteront quand même dans l'animation, donc\n    on pourra tout à fait les faire réapparaitre plus tard \n    (TODO pas pour le moment)\n  * Si la suppression des portées est demandée, elles disparaitront vraiment,\n    ie seront retirées de Anim.staves",
             "itemtype": "method",
             "name": "CLEAN",
@@ -1530,7 +1632,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 175,
+            "line": 182,
             "description": "Modifie la vitesse de l'animation",
             "itemtype": "method",
             "name": "SPEED",
@@ -1546,7 +1648,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 192,
+            "line": 199,
             "description": "Pour définir les valeurs par défaut\nNotes\n-----\n  * Il y a deux types de préférences : les préférences absolues et les\n    préférences relatives. Les relatives se reconnaissent au fait que leur\n    nom commence toujours par \"offset_\".\n  * Lorsqu'une valeur absolue est définie, la même valeur offset est toujours\n    (re)mise à 0 pour obtenir vraiment la valeur recherchée.",
             "itemtype": "method",
             "name": "DEFAULT",
@@ -1567,7 +1669,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 224,
+            "line": 231,
             "description": "Décalage des marques d'harmonie par rapport à la portée",
             "itemtype": "method",
             "name": "OFFSET_HARMONIE",
@@ -1583,7 +1685,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 234,
+            "line": 241,
             "description": "Décalage des marques d'accords par rapport à la portée\nNoter que la valeur sera retirée, pour qu'une valeur positive éloigne de\nla portée",
             "itemtype": "method",
             "name": "OFFSET_CHORD_MARK",
@@ -1599,7 +1701,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 250,
+            "line": 257,
             "description": "Pseudo-méthode pour passer en mode flash",
             "itemtype": "method",
             "name": "MODE_FLASH",
@@ -1608,7 +1710,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 259,
+            "line": 266,
             "description": "Pseudo-méthode pour sortir du mode flash",
             "itemtype": "method",
             "name": "STOP_MODE_FLASH",
@@ -1617,7 +1719,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 268,
+            "line": 275,
             "description": "Remet le curseur de position à la position de départ (début des portées)",
             "itemtype": "method",
             "name": "RESET_CURSOR",
@@ -1626,7 +1728,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Objects.js",
-            "line": 278,
+            "line": 285,
             "description": "Méthode qui reset l'affichage\nProduit\n-------\n  * Remet la position left (x) à la position de départ\n  * Efface tout sauf les portées\n  * Propriété complexe => appeler sans parenthèses",
             "itemtype": "method",
             "name": "RESET",
@@ -2419,6 +2521,81 @@
             "module": "Circle.js"
         },
         {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 5,
+            "description": "Pour créer et gérer une image",
+            "itemtype": "method",
+            "name": "IMAGE",
+            "class": "window",
+            "module": "Image.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 38,
+            "description": "Affiche l'image",
+            "itemtype": "method",
+            "name": "show",
+            "class": "Img",
+            "module": "Image.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 46,
+            "description": "Masque l'image",
+            "itemtype": "method",
+            "name": "hide",
+            "class": "Img",
+            "module": "Image.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 54,
+            "description": "Construit l'image",
+            "itemtype": "method",
+            "name": "build",
+            "class": "Img",
+            "module": "Image.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 63,
+            "description": "Pour positionner l'image",
+            "itemtype": "method",
+            "name": "positionne",
+            "class": "Img",
+            "module": "Image.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 74,
+            "description": "URL de l'image (locale ou distante)",
+            "itemtype": "property",
+            "name": "url",
+            "type": "String",
+            "class": "Img",
+            "module": "Image.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 86,
+            "description": "L'image DOM",
+            "itemtype": "property",
+            "name": "obj",
+            "type": "JQuerySet",
+            "class": "Img",
+            "module": "Image.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Graphic/Image.js",
+            "line": 92,
+            "description": "Code HTML de l'image",
+            "itemtype": "property",
+            "name": "code_html",
+            "type": "HTMLString",
+            "class": "Img",
+            "module": "Image.js"
+        },
+        {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Chord.js",
             "line": 6,
             "itemtype": "method",
@@ -2582,7 +2759,32 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Motif.js",
-            "line": 79,
+            "line": 73,
+            "description": "Méthode qui a l'instanciation se charge de créer les instances des notes\ndu motif",
+            "itemtype": "method",
+            "name": "make_instances_with",
+            "params": [
+                {
+                    "name": "strnotes",
+                    "description": "Les notes envoyées",
+                    "type": "String"
+                }
+            ],
+            "class": "Motif",
+            "module": "Motif.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Motif.js",
+            "line": 104,
+            "description": "Construction des notes\nLa méthode va surclasser la méthode héritée de METHODES_GROUPNOTES\ncar elle doit gérer un affichage temporisé des notes",
+            "itemtype": "method",
+            "name": "build",
+            "class": "Motif",
+            "module": "Motif.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Motif.js",
+            "line": 141,
             "description": "Portée du motif ({Staff})\nPour la définir, on peut soit envoyer la portée, soit envoyer son indice 1-start\nNote : Le motif peut s'étaler sur plusieurs portées, cette valeur ne correspond\nqu'à la portée de la première note (et encore…).",
             "itemtype": "property",
             "name": "staff",
@@ -2592,7 +2794,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Motif.js",
-            "line": 98,
+            "line": 160,
             "description": "Le milieu horizontal de l'objet. Il correspond au centre de ses notes\nSi le motif s'étale sur plusieurs portées, c'est la largeur de la portée\nqui est utilisée",
             "itemtype": "property",
             "name": "centre_x",
@@ -2602,7 +2804,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Motif.js",
-            "line": 112,
+            "line": 174,
             "description": "Le milieu vertical de l'objet",
             "itemtype": "property",
             "name": "center_y",
@@ -2650,10 +2852,25 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 79,
+            "line": 82,
             "description": "Ré-affiche une note masquée par `hide`",
             "itemtype": "method",
             "name": "show",
+            "async": 1,
+            "params": [
+                {
+                    "name": "params",
+                    "description": "Les paramètres optionnels",
+                    "type": "Object|Undefined",
+                    "props": [
+                        {
+                            "name": "complete",
+                            "description": "La méthode à appeler en fin de processus",
+                            "type": "Function"
+                        }
+                    ]
+                }
+            ],
             "return": {
                 "description": "this, pour le chainage",
                 "type": "Note"
@@ -2663,7 +2880,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 88,
+            "line": 95,
             "description": "Masque la note",
             "itemtype": "method",
             "name": "hide",
@@ -2676,7 +2893,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 97,
+            "line": 104,
             "description": "Actualise l'affichage de la note\nPour le moment, la méthode peut remettre en place une note\ndécalée à cause d'une conjointe qui a disparu maintenant.",
             "itemtype": "method",
             "name": "update",
@@ -2689,7 +2906,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 110,
+            "line": 117,
             "description": "Rend la note presque invisible, mais toujours présente",
             "itemtype": "method",
             "name": "fantomize",
@@ -2702,7 +2919,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 119,
+            "line": 126,
             "description": "Remet la note en noir",
             "itemtype": "method",
             "name": "defantomize",
@@ -2715,7 +2932,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 128,
+            "line": 135,
             "description": "Colorize la note avec la couleur voulue",
             "itemtype": "method",
             "name": "colorize",
@@ -2735,7 +2952,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 141,
+            "line": 148,
             "description": "Déplace la note à la hauteur +hauteur+\nNotes\n-----\n  * Le déplacement a été simplifié : la note change de couleur et \n    se déplace de façon rectiligne en passant au-dessus des autres\n  * L'option prise, par rapport à l'altération, est de la faire disparaitre\n    et ré-apparaitre à la nouvelle position. Sinon c'est trop compliqué\n    (et pas nécessaire) de la faire se déplacer aussi.\n    Cf. la méthode `analyse_note` qui s'en charge le cas échéant.",
             "itemtype": "method",
             "name": "moveTo",
@@ -2756,7 +2973,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 168,
+            "line": 175,
             "description": "Construit une flèche partant de la note",
             "itemtype": "method",
             "name": "arrow",
@@ -2779,7 +2996,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 188,
+            "line": 195,
             "description": "Entoure la note\nNotes\n-----\n  * La méthode définit la propriété 'circle' du cercle",
             "itemtype": "method",
             "name": "surround",
@@ -2812,7 +3029,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 209,
+            "line": 216,
             "description": "Retirer le cercle entourant la note",
             "itemtype": "method",
             "name": "unsurround",
@@ -2821,7 +3038,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 218,
+            "line": 225,
             "description": "Met la note en exergue (bleue et au-dessus)",
             "itemtype": "method",
             "name": "exergue",
@@ -2853,7 +3070,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 245,
+            "line": 252,
             "description": "Sort la note de son exergue",
             "itemtype": "method",
             "name": "unexergue",
@@ -2862,7 +3079,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 264,
+            "line": 271,
             "description": "Destruction de la note\nNotes\n  * Pour le moment, je détruis seulement son objet DOM et je la retire\n    de la portée.",
             "itemtype": "method",
             "name": "remove",
@@ -2871,7 +3088,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 288,
+            "line": 295,
             "description": "Reset la note (pour forcer le recalcul des valeurs après un changement de hauteur,\nd'altération, etc.)\nWARNING\n  Ne surtout pas mettre ici la destruction de la note, de l'alteration (même\n  la variable).",
             "itemtype": "method",
             "name": "reset",
@@ -2880,7 +3097,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 306,
+            "line": 313,
             "description": "Appelée en fin de l'opération 'moveTo' ci-dessus, juste avant \nle passage à l'étape suivante.",
             "itemtype": "method",
             "name": "on_complete_moveTo",
@@ -2889,7 +3106,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 324,
+            "line": 331,
             "description": "Détruit l'alteration\nNotes\n  * La méthode est appelée lorsqu'il y a changement de hauteur de la\n    note, et qu'elle perd son altération",
             "itemtype": "method",
             "name": "remove_alteration",
@@ -2898,7 +3115,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 341,
+            "line": 348,
             "description": "Méthode qui \"complete\" vraiment l'affichage et passe à l'étape\nsuivante. Elle sort la note de son exergue si nécessaire.\nNotes\n-----\n  * Noter que la méthode ne doit être appelée directement que lorsqu'on\n    est sûr que tous les éléments sont traités ou affichés (cf. on_complete).\n    La méthode `moveTo` peut le faire par exemple.",
             "itemtype": "method",
             "name": "complete",
@@ -2907,7 +3124,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 357,
+            "line": 364,
             "description": "Méthode à appeler à la fin de toute animation",
             "itemtype": "method",
             "name": "on_complete",
@@ -2923,7 +3140,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 368,
+            "line": 375,
             "description": "Return true si tous les objets de la note sont affichés",
             "itemtype": "method",
             "name": "is_complete_with",
@@ -2943,7 +3160,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 382,
+            "line": 389,
             "description": "Méthode appelée après l'opération 'remove' ci-dessus, juste avant qu'on\nne passe à l'étape suivante.",
             "itemtype": "method",
             "name": "on_complete_remove",
@@ -2952,16 +3169,31 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 393,
+            "line": 400,
             "description": "Construit la note",
             "itemtype": "method",
             "name": "build",
+            "async": 1,
+            "params": [
+                {
+                    "name": "params",
+                    "description": "Paramètres optionnels, dont :",
+                    "type": "Object|Undefined",
+                    "props": [
+                        {
+                            "name": "complete",
+                            "description": "La méthode pour suivre la construction",
+                            "type": "Function"
+                        }
+                    ]
+                }
+            ],
             "class": "Note",
             "module": "Note"
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 403,
+            "line": 413,
             "description": "Ajoute les lignes supplémentaires si nécessaire",
             "itemtype": "method",
             "name": "suplines_if_necessary",
@@ -2970,7 +3202,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 412,
+            "line": 425,
             "description": "Méthode qui masque l'altération\nNote\n----\n  * Elle doit exister\n    Cette méthode est utile pour par exemple déplacer l'altération lorsqu'il\n    y a un changement de hauteur.",
             "itemtype": "method",
             "name": "hide_alteration",
@@ -2986,7 +3218,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 427,
+            "line": 440,
             "description": "Positionne la note en fonction de sa hauteur de note\net de la hauteur de la portée",
             "itemtype": "method",
             "name": "positionne",
@@ -2995,7 +3227,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 445,
+            "line": 458,
             "description": "Cette méthode vise à rafraichir l'affichage de la note après un\nchangement important, comme un déplacement, qui a pu supprimer par\nexemple une note conjointe et donc un décalage à gauche.\nÀ l'avenir, cette méthode devra gérer tous les cas, par exemple l'altération\nqu'il faut peut-être recaler aussi",
             "itemtype": "method",
             "name": "update_affichage",
@@ -3004,7 +3236,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 458,
+            "line": 471,
             "description": "Position l'altération\nNotes\n-----\n  * Chaque type d'altération possède son propre positionnement.",
             "itemtype": "method",
             "name": "positionne_alteration",
@@ -3013,7 +3245,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 470,
+            "line": 483,
             "description": "Return TRUE si la note nécessite des lignes supplémentaires\n  Note max clé de SOL = 80 si \"a\", 81\n  Note min clé de SOL = 62 si \"c\" 61 si \"c\" ou \"b\", 60\n  \n  Note max clé de FA  = 58 si \"c\", 59 si \"c\", 60\n  Note min clé de FA    30 et 29 si \"e\", 28\n  c au milieu = 48, c tout en bas = 24\n  mi en bas = 28",
             "itemtype": "property",
             "name": "need_suplines",
@@ -3034,7 +3266,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 583,
+            "line": 596,
             "description": "Analyse la note fournie en argument\n\nProduit\n-------\n  – La définition de la portée  this.staff\n  - La définition de la note    this.note\n  - Calcul le top de la note    this.top\n  - Définit l'octave            this.octave\n  – Définit l'altération        this.alteration     ou undefined\n\n  - Si c'est un changement de hauteur, et que la note possédait une\n    altération, modifie l'altération (le src de l'image).",
             "itemtype": "method",
             "name": "analyse_note",
@@ -3050,7 +3282,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 686,
+            "line": 699,
             "description": "Actualise l'altération\nNotes\n-----\n  * Cette méthode n'est appelée QUE si une altération existe, mais\n    qu'il faut la modifier. Elle se sert de la nouvelle valeur de\n    `this.alteration`.",
             "itemtype": "method",
             "name": "update_alteration",
@@ -3059,7 +3291,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 705,
+            "line": 718,
             "description": "Retourne la position top de la note \nNotes\n-----\n  * WARNING: Il faut penser à détruire `_top` si cette hauteur\n    doit être actualisée, comme lorsqu'il y a un déplacement de la note",
             "itemtype": "property",
             "name": "top",
@@ -3069,7 +3301,17 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 722,
+            "line": 735,
+            "description": "Retourne la largeur exacte qu'occupe la note à l'écran",
+            "itemtype": "property",
+            "name": "width",
+            "type": "Number",
+            "class": "Note",
+            "module": "Note"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
+            "line": 745,
             "description": "Retourne le “centre_x” de la note, c'est-à-dire la position left qui passe\nvraiment au milieu de la note (sauf si elle est décalée à cause d'une\nnote conjointe)\nC'est cette valeur qui doit être utilisée pour positionner des éléments\npar rapport à cette note.",
             "itemtype": "property",
             "name": "centre_x",
@@ -3079,7 +3321,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 735,
+            "line": 758,
             "description": "Retourne la vraie valeur left pour l'affichage, en fonction des notes\nconjointes qui peuvent se trouver sur la portée à cet endroit-là",
             "itemtype": "property",
             "name": "real_left",
@@ -3089,7 +3331,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 747,
+            "line": 770,
             "description": "(pour le moment, la note elle-même et éventuellement son altération)",
             "itemtype": "property",
             "name": "objets",
@@ -3099,7 +3341,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 759,
+            "line": 782,
             "description": "Retourne la note courante sous forme de string (débuggage)",
             "itemtype": "property",
             "name": "note_str",
@@ -3109,7 +3351,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 768,
+            "line": 791,
             "description": "Note conjointe au-dessus de la note\nLa valeur est \"<note><octave>\"\nNotes : Il serait aussi possible de retourner la valeur midi",
             "itemtype": "property",
             "name": "conjointe_upper",
@@ -3119,7 +3361,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 781,
+            "line": 804,
             "description": "Note conjointe en dessous de la note\nLa valeur est \"<note><octave>\"\nNotes : Il serait aussi possible de retourner la valeur midi",
             "itemtype": "property",
             "name": "conjointe_under",
@@ -3129,7 +3371,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 794,
+            "line": 817,
             "description": "Indice de la note dans NOTES (0-start, donc 0 pour Do, 1 pour ré, etc.)",
             "itemtype": "property",
             "name": "indice",
@@ -3139,7 +3381,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 804,
+            "line": 827,
             "description": "Indice “réel“ de la note (1-start, donc 0 pour Do, 1 pour Do#, 2 pour Ré, etc.)",
             "itemtype": "property",
             "name": "indice_real",
@@ -3149,7 +3391,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 815,
+            "line": 838,
             "description": "Retourne la valeur numérique de la note\nNote\n  * Elle est calculée pour qu'un C3 correspond à 60\n  * LA4 (440Hz = 69)",
             "itemtype": "property",
             "name": "midi",
@@ -3159,7 +3401,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 848,
+            "line": 872,
             "description": "Retourne l'objet DOM de la note",
             "itemtype": "property",
             "name": "obj",
@@ -3169,7 +3411,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 855,
+            "line": 879,
             "description": "Retourne l'objet DOM de l'alteration de la note, if any",
             "itemtype": "property",
             "name": "obj_alt",
@@ -3179,7 +3421,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 862,
+            "line": 886,
             "description": "Retourne le code HTML pour la note (et ses altérations, effets, etc.)",
             "itemtype": "property",
             "name": "code_html",
@@ -3189,7 +3431,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 873,
+            "line": 897,
             "description": "Retourne le code HTML de l'image de la note",
             "itemtype": "property",
             "name": "html_img",
@@ -3199,7 +3441,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 883,
+            "line": 907,
             "description": "Path (src) de la note (en fonction de son type et de sa couleur)\nNote : pour le moment, c'est toujours un simple rond",
             "itemtype": "property",
             "name": "src",
@@ -3209,7 +3451,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 893,
+            "line": 917,
             "description": "Path (src) de l'altération",
             "itemtype": "property",
             "name": "src_alteration",
@@ -3219,7 +3461,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 901,
+            "line": 925,
             "description": "Retourne le nom du fichier en fonction de l'altération",
             "itemtype": "property",
             "name": "filename_alteration",
@@ -3229,7 +3471,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
-            "line": 916,
+            "line": 941,
             "description": "Code HTML pour l'image de l'altération, if any",
             "itemtype": "property",
             "name": "html_img_alt",
@@ -3605,7 +3847,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/GroupNotes.js",
-            "line": 113,
+            "line": 43,
             "description": "Remplacement des méthodes ci-dessus pour une utilisation plus rationnelle:\nUn objet qui gère un groupe de notes (comme Chord ou Scale) définit une \npropriété `notes` qui contient la liste des instances Note (1-start) et\ncette propriété qui est utilisée",
             "itemtype": "property",
             "name": "METHODES_GROUPNOTES",
@@ -3615,7 +3857,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/GroupNotes.js",
-            "line": 122,
+            "line": 52,
             "description": "Construit les notes du groupe de notes",
             "itemtype": "method",
             "name": "build",
@@ -3624,7 +3866,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/GroupNotes.js",
-            "line": 130,
+            "line": 60,
             "description": "Retourne la note d'indice (1-start) +indice+",
             "itemtype": "method",
             "name": "note",
@@ -3644,7 +3886,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/GroupNotes.js",
-            "line": 153,
+            "line": 83,
             "description": "Exécute une fonction sur toutes les notes de l'accord",
             "itemtype": "method",
             "name": "each_note",
@@ -3660,7 +3902,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/GroupNotes.js",
-            "line": 166,
+            "line": 96,
             "description": "Destruction de l'accord (destruction de chaque note)",
             "itemtype": "method",
             "name": "build",
@@ -3734,6 +3976,7 @@
             "description": "Tentative d'une méthode générale qui permette de gérer un traitement \nasynchrone de plusieurs éléments DOM de l'objet.\nPar exemple : on doit retirer une note qui possède une alteration et une\nmarque de jeu (piqué). Pour la faire disparaitre, on utilise la méthode\n`animate` de jQuery qui est asynchrone. Et c'est seulement lorsque les trois\nélément du DOM ont été retiré (la note, l'altération, la marque du jeu) qu'on\npeut passer à la suite.\nPour se faire, la méthode a besoin de connaître les objets à traiter.\nOn les donne en premier argument ({Array}). Ensuite, la méthode a besoin de\nconnaître l'opération à exécuter ('show', 'remove', 'moveTo', etc.). On la\ndonne en second argument.\nEnfin, la méthode a besoin des paramètres propres à cette méthode, par exemple\nla nouvelle position pour un 'moveTo'.",
             "itemtype": "method",
             "name": "operation",
+            "async": 1,
             "params": [
                 {
                     "name": "objets",
@@ -3747,8 +3990,15 @@
                 },
                 {
                     "name": "params",
-                    "description": "Les paramètres nécessaires à l'opération",
-                    "type": "Object"
+                    "description": "Les paramètres nécessaires à l'opération + optionnels",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "complete",
+                            "description": "(optionnel) La méthode à appeler en fin de processus",
+                            "type": "Function"
+                        }
+                    ]
                 }
             ],
             "return": {
@@ -3760,7 +4010,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/ObjectClass.js",
-            "line": 133,
+            "line": 138,
             "description": "Méthode qui fonctionne en parallèle avec `operation` pour savoir si on \npeut passer à l'étape suivante.\nOn peut passer à l'étape suivante lorsque tous les objets reçus par `operation`\nont été traités.\nNotes\n-----\n  Si une méthode 'on_complete_<operation>' existe, elle est appelée avant\n  de passer à l'étape suivante.",
             "itemtype": "method",
             "name": "on_complete_operation",
@@ -3781,7 +4031,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/ObjectClass.js",
-            "line": 176,
+            "line": 181,
             "description": "Portée de l'objet ({Staff})\nPour la définir, on peut soit envoyer la portée, soit envoyer son indice 1-start",
             "itemtype": "property",
             "name": "staff",
@@ -3791,7 +4041,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/ObjectClass.js",
-            "line": 194,
+            "line": 199,
             "description": "Offset vertical du cercle",
             "itemtype": "property",
             "name": "top",
@@ -3801,7 +4051,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/ObjectClass.js",
-            "line": 205,
+            "line": 210,
             "description": "Offset horizontal du cercle",
             "itemtype": "property",
             "name": "left",
@@ -3811,7 +4061,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/ObjectClass.js",
-            "line": 216,
+            "line": 221,
             "description": "Le milieu vertical de l'objet",
             "itemtype": "property",
             "name": "center_y",
@@ -3857,6 +4107,35 @@
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/Texte.js",
             "line": 41,
+            "description": "Raccourci-write pour écrire un numéro de mesure",
+            "itemtype": "method",
+            "name": "measure",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "Paramètres optionnels",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "L'instance courante (pour chainage)",
+                "type": "Object"
+            },
+            "class": "window",
+            "module": "Texte.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/required/Texte.js",
+            "line": 54,
+            "description": "Alias de measure",
+            "itemtype": "method",
+            "name": "mesure",
+            "class": "window",
+            "module": "Texte.js"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/required/Texte.js",
+            "line": 60,
             "description": "Raccourci-write pour écrire un texte d'harmony",
             "itemtype": "method",
             "name": "harmony",
@@ -3893,7 +4172,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/Texte.js",
-            "line": 58,
+            "line": 77,
             "description": "Raccourci pour écrire un texte de type cadence",
             "itemtype": "method",
             "name": "cadence",
@@ -3918,7 +4197,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/Texte.js",
-            "line": 73,
+            "line": 92,
             "description": "Ajoute une marque de modulation",
             "itemtype": "method",
             "name": "modulation",
@@ -3943,7 +4222,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/Texte.js",
-            "line": 87,
+            "line": 106,
             "description": "Raccourci pour écrire un texte de type 'chord' (un accord placé au-dessus\nde la portée et au-dessus de l'élément porteur)",
             "itemtype": "method",
             "name": "chord",
@@ -3968,7 +4247,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/Texte.js",
-            "line": 103,
+            "line": 122,
             "description": "Propriétés qui doivent être héritées (Object.defineProperties) par tout objet\npouvant contenir un texte (Note, Accords, etc.)",
             "itemtype": "property",
             "name": "PROPERTIES_TEXTE",
@@ -4082,7 +4361,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 128,
+            "line": 129,
             "description": "Toutes les préférences",
             "itemtype": "property",
             "name": "prefs",
@@ -4093,7 +4372,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 135,
+            "line": 136,
             "description": "Nombre de secondes de décompte avant le lancement de l'animation",
             "itemtype": "property",
             "name": "decomte",
@@ -4104,7 +4383,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 141,
+            "line": 142,
             "itemtype": "property",
             "name": "staff_top",
             "type": "Number",
@@ -4113,7 +4392,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 145,
+            "line": 146,
             "itemtype": "property",
             "name": "staff_offset",
             "type": "Number",
@@ -4122,7 +4401,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 149,
+            "line": 150,
             "description": "Note : cette valeur sera RETIRÉE du top de la portée (selon le principe\nque les valeurs positives éloignent toujours de la portée, et qu'un texte\nde portée est par défaut au-dessus de la portée)",
             "itemtype": "property",
             "name": "staff_top_text",
@@ -4132,7 +4411,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 156,
+            "line": 157,
             "description": "de la portée",
             "itemtype": "property",
             "name": "staff_text_up!~YUIDOC_LINE~!     # @default TRUE",
@@ -4142,7 +4421,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 162,
+            "line": 163,
             "itemtype": "property",
             "name": "note_size",
             "type": "Number",
@@ -4151,7 +4430,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 165,
+            "line": 166,
             "description": "Portée qui doit porter l'harmonie. Pour faire porter l'harmonie\npar une portée particulière, quelle que soit la portée active",
             "note": ": elle peut être définie même si la portée n'existe pas encore,\npuisqu'un check est fait à la création de toute portée (cf. Staff.create)",
             "itemtype": "property",
@@ -4163,7 +4442,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 174,
+            "line": 175,
             "description": "Portée qui doit porter les accords.",
             "note": ": elle peut être définie même si la portée n'existe pas encore,\npuisqu'un check est fait à la création de toute portée (cf. Staff.create)",
             "itemtype": "property",
@@ -4175,7 +4454,17 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 182,
+            "line": 183,
+            "description": "Position verticale du numéro de mesure",
+            "itemtype": "property",
+            "name": "num_measure_y",
+            "type": "Number",
+            "class": "Anim",
+            "module": "Anim"
+        },
+        {
+            "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
+            "line": 188,
             "itemtype": "property",
             "name": "x_start",
             "type": "Number",
@@ -4184,7 +4473,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 186,
+            "line": 192,
             "description": "Décalage à droite quand la commande NEXT est utilisée",
             "itemtype": "property",
             "name": "next",
@@ -4194,7 +4483,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 191,
+            "line": 197,
             "description": "Décalage vertical de la marque de modulation par rapport à la portée",
             "itemtype": "property",
             "name": "modulation_y",
@@ -4204,7 +4493,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 196,
+            "line": 202,
             "description": "Décalage horizontal de la marque de modulation par rapport à l'objet\nqui la porte (souvent, un accord ou une note)",
             "itemtype": "property",
             "name": "modulation_y",
@@ -4214,7 +4503,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 202,
+            "line": 208,
             "description": "Décalage de la marque d'harmonie ou de cadence par rapport à\nla portée.",
             "itemtype": "property",
             "name": "harmony",
@@ -4224,7 +4513,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 208,
+            "line": 214,
             "description": "Décalage de la marque d'accord par rapport à la portée.",
             "itemtype": "property",
             "name": "chord",
@@ -4234,7 +4523,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 213,
+            "line": 219,
             "description": "Coefficiant vitesse",
             "itemtype": "property",
             "name": "speed",
@@ -4244,7 +4533,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 218,
+            "line": 224,
             "description": "Temps d'attente à la fin de l'anim",
             "itemtype": "property",
             "name": "delai_after_show",
@@ -4254,7 +4543,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 223,
+            "line": 229,
             "description": "Taille des notes",
             "itemtype": "property",
             "name": "note_size",
@@ -4264,7 +4553,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 235,
+            "line": 242,
             "description": "Définit une préférence\nNotes\n-----\n  * La préférence peut être de deux types : soit une valeur absolue, soit\n    une valeur relative (cf. prefs ci-dessus)\n  * Pour ré-initialiser une valeur à sa valeur par défaut, on envoie une value\n    non définie.\n  * Certaines valeurs sont à traiter de façon particulière. Par exemple, pour\n    `staff_harmony`, si ça n'est pas une instance de Staff, c'est un indice\n    de portée qu'on transforme en instance de Staff.",
             "itemtype": "method",
             "name": "set_pref",
@@ -4290,7 +4579,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 284,
+            "line": 291,
             "description": "Activer ou désactiver le mode flash\nEn mode flash, l'animation se passe très vite jusqu'à un certain point\nd'où on repart normalement.",
             "itemtype": "method",
             "name": "mode_flash",
@@ -4306,7 +4595,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 296,
+            "line": 303,
             "description": "Liste des portées affichées",
             "itemtype": "property",
             "name": "staves",
@@ -4316,7 +4605,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 302,
+            "line": 309,
             "description": "La portée courante (une instance Staff)",
             "itemtype": "property",
             "name": "current_staff",
@@ -4326,7 +4615,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 308,
+            "line": 315,
             "description": "Animation en cours (si true)",
             "itemtype": "property",
             "name": "on",
@@ -4337,7 +4626,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 314,
+            "line": 321,
             "description": "True quand la pause est activé",
             "itemtype": "property",
             "name": "pause_on",
@@ -4348,7 +4637,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 321,
+            "line": 328,
             "description": "Retourne la vitesse de transition de clé +key+ (dans Anim.transition)\npondéré par le coefficiant de vitesse (Anim.prefs.speed)",
             "itemtype": "method",
             "name": "delai_for",
@@ -4368,7 +4657,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 332,
+            "line": 339,
             "description": "Attends +laps+ secondes avant de passer à l'étape suivante\nNotes\n-----\n  * C'est un raccourci de Anim.Objects.WAIT qui peut être utilisé\n    dans la programmation.",
             "itemtype": "method",
             "name": "wait",
@@ -4384,7 +4673,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 344,
+            "line": 351,
             "description": "Détruit le timer éventuel (timeout)",
             "itemtype": "method",
             "name": "kill_timer",
@@ -4393,7 +4682,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 354,
+            "line": 361,
             "description": "Ré-initialisation complète (par exemple au chargement d'une autre animation)",
             "itemtype": "method",
             "name": "init_all",
@@ -4402,7 +4691,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 364,
+            "line": 371,
             "description": "Reset l'animation (au (re)-démarrage)",
             "itemtype": "method",
             "name": "reset",
@@ -4411,7 +4700,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 384,
+            "line": 391,
             "description": "Appelé au chargement de l'application",
             "itemtype": "method",
             "name": "on_load",
@@ -4420,7 +4709,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 394,
+            "line": 401,
             "description": "Reset les préférences",
             "itemtype": "method",
             "name": "reset_prefs",
@@ -4429,7 +4718,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 406,
+            "line": 413,
             "description": "Méthode appelée quand on change le \"play type\", donc ce qu'il faut\njouer de l'animation et comment il faut le jouer. Elle affiche un message\nd'information.",
             "itemtype": "method",
             "name": "onchange_play_type",
@@ -4438,7 +4727,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 433,
+            "line": 440,
             "description": "Enregistre l'animation courante",
             "itemtype": "method",
             "name": "save",
@@ -4455,7 +4744,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 457,
+            "line": 464,
             "description": "Enregistre l'animation sous un autre nom",
             "itemtype": "method",
             "name": "save_as",
@@ -4471,7 +4760,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 492,
+            "line": 499,
             "description": "Recharge l'animation courante (utile quand on la code dans un fichier)",
             "itemtype": "method",
             "name": "reload",
@@ -4480,7 +4769,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 500,
+            "line": 507,
             "description": "Charge l'animation de nom +name+",
             "itemtype": "method",
             "name": "load",
@@ -4502,7 +4791,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 531,
+            "line": 538,
             "description": "Charge la liste des animations et peuple le menu",
             "itemtype": "method",
             "name": "load_list_animations",
@@ -4518,7 +4807,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Anim.js",
-            "line": 555,
+            "line": 562,
             "description": "Position x courante",
             "itemtype": "property",
             "name": "current_x",
@@ -5115,7 +5404,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 336,
+            "line": 337,
             "description": "Supprime des lignes supplémentaires",
             "itemtype": "method",
             "name": "remove_suplines",
@@ -5143,7 +5432,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 348,
+            "line": 349,
             "itemtype": "method",
             "name": "remove_supline",
             "class": "Staff",
@@ -5151,7 +5440,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 356,
+            "line": 357,
             "description": "Hauteur de la portée",
             "itemtype": "property",
             "name": "height",
@@ -5161,7 +5450,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 361,
+            "line": 362,
             "description": "Le \"zéro\" de la portée, en fonction de sa clé, qui permettra\nde positionner les notes.\nNotes\n  * Ce zéro doit correspondre à la hauteur de la note A4",
             "itemtype": "property",
             "name": "zero",
@@ -5171,7 +5460,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 383,
+            "line": 384,
             "description": "Liste des objets DOM que possède la portée",
             "itemtype": "property",
             "name": "objets",
@@ -5181,7 +5470,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 397,
+            "line": 398,
             "description": "Return l'élément DOM de la portée contenue dans son DIV\n(ie l'ensemble de ses images de lignes)",
             "itemtype": "property",
             "name": "img",
@@ -5191,7 +5480,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 405,
+            "line": 406,
             "description": "Return l'élément DOM de la clé",
             "itemtype": "property",
             "name": "img_cle",
@@ -5201,7 +5490,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 414,
+            "line": 415,
             "description": "Objet DOM pour l'armure (if any)",
             "itemtype": "property",
             "name": "img_armure",
@@ -5211,7 +5500,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 422,
+            "line": 423,
             "description": "Objet DOM pour la métrique (if any)",
             "itemtype": "property",
             "name": "img_metrique",
@@ -5221,7 +5510,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 430,
+            "line": 431,
             "description": "Return le code HTML complet de la portée",
             "itemtype": "property",
             "name": "code_html",
@@ -5231,7 +5520,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 442,
+            "line": 443,
             "description": "Return le code HTML pour la portée",
             "itemtype": "property",
             "name": "html_img",
@@ -5241,7 +5530,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 457,
+            "line": 458,
             "description": "Return le code HTML pour la clé",
             "itemtype": "property",
             "name": "html_img_cle",
@@ -5251,7 +5540,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 466,
+            "line": 467,
             "description": "Return le code HTML pour la métrique\nNotes\n-----\n  * C'est un DIV principal contenant les éléments",
             "itemtype": "property",
             "name": "html_img_metrique",
@@ -5261,7 +5550,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Staff.js",
-            "line": 481,
+            "line": 482,
             "description": "Return le code HTML pour l'armure\nNotes\n-----\n  * C'est un DIV principal contenant les éléments",
             "itemtype": "property",
             "name": "html_img_armure",
@@ -5601,7 +5890,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 452,
+            "line": 455,
             "description": "La hauteur de la boite de texte\nNoter que ça renvoie une \"vraie\" valeur, ie comptée avec le padding et\nles bordures.",
             "itemtype": "property",
             "name": "height",
@@ -5611,7 +5900,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 463,
+            "line": 466,
             "description": "Retourne la “vraie” portée sous laquelle on doit écrire la marque de\ntexte en fonction de son type.",
             "itemtype": "property",
             "name": "real_staff",
@@ -5621,7 +5910,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 482,
+            "line": 485,
             "description": "left en fonction du owner (utilisé par \"left\")",
             "itemtype": "property",
             "name": "left_per_owner",
@@ -5631,7 +5920,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 504,
+            "line": 507,
             "description": "Retourne le décalage horizontal du texte\nNotes\n-----\n  * Pour certains types, comme `harmony`, il doit être calculé pour\n    pouvoir placer son bord droit au bout du possesseur.\n    Mais cela ne peut être fait qu'une fois qu'on connait la taille du\n    texte, donc c'est la méthode `positionne` qui s'en charge. c'est quand\n    elle appelle this.left qu'on le calcule.",
             "itemtype": "property",
             "name": "left",
@@ -5641,7 +5930,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 533,
+            "line": 539,
             "description": "Retourne le vrai top du texte dans le cas où un offset_y a été défini\nAgit différemment suivant le type (cf. la définition de la propriété offset_y)",
             "itemtype": "property",
             "name": "real_top",
@@ -5651,7 +5940,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 562,
+            "line": 568,
             "description": "Retourne le vrai décalage left du texte par rapport à l'objet en\nfonction de son type",
             "itemtype": "property",
             "name": "real_left",
@@ -5661,7 +5950,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 603,
+            "line": 609,
             "description": "Return l'objet DOM du texte (noter qu'il contient tous les textes)",
             "itemtype": "property",
             "name": "obj",
@@ -5671,7 +5960,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 610,
+            "line": 616,
             "description": "Boite DIV contenant (optionnellement) le `texte_before`",
             "itemtype": "property",
             "name": "obj_texte_before",
@@ -5681,7 +5970,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 620,
+            "line": 626,
             "description": "Boite DIV contenant (optionnellement) le `texte_after`",
             "itemtype": "property",
             "name": "obj_texte_after",
@@ -5691,7 +5980,7 @@
         },
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Txt.js",
-            "line": 630,
+            "line": 636,
             "description": "Return le code HTML pour le texte quelconque\nNote : Un code HTML pour un texte quelconque est composé de trois parties :\nun texte \"before\", un texte \"after\" et le texte principal. L'alignement est\ntoujours fait par rapport au texte principal et le type de texte détermine\nensuite par CSS (ou calcul) la position des deux autres textes.",
             "itemtype": "property",
             "name": "code_html",
@@ -5760,23 +6049,55 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " /Users/philippeperret/Sites/staves/javascript/Notes/Note.js:218"
+            "line": " /Users/philippeperret/Sites/staves/javascript/Anim/Anim_Dom.js:56"
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " /Users/philippeperret/Sites/staves/javascript/Notes/Note.js:218"
+            "line": " /Users/philippeperret/Sites/staves/javascript/Anim/Anim_Dom.js:56"
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " /Users/philippeperret/Sites/staves/javascript/Notes/Note.js:218"
+            "line": " /Users/philippeperret/Sites/staves/javascript/Graphic/Image.js:17"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " /Users/philippeperret/Sites/staves/javascript/Graphic/Image.js:17"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " /Users/philippeperret/Sites/staves/javascript/Graphic/Image.js:17"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " /Users/philippeperret/Sites/staves/javascript/Graphic/Image.js:17"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " /Users/philippeperret/Sites/staves/javascript/Graphic/Image.js:17"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " /Users/philippeperret/Sites/staves/javascript/Graphic/Image.js:17"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " /Users/philippeperret/Sites/staves/javascript/Notes/Note.js:225"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " /Users/philippeperret/Sites/staves/javascript/Notes/Note.js:225"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " /Users/philippeperret/Sites/staves/javascript/Notes/Note.js:225"
         },
         {
             "message": "unknown tag: note",
-            "line": " /Users/philippeperret/Sites/staves/javascript/Anim.js:165"
+            "line": " /Users/philippeperret/Sites/staves/javascript/Anim.js:166"
         },
         {
             "message": "unknown tag: note",
-            "line": " /Users/philippeperret/Sites/staves/javascript/Anim.js:174"
+            "line": " /Users/philippeperret/Sites/staves/javascript/Anim.js:175"
         }
     ]
 }

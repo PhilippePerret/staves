@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
+                <li><a href="../classes/Img.html">Img</a></li>
+            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
                 <li><a href="../classes/Motif.html">Motif</a></li>
@@ -116,6 +118,8 @@
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Image.js.html">Image.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -234,7 +238,10 @@ window.Note = function(note, params)
   this.analyse_note(note)
 
   // On peut calculer l&#x27;identifiant
-  this.id = this.note + (this.alteration || &quot;&quot;) + this.octave + (new Date()).getTime()
+  // Note : Normalement, tout est fait pour que cet identifiant soit unique, en partant
+  //        du principe qu&#x27;il est impossible d&#x27;avoir, exactement au même moment (comme
+  //        dans un motif, deux notes identiques à la même position left).
+  this.id = this.note + (this.alteration || &quot;&quot;) + this.octave + this.left + (new Date()).getTime()
 
 }
 Note.prototype = Object.create( ObjetClass.prototype )
@@ -255,11 +262,15 @@ $.extend(Note.prototype,{
   /**
     * Ré-affiche une note masquée par &#x60;hide&#x60;
     * @method show
+    * @async
+    * @param  {Object|Undefined} params Les paramètres optionnels
+    *   @param  {Function} params.complete  La méthode à appeler en fin de processus
     * @return {Note} this, pour le chainage
     */
-  show:function()
+  show:function(params)
   {
-    return this.operation(this.objets, &#x27;show&#x27;)
+    dlog(&quot;-&gt; &lt;Note&gt;.show / params contient complete ? &quot;+(params &amp;&amp; params.complete ? &quot;oui&quot; : &quot;non&quot;))
+    return this.operation(this.objets, &#x27;show&#x27;, params)
   },
   /**
     * Masque la note
@@ -569,10 +580,13 @@ $.extend(Note.prototype,{
   /**
     * Construit la note
     * @method build
+    * @async
+    * @param  {Object|Undefined} params   Paramètres optionnels, dont :
+    *    @param {Function} params.complete    La méthode pour suivre la construction
     */
-  build:function()
+  build:function(params)
   {
-    Anim.Dom.add(this)
+    Anim.Dom.add(this, params)
     this.suplines_if_necessary()
     this.staff.notes.add(this)
   },
@@ -583,7 +597,10 @@ $.extend(Note.prototype,{
   suplines_if_necessary:function()
   {
     var dsuplines = this.need_suplines(this.staff.cle)
-    if(dsuplines) this.staff.add_suplines( dsuplines )
+    if(dsuplines){
+      dsuplines = $.extend(dsuplines, {left:this.left})
+      this.staff.add_suplines(dsuplines)
+    } 
   },
   /**
     * Méthode qui masque l&#x27;altération
@@ -809,7 +826,7 @@ Clé de SOL
      *  Note: Rien à faire quand 4. les deux notes ne possèdent pas d&#x27;altération,
      *        ou 5. les deux notes possèdent la même altération.
      */
-    if([&quot;b&quot;, &quot;d&quot;, &quot;x&quot;, &quot;t&quot;].indexOf(note_str[0]) &gt; -1)
+    if([&quot;b&quot;, &quot;d&quot;, &quot;x&quot;, &quot;z&quot;, &quot;t&quot;].indexOf(note_str[0]) &gt; -1)
     {
       if(this.alteration)
       {
@@ -893,6 +910,16 @@ Object.defineProperties(Note.prototype,{
         this._top = this.staff.zero + NOTE_TO_OFFSET[this.note+this.octave]
       }
       return this._top
+    }
+  },
+  /**
+    * Retourne la largeur exacte qu&#x27;occupe la note à l&#x27;écran
+    * @property {Number} width
+    */
+  &quot;width&quot;:{
+    get:function()
+    {
+      return UI.exact_width_of(this.obj) + UI.exact_width_of(this.obj_alt)
     }
   },
   /**
@@ -1015,6 +1042,7 @@ Object.defineProperties(Note.prototype,{
           case &#x27;d&#x27;  : this._midi += 1; break;
           case &#x27;x&#x27;  : this._midi += 2; break;
           case &#x27;t&#x27;  : this._midi -= 2; break;
+          case &#x27;z&#x27;  : break;
           }
         }
       }
@@ -1082,10 +1110,11 @@ Object.defineProperties(Note.prototype,{
     get:function(){
       switch(this.alteration)
       {
-      case &#x27;b&#x27;  : return &quot;bemol&quot;;
-      case &#x27;d&#x27;  : return &quot;diese&quot;;
-      case &#x27;x&#x27;  : return &quot;dbl-diese&quot;;
-      case &#x27;t&#x27;  : return &quot;dbl-bemol&quot;;
+      case &#x27;b&#x27;  : return &quot;bemol&quot;
+      case &#x27;d&#x27;  : return &quot;diese&quot;
+      case &#x27;x&#x27;  : return &quot;dbl-diese&quot;
+      case &#x27;t&#x27;  : return &quot;dbl-bemol&quot;
+      case &#x27;z&#x27;  : return &quot;becarre&quot;
       }
     }
   },

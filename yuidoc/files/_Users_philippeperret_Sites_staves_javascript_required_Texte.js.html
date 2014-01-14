@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
+                <li><a href="../classes/Img.html">Img</a></li>
+            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
                 <li><a href="../classes/Motif.html">Motif</a></li>
@@ -116,6 +118,8 @@
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Image.js.html">Image.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -214,6 +218,25 @@ window.METHODES_TEXTE = {
     this.texte[params.type].build()
     return this
   },
+  /**
+    * Raccourci-write pour écrire un numéro de mesure
+    * @method measure
+    * @param {Object} params Paramètres optionnels
+    * @return {Object} L&#x27;instance courante (pour chainage)
+    */
+  measure:function(numero, params)
+  {
+    if(undefined == params) params = {}
+    params.type = measure
+    this.write(numero, params)
+    return this
+  },
+  /**
+    * Alias de measure
+    * @method mesure
+    */
+  mesure:function(numero,params){return this.measure(numero,params)},
+  
   /**
     * Raccourci-write pour écrire un texte d&#x27;harmony
     * @method harmony

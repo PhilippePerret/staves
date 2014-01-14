@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
+                <li><a href="../classes/Img.html">Img</a></li>
+            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
                 <li><a href="../classes/Motif.html">Motif</a></li>
@@ -116,6 +118,8 @@
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Image.js.html">Image.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -268,7 +272,7 @@ $.extend(Pas.prototype,{
     if(this.is_comment || this.is_empty) return false
     try{ eval(&#x27;Anim.Objects.&#x27;+this.trimed) }
     catch(err){ this.on_error(err, retry = true) }
-    // S&#x27;il y a eu plusieurs essais en mode flash
+    // S&#x27;il y a eu plusieurs essais
     if(this.timer_tries_exec)
     {
       clearTimeout(this.timer_tries_exec)

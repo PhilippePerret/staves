@@ -90,6 +90,7 @@ Anim.Dom = {
     else
     {
       // Positionne et affiche l'objet
+      dlog("instance:");dlog(instance)
       instance.positionne()
       instance.show(params)
     }

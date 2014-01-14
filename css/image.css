@@ -1,0 +1,7 @@
+/**
+  * Styles des images
+  * (hormis celle qui font partie de l'animation — portée, notes, etc.)
+  */
+img.image {
+  position: absolute;
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>/Users/philippeperret/Sites/staves/javascript/Anim/Anim_Infos.js</title>
+    <title>Image.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -174,121 +174,49 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Anim/Anim_Infos.js</h1>
+                        <h1>Image.js Module</h1>
+<div class="box clearfix meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
-  * @module Anim_infos
-  */
+    
 
-/**
-  * Gestion des informations de l&#x27;animation courante (dans la section #infos)
-  *
-  * @class Infos
-  * @static
-  * @for Anim
-  */
-if(undefined == window.Anim) window.Anim = {}
-window.Anim.Infos = {
-  /**
-    * L&#x27;objet DOM de la section infos
-    * @property {jQuerySet} section
-    */
-  section:null,
-  /**
-    * Prépare la section infos
-    * @method prepare
-    */
-  prepare:function()
-  {
-    this.section = $(&#x27;section#infos&#x27;)
-    var me = this
-    // Position actuelle du curseur
-    this.section.append(this.div_infos_for(&#x27;current_x&#x27;, Anim.current_x, &quot;Position curseur&quot;))
-    // Les valeurs des préférences
-    L(Anim.prefs).each(function(k, v){
-      me.section.append(
-        &#x27;&lt;div id=&quot;infos-&#x27;+k+&#x27;&quot; class=&quot;&#x27;+me.oddeven()+&#x27;&quot;&gt;&#x27;+
-          &#x27;&lt;label&gt;&#x27;+k.replace(/_/g,&#x27; &#x27;)+&#x27;&lt;/label&gt;&#x27;+&#x27;&lt;span id=&quot;infos-prefs-&#x27;+k+&#x27;-value&quot; class=&quot;value&quot;&gt;&#x27;+v+&#x27;&lt;/span&gt;&#x27;+
-        &#x27;&lt;/div&gt;&#x27;
-      )
-    })
-  },
-  /**
-    * Retourne la valeur odd ou even pour la ligne à écrire
-    * @method oddeven
-    * @return {String} une fois &quot;odd&quot; et une fois &quot;event&quot;
-    */
-  oddeven_value: &#x27;odd&#x27;,
-  oddeven:function()
-  {
-    this.oddeven_value = this.oddeven_value == &#x27;odd&#x27; ? &#x27;even&#x27;:&#x27;odd&#x27;
-    return this.oddeven_value
-  },
-  /**
-    * Retourne le DIV pour l&#x27;information de clé +key+
-    * @method div_infos_for
-    * @param {String}         key     La clé visée
-    * @param {String|Number}  value   La valeur à afficher
-    * @param {String}         label_alt   Label optionnel à utiliser au lieu de +key+
-    * @return {String} Le code HTML du div.
-    */
-  div_infos_for:function(key, value, label_alt)
-  {
-    return  &#x27;&lt;div id=&quot;infos-&#x27;+key+&#x27;&quot; class=&quot;&#x27;+this.oddeven()+&#x27;&quot;&gt;&#x27;+
-              &#x27;&lt;label&gt;&#x27;+(label_alt || key).replace(/_/g,&#x27; &#x27;)+&#x27;&lt;/label&gt;&#x27;+
-              &#x27;&lt;span id=&quot;infos-&#x27;+key+&#x27;-value&quot; class=&quot;value&quot;&gt;&#x27;+value+&#x27;&lt;/span&gt;&#x27;+
-            &#x27;&lt;div&gt;&#x27;
-  },
-  /**
-    * Retourne le selector jQuery pour l&#x27;info de clé +key+
-    * @method jid_key
-    * @param {String} key   La clé
-    */
-  jid_key:function(key)
-  {
-    return &quot;span#infos-&quot;+key+&quot;-value&quot;
-  },
-  /**
-    * Affiche toutes les infos courantes
-    * (au démarrage de l&#x27;animation)
-    * @method show
-    */
-  show:function()
-  {
-    var me = this
-    // Valeur des préférences
-    L(Anim.prefs).each(function(k,v){$(me.jid_key(&#x27;prefs-&#x27;+k)).html(v)})
-    // Valeur du décalage (next) actuel
-    this.show_offset_cursor()
-  },
-  /**
-    * Actualise une valeur dans l&#x27;affichage
-    * @method set
-    * @param {String} key   La clé exacte pour construire de DOM id
-    * @param {Number|String} value  La valeur à afficher
-    */
-  set:function(key, value)
-  {
-    $(this.jid_key(key)).html(value)
-  },
-  /**
-    * Actualise l&#x27;affichage d&#x27;une préférence (Anim.prefs)
-    * @method show_pref
-    * @param  {String} kpref  La clé dans Anim.prefs
-    * @param  {Number|String} vpref   La valeur à afficher
-    */
-  show_pref:function(kpref, vpref)
-  {
-    this.set(&#x27;prefs-&#x27;+kpref, vpref)
-  },
-  show_offset_cursor:function()
-  {
-    this.set(&#x27;offset_cursor&#x27;, Anim.current_x)
-  }
-}
-    </pre>
+    
+        <div class="foundat">
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l17"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:17</code></a>
+        </div>
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    
+</div>
+
+
+
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+            <p>This module provides the following classes:</p>
+
+            <ul class="module-classes">
+            
+                <li class="module-class">
+                    <a href="../classes/Img.html">
+                        Img
+                    </a>
+                </li>
+            
+            </ul>
+        
+    </div>
+
+    <div class="yui3-u-1-2">
+        
+    </div>
 </div>
 
                     </div>

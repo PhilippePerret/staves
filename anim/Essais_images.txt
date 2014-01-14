@@ -1,0 +1,5 @@
+# Essai Image
+
+DEFAULT(\'decompte\',0)
+
+img=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', width:450, left:75})

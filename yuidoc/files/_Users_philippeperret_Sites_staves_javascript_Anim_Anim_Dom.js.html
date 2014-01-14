@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
+                <li><a href="../classes/Img.html">Img</a></li>
+            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
                 <li><a href="../classes/Motif.html">Motif</a></li>
@@ -116,6 +118,8 @@
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Image.js.html">Image.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -237,13 +241,16 @@ Anim.Dom = {
     *     - la méthode &#x60;positionne&#x60; qui positionne l&#x27;élément.
     *     - la méthode &#x60;show&#x60; qui l&#x27;affiche
     * @method add
+    * @async
     * @param  {HTMLString|Instance} instance 
     *                               L&#x27;instance ou le code HTML de l&#x27;élément. Si c&#x27;est
     *                               une instance, elle doit répondre à la méthode
     *                               &#x60;code_html&#x60; qui renvoie le code HTML à afficher
-    *                                   
+    * @params {Object|Undefined} params Les paramètres optionnels
+    *   @params {Function} params.complete    La méthode à appeler en fin de processus (ce processus étant asynchrone)
+    *     
     */
-  add:function(instance)
+  add:function(instance, params)
   {
     // dlog(&quot;-&gt; Anim.Dom.add&quot;)
     var a_simple_string = &#x27;string&#x27; == typeof instance, code_html ;
@@ -263,8 +270,9 @@ Anim.Dom = {
     else
     {
       // Positionne et affiche l&#x27;objet
+      dlog(&quot;instance:&quot;);dlog(instance)
       instance.positionne()
-      instance.show()
+      instance.show(params)
     }
   },
   

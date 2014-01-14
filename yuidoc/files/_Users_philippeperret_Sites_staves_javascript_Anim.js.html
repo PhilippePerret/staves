@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
+                <li><a href="../classes/Img.html">Img</a></li>
+            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
                 <li><a href="../classes/Motif.html">Motif</a></li>
@@ -116,6 +118,8 @@
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Image.js.html">Image.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -294,7 +298,8 @@ $.extend(window.Anim,{
     harmony           :70, 
     staff_harmony     :null,
     staff_chords      :null,
-    chord        :40, 
+    num_measure_y     :-8,
+    chord             :40, 
     modulation_x      :-13,
     modulation_y      :26,
     speed             :1,
@@ -354,7 +359,12 @@ $.extend(window.Anim,{
       * @property {Staff|Number} staff_chords
       * @default NULL
       */
-    staff_chords    :null,
+    staff_chords         : null,
+    /**
+      * Position verticale du numéro de mesure
+      * @property {Number} num_measure_y
+      */
+    num_measure_y       : -8,
     /** Position left de départ pour chaque portée
       * @property {Number} x_start 
       */
@@ -402,11 +412,12 @@ $.extend(window.Anim,{
       */
     note_size     :14.3,
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
-    offset_next         : 0,
-    offset_harmony      : 0,
-    offset_chord   : 0,
-    offset_modulation_y : 0,
-    offset_modulation_x : 0
+    offset_next           :0,
+    offset_harmony        :0,
+    offset_chord          :0,
+    offset_modulation_y   :0,
+    offset_modulation_x   :0,
+    offset_num_measure_y  :0
   },
   /**
     * Définit une préférence

@@ -1,16 +1,6 @@
-* Des notes grises, à peine visible, pour faire des fantômes
-  Pour changer la note :
-  note.({color:gris})
-  ou
-  note.fantomize() :-)
+* Reprendre tout depuis le départ, avec le début du prélude, et corriger ce qui foire…
+  Note : le plantage vient des `params` que j'ai ajoutés, mais rien de sûr.
   
-* Poursuivre les essais avec le premier prélude
-  -# Relancer la deuxième partie et voir le bug tbl_operation. LE RÉGLER !!!
-  
-
-
--# Voir ce qui se passe mal en MODE_FLASH sur le premier prélude
-    > Je me demande si ça n'est pas le 'animate' qui foire, la méthode complete,
-    soi-disant appelée en fin d'animate ne semble pas du tout fonctionner comme
-    ça… (je m'en suis aperçu en essayant de mettre un clignement du bouton stop)    
-
+* Faire des essais de la nouvelle class Img
+  > monImage = IMAGE({url:<url>})
+  > Documenter le manuel

@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
+                <li><a href="../classes/Img.html">Img</a></li>
+            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
                 <li><a href="../classes/Motif.html">Motif</a></li>
@@ -116,6 +118,8 @@
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Image.js.html">Image.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -189,7 +193,7 @@ window.ObjetClass = function(params)
   {
     // Si la portée a été définie par un nombre, il faut prendre son instance
     if(params.staff &amp;&amp; &#x27;number&#x27; == typeof params.staff) params.staff = Anim.staves[params.staff-1]
-    // Et dispatcher
+    // Dispatcher les valeurs transmises
     var me = this
     L(params).each(function(prop,value){ me[prop] = value})
   }
@@ -252,18 +256,23 @@ $.extend(window.ObjetClass.prototype,{
     * Enfin, la méthode a besoin des paramètres propres à cette méthode, par exemple
     * la nouvelle position pour un &#x27;moveTo&#x27;.
     * @method operation
+    * @async
     * @param  {Array}   objets La liste des objets (DOM) à traiter
     * @param  {String}  operation  L&#x27;opération à jouer
-    * @param  {Object}  params Les paramètres nécessaires à l&#x27;opération
+    * @param  {Object}  params Les paramètres nécessaires à l&#x27;opération + optionnels
+    *   @param {Function} params.complete (optionnel) La méthode à appeler en fin de processus
     *
     * @return {Object} L&#x27;objet this, pour le chainage
     */
   operation:function(objets, operation, params)
   {
-    var me = this
+    if(undefined == params) params = {}
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    this.on_complete_operation = params.complete
     // On commence à créer une table pour savoir quand le traitement sur les
     // objets sera terminé. En clé, on utilise l&#x27;identifiant de l&#x27;objet DOM
     this.tbl_operation = {}
+    var me = this
     var objets_corriged = []
     L(objets).each(function(obj){ 
       if(undefined == obj[0]) return
@@ -344,7 +353,7 @@ $.extend(window.ObjetClass.prototype,{
     // Si on arrive ici, c&#x27;est qu&#x27;on peut finir
     delete this.tbl_operation
     if(&#x27;function&#x27; == typeof this[&#x27;on_complete_&#x27;+operation]) this[&#x27;on_complete_&#x27;+operation]()
-    NEXT_STEP()
+    this.on_complete_operation() // en général NEXT_STEP, mais peut être autre chose
   }
 })
 
@@ -398,21 +407,6 @@ Object.defineProperties(ObjetClass.prototype,{
       return parseInt(this.top + (this.obj.height() / 2), 10)
     }
   }
-  
-  // /**
-  //   * NE PAS UTILISER, ÇA EMPÊCHE DE DÉFINIR LES VALEURS
-  //   * Taille de l&#x27;objet
-  //   * Si &#x60;this.obj&#x60; existe, la redéfinition de la valeur modifie la taille de
-  //   * l&#x27;objet
-  //   * @property {Number} width
-  //   */  
-  // &quot;width&quot;:{
-  //   get:function(){return this._width || this.DEFAULT_WIDTH},
-  //   set:function(w){
-  //     this._width = w
-  //     if(this.obj) this.obj.css(&#x27;width&#x27;, w+&quot;px&quot;)
-  //   }
-  // }
 })
     </pre>
 </div>
