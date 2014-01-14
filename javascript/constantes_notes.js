@@ -83,6 +83,7 @@ for(var octave = 0; octave < 7; ++octave)
 OFFSET_ALTERATION = {
   'b' : {top: 12, left: 14},
   'd' : {top: 5,  left: 16},
+  'z' : {top: 5,  left: 16},
   'x' : {top: -1, left: 19},
   't' : {top: 9,  left: 17}
 }

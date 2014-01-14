@@ -3,4 +3,4 @@ DEFAULT(\'decompte\',0)
 
 
 NEW_STAFF(SOL)
-MOTIF(\'e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 c5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 f4 f4 e4 f4 f5 f4 e4\')
+MOTIF(\'e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 f5 f4 e4\')

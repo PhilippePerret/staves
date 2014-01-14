@@ -412,7 +412,6 @@ $.extend(Note.prototype,{
     var dsuplines = this.need_suplines(this.staff.cle)
     if(dsuplines){
       dsuplines = $.extend(dsuplines, {left:this.left})
-      dlog("lignes supplémentaire pour "+this.note_str+":");dlog(dsuplines)
       this.staff.add_suplines(dsuplines)
     } 
   },
@@ -640,7 +639,7 @@ Clé de SOL
      *  Note: Rien à faire quand 4. les deux notes ne possèdent pas d'altération,
      *        ou 5. les deux notes possèdent la même altération.
      */
-    if(["b", "d", "x", "t"].indexOf(note_str[0]) > -1)
+    if(["b", "d", "x", "z", "t"].indexOf(note_str[0]) > -1)
     {
       if(this.alteration)
       {
@@ -856,6 +855,7 @@ Object.defineProperties(Note.prototype,{
           case 'd'  : this._midi += 1; break;
           case 'x'  : this._midi += 2; break;
           case 't'  : this._midi -= 2; break;
+          case 'z'  : break;
           }
         }
       }
@@ -923,10 +923,11 @@ Object.defineProperties(Note.prototype,{
     get:function(){
       switch(this.alteration)
       {
-      case 'b'  : return "bemol";
-      case 'd'  : return "diese";
-      case 'x'  : return "dbl-diese";
-      case 't'  : return "dbl-bemol";
+      case 'b'  : return "bemol"
+      case 'd'  : return "diese"
+      case 'x'  : return "dbl-diese"
+      case 't'  : return "dbl-bemol"
+      case 'z'  : return "becarre"
       }
     }
   },

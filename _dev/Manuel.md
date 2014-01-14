@@ -370,10 +370,11 @@ Les notes doivent être désignées par :
 
 La valeur `<alteration>` ci-dessus peut être :
   
-* `b` pour bémol
-* `t` (comme "ton") pour double bémol
-* `d` pour dièse
-* `x` pour double-dièse
+* `b` pour bémol&nbsp;;
+* `t` (comme "ton") pour double bémol&nbsp;;
+* `d` pour dièse&nbsp;;
+* `x` pour double-dièse&nbsp;;
+* `z` pour bécarre (comme le Pomme/Ctrl+"Z" qui annule la dernière action, ce "z" annule la dernière altération).
 
 <a name="constantes_notes"></a>
 ###Constantes notes
