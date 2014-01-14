@@ -62,34 +62,81 @@ window.Motif = function(strnotes, params)
     this[prop] = params[prop]
   } 
   
-  var me = this
-  var hoffset   = this.left || Anim.current_x
-  var the_staff = this.staff
-  var lanote ;
-  L(strnotes.split(' ')).each(function(strnote){
-    lanote = NOTE(strnote,{dont_build:true, staff:the_staff, left:hoffset})
-    if(lanote.alteration)
-    {
-      lanote.left = lanote.left + 18
-      hoffset += 18
-    } 
-    me.notes.push(lanote)
-    hoffset += me.offset_x || Anim.prefs.next
-    if(hoffset > Anim.Dom.left_max)
-    {
-      hoffset   = this.left || Anim.current_x
-      the_staff = Anim.Objects.NEW_STAFF(me.staff.cle)
-    }
-  })
+  this.make_instances_with(strnotes)
   
-  // On peut construire les notes
-  Anim.wait(1)
   this.build()  
 }
 $.extend(Motif.prototype, METHODES_TEXTE)
 $.extend(Motif.prototype, METHODES_GROUPNOTES)
 
-$.extend(Motif.prototype,{})
+$.extend(Motif.prototype,{
+  /**
+    * Méthode qui a l'instanciation se charge de créer les instances des notes
+    * du motif
+    * @method make_instances_with
+    * @param {String} strnotes  Les notes envoyées
+    */
+  make_instances_with:function(strnotes)
+  {
+    var me = this
+    var hoffset   = this.left || Anim.current_x
+    var the_staff = this.staff
+    var lanote, cur_rang = 0 ;
+    L(strnotes.split(' ')).each(function(strnote){
+      ++cur_rang // se souvenir que les notes commencent à 1, car le premier
+      // élément de `notes` est un NULL
+      lanote = NOTE(strnote,{dont_build:true, rang:cur_rang, staff:the_staff, left:hoffset})
+      if(lanote.alteration)
+      {
+        lanote.left = lanote.left + 18
+        hoffset += 18
+      } 
+      me.notes.push(lanote)
+      hoffset += me.offset_x || Anim.prefs.next
+      if(hoffset > Anim.Dom.left_max)
+      {
+        hoffset   = this.left || Anim.current_x
+        the_staff = Anim.Objects.NEW_STAFF(me.staff.cle)
+      }
+    })
+  },
+  
+  /**
+    * Construction des notes
+    * La méthode va surclasser la méthode héritée de METHODES_GROUPNOTES
+    * car elle doit gérer un affichage temporisé des notes
+    * @method build
+    */
+  build:function()
+  {
+    if(!this.speed) this.each_note(function(note){note.build()})
+    else
+    {
+      if(undefined == this.notes_for_building)
+      { // => démarrage de la construction
+        this.notes_for_building = []
+        var me = this
+        this.each_note(function(note) me.notes_for_building.push( note.rang ))
+        this.laps_building = parseInt(1000 / this.speed,10)
+      }
+      if(this.timer) clearTimeout(this.timer)
+      if(rang = this.notes_for_building.shift())
+      {
+        var note = this.notes[rang], complete ;
+        if(this.notes_for_building.length) complete = $.proxy(this.build, this)
+        else complete = NEXT_STEP
+        note.build({complete:complete})
+        this.timer = setTimeout($.proxy(this.build, this), this.laps_building)
+      }
+      else
+      { // Fin de la construction
+        
+      }
+    }
+  },
+  
+  
+})
 Object.defineProperties(Motif.prototype, {
   /**
     * Portée du motif ({Staff})

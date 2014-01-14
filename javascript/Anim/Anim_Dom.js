@@ -61,13 +61,16 @@ Anim.Dom = {
     *     - la méthode `positionne` qui positionne l'élément.
     *     - la méthode `show` qui l'affiche
     * @method add
+    * @async
     * @param  {HTMLString|Instance} instance 
     *                               L'instance ou le code HTML de l'élément. Si c'est
     *                               une instance, elle doit répondre à la méthode
     *                               `code_html` qui renvoie le code HTML à afficher
-    *                                   
+    * @params {Object|Undefined} params Les paramètres optionnels
+    *   @params {Function} params.complete    La méthode à appeler en fin de processus (ce processus étant asynchrone)
+    *     
     */
-  add:function(instance)
+  add:function(instance, params)
   {
     // dlog("-> Anim.Dom.add")
     var a_simple_string = 'string' == typeof instance, code_html ;
@@ -88,7 +91,7 @@ Anim.Dom = {
     {
       // Positionne et affiche l'objet
       instance.positionne()
-      instance.show()
+      instance.show(params)
     }
   },
   

@@ -13,7 +13,7 @@ window.ObjetClass = function(params)
   {
     // Si la portée a été définie par un nombre, il faut prendre son instance
     if(params.staff && 'number' == typeof params.staff) params.staff = Anim.staves[params.staff-1]
-    // Et dispatcher
+    // Dispatcher les valeurs transmises
     var me = this
     L(params).each(function(prop,value){ me[prop] = value})
   }
@@ -76,18 +76,23 @@ $.extend(window.ObjetClass.prototype,{
     * Enfin, la méthode a besoin des paramètres propres à cette méthode, par exemple
     * la nouvelle position pour un 'moveTo'.
     * @method operation
+    * @async
     * @param  {Array}   objets La liste des objets (DOM) à traiter
     * @param  {String}  operation  L'opération à jouer
-    * @param  {Object}  params Les paramètres nécessaires à l'opération
+    * @param  {Object}  params Les paramètres nécessaires à l'opération + optionnels
+    *   @param {Function} params.complete (optionnel) La méthode à appeler en fin de processus
     *
     * @return {Object} L'objet this, pour le chainage
     */
   operation:function(objets, operation, params)
   {
-    var me = this
+    if(undefined == params) params = {}
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    this.on_complete_operation = params.complete
     // On commence à créer une table pour savoir quand le traitement sur les
     // objets sera terminé. En clé, on utilise l'identifiant de l'objet DOM
     this.tbl_operation = {}
+    var me = this
     var objets_corriged = []
     L(objets).each(function(obj){ 
       if(undefined == obj[0]) return
@@ -168,7 +173,7 @@ $.extend(window.ObjetClass.prototype,{
     // Si on arrive ici, c'est qu'on peut finir
     delete this.tbl_operation
     if('function' == typeof this['on_complete_'+operation]) this['on_complete_'+operation]()
-    NEXT_STEP()
+    this.on_complete_operation() // en général NEXT_STEP, mais peut être autre chose
   }
 })
 
@@ -222,19 +227,4 @@ Object.defineProperties(ObjetClass.prototype,{
       return parseInt(this.top + (this.obj.height() / 2), 10)
     }
   }
-  
-  // /**
-  //   * NE PAS UTILISER, ÇA EMPÊCHE DE DÉFINIR LES VALEURS
-  //   * Taille de l'objet
-  //   * Si `this.obj` existe, la redéfinition de la valeur modifie la taille de
-  //   * l'objet
-  //   * @property {Number} width
-  //   */  
-  // "width":{
-  //   get:function(){return this._width || this.DEFAULT_WIDTH},
-  //   set:function(w){
-  //     this._width = w
-  //     if(this.obj) this.obj.css('width', w+"px")
-  //   }
-  // }
 })

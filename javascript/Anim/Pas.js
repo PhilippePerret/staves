@@ -92,7 +92,7 @@ $.extend(Pas.prototype,{
     if(this.is_comment || this.is_empty) return false
     try{ eval('Anim.Objects.'+this.trimed) }
     catch(err){ this.on_error(err, retry = true) }
-    // S'il y a eu plusieurs essais en mode flash
+    // S'il y a eu plusieurs essais
     if(this.timer_tries_exec)
     {
       clearTimeout(this.timer_tries_exec)

@@ -1,0 +1,137 @@
+# Animation pour analyse du
+# premier prélude du CBT 1
+# Mesures 26 - 
+
+# --- Valeurs par défault ---
+DEFAULT('decompte', 0)
+DEFAULT(\'next\', 80)
+DEFAULT(\'harmony\', 50)
+DEFAULT(\'staff_top\', 120)
+DEFAULT('offset_modulation_y', 15)
+DEFAULT('chord', 35)
+DEFAULT('staff_harmony', 2)
+
+# --- Les portées ---
+NEW_STAFF(SOL)
+NEW_STAFF(FA)
+ACTIVE_STAFF(1)
+
+# --- Mesure 26 : Gsus7 ---
+acc = CHORD('2:g2 2:d3 g3 c4 f4')
+WAIT(2)
+acc.note([1,2]).fantomize()
+prov = NOTE('d4')
+WAIT(2)
+acc.chord('Gsus7')
+WAIT(1)
+acc.harmony('Vsus7')
+WAIT(1)
+FLASH
+prov.remove()
+acc.note([1,2]).defantomize()
+STOP_FLASH
+
+# --- Mesure 27 : G7 ---
+NEXT()
+STAFF(1).write("Noter que c'est la résolution du Gsus et la première fois qu'une harmonie dure 2 mesures (ça sent pas le souffre, mais ça sent la fin)")
+acc = CHORD('2:g2 2:d3 g3 b4 f4')
+WAIT(2)
+acc.note([1,2]).fantomize()
+prov = NOTE('d4')
+WAIT(2)
+acc.chord('G7')
+WAIT(1)
+acc.harmony('V7')
+WAIT(1)
+FLASH
+prov.remove()
+acc.note([1,2]).defantomize()
+STOP_FLASH
+
+# --- Mesure 28 : F#7dim/sol ---
+NEXT()
+acc = CHORD('2:g2 2:eb3 a3 c4 fd4')
+WAIT(1)
+acc.note(2).fantomize()
+prov = NOTE('eb4')
+WAIT(1)
+acc.chord('F#7dim/sol')
+WAIT(1)
+acc.modulation('G[V de C]')
+WAIT(1)
+acc.harmony('VII7dim')
+
+# --- Mesure 29 : C** ---
+NEXT()
+acc = CHORD('2:g2 2:ez3 g3 c4 g4')
+WAIT(1)
+acc.chord('C')
+acc.harmony('I**')
+
+# --- Mesure 30 : Gsus7 ---
+NEXT()
+STAFF(1).write("(répétion de mesures 26, 27)")
+acc = CHORD('2:g2 2:d3 g3 c4 f4')
+WAIT(2)
+acc.chord('Gsus7')
+acc.harmony('Vsus7')
+WAIT(1)
+
+# --- Mesure 31 : G7 ---
+NEXT()
+acc = CHORD('2:g2 2:d3 g3 b4 f4')
+WAIT(1)
+acc.chord('G7')
+acc.harmony('V7')
+
+# --- Mesure 32 : C ---
+NEXT()
+STAFF(1).write("1ère fois octave de do + si bas (+ possibilité de s'arrêter un peu sur Do pour marquer la cadence)")
+acc = CHORD('2:c2 2:c3 g3 bb3 e4')
+WAIT(4)
+acc.chord('C[C7]')
+acc.cadence('I', {type:parfaite})
+acc.modulation('Fa[IV]', {offset_x:30})
+STAFF(1).write("Modulation au IVe degré typique de coda (cf. aussi développement)")
+
+# --- Mesure 33 : F / Dm7 ---
+NEXT()
+acc = CHORD('2:c2 2:c3 2:f3 2:a3 c4 f4')
+WAIT(1)
+acc.note[1,2,6].fantomize()
+WAIT(1)
+acc.chord('F')
+WAIT(1)
+acc.harmony('IV')
+WAIT(1)
+acc.note[1,2,6].defantomize()
+
+NEXT()
+acc = CHORD('2:c2 2:c3 2:d3 2:f3 2:a3 c4')
+WAIT(1)
+acc.note([1,2]).fantomize()
+WAIT(1)
+acc.chord('Dm7/do')
+WAIT(1)
+acc.harmony('II7***')
+acc.note([1,2]).defantomize()
+
+# --- Mesure 34 : G7 ---
+NEXT()
+acc = CHORD('2:c2 2:b2 g4 b4 d5 f5')
+WAIT(1)
+acc.note([1,2]).fantomize()
+WAIT(1)
+acc.chord('G7')
+WAIT(1)
+acc.harmony('V7/do')
+WAIT(1)
+
+NEXT()
+acc = CHORD('2:c2 2:c3 e4 g4 c5')
+WAIT(1)
+acc.chord('C')
+WAIT(1)
+acc.cadence('C', {type:parfaite, width:200})
+
+

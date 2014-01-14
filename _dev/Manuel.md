@@ -588,7 +588,7 @@ unMotif = MOTIF('c4 c4 c4 d4 e4 d4 c4 e4 d4 d4 c4')
   <dt>staff</dt>
   <dd>La portée à laquelle sera associée le motif. Noter que l'appartenance des notes est indépendante de cette valeur&nbsp;; si le motif est long et que l'animation doit passer à une portée suivante, les notes suivantes seront associées à cette portée. De la même manière, une note définie par `<indice portée>:<note>` sera associée à la portée correspondante (indice portée).</dd>
   <dt>speed</dt>
-  <dd>Vitesse d'affichaage du motif au cours de l'animation (cf. <a href="#regler_vitesse_affichage_motif">Régler la vitesse d'affichage du motif</a>).</dd>
+  <dd>Vitesse d'affichage du motif au cours de l'animation (cf. <a href="#regler_vitesse_affichage_motif">Régler la vitesse d'affichage du motif</a>).</dd>
   <dt>offset_x</dt>
   <dd>Définition de la distance horizontale entre les notes (cf. <a href="#set_hoffset_notes_motif">Régler la distance entre les notes</a>).</dd>
   
@@ -600,7 +600,11 @@ unMotif = MOTIF('c4 c4 c4 d4 e4 d4 c4 e4 d4 d4 c4')
 <a name="regler_vitesse_affichage_motif"></a>
 ###Régler la vitesse d'affichage du motif
 
+La vitesse d'affichage des notes du motif se règle avec la propriété `speed` envoyé dans les paramètres optionnelles de la création du motif&nbsp;:
 
+    maMelodie = MOTIF('<mes notes>', {speed:<vitesse>})
+
+Avec `<vitesse>` qui correspond à peu près au nombre de notes affichées par secondes. Donc une vitesse de `1` affiche une note par secondes, une vitesse de `2` affiche 2 notes par seconde et une vitesse de `0.5` affiche 1 note en 2 secondes.
 
 
 ---------------------------------------------------------------------

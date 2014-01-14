@@ -82,11 +82,15 @@ $.extend(Note.prototype,{
   /**
     * Ré-affiche une note masquée par `hide`
     * @method show
+    * @async
+    * @param  {Object|Undefined} params Les paramètres optionnels
+    *   @param  {Function} params.complete  La méthode à appeler en fin de processus
     * @return {Note} this, pour le chainage
     */
-  show:function()
+  show:function(params)
   {
-    return this.operation(this.objets, 'show')
+    dlog("-> <Note>.show / params contient complete ? "+(params && params.complete ? "oui" : "non"))
+    return this.operation(this.objets, 'show', params)
   },
   /**
     * Masque la note
@@ -396,10 +400,13 @@ $.extend(Note.prototype,{
   /**
     * Construit la note
     * @method build
+    * @async
+    * @param  {Object|Undefined} params   Paramètres optionnels, dont :
+    *    @param {Function} params.complete    La méthode pour suivre la construction
     */
-  build:function()
+  build:function(params)
   {
-    Anim.Dom.add(this)
+    Anim.Dom.add(this, params)
     this.suplines_if_necessary()
     this.staff.notes.add(this)
   },
