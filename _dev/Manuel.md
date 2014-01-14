@@ -343,6 +343,7 @@ Les prochains `NEXT()` partiront de cette nouvelle position.
 * [Déplacer une note](#move_note)
 * [Placer une note sur une portée précise](#note_on_staff)
 * [Mettre une note en exergue/La sortir de l'exergue](#note_exergue_unexergue)
+* [Mettre une note en retrait (note “fantôme”)](#note_fantome)
 * [Entourer une note (exergue plus forte)](#entourer_une_note)
 * [Forcer le recalage d'une note](#forcer_recalage_note)
 * [Détruire d'une note](#note_remove)
@@ -458,6 +459,28 @@ Ou même simplement&nbsp;:
     
 Cf. aussi [Entourer une note](#entourer_une_note) ci-dessous.
 
+<a name="note_fantome"></a>
+###Note fantôme
+
+On peut rendre la note à peine visible (fantôme), en lui appliquant la méthode&nbsp;:
+
+    <note>.fantomize()
+
+Par exemple&nbsp;:
+
+    maNote = NOTE('2:c3').fantomize()
+  
+Pour sortir la note de cet état et la remettre visible, utiliser&nbsp;:
+  
+    <note>.defantomize()
+    
+Par exemple&nbsp;:
+    
+    maNote = NOTE(c4)
+    maNote.fantomize()
+    WAIT(4)
+    maNote.defantomize()
+    
 <a name="entourer_une_note"></a>
 ###Entourer une note
 

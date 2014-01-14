@@ -56,13 +56,14 @@ acc.note([1,2,5]).defantomize()
 STOP_FLASH
 
 #!START
+
 # --- Mesure 14 : B7dim ---
 NEXT()
 acc = CHORD('2:f3 2:ab3 d4 f4 b4')
-MODE_FLASH
-acc.note([1,2,5]).hide()
+FLASH
+acc.note([1,2,5]).fantomize()
 prov = NOTE(b3)
-STOP_MODE_FLASH
+STOP_FLASH
 WAIT(1)
 acc.chord_mark("B7dim")
 WAIT(1)
@@ -71,7 +72,7 @@ WAIT(1)
 acc.harmony('VII**')
 WAIT(2)
 FLASH
-acc.note([1,2,5]).show()
+acc.note([1,2,5]).defantomize()
 prov.remove()
 STAFF(1).remove_supline({bottom:1})
 STOP_FLASH
@@ -79,4 +80,16 @@ STOP_FLASH
 # --- Mesure 15 : C ---
 NEXT()
 acc = CHORD('2:e3 2:g3 c4 g4 c4')
+acc.note([1,2,5]).fantomize()
+prov = NOTE(e4)
+WAIT(1)
+acc.chord_mark('C')
+WAIT(1)
+acc.cadence('I', {type:imparfaite})
+WAIT(1)
+FLASH
+prov.remove()
+acc.note([1,2,5]).defantomize()
+STOP_FLASH
+
 #!END

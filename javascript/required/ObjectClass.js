@@ -146,6 +146,20 @@ $.extend(window.ObjetClass.prototype,{
     */
   on_complete_operation:function(operation, obj_id)
   {
+    if(!this.tbl_operation)
+    {
+      if(console)
+      {
+        console.warn("Problème de `tbl_operation` inexistant dans ObjectClass.on_complete_operation"+
+        "\nCela se produit lorsque tous les éléments à opérer ont été passés en revue,"+
+        "et que la méthode est pourtant appelée à nouveau."+
+        "\nVoilà les éléments que j'ai pu récupérer :"+
+        "\nobj_id:"+obj_id+
+        "\nthis.id : "+this.id+
+        "\nthis.type : "+this.type)
+      }
+      return
+    }
     this.tbl_operation[obj_id] = true
     for(var id in this.tbl_operation)
     {
