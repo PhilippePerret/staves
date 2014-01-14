@@ -500,7 +500,7 @@ Ou&nbsp;:
     maNote.unsurround()
 
 <a name="forcer_recalage_note"></a>
-###Forcer le recalage d'une note
+###Forcer l'actualisation d'une note
 
 Parfois, il peut survenir qu'une note reste déplacée sur le côté à cause d'une note inférieure conjointe alors que la note inférieure n'est plus là.
 
@@ -513,11 +513,11 @@ Par exemple&nbsp;:
     # => Le si est déplacé mais le do
     #    reste décalé à droite
 
-Dans ce cas (avant que ce bug #49 ne soit corrigé), on peut utiliser la méthode `reposionne` sur la note pour la remettre bien en place&nbsp;:
+Dans ce cas (avant que ce bug #49 ne soit corrigé), on peut utiliser la méthode `update` sur la note pour la remettre bien en place&nbsp;:
 
     ...
     nosi.moveTo(b2)
-    nodo.repositionne()
+    nodo.update()
 
 
 <a name="note_remove"></a>

@@ -79,45 +79,64 @@ $.extend(Note.prototype,{
   /**
     * Ré-affiche une note masquée par `hide`
     * @method show
+    * @return {Note} this, pour le chainage
     */
   show:function()
   {
-    this.operation(this.objets, 'show')
+    return this.operation(this.objets, 'show')
   },
   /**
     * Masque la note
     * @method hide
+    * @return {Note} this, pour le chainage
     */
   hide:function()
   {
-    this.operation(this.objets, 'hide')
+    return this.operation(this.objets, 'hide')
+  },
+  /**
+    * Actualise l'affichage de la note
+    * Pour le moment, la méthode peut remettre en place une note
+    * décalée à cause d'une conjointe qui a disparu maintenant.
+    * @method update
+    * @return {Note} this, pour le chainage
+    */
+  update:function()
+  {
+    this.update_affichage()
+    NEXT_STEP(notimeout=true)
+    return this
   },
   /**
     * Rend la note presque invisible, mais toujours présente
     * @method fantomize
+    * @return {Note} pour le chainage
     */
   fantomize:function()
   {
-    this.colorize('shadow')
+    return this.colorize('shadow')
   },
   /**
     * Remet la note en noir
     * @method defantomize
+    * @return {Note} this, pour le chainage
     */
   defantomize:function()
   {
-    this.colorize(black)
+    return this.colorize(black)
   },
   /**
     * Colorize la note avec la couleur voulue
     * @method colorize
     * @param  {String} color  La couleur voulue (constante 'red', 'blue', etc.)
+    * @return {Note} this, pour le chainage
     */
   colorize:function(color)
   {
     this.color      = color
     this.obj[0].src = this.src
     if(this.alteration) this.obj_alt[0].src = this.src_alteration
+    return this
   },
   /**
     * Déplace la note à la hauteur +hauteur+
@@ -203,6 +222,7 @@ $.extend(Note.prototype,{
     *                                       OU seulement la couleur en String (constante)
     *   @params {String} params.color       La couleur de l'exergue (constante ou def)
     *   @params {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
+    * @return {Object} this, pour le chainage
     */
   exergue:function(params)
   {
@@ -220,6 +240,7 @@ $.extend(Note.prototype,{
       this.obj_alt.css('z-index', "20")
     }
     if('function'==typeof params.complete) params.complete()
+    return this // chainage
   },
   /**
     * Sort la note de son exergue
@@ -388,19 +409,6 @@ $.extend(Note.prototype,{
     var dsuplines = this.need_suplines(this.staff.cle)
     if(dsuplines) this.staff.add_suplines( dsuplines )
   },
-  
-  /**
-    * Méthode propre pour afficher la note
-    *
-    * @method show
-    * @async
-    * @param {Object} params Les paramètres optionnels
-    */
-  show:function(params)
-  {
-    // dlog("-> note.show "+this.note_str)
-    this.operation(this.objets, 'show')
-  },
   /**
     * Méthode qui masque l'altération
     * Note
@@ -444,7 +452,8 @@ $.extend(Note.prototype,{
     */
   update_affichage:function()
   {
-    this.obj.animate({left:this.real_left+'px'},250)
+    this.obj.animate({left:this.real_left+'px'}, 250)
+    if(this.alteration) this.positionne_alteration()
   },
   /**
     * Position l'altération

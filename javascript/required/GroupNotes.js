@@ -20,6 +20,7 @@ window.OBJET_TRAITEMENT = {
     * @param {String} method    La méthode à exécuter sur la note
     * @param  {Any}   param1    Le premier paramètre éventuel
     * @param  {Any}   param2    Le second paramètre éventuel
+    * @return {Object} Cet objet, pour le chainage
     */
   traite:function(method, param1, param2)
   {
@@ -28,12 +29,14 @@ window.OBJET_TRAITEMENT = {
       my.notes[indice][method](param1, param2)
     })
     NEXT_STEP()
+    return this // chainage
   },
-  show:function(params){this.traite('show', Anim.transition.show)},
-  hide:function(params){this.traite('hide', Anim.transition.show)},
-  fantomize:function(){this.traite('fantomize')},
-  defantomize:function(){this.traite('defantomize')},
-  colorize:function(color){this.traite('colorize', color)}
+  update:function(){return this.traite('update')},
+  show:function(params){return this.traite('show', Anim.transition.show)},
+  hide:function(params){return this.traite('hide', Anim.transition.show)},
+  fantomize:function(){return this.traite('fantomize')},
+  defantomize:function(){return this.traite('defantomize')},
+  colorize:function(color){return this.traite('colorize', color)}
   
 }
 // /**

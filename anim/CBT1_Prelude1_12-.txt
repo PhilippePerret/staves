@@ -35,28 +35,25 @@ MODE_FLASH
 provsib.remove()
 provdo.remove()
 STAFF(1).remove_supline({bottom:1})
-acc.note([1,2,5]).defantomize()
-acc.note(5).positionne()
+acc.note([1,2,5]).defantomize().update()
 STOP_MODE_FLASH
 
 # # --- Mesure 13 : Dm ---
 NEXT()
 acc = CHORD('2:f3 2:a3 d4 a4 d5')
 WAIT(2)
-acc.note(1).hide()
+FLASH
+acc.note([1,2,5]).fantomize()
 prov = NOTE(f4)
-acc.note(2).hide()
-acc.note(5).hide()
+STOP_FLASH
 WAIT(2)
 acc.chord_mark('Dm')
 WAIT(1)
 acc.cadence('I',{type:imparfaite, width:100})
+FLASH
 prov.remove()
-MODE_FLASH
-acc.note(1).show()
-acc.note(2).show()
-acc.note(5).show()
-STOP_MODE_FLASH
+acc.note([1,2,5]).defantomize()
+STOP_FLASH
 
 #!START
 # --- Mesure 14 : B7dim ---

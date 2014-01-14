@@ -79,6 +79,8 @@ $.extend(window.ObjetClass.prototype,{
     * @param  {Array}   objets La liste des objets (DOM) à traiter
     * @param  {String}  operation  L'opération à jouer
     * @param  {Object}  params Les paramètres nécessaires à l'opération
+    *
+    * @return {Object} L'objet this, pour le chainage
     */
   operation:function(objets, operation, params)
   {
@@ -126,6 +128,7 @@ $.extend(window.ObjetClass.prototype,{
         break
       }
     })
+    return this // pour le chainage
   },
   /**
     * Méthode qui fonctionne en parallèle avec `operation` pour savoir si on 
