@@ -57,11 +57,13 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
-                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
-            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
+                <li><a href="../classes/Motif.html">Motif</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
+            
+                <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
@@ -113,6 +115,10 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Motif.js.html">Motif.js</a></li>
+            
                 <li><a href="../modules/Note.html">Note</a></li>
             
                 <li><a href="../modules/Pas.js.html">Pas.js</a></li>
@@ -120,6 +126,8 @@
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
+            
+                <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
@@ -167,59 +175,116 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-  * Méthodes pouvant être utilisées par tout &quot;groupe de notes&quot;, comme pour les
-  * accords (chord), les motifs (motif) ou les gammes (scale)
-  *
-  * Notes
-  * -----
-  * Pour pouvoir être utilisées, il suffit de mettre les notes dans un array (avec
-  * un premier élément null car tous les décomptes sont 1-start) puis d&#x27;étendre
-  * cette liste avec GROUPNOTES_METHODS :
-  *   &#x60;$.extend(groupnotes, GROUPNOTES_METHODS)&#x60;
-  * et de définir ses propriétés (cf. plus bas) : 
-  *   &#x60;Object.defineProperties(&lt;groupnotes&gt;, GROUPNOTES_PROPERTIES)&#x60;
-  *
-  * @class GROUPNOTES_METHODS METHODES_GROUPNOTES
+  * @module GroupNotes.js
+  */
+
+/**
+  * Objet qui permet d&#x27;utiliser la méthode &lt;objet&gt;.note().&lt;method&gt; avec
+  * une liste d&#x27;indices de notes au lieu d&#x27;une note seule.
+  * Cet objet doit posséder toutes les méthodes applicables aux notes
+  * @class OBJET_TRAITEMENT
   * @static
   */
-window.GROUPNOTES_METHODS = {
+window.OBJET_TRAITEMENT = {
+  list  : null, // la liste des indices de notes à traiter
+  notes : null, // toutes les notes du possesseur
+  owner : null, // Le possesseur
   /**
-    * Retourne la note d&#x27;indice (1-start) +indice+
-    * @method note
-    * @param  {Number} indice Indice 1-start de la note à retourner
-    * @return {Note} L&#x27;instance de la note désirée
+    * Exécute le traitement déterminé par +method+ et passe à l&#x27;étape
+    * suivante
+    * @method traite
+    * @param {String} method    La méthode à exécuter sur la note
+    * @param  {Any}   param1    Le premier paramètre éventuel
+    * @param  {Any}   param2    Le second paramètre éventuel
+    * @return {Object} Cet objet, pour le chainage
     */
-  note:function(indice)
+  traite:function(method, param1, param2)
   {
-    return this[indice]
+    var my = this
+    L(this.list).each(function(indice){
+      my.notes[indice][method](param1, param2)
+    })
+    NEXT_STEP()
+    return this // chainage
   },
+  update:function(){return this.traite(&#x27;update&#x27;)},
+  show:function(params){return this.traite(&#x27;show&#x27;, Anim.transition.show)},
+  hide:function(params){return this.traite(&#x27;hide&#x27;, Anim.transition.show)},
+  fantomize:function(){return this.traite(&#x27;fantomize&#x27;)},
+  defantomize:function(){return this.traite(&#x27;defantomize&#x27;)},
+  colorize:function(color){return this.traite(&#x27;colorize&#x27;, color)}
   
-  /**
-    * Exécute une fonction sur toutes les notes de l&#x27;accord
-    * @method each_note
-    * @param  {Function} fn La fonction à exécuter
-    */
-  each_note:function(fn)
-  {
-    for(var i=1, len=this.length; i&lt;len; ++i)
-    {
-      fn(this[i])
-    }
-  },
-  
-  /**
-    * Destruction de l&#x27;accord (destruction de chaque note)
-    * @method build
-    */
-  remove:function()
-  {
-    this.each_note(function(note){note.remove()})
-  }
 }
-
-window.GROUPNOTES_PROPERTIES = {
-
-}
+// /**
+//   * Méthodes pouvant être utilisées par tout &quot;groupe de notes&quot;, comme pour les
+//   * accords (chord), les motifs (motif) ou les gammes (scale)
+//   *
+//   * Notes
+//   * -----
+//   * Pour pouvoir être utilisées, il suffit de mettre les notes dans un array (avec
+//   * un premier élément null car tous les décomptes sont 1-start) puis d&#x27;étendre
+//   * cette liste avec GROUPNOTES_METHODS :
+//   *   &#x60;$.extend(groupnotes, GROUPNOTES_METHODS)&#x60;
+//   * et de définir ses propriétés (cf. plus bas) : 
+//   *   &#x60;Object.defineProperties(&lt;groupnotes&gt;, GROUPNOTES_PROPERTIES)&#x60;
+//   *
+//   * @class GROUPNOTES_METHODS METHODES_GROUPNOTES
+//   * @static
+//   */
+// window.GROUPNOTES_METHODS = {
+//   /**
+//     * Retourne la note d&#x27;indice (1-start) +indice+
+//     * Ou un objet qui traitera toutes les notes envoyées
+//     * @method note
+//     * @param  {Number|Array} indice Indice 1-start de la note à retourner, ou
+//     *                         liste de notes.
+//     * @return {Note|Object} L&#x27;instance de la note désirée
+//     */
+//   note:function(indice)
+//   {
+//     dlog(&quot;-&gt; note(type indice:&quot;+(typeof indice)+&quot;)&quot;)
+//     if(&#x27;number&#x27; == typeof indice) return this[indice]
+//     else if(&#x27;string&#x27; == typeof indice)
+//     { // Il faut trouver la note
+//       
+//     }
+//     else if(&#x27;object&#x27; == typeof indice)
+//     {
+//       dlog(&quot;-&gt; liste d&#x27;indices&quot;)
+//       var obj_traitement = $.extend(true,{}, OBJET_TRAITEMENT)
+//       obj_traitement.list   = indice
+//       obj_traitement.owner  = this
+//       obj_traitement.notes  = this // c&#x27;est un array étendu
+//       return obj_traitement
+//     }
+//   },
+//   
+//   /**
+//     * Exécute une fonction sur toutes les notes de l&#x27;accord
+//     * @method each_note
+//     * @param  {Function} fn La fonction à exécuter
+//     */
+//   each_note:function(fn)
+//   {
+//     for(var i=1, len=this.length; i&lt;len; ++i)
+//     {
+//       fn(this[i])
+//     }
+//   },
+//   
+//   /**
+//     * Destruction de l&#x27;accord (destruction de chaque note)
+//     * @method build
+//     */
+//   remove:function()
+//   {
+//     this.each_note(function(note){note.remove()})
+//   }
+// }
+// 
+// window.GROUPNOTES_PROPERTIES = {
+// 
+// }
 
 /**
   * Remplacement des méthodes ci-dessus pour une utilisation plus rationnelle:
@@ -246,7 +311,19 @@ window.METHODES_GROUPNOTES = {
     */
   note:function(indice)
   {
-    return this.notes[indice]
+    if(&#x27;number&#x27; == typeof indice) return this.notes[indice]
+    else if(&#x27;string&#x27; == typeof indice)
+    { // Il faut trouver la note
+      
+    }
+    else if(&#x27;object&#x27; == typeof indice)
+    {
+      var obj_traitement = $.extend(true,{}, OBJET_TRAITEMENT)
+      obj_traitement.list   = indice
+      obj_traitement.owner  = this
+      obj_traitement.notes  = this.notes
+      return obj_traitement
+    }
   },
   
   /**

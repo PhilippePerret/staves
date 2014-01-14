@@ -57,11 +57,13 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
-                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
-            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
+                <li><a href="../classes/Motif.html">Motif</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
+            
+                <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
@@ -113,6 +115,10 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Motif.js.html">Motif.js</a></li>
+            
                 <li><a href="../modules/Note.html">Note</a></li>
             
                 <li><a href="../modules/Pas.js.html">Pas.js</a></li>
@@ -120,6 +126,8 @@
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
+            
+                <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
@@ -235,11 +243,77 @@ Note.prototype.constructor = Note
 
 /* ---------------------------------------------------------------------
  *
- *  Méthodes pour composer le code de l&#x27;animation
+ *  MÉTHODE POUR LE CODE DE L&#x27;APPLICATION
+ *  
+ *  Note
+ *    * Quand une méthode est ajoutée, elle doit l&#x27;être aussi dans la
+ *      constante &#x60;OBJET_TRAITEMENT&#x60; du module GroupeNotes.js
  *  
  */
 
 $.extend(Note.prototype,{
+  /**
+    * Ré-affiche une note masquée par &#x60;hide&#x60;
+    * @method show
+    * @return {Note} this, pour le chainage
+    */
+  show:function()
+  {
+    return this.operation(this.objets, &#x27;show&#x27;)
+  },
+  /**
+    * Masque la note
+    * @method hide
+    * @return {Note} this, pour le chainage
+    */
+  hide:function()
+  {
+    return this.operation(this.objets, &#x27;hide&#x27;)
+  },
+  /**
+    * Actualise l&#x27;affichage de la note
+    * Pour le moment, la méthode peut remettre en place une note
+    * décalée à cause d&#x27;une conjointe qui a disparu maintenant.
+    * @method update
+    * @return {Note} this, pour le chainage
+    */
+  update:function()
+  {
+    this.update_affichage()
+    NEXT_STEP(notimeout=true)
+    return this
+  },
+  /**
+    * Rend la note presque invisible, mais toujours présente
+    * @method fantomize
+    * @return {Note} pour le chainage
+    */
+  fantomize:function()
+  {
+    return this.colorize(&#x27;shadow&#x27;)
+  },
+  /**
+    * Remet la note en noir
+    * @method defantomize
+    * @return {Note} this, pour le chainage
+    */
+  defantomize:function()
+  {
+    return this.colorize(black)
+  },
+  /**
+    * Colorize la note avec la couleur voulue
+    * @method colorize
+    * @param  {String} color  La couleur voulue (constante &#x27;red&#x27;, &#x27;blue&#x27;, etc.)
+    * @return {Note} this, pour le chainage
+    */
+  colorize:function(color)
+  {
+    this.color      = color
+    this.obj[0].src = this.src
+    if(this.alteration) this.obj_alt[0].src = this.src_alteration
+    return this
+  },
   /**
     * Déplace la note à la hauteur +hauteur+
     * Notes
@@ -324,6 +398,7 @@ $.extend(Note.prototype,{
     *                                       OU seulement la couleur en String (constante)
     *   @params {String} params.color       La couleur de l&#x27;exergue (constante ou def)
     *   @params {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
+    * @return {Object} this, pour le chainage
     */
   exergue:function(params)
   {
@@ -341,9 +416,10 @@ $.extend(Note.prototype,{
       this.obj_alt.css(&#x27;z-index&#x27;, &quot;20&quot;)
     }
     if(&#x27;function&#x27;==typeof params.complete) params.complete()
+    return this // chainage
   },
   /**
-    * Sorte la note de son exergue
+    * Sort la note de son exergue
     * @method unexergue
     */
   unexergue:function(params)
@@ -372,25 +448,9 @@ $.extend(Note.prototype,{
   {
     this.exergue({complete:$.proxy(this.operation, this, this.objets, &#x27;remove&#x27;)})
     this.staff.notes.remove(this)
-  },
-  
-  /**
-    * Masque la note
-    * @method hide
-    */
-  hide:function()
-  {
-    this.operation(this.objets, &#x27;hide&#x27;)
-  },
-  
-  /**
-    * Ré-affiche une note masquée par &#x60;hide&#x60;
-    * @method show
-    */
-  show:function()
-  {
-    this.operation(this.objets, &#x27;show&#x27;)
   }
+  
+  
 })
 
 $.extend(Note.prototype, METHODES_TEXTE)
@@ -525,19 +585,6 @@ $.extend(Note.prototype,{
     var dsuplines = this.need_suplines(this.staff.cle)
     if(dsuplines) this.staff.add_suplines( dsuplines )
   },
-  
-  /**
-    * Méthode propre pour afficher la note
-    *
-    * @method show
-    * @async
-    * @param {Object} params Les paramètres optionnels
-    */
-  show:function(params)
-  {
-    // dlog(&quot;-&gt; note.show &quot;+this.note_str)
-    this.operation(this.objets, &#x27;show&#x27;)
-  },
   /**
     * Méthode qui masque l&#x27;altération
     * Note
@@ -581,7 +628,8 @@ $.extend(Note.prototype,{
     */
   update_affichage:function()
   {
-    this.obj.animate({left:this.real_left+&#x27;px&#x27;},250)
+    this.obj.animate({left:this.real_left+&#x27;px&#x27;}, 250)
+    if(this.alteration) this.positionne_alteration()
   },
   /**
     * Position l&#x27;altération

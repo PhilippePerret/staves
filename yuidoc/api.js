@@ -8,10 +8,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "Circle",
         "Console",
         "Courbe",
-        "GROUPNOTES_METHODS METHODES_GROUPNOTES",
         "Grid",
         "Infos",
+        "Motif",
         "Note",
+        "OBJET_TRAITEMENT",
         "ObjetClass",
         "Objets",
         "Pas",
@@ -36,10 +37,13 @@ YUI.add("yuidoc-meta", function(Y) {
         "Console.js",
         "Controller.js",
         "Courbe.js",
+        "GroupNotes.js",
+        "Motif.js",
         "Note",
         "Pas.js",
         "Scale.js",
         "Staff",
+        "Texte.js",
         "Txt.js",
         "UI.Regle.js",
         "UI.js",
@@ -102,6 +106,15 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "Courbe.js"
         },
         {
+            "displayName": "GroupNotes.js",
+            "name": "GroupNotes.js"
+        },
+        {
+            "displayName": "Motif.js",
+            "name": "Motif.js",
+            "description": "Gestion des Motifs (suite de notes)"
+        },
+        {
             "displayName": "Note",
             "name": "Note"
         },
@@ -116,6 +129,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Staff",
             "name": "Staff"
+        },
+        {
+            "displayName": "Texte.js",
+            "name": "Texte.js"
         },
         {
             "displayName": "Txt.js",

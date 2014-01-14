@@ -57,11 +57,13 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
-                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
-            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
+                <li><a href="../classes/Motif.html">Motif</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
+            
+                <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
@@ -113,6 +115,10 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Motif.js.html">Motif.js</a></li>
+            
                 <li><a href="../modules/Note.html">Note</a></li>
             
                 <li><a href="../modules/Pas.js.html">Pas.js</a></li>
@@ -120,6 +126,8 @@
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
+            
+                <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
@@ -186,6 +194,57 @@ $.extend(UI,{
     this.onresize_window()
   },
   /**
+    * Retourne la vraie largeur de l&#x27;objet DOM +obj+ en tenant compte de
+    * ses paddings et autres border
+    * @method exact_width_of
+    * @param {jQuerySet} obj
+    * @return {Number} Le nombre de pixels qu&#x27;occupe l&#x27;objet à l&#x27;écran
+    */
+  exact_width_of:function(obj)
+  {
+    return  obj.width() +
+            this.prop_of_obj(obj, &#x27;padding-left&#x27;)       + 
+            this.prop_of_obj(obj, &#x27;padding-right&#x27;)      +
+            this.prop_of_obj(obj, &#x27;border-left-width&#x27;)  +
+            this.prop_of_obj(obj, &#x27;border-right-width&#x27;)
+  },
+  /**
+    * Retourne la vraie hauteur de l&#x27;objet DOM +obj+ en tenant compte de
+    * ses paddings et autres border
+    * @method exact_height_of
+    * @param {jQuerySet} obj
+    * @return {Number} Le nombre de pixels qu&#x27;occupe l&#x27;objet à l&#x27;écran
+    */
+  exact_height_of:function(obj)
+  {
+    return  obj.height() +
+            this.prop_of_obj(obj, &#x27;padding-top&#x27;) + 
+            this.prop_of_obj(obj, &#x27;padding-bottom&#x27;) +
+            this.prop_of_obj(obj, &#x27;border-top-width&#x27;) +
+            this.prop_of_obj(obj, &#x27;border-bottom-width&#x27;)
+  },
+  /**
+    * Retourne la valeur de la propriété +prop+ de l&#x27;objet +obj+
+    * @method prop_of_obj
+    * @param  {jQuerySet} obj
+    * @param  {String}    prop
+    * @return {Number}    La valeur numéraire de la propriété
+    */
+  prop_of_obj:function(obj, prop)
+  {
+    return this.css2number(obj.css(prop))
+  },
+  /** 
+    * Prends une valeur de type &quot;12px&quot; et retourne 12
+    * @method css2number
+    * @param  {String} la valeur
+    * @return {Number} le nombre de pixels (ou autre unité)
+    */
+  css2number:function(valeur)
+  {
+    return parseInt(valeur, 10)
+  },
+  /**
     * Redimensionne les éléments dans la fenêtre
     * Notes
     *   * La méthode est appelée au chargement de l&#x27;application
@@ -231,6 +290,8 @@ $.extend(UI,{
     })
     Anim.Grid.cursor.css({height:(anim_height-10)+&#x27;px&#x27;})
     Anim.Grid.set_cursor()
+    
+    Anim.Dom.left_max = anim_width - 40
   },
   /**
     * Peuple le menu des applications avec la liste +name_list+

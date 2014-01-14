@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Pas</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/Notes/Motif.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -170,196 +170,136 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Pas Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Notes/Motif.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+  * Gestion des Motifs (suite de notes)
+  * @module Motif.js
+  */
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:5</code></a>
-        </div>
-    
+/**
+  * @method MOTIF
+  * @param  {String} strnotes La suite des notes, séparées par des espaces
+  * @param  {Object} params   Paramètres optionnels
+  * @return {Motif} Instance de Motif
+  */
+window.MOTIF = function(strnotes, params)
+{
+  return new Motif(strnotes, params)
+}
 
-    
-        
-            Module: <a href="../modules/Pas.js.html">Pas.js</a>
-        
-    
+/**
+  * Class Motif
+  * Gestion des Motifs (suite de notes)
+  * Notes
+  * -----
+  *
+  * @class Motif
+  * @constructor
+  */
+window.Motif = function(strnotes, params)
+{
+  /**
+    * Identifiant absolu du motif
+    * Note : Pour le moment, il n&#x27;est pas utilisé, mais plus tard, on pourra
+    * imaginer consigner les mêmes types d&#x27;éléments dans des Hash de Anim.Objects
+    * @property {String} id
+    */
+  this.id = &#x27;mot&#x27;+(new Date()).getTime()
+  /**
+    * Class d&#x27;un type motif
+    * @property {String} class
+    * @static @final 
+    * @default &#x27;motif&#x27;
+    */
+  this.class = &#x27;motif&#x27;
+  /**
+    * Position left du motif (par défault le Anim.current_x courant)
+    * Note : C&#x27;est seulement le left de sa première note.
+    * Note : Pourra être redéfini par les paramètres
+    * @property {Number} left
+    */
+  this.left = Anim.current_x
+  /**
+    * Liste {Array} des instances {Note} des notes du motif
+    * Notes
+    * -----
+    *   * Les notes (strnotes) seront dispatchés une fois que le left
+    *     sera éventuellement redéfini par les paramètres
+    *
+    * @property {Array of Note} notes
+    */
+  this.notes = [null]
+  
+  if(undefined == params) params = {}
+  for(var prop in params){
+    this[prop] = params[prop]
+  } 
+  
+  var me = this
+  L(strnotes.split(&#x27; &#x27;)).each(function(strnote){
+    me.notes.push(NOTE(strnote,{dont_build:true, staff:me.staff}))
+  })
+  
+  // On peut construire les notes
+  Anim.wait(1)
+  this.build()  
+}
+$.extend(Motif.prototype, METHODES_TEXTE)
+$.extend(Motif.prototype, METHODES_GROUPNOTES)
 
-    
-</div>
+$.extend(Motif.prototype,{})
+Object.defineProperties(Motif.prototype, {
+  /**
+    * Portée du motif ({Staff})
+    * Pour la définir, on peut soit envoyer la portée, soit envoyer son indice 1-start
+    * Note : Le motif peut s&#x27;étaler sur plusieurs portées, cette valeur ne correspond
+    * qu&#x27;à la portée de la première note (et encore…).
+    *
+    * @property {Staff} staff
+    */
+  &quot;staff&quot;:{
+    set:function(staff)
+    {
+      if(&#x27;number&#x27; == typeof staff) this._staff = Anim.staves[staff - 1]
+      else if (staff.class == &#x27;staff&#x27;) this._staff = staff
+      else delete this._staff
+    },
+    get:function(){
+      return this._staff || Anim.current_staff
+    }
+  },
+  /**
+    * Le milieu horizontal de l&#x27;objet. Il correspond au centre de ses notes
+    * Si le motif s&#x27;étale sur plusieurs portées, c&#x27;est la largeur de la portée
+    * qui est utilisée
+    * @property {Number} centre_x
+    */
+  &quot;centre_x&quot;:{
+    get:function(){
+      var w_motif = 0
+      this.each_note(function(note){ w_motif += note.width })
+      if(w_motif &gt; Anim.Dom.left_max) w_motif = Anim.Dom.left_max
+      return parseInt(this.left + (w_motif / 2),10)
+    }
+  },
+  /**
+    * Le milieu vertical de l&#x27;objet
+    * @property {Number} center_y
+    */
+  &quot;center_y&quot;:{
+    get:function(){
+      var h_motif = 12
+      this.each_note(function(note){ h_motif += note.top })
+      return parseInt(this.top + (h_motif / 2), 10)
+    }
+  }
+  
+})
 
-
-
-<div class="box intro">
-    <h2 id="instance-des-tapes">Instance des étapes</h2>
-<h2 id="notes">Notes</h2>
-<ul>
-<li>Mis dans le dossier Anim par convénience, mais appartient à window.</li>
-<li>L&#39;instance a été inauguré pour gérer le jeu de la sélection. Avec chaque
-étape doit être conservé son index pour une sélection correcte.</li>
-</ul>
-
-</div>
-
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-        <div id="method_Pas" class="method item">
-    <h3 class="name"><code>Pas</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:5</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Les paramètres</p>
-
-                    </div>
-
-                    
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">code</code>
-                                    <span class="type">String</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Le code à jouer (sans retour chariot) (mandatory)</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">offset_start</code>
-                                    <span class="type">Number</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Le décalage du code dans la console (mandatory)</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-    </div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-
-        
-
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

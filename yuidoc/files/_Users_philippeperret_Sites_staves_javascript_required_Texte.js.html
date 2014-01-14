@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Pas</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/required/Texte.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -170,196 +170,123 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Pas Class</h1>
-<div class="box meta">
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/required/Texte.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+  * @module Texte.js
+  */
+
+/**
+  * Méthodes qui doivent être héritées ($.extend) par tout objet
+  * pouvant contenir un texte (Note, Chord, Staff, etc.)
+  * @property {Object} METHODES_TEXTE
+  * @for window
+  */
+window.METHODES_TEXTE = {
+  /**
+    * Écrit un texte au-dessus ou en dessous du possesseur du texte
+    * Notes
+    * -----
+    *   * La méthode placera le texte (instance {Txt} dans la propriété &#x60;texte&#x60;
+    *     avec en clé le type de texte (&#x27;regular&#x27;, &#x27;harmony&#x27;, &#x27;chord&#x27;, etc.)
+    *   * L&#x27;étape suivante doit être appelée par l&#x27;affichage du texte (Txt::show)
+    *
+    * @method write
+    * @param  {String} texte Le texte à écrire
+    * @param  {Object} params Les paramètres optionnels
+    * @return {Object} L&#x27;instance Note courante (pour chainage)
+    */
+  write:function(texte, params)
+  {
+    // dlog(&quot;-&gt; &lt;Note&gt;.write(&quot;+texte+&quot;)&quot;)
+    if(undefined == params) params = {}
+    params.texte  = texte
+    if(undefined == params.type) params.type = &#x27;regular&#x27;
+    if(params.type_cadence)
+    {
+      params.sous_type = params.type_cadence
+      delete params.type_cadence
+    } 
+    if(!this.texte) this.texte = {}
+    this.texte[params.type] = TXT(this, params)
+    this.texte[params.type].build()
+    return this
+  },
+  /**
+    * Raccourci-write pour écrire un texte d&#x27;harmony
+    * @method harmony
+    * @param  {String} texte  Le texte à écrire
+    * @param  {Object} params   Paramètres optionnels
+    *   @param  {Number}  params.staff      La portée sous laquelle il faut placer l&#x27;harmonie
+    *   @param  {Number}  params.offset_y   Décalage avec la position normale par rapport à la portée
+    * @return {Object} L&#x27;instance Note courante (pour chainage)
+    */
+  harmony:function(texte, params)
+  {
+    if(undefined == params) params = {}
+    params.type = harmony
+    this.write(texte, params)
     
+    return this
+  },
+  /**
+    * Raccourci pour écrire un texte de type cadence
+    * @method cadence
+    * @param  {String} texte    Le texte à écrire
+    * @param  {Object} params   Paramètres optionnels
+    * @return {Object} L&#x27;instance Note courante (pour chainage)
+    */
+  cadence:function(texte, params)
+  {
+    if(undefined == params) params = {}
+    if(params.type) params.sous_type = params.type
+    params.type = cadence
+    this.write(texte, params)
+    return this
+  },
+  /**
+    * Ajoute une marque de modulation
+    * @method modulation
+    * @param {String} texte   Le texte de la modulation (au moins la note)
+    * @param {Object} params  Les paramètres optionnels
+    * @return {Object} L&#x27;instance Note courante (pour chainage)
+    */
+  modulation:function(texte, params)
+  {
+    if(undefined == params) params = {}
+    params.type = modulation
+    this.write(texte, params)
+    return this
+  },
+  /**
+    * Raccourci pour écrire un texte de type &#x27;chord&#x27; (un accord placé au-dessus
+    * de la portée et au-dessus de l&#x27;élément porteur)
+    * @method chord
+    * @param  {String} accord   L&#x27;accord à marquer
+    * @param  {Object} params   Les paramètres optionnels
+    * @return {Object} L&#x27;instance Note courante (pour chainage)
+    */
+  chord:function(accord, params)
+  {
+    if(undefined == params) params = {}
+    params.type = chord
+    this.write(accord, params)
+    return this
+  }
+}
+/**
+  * Propriétés qui doivent être héritées (Object.defineProperties) par tout objet
+  * pouvant contenir un texte (Note, Accords, etc.)
+  * @property {Object} PROPERTIES_TEXTE
+  * @for window
+  */
+window.PROPERTIES_TEXTE = {
+  
+}
 
-    
-
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:5</code></a>
-        </div>
-    
-
-    
-        
-            Module: <a href="../modules/Pas.js.html">Pas.js</a>
-        
-    
-
-    
-</div>
-
-
-
-<div class="box intro">
-    <h2 id="instance-des-tapes">Instance des étapes</h2>
-<h2 id="notes">Notes</h2>
-<ul>
-<li>Mis dans le dossier Anim par convénience, mais appartient à window.</li>
-<li>L&#39;instance a été inauguré pour gérer le jeu de la sélection. Avec chaque
-étape doit être conservé son index pour une sélection correcte.</li>
-</ul>
-
-</div>
-
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-        <div id="method_Pas" class="method item">
-    <h3 class="name"><code>Pas</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:5</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Les paramètres</p>
-
-                    </div>
-
-                    
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">code</code>
-                                    <span class="type">String</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Le code à jouer (sans retour chariot) (mandatory)</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">offset_start</code>
-                                    <span class="type">Number</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Le décalage du code dans la console (mandatory)</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-    </div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-
-        
-
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

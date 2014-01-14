@@ -57,11 +57,13 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
-                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
-            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
+                <li><a href="../classes/Motif.html">Motif</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
+            
+                <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
@@ -113,6 +115,10 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Motif.js.html">Motif.js</a></li>
+            
                 <li><a href="../modules/Note.html">Note</a></li>
             
                 <li><a href="../modules/Pas.js.html">Pas.js</a></li>
@@ -120,6 +126,8 @@
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
+            
+                <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
@@ -170,6 +178,18 @@
   * @module Anim_Objects.js
   */
 
+/**
+  * Méthode pratique pour récupérer un objet de l&#x27;animation
+  *
+  * @method objet
+  * @for    window
+  * @param  {String} refobjet   La référence de l&#x27;objet
+  */
+window.objet = function(refobjet)
+{
+  return eval(&#x27;Anim.Objects.&#x27;+refobjet)
+}
+
 if(undefined == window.Anim) window.Anim = {}
 /**
   * Les objets qui vont être créés par les lignes de code de l&#x27;animation,
@@ -200,6 +220,12 @@ FONCTIONS_ANIM_OBJETS = {
     * @method NOTE
     */
   NOTE:function(note, params){return NOTE(note, params)},
+  /**
+    * Command pour construire un motif sans le placer dans une variable
+    * cf. la fonction MOTIF
+    * @method MOTIF
+    */
+  MOTIF:function(notes, params){return MOTIF(notes, params)},
   /** Commande pour construire un accord sans le placer dans une variable
     * cf. la fonction CHORD
     * @method CHORD
@@ -404,6 +430,8 @@ METHODES_ANIM_OBJETS = {
   &quot;MODE_FLASH&quot;:{
     get:function(){ MODE_FLASH = true; NEXT_STEP(no_timeout=true)}
   },
+  // Alias
+  &quot;FLASH&quot;:{get:function(){this.MODE_FLASH}},
   /**
     * Pseudo-méthode pour sortir du mode flash
     * @method STOP_MODE_FLASH
@@ -411,6 +439,8 @@ METHODES_ANIM_OBJETS = {
   &quot;STOP_MODE_FLASH&quot;:{
     get:function(){ MODE_FLASH = false; NEXT_STEP(no_timeout=true)}
   },
+  // Alias
+  &quot;STOP_FLASH&quot;:{get:function(){this.STOP_MODE_FLASH}},
   /**
     * Remet le curseur de position à la position de départ (début des portées)
     * @method RESET_CURSOR

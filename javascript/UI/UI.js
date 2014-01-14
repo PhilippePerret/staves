@@ -114,6 +114,8 @@ $.extend(UI,{
     })
     Anim.Grid.cursor.css({height:(anim_height-10)+'px'})
     Anim.Grid.set_cursor()
+    
+    Anim.Dom.left_max = anim_width - 40
   },
   /**
     * Peuple le menu des applications avec la liste +name_list+

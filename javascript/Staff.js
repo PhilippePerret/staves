@@ -318,16 +318,17 @@ $.extend(Staff.prototype, {
     var ontop    = params.top == true
     var hauteur  = ontop ? this.top - 12 : this.top + (5 * 12) ;
     var incre    = ontop ? -12 : + 12
+    var left     = params.left || Anim.current_x
     // dlog("-> add_suplines")
     // dlog({
     //   ontop:ontop, hauteur:hauteur, inc:incre, nombre:params.number
     // })
-    var prefid   = "supline-"+this.indice+Anim.current_x+"-"
+    var prefid   = "supline-"+this.indice+left+"-"
     var suffid   = ontop ? 'top' : 'bot'
     // On ajoute le nombre de lignes nécessaires
     for(var i = 0; i < params.number; i++)
     {
-      style = "top:"+hauteur+"px;left:"+(Anim.current_x - 2)+"px;"
+      style = "top:"+hauteur+"px;left:"+(left - 2)+"px;"
       sid   = prefid + i + suffid
       Anim.Dom.add('<img id="'+sid+'" class="supline" src="img/note/supline.png" style="'+style+'" />')
       hauteur += incre

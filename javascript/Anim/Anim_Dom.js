@@ -11,6 +11,12 @@
 if(undefined == window.Anim) window.Anim = {}
 Anim.Dom = {
   /**
+    * Valeur left maximale en fonction de la taille de l'animation à l'écran
+    * Note : La valeur est calculée par UI.onresize_window
+    * @property {Number} left_max
+    */
+  left_max:null,
+  /**
     * Affiche un objet quelconque de l'animation
     * Notes
     * -----

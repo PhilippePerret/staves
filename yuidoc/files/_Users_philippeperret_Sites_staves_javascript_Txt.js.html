@@ -57,11 +57,13 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
-                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
-            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
+                <li><a href="../classes/Motif.html">Motif</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
+            
+                <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
@@ -113,6 +115,10 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Motif.js.html">Motif.js</a></li>
+            
                 <li><a href="../modules/Note.html">Note</a></li>
             
                 <li><a href="../modules/Pas.js.html">Pas.js</a></li>
@@ -120,6 +126,8 @@
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
+            
+                <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
@@ -171,107 +179,6 @@
   */
 
 /**
-  * Méthodes qui doivent être héritées ($.extend) par tout objet
-  * pouvant contenir un texte (Note, Chord, etc.)
-  * @property {Object} METHODES_TEXTE
-  * @for window
-  */
-window.METHODES_TEXTE = {
-  /**
-    * Écrit un texte au-dessus ou en dessous du possesseur du texte
-    * Notes
-    * -----
-    *   * La méthode placera le texte (instance {Txt} dans la propriété &#x60;texte&#x60;
-    *     avec en clé le type de texte (&#x27;regular&#x27;, &#x27;harmony&#x27;, &#x27;chord&#x27;, etc.)
-    *   * L&#x27;étape suivante doit être appelée par l&#x27;affichage du texte (Txt::show)
-    *
-    * @method write
-    * @param  {String} texte Le texte à écrire
-    * @param  {Object} params Les paramètres optionnels
-    * @return {Object} L&#x27;instance Note courante (pour chainage)
-    */
-  write:function(texte, params)
-  {
-    // dlog(&quot;-&gt; &lt;Note&gt;.write&quot;)
-    if(undefined == params) params = {}
-    params.texte  = texte
-    if(undefined == params.type) params.type = &#x27;regular&#x27;
-    if(!this.texte) this.texte = {}
-    this.texte[params.type] = TXT(this, params)
-    this.texte[params.type].build()
-    return this
-  },
-  /**
-    * Raccourci pour écrire un texte d&#x27;harmony
-    * @method harmony
-    * @param  {String} texte  Le texte à écrire
-    * @param  {Object} params   Paramètres optionnels
-    *   @param  {Number}  params.staff      La portée sous laquelle il faut placer l&#x27;harmonie
-    *   @param  {Number}  params.offset_y   Décalage avec la position normale par rapport à la portée
-    * @return {Object} L&#x27;instance Note courante (pour chainage)
-    */
-  harmony:function(texte, params)
-  {
-    if(undefined == params) params = {}
-    params.type = harmony
-    this.write(texte, params)
-    return this
-  },
-  /**
-    * Raccourci pour écrire un texte de type cadence
-    * @method cadence
-    * @param  {String} texte    Le texte à écrire
-    * @param  {Object} params   Paramètres optionnels
-    * @return {Object} L&#x27;instance Note courante (pour chainage)
-    */
-  cadence:function(texte, params)
-  {
-    if(undefined == params) params = {}
-    params.type = cadence
-    this.write(texte, params)
-    return this
-  },
-  /**
-    * Ajoute une marque de modulation
-    * @method modulation
-    * @param {String} texte   Le texte de la modulation (au moins la note)
-    * @param {Object} params  Les paramètres optionnels
-    * @return {Object} L&#x27;instance Note courante (pour chainage)
-    */
-  modulation:function(texte, params)
-  {
-    if(undefined == params) params = {}
-    params.type = modulation
-    this.write(texte, params)
-    return this
-  },
-  /**
-    * Raccourci pour écrire un texte de type &#x27;chord&#x27; (un accord placé au-dessus
-    * de la portée et au-dessus de l&#x27;élément porteur)
-    * @method chord
-    * @param  {String} accord   L&#x27;accord à marquer
-    * @param  {Object} params   Les paramètres optionnels
-    * @return {Object} L&#x27;instance Note courante (pour chainage)
-    */
-  chord:function(accord, params)
-  {
-    if(undefined == params) params = {}
-    params.type = chord
-    this.write(accord, params)
-    return this
-  }
-}
-/**
-  * Propriétés qui doivent être héritées (Object.defineProperties) par tout objet
-  * pouvant contenir un texte (Note, Accords, etc.)
-  * @property {Object} PROPERTIES_TEXTE
-  * @for window
-  */
-window.PROPERTIES_TEXTE = {
-  
-}
-
-/**
   * Fonction pour créer une instance Texte
   * @method TXT
   * @param  {Staff|Note|Barre|Mesure} owner Le porteur du texte
@@ -280,11 +187,8 @@ window.PROPERTIES_TEXTE = {
   */
 window.TXT = function(owner, params)
 {
-  // Anim.wait(1)
   return new Txt(owner, params)
 }
-// Alias
-window.TEXTE = window.TXT
 
 /**
   * @class Txt
@@ -294,6 +198,8 @@ window.TEXTE = window.TXT
   */
 window.Txt = function(owner, params)
 {
+  this.class = &#x27;txt&#x27;
+
   this.id       = &#x27;txt&#x27;+(new Date()).getTime()
 
   /**
@@ -301,6 +207,15 @@ window.Txt = function(owner, params)
     * @property {Object|Staff|Note|Chord|...} owner
     */
   this.owner    = owner
+  
+  /*
+    * La portée (seulement si elle est définie dans les paramètres, sinon,
+    * voir &#x60;real_staff&#x60;)
+    * @property {Staff} staff
+    * NON !!! DÉFINI DANS ObjectClass
+    */
+  // this.staff = null
+  
   /**
     * Le texte complet (fourni à l&#x27;instanciation)
     * Attention : c&#x27;est une propriété complexe
@@ -344,7 +259,6 @@ window.Txt = function(owner, params)
   this.offset_x = 0
 
   ObjetClass.call(this, params)
-
 }
 Txt.prototype = Object.create( ObjetClass.prototype )
 Txt.prototype.constructor = Txt
@@ -472,7 +386,7 @@ $.extend(Txt.prototype,{
     */
   build:function()
   {
-    // dlog(&quot;-&gt; &lt;Txt&gt;.build&quot;)
+    // dlog(&quot;-&gt; &lt;Txt&gt;.build (&quot;+this.texte_main+&quot;)&quot;)
     Anim.Dom.add(this)
     return this
   },
@@ -631,6 +545,29 @@ Object.defineProperties(Txt.prototype,{
     get:function(){ return this.raw_texte }
   },
   /**
+    * Texte à écrire suivant le type de cadence (si le type du texte est &#x60;cadence&#x60;
+    * et que &#x60;sous_type&#x60; est défini)
+    * @property {String} texte_sous_type
+    */
+  &quot;texte_sous_type&quot;:{
+    get:function(){
+      switch(this.type)
+      {
+      case cadence:
+        switch(this.sous_type)
+        {
+        case faureenne: return &quot;Fauréenne&quot;
+        case demie    : return &quot;Demi-cadence&quot;
+        default:
+          return this.sous_type.capitalize()
+        }
+        break
+      default:
+        return this.sous_type
+      }
+    }
+  },
+  /**
     * Le type du texte, s&#x27;il est défini
     * Ce type peut être (pour le moment)
     *   - harmony   Un texte pour un chiffrage d&#x27;harmonie
@@ -668,7 +605,6 @@ Object.defineProperties(Txt.prototype,{
       if(undefined == this._top)
       {
         var top = this.real_staff.top
-        dlog(&quot;Real staff pour &quot;+this.texte_main+&quot; (TYPE:&quot;+this.type+&quot;) : &quot;+this.real_staff.indice)
         switch(this.type)
         {
         case harmony:
@@ -687,6 +623,17 @@ Object.defineProperties(Txt.prototype,{
         this._top = top
       }
       return this._top
+    }
+  },
+  /**
+    * La hauteur de la boite de texte
+    * Noter que ça renvoie une &quot;vraie&quot; valeur, ie comptée avec le padding et
+    * les bordures.
+    * @property {Number} height
+    */
+  &quot;height&quot;:{
+    get:function(){
+      return UI.exact_height_of(this.obj)
     }
   },
   /**
@@ -709,6 +656,28 @@ Object.defineProperties(Txt.prototype,{
     }
   },
   /**
+    * left en fonction du owner (utilisé par &quot;left&quot;)
+    * @property {Number} left_per_owner
+    */
+  &quot;left_per_owner&quot;:{
+    get:function(){
+      if(undefined == this._left_per_owner)
+      {
+        this._left_per_owner = function(owner, me)
+        {
+          switch(owner.class)
+          {
+          case &#x27;staff&#x27;:
+            return Anim.current_x - (UI.exact_width_of(me.obj) / 2) + 18
+          default:
+            return owner.left
+          }
+        }(this.owner, this)
+      }
+      return this._left_per_owner
+    }
+  },
+  /**
     * Retourne le décalage horizontal du texte
     * Notes
     * -----
@@ -725,7 +694,7 @@ Object.defineProperties(Txt.prototype,{
     get:function(){
       if(undefined == this._left)
       {
-        this._left = this.owner.left
+        this._left = this.left_per_owner
         switch(this.type)
         {
         case modulation:
@@ -744,13 +713,26 @@ Object.defineProperties(Txt.prototype,{
     */
   &quot;real_top&quot;:{
     get:function(){
-      if( !this.offset_y ) return this.top
-      switch(this.type){
-      case chord:
-        return this.top - this.offset_y
-      default:
-        return this.top + this.offset_y
-      }
+      return this.top + function(owner, itxt, voffset){
+        switch(owner.class)
+        {
+        case &#x27;staff&#x27;: 
+          var h = Anim.prefs.staff_top_text + voffset
+          if(Anim.prefs.staff_text_up)
+            return - (h + itxt.height)
+          else
+          {
+            return owner.height + h
+          }
+        }
+        if( voffset ) return itxt.top
+        switch(itxt.type){
+        case chord:
+          return - voffset
+        default:
+          return voffset
+        }
+      }(this.owner, this, this.offset_y)
     }
   },
   /**
@@ -795,7 +777,7 @@ Object.defineProperties(Txt.prototype,{
    *  DOM  
    */
   /**
-    * Return l&#x27;objet DOM du texte
+    * Return l&#x27;objet DOM du texte (noter qu&#x27;il contient tous les textes)
     * @property {jQuerySet} obj
     */
   &quot;obj&quot;:{
@@ -845,9 +827,10 @@ Object.defineProperties(Txt.prototype,{
       var style = []
       if(this.width) style.push(&quot;width:&quot;+this.width+&quot;px;&quot;)
       var boites = &quot;&quot;
-      if(this.texte_before) boites += &#x27;&lt;div class=&quot;txtbefore&quot;&gt;&#x27;+this.texte_before+&#x27;&lt;/div&gt;&#x27;
-      if(this.texte_main)   boites += &#x27;&lt;div class=&quot;maintxt&quot;&gt;&#x27;+this.texte_main+&#x27;&lt;/div&gt;&#x27;
-      if(this.texte_after)  boites += &#x27;&lt;div class=&quot;txtafter&quot;&gt;&#x27;+this.texte_after+&#x27;&lt;/div&gt;&#x27;
+      if(this.texte_before) boites += &#x27;&lt;div class=&quot;txtbefore&quot;&gt;&#x27; + this.texte_before +&#x27;&lt;/div&gt;&#x27;
+      if(this.texte_main)   boites += &#x27;&lt;div class=&quot;maintxt&quot;&gt;&#x27;   + this.texte_main   +&#x27;&lt;/div&gt;&#x27;
+      if(this.texte_after)  boites += &#x27;&lt;div class=&quot;txtafter&quot;&gt;&#x27;  + this.texte_after  +&#x27;&lt;/div&gt;&#x27;
+      if(this.sous_type)    boites += &#x27;&lt;div class=&quot;typecadence &#x27;+this.sous_type+&#x27;&quot;&gt;&#x27;+this.texte_sous_type+&#x27;&lt;/div&gt;&#x27;
       return  &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;&#x27;+css.join(&#x27; &#x27;)+&#x27;&quot; style=&quot;&#x27;+style.join(&#x27;&#x27;)+&#x27;&quot;&gt;&#x27;+
                 boites + &#x27;&lt;/div&gt;&#x27;
     }

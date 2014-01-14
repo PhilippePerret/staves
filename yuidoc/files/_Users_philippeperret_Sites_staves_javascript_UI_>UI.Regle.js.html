@@ -57,11 +57,13 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
-                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
-            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
+                <li><a href="../classes/Motif.html">Motif</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
+            
+                <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
@@ -113,6 +115,10 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Motif.js.html">Motif.js</a></li>
+            
                 <li><a href="../modules/Note.html">Note</a></li>
             
                 <li><a href="../modules/Pas.js.html">Pas.js</a></li>
@@ -120,6 +126,8 @@
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
+            
+                <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
@@ -201,14 +209,41 @@ window.UI.Regle = {
     this.obj.hide()
   },
   /**
-    * Prépare la règle
+    * Prépare/construit la règle
     * @method prepare
     */
   prepare:function(){
     this.obj = $(&#x27;div#regle&#x27;)
+    this.construit_graduations()
     this.obj.
       draggable({containment:&#x27;document&#x27;}).
       css({top:&#x27;480px&#x27;, left:&#x27;25px&#x27;})
+  },
+  /**
+    * Construction de la graduation de la règle
+    * @method construit_graduations
+    */
+  construit_graduations:function()
+  {
+    var x = 0
+    while(x &lt; 200)
+    {
+      this.obj.append(this.boite_graduation(x))
+      x += 12
+    }
+  },
+  /**
+    * Retourne le code HTML pour la graduation +x+
+    * Note : cela consiste en deux boites imbriquées, l&#x27;une pour le trait de
+    * graduation et l&#x27;autre pour la valeur de la graduation
+    * @method boite_graduation
+    * @param  {Number} x  Valeur de la graduation
+    */
+  boite_graduation:function(x)
+  {
+    return  &#x27;&lt;div class=&quot;divregle&quot; style=&quot;left:&#x27;+x+&#x27;px;&quot;&gt;&#x27;+
+              &#x27;&lt;div class=&quot;mesregle&quot;&gt;&#x27;+(x?x:&quot;&quot;)+&#x27;&lt;/div&gt;&#x27;+
+            &#x27;&lt;/div&gt;&#x27;
   }
 }
     </pre>

@@ -44,6 +44,12 @@ FONCTIONS_ANIM_OBJETS = {
     * @method NOTE
     */
   NOTE:function(note, params){return NOTE(note, params)},
+  /**
+    * Command pour construire un motif sans le placer dans une variable
+    * cf. la fonction MOTIF
+    * @method MOTIF
+    */
+  MOTIF:function(notes, params){return MOTIF(notes, params)},
   /** Commande pour construire un accord sans le placer dans une variable
     * cf. la fonction CHORD
     * @method CHORD
@@ -79,11 +85,13 @@ FONCTIONS_ANIM_OBJETS = {
     * @param {String|Constante} cle   La clé de la portée
     * @param {Object} params  Paramètres optionnels 
     *   @param {String} metrique  La métrique éventuelle
+    * @return {Staff} La nouvelle portée
     */
   NEW_STAFF:function(cle, params)
   {
     Anim.current_staff = Staff.create(cle, params || {})
     NEXT_STEP(no_timeout = true)
+    return Anim.current_staff
   },
   
   /**

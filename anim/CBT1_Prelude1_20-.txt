@@ -1,0 +1,30 @@
+# Animation pour analyse du
+# premier prélude du CBT 1
+# Mesures 20 - 
+
+# --- Valeurs par défault ---
+DEFAULT('decompte', 0)
+DEFAULT(\'next\', 80)
+DEFAULT(\'harmony\', 50)
+DEFAULT(\'staff_top\', 120)
+DEFAULT('offset_modulation_y', 15)
+DEFAULT('chord', 35)
+DEFAULT('staff_harmony', 2)
+
+# --- Les portées ---
+NEW_STAFF(SOL)
+NEW_STAFF(FA)
+ACTIVE_STAFF(1)
+
+# --- Mesure 20 : C7 ---
+acc = CHORD('2:c3 2:g3 bb3 c4 e4')
+acc.note(5).hide()
+prov = NOTE('2:e3')
+WAIT(1)
+acc.chord('C7')
+WAIT(2)
+acc.modulation("Fa[IV de C]")
+WAIT(1)
+acc.harmony("[I->]V")
+WAIT(3)
+STAFF(1).write("Développement", {style:'cadre exergue'})

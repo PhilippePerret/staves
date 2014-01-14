@@ -57,11 +57,13 @@
             
                 <li><a href="../classes/Grid.html">Grid</a></li>
             
-                <li><a href="../classes/GROUPNOTES_METHODS METHODES_GROUPNOTES.html">GROUPNOTES_METHODS METHODES_GROUPNOTES</a></li>
-            
                 <li><a href="../classes/Infos.html">Infos</a></li>
             
+                <li><a href="../classes/Motif.html">Motif</a></li>
+            
                 <li><a href="../classes/Note.html">Note</a></li>
+            
+                <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
             
@@ -113,6 +115,10 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
+            
+                <li><a href="../modules/Motif.js.html">Motif.js</a></li>
+            
                 <li><a href="../modules/Note.html">Note</a></li>
             
                 <li><a href="../modules/Pas.js.html">Pas.js</a></li>
@@ -120,6 +126,8 @@
                 <li><a href="../modules/Scale.js.html">Scale.js</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
+            
+                <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
             
@@ -318,9 +326,6 @@ Object.defineProperties(window.Console,{
     *     1.  On prend le code sélectionné pour connaitre l&#x27;offset et le contenu
     *     2.  On passe en revue l&#x27;intégralité du code en conservant les lignes
     *         qui doivent être jouées.
-    *   * La méthode règle aussi le &#x60;cursor_offset&#x60; pour pouvoir suivre correctement
-    *     le code. On pourrait imaginer faire une petite correction pour être sûr
-    *     de prendre le code depuis le premier caractère.
     *   * On mémorise les informations pour pouvoir rejouer la même sélection
     *   * La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
     *     être définies des préférences.
@@ -382,8 +387,8 @@ Object.defineProperties(window.Console,{
     */
   &quot;steps_between_repairs&quot;:{
     get:function(){
-      var start = this.raw.indexOf(&quot;\n#!START\n&quot;)
-      var end   = this.raw.indexOf(&quot;\n#!END\n&quot;)
+      var start = this.raw.indexOf(&quot;\n#!START&quot;)
+      var end   = this.raw.indexOf(&quot;\n#!END&quot;)
       if(start &lt; -1 || end &lt; -1)
       {
         F.error(&quot;Il faut placer les repères &#x60;#!START&#x60; et &#x60;#!END&#x60; dans le code (et les placer sur une ligne vierge) !&quot;)

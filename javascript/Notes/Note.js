@@ -58,7 +58,10 @@ window.Note = function(note, params)
   this.analyse_note(note)
 
   // On peut calculer l'identifiant
-  this.id = this.note + (this.alteration || "") + this.octave + (new Date()).getTime()
+  // Note : Normalement, tout est fait pour que cet identifiant soit unique, en partant
+  //        du principe qu'il est impossible d'avoir, exactement au même moment (comme
+  //        dans un motif, deux notes identiques à la même position left).
+  this.id = this.note + (this.alteration || "") + this.octave + this.left + (new Date()).getTime()
 
 }
 Note.prototype = Object.create( ObjetClass.prototype )
@@ -407,7 +410,11 @@ $.extend(Note.prototype,{
   suplines_if_necessary:function()
   {
     var dsuplines = this.need_suplines(this.staff.cle)
-    if(dsuplines) this.staff.add_suplines( dsuplines )
+    if(dsuplines){
+      dsuplines = $.extend(dsuplines, {left:this.left})
+      dlog("lignes supplémentaire pour "+this.note_str+":");dlog(dsuplines)
+      this.staff.add_suplines(dsuplines)
+    } 
   },
   /**
     * Méthode qui masque l'altération
@@ -717,6 +724,16 @@ Object.defineProperties(Note.prototype,{
         this._top = this.staff.zero + NOTE_TO_OFFSET[this.note+this.octave]
       }
       return this._top
+    }
+  },
+  /**
+    * Retourne la largeur exacte qu'occupe la note à l'écran
+    * @property {Number} width
+    */
+  "width":{
+    get:function()
+    {
+      return UI.exact_width_of(this.obj) + UI.exact_width_of(this.obj_alt)
     }
   },
   /**
