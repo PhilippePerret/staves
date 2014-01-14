@@ -441,6 +441,9 @@ Object.defineProperties(Txt.prototype,{
         case modulation:
           top -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y
           break
+        case measure:
+          top -= Anim.prefs.num_measure_y + Anim.prefs.offset_num_measure_y
+          break
         default:
           top = Math.min(top, this.owner.top) - 20
         }
@@ -523,6 +526,9 @@ Object.defineProperties(Txt.prototype,{
         {
         case modulation:
           this._left += Anim.prefs.modulation_x
+          break
+        case measure:
+          this._left -= 30
           break
         default:
         }

@@ -19,9 +19,13 @@ const gris    = 'grey'
 
 const modulation  = 'modulation'
 const harmony     = 'harmony'
+const harmonie    = 'harmony'
 const chord       = 'chord'
+const accord      = 'accord'
 const finger      = 'finger'
 const cadence     = 'cadence'
+const measure     = 'measure'
+const mesure      = 'measure'
 
 const parfaite    = 'parfaite'
 const italienne   = 'italienne'

@@ -4,8 +4,8 @@
 
 # --- Valeurs par défault ---
 DEFAULT('decompte', 0)
-DEFAULT(\'next\', 80)
-DEFAULT(\'harmony\', 50)
+DEFAULT(\'next\', 75.5)
+DEFAULT(\'harmony\', 70)
 DEFAULT(\'staff_top\', 120)
 DEFAULT('offset_modulation_y', 15)
 DEFAULT('chord', 35)
@@ -17,6 +17,7 @@ NEW_STAFF(FA)
 ACTIVE_STAFF(1)
 
 # --- Mesure 26 : Gsus7 ---
+STAFF(1).measure('26')
 acc = CHORD('2:g2 2:d3 g3 c4 f4')
 WAIT(2)
 acc.note([1,2]).fantomize()
@@ -90,7 +91,7 @@ STAFF(1).write("1ère fois octave de do + si bas (+ possibilité de s'arrêter u
 acc = CHORD('2:c2 2:c3 g3 bb3 e4')
 WAIT(4)
 acc.chord('C[C7]')
-acc.cadence('I', {type:parfaite})
+acc.cadence('I', {type:parfaite, width:200})
 acc.modulation('Fa[IV]', {offset_x:30})
 STAFF(1).write("Modulation au IVe degré typique de coda (cf. aussi développement)")
 
@@ -98,13 +99,13 @@ STAFF(1).write("Modulation au IVe degré typique de coda (cf. aussi développeme
 NEXT()
 acc = CHORD('2:c2 2:c3 2:f3 2:a3 c4 f4')
 WAIT(1)
-acc.note[1,2,6].fantomize()
+acc.note([1,2,6]).fantomize()
 WAIT(1)
 acc.chord('F')
 WAIT(1)
 acc.harmony('IV')
 WAIT(1)
-acc.note[1,2,6].defantomize()
+acc.note([1,2,6]).defantomize()
 
 NEXT()
 acc = CHORD('2:c2 2:c3 2:d3 2:f3 2:a3 c4')
@@ -127,6 +128,7 @@ WAIT(1)
 acc.harmony('V7/do')
 WAIT(1)
 
+# --- Mesure 35 : C ---
 NEXT()
 acc = CHORD('2:c2 2:c3 e4 g4 c5')
 WAIT(1)

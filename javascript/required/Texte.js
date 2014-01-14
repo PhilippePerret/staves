@@ -39,6 +39,25 @@ window.METHODES_TEXTE = {
     return this
   },
   /**
+    * Raccourci-write pour écrire un numéro de mesure
+    * @method measure
+    * @param {Object} params Paramètres optionnels
+    * @return {Object} L'instance courante (pour chainage)
+    */
+  measure:function(numero, params)
+  {
+    if(undefined == params) params = {}
+    params.type = measure
+    this.write(numero, params)
+    return this
+  },
+  /**
+    * Alias de measure
+    * @method mesure
+    */
+  mesure:function(numero,params){return this.measure(numero,params)},
+  
+  /**
     * Raccourci-write pour écrire un texte d'harmony
     * @method harmony
     * @param  {String} texte  Le texte à écrire
