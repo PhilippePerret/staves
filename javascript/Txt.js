@@ -3,114 +3,6 @@
   */
 
 /**
-  * Méthodes qui doivent être héritées ($.extend) par tout objet
-  * pouvant contenir un texte (Note, Chord, etc.)
-  * @property {Object} METHODES_TEXTE
-  * @for window
-  */
-window.METHODES_TEXTE = {
-  /**
-    * Écrit un texte au-dessus ou en dessous du possesseur du texte
-    * Notes
-    * -----
-    *   * La méthode placera le texte (instance {Txt} dans la propriété `texte`
-    *     avec en clé le type de texte ('regular', 'harmony', 'chord', etc.)
-    *   * L'étape suivante doit être appelée par l'affichage du texte (Txt::show)
-    *
-    * @method write
-    * @param  {String} texte Le texte à écrire
-    * @param  {Object} params Les paramètres optionnels
-    * @return {Object} L'instance Note courante (pour chainage)
-    */
-  write:function(texte, params)
-  {
-    // dlog("-> <Note>.write("+texte+")")
-    if(undefined == params) params = {}
-    params.texte  = texte
-    if(undefined == params.type) params.type = 'regular'
-    if(params.type_cadence)
-    {
-      params.sous_type = params.type_cadence
-      delete params.type_cadence
-    } 
-    if(!this.texte) this.texte = {}
-    this.texte[params.type] = TXT(this, params)
-    this.texte[params.type].build()
-    return this
-  },
-  /**
-    * Raccourci-write pour écrire un texte d'harmony
-    * @method harmony
-    * @param  {String} texte  Le texte à écrire
-    * @param  {Object} params   Paramètres optionnels
-    *   @param  {Number}  params.staff      La portée sous laquelle il faut placer l'harmonie
-    *   @param  {Number}  params.offset_y   Décalage avec la position normale par rapport à la portée
-    * @return {Object} L'instance Note courante (pour chainage)
-    */
-  harmony:function(texte, params)
-  {
-    if(undefined == params) params = {}
-    params.type = harmony
-    this.write(texte, params)
-    
-    return this
-  },
-  /**
-    * Raccourci pour écrire un texte de type cadence
-    * @method cadence
-    * @param  {String} texte    Le texte à écrire
-    * @param  {Object} params   Paramètres optionnels
-    * @return {Object} L'instance Note courante (pour chainage)
-    */
-  cadence:function(texte, params)
-  {
-    if(undefined == params) params = {}
-    if(params.type) params.sous_type = params.type
-    params.type = cadence
-    this.write(texte, params)
-    return this
-  },
-  /**
-    * Ajoute une marque de modulation
-    * @method modulation
-    * @param {String} texte   Le texte de la modulation (au moins la note)
-    * @param {Object} params  Les paramètres optionnels
-    * @return {Object} L'instance Note courante (pour chainage)
-    */
-  modulation:function(texte, params)
-  {
-    if(undefined == params) params = {}
-    params.type = modulation
-    this.write(texte, params)
-    return this
-  },
-  /**
-    * Raccourci pour écrire un texte de type 'chord' (un accord placé au-dessus
-    * de la portée et au-dessus de l'élément porteur)
-    * @method chord
-    * @param  {String} accord   L'accord à marquer
-    * @param  {Object} params   Les paramètres optionnels
-    * @return {Object} L'instance Note courante (pour chainage)
-    */
-  chord:function(accord, params)
-  {
-    if(undefined == params) params = {}
-    params.type = chord
-    this.write(accord, params)
-    return this
-  }
-}
-/**
-  * Propriétés qui doivent être héritées (Object.defineProperties) par tout objet
-  * pouvant contenir un texte (Note, Accords, etc.)
-  * @property {Object} PROPERTIES_TEXTE
-  * @for window
-  */
-window.PROPERTIES_TEXTE = {
-  
-}
-
-/**
   * Fonction pour créer une instance Texte
   * @method TXT
   * @param  {Staff|Note|Barre|Mesure} owner Le porteur du texte
@@ -558,6 +450,17 @@ Object.defineProperties(Txt.prototype,{
     }
   },
   /**
+    * La hauteur de la boite de texte
+    * Noter que ça renvoie une "vraie" valeur, ie comptée avec le padding et
+    * les bordures.
+    * @property {Number} height
+    */
+  "height":{
+    get:function(){
+      return UI.exact_height_of(this.obj)
+    }
+  },
+  /**
     * Retourne la “vraie” portée sous laquelle on doit écrire la marque de
     * texte en fonction de son type.
     * @property {Staff} real_staff
@@ -577,6 +480,28 @@ Object.defineProperties(Txt.prototype,{
     }
   },
   /**
+    * left en fonction du owner (utilisé par "left")
+    * @property {Number} left_per_owner
+    */
+  "left_per_owner":{
+    get:function(){
+      if(undefined == this._left_per_owner)
+      {
+        this._left_per_owner = function(owner, me)
+        {
+          switch(owner.class)
+          {
+          case 'staff':
+            return Anim.current_x - (UI.exact_width_of(me.obj) / 2) + 18
+          default:
+            return owner.left
+          }
+        }(this.owner, this)
+      }
+      return this._left_per_owner
+    }
+  },
+  /**
     * Retourne le décalage horizontal du texte
     * Notes
     * -----
@@ -593,7 +518,7 @@ Object.defineProperties(Txt.prototype,{
     get:function(){
       if(undefined == this._left)
       {
-        this._left = this.owner.left
+        this._left = this.left_per_owner
         switch(this.type)
         {
         case modulation:
@@ -612,13 +537,26 @@ Object.defineProperties(Txt.prototype,{
     */
   "real_top":{
     get:function(){
-      if( !this.offset_y ) return this.top
-      switch(this.type){
-      case chord:
-        return this.top - this.offset_y
-      default:
-        return this.top + this.offset_y
-      }
+      return this.top + function(owner, itxt, voffset){
+        switch(owner.class)
+        {
+        case 'staff': 
+          var h = Anim.prefs.staff_top_text + voffset
+          if(Anim.prefs.staff_text_up)
+            return - (h + itxt.height)
+          else
+          {
+            return owner.height + h
+          }
+        }
+        if( voffset ) return itxt.top
+        switch(itxt.type){
+        case chord:
+          return - voffset
+        default:
+          return voffset
+        }
+      }(this.owner, this, this.offset_y)
     }
   },
   /**
@@ -663,7 +601,7 @@ Object.defineProperties(Txt.prototype,{
    *  DOM  
    */
   /**
-    * Return l'objet DOM du texte
+    * Return l'objet DOM du texte (noter qu'il contient tous les textes)
     * @property {jQuerySet} obj
     */
   "obj":{

@@ -111,6 +111,8 @@ $.extend(window.Anim,{
     decompte          :2,
     staff_top         :60,
     staff_offset      :100,
+    staff_top_text    :0,
+    staff_text_up     :true,
     x_start           :100,
     next              :40,  
     harmony           :70, 
@@ -144,6 +146,19 @@ $.extend(window.Anim,{
       * @property {Number} staff_offset 
       */
     staff_offset  :100,
+    /** Décalage des textes de portée
+      * Note : cette valeur sera RETIRÉE du top de la portée (selon le principe
+      * que les valeurs positives éloignent toujours de la portée, et qu'un texte
+      * de portée est par défaut au-dessus de la portée)
+      * @property {Number} staff_top_text
+      */
+    staff_top_text:0,
+    /** Positionnement des textes de portée, au-dessus (défaut) ou en dessous
+      * de la portée
+      * @property {Boolean} staff_text_up
+      # @default TRUE
+      */
+    staff_text_up: true,
     /** Taille des notes (et altérations)
       * @property {Number} note_size 
       */

@@ -4,7 +4,7 @@
 
 # --- Valeurs par défault ---
 DEFAULT('decompte', 0)
-DEFAULT(\'next\', 75)
+DEFAULT(\'next\', 80)
 DEFAULT(\'harmony\', 50)
 DEFAULT(\'staff_top\', 120)
 DEFAULT('offset_modulation_y', 15)
@@ -111,9 +111,10 @@ acc.harmony('V')
 
 # --- Mesure : 19 : C ---
 NEXT()
-STAFF(1).write("= mesure départ - 1 octave")
 acc = CHORD('2:c3 2:e3 g3 c4 e4')
 acc.chord('C')
-acc.cadence('I', {type:italienne, width:200})
+acc.cadence('I', {type:parfaite, width:180})
+WAIT(1)
+STAFF(1).write("= mesure 1 octave bassa",{type:'cadre italic petit', offset_y:20, width:70})
 
 #!END

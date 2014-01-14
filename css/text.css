@@ -4,6 +4,17 @@ div.text {
   padding           : 4px;
 }
 
+/* Les Style de texte (pour donner une cohérence à l'affichage )*/
+div.text.cadre {
+  border    : 1px solid;
+  padding   : 8px;
+}
+div.text.italic {font-style:italic !important;}
+div.text.exergue {font-weight:bold;}
+div.text.petit, div.text.small {font-size: 0.8em;}
+
+/* Fin des styles de texte
+ --------------------------------------------------------------------- */
 
 /* Style pour un NOM D'ACCORD */
 div.text.chord {
@@ -108,9 +119,10 @@ div.text.cadence div.typecadence.italienne {
   background-color  : #B10000;
   color             : #FFFFFF;
   transform         : rotate(-90deg);
-  transform-origin  : 40px -26px 0;
+/*  transform-origin  : 40px -26px 0;*/
+  transform-origin  : 43px -28px 0;
 }
-div.text.cadence div.typecadence:not(.parfaite)
+div.text.cadence div.typecadence:not(.parfaite):not(.italienne)
 /*
 .imparfaite,
 .plagale,

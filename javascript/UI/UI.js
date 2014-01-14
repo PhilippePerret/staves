@@ -18,6 +18,57 @@ $.extend(UI,{
     this.onresize_window()
   },
   /**
+    * Retourne la vraie largeur de l'objet DOM +obj+ en tenant compte de
+    * ses paddings et autres border
+    * @method exact_width_of
+    * @param {jQuerySet} obj
+    * @return {Number} Le nombre de pixels qu'occupe l'objet à l'écran
+    */
+  exact_width_of:function(obj)
+  {
+    return  obj.width() +
+            this.prop_of_obj(obj, 'padding-left')       + 
+            this.prop_of_obj(obj, 'padding-right')      +
+            this.prop_of_obj(obj, 'border-left-width')  +
+            this.prop_of_obj(obj, 'border-right-width')
+  },
+  /**
+    * Retourne la vraie hauteur de l'objet DOM +obj+ en tenant compte de
+    * ses paddings et autres border
+    * @method exact_height_of
+    * @param {jQuerySet} obj
+    * @return {Number} Le nombre de pixels qu'occupe l'objet à l'écran
+    */
+  exact_height_of:function(obj)
+  {
+    return  obj.height() +
+            this.prop_of_obj(obj, 'padding-top') + 
+            this.prop_of_obj(obj, 'padding-bottom') +
+            this.prop_of_obj(obj, 'border-top-width') +
+            this.prop_of_obj(obj, 'border-bottom-width')
+  },
+  /**
+    * Retourne la valeur de la propriété +prop+ de l'objet +obj+
+    * @method prop_of_obj
+    * @param  {jQuerySet} obj
+    * @param  {String}    prop
+    * @return {Number}    La valeur numéraire de la propriété
+    */
+  prop_of_obj:function(obj, prop)
+  {
+    return this.css2number(obj.css(prop))
+  },
+  /** 
+    * Prends une valeur de type "12px" et retourne 12
+    * @method css2number
+    * @param  {String} la valeur
+    * @return {Number} le nombre de pixels (ou autre unité)
+    */
+  css2number:function(valeur)
+  {
+    return parseInt(valeur, 10)
+  },
+  /**
     * Redimensionne les éléments dans la fenêtre
     * Notes
     *   * La méthode est appelée au chargement de l'application

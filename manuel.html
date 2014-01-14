@@ -314,6 +314,7 @@ sup {
 
 <ul>
 <li><a href="#l_animation">Animation</a></li>
+<li><a href="#le_curseur_de_position">Déplacement du curseur de position</a></li>
 <li><a href="#les_notes">Les notes</a></li>
 <li><a href="#les_chords">Les accords</a></li>
 <li><a href="#les_staves">Les portées</a></li>
@@ -339,14 +340,16 @@ sup {
 <ul>
 <li><a href="#code_comments">Commentaires dans le code</a></li>
 <li><a href="#pause_animation">Faire une pause</a></li>
-<li><a href="#left_staff">Avancer sur la portée</a></li>
+<li><a href="#move_on_staff">Se déplacer sur la portée</a></li>
 <li><a href="#texte_animation">Écrire un texte général</a></li>
 <li><a href="#reset_animation">Resetter l'animation</a></li>
 <li><a href="#clean_animation">"Nettoyer" l'animation (tout effacer)</a></li>
 </ul>
 </li>
 <li><a href="#vitesse_animation">Vitesse de l'animation</a></li>
+<li><a href="#run_animation">Jouer l'animation</a></li>
 <li><a href="#mode_flash">Activer/désactiver le Mode “Flash</a></li>
+<li><a href="#set_decompte">Définir le décompte de départ</a></li>
 <li><a href="#reiniti_preferences">Ré-initialiser toutes les valeurs de préférences</a></li>
 </ul>
 
@@ -417,25 +420,11 @@ monAccord('c3 eb3 g3')
 
 <p><em>Note&nbsp;: C'est un “pas” comme les autres, donc il doit être mis sur une ligne seule comme toute étape.</em></p>
 
-<p><a name="left_staff"></a></p>
+<p><a name="move_on_staff"></a></p>
 
 <h4>Se déplacer sur la portée</h4>
 
-<p>La commande pour écrire à la suite des dernières notes sur la portée, on utilise la commande&nbsp;:</p>
-
-<pre><code>NEXT([&lt;nombre pixels&gt;])
-</code></pre>
-
-<p>Par défaut (sans argument), le déplacement sera de 40px (<code>Anim.defaut.hoffset</code>). Sinon, le déplacement sera de la valeur précisée.</p>
-
-<p>Par exemple&nbsp;:</p>
-
-<pre><code>NEXT() 
-// =&gt; les notes suivantes s'écriront 40px plus à gauche
-
-NEXT(100)
-// =&gt; les notes suivantes s'écriront 100px plus à gauche
-</code></pre>
+<p>Pour tous les déplacements sur la portée, voir <a href="#le_curseur_de_position">Déplacement du curseur de position</a></p>
 
 <p><a name="texte_animation"></a></p>
 
@@ -507,11 +496,105 @@ NEXT(100)
 <pre><code>SPEED() // pas d'argument
 </code></pre>
 
+<p><a name="run_animation"></a></p>
+
+<h3>Jouer l'animation</h3>
+
+<p>Pour jouer l'animation, cliquer simplement sur le bouton “Play”.</p>
+
+<p><a name="run_only_selection"></a></p>
+
+<h3>Jouer une portion de l'animation</h3>
+
+<p>En composant l'animation, on peut vouloir ne tester qu'une partie de code qu'on est en train de programmer sans avoir à rejouer tout ce qui précède.</p>
+
+<p>Il existe plusieurs moyens de le faire avec “STAVES”&nbsp;:</p>
+
+<ul>
+<li>Sélectionner simplement le code à jouer (version rapide, mais non modifiable — cf. <a href="#run_selection_with_selection">Jouer la sélection</a>)&nbsp;;</li>
+<li>Jouer l'animation à partir de la position du curseur. Pratique pour les animations longues lorsque l'on code la fin (cf. <a href="#run_from_cursor">Jouer l'animation depuis le curseur</a>)&nbsp;;</li>
+<li>Placer des repères pour définir la sélection à jouer. Pratique lorsque le code à modifier ne se trouve pas à la fin (cf. <a href="#run_with_repairs_selection">Jouer une portion par repère</a>)&nbsp;;</li>
+</ul>
+
+
+<p><a name="run_from_cursor"></a></p>
+
+<h4>Jouer l'animation depuis le curseur</h4>
+
+<ol>
+<li>Choisir l'item “Depuis curseur” dans le menu à côté du bouton Play&nbsp;;</li>
+<li>Placer le curseur dans la première ligne de code à jouer (inutile ici de le placer en début de ligne, il suffit de le mettre dans la ligne de code par laquelle commencer)&nbsp;;</li>
+<li>Presser le bouton Play.</li>
+</ol>
+
+
+<p>Noter cependant une chose importante&nbsp;: si le code à partir du curseur fait référence à des éléments précédemment créés, le jeu de l'animation échouera (elle n'exécute le code qu'à partir du curseur).</p>
+
+<p><a name="run_with_repairs_selection"></a></p>
+
+<h4>Jouer une partie de l'animation entre repères</h4>
+
+<p>Cette méthode est la plus pratique si on compte modifier le code au cours de différents essais et modifications.</p>
+
+<ol>
+<li><p>Dans le code, placer <u><strong>au-dessus</strong></u> de la première ligne de code à interpréter (sur une seule ligne ne contenant QUE ce repère)&nbsp;:</p>
+
+<pre><code> #!START
+</code></pre></li>
+<li><p>Placer <u><strong>en dessous</strong></u> de la dernière ligne à interpréter (sur une seule ligne ne contenant QUE ce repère)&nbsp;:</p>
+
+<pre><code> #!END
+</code></pre></li>
+<li>Dans le menu à côté du bouton “Play”, choisir l'item “Entre repères”&nbsp;;</li>
+<li>Cliquer sur le bouton “Play”</li>
+</ol>
+
+
+<p><a name="run_selection_with_selection"></a></p>
+
+<h4>Jouer une partie de l'animation par sélection</h4>
+
+<p>Pour ce faire&nbsp;:</p>
+
+<ol>
+<li>Sélectionner <u>soigneusement</u> la portion de code à tester (“soigneusement” signifie&nbsp;: en étant sûr de bien placer la sélection du début d'une ligne au début d'une autre ou à la toute fin du code. Cf. la procédure la plus simple ci-dessous)</li>
+<li>Choisir l'item “Sélection” dans le menu à coté du bouton “Play”.</li>
+<li>Cliquer sur le bouton “Play”</li>
+</ol>
+
+
+<p>Pour rejouer la même sélection (mais seulement si le code n'a pas été modifié), cliquer à nouveau sur “Play”.</p>
+
+<h4>Méthode pour sélectionner correctement la portion de code</h4>
+
+<p>Le plus simple, pour sélectionner correctement la portion de code à tester, est de procéder comme suit&nbsp;:</p>
+
+<ol>
+<li>Placer le curseur au début de la première ligne de code</li>
+<li>Relâcher la souris</li>
+<li>Faire défiler le code de la console jusqu'à afficher la dernière ligne de code à tester.</li>
+<li>Presser la touche Majuscule</li>
+<li>Tout en tenant la touche Majuscule, cliquer au bout de la dernière ligne du code à tester.</li>
+</ol>
+
+
 <p><a name="mode_flash"></a></p>
 
 <h3>Activer/désactiver le mode “Flash”</h3>
 
 <p>Le mode “Flash” permet de jouer très rapidement une partie de l'animation. C'est utile lorsqu'une partie est calée, mais qu'on ne veut pas la rejouer systématiquement au même rythme pour atteindre la portion en cours d'élaboration.</p>
+
+<p>On peut aussi l'utiliser pour accélérer un ensemble de modifications qui pourraient se faire en même temps.</p>
+
+<p>Pour passer en mode flash&nbsp;:</p>
+
+<pre><code>MODE_FLASH        ou      FLASH
+</code></pre>
+
+<p>Pour stopper le mode flash et revenir à la vitesse normale</p>
+
+<pre><code>STOP_MODE_FLASH   ou      STOP_FLASH
+</code></pre>
 
 <p>Dans ce cas, on met le code à passer entre&nbsp;:</p>
 
@@ -526,6 +609,18 @@ STOP_MODE_FLASH
 
 <p><em>Noter que le résultat ne sera pas du tout le même que si l'on commentait les lignes de code à passer, puisque l'animation ne se trouverait peut-être pas dans le même état.</em></p>
 
+<p><a name="set_decompte"></a></p>
+
+<h3>Régler le décompte</h3>
+
+<p>Par défaut, l'animation attend deux secondes avant de démarrer.</p>
+
+<p>On peut régler sa valeur par&nbsp;:</p>
+
+<p>DEFAULT('decomte', <nombre de secondes>)</p>
+
+<p><em>Mettre <code>0</code> pour supprimer tout décompte.</em></p>
+
 <p><a name="reiniti_preferences"></a></p>
 
 <h3>Ré-initialiser toutes les valeurs de préférence</h3>
@@ -536,6 +631,96 @@ STOP_MODE_FLASH
 </code></pre>
 
 <p><em>Noter que ça ne ré-initialise que les décalages des éléments, tels que les textes de marque de l'harmonie ou des accords, etc. Pour une ré-initialisation complète, utiliser la commande <a href="#reset_animation"><code>RESET</code></a>.</em></p>
+
+<hr />
+
+<p><a name="le_curseur_de_position"></a></p>
+
+<h2>Déplacement du curseur de position</h2>
+
+<p>Le “curseur de position” est la ligne verticale bleue qui traverse verticalement l'animation (invisible quand on la joue) qui indique où seront positionnés les prochains éléments.</p>
+
+<p><em>Noter que ce “curseur de position” n'a rien à voir avec la position courante de l'animation, entendu qu'une animation n'est pas, sauf rare exception, un déplacement continu le long d'une portée. Pour l'explication d'une gamme, par exemple, il peut y avoir un affichage fixe le long duquel on se déplace indifféremment.</em></p>
+
+<h3>Table des matières</h3>
+
+<ul>
+<li><a href="#move_cursor_to_right">Déplacement du curseur vers la droite</a></li>
+<li><a href="#set_pas_next">Régler du pas entre chaque déplacement (NEXT())</a></li>
+<li><a href="#move_cursor_to_depart">Revenir au début des portées</a></li>
+<li><a href="#set_cursor_to_position">Placer le curseur à une position précise</a></li>
+</ul>
+
+
+<p><a name="move_cursor_to_right"></a></p>
+
+<h3>Déplacement du curseur vers la droite</h3>
+
+<p>La commande pour écrire à la suite des dernières notes sur la portée, on utilise la commande&nbsp;:</p>
+
+<pre><code>NEXT([&lt;nombre pixels&gt;])
+</code></pre>
+
+<p>Cela déplacera le curseur de position d'une valeur par défaut de 40px. Cette valeur peut être modifiée grâce à <code>DEFAULT('next', &lt;nouveau nombre de pixels&gt;)</code> (cf. <a href="#prefs_set_next">Réglage de l'avancée à chaque NEXT (curseur)</a>).</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>NEXT() 
+// =&gt; les notes suivantes s'écriront 40px plus à droite
+</code></pre>
+
+<p>On peut également effectuer un déplacement précis en indiquant le nombre de pixels en argument.</p>
+
+<pre><code>NEXT([&lt;nombre pixels&gt;])
+</code></pre>
+
+<p>Par exemple, pour déplacer le curseur de position de 100px vers la gauche (donc un retour en arrière)&nbsp;:</p>
+
+<pre><code>NEXT(-100)
+// =&gt; les notes suivantes s'écriront 100px plus à gauche
+</code></pre>
+
+<p><a name="set_pas_next"></a></p>
+
+<h3>Régler le pas entre chaque NEXT()</h3>
+
+<p>Cf. <a href="#prefs_set_next">Réglage de la position next</a></p>
+
+<p><a name="move_cursor_to_depart"></a></p>
+
+<h3>Revenir au début des portées (RESET_CURSOR)</h3>
+
+<p>Pour revenir au début des portées, on peut bien entendu utiliser la commande précédente avec un nombre négatif. Si l'on se trouve à la position 500, il suffit d'indiquer&nbsp;:</p>
+
+<pre><code>NEXT(-500)
+</code></pre>
+
+<p>… pour se replacer au début.</p>
+
+<p>Mais une commande permet d'effecter ce retour plus simplement, sans connaitre la position courante&nbsp;:</p>
+
+<pre><code>RESET_CURSOR
+</code></pre>
+
+<p>Cela remet automatiquement le curseur au début, donc à gauche, en tenant compte des altérations et métriques que peuvent contenir les portées.</p>
+
+<p><em>Pour modifier cette position de début, utiliser la commande <code>DEFAULT('x_start', &lt;nouvelle valeur&gt;)</code> (cf. <a href="#prefs_x_start">Réglage de la position horizontale initiale (curseur)</a>).</em></p>
+
+<p><a name="set_cursor_to_position"></a></p>
+
+<h3>Placer le curseur à une position précise (SET_CURSOR)</h3>
+
+<p>Pour placer la curseur à une position précise, utiliser la commande&nbsp;:</p>
+
+<pre><code>SET_CURSOR(&lt;position left en pixel&gt;)
+</code></pre>
+
+<p>Par exemple, pour se positionner à 100px exactement&nbsp;:</p>
+
+<pre><code>SET_CURSOR(100)
+</code></pre>
+
+<p>Les prochains <code>NEXT()</code> partiront de cette nouvelle position.</p>
 
 <hr />
 
@@ -557,7 +742,9 @@ STOP_MODE_FLASH
 <li><a href="#move_note">Déplacer une note</a></li>
 <li><a href="#note_on_staff">Placer une note sur une portée précise</a></li>
 <li><a href="#note_exergue_unexergue">Mettre une note en exergue/La sortir de l'exergue</a></li>
+<li><a href="#note_fantome">Mettre une note en retrait (note “fantôme”)</a></li>
 <li><a href="#entourer_une_note">Entourer une note (exergue plus forte)</a></li>
+<li><a href="#forcer_recalage_note">Forcer le recalage d'une note</a></li>
 <li><a href="#note_remove">Détruire d'une note</a></li>
 </ul>
 
@@ -685,12 +872,49 @@ note_autre_staff=NOTE('2:'+a4)
 <p>Exemple&nbsp;:</p>
 
 <pre><code>maNote=NOTE('cx5')
-maNote.exergue()   # =&gt; note en couleur
+maNote.exergue()   # =&gt; note en couleur (bleu par defaut)
 WAIT(4)
 maNote.unexergue()  # =&gt; etat normal
 </code></pre>
 
+<p>On peut définir la couleur, entre <code>red</code> (rouge) <code>green</code> (vert) ou <code>blue</code> (bleu, par défaut)&nbsp;:</p>
+
+<pre><code>maNote.exergue({color:&lt;couleur&gt;})
+</code></pre>
+
+<p>Ou même simplement&nbsp;:</p>
+
+<pre><code>maNote.exergue(green)
+</code></pre>
+
 <p>Cf. aussi <a href="#entourer_une_note">Entourer une note</a> ci-dessous.</p>
+
+<p><a name="note_fantome"></a></p>
+
+<h3>Note fantôme</h3>
+
+<p>On peut rendre la note à peine visible (fantôme), en lui appliquant la méthode&nbsp;:</p>
+
+<pre><code>&lt;note&gt;.fantomize()
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maNote = NOTE('2:c3').fantomize()
+</code></pre>
+
+<p>Pour sortir la note de cet état et la remettre visible, utiliser&nbsp;:</p>
+
+<pre><code>&lt;note&gt;.defantomize()
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maNote = NOTE(c4)
+maNote.fantomize()
+WAIT(4)
+maNote.defantomize()
+</code></pre>
 
 <p><a name="entourer_une_note"></a></p>
 
@@ -737,6 +961,29 @@ oNote.surround({color:blue, rectangle:true})
 <p>Ou&nbsp;:</p>
 
 <pre><code>maNote.unsurround()
+</code></pre>
+
+<p><a name="forcer_recalage_note"></a></p>
+
+<h3>Forcer l'actualisation d'une note</h3>
+
+<p>Parfois, il peut survenir qu'une note reste déplacée sur le côté à cause d'une note inférieure conjointe alors que la note inférieure n'est plus là.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>nosi = NOTE(b3)
+nodo = NOTE(c4)
+# =&gt; c4 sera décalé à droite
+nosi.moveTo(b2)
+# =&gt; Le si est déplacé mais le do
+#    reste décalé à droite
+</code></pre>
+
+<p>Dans ce cas (avant que ce bug #49 ne soit corrigé), on peut utiliser la méthode <code>update</code> sur la note pour la remettre bien en place&nbsp;:</p>
+
+<pre><code>...
+nosi.moveTo(b2)
+nodo.update()
 </code></pre>
 
 <p><a name="note_remove"></a></p>
@@ -814,9 +1061,26 @@ accDom.note(1).moveTo('c4')
 // Prends la première note (c3) et la déplace en c4.
 </code></pre>
 
+<h4>Opération sur plusieurs notes</h4>
+
+<p>La méthode <code>note</code> de l'objet peut être également appelé avec une liste d'indice de notes. Toutes les notes subiront alors le même traitement.</p>
+
+<p>Par exemple, pour masquer un ensemble de notes&nbsp;:</p>
+
+<pre><code>monAccord = CHORD('b3 d4 f4 a4')
+WAIT(1)
+monAccord.note([1,2,4]).hide()
+# =&gt; masque la 1ère, 2e et 4e note
+WAIT(2)
+monAccord.note([1,2,4]).show()
+# =&gt; ré-affiche les notes
+</code></pre>
+
+<h4>Affecter une note à une variable</h4>
+
 <p>Comme pour tout “groupe de notes”, si l'on veut affecter une note de l'accord à une variable (pour l'utiliser plus facilement ensuite), on ne peut pas procéder ainsi&nbsp;:</p>
 
-<pre><code>maNote=monAccord.note(2)
+<pre><code>maNote=monAccord.note(2)      # =&gt; # ERREUR #
 maNote.write("Une seconde !") # =&gt; # ERREUR #
 </code></pre>
 
@@ -827,6 +1091,13 @@ maNote.write("Une seconde !")
 </code></pre>
 
 <p>Donc ajouter <code>Anim.Objects</code> devant <code>monAcccord.note(2)</code>, <code>Anim.Objects</code> étant la propriété qui contient tous les objets de l'animation.</p>
+
+<p>On peut aussi utiliser la méthode pratique <code>objet(...)</code>&nbsp;:</p>
+
+<pre><code>maNote = objet('monAccord.note(2)')
+</code></pre>
+
+<p>Mais dans ce cas, noter qu'il faut absolument mettre le paramètre (la référence de l'objet) entre guillemets ou apostrophes.</p>
 
 <p><a name="write_chord_name"></a></p>
 
@@ -1133,18 +1404,18 @@ maNote.write("Une seconde !")
 <li><a href="#create_texte">Créer un texte</a>
 
 <ul>
-<li><a href="#types_speciaux_texte">Types spéciaux de texte (accord, harmonie, etc.)</a></li>
+<li><a href="#types_speciaux_texte">Types spéciaux de texte (Accords, harmonie, cadences, etc.)</a></li>
 <li><a href="#create_texte_animation">Créer un texte pour l'animation</a></li>
 <li><a href="#create_texte_objet">Créer un texte pour un objet</a></li>
 </ul>
 </li>
+<li><a href="#set_position_texte">Définir les positions des textes</a></li>
 <li><a href="#supprimer_texte">Supprimer un texte</a>
 
 <ul>
 <li><a href="#supprimer_texte_objet">Supprimer le texte d'un objet</a></li>
 </ul>
 </li>
-<li><a href="#set_preferences">Définir les positions des textes</a></li>
 </ul>
 
 
@@ -1195,25 +1466,59 @@ monAccord.write("I**",{type:harmony})
 
 <p><em>Pour le positionnement de la marque, cf. <a href="#prefs_position_harmony">Position des textes d'harmonie et de cadence</a>.</em></p>
 
-<p>Noter que pour allonger la barre inférieur de la marque d'harmonie, on peut ajouter le paramètre <code>width</code> qui sera le nombre de pixels désiré. Par exemple&nbsp;:</p>
-
-<pre><code>monAccord.write("I**", {type:harmony, width:100})
-OU
-monAccord.harmony("I**", {width:100})
-</code></pre>
-
 <p><a name="text_cadence"></a></p>
 
 <h3>Écrire une cadence</h3>
 
-<p>Pour indiquer une <strong>CADENCE</strong>&nbsp;:</p>
+<p>Pour indiquer une <strong>CADENCE</strong> avec la méthode <code>write</code>&nbsp;:</p>
 
-<pre><code>monAccord.write("I", {type:cadence})
-OU
-monAccord.cadence("I")
+<pre><code>monAccord.write("I", {type:cadence, type_cadence:&lt;type de la cadence&gt;})
 </code></pre>
 
+<p>Mais cette méthode peut être grandement simplifiée en utilisant la méthode <code>cadence</code>&nbsp;:</p>
+
+<pre><code>monAccord.cadence("I", {type:&lt;type de la cadence&gt;})
+</code></pre>
+
+<p><em>Noter qu'ici le <code>type_cadence</code> de la méthode <code>write</code> a été remplacé par <code>type</code>.</em></p>
+
+<p>Les cadences possibles sont&nbsp;:</p>
+
+<pre><code>parfaite        V I
+italienne       II|IV|VI V I
+imparfaite      I V
+plagale         IV I
+picarde         V IMaj
+demie           II V
+rompue          V VI
+faureenne       I IV V
+</code></pre>
+
+<p>Noter que ce sont des constantes, on peut les utiliser sans guillemets. Par exemple&nbsp;:</p>
+
+<pre><code>monAccord.cadence("I*", {type:imparfaite})
+</code></pre>
+
+<p>Pour une explication détaillée des cadences, cf. <a href="http://fr.wikipedia.org/wiki/Cadence_(musique">Page wiki sur les cadences</a>)</p>
+
 <p><em>Pour le positionnement de la marque, cf. <a href="#prefs_position_harmony">Position des textes d'harmonie et de cadence</a>.</em></p>
+
+<h4>Allonger la barre inférieure</h4>
+
+<p>Pour allonger la barre inférieur de la marque d'harmonie, on peut ajouter le paramètre <code>width</code> qui sera le nombre de pixels désiré. Par exemple&nbsp;:</p>
+
+<pre><code>monAccord.write("I**", {type:cadence, width:100})
+OU
+monAccord.cadence("I**", {width:100})
+</code></pre>
+
+<h4>Marque à droite de la barre</h4>
+
+<p>Pour placer une marque à droite de la barre verticale, donc un texte concernant la suite, mettre ce texte entre crochets dans le texte de la cadence&nbsp;:</p>
+
+<p>monAccord.cadence("I* [texte à droite]")</p>
+
+<p><em>Ça peut être par exemple l'index de l'accord dans l'harmonie suivante.</em></p>
 
 <p><a name="text_chord"></a></p>
 
@@ -1253,9 +1558,10 @@ monAccord.modulation('Sol')
 
 <p><strong>Texte sous la barre</strong></p>
 
-<p>Le ton de la modulation est indiqué au-dessus de la barre transversal, mais un autre texte peut être écrit SOUS la barre. Pour ce faire, il suffit de le mettre après l'accord de la tonalité, en le séparant d'une espace.</p>
+<p>Le ton de la modulation est indiqué au-dessus de la barre transversal, mais un autre texte peut être écrit SOUS la barre. Pour ce faire, il suffit de le mettre entre crochets dans la définition de la modulation&nbsp;:</p>
 
-<p>monAccord.modulation('Sol Dom de Dom')</p>
+<pre><code>monAccord.modulation('Sol [Dom de Dom]')
+</code></pre>
 
 <p>… produira quelque chose comme (mais incliné)&nbsp;:</p>
 
@@ -1285,6 +1591,81 @@ monAccord.modulation('Sol')
 
 <pre><code>maNote=NOTE(a4)
 maNote.write("C'est un LA 4")
+</code></pre>
+
+<p><a name="set_position_texte"></a></p>
+
+<h3>Définition des position des textes</h3>
+
+<p>On peut définir les positions de façon générale, dans les préférences. Cf. <a href="#set_preferences">Réglage des valeurs par défaut</a>. Par défaut, les réglages sont pensés pour être efficace dans la plupart des situations, mais on peut avoir à les affiner dans les cas spéciaux.</p>
+
+<p>On peut également modifier la position d'un texte en particulier. Pour cela voir&nbsp;:
+* <a href="#modify_vertical_position_texte">Modifier la position verticale</a>&nbsp;;
+* <a href="#modify_horizontal_position_texte">Modifier la position horizontale</a>)&nbsp;;
+* <a href="#modify_staff_of_texte">Modifier la portée du texte</a>.</p>
+
+<p><a name="modify_vertical_position_texte"></a></p>
+
+<h4>Modification de la position verticale</h4>
+
+<p>La position verticale peut se régler avec la propriété <code>offset_y</code> définie dans le second argument des méthodes de texte.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>STAFF(1).write("Mon texte décalé", {offset_y: 50})
+</code></pre>
+
+<p>Cela aura pour effet de monter le texte de 50px par rapport à sa position "naturelle".</p>
+
+<p><em>Noter pour tous ces réglages qu'une valeur positive ÉLOIGNE toujours le texte de la portée tandis qu'une valeur négative le RAPPROCHE.</em></p>
+
+<p>Autre exemple pour place plus bas un texte d'harmonie d'un accord&nbsp;:</p>
+
+<pre><code>monAccord = CHORD('2:g3 2:b3 d3 g3')
+monAccord.harmony("I", {offset_y:20})
+</code></pre>
+
+<p>La marque "I" de l'harmonie sera placé 20 pixels sous sa position naturelle.</p>
+
+<p><a name="modify_horizontal_position_texte"></a></p>
+
+<h4>Modifier la position horizontale</h4>
+
+<p>Définir la propriété <code>offset_x</code> dans les paramètres (2e argument) des méthodes de texte (<code>write</code>, <code>harmony</code>, etc.)</p>
+
+<p>Par exemple pour écrire le texte 100px plus à gauche sur la deuxième portée&nbsp;:</p>
+
+<pre><code>STAFF(2).write("Mon texte décalé", {offset_x:-100})
+</code></pre>
+
+<p>Pour placer le texte d'une cadence 20 pixels plus loin (plus à droite)&nbsp;:</p>
+
+<pre><code>monAccord = CHORD('g3 b3 d3')
+monAccord.cadence("I", {type:parfaite, offset_x:20})
+</code></pre>
+
+<p>Bien entendu, on peut combiner la décalage horizontal et vertical&nbsp;:</p>
+
+<pre><code>monAccord.chord("Cm7", {offset_y:10, offset_x:20})
+</code></pre>
+
+<p>… en évitant toutefois de trop modifier localement les valeurs, ce qui donnerait un moins bon aspect à l'animation. Il vaut mieux trouver des réglages généraux qui conviennent à la situation.</p>
+
+<p><a name="modify_staff_of_texte"></a></p>
+
+<h4>Modifier la portée du texte</h4>
+
+<p>Par défaut, la portée du texte est celle de son “possesseur” (l'accord, la note, etc.) ou le cas échéant la portée courante.</p>
+
+<p>On peut néanmoins définir explicitement la portée de référence en définissant la propriété <code>staff</code> dans les paramètres envoyés à la méthode de texte (2e argument), avec en valeur l'indice (à partir de 1 et du haut) de la portée.</p>
+
+<p>Par exemple, imaginons deux portées, avec comme portée active la portée 1, c'est-à-dire celle du haut. Sur cette portée, on écrit un accord, et on veut écrire en dessous la cadence. Mais on aimerait que cette cadence, au lieu d'apparaitre sous la première portée (qui est la portée de l'accord qui porte le texte), devra apparaitre sous la deuxième. Voici le code&nbsp;:</p>
+
+<pre><code>NEW_STAFF(SOL)
+NEW_STAFF(FA)
+ACTIVE_STAFF(1)
+monAccord = CHORD('c4 g4 e4')
+monAccord.cadence("I", {staff:2, type:plagale})
 </code></pre>
 
 <p><a name="supprimer_texte"></a></p>
@@ -1404,6 +1785,7 @@ maNote.arrow({color:red, angle:90})
 red     rouge
 blue    bleu
 green   vert
+grey    gris
 orange
 </code></pre>
 
@@ -1523,6 +1905,7 @@ maNote.arrow.remove() &lt;--
 
 <ul>
 <li><a href="#prefs_speed">Réglage de la vitesse</a></li>
+<li><a href="#set_decompte">Réglage du temps de décompte (section “Animation”)</a></li>
 <li><a href="#prefs_tips_reglage">Astuce pour le réglage des positions</a></li>
 <li><a href="#prefs_staves">Réglage de la position des portées</a></li>
 <li><a href="#prefs_x_start">Réglage de la position horizontale initiale (curseur)</a></li>
@@ -1701,6 +2084,27 @@ DEFAULT('offset_harmony')
 </code></pre>
 
 <p>Pour déterminer facilement la valeur, cf. <a href="#prefs_tips_reglage">Astuces pour le réglage des positions</a>.</p>
+
+<h4>Placement des textes d'harmonie et de cadenece sur une portée précise</h4>
+
+<p>Par défaut, les marques d'harmonie et de cadence se place sous la portée de l'objet qui possède ces textes (l'accord, la note, etc.). On peut cependant forcer l'affichage de ce texte, de façon générale (c'est-à-dire pour tous les textes d'harmonie et de cadence à partir de cette définition) grâce au réglage de&nbsp;:</p>
+
+<pre><code>DEFAULT('staff_harmony', &lt;indice portée&gt;)
+</code></pre>
+
+<p>Par exemple, pour que ces textes s'affichent sur la 2e portée, même quand la première portée est active ou que l'objet qui porte le texte se trouve sur la première portée&nbsp;:</p>
+
+<pre><code>DEFAULT('staff_harmony', 2)
+</code></pre>
+
+<p>Après cette définition, toutes les marques d'harmonie et de cadence se placeront sous la deuxième portée.</p>
+
+<p>Par rappel, on peut aussi définir cette position au moment de la définition de l'harmonie ou de la cadence grâce à la propriété <code>staff</code> :</p>
+
+<pre><code>monAccord.harmony("V**", {staff:2})
+</code></pre>
+
+<p>… mais ça ne modifie la position QUE pour cette marque d'harmonie.</p>
 
 <p><a name="prefs_position_chord"></a></p>
 

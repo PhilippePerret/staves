@@ -274,10 +274,11 @@ Le “curseur de position” est la ligne verticale bleue qui traverse verticale
 ###Table des matières
 
 * [Déplacement du curseur vers la droite](#move_cursor_to_right)
+* [Régler du pas entre chaque déplacement (NEXT())](#set_pas_next)
 * [Revenir au début des portées](#move_cursor_to_depart)
 * [Placer le curseur à une position précise](#set_cursor_to_position)
 
-<a name="move_cursor_to_right"><a>
+<a name="move_cursor_to_right"></a>
 ###Déplacement du curseur vers la droite
 
 La commande pour écrire à la suite des dernières notes sur la portée, on utilise la commande&nbsp;:
@@ -299,6 +300,11 @@ Par exemple, pour déplacer le curseur de position de 100px vers la gauche (donc
 
     NEXT(-100)
     // => les notes suivantes s'écriront 100px plus à gauche
+
+<a name="set_pas_next"></a>
+###Régler le pas entre chaque NEXT()
+
+Cf. [Réglage de la position next](#prefs_set_next)
 
 <a name="move_cursor_to_depart"></a>
 ###Revenir au début des portées (RESET_CURSOR)
@@ -679,6 +685,7 @@ Pour détruire l'accord, utiliser&nbsp;:
 * [Activer une portée](#active_staff)
 * [Récupérer une portée](#recuperer_staff)
 * [Supprimer les lignes supplémentaires](#remove_suplines)
+* [Placer un texte sur la portée](#ecrire_texte_portee)
 
 <a name="create_staff"></a>
 ###Créer une portée
@@ -797,6 +804,86 @@ Noter que ces indices sont "1-start" et se comptent toujours À PARTIR DE LA por
 
 Noter aussi que `bottom` et `top` sont complètement indépendants, pour `bottom` on ne tient compte QUE des lignes supplémentaires inférieures et pour `top` on ne tient compte QUE des lignes supplémentaires supérieures.
 
+
+<a name="ecrire_texte_portee"></a>
+###Écrire un texte sur la portée
+
+* [Écrire le texte au curseur](#ecrire_texte_portee_cursor)
+* [Régler l'écart entre texte et portée](#decaler_hauteur_texte_staff)
+* [Décaler le texte à droite ou à gauche](#decaler_horizontalite_texte)
+* [Définir la largeur du texte](#set_width_staff_texte)
+* [Utiliser un style de texte](#set_style_staff_texte)
+* [Positionner le texte en dessous de la portée](#set_texte_staff_down)
+
+<a name="ecrire_texte_portee_cursor"></a>
+####Écrire un texte au curseur
+
+Pour écrire un texte à la position actuelle du curseur, on utilise la commande&nbsp;:
+
+    STAFF(<indice portée>).write("<le texte>"[, <paramètres optionnels>])
+
+Par défaut, ce texte se place au-dessus de la portée.
+
+<a name="decaler_hauteur_texte_staff"></a>
+####Régler l'écart entre texte et portée
+
+Pour le régler à partir de maintenant et pour tous les textes de portée qui suivront, utiliser la commande&nbsp;:
+
+    DEFAULT('staff_top_text', <nombre de pixels>)
+
+Pour revenir à la valeur par défaut&nbsp;:
+
+    DEFAULT('staff_top_text')
+
+Pour régler seulement un texte en particulier, l'écrire en défissant la propriété `offset_y` des paramètres (2e argument). Par exemple&nbsp;:
+
+    STAFF(1).write("Mon texte 20 pixels plus haut", {offset_y: 20})
+
+<a name="decaler_horizontalite_texte"></a>
+####Décale le texte à droite ou à gauche
+
+Par défaut, le texte s'aligne par le centre à la position courante du curseur. On peut afficher ce décalage à l'aide de la propriété `offset_x` envoyé aux paramètres optionnels. Par exemple&nbsp;:
+
+    STAFF(2).write("Mon texte 30 pixels plus à droite", {offset_x: 30})
+
+Bien entendu, on peut combiner tous les éléments&nbsp;:
+
+    STAFF(2).write("Mon texte modifié", {offset_y:10, offset_x:20, style:'cadre'})
+
+<a name="set_width_staff_texte"></a>
+####Définir la largeur du texte
+
+On peut définir la largeur de la boite contenant le texte à l'aide de la propriété `width`&nbsp;:
+
+    STAFF(1).write("Texte à largeur", {width:<nombre de pixels>})
+  
+  
+<a name="set_style_staff_texte"></a>
+####Utiliser un style de texte
+
+Pour la cohérence de l'affichage, on peut utiliser quelques styles de texte prédéfinis en réglant la propriété `style` des paramètres optionnels&nbsp;:
+
+    STAFF(1).write("Mon texte stylisé", {style:'<style(s) à utiliser>'})
+
+Si plusieurs styles doivent être combinés, les séparer par des espaces. Par exemple&nbsp;:
+
+    STAFF(2).write("Plusieurs styles compatibles", {style:'cadre exergue italic'})
+
+**Liste des styles**&nbsp;:
+  
+    italic    Place le texte en italique
+    cadre     Place un cadre autour du texte
+    exergue   Met le texte en exergue (gras)
+    
+<a name="set_texte_staff_down"></a>
+####Positionner le texte en dessous de la portée
+  
+  DEFAULT('staff_text_up', false)
+
+  Pour le replacer en haut&nbsp;:
+  
+  DEFAUT('staff_text_up')
+  
 ---------------------------------------------------------------------
 
 <a name="les_gammes"></a>
@@ -894,6 +981,7 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
   * [Types spéciaux de texte (Accords, harmonie, cadences, etc.)](#types_speciaux_texte)
   * [Créer un texte pour l'animation](#create_texte_animation)
   * [Créer un texte pour un objet](#create_texte_objet)
+  * [Créer un texte pour la portée (section “Portée”)](#ecrire_texte_portee)
 * [Définir les positions des textes](#set_position_texte)
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)

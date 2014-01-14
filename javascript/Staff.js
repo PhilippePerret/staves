@@ -213,6 +213,7 @@ window.OBJECT_STAFF_NOTES = {
 /* ---------------------------------------------------------------------
      Méthodes d'instance
    --------------------------------------------------------------------- */
+$.extend(Staff.prototype, METHODES_TEXTE)
 $.extend(Staff.prototype, {
   
   /**
@@ -352,6 +353,11 @@ $.extend(Staff.prototype, {
 })
 
 Object.defineProperties(Staff.prototype,{
+  /**
+    * Hauteur de la portée
+    * @property {Number} height
+    */
+  "height":{get:function(){return this.img_staff.height()}},
   /**
     * Le "zéro" de la portée, en fonction de sa clé, qui permettra
     * de positionner les notes.
