@@ -65,9 +65,16 @@ window.Motif = function(strnotes, params)
   var me = this
   var hoffset   = this.left || Anim.current_x
   var the_staff = this.staff
+  var lanote ;
   L(strnotes.split(' ')).each(function(strnote){
-    me.notes.push(NOTE(strnote,{dont_build:true, staff:the_staff, left:hoffset}))
-    hoffset += Anim.prefs.next
+    lanote = NOTE(strnote,{dont_build:true, staff:the_staff, left:hoffset})
+    if(lanote.alteration)
+    {
+      lanote.left = lanote.left + 18
+      hoffset += 18
+    } 
+    me.notes.push(lanote)
+    hoffset += me.offset_x || Anim.prefs.next
     if(hoffset > Anim.Dom.left_max)
     {
       hoffset   = this.left || Anim.current_x

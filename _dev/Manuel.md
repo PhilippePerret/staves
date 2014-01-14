@@ -7,6 +7,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Animation](#l_animation)
 * [Déplacement du curseur de position](#le_curseur_de_position)
 * [Les notes](#les_notes)
+* [Les motifs mélodiques](#les_motifs)
 * [Les accords](#les_chords)
 * [Les portées](#les_staves)
 * [Les gammes](#les_gammes)
@@ -557,6 +558,50 @@ Pour détruire la note (la supprimer de l'affichage, utiliser :
 
     <nom variable note>.remove()
   
+---------------------------------------------------------------------
+
+<a name="les_motifs"></a>
+##Les motifs mélodiques
+
+Bien entendu, un motif mélodiques (une suite de notes) peut s'écrire avec la commande `NOTE` (cf. [Les notes](#les_notes)). Mais il peut être plus rapide d'utiliser plutôt la commande `MOTIF` qui crée rapidement un motif mélodique et permet de le manipuler comme un ensemble.
+
+###Table des matières
+
+* [Créer un motif](#creer_un_motif)
+* [Liste des paramètres optionnels](#parametres_motif)
+* [Régler la distance entre les notes](#set_hoffset_notes_motif)
+* [Modifier la vitesse d'affichage du motif](#regler_vitesse_affichage_motif)
+
+<a name="creer_un_motif"></a>
+###Créer un motif
+
+monMotif = MOTIF('<suite de notes>'[, <parametres optionnels>])
+  
+Par exemple&nbsp;:
+
+unMotif = MOTIF('c4 c4 c4 d4 e4 d4 c4 e4 d4 d4 c4')
+
+<a name="parametres_motif"></a>
+###Paramètres optionnels
+
+<dl>
+  <dt>staff</dt>
+  <dd>La portée à laquelle sera associée le motif. Noter que l'appartenance des notes est indépendante de cette valeur&nbsp;; si le motif est long et que l'animation doit passer à une portée suivante, les notes suivantes seront associées à cette portée. De la même manière, une note définie par `<indice portée>:<note>` sera associée à la portée correspondante (indice portée).</dd>
+  <dt>speed</dt>
+  <dd>Vitesse d'affichaage du motif au cours de l'animation (cf. <a href="#regler_vitesse_affichage_motif">Régler la vitesse d'affichage du motif</a>).</dd>
+  <dt>offset_x</dt>
+  <dd>Définition de la distance horizontale entre les notes (cf. <a href="#set_hoffset_notes_motif">Régler la distance entre les notes</a>).</dd>
+  
+</dl>
+
+<a name="set_hoffset_notes_motif"></a>
+###Régler la distance entre les notes
+
+<a name="regler_vitesse_affichage_motif"></a>
+###Régler la vitesse d'affichage du motif
+
+
+
 
 ---------------------------------------------------------------------
 
