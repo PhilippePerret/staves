@@ -1,4 +1,7 @@
 # Essai Grid
+
+SUITE('Essai_lignes_supplementaires')
+
 NEW_STAFF(SOL)
 NEW_STAFF(FA)
 NOTE(c4)
@@ -10,3 +13,4 @@ WAIT(3)
 NOTE(g4)
 NEXT()
 NOTE(b4)
+

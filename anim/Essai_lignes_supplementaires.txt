@@ -1,4 +1,7 @@
 # ESSAIS LIGNES SUP
+
+SUITE('Essai_modulation')
+
 SPEED(20)
 NEW_STAFF(SOL)
 n=NOTE(c4)
@@ -24,3 +27,4 @@ NEXT()
 n=NOTE(e4)
 n.moveTo(c2)
 STAFF(2).remove_supline({top:[1,2]})
+

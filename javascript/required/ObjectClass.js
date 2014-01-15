@@ -185,7 +185,6 @@ $.extend(window.ObjetClass.prototype,{
     }
     else
     {
-      dlog("J'appelle NEXT_STEP à la fin de `on_end_operation`")
       NEXT_STEP()
     } 
   }

@@ -553,6 +553,9 @@ $.extend(window.Anim,{
   },
   /**
     * Charge l'animation de nom +name+
+    * Si une méthode `this.load.poursuivre` est définie, on la joue en fin
+    * de chargement (c'est par exemple ce que fait la commande LOAD_ANIM pour
+    * lancer l'animation suivante).
     * @method load
     * @async
     * @param  {String} name Nom de l'animation (choisie dans le menu)
@@ -574,10 +577,34 @@ $.extend(window.Anim,{
       if(rajax.ok)
       {
         this.set_anim(name, rajax.raw_code)
-        UI.Popups.unableIf(rajas.is_default_anim, true)
+        UI.Popups.unableIf('def_anim', rajax.is_default_anim)
+        if('function' == typeof this.load.poursuivre) this.load.poursuivre()
       }
       else F.error(rajax.message)
     }
+  },
+  /**
+    * Définit l'animation pour suivre, qui sera exécutée lorsque l'animation
+    * courante sera achevée
+    * @method set_animation_pour_suivre
+    * @param {String} path    Le nom ou le chemin de l'animation
+    * @param {Object} params  Les paramètres optionnels (non utilisés pour le moment)
+    */
+  set_animation_pour_suivre:function(path, params)
+  {
+    this.animation_pour_suivre = path
+    dlog("this.animation_pour_suivre:"+this.animation_pour_suivre)
+    NEXT_STEP(notimeout = true)
+  },
+  /**
+    * Méthode qui charge et joue l'animation pour suivre si elle a été définie
+    * @method load_and_start_animation_pour_suivre
+    */
+  load_and_start_animation_pour_suivre:function()
+  {
+    this.load.poursuivre = $.proxy(Anim.start, Anim)
+    this.load(this.animation_pour_suivre)
+    delete this.animation_pour_suivre
   },
   /**
     * Définit l'animation courante de nom +nom+ et de code +code+
@@ -594,6 +621,7 @@ $.extend(window.Anim,{
     this.name = name
     $('select#animations').val(name)
     Console.set(code.stripSlashes())
+    $('head > title').html("Anim: "+this.name)
   },
   /**
     * Charge la liste des animations et peuple le menu

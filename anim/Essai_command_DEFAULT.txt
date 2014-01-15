@@ -1,4 +1,5 @@
 # Test command DEFAULT
+SUITE(\'Essai_grid\')
 
 # Essai \'top_staff\'
 # -----------------
@@ -20,7 +21,9 @@ DEFAULT(\'next\')
 # Essai \'harmony\'
 # ---------------
 NEXT()
-NOTE(c4).harmony(\'II\').chord(\'A Maj\')
+no=NOTE(c4).harmony(\'II\')
+no.chord(\'Cm7\')
 DEFAULT({harmony: 100, chord: 100})
 NEXT()
-NOTE(f4).harmony(\'IV\').chord(\'Dm7\')
+no=NOTE(f4).harmony(\'IV\')
+no.chord(\'Dm7\')

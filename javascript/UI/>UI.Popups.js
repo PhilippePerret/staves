@@ -104,7 +104,7 @@ window.UI.Popups = {
   unableIf:function(menu, condition)
   {
     if('string' == typeof menu) menu = this.section.find('li[data-item="'+menu+'"]')
-    var data  = condition ? {opacity:0.5, 'font-style':'italic'} : {opacity:1, 'font-style':null}
+    var data  = condition ? {opacity:0.5, 'font-style':'italic'} : {opacity:1, 'font-style':"normal"}
     menu.css(data)
   },
   

@@ -263,13 +263,16 @@ FONCTIONS_ANIM_OBJETS = {
   
   /**
     * Commande qui charge pour suivre l'animation donnée en argument. Les deux
-    * animation s'enchaineront
+    * animation s'enchaineront.
+    * Note : La commande peut être placée n'importe où puisqu'elle n'exécutée qu'à
+    * la toute fin de l'animation.
     * @method LOAD_ANIM
     * @param {String} path    Chemin à l'animation à charger
+    * @param {Object} params  Paramètres optionnels
     */
-  LOAD_ANIM:function(path)
+  SUITE:function(path, params)
   {
-    
+    Anim.set_animation_pour_suivre(path, params)
   }
 }
 

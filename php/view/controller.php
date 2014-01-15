@@ -26,7 +26,7 @@
     <img id="btn_anim_stop" 
       src="img/bouton/stop.png"
       class="btn_controller"
-      onclick="$.proxy(Anim.stop,Anim)()"
+      onclick="$.proxy(Anim.stop,Anim, true)()"
       style="cursor:pointer;visibility:hidden;"
       />
   </div>

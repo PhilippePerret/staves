@@ -33,6 +33,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
 * [Vitesse de l'animation](#vitesse_animation)
 * [Jouer l'animation](#run_animation)
+* [Enchainer des animations](#enchainer_animations)
 * [Activer/désactiver le Mode “Flash](#mode_flash)
 * [Définir le décompte de départ](#set_decompte)
 * [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
@@ -215,6 +216,15 @@ Le plus simple, pour sélectionner correctement la portion de code à tester, es
 3. Faire défiler le code de la console jusqu'à afficher la dernière ligne de code à tester.
 4. Presser la touche Majuscule
 5. Tout en tenant la touche Majuscule, cliquer au bout de la dernière ligne du code à tester.
+
+<a name="enchainer_animations"></a>
+###Enchainer des animations
+
+Le code d'une animation pouvant très vite devenir conséquent, on peut enchainer très facilement des animations. Il suffit pour cela d'utiliser la commande&nbsp;:
+
+    SUITE('<nom ou chemin de l'animation>)
+    
+On peut mettre cette commande où l'on veut dans le code, puisqu'elle ne sera interprétée qu'une fois l'animation courante exécutée. Il est donc possible de la mettre au début du code comme à la fin.
 
 <a name="mode_flash"></a>
 ###Activer/désactiver le mode “Flash”

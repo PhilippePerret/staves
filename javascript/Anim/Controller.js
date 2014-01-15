@@ -144,17 +144,32 @@ $.extend(Anim,{
   },
   /**
     * Stoppe l'animation, parce qu'on est au bout ou parce que 
-    * c'est demandé
+    * c'est demandé.
+    * Note : si l'arrêt est forcé par le bouton stop (+forcer+ = true), on ne
+    * lance pas l'animation suivante éventellement demandée.
     * @method stop
+    * @param {Boolean|Undefined} forcer Mis à true quand c'est un arrêt forcé
     */
-  stop:function()
+  stop:function(forcer)
   {
     this.on       = false
     this.pause_on = false
     this.kill_timer()
     delete this.Step.list
-    this.decompte.poursuivre = $.proxy(this.real_stop, this)
-    this.decompte(this.prefs.delai_after_show)
+    if(forcer)
+    { // => arrêt forcé
+      this.real_stop()
+    } 
+    else if(this.animation_pour_suivre)
+    { // Une animation doit suivre
+      this.set_pref('decompte', 0, next_step=false)
+      this.load_and_start_animation_pour_suivre()
+    } 
+    else
+    { // => Le cas courant
+      this.decompte.poursuivre = $.proxy(this.real_stop, this)
+      this.decompte(this.prefs.delai_after_show)
+    }
   },
   /**
     * Procède vraiment au stop, en faisant réapparaitre les éléments
