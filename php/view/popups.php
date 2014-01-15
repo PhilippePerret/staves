@@ -11,6 +11,7 @@
     <li data-item="open">Ouvrir…</li>
     <li data-item="save">Enregistrer</li>
     <li data-item="save_as">Enregistrer sous…</li>
+    <li data-item="def_anim">Définir comme Anim par défaut</li>
   </ul>
   
   <!-- MENU "Options" -->

@@ -17,6 +17,7 @@ $.extend(UI,{
     this.Regle.prepare()
     this.onresize_window()
     this.Popups.prepare()
+    Console.set('')
   },
   /**
     * Retourne la vraie largeur de l'objet DOM +obj+ en tenant compte de

@@ -466,6 +466,25 @@ $.extend(window.Anim,{
     }(play_type))
   },
   /**
+    * Met l'animation courante comme animation par défaut
+    *
+    * @method set_current_as_default
+    */
+  set_current_as_default:function(rajax)
+  {
+    if(undefined == rajax)
+    {
+      if(!this.name) return F.error("Aucune animation n'est encore chargée !")
+      Ajax.send({script:'animation/set_default', name:this.name},
+      $.proxy(this.set_current_as_default, this))
+    }
+    else
+    {
+      if(rajax.ok) F.show(this.name+" a été mise en animation par défaut.")
+      else F.error(rajax.message)
+    }
+  },
+  /**
     * Enregistre l'animation courante
     * @method save
     * @async
@@ -554,15 +573,27 @@ $.extend(window.Anim,{
     {
       if(rajax.ok)
       {
-        this.init_all()
-        this.name       = name
-        $('select#animations').val(name)
-        Console.set(rajax.raw_code.stripSlashes())
+        this.set_anim(name, rajax.raw_code)
       }
       else F.error(rajax.message)
     }
   },
-  
+  /**
+    * Définit l'animation courante de nom +nom+ et de code +code+
+    * Elle peut être appelée soit par `load` ci-dessus soit par le chargement
+    * de la liste des animations si une animation par défaut a été définie.
+    *
+    * @method set_anim
+    * @param {String} name    Le nom de l'animation
+    * @param {String} code    Les commandes et autres de l'animation
+    */
+  set_anim:function(name, code)
+  {
+    this.init_all()
+    this.name = name
+    $('select#animations').val(name)
+    Console.set(code.stripSlashes())
+  },
   /**
     * Charge la liste des animations et peuple le menu
     * @method load_list_animations
@@ -579,6 +610,11 @@ $.extend(window.Anim,{
       if(rajax.ok)
       {
         UI.peuple_liste_animations(rajax.list)
+        // Y a-t-il une animation par défaut
+        if(rajax.default_animation)
+        {
+          this.set_anim(rajax.default_animation, rajax.raw_code)
+        }
         if(this.load_list_animations.poursuivre) this.load_list_animations.poursuivre()
       }
       else F.error(rajax.message)

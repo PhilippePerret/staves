@@ -1,6 +1,8 @@
 # Essais MOTIF
 DEFAULT(\'decompte\',0)
 
+# NOTE : C\'EST LA MÉLODIE DU PREMIER PRELUDE, NE PAS L\'EFFACER, MAIS LA COPIER DANS UN FICHIER POUR LE PRÉLUDE
+
 
 NEW_STAFF(SOL)
 CAPTION(\"La mélodie est descendante, en contraste avec le mvt des arpèges\")

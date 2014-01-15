@@ -15,4 +15,8 @@ Dir["#{Anim::folder}/**/*.txt"].each do |path|
   RETOUR_AJAX[:exitstatus] << $?.exitstatus
 end
 
-RETOUR_AJAX[:list] = Anim::list
+RETOUR_AJAX[:list]              = Anim::list
+if defanim = Anim::default_animation
+  RETOUR_AJAX[:default_animation] = defanim
+  RETOUR_AJAX[:raw_code]          = Anim::new(defanim).raw_code
+end

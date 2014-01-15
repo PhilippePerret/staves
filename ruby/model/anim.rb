@@ -12,6 +12,14 @@ class Anim
       Dir["#{folder}/*.txt"].collect{|path| File.basename(path, File.extname(path))}
     end
     
+    # Retourne l'animation par défaut si elle existe (NIL otherwise)
+    # 
+    def default_animation
+      return nil unless File.exists?('.default')
+      defanim = File.read('.default')
+      return defanim if(new defanim).exists?
+    end
+    
     def folder
       @folder ||= (getfolder File.join('.', 'anim'))
     end
@@ -50,6 +58,12 @@ class Anim
     unlink if exists?
     File.open(path, 'wb'){|f| f.write raw_code}
     File.chmod(0770, path)
+  end
+  
+  # Met l'animation comme animation par défaut
+  def set_default
+    File.unlink('.default') if File.exists? '.default'
+    File.open('.default', 'wb'){|f| f.write name}
   end
   
   # Détruit l'animation

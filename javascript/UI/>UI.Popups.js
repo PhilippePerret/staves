@@ -35,6 +35,15 @@ window.UI.Popups = {
       UI.Tools.show('save_as')
     },
     /**
+      * Demande de mise de l'animation courante comme animation par défaut
+      * @method def_anim
+      */
+    def_anim:function(item)
+    {
+      item.css({'opacity':0.5, 'font-style':'italic'})
+      Anim.set_current_as_default()
+    },
+    /**
       * Afficher le manuel
       * @method manual
       */
