@@ -10,7 +10,8 @@ $(document).ready(function(){
   // Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'CBT1_Prelude1_12-19')
   // Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'CBT1_Prelude1_20-25')
   // Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'CBT1_Prelude1_26-35')
-  Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'Essais_images')
+  // Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'Essais_images')
+  Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'debug')
   // Anim.load_list_animations.poursuivre = $.proxy(Anim.load, Anim, 'Essais_motif')
   Anim.load_list_animations()
   

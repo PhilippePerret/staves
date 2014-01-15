@@ -268,7 +268,7 @@ $.extend(window.ObjetClass.prototype,{
   {
     if(undefined == params) params = {}
     if(undefined == params.complete) params.complete = NEXT_STEP
-    this.on_complete_operation = params.complete
+    this.on_end_operation = params.complete
     // On commence à créer une table pour savoir quand le traitement sur les
     // objets sera terminé. En clé, on utilise l&#x27;identifiant de l&#x27;objet DOM
     this.tbl_operation = {}
@@ -281,7 +281,7 @@ $.extend(window.ObjetClass.prototype,{
     })
     // On envoie ensuite chaque objet dans la méthode &#x60;method&#x60;
     L(objets_corriged).each(function(obj){
-      var complete = $.proxy(me.on_complete_operation, me, operation, obj[0].id)
+      var complete = $.proxy(me.on_end_operation, me, operation, obj[0].id)
       switch(operation)
       {
       case &#x27;show&#x27;:
@@ -325,17 +325,17 @@ $.extend(window.ObjetClass.prototype,{
     *   Si une méthode &#x27;on_complete_&lt;operation&gt;&#x27; existe, elle est appelée avant
     *   de passer à l&#x27;étape suivante.
     *
-    * @method on_complete_operation
+    * @method on_end_operation
     * @param  {String} operation  L&#x27;opération qui a été exécutée.
     * @param  {String} obj_id   Identifiant de l&#x27;objet qui a terminé son traitement
     */
-  on_complete_operation:function(operation, obj_id)
+  on_end_operation:function(operation, obj_id)
   {
     if(!this.tbl_operation)
     {
       if(console)
       {
-        console.warn(&quot;Problème de &#x60;tbl_operation&#x60; inexistant dans ObjectClass.on_complete_operation&quot;+
+        console.warn(&quot;Problème de &#x60;tbl_operation&#x60; inexistant dans ObjectClass.on_end_operation&quot;+
         &quot;\nCela se produit lorsque tous les éléments à opérer ont été passés en revue,&quot;+
         &quot;et que la méthode est pourtant appelée à nouveau.&quot;+
         &quot;\nVoilà les éléments que j&#x27;ai pu récupérer :&quot;+
@@ -353,7 +353,7 @@ $.extend(window.ObjetClass.prototype,{
     // Si on arrive ici, c&#x27;est qu&#x27;on peut finir
     delete this.tbl_operation
     if(&#x27;function&#x27; == typeof this[&#x27;on_complete_&#x27;+operation]) this[&#x27;on_complete_&#x27;+operation]()
-    this.on_complete_operation() // en général NEXT_STEP, mais peut être autre chose
+    this.on_end_operation() // en général NEXT_STEP, mais peut être autre chose
   }
 })
 

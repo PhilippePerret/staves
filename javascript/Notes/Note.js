@@ -89,7 +89,6 @@ $.extend(Note.prototype,{
     */
   show:function(params)
   {
-    dlog("-> <Note>.show / params contient complete ? "+(params && params.complete ? "oui" : "non"))
     return this.operation(this.objets, 'show', params)
   },
   /**

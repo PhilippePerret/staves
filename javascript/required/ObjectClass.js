@@ -75,20 +75,22 @@ $.extend(window.ObjetClass.prototype,{
     * donne en second argument.
     * Enfin, la méthode a besoin des paramètres propres à cette méthode, par exemple
     * la nouvelle position pour un 'moveTo'.
+    *
+    * WARNING
+    * -------
+    *   * Si l'on veut qu'en toute fin des opérations une méthode spéciale soit
+    *     appelée (autre que la méthode naturelle NEXT_STEP), la méthode appelante
+    *     doit définir `on_end_operation` (en général `this.on_end_operation`)
     * @method operation
     * @async
     * @param  {Array}   objets La liste des objets (DOM) à traiter
     * @param  {String}  operation  L'opération à jouer
     * @param  {Object}  params Les paramètres nécessaires à l'opération + optionnels
-    *   @param {Function} params.complete (optionnel) La méthode à appeler en fin de processus
     *
     * @return {Object} L'objet this, pour le chainage
     */
   operation:function(objets, operation, params)
   {
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
-    this.on_complete_operation = params.complete
     // On commence à créer une table pour savoir quand le traitement sur les
     // objets sera terminé. En clé, on utilise l'identifiant de l'objet DOM
     this.tbl_operation = {}
@@ -101,7 +103,7 @@ $.extend(window.ObjetClass.prototype,{
     })
     // On envoie ensuite chaque objet dans la méthode `method`
     L(objets_corriged).each(function(obj){
-      var complete = $.proxy(me.on_complete_operation, me, operation, obj[0].id)
+      var complete = $.proxy(me.on_end_operation, me, operation, obj[0].id)
       switch(operation)
       {
       case 'show':
@@ -142,20 +144,22 @@ $.extend(window.ObjetClass.prototype,{
     * ont été traités.
     * Notes
     * -----
-    *   Si une méthode 'on_complete_<operation>' existe, elle est appelée avant
-    *   de passer à l'étape suivante.
+    *   1.  Si une méthode 'on_complete_<operation>' existe, elle est appelée avant
+    *       de passer à l'étape suivante.
+    *   2.  Si la méthode appelante a défini on_complete_operation, cette méthode
+    *       est appelée pour poursuivre, sinon, c'est NEXT_STEP qui est invoqué
     *
-    * @method on_complete_operation
+    * @method on_end_operation
     * @param  {String} operation  L'opération qui a été exécutée.
     * @param  {String} obj_id   Identifiant de l'objet qui a terminé son traitement
     */
-  on_complete_operation:function(operation, obj_id)
+  on_end_operation:function(operation, obj_id)
   {
     if(!this.tbl_operation)
     {
       if(console)
       {
-        console.warn("Problème de `tbl_operation` inexistant dans ObjectClass.on_complete_operation"+
+        console.warn("Problème de `tbl_operation` inexistant dans ObjectClass.on_end_operation"+
         "\nCela se produit lorsque tous les éléments à opérer ont été passés en revue,"+
         "et que la méthode est pourtant appelée à nouveau."+
         "\nVoilà les éléments que j'ai pu récupérer :"+
@@ -168,12 +172,17 @@ $.extend(window.ObjetClass.prototype,{
     this.tbl_operation[obj_id] = true
     for(var id in this.tbl_operation)
     {
-      if(this.tbl_operation[id] == false) return // on ne peut pas finir
+      if(this.tbl_operation[id] == false) return // on ne peut pas encore finir
     }
     // Si on arrive ici, c'est qu'on peut finir
     delete this.tbl_operation
     if('function' == typeof this['on_complete_'+operation]) this['on_complete_'+operation]()
-    this.on_complete_operation() // en général NEXT_STEP, mais peut être autre chose
+    if(this.on_complete_operation)
+    {
+      this.on_complete_operation()
+      delete this.on_complete_operation
+    }
+    else NEXT_STEP()
   }
 })
 

@@ -4013,7 +4013,7 @@
             "line": 138,
             "description": "Méthode qui fonctionne en parallèle avec `operation` pour savoir si on \npeut passer à l'étape suivante.\nOn peut passer à l'étape suivante lorsque tous les objets reçus par `operation`\nont été traités.\nNotes\n-----\n  Si une méthode 'on_complete_<operation>' existe, elle est appelée avant\n  de passer à l'étape suivante.",
             "itemtype": "method",
-            "name": "on_complete_operation",
+            "name": "on_end_operation",
             "params": [
                 {
                     "name": "operation",

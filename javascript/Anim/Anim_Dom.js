@@ -82,7 +82,10 @@ Anim.Dom = {
     {
       code_html = instance.code_html
     }
+    
+    // === Ajout du code ===
     this.section.append(code_html)
+    
     if(a_simple_string)
     {
       
@@ -90,7 +93,6 @@ Anim.Dom = {
     else
     {
       // Positionne et affiche l'objet
-      dlog("instance:");dlog(instance)
       instance.positionne()
       instance.show(params)
     }

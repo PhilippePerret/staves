@@ -123,9 +123,9 @@ $.extend(Motif.prototype,{
       if(rang = this.notes_for_building.shift())
       {
         var note = this.notes[rang], complete ;
-        if(this.notes_for_building.length) complete = $.proxy(this.build, this)
-        else complete = NEXT_STEP
-        note.build({complete:complete})
+        // Tant qu'il reste des notes à construire, on rappelle cette méthode
+        if(this.notes_for_building.length) this.on_complete_operation = $.proxy(this.build, this)
+        note.build()
         this.timer = setTimeout($.proxy(this.build, this), this.laps_building)
       }
       else
