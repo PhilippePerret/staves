@@ -58,21 +58,12 @@ FONCTIONS_ANIM_OBJETS = {
     * @method CHORD
     */
   /** Commande pour écrire un sous-titre à l'écran (doublage ou sous-titre)
-    * Note
-    *   * Contrairement à la plupart des autres commandes, on appelle le plus
-    *     souvent celle-ci directement, sans affectation de variable.
-    * cf. la fonction write
+    * Note : les doublages et sous-titres ne sont pas des textes comme les
+    * autre, ils se mettent simplement dans des DIV qui leur sont réservés
     * @method CAPTION
     */
-  CAPTION:function(texte, params)
-  {
-    if(undefined == params) params = {}
-    params.texte = texte
-    params.type  = 'doublage'
-    var cap = TXT(null, params)
-    cap.build()
-    return cap
-  },
+  CAPTION:function(texte, params){Anim.Dom.set_doublage(texte, params);NEXT_STEP()},
+
   CHORD:function(notes, params){return CHORD(notes, params)},
   /** Commande pour construire une flèche sans la placer dans une variable
     * cf. la fonction ARROW
@@ -268,8 +259,18 @@ FONCTIONS_ANIM_OBJETS = {
   OFFSET_CHORD_MARK:function(offset)
   {
     Anim.set_pref('offset_chord', offset)
-  }
+  },
   
+  /**
+    * Commande qui charge pour suivre l'animation donnée en argument. Les deux
+    * animation s'enchaineront
+    * @method LOAD_ANIM
+    * @param {String} path    Chemin à l'animation à charger
+    */
+  LOAD_ANIM:function(path)
+  {
+    
+  }
 }
 
 METHODES_ANIM_OBJETS = {

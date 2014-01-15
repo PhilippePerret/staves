@@ -100,11 +100,13 @@ $.extend(UI,{
       width : console_width+"px",
       height: anim_height+"px"
     })
-    // controller_width = $('section#controller').width()
-    // $('section#controller').css({
-    //   top   : (anim_height + 40)+"px",
-    //   left  : (anim_width - controller_width + 30) + "px"
-    // })
+
+    // La position des sous-titres
+    $('div#caption').css({
+      top   : (anim_height - 25)+'px',
+      width : (anim_width / 2)+'px',
+      left  : (10 + (anim_width / 4))+'px'
+    })
 
     // La position de la règle de mesure
     this.Regle.obj.css({top:(anim_height - 10)+'px'})

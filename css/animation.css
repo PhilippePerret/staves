@@ -7,3 +7,31 @@ section#animation {
   height    : 430px;
   border    : 15px solid black;
 }
+
+/*
+ *  Style pour les sous-titres et doublage
+ *
+ * Rappel : 'doublage':not(.caption) => doublage
+ *          doublage.caption => sous-titre
+ */
+div#doublage, div#caption {
+  position          : absolute;
+  z-index           : 500;
+}
+div#doublage, div#caption > span#caption_text {
+  background-color  : black;
+  padding           : 4px 16px;
+}
+div#doublage {
+  left        : 20px;
+  bottom      : 40px !important;
+  width       : 550px;
+  color       : #FF74FF;
+}
+div#caption {
+  text-align  : center;
+}
+div#caption > span#caption_text {
+  display     : inline-block;
+  color       : white;
+}

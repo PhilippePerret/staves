@@ -98,6 +98,34 @@ Anim.Dom = {
     }
   },
   
+  /**
+    * Écrit le doublage ou le sous-titre +texte+ (en fonction de params et des
+    * réglages par défaut)
+    * @method set_doublage
+    * @param {String} texte Le texte (vide pour supprimer le div)
+    * @param {Object|Boolean} params  Les paramètres optionnels
+    *                                 Ou une valeur true ou false, qui détermine caption
+    *   @param {Boolean} params.caption    Si false => doublage, si true => caption
+    */
+  set_doublage:function(texte, params)
+  {
+    if(undefined == params) params = {}
+    else if ('boolean' == typeof params) params = {caption:params}
+    else if (params.doublage == true) params.caption = !params.doublage
+    var is_caption = params.caption == true || Anim.prefs.caption == true
+    var obj = $(is_caption ? 'span#caption_text' : 'div#doublage')
+    var montrer = texte.trim() != ""
+    if(montrer)
+    {
+      obj.html(texte.trim())
+      obj.show()
+    }
+    else
+    {
+      obj.hide()
+    }
+    if(is_caption) $('div#caption')[montrer?'show':'hide']()
+  }
 }
 
 Object.defineProperties(Anim.Dom,{

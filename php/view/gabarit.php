@@ -13,6 +13,7 @@
   <?php include "./php/view/popups.php" ?>
   <?php include "./php/view/tools.php" ?>
 	<section id="animation"></section>
+  <?php include "./php/view/doublage.php" ?>
   <?php include "./php/view/grid.php" ?>
   <?php include "./php/view/controller.php" ?>
   <?php include "./php/view/console.php" ?>

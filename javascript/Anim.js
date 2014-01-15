@@ -144,7 +144,7 @@ $.extend(window.Anim,{
     speed             :1,
     note_size         :14.3,
     delai_after_show  :3,
-    doublage          :true
+    caption           :false
   },
   /**
     * Toutes les préférences
@@ -252,12 +252,12 @@ $.extend(window.Anim,{
       */
     note_size           : 14.3,
     /**
-      * Si true, les CAPTION afficheront le texte en doublage, hors de l'animation
+      * Si false, les CAPTION afficheront le texte en doublage, hors de l'animation
       * Sinon, ils seront affichés comme des sous-titres, dans l'image de l'animation
       * @property {Boolean} doublage
       * @default true
       */
-    doublage            : true,
+    caption             : false,
     
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
     offset_next           :0,

@@ -1198,8 +1198,8 @@ Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuit
 
 On peut vouloir créer des sous-titres pour deux raisons principales&nbsp;:
 
-1. Afficher des explications en même temps que l'animation joue.
-2. Comme pour un doublage, afficher un texte qui sera lu au cours de l'animation.
+1. Afficher des explications en même temps que l'animation joue (vrais sous-titres)&nbsp;;
+2. Comme pour un doublage, afficher un texte qui sera lu au cours de l'animation, donc affiché hors animation.
 
 Pour ces deux utilisations, on utilise la commande&nbsp;:
 
@@ -1209,14 +1209,28 @@ Cette commande affiche le texte `<texte>` à l'écran en respectant les paramèt
 
 Par défaut, le texte s'affichera comme un texte de doublage, donc hors de l'écran. Pour utiliser vraiment, PENDANT TOUTE L'ANIMATION, le texte en sous-titre (à l'intérieur de l'animation), alors définir&nbsp;:
 
-    DEFAULT('doublage', false)
+    DEFAULT('caption', true)
 
-On peut également définir localement qu'un texte doit être un doublage ou non grâce à la propriété `doublage` dans les paramètres&nbsp;:
+On peut également définir localement qu'un texte doit être un doublage ou non grâce à la propriété `caption` dans les paramètres&nbsp;:
 
+    CAPTION("Mon doublage", {caption:false})
+    ou
     CAPTION("Mon doublage", {doublage:true})
 
-    CAPTION("Mon sous-titre", {doublage:false})
+    CAPTION("Mon sous-titre", {caption:true})
 
+De façon encore plus simple, on peut envoyer un deuxième argument `true` pour dire que c'est un sous-titre ou `false` pour dire que c'est un texte de doublage. Mais dans ce cas, bien entendu, aucun autre paramètre ne peut être transmis contrairement aux syntaxes précédentes.
+
+Par exemple&nbsp;:
+
+    CAPTION("Mon doublage", false)
+
+    CAPTION("Mon sous-titre", true)
+
+####Effacer le sous-titre ou le doublage
+Pour effacer le sous-titre ou le doublage, utiliser un texte vide en premier argument. Par exemple, pour effacer le sous-titre actif&nbsp;:
+
+    CAPTION("", {caption:true})
   
 <a name="set_position_texte"></a>
 ###Définition des position des textes
