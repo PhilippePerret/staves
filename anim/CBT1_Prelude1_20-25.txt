@@ -2,6 +2,8 @@
 # premier prélude du CBT 1
 # Mesures 20 - 25
 
+SUITE('CBT1_Prelude1_26-35')
+
 # --- Valeurs par défault ---
 DEFAULT('decompte', 0)
 DEFAULT(\'next\', 80)
@@ -18,14 +20,17 @@ ACTIVE_STAFF(1)
 
 # --- Mesure 20 : C7 ---
 acc = CHORD('2:c3 2:g3 bb3 c4 e4')
-acc.note(5).hide()
+acc.note(4,5).fantomize()
 prov = NOTE('2:e3')
 WAIT(1)
 acc.chord('C7')
+CAPTION("C = Do / 7 = 7e mineure<br>Accord Majeur + 7e mineure = Accord de dominante")
 WAIT(2)
 acc.modulation("Fa[IV de C]")
 WAIT(1)
 acc.harmony("[I->]V")
+prov.remove()
+acc.note(4,5).defantomize()
 WAIT(3)
 STAFF(1).write("Développement", {style:'cadre exergue'})
 

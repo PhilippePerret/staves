@@ -269,6 +269,11 @@ $.extend(window.Anim,{
   },
   /**
     * Définit une préférence
+    *
+    * WARNING
+    *   Par défaut, cette méthode lance l'étape suivante.
+    *   Mettre le troisième argument à `false` pour court-circuiter ce comportement.
+    *
     * Notes
     * -----
     *   * La préférence peut être de deux types : soit une valeur absolue, soit

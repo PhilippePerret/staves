@@ -2,6 +2,8 @@
 # premier prélude du CBT 1
 # Mesures 12 - 19
 
+SUITE('CBT1_Prelude1_20-25')
+
 # --- Valeurs par défault ---
 DEFAULT('decompte', 0)
 DEFAULT(\'next\', 80)

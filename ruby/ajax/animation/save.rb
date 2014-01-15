@@ -10,7 +10,7 @@ anim = Anim::new (param :name)
 if new_name
   anim.destroy
   new_anim = Anim::new new_name
-  new_anim.raw_code = param :code
+  new_anim.raw_code = (param :code).gsub(/\\\'/, "'").gsub(/\\\"/, '"')
   new_anim.save
 else
   anim.raw_code = param :code

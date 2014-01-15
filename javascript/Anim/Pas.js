@@ -206,7 +206,10 @@ Object.defineProperties(Pas.prototype,{
     * @property {Boolean} is_comment
     */
   "is_setting":{
-    get:function(){return this.trimed.substring(0,7) == "DEFAULT"}
+    get:function(){
+      return  this.trimed.substring(0,7) == "DEFAULT" || 
+              this.trimed.substring(0,6) == "SUITE("
+    }
   }
   
   

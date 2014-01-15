@@ -68,11 +68,12 @@ $.extend(Anim,{
     this.pause_button[this.on && !this.pause_on && !this.Step.mode_pas_a_pas ?'show':'hide']()
     this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?'show':'hide']()
 
-    if(Anim.prefs.grid)
+    if(!this.on || this.pause_on)
     {
-      if(!this.on || this.pause_on) this.Grid.show()
-      else this.Grid.hide()
-    }
+      if(Anim.prefs.grid) this.Grid.show()
+    } 
+    else this.Grid.hide()
+    
     if(this.on)
     {
       /* Les éléments qu'il faut toujours masquer */
