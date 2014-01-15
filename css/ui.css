@@ -6,6 +6,8 @@
 .center {text-align:center;}
 div.inline {display:inline-block;}
 
+.resizable {resize:both;}
+
 div#decompte {
   position    : absolute;
   top         : 8px;

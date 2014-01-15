@@ -61,6 +61,14 @@ $.extend(Img.prototype,{
     NEXT_STEP()
   },
   /**
+    * Pour éditer l'image
+    * @method edit
+    */
+  edit:function()
+  {
+    ImageTool.edit( this.url )
+  },
+  /**
     * Pour positionner l'image
     * @method positionne
     */
