@@ -12,7 +12,7 @@ class Anim
       Dir["#{folder}/*.txt"].collect{|path| File.basename(path, File.extname(path))}
     end
     
-    # Retourne l'animation par défaut si elle existe (NIL otherwise)
+    # Retourne le NOM de l'animation par défaut si elle existe (NIL otherwise)
     # 
     def default_animation
       return nil unless File.exists?('.default')

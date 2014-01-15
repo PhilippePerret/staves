@@ -40,7 +40,7 @@ window.UI.Popups = {
       */
     def_anim:function(item)
     {
-      item.css({'opacity':0.5, 'font-style':'italic'})
+      UI.Popups.unableIf(item, true)
       Anim.set_current_as_default()
     },
     /**
@@ -80,6 +80,8 @@ window.UI.Popups = {
       item.html((Anim.options.fullscreen?"Pas de plein écran":"Anim en plein écran"))
     }
   },
+  /* Fin des méthodes qui correspondent aux menus
+   * --------------------------------------------------------------------- */
   /**
     * = Main =
     * Méthode appelée quand on choisit un item de menu
@@ -92,6 +94,19 @@ window.UI.Popups = {
     this.Methods[method](item)
   },
   
+  /**
+    * Méthode qui active ou désactive le menu_id en fonction de la condition
+    * +condition+
+    * @method unableIf
+    * @param {String|jQuerySet}   menu   Le menu lui-même ou le "data-item" du menu
+    * @param {Boolean}  condition   Si true, désactive, si false (ré-)active
+    */
+  unableIf:function(menu, condition)
+  {
+    if('string' == typeof menu) menu = this.section.find('li[data-item="'+menu+'"]')
+    var data  = condition ? {opacity:0.5, 'font-style':'italic'} : {opacity:1, 'font-style':null}
+    menu.css(data)
+  },
   
   /**
     * Préparation des popups à l'ouverture de l'application

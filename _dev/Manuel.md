@@ -19,7 +19,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 ---------------------------------------------------------------------
 
 <a name="l_animation"></a>
-##Création d'une animation
+##Animation
 
 ###Table des matières
 
@@ -36,7 +36,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Activer/désactiver le Mode “Flash](#mode_flash)
 * [Définir le décompte de départ](#set_decompte)
 * [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
-
+* [Définir l'animation courante comme animation par défaut](#set_anim_courante_as_default)
 
 ###Réinitialiser les préférences
 
@@ -262,6 +262,11 @@ Pour remettre toutes les valeurs de décalages aux valeurs de départ, utiliser 
     RESET_PREFERENCES
 
 *Noter que ça ne ré-initialise que les décalages des éléments, tels que les textes de marque de l'harmonie ou des accords, etc. Pour une ré-initialisation complète, utiliser la commande [`RESET`](#reset_animation).*
+
+<a name="set_anim_courante_as_default"></a>
+###Définir l'animation courante comme animation par défaut
+
+Pour définir l'animation courante comme l'animation par défaut — ie celle qui s'ouvrira au prochain chargement de l'application&nbsp;—, activer le menu “Fichier > Définir comme anim par défaut”.
 
 ---------------------------------------------------------------------
 

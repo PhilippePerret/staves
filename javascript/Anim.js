@@ -574,6 +574,7 @@ $.extend(window.Anim,{
       if(rajax.ok)
       {
         this.set_anim(name, rajax.raw_code)
+        UI.Popups.unableIf(rajas.is_default_anim, true)
       }
       else F.error(rajax.message)
     }
@@ -614,6 +615,7 @@ $.extend(window.Anim,{
         if(rajax.default_animation)
         {
           this.set_anim(rajax.default_animation, rajax.raw_code)
+          UI.Popups.unableIf('def_anim', true)
         }
         if(this.load_list_animations.poursuivre) this.load_list_animations.poursuivre()
       }
