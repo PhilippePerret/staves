@@ -160,14 +160,20 @@ $.extend(Anim,{
     { // => arrêt forcé
       this.real_stop()
     } 
-    else if(this.animation_pour_suivre)
-    { // Une animation doit suivre
-      this.set_pref('decompte', 0, next_step=false)
-      this.load_and_start_animation_pour_suivre()
-    } 
     else
     { // => Le cas courant
-      this.decompte.poursuivre = $.proxy(this.real_stop, this)
+      var method ;
+      if(this.animation_pour_suivre)
+      { // Une animation doit suivre
+        this.set_pref('decompte', 0, next_step=false)
+        method = 'load_and_start_animation_pour_suivre'
+      }
+      else
+      { // vraiment la fin
+        method = 'real_stop'
+      } 
+      
+      this.decompte.poursuivre = $.proxy(this[method], this)
       this.decompte(this.prefs.delai_after_show)
     }
   },

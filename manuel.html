@@ -316,6 +316,7 @@ sup {
 <li><a href="#l_animation">Animation</a></li>
 <li><a href="#le_curseur_de_position">Déplacement du curseur de position</a></li>
 <li><a href="#les_notes">Les notes</a></li>
+<li><a href="#les_motifs">Les motifs mélodiques</a></li>
 <li><a href="#les_chords">Les accords</a></li>
 <li><a href="#les_staves">Les portées</a></li>
 <li><a href="#les_gammes">Les gammes</a></li>
@@ -329,7 +330,7 @@ sup {
 
 <p><a name="l_animation"></a></p>
 
-<h2>Création d'une animation</h2>
+<h2>Animation</h2>
 
 <h3>Table des matières</h3>
 
@@ -348,9 +349,11 @@ sup {
 </li>
 <li><a href="#vitesse_animation">Vitesse de l'animation</a></li>
 <li><a href="#run_animation">Jouer l'animation</a></li>
+<li><a href="#enchainer_animations">Enchainer des animations</a></li>
 <li><a href="#mode_flash">Activer/désactiver le Mode “Flash</a></li>
 <li><a href="#set_decompte">Définir le décompte de départ</a></li>
 <li><a href="#reiniti_preferences">Ré-initialiser toutes les valeurs de préférences</a></li>
+<li><a href="#set_anim_courante_as_default">Définir l'animation courante comme animation par défaut</a></li>
 </ul>
 
 
@@ -578,6 +581,17 @@ monAccord('c3 eb3 g3')
 </ol>
 
 
+<p><a name="enchainer_animations"></a></p>
+
+<h3>Enchainer des animations</h3>
+
+<p>Le code d'une animation pouvant très vite devenir conséquent, on peut enchainer très facilement des animations. Il suffit pour cela d'utiliser la commande&nbsp;:</p>
+
+<pre><code>SUITE('&lt;nom ou chemin de l'animation&gt;)
+</code></pre>
+
+<p>On peut mettre cette commande où l'on veut dans le code, puisqu'elle ne sera interprétée qu'une fois l'animation courante exécutée. Il est donc possible de la mettre au début du code comme à la fin.</p>
+
 <p><a name="mode_flash"></a></p>
 
 <h3>Activer/désactiver le mode “Flash”</h3>
@@ -631,6 +645,12 @@ STOP_MODE_FLASH
 </code></pre>
 
 <p><em>Noter que ça ne ré-initialise que les décalages des éléments, tels que les textes de marque de l'harmonie ou des accords, etc. Pour une ré-initialisation complète, utiliser la commande <a href="#reset_animation"><code>RESET</code></a>.</em></p>
+
+<p><a name="set_anim_courante_as_default"></a></p>
+
+<h3>Définir l'animation courante comme animation par défaut</h3>
+
+<p>Pour définir l'animation courante comme l'animation par défaut — ie celle qui s'ouvrira au prochain chargement de l'application&nbsp;—, activer le menu “Fichier > Définir comme anim par défaut”.</p>
 
 <hr />
 
@@ -772,10 +792,11 @@ STOP_MODE_FLASH
 <p>La valeur <code>&lt;alteration&gt;</code> ci-dessus peut être :</p>
 
 <ul>
-<li><code>b</code> pour bémol</li>
-<li><code>t</code> (comme "ton") pour double bémol</li>
-<li><code>d</code> pour dièse</li>
-<li><code>x</code> pour double-dièse</li>
+<li><code>b</code> pour bémol&nbsp;;</li>
+<li><code>t</code> (comme "ton") pour double bémol&nbsp;;</li>
+<li><code>d</code> pour dièse&nbsp;;</li>
+<li><code>x</code> pour double-dièse&nbsp;;</li>
+<li><code>z</code> pour bécarre (comme le Pomme/Ctrl+"Z" qui annule la dernière action, ce "z" annule la dernière altération).</li>
 </ul>
 
 
@@ -997,6 +1018,64 @@ nodo.update()
 
 <hr />
 
+<p><a name="les_motifs"></a></p>
+
+<h2>Les motifs mélodiques</h2>
+
+<p>Bien entendu, un motif mélodiques (une suite de notes) peut s'écrire avec la commande <code>NOTE</code> (cf. <a href="#les_notes">Les notes</a>). Mais il peut être plus rapide d'utiliser plutôt la commande <code>MOTIF</code> qui crée rapidement un motif mélodique et permet de le manipuler comme un ensemble.</p>
+
+<h3>Table des matières</h3>
+
+<ul>
+<li><a href="#creer_un_motif">Créer un motif</a></li>
+<li><a href="#parametres_motif">Liste des paramètres optionnels</a></li>
+<li><a href="#set_hoffset_notes_motif">Régler la distance entre les notes</a></li>
+<li><a href="#regler_vitesse_affichage_motif">Modifier la vitesse d'affichage du motif</a></li>
+</ul>
+
+
+<p><a name="creer_un_motif"></a></p>
+
+<h3>Créer un motif</h3>
+
+<p>monMotif = MOTIF('<suite de notes>'[, <parametres optionnels>])</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<p>unMotif = MOTIF('c4 c4 c4 d4 e4 d4 c4 e4 d4 d4 c4')</p>
+
+<p><a name="parametres_motif"></a></p>
+
+<h3>Paramètres optionnels</h3>
+
+<dl>
+  <dt>staff</dt>
+  <dd>La portée à laquelle sera associée le motif. Noter que l'appartenance des notes est indépendante de cette valeur&nbsp;; si le motif est long et que l'animation doit passer à une portée suivante, les notes suivantes seront associées à cette portée. De la même manière, une note définie par `<indice portée>:<note>` sera associée à la portée correspondante (indice portée).</dd>
+  <dt>speed</dt>
+  <dd>Vitesse d'affichage du motif au cours de l'animation (cf. <a href="#regler_vitesse_affichage_motif">Régler la vitesse d'affichage du motif</a>).</dd>
+  <dt>offset_x</dt>
+  <dd>Définition de la distance horizontale entre les notes (cf. <a href="#set_hoffset_notes_motif">Régler la distance entre les notes</a>).</dd>
+  
+</dl>
+
+
+<p><a name="set_hoffset_notes_motif"></a></p>
+
+<h3>Régler la distance entre les notes</h3>
+
+<p><a name="regler_vitesse_affichage_motif"></a></p>
+
+<h3>Régler la vitesse d'affichage du motif</h3>
+
+<p>La vitesse d'affichage des notes du motif se règle avec la propriété <code>speed</code> envoyé dans les paramètres optionnelles de la création du motif&nbsp;:</p>
+
+<pre><code>maMelodie = MOTIF('&lt;mes notes&gt;', {speed:&lt;vitesse&gt;})
+</code></pre>
+
+<p>Avec <code>&lt;vitesse&gt;</code> qui correspond à peu près au nombre de notes affichées par secondes. Donc une vitesse de <code>1</code> affiche une note par secondes, une vitesse de <code>2</code> affiche 2 notes par seconde et une vitesse de <code>0.5</code> affiche 1 note en 2 secondes.</p>
+
+<hr />
+
 <p><a name="les_chords"></a></p>
 
 <h2>Les Accords</h2>
@@ -1145,6 +1224,7 @@ maNote.write("Une seconde !")
 <li><a href="#active_staff">Activer une portée</a></li>
 <li><a href="#recuperer_staff">Récupérer une portée</a></li>
 <li><a href="#remove_suplines">Supprimer les lignes supplémentaires</a></li>
+<li><a href="#ecrire_texte_portee">Placer un texte sur la portée</a></li>
 </ul>
 
 
@@ -1288,6 +1368,104 @@ note.moveTo(c5)
 
 <p>Noter aussi que <code>bottom</code> et <code>top</code> sont complètement indépendants, pour <code>bottom</code> on ne tient compte QUE des lignes supplémentaires inférieures et pour <code>top</code> on ne tient compte QUE des lignes supplémentaires supérieures.</p>
 
+<p><a name="ecrire_texte_portee"></a></p>
+
+<h3>Écrire un texte sur la portée</h3>
+
+<ul>
+<li><a href="#ecrire_texte_portee_cursor">Écrire le texte au curseur</a></li>
+<li><a href="#decaler_hauteur_texte_staff">Régler l'écart entre texte et portée</a></li>
+<li><a href="#decaler_horizontalite_texte">Décaler le texte à droite ou à gauche</a></li>
+<li><a href="#set_width_staff_texte">Définir la largeur du texte</a></li>
+<li><a href="#set_style_staff_texte">Utiliser un style de texte</a></li>
+<li><a href="#set_texte_staff_down">Positionner le texte en dessous de la portée</a></li>
+</ul>
+
+
+<p><a name="ecrire_texte_portee_cursor"></a></p>
+
+<h4>Écrire un texte au curseur</h4>
+
+<p>Pour écrire un texte à la position actuelle du curseur, on utilise la commande&nbsp;:</p>
+
+<pre><code>STAFF(&lt;indice portée&gt;).write("&lt;le texte&gt;"[, &lt;paramètres optionnels&gt;])
+</code></pre>
+
+<p>Par défaut, ce texte se place au-dessus de la portée.</p>
+
+<p><a name="decaler_hauteur_texte_staff"></a></p>
+
+<h4>Régler l'écart entre texte et portée</h4>
+
+<p>Pour le régler à partir de maintenant et pour tous les textes de portée qui suivront, utiliser la commande&nbsp;:</p>
+
+<pre><code>DEFAULT('staff_top_text', &lt;nombre de pixels&gt;)
+</code></pre>
+
+<p>Pour revenir à la valeur par défaut&nbsp;:</p>
+
+<pre><code>DEFAULT('staff_top_text')
+</code></pre>
+
+<p>Pour régler seulement un texte en particulier, l'écrire en défissant la propriété <code>offset_y</code> des paramètres (2e argument). Par exemple&nbsp;:</p>
+
+<pre><code>STAFF(1).write("Mon texte 20 pixels plus haut", {offset_y: 20})
+</code></pre>
+
+<p><a name="decaler_horizontalite_texte"></a></p>
+
+<h4>Décale le texte à droite ou à gauche</h4>
+
+<p>Par défaut, le texte s'aligne par le centre à la position courante du curseur. On peut afficher ce décalage à l'aide de la propriété <code>offset_x</code> envoyé aux paramètres optionnels. Par exemple&nbsp;:</p>
+
+<pre><code>STAFF(2).write("Mon texte 30 pixels plus à droite", {offset_x: 30})
+</code></pre>
+
+<p>Bien entendu, on peut combiner tous les éléments&nbsp;:</p>
+
+<pre><code>STAFF(2).write("Mon texte modifié", {offset_y:10, offset_x:20, style:'cadre'})
+</code></pre>
+
+<p><a name="set_width_staff_texte"></a></p>
+
+<h4>Définir la largeur du texte</h4>
+
+<p>On peut définir la largeur de la boite contenant le texte à l'aide de la propriété <code>width</code>&nbsp;:</p>
+
+<pre><code>STAFF(1).write("Texte à largeur", {width:&lt;nombre de pixels&gt;})
+</code></pre>
+
+<p><a name="set_style_staff_texte"></a></p>
+
+<h4>Utiliser un style de texte</h4>
+
+<p>Pour la cohérence de l'affichage, on peut utiliser quelques styles de texte prédéfinis en réglant la propriété <code>style</code> des paramètres optionnels&nbsp;:</p>
+
+<pre><code>STAFF(1).write("Mon texte stylisé", {style:'&lt;style(s) à utiliser&gt;'})
+</code></pre>
+
+<p>Si plusieurs styles doivent être combinés, les séparer par des espaces. Par exemple&nbsp;:</p>
+
+<pre><code>STAFF(2).write("Plusieurs styles compatibles", {style:'cadre exergue italic'})
+</code></pre>
+
+<p><strong>Liste des styles</strong>&nbsp;:</p>
+
+<pre><code>italic    Place le texte en italique
+cadre     Place un cadre autour du texte
+exergue   Met le texte en exergue (gras)
+</code></pre>
+
+<p><a name="set_texte_staff_down"></a></p>
+
+<h4>Positionner le texte en dessous de la portée</h4>
+
+<p>  DEFAULT('staff_text_up', false)</p>
+
+<p>  Pour le replacer en haut&nbsp;:</p>
+
+<p>  DEFAUT('staff_text_up')</p>
+
 <hr />
 
 <p><a name="les_gammes"></a></p>
@@ -1407,6 +1585,8 @@ maNote.write("Une seconde !")
 <li><a href="#types_speciaux_texte">Types spéciaux de texte (Accords, harmonie, cadences, etc.)</a></li>
 <li><a href="#create_texte_animation">Créer un texte pour l'animation</a></li>
 <li><a href="#create_texte_objet">Créer un texte pour un objet</a></li>
+<li><a href="#ecrire_texte_portee">Créer un texte pour la portée (section “Portée”)</a></li>
+<li><a href="#creer_captions">Créer des sous-titres (réels ou d'aide)</a></li>
 </ul>
 </li>
 <li><a href="#set_position_texte">Définir les positions des textes</a></li>
@@ -1591,6 +1771,55 @@ monAccord.modulation('Sol')
 
 <pre><code>maNote=NOTE(a4)
 maNote.write("C'est un LA 4")
+</code></pre>
+
+<p><a name="creer_captions"></a></p>
+
+<h3>Créer des sous-titres</h3>
+
+<p>On peut vouloir créer des sous-titres pour deux raisons principales&nbsp;:</p>
+
+<ol>
+<li>Afficher des explications en même temps que l'animation joue (vrais sous-titres)&nbsp;;</li>
+<li>Comme pour un doublage, afficher un texte qui sera lu au cours de l'animation, donc affiché hors animation.</li>
+</ol>
+
+
+<p>Pour ces deux utilisations, on utilise la commande&nbsp;:</p>
+
+<pre><code>CAPTION(&lt;texte&gt;[, &lt;parameters&gt;])
+</code></pre>
+
+<p>Cette commande affiche le texte <code>&lt;texte&gt;</code> à l'écran en respectant les paramètres optionnels <code>&lt;parameters&gt;</code>.</p>
+
+<p>Par défaut, le texte s'affichera comme un texte de doublage, donc hors de l'écran. Pour utiliser vraiment, PENDANT TOUTE L'ANIMATION, le texte en sous-titre (à l'intérieur de l'animation), alors définir&nbsp;:</p>
+
+<pre><code>DEFAULT('caption', true)
+</code></pre>
+
+<p>On peut également définir localement qu'un texte doit être un doublage ou non grâce à la propriété <code>caption</code> dans les paramètres&nbsp;:</p>
+
+<pre><code>CAPTION("Mon doublage", {caption:false})
+ou
+CAPTION("Mon doublage", {doublage:true})
+
+CAPTION("Mon sous-titre", {caption:true})
+</code></pre>
+
+<p>De façon encore plus simple, on peut envoyer un deuxième argument <code>true</code> pour dire que c'est un sous-titre ou <code>false</code> pour dire que c'est un texte de doublage. Mais dans ce cas, bien entendu, aucun autre paramètre ne peut être transmis contrairement aux syntaxes précédentes.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>CAPTION("Mon doublage", false)
+
+CAPTION("Mon sous-titre", true)
+</code></pre>
+
+<h4>Effacer le sous-titre ou le doublage</h4>
+
+<p>Pour effacer le sous-titre ou le doublage, utiliser un texte vide en premier argument. Par exemple, pour effacer le sous-titre actif&nbsp;:</p>
+
+<pre><code>CAPTION("", {caption:true})
 </code></pre>
 
 <p><a name="set_position_texte"></a></p>
