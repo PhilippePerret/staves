@@ -40,7 +40,11 @@ Anim.Step = {
     this.set_current()
     if(undefined == this.current) return Anim.stop()
     /* === On joue l'étape (sauf commentaires ou lignes vides) === */
-    if(false == this.current.exec()) this.next()
+    if(false == this.current.exec())
+    { 
+      dlog("L'exécution de l'étape retourne false, donc je passe à la suivante")
+      this.next()
+    }
     else if(!this.list || this.list.length == 0) Anim.stop()
   },
   /**
@@ -79,6 +83,7 @@ Anim.Step = {
     */
   auto_next:function(no_timeout)
   {
+    dlog("-> Anim.Step.auto_next")
     if(Anim.preambule_on) return
     if(this.timer) clearTimeout(this.timer)
     if(this.mode_pas_a_pas) return
@@ -88,8 +93,10 @@ Anim.Step = {
     }
     else
     {
+      dlog("[auto_next] Je vais appeler Anim.Step.next après le délai " + Anim.transition.step)
       this.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.transition.step)
     }
+    dlog("<- Anim.Step.auto_next")
   }
 }
 Object.defineProperties(Anim.Step,{

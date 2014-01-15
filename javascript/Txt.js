@@ -24,7 +24,11 @@ window.Txt = function(owner, params)
 {
   this.class = 'txt'
 
-  this.id       = 'txt'+(new Date()).getTime()
+  /**
+    * Identifiant absolu du texte
+    * @property {String} id
+    */
+  this.id = 'txt'+(new Date()).getTime()
 
   /**
     * Le propriétaire du texte, Staff, Note, Chord, etc.
@@ -281,7 +285,11 @@ $.extend(Txt.prototype,{
     // comme les cadences (qui sont pour le moment les seuls à définir un
     // width particulier)
     if(this.width) this.obj.css({width:this.width+'px'})
-    var dpos = {top:(this.real_top)+"px", left:this.real_left+"px"}
+    var dpos  = {}
+    var rleft = this.real_left
+    if(rleft != null) dpos.left = rleft+'px'
+    var rtop  = this.real_top
+    if(rtop  != null) dpos.top  = rtop+'px'
     this.obj.css(dpos)
     this.positionne_texte_before()
     this.positionne_texte_after()
@@ -444,6 +452,9 @@ Object.defineProperties(Txt.prototype,{
         case measure:
           top -= Anim.prefs.num_measure_y + Anim.prefs.offset_num_measure_y
           break
+        case doublage:
+          top = null
+          break
         default:
           top = Math.min(top, this.owner.top) - 20
         }
@@ -477,6 +488,8 @@ Object.defineProperties(Txt.prototype,{
         return this.staff || Anim.prefs.staff_harmony || this.owner.staff || Anim.current_staff
       case chord :
         return this.staff || Anim.prefs.staff_chords || this.owner.staff || Anim.current_staff
+      case doublage:
+        return this.staff || Anim.current_staff
       default:
         return this.staff || this.owner.staff || Anim.current_staff
       }
@@ -490,6 +503,7 @@ Object.defineProperties(Txt.prototype,{
     get:function(){
       if(undefined == this._left_per_owner)
       {
+        if(this.type == doublage) return null
         this._left_per_owner = function(owner, me)
         {
           switch(owner.class)
@@ -543,6 +557,7 @@ Object.defineProperties(Txt.prototype,{
     */
   "real_top":{
     get:function(){
+      if(!this.owner /* par exemple doublage */) return this.top
       return this.top + function(owner, itxt, voffset){
         switch(owner.class)
         {
@@ -596,6 +611,8 @@ Object.defineProperties(Txt.prototype,{
       case chord:
         this._real_left = this.owner.centre_x - (w_box / 2)
         break
+      case doublage:
+        return null
       default:
         this._real_left = left - 10
       }
@@ -653,7 +670,15 @@ Object.defineProperties(Txt.prototype,{
       //   after:this.texte_after
       // })
       var css = ['text']
-      if(this.type) css.push(this.type)
+      if(this.type)
+      {
+        css.push(this.type)
+        if(
+            this.type == doublage && 
+            (this.doublage == false || Anim.prefs.doublage == false)
+          ) css.push('caption')
+        
+      } 
       var style = []
       if(this.width) style.push("width:"+this.width+"px;")
       var boites = ""

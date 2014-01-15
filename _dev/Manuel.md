@@ -1032,6 +1032,7 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
   * [Créer un texte pour l'animation](#create_texte_animation)
   * [Créer un texte pour un objet](#create_texte_objet)
   * [Créer un texte pour la portée (section “Portée”)](#ecrire_texte_portee)
+  * [Créer des sous-titres (réels ou d'aide)](#creer_captions)
 * [Définir les positions des textes](#set_position_texte)
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)
@@ -1187,6 +1188,31 @@ Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuit
     maNote=NOTE(a4)
     maNote.write("C'est un LA 4")
 
+<a name="creer_captions"></a>
+###Créer des sous-titres
+
+On peut vouloir créer des sous-titres pour deux raisons principales&nbsp;:
+
+1. Afficher des explications en même temps que l'animation joue.
+2. Comme pour un doublage, afficher un texte qui sera lu au cours de l'animation.
+
+Pour ces deux utilisations, on utilise la commande&nbsp;:
+
+    CAPTION(<texte>[, <parameters>])
+  
+Cette commande affiche le texte `<texte>` à l'écran en respectant les paramètres optionnels `<parameters>`.
+
+Par défaut, le texte s'affichera comme un texte de doublage, donc hors de l'écran. Pour utiliser vraiment, PENDANT TOUTE L'ANIMATION, le texte en sous-titre (à l'intérieur de l'animation), alors définir&nbsp;:
+
+    DEFAULT('doublage', false)
+
+On peut également définir localement qu'un texte doit être un doublage ou non grâce à la propriété `doublage` dans les paramètres&nbsp;:
+
+    CAPTION("Mon doublage", {doublage:true})
+
+    CAPTION("Mon sous-titre", {doublage:false})
+
+  
 <a name="set_position_texte"></a>
 ###Définition des position des textes
 

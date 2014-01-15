@@ -32,7 +32,10 @@ FONCTIONS_ANIM_OBJETS = {
     * Retourne la portée d'indice +indice+ (1-start)
     * @method STAFF
     */
-  STAFF:function(istaff){ return Anim.staves[istaff - 1]},
+  STAFF:function(istaff){
+    dlog("-> Anim.Objects.STAFF")
+    return Anim.staves[istaff - 1]
+  },
   /**
     * Commande pour construire une gamme sans la placer dans une variable
     * Cf. la fonction SCALE.
@@ -54,6 +57,22 @@ FONCTIONS_ANIM_OBJETS = {
     * cf. la fonction CHORD
     * @method CHORD
     */
+  /** Commande pour écrire un sous-titre à l'écran (doublage ou sous-titre)
+    * Note
+    *   * Contrairement à la plupart des autres commandes, on appelle le plus
+    *     souvent celle-ci directement, sans affectation de variable.
+    * cf. la fonction write
+    * @method CAPTION
+    */
+  CAPTION:function(texte, params)
+  {
+    if(undefined == params) params = {}
+    params.texte = texte
+    params.type  = 'doublage'
+    var cap = TXT(null, params)
+    cap.build()
+    return cap
+  },
   CHORD:function(notes, params){return CHORD(notes, params)},
   /** Commande pour construire une flèche sans la placer dans une variable
     * cf. la fonction ARROW

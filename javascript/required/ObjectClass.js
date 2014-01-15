@@ -1,6 +1,7 @@
 /**
   * ObjetClass, la classe mère de tous les objets de l'animation tels
   * que les notes, les textes, etc.
+  * Elle s'occupe de dispatcher les paramètres transmis à l'instanciation de l'objet.
   *
   * @class ObjetClass
   * @constructor
@@ -13,7 +14,6 @@ window.ObjetClass = function(params)
   {
     // Si la portée a été définie par un nombre, il faut prendre son instance
     if(params.staff && 'number' == typeof params.staff) params.staff = Anim.staves[params.staff-1]
-    // Dispatcher les valeurs transmises
     var me = this
     L(params).each(function(prop,value){ me[prop] = value})
   }
@@ -21,17 +21,15 @@ window.ObjetClass = function(params)
 $.extend(window.ObjetClass.prototype,{
   /**
     * Affiche l'objet ou les objets composant l'élément
+    * Noter que la méthode n'est appelée que par certains objets. Pour la plupart,
+    * les objets surclassent cette méthode avec leur propre méthode.
     * @method show
     * @param  {Object|Undefined} params Les paramètres optionnels
     *   @param  {Number} params.duree   La durée pour apparaitre (en millisecondes)
     *                                   Default: 400
-    *   @param  {Function} params.complete  La méthode pour suivre
-    *                                       default: NEXT_STEP (Anim.Step.auto_next)
     */
   show:function(params)
   {
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
     Anim.show(this.obj, params)
   },
   
@@ -55,6 +53,8 @@ $.extend(window.ObjetClass.prototype,{
   
   /**
     * Positionne l'objet à son top/left
+    * Comme pour la méthode show, les objets possèdent en général leur propre 
+    * méthode `positionne`
     * @method positionne
     */
   positionne:function()
@@ -62,7 +62,7 @@ $.extend(window.ObjetClass.prototype,{
     if(this.obj) this.obj.css({top:this.top, left:this.left})
   },
   /**
-    * Tentative d'une méthode générale qui permette de gérer un traitement 
+    * Méthode générale qui permet de gérer un traitement 
     * asynchrone de plusieurs éléments DOM de l'objet.
     * Par exemple : on doit retirer une note qui possède une alteration et une
     * marque de jeu (piqué). Pour la faire disparaitre, on utilise la méthode
@@ -80,7 +80,8 @@ $.extend(window.ObjetClass.prototype,{
     * -------
     *   * Si l'on veut qu'en toute fin des opérations une méthode spéciale soit
     *     appelée (autre que la méthode naturelle NEXT_STEP), la méthode appelante
-    *     doit définir `on_end_operation` (en général `this.on_end_operation`)
+    *     doit définir `on_complete_operation` (en général `this.on_complete_operation`)
+    *
     * @method operation
     * @async
     * @param  {Array}   objets La liste des objets (DOM) à traiter
@@ -151,7 +152,7 @@ $.extend(window.ObjetClass.prototype,{
     *
     * @method on_end_operation
     * @param  {String} operation  L'opération qui a été exécutée.
-    * @param  {String} obj_id   Identifiant de l'objet qui a terminé son traitement
+    * @param  {String} obj_id     Identifiant de l'objet qui a terminé son traitement
     */
   on_end_operation:function(operation, obj_id)
   {
@@ -179,10 +180,14 @@ $.extend(window.ObjetClass.prototype,{
     if('function' == typeof this['on_complete_'+operation]) this['on_complete_'+operation]()
     if(this.on_complete_operation)
     {
-      this.on_complete_operation()
+      if('function' == typeof this.on_complete_operation) this.on_complete_operation()
       delete this.on_complete_operation
     }
-    else NEXT_STEP()
+    else
+    {
+      dlog("J'appelle NEXT_STEP à la fin de `on_end_operation`")
+      NEXT_STEP()
+    } 
   }
 })
 
@@ -217,11 +222,12 @@ Object.defineProperties(ObjetClass.prototype,{
     }
   },
   /**
-    * Offset horizontal du cercle
+    * Offset horizontal de l'objet
     * @property {Number} left
+    * @default Anim.current_x
     */
   "left":{
-    get:function(){return this._left},
+    get:function(){return this._left || Anim.current_x},
     set:function(left){
       this._left = left
       if(this.obj) this.obj.css('left', left)

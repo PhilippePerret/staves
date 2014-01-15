@@ -1,28 +1,27 @@
 section#tools {
-  position : fixed;
-  bottom   : 0;
-  left     : 0;
-  width    : 494px;
+  position  : fixed;
+  top       : 4em;
+  left      : 10em;
+  width     : 494px;
   background-color  : #ccc;
-  overflow  : scroll;
   padding   : 20px;
+  z-index   : 500;
 }
 
 section#tools * {
   font-size : 14px;
 }
 
-section#tools input[type="button"] {
-
+section#tools div.titre {
+  font-weight     :bold;
+  margin-bottom   :1em;
+}
+section#tools div.buttons {
+  text-align    : right;
 }
 
 section#tools select#animations {
-  background-color: #EBDECC;
-  height: 25px;
-  width: 324px;
-}
-section#tools input[type="button"]#btn_save_anim {
-  background-color : #cfc;
+  width             :324px;
 }
 
 /* La règle à mesurer */

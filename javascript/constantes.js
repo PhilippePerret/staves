@@ -26,7 +26,9 @@ const finger      = 'finger'
 const cadence     = 'cadence'
 const measure     = 'measure'
 const mesure      = 'measure'
+const doublage    = 'doublage'
 
+// Les cadences
 const parfaite    = 'parfaite'
 const italienne   = 'italienne'
 const imparfaite  = 'imparfaite'

@@ -1,15 +1,20 @@
 section#infos {
-  position  : fixed;
-  bottom    : 0;
-  right     : 0;
+  position      : fixed;
+  display       : none;
+  top           : 100px;
+  left          : 200px;
   width         : 260px;
   padding       : 8px;
   font-family   : Courier;
   font-size     : 7.5pt;
-  max-height    : 98px;
+  max-height    : 200px;
   overflow      : auto;
+  background-color:#CCC;
 }
 
+section#infos > div.odd, section#infos > div.even {
+  padding : 1px 8px
+}
 section#infos > div.odd {
   background-color    : white;
 }

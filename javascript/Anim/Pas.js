@@ -91,7 +91,10 @@ $.extend(Pas.prototype,{
   {
     if(this.is_comment || this.is_empty) return false
     try{ eval('Anim.Objects.'+this.trimed) }
-    catch(err){ this.on_error(err, retry = true) }
+    catch(err){ 
+      dlog("[<Pas>.exec] # Erreur : "+err+" survenue (noter que cela aura pour conséquence directe de passer à l'étape suivante).")
+      this.on_error(err, retry = true) 
+    }
     // S'il y a eu plusieurs essais
     if(this.timer_tries_exec)
     {

@@ -1,0 +1,54 @@
+section#app_popups {
+  position    :absolute;
+  left        : 10px;
+  top         : 0px;
+  z-index     : 1000;
+}
+
+section#app_popups ul.app_popup {
+/*  position          : absolute;
+  top               : 0;*/
+  list-style        : none;
+  padding           : 0;
+  margin            : 0;
+  height            : 18pt;
+  display           : block;
+  float             : left;
+  width             : 85px;
+  font-family       : 'Lucida Grande';
+  font-size         : 11pt;
+  overflow          : hidden;
+  background-color  : white;
+}
+section#app_popups ul.app_popup li {
+  padding :2px 12px;
+  margin  :0;
+  cursor  :pointer;
+}
+/*Le premier Item (nom du menu)*/
+section#app_popups ul.app_popup li.first {
+  text-align    : center;
+/*  background-color  : #ccc;*/
+  width             : 85px !important;
+}
+section#app_popups ul.app_popup li:not(.first) {
+  width         :250px;
+  font-size     :0.9em;
+  background-color :white;
+  border-width  : 0 1px 1px 1px;
+  border-style  : solid;
+  border-color  : #FFF #CCC #DDD #CCC;
+  
+}
+section#app_popups ul.app_popup li:not(.first):hover {
+  background-color  :#40609F;
+  color             :white;
+}
+section#app_popups ul.app_popup:hover {
+  height    : auto;
+  overflow  : visible;
+}
+
+/*ul.app_popup li:not(.first){ display: none;}
+
+ul.app_popup:hover li{ display: block;}*/

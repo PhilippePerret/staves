@@ -1,7 +1,7 @@
 section#controller {
   position  : fixed; 
-  top       : 468px;
-  right     : 368px;
+  bottom    : 0;
+  right     : 0;
   width     : 340px;
   background-color  : #A0A0A0;
 }

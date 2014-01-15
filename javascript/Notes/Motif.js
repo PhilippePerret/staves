@@ -57,14 +57,12 @@ window.Motif = function(strnotes, params)
     */
   this.notes = [null]
   
-  if(undefined == params) params = {}
-  for(var prop in params){
-    this[prop] = params[prop]
-  } 
+  // if(undefined == params) params = {}
+  for(var prop in (params || {})){this[prop] = params[prop]} 
   
   this.make_instances_with(strnotes)
-  
-  this.build()  
+  this.build()
+    
 }
 $.extend(Motif.prototype, METHODES_TEXTE)
 $.extend(Motif.prototype, METHODES_GROUPNOTES)

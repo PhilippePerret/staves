@@ -67,8 +67,34 @@ $.extend(Anim,{
     this.stop_button.css('visibility', this.on ? 'visible':'hidden')
     this.pause_button[this.on && !this.pause_on && !this.Step.mode_pas_a_pas ?'show':'hide']()
     this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?'show':'hide']()
-    if(!this.on || this.pause_on) this.Grid.show()
-    else this.Grid.hide()
+
+    if(Anim.prefs.grid)
+    {
+      if(!this.on || this.pause_on) this.Grid.show()
+      else this.Grid.hide()
+    }
+    if(this.on)
+    {
+      /* Les éléments qu'il faut toujours masquer */
+      UI.Popups.section.hide()
+      /* Les éléments à masquer optionnellement */
+      if(Anim.options.fullscreen)
+      {
+        this.controller.hide()
+        Console.console.css('opacity', 0.2)
+      }
+    }
+    else
+    {
+      /* Les éléments qu'il faut toujours masquer (et donc remettre)*/
+      UI.Popups.section.show()
+      /* Les éléments à masquer optionnellement */
+      if(Anim.options.fullscreen)
+      {
+        this.controller.show()
+        Console.console.css('opacity', 1)
+      }
+    }
   },
   
   /**
@@ -216,6 +242,11 @@ $.extend(Anim,{
 })
 
 Object.defineProperties(Anim,{
+  /**
+    * Objet DOM de la boite de controller
+    * @property {jQuerySet} controller
+    */
+  "controller":{get:function(){return $('section#controller')}},
   /** 
     * Objet DOM du bouton Start
     * @property {jQuerySet} start_button

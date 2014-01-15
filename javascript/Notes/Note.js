@@ -16,13 +16,9 @@
 window.NOTE = function(note, params)
 {
   if(undefined == params) params = {}
-  var n = new Note(note, params)
-  if(!params.dont_build)
-  {
-    n.build()
-    Anim.wait(1)
-  }
-  return n
+  var inote = new Note(note, params)
+  if(!params.dont_build) inote.build()
+  return inote
 }
 
 /**
@@ -37,8 +33,14 @@ window.Note = function(note, params)
   this.note       = null
   this.octave     = null
   this.alteration = null
-    
-  this.left   = Anim.current_x
+  
+  /**
+    * Position horizontale de la note
+    * Noter que c'est une propriété complexe (héritée de ObjectClass), définie 
+    * ici seulement pour la clarté.
+    * @property {Number} left
+    */
+  this.left = null
   
   /**
     * Le texte éventuel que porte la note (instance {Txt})
@@ -84,7 +86,6 @@ $.extend(Note.prototype,{
     * @method show
     * @async
     * @param  {Object|Undefined} params Les paramètres optionnels
-    *   @param  {Function} params.complete  La méthode à appeler en fin de processus
     * @return {Note} this, pour le chainage
     */
   show:function(params)

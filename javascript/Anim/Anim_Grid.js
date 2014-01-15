@@ -12,8 +12,7 @@
   *   * Il affiche et masque ces éléments de grille lors du jeu ou de l'arrêt de
   *     l'animation.
   *
-  * @class Grid
-  * @for Anim
+  * @class Anim.Grid
   * @static
   */
 if(undefined == window.Anim) window.Anim = {}

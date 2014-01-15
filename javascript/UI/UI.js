@@ -16,6 +16,7 @@ $.extend(UI,{
   {
     this.Regle.prepare()
     this.onresize_window()
+    this.Popups.prepare()
   },
   /**
     * Retourne la vraie largeur de l'objet DOM +obj+ en tenant compte de
@@ -98,11 +99,12 @@ $.extend(UI,{
       width : console_width+"px",
       height: anim_height+"px"
     })
-    controller_width = $('section#controller').width()
-    $('section#controller').css({
-      top   : (anim_height + 40)+"px",
-      left  : (anim_width - controller_width + 30) + "px"
-    })
+    // controller_width = $('section#controller').width()
+    // $('section#controller').css({
+    //   top   : (anim_height + 40)+"px",
+    //   left  : (anim_width - controller_width + 30) + "px"
+    // })
+
     // La position de la règle de mesure
     this.Regle.obj.css({top:(anim_height - 10)+'px'})
     // Positions pour la grille (grid)
@@ -124,7 +126,6 @@ $.extend(UI,{
     */
   peuple_liste_animations:function(name_list)
   {
-    $('select#animations').html('<option value="0">Charger l\'animation…</option>')
     L(name_list).each(function(name){
       $('select#animations').append('<option value="'+name+'">'+name+'</option>')
     })

@@ -38,6 +38,25 @@ $.extend(window.Anim,{
     * @property {Float} coef_speed
     */
   coef_speed: 1,
+  /**
+    * Options diverses
+    * @class Anim.options
+    * @static
+    */
+  options:{
+    /**
+      * Quand True, joue l'animation en plein écran
+      * @property {Boolean} fullscreen
+      */
+    fullscreen: false,
+    /**
+      * Quand True, affiche la grille
+      * @property {Boolean} grid
+      */
+    grid:true
+  },
+  /* Fin des options
+   * --------------------------------------------------------------------- */
   
   /**
     * Définition de la vitesse (ou plutôt la durée) des transitions
@@ -124,7 +143,8 @@ $.extend(window.Anim,{
     modulation_y      :26,
     speed             :1,
     note_size         :14.3,
-    delai_after_show  :3
+    delai_after_show  :3,
+    doublage          :true
   },
   /**
     * Toutes les préférences
@@ -230,7 +250,15 @@ $.extend(window.Anim,{
       * Taille des notes
       * @property {Float} note_size
       */
-    note_size     :14.3,
+    note_size           : 14.3,
+    /**
+      * Si true, les CAPTION afficheront le texte en doublage, hors de l'animation
+      * Sinon, ils seront affichés comme des sous-titres, dans l'image de l'animation
+      * @property {Boolean} doublage
+      * @default true
+      */
+    doublage            : true,
+    
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
     offset_next           :0,
     offset_harmony        :0,

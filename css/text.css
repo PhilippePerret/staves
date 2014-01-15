@@ -15,6 +15,28 @@ div.text.petit, div.text.small {font-size: 0.8em;}
 
 /* Fin des styles de texte
  --------------------------------------------------------------------- */
+/*
+ *  Style pour les sous-titres et doublage
+ *
+ * Rappel : 'doublage':not(.caption) => doublage
+ *          doublage.caption => sous-titre
+ */
+div.text.doublage {
+  background-color  : black;
+  color             : #FF74FF;
+  padding           : 4px 16px;
+  width             : 550px;
+}
+div.text.doublage:not(.caption){
+  /* Pur doublage */
+  top         : none !important;
+  bottom      : -40px !important;
+}
+div.text.doublage.caption {
+  /* Purs sous-titres */
+  top         : none !important;
+  bottom      : 10px !important;
+}
 
 /* Style pour un NUMÉRO DE MEASURE */
 div.text.measure {
