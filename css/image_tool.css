@@ -5,7 +5,8 @@ div#imgtool_gabarit {
   left        : 10px;
   width       : 1200px;
   height      : 800px;
-  background-color : #F0F;
+  background-color : #6F007F;
+  color       : white;
 }
 
 
@@ -32,16 +33,24 @@ div#imgtool_gabarit > img {
   position  : absolute;
   top       : 10px;
   left      : 10px;
+  background-color: white; /* car l'image peut être transparente */
   z-index   : -1;
 }
 
 /* Les boutons */
 div#imgtool_gabarit div.buttons {
-  position    : absolute;
-  right       : 0;
-  top         : 10px;
+  position    :absolute;
+  right       :0;
+  top         :10px;
 }
 
-div#imgtool_gabarit div.buttons input[type="button"]{
-  display : block;
+div#imgtool_gabarit div.buttons > input[type="button"]{
+  display     :block;
+  font-size   :13.9pt;
+}
+
+/* Textarea pour le feedback du code à copier-coller */
+div#imgtool_gabarit textarea#imgtool_feedback {
+  width     : 200px;
+  height    : 100px;
 }

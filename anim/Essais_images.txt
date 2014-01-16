@@ -2,4 +2,4 @@
 
 DEFAULT(\'decompte\',0)
 
-img=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', width:450, left:75})
+img=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', top:100, left:75, width:520, height:465, cadre_offset_x:13, cadre_offset_y:0, cadre_width:464, cadre_height:91})

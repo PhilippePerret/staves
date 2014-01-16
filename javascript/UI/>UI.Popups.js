@@ -78,10 +78,21 @@ window.UI.Popups = {
     {
       Anim.options.fullscreen = !Anim.options.fullscreen
       item.html((Anim.options.fullscreen?"Pas de plein écran":"Anim en plein écran"))
+    },
+    /**
+      * Menu "Cadrage image" actionné
+      * La méthode affiche une liste des images courantes pour les éditer
+      * @method cadrage
+      */
+    cadrage:function(item)
+    {
+      UI.Tools.add(Img.html_listing('edit'))
+      UI.Tools.show('listing_images')
     }
   },
   /* Fin des méthodes qui correspondent aux menus
    * --------------------------------------------------------------------- */
+  
   /**
     * = Main =
     * Méthode appelée quand on choisit un item de menu

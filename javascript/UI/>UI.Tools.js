@@ -4,6 +4,11 @@
 
 /**
   * Gestion des Tools
+  * Les “tools” correspondent à une section HTML dans laquelle se trouvent déjà 
+  * quelques éléments (comme la liste des animations) et dans laquelle on peut 
+  * placer tout dialogue interactif, comme par exemple la liste des images quand
+  * on doit en choisir une.
+  *
   * @class UI.Tools
   * @static
   */
@@ -49,6 +54,20 @@ window.UI.Tools = {
   hide_all:function()
   {
     L(this.tools).each(function(tid, tool){ tool.hide() })
+  },
+  /**
+    * Ajoute le code +code+ à la boite des tools
+    * Notes
+    *   * Ce code devrait être contenu dans un div principal avec pour identifiant
+    *     un nom commençant par "tool_" pour pouvoir être géré correctement.
+    *
+    * @method add
+    * @param {String} code Le code HTML
+    */
+  add:function(code)
+  {
+    this.section.append(code)
+    this.init()
   }
 }
 

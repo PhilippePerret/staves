@@ -12,6 +12,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Les portées](#les_staves)
 * [Les gammes](#les_gammes)
 * [Les textes](#les_textes)
+* [Les images](#les_images)
 * [Les flèches](#les_fleches)
 * [Régler toutes les valeurs de l'animation](#set_preferences)
 
@@ -1348,6 +1349,55 @@ En revanche, si on utilise&nbsp;:
 
 … alors l'objet sera vraiment détruit.
 
+---------------------------------------------------------------------
+
+<a name="les_images"></a>
+##Les images
+
+###Table des matières
+
+* [Insertion de l'image](#insertion_image)
+* [Modifier le cadrage de l'image](#modify_cadrage_image)
+* [Ne pas construire l'image lors de l'instanciation](#dont_build_image)
+
+<a name="insertion_image"></a>
+###Insertion de l'image
+
+On peut insérer n'importe quelle image dans l'animation, par exemple une partition, grâce à la commande :
+
+    IMAGE(<parametres>)
+  
+Par exemple&nbsp;:
+  
+    monImage = IMAGE({url:'path/to/monimage.png'})
+
+Noter que l'image est aussitôt construite est insérée dans l'animation avec les paramètres fournis, sauf si `build:false` est ajouté aux paramètres définissant l'image (cf. [Ne pas construire l'image](#dont_build_image)).
+
+<a name="modify_cadrage_image"></a>
+###Modifier le cadrage de l'image
+
+Plutôt que d'insérer tout un tas d'images, par exemple une image par portée de la partition, il est plus intéressant d'importer comme image la partition entière puis ensuite de “zoomer” (ou “cadrer”) sur certaines parties de l'image pour n'en faire apparaitre qu'une partie.
+
+C'est ici que le cadrage entre en jeu.
+
+Pour recadrer ou cadrer une image&nbsp;:
+
+* Activer le menu “Outils > Cadrage image...”&nbsp;;
+* Si l'image n'apparait pas, cliquer le bouton “Chercher toutes les images dans le code”&nbsp;;
+* Cliquer sur l'aperçu de l'image à recadrer.<br>=> La fenêtre de recadrage s'ouvre.
+* Utiliser le cadre rouge pour choisir un portion de l'image, celle qui sera visible. On peut le déplacer en cliquant à l'intérieur du cadre rouge puis en glissant la souris et on peut changer sa taille à l'aide du coin en bas à droite&nbsp;;
+* Cliquer ensuite sur le bouton outil (à droite) correspondant à la commande désirée (puisque plusieurs options sont possibles à ce niveau là, depuis le simple code pour instancier l'image avec ce cadrage jusqu'à la commande pour faire un travelling sur l'image).
+
+<a name="dont_build_image"></a>
+###Ne pas construire l'image
+
+Pour ne pas construire l'image lors de son instanciation (par exemple pour pouvoir mettre la liste des images en début de code), ajouter `build:false` aux paramètres&nbsp;:
+
+    monImage = IMAGE({url:'path/to/monimage.png', build:false})
+
+Puis ensuite, à l'endroit où l'image doit être construite, utiliser :
+
+    monImage.build()
 
 ---------------------------------------------------------------------
 

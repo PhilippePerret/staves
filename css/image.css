@@ -2,6 +2,12 @@
   * Styles des images
   * (hormis celle qui font partie de l'animation — portée, notes, etc.)
   */
+div.divimage, div.divimage > img.image {
+  position : absolute;
+}
+/* Le div contenant l'image */
+div.divimage {
+  overflow:hidden;
+}
 img.image {
-  position: absolute;
 }

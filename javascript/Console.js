@@ -25,14 +25,16 @@ $.extend(window.Console,{
     * Retourne le code depuis le caractère +from+ (0-start) jusqu'au caractère
     * +to+. Si +as_list+ est true, sous forme de liste (true par défaut).
     * @method get_code
-    * @param  {Number} from   Index du premier caractère
-    * @param  {Number} to     Index du dernier caractère
+    * @param  {Number} from   Index du premier caractère (0 par défaut)
+    * @param  {Number} to     Index du dernier caractère (le dernier par défaut)
     * @param  {Boolean} as_list Si True (défaut) sous forme de liste
     * @return {String|Array}  Le code relevé dans la console
     */
   get_code:function(from, to, as_list)
   {
     if(undefined == as_list) as_list = true
+    if(!from) from = 0
+    if(!to  ) to   = this.raw.length
     var code = this.raw.substring(from, to - from + 1)
     if(as_list) code = code.split("\n")
     return code

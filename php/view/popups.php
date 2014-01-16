@@ -1,5 +1,12 @@
 <?php
   // Les pop ups supérieurs
+  /*
+   * Notes
+   * -----
+   * Si un menu est ajouté, il suffit d'ajouter la méthode correspondant à son
+   * `data-item` (très exactement le même nom) dans l'objet UI.Popups.Methods
+   *
+   */
 ?>
 <section id="app_popups">
   
@@ -27,6 +34,7 @@
     <li class="first">Outils</li>
     <li class="separateur"></li>
     <li data-item="infos">Informations courantes</li>
+    <li data-item="cadrage">Cadrage image…</li>
     <li data-item="manual">Manuel d'utilisation</li>
   </ul>
 </section>

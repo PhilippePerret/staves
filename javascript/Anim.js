@@ -402,7 +402,7 @@ $.extend(window.Anim,{
     this.reset()
   },
   /**
-    * Reset l'animation (au (re)-démarrage)
+    * Reset l'animation (au (re)-démarrage de l'animation)
     * @method reset
     */
   reset:function()
@@ -420,6 +420,8 @@ $.extend(window.Anim,{
     // Il faut ré-initialiser la grid après avoir re-défini current_x, car
     // la grid s'en sert pour replacer le curseur de position.
     this.Grid.init_all()
+    // Quelques autres ré-initialisation
+    Img.virtual_operation = false
   },
   /**
     * Appelé au chargement de l'application
