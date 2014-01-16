@@ -2000,6 +2000,8 @@ maNote.texte['regular'].hide()
 
 <p><em>Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).</em></p>
 
+<p>Pour des informations concernant le “cadre”, cf. <a href="#modify_cadrage_image">Modifier le cadrage de l'image</a>.</p>
+
 <p>Noter que l'image est aussitôt construite est insérée dans l'animation avec les paramètres fournis, sauf si <code>build:false</code> est ajouté aux paramètres définissant l'image (cf. <a href="#dont_build_image">Ne pas construire l'image</a>).</p>
 
 <p><a name="modify_position_image"></a></p>
@@ -2008,7 +2010,8 @@ maNote.texte['regular'].hide()
 
 <p>Pour modifier la position de l'image, il faut jouer sur les paramètres <code>top</code> (haut) et <code>left</code> (gauche) de ses paramètres optionnels. Par exemple&nbsp;:</p>
 
-<p>monImage=IMAGE({url:'path/to/image.png', top:100, left:200})</p>
+<pre><code>monImage=IMAGE({url:'path/to/image.png', top:100, left:200})
+</code></pre>
 
 <p>… placera l'image 100 pixels plus bas que le haut du cadre de l'animation et à 200 pixels du bord gauche.</p>
 
@@ -2094,15 +2097,17 @@ monImage.travelling({&lt;parametres du travelling&gt;})
 <p>Cette méthode attend des paramètres qui vont définir le travelling. Ces paramètres sont&nbsp;:</p>
 
 <pre><code>&lt;image&gt;.travelling({
-  x: {Number} La nouvelle position horizontale du cadrage
+  x       : {Number} La nouvelle position horizontale du cadrage
   OU
-  x_for: {Number} Le nombre de pixels de déplacement horizontal
+  x_for   : {Number} Le nombre de pixels de déplacement horizontal
 
-  y: {Number} La nouvelle position verticale du cadrage
+  y       : {Number} La nouvelle position verticale du cadrage
   OU
-  y_for: {Number} Le nombre de pixels de déplacement vertical
+  y_for   : {Number} Le nombre de pixels de déplacement vertical
 
-  seconds: {Number} La durée du travelling en secondes (2 par défaut).
+  width   : {Number} La largeur du nouveau cadre (optionnel)
+  height  : {Number} La hauteur du nouveau cadre (optionnel)
+  seconds : {Number} La durée du travelling en secondes (2 par défaut).
 })
 </code></pre>
 
@@ -2112,7 +2117,7 @@ monImage.travelling({&lt;parametres du travelling&gt;})
 <li>d'éditer l'image (en double-cliquant dessus ou en utilisant le menu “Outils > Cadrage image...”)&nbsp;;</li>
 <li>De déterminer le cadrage de fin du travelling&nbsp;;</li>
 <li>De demander le code (bouton “-> Code” de l'édition)&nbsp;;</li>
-<li>De prendre la valeur <code>cadre_offset_x</code> pour la mettre en <code>x</code> et la valeur <code>cadre_offset_y</code> pour la mettre en <code>y</code> dans les paramètres du travelling.</li>
+<li>De copier-coller le code donné dans le cadre “Paramètres travelling”.</li>
 </ul>
 
 
