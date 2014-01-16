@@ -1449,7 +1449,7 @@ C'est ici que le cadrage entre en jeu.
 
 Pour recadrer ou cadrer une image&nbsp;:
 
-Si l'image est affichée (par exemple en fin d'animation ou après une pause), il suffit de double-cliquer dessus pour l'éditer.
+Si l'image est affichée (par exemple en fin d'animation ou après une pause), il suffit de double-cliquer dessus pour l'éditer (*Noter qu'il ne faut pas que la grille soit affichée pour pouvoir double-cliquer sur l'image. Pour masquer la grille : “Options > Masquer la grille”*).
 
 Dans le cas contraire&nbsp;:
 

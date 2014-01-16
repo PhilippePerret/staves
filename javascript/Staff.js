@@ -125,7 +125,7 @@ $.extend(Staff,{
   {
     L(indices).each(function(indice_supline){
       var id = "supline-"+istaff+xoffset+"-"+(indice_supline - 1)+endroit
-      $('img#'+id).fadeOut(Anim.transition.show)
+      $('img#'+id).fadeOut(Anim.delai_for('show'))
     })
   }
 })
@@ -259,8 +259,8 @@ $.extend(Staff.prototype, {
     */
   hide:function()
   {
-    this.img_staff.hide(Anim.transition.show)
-    this.img_cle.animate({opacity:'0'}, Anim.transition.show)
+    this.img_staff.hide(Anim.delai_for('show'))
+    this.img_cle.animate({opacity:'0'}, Anim.delai_for('show'))
   },
   /**
     * Destruction de la portée (et retrait de la liste des portées)

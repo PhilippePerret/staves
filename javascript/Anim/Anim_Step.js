@@ -91,7 +91,7 @@ Anim.Step = {
     }
     else
     {
-      this.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.transition.step)
+      this.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.delai_for('step'))
     }
   }
 }

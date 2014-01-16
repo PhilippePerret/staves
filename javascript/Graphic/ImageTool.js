@@ -266,7 +266,6 @@ Object.defineProperties(ImageTool,{
   "html_code_boutons":{
     get:function(){
       return  '<div class="buttons">'+
-                '<input type="button" value="-> Code" onclick="$.proxy(ImageTool.params_image, ImageTool)()" />'+
                 '<fieldset><legend>Taille image</legend>' +
                   '<input type="button" value=" + " onclick="$.proxy(ImageTool.image_bigger, ImageTool, event)()" />'+
                   '<input type="button" value=" - " onclick="$.proxy(ImageTool.image_smaller, ImageTool, event)()" />'+
@@ -275,7 +274,10 @@ Object.defineProperties(ImageTool,{
                 '<textarea id="imgtool_feedback" onfocus="this.select()"></textarea>'+
                 '<div class="tiny">Paramètres pour travelling</div>'+
                 '<textarea id="imgtool_feedback_alt" onfocus="this.select()"></textarea>'+
-                '<input type="button" value="OK" onclick="$.proxy(ImageTool.end_edit, ImageTool)()" />'+
+                '<div class="right">'+
+                  '<input type="button" value="-> Code" onclick="$.proxy(ImageTool.params_image, ImageTool)()" />'+
+                  '<input type="button" value="OK" onclick="$.proxy(ImageTool.end_edit, ImageTool)()" />'+
+                '</div>'+
               '</div>'
       
     }

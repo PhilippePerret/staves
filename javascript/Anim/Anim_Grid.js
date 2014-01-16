@@ -100,9 +100,18 @@ window.Anim.Grid = {
 Object.defineProperties(Anim.Grid,{
   /**
     * L'objet DOM de la grille (contient tous les éléments)
+    * On profite du premier appel pour placer un observer sur le click
     * @property {jQuerySet} obj
     */
-  "obj":{get:function(){return $('div#grid')}},
+  "obj":{get:function(){
+      if(undefined == this._obj)
+      {
+        this._obj = $('div#grid')
+        this._obj.bind('click', function(){F.show("Désactiver la grille pour pouvoir gérer l'animation (“Options > Masquer la grille”).")})
+      }
+      return this._obj
+    }
+  },
   /**
     * L'objet DOM du curseur de position
     * @property {jQuerySet} cursor

@@ -4,15 +4,14 @@
 }
 div#flash {
     position          : fixed;
-    opacity           : 0.8;
+    opacity           : 0.95;
 /*    top: 0.2em;*/
     top: 4px;
     right: 4px;
     margin: 0;
     padding: 0;
     z-index: 2000;
-    max-width: 40%;
-    min-width: 30%; 
+    width: 350px;
   }
   div#flash div#inner_flash {
     max-height: 20em;

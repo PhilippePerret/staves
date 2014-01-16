@@ -43,6 +43,8 @@ div#imgtool_gabarit div.buttons {
   right       :0;
   top         :10px;
   background-color: #EEE;
+  color       :black;
+  padding     :1em;
 }
 
 div#imgtool_gabarit div.buttons > input[type="button"]{

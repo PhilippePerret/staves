@@ -266,7 +266,7 @@ $.extend(Img.prototype,{
     */
   show:function()
   {
-    this.obj.show(Anim.transition.show)
+    this.obj.show(Anim.delai_for('show'))
   },
   /**
     * Masque l'image
@@ -274,7 +274,7 @@ $.extend(Img.prototype,{
     */
   hide:function()
   {
-    this.obj.hide(Anim.transition.show)
+    this.obj.hide(Anim.delai_for('show'))
   },
   /**
     * Construit l'image

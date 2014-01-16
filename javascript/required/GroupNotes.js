@@ -32,8 +32,8 @@ window.OBJET_TRAITEMENT = {
     return this // chainage
   },
   update:function(){return this.traite('update')},
-  show:function(params){return this.traite('show', Anim.transition.show)},
-  hide:function(params){return this.traite('hide', Anim.transition.show)},
+  show:function(params){return this.traite('show', Anim.delai_for('show'))},
+  hide:function(params){return this.traite('hide', Anim.delai_for('show'))},
   fantomize:function(){return this.traite('fantomize')},
   defantomize:function(){return this.traite('defantomize')},
   colorize:function(color){return this.traite('colorize', color)}
