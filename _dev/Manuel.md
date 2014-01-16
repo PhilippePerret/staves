@@ -1377,13 +1377,13 @@ Par exemple&nbsp;:
 Les paramètres peuvent être les suivants&nbsp;:
 
     monImg=IMAGE({
-      url     : <chemin vers image> SEUL ATTRIBUT OBLIGATOIRE
+      url     : <chemin vers image> ATTRIBUT OBLIGATOIRE
       x       : <position horizontale dans l'animation>
       left    : // comme `x`, utiliser l'un ou l'autre
       y       : <position verticale dans l'animation>
       top     : // comme `y`, utiliser l'un ou l'autre
-      width   : <taille de l'image>
-      height  : <hauteur de l'image>
+      width   : <taille de l'image|auto>      ATTRIBUT OBLIGATOIRE 
+      height  : <hauteur de l'image|auto>     ATTRIBUT OBLIGATOIRE
       // Propriétés spéciales pour le cadrage, lorsque l'on ne veut pas
       // utiliser toute l'image, mais seulement une portion de l'image
       cadre_width     : <largeur de la portion à prendre dans l'image>
@@ -1394,7 +1394,9 @@ Les paramètres peuvent être les suivants&nbsp;:
 
 *Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).*
 
-Pour des informations concernant le “cadre”, cf. [Modifier le cadrage de l'image](#modify_cadrage_image).
+Noter que le `width` et le `height` sont obligatoires (c'est à moitié vrai, puisque s'ils ne sont pas fournis, c'est la taille de l'image qui est prise en référence). Leur valeur peut être `auto` et dans ce cas elle est calculée automatiquement par rapport à la valeur qui est fournie.
+
+Pour des informations concernant le “recadrage de l'image”, cf. [Modifier le cadrage de l'image](#modify_cadrage_image).
 
 Noter que l'image est aussitôt construite est insérée dans l'animation avec les paramètres fournis, sauf si `build:false` est ajouté aux paramètres définissant l'image (cf. [Ne pas construire l'image](#dont_build_image)).
 

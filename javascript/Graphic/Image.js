@@ -38,6 +38,28 @@ window.Img = function(params)
     */
   this.id   = 'img'+(new Date()).getTime()
   
+  /**
+    * Position horizontale de l'image
+    * @property {Number} left
+    */
+  this.left = null
+  /**
+    * Position verticale de l'image
+    * @property {Number} top
+    */
+  this.top = null
+  
+  /**
+    * Largeur de l'image (ie du div la contenant)
+    * @property {Number} width
+    */
+  this.width = null
+  /**
+    * Hauteur de l'image (ie du div la contenant)
+    * @proprety {Number} height
+    */
+  this.height = null
+  
   /** Largeur du cadrage de l'image
     * @property {Number} cadre_width
     * @default largeur de l'image
@@ -61,11 +83,19 @@ window.Img = function(params)
   this.cadre_offset_y = 0
   
   var me = this
-  L(params || {}).each(function(k,v){
-    me[k] = v
-  })
+  L(params || {}).each(function(k,v){me[k] = v})
   
   Img.add(this)
+  
+  /*
+   *  Si les dimensions ne sont pas fournies, il faut les calculer
+   *  afin de pouvoir les appliquer au DIV qui contient l'image. Dans
+   *  le cas contraire, l'image serait tout simplement invisible.
+   */
+  if(!this.width || this.width == auto || !this.height || this.height == auto)
+  {
+    this.calcule_width_and_height()
+  }
 }
 /* ---------------------------------------------------------------------
      Classe
@@ -176,7 +206,10 @@ $.extend(Img,{
 
  --------------------------------------------------------------------- */
 
-/* === Methodes à utiliser dans le code === */
+/* 
+    === Methodes à utiliser dans le code === 
+ */
+
 $.extend(Img.prototype,{
   
   /**
@@ -286,6 +319,55 @@ $.extend(Img.prototype,{
 })
 /* === Protected Methods === */
 $.extend(Img.prototype,{
+  /** Méthode qui calcule le `width` et le `height` (obligatoire) de l'image
+    * lorsqu'une des deux valeurs n'a pas été définie ou qu'un ou deux valeurs
+    * sont à 'auto'.
+    * @method calcule_width_and_height
+    */
+  calcule_width_and_height:function()
+  {
+    // Note : dans tous les cas, il faut prendre la taille réelle de l'image
+    // Procédé : on l'affiche hors de l'écran et on prend ses dimensions
+    image_size = this.real_taille_image()
+    if(this.width && this.width != auto)
+    { // => la largeur (width) est définie
+      this.height = (this.width / image_size.width) * image_size.height
+    }
+    else if(this.height && this.height != auto)
+    { // => la hauteur (height) est définie
+      this.width = (this.height / image_size.height) * image_size.width
+    }
+    else
+    { // => les deux valeurs sont à auto, ou non définies
+      this.width  = image_size.width
+      this.height = image_size.height
+    }
+  },
+  /**
+    * Méthode qui retourne la vraie taille absolue de l'image
+    * Pour ce faire, elle l'affiche provisoirement (hors écran), et relève
+    * ses dimensions.
+    * @method real_taille_image
+    * @return {Object} Un objet définissant {width:, height:}
+  */
+  real_taille_image:function()
+  {
+    if($('img#img_prov').length == 0)
+    {
+      $('body').append('<img id="img_prov" src="'+this.url+'" style="position:absolute;top:-4000px;left:-4000px;" />')
+    }
+    var width_image   = $('img#img_prov').width()
+    if(!width_image)
+    {
+      this.timer = setTimeout($.proxy(this.real_taille_image, this), 200)
+      return
+    }
+    if(this.timer){clearTimeout(this.timer); delete this.timer;}
+    width_image = UI.css2number(width_image)
+    var height_image  = UI.css2number($('img#img_prov').height())
+    $('img#img_prov').remove()
+    return {width: width_image, height:height_image}
+  },
   /**
     * Construit l'image (et passe à l'étape suivante)
     * @method build

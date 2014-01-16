@@ -1,6 +1,7 @@
 /**
   * @module constantes
   */
+const auto    = 'auto'
 
 const black   = 'black'
 const BLACK   = 'black'

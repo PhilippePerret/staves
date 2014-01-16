@@ -14,7 +14,8 @@ DEFAULT(\'staff_offset\', 120)
 DEFAULT(\'offset_modulation_y\', 5)
 DEFAULT(\'chord\', 35)
 
-partition=IMAGE({url:\'asset/img/CBT1_Prelude_01.png\', left:78, top:6, width:725, height:427})
+# mettre width à 725
+partition=IMAGE({url:\'asset/img/CBT1_Prelude_01.png\', left:78, top:6, width:725})
 
 CAPTION(\"Suite aux précédents screencast présentant les gammes et les accords, nous allons maintenant pouvoir aborder un premier travail d\'analyse\", false)
 WAIT(10)
