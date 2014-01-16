@@ -86,16 +86,23 @@ partition.hide()
 CAPTION(\"Par rapport à ces arpèges ascendant, il est intéressant de noter comment ils s\'opposent au parcours de la mélodie.\")
 NEW_STAFF(SOL, {top:129})
 
-melodie = MOTIF(\'e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 c4 a3 f3 f5 d4 b4 f4 e4\', {offset_x:34, speed:4})
-WAIT(4)
-melodie.note([1,43]).surround({color:blue})
-melodie.note([5,20]).surround({color:green})
+melodie = MOTIF(\'e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 c4 a3 f3 f5 d5 b4 f4 e4\', {offset_x:34, speed:4})
+WAIT(1)
 WAIT(10)
 
 CAPTION(\"En effet, si nous ne prenons que les notes extrêmes de ce prélude, nous notons le parcours clairement descendant de la mélodie…\")
 WAIT(10)
 
-CAPTION(\"… qui part du mi5 pour aller jusqu\'au mi4, donc une octave, pour un ambitus — c\'est-à-dire l\'intervalle entre la note la plus haute et la note la plus basse — de sixte redoublée, du la5… au do4…\")
+melodie.note([1,32,41]).surround({color:blue})
+
+CAPTION(\"… qui part du mi5 pour aller jusqu\'au mi4, donc une octave, …\")
+
+melodie.note([5,20]).surround({color:green})
+
+CAPTION(\"… pour un ambitus — c\'est-à-dire l\'intervalle entre la note la plus haute et la note la plus basse — de sixte redoublée, du la5… au do4…\")
+WAIT(10)
+
+CAPTION(\"Noter que je ne tiens pas compte ici de la coda, d\'un caractère mélodique très contrasté.\")
 WAIT(10)
 
 melodie.hide()

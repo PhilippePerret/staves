@@ -30,7 +30,7 @@ $.extend(window.ObjetClass.prototype,{
     */
   show:function(params)
   {
-    Anim.show(this.obj, params)
+    Anim.Dom.show(this.obj, params)
   },
   
   /**
