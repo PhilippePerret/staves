@@ -169,8 +169,44 @@ $.extend(Img,{
 
 
 /* ---------------------------------------------------------------------
+
      Instance
+
  --------------------------------------------------------------------- */
+
+/* === Methodes à utiliser dans le code === */
+$.extend(Img.prototype,{
+  
+  /**
+    * Pour exécuter un travelling dans l'image
+    * @method travelling
+    * @param {Object} params    Paramètres (doit exister)
+    *   @param {Number} params.seconds    La durée du travelling (optionnel)
+    *   @param {Number} params.x          La position horizontale de fin du cadrage
+    *   @param {Number} params.y          Position verticale de fin du cadrage
+    *   @param {Number} params.x_for      Nombre de pixels de déplacement horizontal
+    *   @param {Number} params.y_for      Nombre de pixels de déplacement vertical
+    *   @param {Function} params.complete La méthode pour suivre (NEXT_STEP par défaut)
+    */
+  travelling:function(params)
+  {
+    if(undefined == params) return F.error("Il faut définir les paramètres du travelling !")
+    if(undefined != params.x_for)     params.x = this.cadre_offset_x + params.x_for
+    if(undefined != params.y_for)     params.y = this.cadre_offset_y + params.y_for
+    if(undefined == params.seconds)   params.seconds = 2
+    if(undefined == params.complete)  params.complete = NEXT_STEP
+    if(undefined == params.x && undefined == params.y) return F.error("Il faut définir le mouvement du travelling !")
+    var dtrav = {}
+    if(undefined != params.x) dtrav.left = "-"+params.x+'px'
+    if(undefined != params.y) dtrav.top  = "-"+params.y+'px'
+    // On procède au travelling
+    this.image.animate(dtrav, params.seconds * 1000, params.complete)
+  }
+
+
+
+})
+/* === Protected Methods === */
 $.extend(Img.prototype,{
   /**
     * Affiche l'image
