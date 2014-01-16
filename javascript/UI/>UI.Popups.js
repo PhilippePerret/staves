@@ -88,6 +88,25 @@ window.UI.Popups = {
     {
       UI.Tools.add(Img.html_listing('edit'))
       UI.Tools.show('listing_images')
+    },
+    /**
+      * Méthode pour activer les coordonnées, outils qui permet de récupérer
+      * des coordonnées à l'écran
+      * @method coordonnees
+      */
+    coordonnees_on:false,
+    coordonnees:function(item)
+    {
+      this.coordonnees_on = !this.coordonnees_on
+      item.html((this.coordonnees_on ? "Désactiver" : "Activer") + " coordonnées")
+      if(this.coordonnees_on)
+      {
+        UI.Tools.coordonnees_active()
+      }
+      else
+      {
+        UI.Tools.coordonnees_desactive()
+      }
     }
   },
   /* Fin des méthodes qui correspondent aux menus

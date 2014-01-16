@@ -18,7 +18,8 @@ NEW_STAFF(FA)
 ACTIVE_STAFF(1)
 
 # --- Image de la partition ---
-partition=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', top:316, left:14, cadre_offset_x:-1, cadre_offset_y:0, cadre_width:257, cadre_height:96})
+WAIT(1)
+partition=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', top:279, left:73, cadre_offset_x:0, cadre_offset_y:0, cadre_width:267, cadre_height:96})
 
 # --- Premier accord DO ---
 STAFF(1).measure(\'1\')
@@ -82,6 +83,7 @@ NOTE(d4)
 # --- Mesure 4 : Do ---
 NEXT()
 STAFF(1).measure(\'4\')
+partition.move({x:322}).travelling({x:584})
 do2=CHORD(\'2:c4 2:e4 g4 c5 e5\')
 WAIT(4)
 do2.note(1).moveTo(\'1:c4\')

@@ -1,0 +1,90 @@
+/* ---------------------------------------------------------------------
+ *  Styles pour le cadre qui permet d'obtenir les coordonnées à l'écran
+ *
+ */
+div#coord_main_cadre,
+div#coord_main_cadre div#coord_inner_cadre,
+div#coord_main_cadre div#coord_left,
+div#coord_main_cadre div#coord_right,
+div#coord_main_cadre div#coord_top,
+div#coord_main_cadre div#coord_bottom,
+div#coord_main_cadre div#coord_wxh {
+  position:absolute;
+  opacity :1 !important;
+}
+div#coord_main_cadre {
+  border    : 2px solid red;
+  resize    : both;
+  overflow  : hidden;
+  width     : 200px;
+  height    : 100px;
+  top       : 10em;
+  left      : 10em;
+}
+
+/* Le cadre intérieur qui déclenche le déplacement */
+div#coord_main_cadre div#coord_inner_cadre {
+  top     : 20px;
+  bottom  : 20px;
+  left    : 20px;
+  right   : 20px;
+/*  border  : 1px dashed green;*/
+}
+
+/* Les div pour afficher les coordonnées */
+div#coord_main_cadre div#coord_left,
+div#coord_main_cadre div#coord_right,
+div#coord_main_cadre div#coord_top,
+div#coord_main_cadre div#coord_bottom,
+div#coord_main_cadre div#coord_wxh {
+  font-family :Courier;
+  font-size   :8pt;
+}
+div#coord_main_cadre div#coord_left {
+  top  : calc(50% - 5px);
+  left : 2px;
+}
+div#coord_main_cadre div#coord_right {
+  top   : calc(50% - 5px);
+  right : 2px;
+}
+div#coord_main_cadre div#coord_top,
+div#coord_main_cadre div#coord_bottom {
+  left  : calc(50% - 20px);
+  width : 40px;
+  text-align:center;
+}
+div#coord_main_cadre div#coord_top {
+  top     : 2px;
+}
+div#coord_main_cadre div#coord_bottom {
+  bottom  : 2px;
+}
+div#coord_main_cadre div#coord_wxh {
+  top  : calc(50%);
+  left : calc(50% - 40px);
+  width: 80px;
+  text-align:center;
+}
+
+/* Les lignes de fuite */
+section#animation div#coord_fuite_left,
+section#animation div#coord_fuite_right,
+section#animation div#coord_fuite_top,
+section#animation div#coord_fuite_bottom {
+  position          :absolute;
+  background-color  :#DDF;
+}
+section#animation div#coord_fuite_left,
+section#animation div#coord_fuite_right {
+  height : calc(100%);
+  width  : 1px;
+}
+section#animation div#coord_fuite_left {
+  left     :10em;
+}
+section#animation div#coord_fuite_top,
+section#animation div#coord_fuite_bottom {
+  width  :calc(100%);
+  height :1px;
+}

@@ -180,6 +180,26 @@ $.extend(Img,{
 $.extend(Img.prototype,{
   
   /**
+    * Affiche l'image
+    * @method show
+    * @return {Img} L'instance, pour chainage
+    */
+  show:function()
+  {
+    this.obj.animate({opacity:1}, Anim.delai_for('show'))
+    return this
+  },
+  /**
+    * Masque l'image
+    * @method hide
+    * @return {Img} L'instance, pour chainage
+    */
+  hide:function()
+  {
+    this.obj.animate({opacity:0}, Anim.delai_for('show'))
+    return this
+  },
+  /**
     * Pour exécuter un travelling dans l'image
     * @method travelling
     * @param {Object} params    Paramètres (doit exister)
@@ -191,6 +211,7 @@ $.extend(Img.prototype,{
     *   @param {Number} params.x_for      Nombre de pixels de déplacement horizontal
     *   @param {Number} params.y_for      Nombre de pixels de déplacement vertical
     *   @param {Function} params.complete La méthode pour suivre (NEXT_STEP par défaut)
+    * @return {Img} L'instance, pour chainage
     */
   travelling:function(params)
   {
@@ -215,6 +236,7 @@ $.extend(Img.prototype,{
     if(params.y)      this.cadre_offset_y = params.y
     if(params.width)  this.cadre_width    = params.width
     if(params.height) this.cadre_height   = params.height
+    return this
   },
   
   /**
@@ -227,6 +249,7 @@ $.extend(Img.prototype,{
     *   @param {Number} params.y_for  Nombre de pixels de déplacement vertical
     *   @param {Number} params.seconds  Durée du déplacement
     *   @param {Function} params.complete   Méthode à appeler en fin de déplacement
+    * @return {Img} L'instance, pour chainage
     */
   move:function(params)
   {
@@ -239,11 +262,13 @@ $.extend(Img.prototype,{
     if(undefined != params.x) dmove.left = params.x+'px'
     if(undefined != params.y) dmove.top  = params.y+'px'
     this.obj.animate(dmove, params.seconds * 1000, params.complete)
+    return this
   },
   
   /**
     * Méthode pour changer la source de l'image
     * @method src
+    * @return {Img} L'instance, pour chainage
     */
   src:function(new_url)
   {
@@ -253,6 +278,7 @@ $.extend(Img.prototype,{
     this.image.css({width:null, height:null})
     this.image[0].src = new_url
     NEXT_STEP(notimeout=true)
+    return this
   }
 
 
@@ -261,23 +287,7 @@ $.extend(Img.prototype,{
 /* === Protected Methods === */
 $.extend(Img.prototype,{
   /**
-    * Affiche l'image
-    * @method show
-    */
-  show:function()
-  {
-    this.obj.show(Anim.delai_for('show'))
-  },
-  /**
-    * Masque l'image
-    * @method hide
-    */
-  hide:function()
-  {
-    this.obj.hide(Anim.delai_for('show'))
-  },
-  /**
-    * Construit l'image
+    * Construit l'image (et passe à l'étape suivante)
     * @method build
     */
   build:function()

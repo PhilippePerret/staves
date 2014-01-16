@@ -34,6 +34,7 @@
     <li class="first">Outils</li>
     <li class="separateur"></li>
     <li data-item="infos">Informations courantes</li>
+    <li data-item="coordonnees">Activer coordonnées</li>
     <li data-item="cadrage">Cadrage image…</li>
     <li data-item="manual">Manuel d'utilisation</li>
   </ul>

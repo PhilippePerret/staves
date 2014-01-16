@@ -1,0 +1,46 @@
+# =======================
+# Animation analyse du 
+# Premier Prélude du CBT
+# n°1 de J.S BACH
+# =======================
+
+# SUITE(\'CBT1_Prelude1_01-11\')
+
+# --- Valeurs par défault ---
+DEFAULT(\'next\', 75)
+DEFAULT(\'harmony\', 65)
+DEFAULT(\'staff_top\', 120)
+DEFAULT(\'staff_offset\', 120)
+DEFAULT(\'offset_modulation_y\', 5)
+DEFAULT(\'chord\', 35)
+
+partition=IMAGE({url:\'asset/img/CBT1_Prelude_01.png\', left:78, top:6, width:725, height:427})
+
+CAPTION(\"Suite aux précédents screencast présentant les gammes et les accords, nous allons maintenant pouvoir aborder un premier travail d\'analyse\", false)
+WAIT(10)
+
+CAPTION(\"C\'est le premier prélude du premier livre du clavecin bien tempéré de Jean-Sébastien Bach qui va servir de support à cette analyse\", false)
+WAIT(10)
+
+CAPTION(\"D\'abord, il serait important de se demander : Pourquoi analyser une œuvre ? Après tout, sa beauté se passe sans doute de cette analyse, nos oreilles la perçoit sans cette analyse…\", false)
+WAIT(10)
+
+CAPTION(\"C\'est tout à fait juste. Si ce n\'est peut-être qu\'au plaisir auditif, l\'analyse peut révéler bien des choses qui ne sautent pas toujours aux oreilles.\", false)
+WAIT(10)
+
+CAPTION(\"Mais surtout, pour le musicien, l\'analyse vise deux buts qui me semblent important et très utiles.\", false)
+WAIT(10)
+
+CAPTION(\"Pour le premier, l\'analyse apporte une compréhension plus profonde du morceau, et permet donc de mieux l\'interpréter, et même d\'avoir des partis-pris d\'interprétation qui reposent sur cette compréhension profonde du morceau\", false)
+CAPTION(\"L\'analyse apporte une compréhension plus profonde du morceau et permet donc de mieux le jouer.\")
+WAIT(14)
+
+CAPTION(\"Ensuite, et ça n\'est pas le moindre des intérêts de l\'analyse, elle permet d\'abord d\'apprendre le morceau beaucoup plus vite, et de le retenir mieux et plus longtemps.\", false)
+CAPTION(\"L\'analyse permet d\'apprendre le morceau plus vite et de mieux le retenir.\", true)
+WAIT(10)
+
+CAPTION(\"Il vaut mieux être informé d\'une chose cependant : avant que la capacité d\'analyse ne portent vraiment ces fruits-là, il faut en faire avec conviction… et difficulté.\", false)
+WAIT(10)
+
+CAPTION(\"C\'est au bout d\'un certain temps, et au bout d\'un temps certain seulement, qu\'on peut tirer vraiment profit des heures à s\'arracher les cheveux parfois.\", false)
+WAIT(10)
