@@ -1356,7 +1356,7 @@ En revanche, si on utilise&nbsp;:
 
 ###Table des matières
 
-* [Insertion de l'image](#insertion_image)
+* [Ajouter une image](#insertion_image)
 * [Modifier la position de l'image](#modify_position_image)
 * [Déplacer l'image](#move_image)
 * [Modifier le cadrage de l'image](#modify_cadrage_image)
@@ -1364,7 +1364,7 @@ En revanche, si on utilise&nbsp;:
 * [Ne pas construire l'image lors de l'instanciation](#dont_build_image)
 
 <a name="insertion_image"></a>
-###Insertion de l'image
+###Ajouter une image
 
 On peut insérer n'importe quelle image dans l'animation, par exemple une partition, grâce à la commande :
 
@@ -1374,6 +1374,28 @@ Par exemple&nbsp;:
   
     monImage = IMAGE({url:'path/to/monimage.png'})
 
+Les paramètres peuvent être les suivants&nbsp;:
+
+    monImg=IMAGE({
+      url     : <chemin vers image> SEUL ATTRIBUT OBLIGATOIRE
+      x       : <position horizontale dans l'animation>
+      left    : // comme `x`, utiliser l'un ou l'autre
+      y       : <position verticale dans l'animation>
+      top     : // comme `y`, utiliser l'un ou l'autre
+      width   : <taille de l'image>
+      height  : <hauteur de l'image>
+      // Propriétés spéciales pour le cadrage, lorsque l'on ne veut pas
+      // utiliser toute l'image, mais seulement une portion de l'image
+      cadre_width     : <largeur de la portion à prendre dans l'image>
+      cadre_height    : <hauteur de la portion à prendre dans l'image>
+      cadre_offset_x  : <décalage horizontal de la portion d'image>
+      cadre_offset_y  : <décalage vertical de la portion d'image
+    })
+
+*Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).*
+
+Pour des informations concernant le “cadre”, cf. [Modifier le cadrage de l'image](#modify_cadrage_image).
+
 Noter que l'image est aussitôt construite est insérée dans l'animation avec les paramètres fournis, sauf si `build:false` est ajouté aux paramètres définissant l'image (cf. [Ne pas construire l'image](#dont_build_image)).
 
 <a name="modify_position_image"></a>
@@ -1381,7 +1403,7 @@ Noter que l'image est aussitôt construite est insérée dans l'animation avec l
 
 Pour modifier la position de l'image, il faut jouer sur les paramètres `top` (haut) et `left` (gauche) de ses paramètres optionnels. Par exemple&nbsp;:
 
-monImage=IMAGE({url:'path/to/image.png', top:100, left:200})
+    monImage=IMAGE({url:'path/to/image.png', top:100, left:200})
 
 … placera l'image 100 pixels plus bas que le haut du cadre de l'animation et à 200 pixels du bord gauche.
 
@@ -1418,7 +1440,6 @@ On détermine le temps (durée) de déplacement de l'image à l'aide de la propr
     monImage.move({x_for:10, y_for:100, seconds:1})
 
 
-
 <a name="modify_cadrage_image"></a>
 ###Modifier le cadrage de l'image
 
@@ -1443,6 +1464,8 @@ Dans le cas contraire&nbsp;:
 
 Si le cadrage de l'image le permet (ie si l'image réelle est plus grande que le cadrage qui est fait dedans), on peut exécuter un travelling grâce à la méthode `travelling` appliquée à l'image créée.
 
+Noter que le “travelling” n'est pas à confondre avec le déplacement de l'image. Dans un déplacement de l'image (cf. [Déplacer l'image](#move_image)), l'image  bouge dans le cadre de l'animation, change de position. Dans un “travelling”, l'image reste à la même position dans le cadre de l'animation, c'est son contenu qui se déplace, comme lors d'un travelling de cinéma.
+
 Par exemple&nbsp;:
 
     monImage = IMAGE({<parametres pour définir l'url et le cadrage>})
@@ -1452,15 +1475,17 @@ Par exemple&nbsp;:
 Cette méthode attend des paramètres qui vont définir le travelling. Ces paramètres sont&nbsp;:
 
     <image>.travelling({
-      x: {Number} La nouvelle position horizontale du cadrage
+      x       : {Number} La nouvelle position horizontale du cadrage
       OU
-      x_for: {Number} Le nombre de pixels de déplacement horizontal
+      x_for   : {Number} Le nombre de pixels de déplacement horizontal
 
-      y: {Number} La nouvelle position verticale du cadrage
+      y       : {Number} La nouvelle position verticale du cadrage
       OU
-      y_for: {Number} Le nombre de pixels de déplacement vertical
+      y_for   : {Number} Le nombre de pixels de déplacement vertical
   
-      seconds: {Number} La durée du travelling en secondes (2 par défaut).
+      width   : {Number} La largeur du nouveau cadre (optionnel)
+      height  : {Number} La hauteur du nouveau cadre (optionnel)
+      seconds : {Number} La durée du travelling en secondes (2 par défaut).
     })
 
 
@@ -1469,7 +1494,7 @@ Noter que pour obtenir les nouvelles coordonnées du cadrage, il suffit&nbsp;:
 * d'éditer l'image (en double-cliquant dessus ou en utilisant le menu “Outils > Cadrage image...”)&nbsp;;
 * De déterminer le cadrage de fin du travelling&nbsp;;
 * De demander le code (bouton “-> Code” de l'édition)&nbsp;;
-* De prendre la valeur `cadre_offset_x` pour la mettre en `x` et la valeur `cadre_offset_y` pour la mettre en `y` dans les paramètres du travelling.
+* De copier-coller le code donné dans le cadre “Paramètres travelling”.
 
 <a name="modify_source_image"></a>
 ###Modifier la source de l'image

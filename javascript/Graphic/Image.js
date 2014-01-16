@@ -9,6 +9,8 @@
   */
 window.IMAGE = function(params)
 {
+  if(undefined != params.x){ params.left = params.x; delete params.x }
+  if(undefined != params.y){ params.top  = params.y; delete params.y }
   var image = new Img(params)
   if(!Img.virtual_operation) image.build()
   return image
@@ -184,6 +186,8 @@ $.extend(Img.prototype,{
     *   @param {Number} params.seconds    La durée du travelling (optionnel)
     *   @param {Number} params.x          La position horizontale de fin du cadrage
     *   @param {Number} params.y          Position verticale de fin du cadrage
+    *   @param {Number} params.width      La nouvelle largeur de cadre
+    *   @param {Number} params.height     La nouvelle hauteur de cadre
     *   @param {Number} params.x_for      Nombre de pixels de déplacement horizontal
     *   @param {Number} params.y_for      Nombre de pixels de déplacement vertical
     *   @param {Function} params.complete La méthode pour suivre (NEXT_STEP par défaut)
@@ -195,12 +199,22 @@ $.extend(Img.prototype,{
     if(undefined != params.y_for)     params.y = this.cadre_offset_y + params.y_for
     if(undefined == params.seconds)   params.seconds = 2
     if(undefined == params.complete)  params.complete = NEXT_STEP
-    if(undefined == params.x && undefined == params.y) return F.error("Il faut définir le mouvement du travelling !")
+    if(!params.x && !params.y && !params.width && !params.height) return F.error("Il faut définir le mouvement du travelling !")
     var dtrav = {}
     if(undefined != params.x) dtrav.left = "-"+params.x+'px'
     if(undefined != params.y) dtrav.top  = "-"+params.y+'px'
+    // On redimensionne le cadre si nécessaire
+    var dcadre = {}
+    if(undefined != params.width)   dcadre.width  = params.width  + 'px'
+    if(undefined != params.height)  dcadre.height = params.height + 'px'
+    if(dcadre != {}) this.obj.animate(dcadre)
     // On procède au travelling
     this.image.animate(dtrav, params.seconds * 1000, params.complete)
+    // On passe les nouvelles valeurs
+    if(params.x)      this.cadre_offset_x = params.x
+    if(params.y)      this.cadre_offset_y = params.y
+    if(params.width)  this.cadre_width    = params.width
+    if(params.height) this.cadre_height   = params.height
   },
   
   /**

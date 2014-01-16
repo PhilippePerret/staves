@@ -2,15 +2,15 @@
 
 DEFAULT(\'decompte\',0)
 
-img=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', top:100, left:75, cadre_offset_x:-1, cadre_offset_y:0, cadre_width:257, cadre_height:96})
+img=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', top:100, left:75, cadre_offset_x:-1, cadre_offset_y:0, cadre_width:266, cadre_height:96})
 
 WAIT(2)
 
-img.travelling({x:245})
+img.travelling({x:258, width:228})
 
 WAIT(2)
 
-img.travelling({x:435,seconds:4})
+img.travelling({x:475, width:171, seconds:1})
 
 WAIT(2)
 img.move({x:221, y:215})

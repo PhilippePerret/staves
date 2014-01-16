@@ -78,6 +78,7 @@ window.ImageTool = {
     } 
     this.get_taille_image()
     this.box_feedback.val('')
+    this.box_feedback_alt.val('')
   },
   
   end_edit:function()
@@ -107,6 +108,18 @@ window.ImageTool = {
               'cadre_height:'   +this.data_image.cadre_height +
             '}'
     this.box_feedback.val(code)
+    
+    code = [];
+    if(this.current.cadre_offset_x != this.data_image.cadre_offset_x)
+      code.push('x:' +this.data_image.cadre_offset_x);
+    if(this.current.cadre_offset_y != this.data_image.cadre_offset_y)
+      code.push('y:' +this.data_image.cadre_offset_y) ;
+    if(this.current.cadre_width != this.data_image.cadre_width)
+      code.push('width:'+this.data_image.cadre_width);
+    if(this.current.cadre_height != this.data_image.cadre_height)
+      code.push('height:'+this.data_image.cadre_height);
+    code = '{'+code.join(', ')+'}'
+    this.box_feedback_alt.val(code)
   },
   /**
     * Méthode qui calcule le recadrage de l'image en fonction de la position
@@ -215,6 +228,13 @@ Object.defineProperties(ImageTool,{
   "box_feedback":{
     get:function(){return $('textarea#imgtool_feedback')}
   },
+  /**
+    * Objet DOM du textarea pour placer les paramètres travelling
+    * @property {jQuerySet} box_feedback_alt
+    */
+  "box_feedback_alt":{
+    get:function(){return $('textarea#imgtool_feedback_alt')}
+  },
   
   /**
     * Code HTML pour l'image
@@ -253,6 +273,8 @@ Object.defineProperties(ImageTool,{
                 '</fieldset>'+
                 '<div class="tiny">Code à copier-coller dans les paramètres de l\'image</div>'+
                 '<textarea id="imgtool_feedback" onfocus="this.select()"></textarea>'+
+                '<div class="tiny">Paramètres pour travelling</div>'+
+                '<textarea id="imgtool_feedback_alt" onfocus="this.select()"></textarea>'+
                 '<input type="button" value="OK" onclick="$.proxy(ImageTool.end_edit, ImageTool)()" />'+
               '</div>'
       

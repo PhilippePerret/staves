@@ -42,6 +42,7 @@ div#imgtool_gabarit div.buttons {
   position    :absolute;
   right       :0;
   top         :10px;
+  background-color: #EEE;
 }
 
 div#imgtool_gabarit div.buttons > input[type="button"]{
@@ -49,8 +50,8 @@ div#imgtool_gabarit div.buttons > input[type="button"]{
   font-size   :13.9pt;
 }
 
-/* Textarea pour le feedback du code à copier-coller */
-div#imgtool_gabarit textarea#imgtool_feedback {
+/* Textareas */
+div#imgtool_gabarit textarea {
   width     : 200px;
   height    : 100px;
 }

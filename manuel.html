@@ -321,6 +321,7 @@ sup {
 <li><a href="#les_staves">Les portées</a></li>
 <li><a href="#les_gammes">Les gammes</a></li>
 <li><a href="#les_textes">Les textes</a></li>
+<li><a href="#les_images">Les images</a></li>
 <li><a href="#les_fleches">Les flèches</a></li>
 <li><a href="#set_preferences">Régler toutes les valeurs de l'animation</a></li>
 </ul>
@@ -1945,6 +1946,202 @@ maNote.texte['regular'].hide()
 </code></pre>
 
 <p>… alors l'objet sera vraiment détruit.</p>
+
+<hr />
+
+<p><a name="les_images"></a></p>
+
+<h2>Les images</h2>
+
+<h3>Table des matières</h3>
+
+<ul>
+<li><a href="#insertion_image">Ajouter une image</a></li>
+<li><a href="#modify_position_image">Modifier la position de l'image</a></li>
+<li><a href="#move_image">Déplacer l'image</a></li>
+<li><a href="#modify_cadrage_image">Modifier le cadrage de l'image</a></li>
+<li><a href="#modify_source_image">Modifier la source de l'image</a></li>
+<li><a href="#dont_build_image">Ne pas construire l'image lors de l'instanciation</a></li>
+</ul>
+
+
+<p><a name="insertion_image"></a></p>
+
+<h3>Ajouter une image</h3>
+
+<p>On peut insérer n'importe quelle image dans l'animation, par exemple une partition, grâce à la commande :</p>
+
+<pre><code>IMAGE(&lt;parametres&gt;)
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monImage = IMAGE({url:'path/to/monimage.png'})
+</code></pre>
+
+<p>Les paramètres peuvent être les suivants&nbsp;:</p>
+
+<pre><code>monImg=IMAGE({
+  url     : &lt;chemin vers image&gt; SEUL ATTRIBUT OBLIGATOIRE
+  x       : &lt;position horizontale dans l'animation&gt;
+  left    : // comme `x`, utiliser l'un ou l'autre
+  y       : &lt;position verticale dans l'animation&gt;
+  top     : // comme `y`, utiliser l'un ou l'autre
+  width   : &lt;taille de l'image&gt;
+  height  : &lt;hauteur de l'image&gt;
+  // Propriétés spéciales pour le cadrage, lorsque l'on ne veut pas
+  // utiliser toute l'image, mais seulement une portion de l'image
+  cadre_width     : &lt;largeur de la portion à prendre dans l'image&gt;
+  cadre_height    : &lt;hauteur de la portion à prendre dans l'image&gt;
+  cadre_offset_x  : &lt;décalage horizontal de la portion d'image&gt;
+  cadre_offset_y  : &lt;décalage vertical de la portion d'image
+})
+</code></pre>
+
+<p><em>Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).</em></p>
+
+<p>Noter que l'image est aussitôt construite est insérée dans l'animation avec les paramètres fournis, sauf si <code>build:false</code> est ajouté aux paramètres définissant l'image (cf. <a href="#dont_build_image">Ne pas construire l'image</a>).</p>
+
+<p><a name="modify_position_image"></a></p>
+
+<h3>Modifier la position de l'image</h3>
+
+<p>Pour modifier la position de l'image, il faut jouer sur les paramètres <code>top</code> (haut) et <code>left</code> (gauche) de ses paramètres optionnels. Par exemple&nbsp;:</p>
+
+<p>monImage=IMAGE({url:'path/to/image.png', top:100, left:200})</p>
+
+<p>… placera l'image 100 pixels plus bas que le haut du cadre de l'animation et à 200 pixels du bord gauche.</p>
+
+<p>Noter qu'il est extrêmement simple de connaitre les coordonnées de l'image&nbsp;: il suffit de la déplacer dans l'animation une fois qu'elle est affichée. Ses coordonnées s'affichent en bas de l'écran. Donc&nbsp;:</p>
+
+<ul>
+<li>Définir la commande d'affichage de l'image sans définir <code>top</code> et <code>left</code>&nbsp;;</li>
+<li>Faire jouer l'animation jusqu'au moment où l'image s'affiche&nbsp;;</li>
+<li>Se mettre en pause&nbsp;;</li>
+<li>Déplacer l'image au bon endroit&nbsp;;</li>
+<li>Relever les coordonnées qui s'affichent et définir <code>top</code> et <code>left</code> dans les paramètres de la commande IMAGE.</li>
+</ul>
+
+
+<p><a name="move_image"></a></p>
+
+<h3>Déplacer l'image</h3>
+
+<p>Pour déplacer l'image (pas la positionner mais l'animer en la changeant de place), utiliser sa méthode <code>move</code>&nbsp;:</p>
+
+<pre><code>monImage = IMAGE({&lt;parametres de l'image&gt;})
+monImage.move({paramètres du déplacement})
+</code></pre>
+
+<p>On peut déplacer l'image en déterminant sa position finale à l'aide des paramètres <code>x</code> (position horizontale) et <code>y</code> (position verticale). La valeur est en pixels.</p>
+
+<pre><code>monImage.move({x:300, y:100})
+</code></pre>
+
+<p>On peut déplacer l'image en déterminant le nombre de pixels de déplacement horizontal à l'aide de <code>x_for</code> ou vertical à l'aide de <code>y_for</code>&nbsp;:</p>
+
+<pre><code>monImage.move({x_for:10, y_for:100})
+</code></pre>
+
+<p>Ou en combinant les deux formules&nbsp;:</p>
+
+<pre><code>monImage.move({x:300, y_for:10})
+</code></pre>
+
+<p>On détermine le temps (durée) de déplacement de l'image à l'aide de la propriété <code>seconds</code> qui détermine le nombre de secondes que mettra l'image pour atteindre sa nouvelle position (2 secondes par défaut)&nbsp;:</p>
+
+<pre><code>monImage.move({x_for:10, y_for:100, seconds:1})
+</code></pre>
+
+<p><a name="modify_cadrage_image"></a></p>
+
+<h3>Modifier le cadrage de l'image</h3>
+
+<p>Plutôt que d'insérer tout un tas d'images, par exemple une image par portée de la partition, il est plus intéressant d'importer comme image la partition entière puis ensuite de “zoomer” (ou “cadrer”) sur certaines parties de l'image pour n'en faire apparaitre qu'une partie.</p>
+
+<p>C'est ici que le cadrage entre en jeu.</p>
+
+<p>Pour recadrer ou cadrer une image&nbsp;:</p>
+
+<p>Si l'image est affichée (par exemple en fin d'animation ou après une pause), il suffit de double-cliquer dessus pour l'éditer.</p>
+
+<p>Dans le cas contraire&nbsp;:</p>
+
+<ul>
+<li>Activer le menu “Outils > Cadrage image...”&nbsp;;</li>
+<li>Si l'image n'apparait pas, cliquer le bouton “Chercher toutes les images dans le code”&nbsp;;</li>
+<li>Cliquer sur l'aperçu de l'image à recadrer.<br>=> La fenêtre de recadrage s'ouvre.</li>
+<li>Utiliser le cadre rouge pour choisir un portion de l'image, celle qui sera visible. On peut le déplacer en cliquant à l'intérieur du cadre rouge puis en glissant la souris et on peut changer sa taille à l'aide du coin en bas à droite&nbsp;;</li>
+<li>Cliquer ensuite sur le bouton outil (à droite) correspondant à la commande désirée (puisque plusieurs options sont possibles à ce niveau là, depuis le simple code pour instancier l'image avec ce cadrage jusqu'à la commande pour faire un travelling sur l'image).</li>
+</ul>
+
+
+<p><a name="travelling_image"></a></p>
+
+<h3>Effectuer un travelling dans l'image</h3>
+
+<p>Si le cadrage de l'image le permet (ie si l'image réelle est plus grande que le cadrage qui est fait dedans), on peut exécuter un travelling grâce à la méthode <code>travelling</code> appliquée à l'image créée.</p>
+
+<p>Noter que le “travelling” n'est pas à confondre avec le déplacement de l'image. Dans un déplacement de l'image (cf. <a href="#move_image">Déplacer l'image</a>), l'image  bouge dans le cadre de l'animation, change de position. Dans un “travelling”, l'image reste à la même position dans le cadre de l'animation, c'est son contenu qui se déplace, comme lors d'un travelling de cinéma.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monImage = IMAGE({&lt;parametres pour définir l'url et le cadrage&gt;})
+...
+monImage.travelling({&lt;parametres du travelling&gt;})
+</code></pre>
+
+<p>Cette méthode attend des paramètres qui vont définir le travelling. Ces paramètres sont&nbsp;:</p>
+
+<pre><code>&lt;image&gt;.travelling({
+  x: {Number} La nouvelle position horizontale du cadrage
+  OU
+  x_for: {Number} Le nombre de pixels de déplacement horizontal
+
+  y: {Number} La nouvelle position verticale du cadrage
+  OU
+  y_for: {Number} Le nombre de pixels de déplacement vertical
+
+  seconds: {Number} La durée du travelling en secondes (2 par défaut).
+})
+</code></pre>
+
+<p>Noter que pour obtenir les nouvelles coordonnées du cadrage, il suffit&nbsp;:</p>
+
+<ul>
+<li>d'éditer l'image (en double-cliquant dessus ou en utilisant le menu “Outils > Cadrage image...”)&nbsp;;</li>
+<li>De déterminer le cadrage de fin du travelling&nbsp;;</li>
+<li>De demander le code (bouton “-> Code” de l'édition)&nbsp;;</li>
+<li>De prendre la valeur <code>cadre_offset_x</code> pour la mettre en <code>x</code> et la valeur <code>cadre_offset_y</code> pour la mettre en <code>y</code> dans les paramètres du travelling.</li>
+</ul>
+
+
+<p><a name="modify_source_image"></a></p>
+
+<h3>Modifier la source de l'image</h3>
+
+<p>Plutôt que de détruire une image pour la remplacer par une autre, on peut simplement changer la source de l'image courante.</p>
+
+<p>On modifie la source (ie le fichier de l'image) à l'aide de sa méthode <code>src</code>&nbsp;:</p>
+
+<pre><code>monImage = IMAGE({url:'path/to/image_1.png'})
+WAIT(2)
+monImage.src('path/to/image_2.png')
+</code></pre>
+
+<p><a name="dont_build_image"></a></p>
+
+<h3>Ne pas construire l'image</h3>
+
+<p>Pour ne pas construire l'image lors de son instanciation (par exemple pour pouvoir mettre la liste des images en début de code), ajouter <code>build:false</code> aux paramètres&nbsp;:</p>
+
+<pre><code>monImage = IMAGE({url:'path/to/monimage.png', build:false})
+</code></pre>
+
+<p>Puis ensuite, à l'endroit où l'image doit être construite, utiliser :</p>
+
+<pre><code>monImage.build()
+</code></pre>
 
 <hr />
 
