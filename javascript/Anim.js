@@ -422,6 +422,8 @@ $.extend(window.Anim,{
     this.Grid.init_all()
     // Quelques autres ré-initialisation
     Img.virtual_operation = false
+    this.Dom.set_doublage("", true)   // Effacer doublage
+    this.Dom.set_doublage("", false)  // Effacer sous-titre
   },
   /**
     * Appelé au chargement de l'application

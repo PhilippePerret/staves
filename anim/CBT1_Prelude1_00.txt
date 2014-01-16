@@ -17,31 +17,83 @@ DEFAULT(\'chord\', 35)
 # mettre width à 725
 partition=IMAGE({url:\'asset/img/CBT1_Prelude_01.png\', left:78, top:6, width:725})
 
-CAPTION(\"Suite aux précédents screencast présentant les gammes et les accords, nous allons maintenant pouvoir aborder un premier travail d\'analyse\", false)
+CAPTION(\"Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d\'analyse\")
 WAIT(10)
 
-CAPTION(\"C\'est le premier prélude du premier livre du clavecin bien tempéré de Jean-Sébastien Bach qui va servir de support à cette analyse\", false)
+CAPTION(\"C\'est le premier prélude du livre 1 du clavecin bien tempéré de Bach qui va servir de support à cette analyse\")
 WAIT(10)
 
-CAPTION(\"D\'abord, il serait important de se demander : Pourquoi analyser une œuvre ? Après tout, sa beauté se passe sans doute de cette analyse, nos oreilles la perçoit sans cette analyse…\", false)
+CAPTION(\"Mais avant de commencer, il me semble important de se demander : “Pourquoi analyser une œuvre ?” Après tout, la beauté de cette œuvre se passe sans doute de cette analyse…\")
 WAIT(10)
 
-CAPTION(\"C\'est tout à fait juste. Si ce n\'est peut-être qu\'au plaisir auditif, l\'analyse peut révéler bien des choses qui ne sautent pas toujours aux oreilles.\", false)
+CAPTION(\"C\'est vrai. Si ce n\'est peut-être qu\'au plaisir auditif, l\'analyse peut révéler des choses qui ne sautent pas forcément aux oreilles.\")
 WAIT(10)
 
-CAPTION(\"Mais surtout, pour le musicien, l\'analyse vise deux buts qui me semblent important et très utiles.\", false)
+CAPTION(\"Mais plus encore, pour le musicien, ou pour celui qui joue de la musique, l\'analyse vise deux buts très concrets qu\'il me semblent important de souligner.\")
 WAIT(10)
 
-CAPTION(\"Pour le premier, l\'analyse apporte une compréhension plus profonde du morceau, et permet donc de mieux l\'interpréter, et même d\'avoir des partis-pris d\'interprétation qui reposent sur cette compréhension profonde du morceau\", false)
-CAPTION(\"L\'analyse apporte une compréhension plus profonde du morceau et permet donc de mieux le jouer.\")
+CAPTION(\"Le premier but, c\'est que l\'analyse apporte une compréhension plus profonde du morceau, et permet donc de mieux l\'interpréter, et même d\'avoir des partis-pris de jeu qui reposent sur cette compréhension plus profonde.\")
+CAPTION(\"L\'analyse permet de mieux jouer le morceau, en apportant une compréhension plus profonde de ce qu\'il est.\")
 WAIT(14)
 
-CAPTION(\"Ensuite, et ça n\'est pas le moindre des intérêts de l\'analyse, elle permet d\'abord d\'apprendre le morceau beaucoup plus vite, et de le retenir mieux et plus longtemps.\", false)
-CAPTION(\"L\'analyse permet d\'apprendre le morceau plus vite et de mieux le retenir.\", true)
+CAPTION(\"Le second but que peut viser l\'analyse, et ça n\'est pas le moindre de ses intérêts, c\'est de permettre d\'apprendre un morceau beaucoup plus vite, et de mieux le retenir, et plus longtemps.\")
+CAPTION(\"L\'analyse permet d\'apprendre le morceau plus vite et<br>de mieux le retenir.\", true)
 WAIT(10)
 
-CAPTION(\"Il vaut mieux être informé d\'une chose cependant : avant que la capacité d\'analyse ne portent vraiment ces fruits-là, il faut en faire avec conviction… et difficulté.\", false)
+CAPTION(\"CEPENDANT, il vaut mieux être informé d\'une chose importante que ceux qui se lancent dans l\'analyse avec enthousiasme — la fleur au fusil — oublient un peu vite. Et qui conduit fatalement au découragement.\")
 WAIT(10)
 
-CAPTION(\"C\'est au bout d\'un certain temps, et au bout d\'un temps certain seulement, qu\'on peut tirer vraiment profit des heures à s\'arracher les cheveux parfois.\", false)
+CAPTION(\"Cette chose, c\'est qu\'avant de voir sa capacité à analyser porter les fruits dont je viens de parler, il faudra beaucoup de temps… et beaucoup d\'efforts.\")
 WAIT(10)
+
+CAPTION(\"Mais franchement, le jeu en vaut la chandelle.\")
+WAIT(3)
+
+CAPTION(\"Donc souvenez-vous que c\'est au bout d\'un certain temps, et au bout d\'un temps certain seulement, qu\'on peut tirer vraiment profit de l\'analyse musicale.\")
+WAIT(10)
+
+CAPTION(\"Je tenais à faire cette introduction pour que les choses soient bien claires.\")
+WAIT(6)
+
+CAPTION(\"Passons à ce fameux prélude à présent.\")
+WAIT(6)
+
+CAPTION(\"La première chose à faire quand on aborde une œuvre, surtout courte comme celle-là, c\'est de s\'en faire une vue d\'ensemble.\")
+WAIT(10)
+
+CAPTION(\"On essayer de chercher, en partant du général, à voir ce qui caractérise la pièce.\")
+WAIT(10)
+
+CAPTION(\"Ici, les choses sont simples : la pièce, en dehors de ses deux dernières mesures, est intégralement constituée d\'arpèges ascendants, arpèges qui se répètent dans la même mesure.\")
+WAIT(10)
+
+CAPTION(\"On est donc d\'emblée dans une pièce de style “exercice”. Avec une même difficulté qui se répète à loisir sur chaque mesure.\")
+WAIT(10)
+
+# IMAGE À SUPPRIMER POUR
+# REPARTIR DEPUIS ICI SEULEMENT
+# partition=IMAGE({url:\'asset/img/CBT1_Prelude_01.png\', left:78, top:6, width:725})
+
+
+CAPTION(\"D\'emblée, donc, Bach affirme la destination pédagogique des monuments du clavier que sont ses Clavecins Bien Tempérés.\")
+WAIT(10)
+
+partition.hide()
+
+CAPTION(\"Par rapport à ces arpèges ascendant, il est intéressant de noter qu\'ils s\'opposent au parcours de la mélodie.\")
+NEW_STAFF(SOL, {top:129})
+
+melodie = MOTIF(\'e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 f5 f4 e4\', {offset_x:34, speed:4})
+WAIT(10)
+
+CAPTION(\"En effet, si nous ne prenons que les notes extrêmes de ce prélude, nous notons le parcours clairement descendant de la mélodie…\")
+WAIT(10)
+
+CAPTION(\"… qui part du mi5 pour aller jusqu\'au mi4, donc une octave, pour un ambitus — c\'est-à-dire l\'intervalle entre la note la plus haute et la note la plus basse — de sixte redoublée, du la5… au do4…\")
+WAIT(10)
+
+melodie.hide()
+partition.show()
+
+CAPTION(\"Moralité, des arpèges qui montent, s\'opposant à une mélodie qui descendant… Et puis l\'utilisation d\'un motif répétitif — l\'arpège — mais sur un ambitus large, ça fait déjà quelques beaux contrastes pour une pièce en apparence très simple.\")
+WAIT(15)

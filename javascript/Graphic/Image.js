@@ -217,19 +217,23 @@ $.extend(Img.prototype,{
     * @method show
     * @return {Img} L'instance, pour chainage
     */
-  show:function()
+  show:function(params)
   {
-    this.obj.animate({opacity:1}, Anim.delai_for('show'))
+    params = define_complete( params )
+    this.obj.animate({opacity:1}, Anim.delai_for('show'), params.complete)
     return this
   },
   /**
     * Masque l'image
     * @method hide
+    * @param {Object} params  Paramètres optionnels
+    *   @param {Function} params.complete   Méthode à appeler à la fin (NEXT_STEP par défaut)
     * @return {Img} L'instance, pour chainage
     */
-  hide:function()
+  hide:function(params)
   {
-    this.obj.animate({opacity:0}, Anim.delai_for('show'))
+    params = define_complete( params )
+    this.obj.animate({opacity:0}, Anim.delai_for('show'), params.complete)
     return this
   },
   /**
@@ -249,10 +253,10 @@ $.extend(Img.prototype,{
   travelling:function(params)
   {
     if(undefined == params) return F.error("Il faut définir les paramètres du travelling !")
+    params = define_complete( params )
     if(undefined != params.x_for)     params.x = this.cadre_offset_x + params.x_for
     if(undefined != params.y_for)     params.y = this.cadre_offset_y + params.y_for
     if(undefined == params.seconds)   params.seconds = 2
-    if(undefined == params.complete)  params.complete = NEXT_STEP
     if(!params.x && !params.y && !params.width && !params.height) return F.error("Il faut définir le mouvement du travelling !")
     var dtrav = {}
     if(undefined != params.x) dtrav.left = "-"+params.x+'px'
@@ -287,9 +291,9 @@ $.extend(Img.prototype,{
   move:function(params)
   {
     if(undefined == params) return F.error("Il faut définir le déplacement de l'image !")
+    params = define_complete( params )
     if(undefined != params.x_for)     params.x = this.left + params.x_for
     if(undefined != params.y_for)     params.y = this.top  + params.y_for
-    if(undefined == params.complete)  params.complete = NEXT_STEP
     if(undefined == params.seconds)   params.seconds  = 2
     var dmove = {}
     if(undefined != params.x) dmove.left = params.x+'px'
