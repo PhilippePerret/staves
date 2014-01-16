@@ -24,3 +24,14 @@ div#decompte {
   font-weight   : bold;
   border-radius : 20px;
 }
+
+/* Le Div pour le feedback */
+div#ui_feedback {
+  position : absolute;
+  bottom   : 0;
+  left     : 0;
+  font-family :Courier;
+  font-size   :10pt;
+  background-color  : #ccc;
+  padding           : 4px 12px;
+}

@@ -11,3 +11,6 @@ img.travelling({x:245})
 WAIT(2)
 
 img.travelling({x:435,seconds:4})
+
+WAIT(2)
+img.move({x:221, y:215})

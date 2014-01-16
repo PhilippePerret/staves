@@ -201,6 +201,44 @@ $.extend(Img.prototype,{
     if(undefined != params.y) dtrav.top  = "-"+params.y+'px'
     // On procède au travelling
     this.image.animate(dtrav, params.seconds * 1000, params.complete)
+  },
+  
+  /**
+    * Méthode pour déplacer l'image
+    * @method move
+    * @param {Object} params  Définition du déplacement
+    *   @param {Number} params.x      Nouvelle position horizontale
+    *   @param {Number} params.x_for  Nombre de pixels de déplacement horizontal
+    *   @param {Number} params.y      Nouvelle position verticale
+    *   @param {Number} params.y_for  Nombre de pixels de déplacement vertical
+    *   @param {Number} params.seconds  Durée du déplacement
+    *   @param {Function} params.complete   Méthode à appeler en fin de déplacement
+    */
+  move:function(params)
+  {
+    if(undefined == params) return F.error("Il faut définir le déplacement de l'image !")
+    if(undefined != params.x_for)     params.x = this.left + params.x_for
+    if(undefined != params.y_for)     params.y = this.top  + params.y_for
+    if(undefined == params.complete)  params.complete = NEXT_STEP
+    if(undefined == params.seconds)   params.seconds  = 2
+    var dmove = {}
+    if(undefined != params.x) dmove.left = params.x+'px'
+    if(undefined != params.y) dmove.top  = params.y+'px'
+    this.obj.animate(dmove, params.seconds * 1000, params.complete)
+  },
+  
+  /**
+    * Méthode pour changer la source de l'image
+    * @method src
+    */
+  src:function(new_url)
+  {
+    this.url = new_url
+    this.width  = null
+    this.height = null
+    this.image.css({width:null, height:null})
+    this.image[0].src = new_url
+    NEXT_STEP(notimeout=true)
   }
 
 
@@ -248,9 +286,22 @@ $.extend(Img.prototype,{
     */
   positionne:function()
   {
-    this.obj.draggable()
+    this.obj.draggable({stop:$.proxy(this.on_end_move, this)})
     this.obj.bind('dblclick', $.proxy(this.edit, this))
     return this
+  },
+  
+  /**
+    * Méthode appelée en fin de déplacement de l'image
+    * Elle affiche les nouvelles coordonnées
+    * @method on_end_move
+    * @param {Event} evt    L'évènement draggable
+    */
+  on_end_move:function(evt)
+  {
+    var pos = this.obj.position()
+    var mess = "x:"+pos.left + " / y:"+pos.top
+    UI.feedback(mess)
   }
 })
 Object.defineProperties(Img.prototype,{

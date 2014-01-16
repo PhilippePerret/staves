@@ -9,6 +9,18 @@
 if(undefined == window.UI) window.UI = {}
 $.extend(UI,{
   /**
+    * Écrit un message de feedback
+    * @method feedback
+    * @param  {String} message  Le message à afficher
+    */
+  feedback:function(message)
+  {
+    var o = $('div#ui_feedback')
+    o.html(message)
+    if(message == "") o.hide()
+    else o.show()
+  },
+  /**
     * Prépare l'interface au chargement de l'application
     * @method prepare
     */

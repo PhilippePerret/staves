@@ -1358,7 +1358,9 @@ En revanche, si on utilise&nbsp;:
 
 * [Insertion de l'image](#insertion_image)
 * [Modifier la position de l'image](#modify_position_image)
+* [Déplacer l'image](#move_image)
 * [Modifier le cadrage de l'image](#modify_cadrage_image)
+* [Modifier la source de l'image](#modify_source_image)
 * [Ne pas construire l'image lors de l'instanciation](#dont_build_image)
 
 <a name="insertion_image"></a>
@@ -1390,6 +1392,31 @@ Noter qu'il est extrêmement simple de connaitre les coordonnées de l'image&nbs
 * Se mettre en pause&nbsp;;
 * Déplacer l'image au bon endroit&nbsp;;
 * Relever les coordonnées qui s'affichent et définir `top` et `left` dans les paramètres de la commande IMAGE.
+
+<a name="move_image"></a>
+###Déplacer l'image
+
+Pour déplacer l'image (pas la positionner mais l'animer en la changeant de place), utiliser sa méthode `move`&nbsp;:
+
+    monImage = IMAGE({<parametres de l'image>})
+    monImage.move({paramètres du déplacement})
+
+On peut déplacer l'image en déterminant sa position finale à l'aide des paramètres `x` (position horizontale) et `y` (position verticale). La valeur est en pixels.
+
+    monImage.move({x:300, y:100})
+
+On peut déplacer l'image en déterminant le nombre de pixels de déplacement horizontal à l'aide de `x_for` ou vertical à l'aide de `y_for`&nbsp;:
+
+    monImage.move({x_for:10, y_for:100})
+
+Ou en combinant les deux formules&nbsp;:
+
+    monImage.move({x:300, y_for:10})
+
+On détermine le temps (durée) de déplacement de l'image à l'aide de la propriété `seconds` qui détermine le nombre de secondes que mettra l'image pour atteindre sa nouvelle position (2 secondes par défaut)&nbsp;:
+
+    monImage.move({x_for:10, y_for:100, seconds:1})
+
 
 
 <a name="modify_cadrage_image"></a>
@@ -1443,6 +1470,17 @@ Noter que pour obtenir les nouvelles coordonnées du cadrage, il suffit&nbsp;:
 * De déterminer le cadrage de fin du travelling&nbsp;;
 * De demander le code (bouton “-> Code” de l'édition)&nbsp;;
 * De prendre la valeur `cadre_offset_x` pour la mettre en `x` et la valeur `cadre_offset_y` pour la mettre en `y` dans les paramètres du travelling.
+
+<a name="modify_source_image"></a>
+###Modifier la source de l'image
+
+Plutôt que de détruire une image pour la remplacer par une autre, on peut simplement changer la source de l'image courante.
+
+On modifie la source (ie le fichier de l'image) à l'aide de sa méthode `src`&nbsp;:
+
+    monImage = IMAGE({url:'path/to/image_1.png'})
+    WAIT(2)
+    monImage.src('path/to/image_2.png')
 
 <a name="dont_build_image"></a>
 ###Ne pas construire l'image
