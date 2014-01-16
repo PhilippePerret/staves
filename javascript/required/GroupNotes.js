@@ -36,7 +36,9 @@ window.OBJET_TRAITEMENT = {
   hide:function(params){return this.traite('hide', Anim.delai_for('show'))},
   fantomize:function(){return this.traite('fantomize')},
   defantomize:function(){return this.traite('defantomize')},
-  colorize:function(color){return this.traite('colorize', color)}
+  colorize:function(color){return this.traite('colorize', color)},
+  surround:function(params){return this.traite('surround', params)},
+  unsurround:function(params){return this.traite('unsurround', params)}
   
 }
 

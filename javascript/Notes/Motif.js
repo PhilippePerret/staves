@@ -67,6 +67,38 @@ window.Motif = function(strnotes, params)
 $.extend(Motif.prototype, METHODES_TEXTE)
 $.extend(Motif.prototype, METHODES_GROUPNOTES)
 
+
+/* ---------------------------------------------------------------------
+ *  Méthodes d'instance pour le code de l'animation
+ *  
+ */
+$.extend(Motif.prototype,{
+  /**
+    * Méthode qui masque le motif
+    * @method hide
+    * @param {Object} params Paramètres optionnels, donc `complete`
+    */
+  hide:function(params)
+  {
+    params = define_complete( params )
+    this.each_note(function(note){ note.hide() })
+  },
+  /**
+    * Méthode qui ré-affiche le motif
+    * @method show
+    * @param {Object} params Paramètres optionnels, donc `complete`
+    */
+  show:function(params)
+  {
+    params = define_complete( params )
+    this.each_note(function(note){ note.show() })
+  }
+})
+/* ---------------------------------------------------------------------
+ *  Méthodes d'instance "protected"
+ *  
+ */
+
 $.extend(Motif.prototype,{
   /**
     * Méthode qui a l'instanciation se charge de créer les instances des notes
