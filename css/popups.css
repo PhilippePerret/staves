@@ -5,6 +5,14 @@ section#app_popups {
   z-index     : 1000;
 }
 
+/* Menu désactivé */
+li.disabled {
+  opacity     :0.5; 
+  font-style  :italic;
+}
+li.disabled:hover {
+  cursor      :inherit !important;
+}
 section#app_popups ul.app_popup {
 /*  position          : absolute;
   top               : 0;*/
@@ -44,7 +52,7 @@ section#app_popups ul.app_popup li:not(.first) {
 section#app_popups ul.app_popup li.last {
   border-bottom  : 1px solid #DDD;
 }
-section#app_popups ul.app_popup li:not(.first):not(.separateur):not(.last):hover {
+section#app_popups ul.app_popup li:not(.first):not(.separateur):not(.last):not(.disabled):hover {
   background-color  :#40609F;
   color             :white;
 }

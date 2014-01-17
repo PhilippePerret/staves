@@ -129,9 +129,20 @@ window.UI.Popups = {
   onchoose:function(item)
   {
     var method = item.attr('data-item')
+    if(item.hasClass('disabled')) return false
     this.Methods[method](item)
   },
   
+  /**
+    * Méthode qui ré-active un menu si la condition est remplie
+    * @method enableIf
+    * @param {String} menu  Le menu (son data-item)
+    * @param {Boolean} condition La condition. Si true => activation
+    */
+  enableIf:function(menu, condition)
+  {
+    return this.unableIf(menu, !condition)
+  },
   /**
     * Méthode qui active ou désactive le menu_id en fonction de la condition
     * +condition+
@@ -142,10 +153,8 @@ window.UI.Popups = {
   unableIf:function(menu, condition)
   {
     if('string' == typeof menu) menu = this.section.find('li[data-item="'+menu+'"]')
-    var data  = condition ? {opacity:0.5, 'font-style':'italic'} : {opacity:1, 'font-style':"normal"}
-    menu.css(data)
+    menu[condition ?'addClass':'removeClass']('disabled')
   },
-  
   /**
     * Préparation des popups à l'ouverture de l'application
     * @method prepare

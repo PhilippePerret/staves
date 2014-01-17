@@ -127,6 +127,7 @@ $.extend(window.Anim,{
     * @final
     */
   prefs_default:{
+    autosave          :0,
     decompte          :2,
     staff_top         :60,
     staff_offset      :100,
@@ -154,6 +155,12 @@ $.extend(window.Anim,{
     * @static
     */
   prefs:{
+    /**
+      * Si True, le code est automatiquement sauvé après changement
+      * (false par défaut)
+      * @proprety {Boolean} autosave
+      */
+    autosave      :false,
     // Positions absolues
     /**
       * Nombre de secondes de décompte avant le lancement de l'animation
@@ -573,7 +580,11 @@ $.extend(window.Anim,{
     }
     else
     {
-      if(rajax.ok) F.show(this.name + " enregistrée.")
+      if(rajax.ok)
+      {
+        F.show("“"+this.name + "” enregistrée.")
+        this.modified = false
+      } 
       else F.error(rajax.message)
     }
   },
@@ -623,6 +634,7 @@ $.extend(window.Anim,{
         // Il faut retirer l'ancien nom et le remplacer par le nouveau
         // Ça change aussi le nom courant de l'animation
         UI.change_animation_name(this.name, rajax.name)
+        this.modified = false
       }
       else F.error(rajax.message)
     }
@@ -734,6 +746,20 @@ $.extend(window.Anim,{
 })
 
 Object.defineProperties(Anim,{
+  /**
+    * Gère la propriété 'modified' de l'animation
+    * Propriété complexe pour pouvoir faire suivre le menu "Enregistrer"
+    *
+    * @property {Boolean} modified
+    */
+  "modified":{
+    set:function(mod)
+    {
+      this._modified = mod
+      UI.Popups.enableIf('save', !mod)
+    },
+    get:function(){return this._modified}
+  },
   /**
     * Position x courante
     * @property {Number} current_x

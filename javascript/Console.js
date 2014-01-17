@@ -82,14 +82,20 @@ $.extend(window.Console,{
   /**
     * La méthode est appelée lorsque le code console a été modifié. Cela
     * permet d'initialiser les étapes retenues.
+    * Notes
+    * -----
+    *   * Si la sauvegarde automatique est activée, on enregistre tout de
+    *     suite le code.
+    *
     * @method onchange_code
     */
   onchange_code:function()
   {
     if(this._etapes)          delete this._etapes
     if(this._steps_selection) delete this._steps_selection
-  }
-  
+    Anim.modified = true
+    if(Anim.prefs.autosave) Anim.save()
+  },
 })
 
 Object.defineProperties(window.Console,{
