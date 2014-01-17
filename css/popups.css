@@ -22,15 +22,21 @@ section#app_popups ul.app_popup {
   height            : 18pt;
   display           : block;
   float             : left;
-  width             : 85px;
   font-family       : 'Lucida Grande';
   font-size         : 11pt;
   overflow          : hidden;
   background-color  : white;
 }
 section#app_popups ul.app_popup li {
-  padding :1px 12px 4px;
+/*  padding :1px 12px 4px;*/
+  padding-top:1px;
   margin  :0;
+}
+section#app_popups ul.app_popup li.selected {
+  background-color : #cfc !important;
+}
+section#app_popups ul.app_popup li.selected:hover {
+  color : black !important;
 }
 section#app_popups ul.app_popup li:not(.separateur) {
   cursor  :pointer;
@@ -42,6 +48,7 @@ section#app_popups ul.app_popup li.first {
   width             : 85px !important;
 }
 section#app_popups ul.app_popup li:not(.first) {
+  padding       :1px 12px 4px;
   width         :250px;
   font-size     :0.9em;
   background-color :white;

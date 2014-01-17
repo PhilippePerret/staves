@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-  // Préparer l'interface (dont la règle)
+  // Préparer l'interface
   UI.prepare()
   
   Anim.on_load()

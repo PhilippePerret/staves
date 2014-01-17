@@ -18,7 +18,7 @@
 <section id="app_popups">
   
   <!-- MENU "Fichier" -->
-  <ul id="popup_fichier" class="app_popup">
+  <ul id="popup_fichier" class="app_popup" style="width:80px">
     <li class="first">Fichier</li>
     <li class="separateur"></li>
     <li data-item="open"><span class="fright">⌘O</span>Ouvrir…</li>
@@ -33,7 +33,7 @@
   </ul>
   
   <!-- MENU "Options" -->
-  <ul id="popup_options" class="app_popup">
+  <ul id="popup_options" class="app_popup" style="width:82px">
     <li class="first">Options</li>
     <li class="separateur"></li>
     <li data-item="autosave">Activer Auto-Save</li>
@@ -44,7 +44,7 @@
   </ul>
   
   <!-- MENU "Outils" -->
-  <ul id="popup_outils" class="app_popup">
+  <ul id="popup_outils" class="app_popup" style="width:82px">
     <li class="first">Outils</li>
     <li class="separateur"></li>
     <li data-item="infos">Informations courantes</li>
@@ -53,5 +53,16 @@
     <li class="separateur"></li>
     <li data-item="manual">Manuel d'utilisation</li>
     <li class="last"></li>
+  </ul>
+  
+  <!-- Menu "Animation" -->
+  <ul id="popup_animation" class="app_popup" style="width:104px">
+    <li class="first">Animation</li>
+    <li class="separateur"></li>
+    <li data-item="play::all"><span class="fright">⌘0</span>Jouer tout</li>
+    <li data-item="play::selection"><span class="fright">⌘1</span>Jouer la sélection</li>
+    <li data-item="play::repairs"><span class="fright">⌘2</span>Jouer entre #!START et #!END</li>
+    <li data-item="play::from_cursor"><span class="fright">⌘3</span>Jouer depuis le curseur</li>
+    <li data-item="play::stepbystep"><span class="fright">⌘4</span>Jouer Pas à pas</li>
   </ul>
 </section>

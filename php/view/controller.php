@@ -4,13 +4,7 @@
 <section id="controller">
   <div id="decompte" style="display:none;"></div>
   <div class="buttons">
-    <select id="play_type" onchange="$.proxy(Anim.onchange_play_type,Anim,this.value)()">
-      <option value="all">Tout</option>
-      <option value="selection">La sélection</option>
-      <option value="repairs">Entre repères</option>
-      <option value="from_cursor">Depuis curseur</option>
-      <option value="stepbystep">Pas à pas</option>
-    </select>
+    <input type="hidden" id="play_type" value="all" />
     <img id="btn_anim_start" 
       src="img/bouton/start.png"
       class="btn_controller"

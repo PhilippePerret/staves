@@ -462,7 +462,8 @@ $.extend(window.Anim,{
   {
     Anim.Infos.prepare()
     Anim.set_slider()
-    this.play_type = $('select#play_type').val()
+    this.play_type = $('input#play_type').val().toString()
+    this.onchange_play_type(this.play_type)
   },
   /**
     * Reset les préférences
@@ -484,24 +485,10 @@ $.extend(window.Anim,{
     */
   onchange_play_type:function(play_type)
   {
-    this.play_type = play_type
-    F.show(function(playtype){
-      switch(playtype)
-      {
-      case 'all':
-        return "L'intégralité de l'animation sera jouée."
-      case 'selection':
-        return "Seul le code sélectionné sera joué."
-      case 'repairs':
-        return "Seul le code entre `#!START` et `#!END` sera joué."
-      case 'stepbystep':
-        return "L'animation sera jouée pas à pas."
-      case 'from_cursor':
-        return "L'animation sera jouée depuis la position du curseur."
-      default:
-        return "Bleurk… (dans Anim.onchange_play_type)"
-      }
-    }(play_type))
+    if(this.play_type) UI.Popups.deselect("play::"+this.play_type)
+    this.play_type = play_type.toString()
+    UI.Popups.select("play::"+this.play_type)
+    $('input#play_type').val(this.play_type)
   },
   /**
     * Met l'animation courante comme animation par défaut

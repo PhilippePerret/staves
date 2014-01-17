@@ -124,6 +124,19 @@ window.UI.Popups = {
       {
         UI.Tools.coordonnees_desactive()
       }
+    },
+    /*
+     *  Méthodes du menu ANIMATION
+     *  
+     */
+    /**
+      * Définit ce qu'il faut jouer
+      * @method play
+      * @param {String} what  Ce qu'il faut jouer ('selection', 'all', etc.)
+      */
+    play:function(item, what)
+    {
+      Anim.onchange_play_type(what)
     }
   },
   /* Fin des méthodes qui correspondent aux menus
@@ -132,14 +145,27 @@ window.UI.Popups = {
   /**
     * = Main =
     * Méthode appelée quand on choisit un item de menu
+    * Notes
+    * -----
+    *   * Chaque menu contient un attribut 'data-item' qui définit la méthode
+    *     à appeler (this.Methods.<method>)
+    *   * Si `data-item` contient "::", la méthode est avant "::" et ensuite
+    *     c'est un argument à envoyer à la méthode. Cf. par exemple le menu Animation
+    *
     * @method onchoose
     * @param {jQuerySet} item L'objet DOM (jQuery) du menu cliqué
     */
   onchoose:function(item)
   {
-    var method = item.attr('data-item')
+    var method = item.attr('data-item'), dmethod, arg ;
+    if(method.indexOf('::') > -1)
+    {
+      dmethod = method.split('::')
+      method  = dmethod[0]
+      arg     = dmethod[1]
+    }
     if(item.hasClass('disabled')) return false
-    this.Methods[method](item)
+    this.Methods[method](item, arg)
   },
   
   /**
@@ -163,6 +189,30 @@ window.UI.Popups = {
   {
     if('string' == typeof menu) menu = this.section.find('li[data-item="'+menu+'"]')
     menu[condition ?'addClass':'removeClass']('disabled')
+  },
+  /**
+    * Sélectionne un menu (lorsque c'est un choix entre plusieurs options, comme pour
+    * ce qu'il faut jouer)
+    * @method select
+    * @param {String|jQuerySet} menu Le menu ou le "data-item" du LI
+    */
+  select:function(menu)
+  {
+    dlog("-> select("+menu+")")
+    if('string' == typeof menu) menu = this.section.find('li[data-item="'+menu+'"]')
+    menu.addClass('selected')
+  },
+  /**
+    * Désélectionne un menu (lorsque c'est un choix entre plusieurs options, comme pour
+    * ce qu'il faut jouer)
+    * @method deselect
+    * @param {String|jQuerySet} menu Le menu ou le "data-item" du LI
+    */
+  deselect:function(menu)
+  {
+    dlog("-> deselect("+menu+")")
+    if('string' == typeof menu) menu = this.section.find('li[data-item="'+menu+'"]')
+    menu.removeClass('selected')
   },
   /**
     * Préparation des popups à l'ouverture de l'application
