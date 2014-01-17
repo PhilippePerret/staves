@@ -97,36 +97,80 @@ Anim.Dom = {
       instance.show(params)
     }
   },
-  
+  /**
+    * Initialisation du doublage (efface et masque les champs doublage et caption)
+    * @method init_doublage
+    */
+  init_doublage:function()
+  {
+    $('span#caption_text').html('');
+    $('div#caption').hide();
+    $('div#doublage').html('').hide();
+  },
   /**
     * Écrit le doublage ou le sous-titre +texte+ (en fonction de params et des
     * réglages par défaut)
+    * Notes
+    * -----
+    *   * Si Anim.prefs.caption_timer est true, le texte est écrit au débit
+    *     Anim.prefs.caption_debit.
+    *
     * @method set_doublage
-    * @param {String} texte Le texte (vide pour supprimer le div)
+    * @param {String} texte Le texte (vide ou undefined pour supprimer le div)
     * @param {Object|Boolean} params  Les paramètres optionnels
     *                                 Ou une valeur true ou false, qui détermine caption
     *   @param {Boolean} params.caption    Si false => doublage, si true => caption
+    *   @param {Boolean} params.wait      Si true, on attend la fin de l'affichage du doublage
+    *                                     avant de passer à la suite.
     */
   set_doublage:function(texte, params)
   {
+    // dlog("-> set_doublage(params :");dlog(params)
     if(undefined == params) params = {}
     else if ('boolean' == typeof params) params = {caption:params}
     else if (params.doublage == true) params.caption = !params.doublage
-    var is_caption = params.caption == true || Anim.prefs.caption == true
+    var is_caption  = params.caption == true || Anim.prefs.caption == true
+    var is_doublage = !is_caption
     var obj = $(is_caption ? 'span#caption_text' : 'div#doublage')
-    var montrer = texte.trim() != ""
+    var montrer = (undefined != texte) && (texte.trim() != "")
     if(montrer)
     {
-      obj.html(texte.trim())
       obj.show()
+      if(is_doublage && Anim.prefs.caption_timer)
+      { // On doit afficher le texte comme il sera dit
+        this.mots_doublage = texte.trim().split(' ')
+        this.imot_doublage = 0
+        $('div#doublage').html('')
+        if(params.wait) this.doublage_temporised.poursuivre = NEXT_STEP
+        // dlog(this.mots_doublage)
+        this.doublage_temporised()
+      }
+      else obj.html(texte.trim())
     }
     else
     {
       obj.hide()
     }
     if(is_caption) $('div#caption')[montrer?'show':'hide']()
+    if(!params.wait) NEXT_STEP(notimeout=true)
   },
-  
+  doublage_temporised:function()
+  {
+    if(this.timer_doublage) clearTimeout(this.timer_doublage)
+    if(mot = this.mots_doublage.shift())
+    {
+      ++this.imot_doublage
+      $('div#doublage').append('<span id="spanmot'+this.imot_doublage+'" style="display:none;">'+mot+'</span> ')
+      $('div#doublage > span#spanmot'+this.imot_doublage).show(400)
+      
+      var duree = parseInt(Math.ceil(mot.length / 3) * 200, 10)
+      this.timer_doublage = setTimeout($.proxy(Anim.Dom.doublage_temporised, Anim.Dom), duree)
+    }
+    else
+    {
+      if(this.doublage_temporised.poursuivre) this.doublage_temporised.poursuivre()
+    }
+  },
   /**
     * Méthode d'aide qui affiche un point de repère aux coordonnées x/y, puis
     * le fait disparaitre. Écrit les coordonnées dans le feedback UI

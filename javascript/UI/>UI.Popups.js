@@ -48,8 +48,8 @@ window.UI.Popups = {
       */
     autosave:function(item)
     {
-      Anim.prefs.autosave = !Anim.prefs.autosave
-      item.html((Anim.prefs.autosave?"Désa":"A")+"ctiver Auto-Save")
+      Anim.options.autosave = !Anim.options.autosave
+      item.html((Anim.options.autosave?"Désa":"A")+"ctiver Auto-Save")
     },
     /**
       * Demande de mise de l'animation courante comme animation par défaut

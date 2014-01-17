@@ -54,6 +54,16 @@ window.Pas = function(params)
     */
   this.errors = []
   
+  /**
+    * Propriété qui détermine si l'étape doit être “flashée” (exécutée le plus
+    * rapidement possible) ou exécutée normalement.
+    * Cette propriété est utile pour les demandes de jeu d'une sélection seulement
+    * du code (tout ce qui est avant devrait être exécuté, sauf pas qui peuvent
+    * être passés).
+    * @property flashed
+    */
+  this.flashed = false
+  
   var me = this
   L(params).each(function(k,v){me[k]=v})
   
@@ -90,6 +100,7 @@ $.extend(Pas.prototype,{
   exec:function()
   {
     if(this.is_comment || this.is_empty) return false
+    if(this.flashed) MODE_FLASH = true
     try{ eval('Anim.Objects.'+this.trimed) }
     catch(err){ 
       dlog("[<Pas>.exec] # Erreur : "+err+" survenue (noter que cela aura pour conséquence directe de passer à l'étape suivante).")
@@ -101,6 +112,7 @@ $.extend(Pas.prototype,{
       clearTimeout(this.timer_tries_exec)
       delete this.tries_exec
     }
+    if(this.flashed) MODE_FLASH = false
     return true
   },
   /**

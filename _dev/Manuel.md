@@ -1086,7 +1086,7 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
   * [Créer un texte pour l'animation](#create_texte_animation)
   * [Créer un texte pour un objet](#create_texte_objet)
   * [Créer un texte pour la portée (section “Portée”)](#ecrire_texte_portee)
-  * [Créer des sous-titres (réels ou d'aide)](#creer_captions)
+  * [Créer des sous-titres (réels ou doublage)](#creer_captions)
 * [Définir les positions des textes](#set_position_texte)
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)
@@ -1316,6 +1316,15 @@ Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuit
 <a name="creer_captions"></a>
 ###Créer des sous-titres
 
+*[La commande `CAPTION`](#commande_caption)
+*[Utilisation de sous-titre au lieu de doublage](#use_caption_as_soustitres)
+*[Affichage temporisé du doublage](#affichage_temporised_doublage)
+*[Désactiver le doublage temporisé](#desactiver_doublage_temporised)]
+*[Effacer le sous-titre ou le doublage](#effacer_caption)
+
+<a name="commande_caption"></a>
+####La commande `CAPTION`
+
 On peut vouloir créer des sous-titres pour deux raisons principales&nbsp;:
 
 1. Afficher des explications en même temps que l'animation joue (vrais sous-titres)&nbsp;;
@@ -1326,6 +1335,9 @@ Pour ces deux utilisations, on utilise la commande&nbsp;:
     CAPTION(<texte>[, <parameters>])
   
 Cette commande affiche le texte `<texte>` à l'écran en respectant les paramètres optionnels `<parameters>`.
+
+<a name="use_caption_as_soustitres"></a>
+####Utilisation de sous-titres au lieu de doublages
 
 Par défaut, le texte s'affichera comme un texte de doublage, donc hors de l'écran. Pour utiliser vraiment, PENDANT TOUTE L'ANIMATION, le texte en sous-titre (à l'intérieur de l'animation), alors définir&nbsp;:
 
@@ -1347,11 +1359,45 @@ Par exemple&nbsp;:
 
     CAPTION("Mon sous-titre", true)
 
+<a name="affichage_temporised_doublage"></a>
+####Affichage temporisé du doublage
+
+Il est possible, au lieu d'afficher le texte des doublages comme un bloc, de les faire apparaitre petit à petit, au rythme de la parole.
+
+Pour ce faire, ajouter au début de l'animation (ou à l'endroit où devra être activé cette fonctionnalité)&nbsp;:
+
+    DEFAULT('caption_timer', true)
+
+On peut régler le débit de parole avec&nbsp;:
+
+    DEFAULT('caption_debit', <valeur>)
+  
+… où `<valeur>` est 1 par défaut, et le débit augmente à mesure que la valeur augmente et diminue quand la valeur se trouve entre 0 et 1 (p.e. `0.5` pour aller deux fois moins vite).
+  
+Quand le doublage est temporisé, on peut ajouter le paramètres `wait` au 2e argument de la commande `CAPTION`, ce qui aura pour effet de faire patienter l'animation en attendant que le texte soit dit.
+
+    CAPTION("Mon doublage temporisé", {wait:true})
+    
+Dans le cas contraire, l'animation passera à l'étape suivante tout en écrivant le texte de façon temporisé.
+
+<a name="desactiver_doublage_temporised"></a>
+####Désactiver le doublage temporisé
+
+Pour désactiver le double temporisé à un moment de l'animation, écrire à l'endroit où la fonctionnalité doit être désactivée&nbsp;:
+
+    DEFAULT('caption_timer', false)
+
+<a name="effacer_caption"></a>
 ####Effacer le sous-titre ou le doublage
-Pour effacer le sous-titre ou le doublage, utiliser un texte vide en premier argument. Par exemple, pour effacer le sous-titre actif&nbsp;:
+Pour effacer le sous-titre ou le doublage, appeler la méthode sans argument ou utiliser un texte vide en premier argument. Par exemple, pour effacer le sous-titre actif&nbsp;:
 
     CAPTION("", {caption:true})
-  
+    CAPTION("", true)
+    
+Pour effacer le doublage&nbsp;:
+
+    CAPTION()
+
 <a name="set_position_texte"></a>
 ###Définition des position des textes
 

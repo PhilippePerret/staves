@@ -119,6 +119,14 @@ $.extend(window.Anim,{
     wait        : 1
   },
   /**
+    * Options
+    * @class options
+    * @static
+    */
+  options:{
+    autosave          :false,
+  },
+  /**
     * Toutes les préférences par défaut
     * Notes
     *   * Cf. les définitions dans `prefs` ci-dessous
@@ -127,7 +135,6 @@ $.extend(window.Anim,{
     * @final
     */
   prefs_default:{
-    autosave          :0,
     decompte          :2,
     staff_top         :60,
     staff_offset      :100,
@@ -148,10 +155,25 @@ $.extend(window.Anim,{
     note_size         :14.3,
     note_height       :13,
     delai_after_show  :3,
-    caption           :false
+    caption           :false,
+    /**
+      * Débit de parole pour les captions (doublage seulement).
+      * `caption_timer` doit être true pour que le débit soit activé.
+      * @property {Number} caption_debit
+      * @default 1
+      */
+    caption_debit     :1,
+    /**
+      * Si true, les doublages seront affichés comme s'ils étaient lus
+      * @property {Boolean} caption_timer
+      * @default false
+      */
+    caption_timer     :false
   },
   /**
     * Toutes les préférences
+    * De nombreuses valeurs sont remises aux valeurs par défaut au moment
+    * du redémarrage.
     * @property {Object} prefs
     * @static
     */
@@ -436,6 +458,7 @@ $.extend(window.Anim,{
     */
   reset:function()
   {
+    dlog("-> Anim.reset")
     Flash.clean()
     $('section#animation').html('')
     this.Objects    = {}
@@ -451,8 +474,8 @@ $.extend(window.Anim,{
     this.Grid.init_all()
     // Quelques autres ré-initialisation
     Img.virtual_operation = false
-    this.Dom.set_doublage("", true)   // Effacer doublage
-    this.Dom.set_doublage("", false)  // Effacer sous-titre
+    this.Dom.init_doublage()   // Effacer doublage et sous-titre
+    dlog("<- Anim.reset")
   },
   /**
     * Appelé au chargement de l'application
@@ -583,7 +606,7 @@ $.extend(window.Anim,{
     {
       if(rajax.ok)
       {
-        F.show("“"+this.name + "” enregistrée.")
+        F.show("“"+this.name + "” enregistré.")
         this.modified = false
       } 
       else F.error(rajax.message)

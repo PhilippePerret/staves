@@ -62,7 +62,7 @@ FONCTIONS_ANIM_OBJETS = {
     * autre, ils se mettent simplement dans des DIV qui leur sont réservés
     * @method CAPTION
     */
-  CAPTION:function(texte, params){Anim.Dom.set_doublage(texte, params);NEXT_STEP()},
+  CAPTION:function(texte, params){Anim.Dom.set_doublage(texte, params)},
 
   CHORD:function(notes, params){return CHORD(notes, params)},
   /** Commande pour construire une flèche sans la placer dans une variable

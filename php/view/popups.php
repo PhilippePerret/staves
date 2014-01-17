@@ -62,7 +62,7 @@
     <li data-item="play::all"><span class="fright">⌘0</span>Jouer tout</li>
     <li data-item="play::selection"><span class="fright">⌘1</span>Jouer la sélection</li>
     <li data-item="play::repairs"><span class="fright">⌘2</span>Jouer entre #!START et #!END</li>
-    <li data-item="play::from_cursor"><span class="fright">⌘3</span>Jouer depuis le curseur</li>
+    <li data-item="play::cursor"><span class="fright">⌘3</span>Jouer depuis le curseur</li>
     <li data-item="play::stepbystep"><span class="fright">⌘4</span>Jouer Pas à pas</li>
   </ul>
 </section>

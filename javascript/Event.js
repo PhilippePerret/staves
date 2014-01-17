@@ -2,22 +2,20 @@
   * @module Event.js
   * Gestion des évènements
   */
+window.IN_TEXT_FIELD = false
 
-/**
-  * @method onkeypress
-  * @for window
-  * @param  {Event} evt L'évènement keypress envoyé
-  *
-  */
-window.onkeypress = function(evt)
+window.KEYPRESS_HORS_CONSOLE = function(evt)
 {
   // Mettre en route ou arrêter l'animation avec la barre espace
-  if(evt.charCode == K_SPACE)
+  if(!IN_TEXT_FIELD)
   {
-    Anim.on ? Anim.stop(forcer = true) : Anim.start()
-    return stop_event(evt)
+    if(evt.charCode == K_SPACE)
+    {
+      Anim.on ? Anim.stop(forcer = true) : Anim.start()
+      return stop_event(evt)
+    }
   }
-  if(!evt.metaKey && !evt.altKey && !evt.ctrlKey && !evt.shiftKey) return true
+  if(!evt.metaKey && !evt.altKey && !evt.ctrlKey) return true
   
   switch(evt.charCode)
   {
@@ -71,7 +69,15 @@ window.onkeypress = function(evt)
     if(evt.metaKey){ Anim.onchange_play_type('stepbystep');return stop_event(evt) }
     break
   default:
-    F.show("charcode:"+evt.charCode+ " / keyCode:"+evt.keyCode)
+    // F.show("charcode:"+evt.charCode+ " / keyCode:"+evt.keyCode)
   }
   return true
 }
+
+/**
+  * @method onkeypress
+  * @for window
+  * @param  {Event} evt L'évènement keypress envoyé
+  *
+  */
+window.onkeypress = KEYPRESS_HORS_CONSOLE

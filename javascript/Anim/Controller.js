@@ -157,6 +157,7 @@ $.extend(Anim,{
     this.on       = false
     this.pause_on = false
     this.kill_timer()
+    Console.console.blur()
     delete this.Step.list
     if(forcer)
     { // => arrêt forcé

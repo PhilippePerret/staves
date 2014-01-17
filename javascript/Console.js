@@ -10,7 +10,22 @@
   */
 if(undefined == window.Console) Console = {}
 $.extend(window.Console,{
-    
+  /**
+    * Méthode appelée quand on focus dans le code console
+    * @method onfocus
+    */
+  onfocus:function()
+  {
+    window.onkeypress = null
+  },
+  /**
+    * Méthode appelée quand on blure du code console
+    * @method onblur
+    */
+  onblur:function()
+  {
+    window.onkeypress = KEYPRESS_HORS_CONSOLE
+  },
   /**
     * Mets un code en console.
     * @method set
@@ -94,7 +109,7 @@ $.extend(window.Console,{
     if(this._etapes)          delete this._etapes
     if(this._steps_selection) delete this._steps_selection
     Anim.modified = true
-    if(Anim.prefs.autosave) Anim.save()
+    if(Anim.options.autosave) Anim.save()
   },
 })
 
@@ -170,35 +185,31 @@ Object.defineProperties(window.Console,{
       if( !this._steps_selection )
       { // => Première sélection (ou modification du code), on la calcule
         var sel   = this.get_selection()
-        if(sel.content == "")
-        {
-          F.error("Il faut sélectionner le code à jouer !")
-          return null
-        }
         var steps = []
-        // == On crée les instances étapes ==
+        /* == On crée des instances d'étapes précédentes, en sautant
+              toutes celles qu'on peut passer 
+              On ajoute à toutes ces étapes la propriété `flashed` qui va
+              déterminer qu'elles doivent être interprétées le plus vite
+              possible.
+        */
         Pas.last_id = 0
-        var cur_offset = parseInt(sel.start,10)
-        var pas ;
+        var pas, cur_offset = 0 ;
+        L(this.get_code(0, sel.start, as_list=true)).each(function(line){
+          cur_start   = parseInt(cur_offset, 10)
+          cur_offset += line.length + 1
+          // Toutes les commandes qu'on peut passer
+          if(line.match(/^(WAIT|CAPTION)/)) return
+          pas = new Pas({code:line, offset_start:cur_start, flashed:true})
+          steps.push(pas)
+        })
+        // == On crée les instances étapes à partir desquelles jouer ==
+        cur_offset = parseInt(sel.start,10)
         L(sel.content.split("\n")).each(function(line){
           pas = new Pas({code:line, offset_start:cur_offset})
           steps.push(pas)
           cur_offset += pas.length
         })
-        // == Relève des steps à jouer nécessairement ==
-        var befor = this.get_code(0, sel.start, as_list=true)
-        var steps_before = []
-        cur_offset = 0
-        L(befor).each(function(line){
-          if(line.contains('STAFF') || line.contains('DEFAULT') || line.contains('NEXT'))
-          {
-            steps_before.push(new Pas({code:line, offset_start:cur_offset}))
-          }
-          cur_offset += line.length + 1
-        })
-        this._steps_selection  = steps_before.concat(steps)
-        
-      } else {
+        this._steps_selection = steps
         
       }
       // Il faut renvoyer un clone car l'exécution des étapes mange (shift) dans
@@ -213,7 +224,7 @@ Object.defineProperties(window.Console,{
     *   * Pour définir la liste on utilise la propriété `steps_selection` simplement
     *     en sélectionnant la portion de texte voulu avant.
     *   * La liste renvoyée est expurgée des pas de "préambule" ou peuvent
-    *     être définies des préférences.
+    *     être définies des préférences à établir avant le départ.
     *
     * @property {Array of Pas} steps_between_repairs
     */
@@ -246,7 +257,6 @@ Object.defineProperties(window.Console,{
       var dsel    = this.get_selection()
       var before  = this.raw.substring(0, dsel.start)
       var start   = before.lastIndexOf("\n")
-      dlog("50 premiers caractères : "+this.raw.substring(start, 50))
       this.select({start:start+1, end:this.raw.length})
       delete this._steps_selection  // pour forcer le recalcul
       return this.steps_selection

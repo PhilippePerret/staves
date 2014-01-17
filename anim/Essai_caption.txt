@@ -1,0 +1,8 @@
+# Essai du débit des captions
+
+
+DEFAULT(\'caption_timer\', true)
+
+CAPTION(\"Ceci est un texte pour voir s\'il s\'affichera au bon rythme. Il est volontairement un peu long\", {wait:true})
+
+CAPTION(\"Et j\'en affiche un second pour voir s\'il fonctionnera aussi.\", {wait:true})
