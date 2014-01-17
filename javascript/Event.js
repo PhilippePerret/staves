@@ -29,13 +29,13 @@ window.onkeypress = function(evt)
       Anim.want_open()
       return stop_event(evt)
     }
-  case Key_r: // => recharger l'animation
-    if(evt.metaKey)
-    {
-      Anim.reload()
-      return stop_event(evt)
-    }
-    break
+  // case Key_r: // => recharger l'animation
+  //   if(evt.metaKey)
+  //   {
+  //     Anim.reload()
+  //     return stop_event(evt)
+  //   }
+  //   break
   case Key_s: // => Sauver/Sauver sous l'animation
     if(evt.metaKey)
     {

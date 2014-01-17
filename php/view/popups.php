@@ -36,6 +36,7 @@
   <ul id="popup_options" class="app_popup">
     <li class="first">Options</li>
     <li class="separateur"></li>
+    <li data-item="autosave">Activer Auto-Save</li>
     <li data-item="grid">Masquer la grille</li>
     <li class="separateur"></li>
     <li data-item="fullscreen">Anim en plein écran</li>

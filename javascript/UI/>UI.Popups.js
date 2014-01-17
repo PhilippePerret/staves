@@ -43,6 +43,15 @@ window.UI.Popups = {
       Anim.save_as()
     },
     /**
+      * Appelé pour activer/désactiver la sauvegarde automatique
+      * @method autosave
+      */
+    autosave:function(item)
+    {
+      Anim.prefs.autosave = !Anim.prefs.autosave
+      item.html((Anim.prefs.autosave?"Désa":"A")+"ctiver Auto-Save")
+    },
+    /**
       * Demande de mise de l'animation courante comme animation par défaut
       * @method def_anim
       */

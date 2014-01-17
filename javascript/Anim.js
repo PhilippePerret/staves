@@ -670,6 +670,7 @@ $.extend(window.Anim,{
       if(rajax.ok)
       {
         this.set_anim(name, rajax.raw_code)
+        this.modified = false
         UI.Popups.unableIf('def_anim', rajax.is_default_anim)
         if('function' == typeof this.load.poursuivre) this.load.poursuivre()
       }
@@ -737,6 +738,7 @@ $.extend(window.Anim,{
         {
           this.set_anim(rajax.default_animation, rajax.raw_code)
           UI.Popups.unableIf('def_anim', true)
+          this.modified = false
         }
         if(this.load_list_animations.poursuivre) this.load_list_animations.poursuivre()
       }
@@ -756,7 +758,7 @@ Object.defineProperties(Anim,{
     set:function(mod)
     {
       this._modified = mod
-      UI.Popups.enableIf('save', !mod)
+      UI.Popups.enableIf('save', mod)
     },
     get:function(){return this._modified}
   },
