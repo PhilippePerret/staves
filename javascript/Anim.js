@@ -142,10 +142,11 @@ $.extend(window.Anim,{
     chord             :40, 
     modulation_x      :-13,
     modulation_y      :26,
-    part_x            :-13,
-    part_y            :26,
+    part_x            :17,
+    part_y            :46,
     speed             :1,
     note_size         :14.3,
+    note_height       :13,
     delai_after_show  :3,
     caption           :false
   },
@@ -233,25 +234,25 @@ $.extend(window.Anim,{
       * qui la porte (souvent, un accord ou une note)
       * @property {Number} modulation_y
       */
-    modulation_x        : -13,
+    modulation_x        :null,
     /**
       * Décalage vertical de la marque de modulation par rapport à l'objet
       * porteur.
       * @property {Number} part_y
       */
-    part_y              :26,
+    part_y              :null,
     /**
       * Décalage horizontal de la marque de modulation par rapport à l'objet
       * porteur.
       * @property {Number} part_x
       */
-    part_x              :-13,
+    part_x              :null,
     /**
       * Décalage de la marque d'harmonie ou de cadence par rapport à
       * la portée.
       * @property {Number} harmony 
       */
-    harmony             : 70,
+    harmony             :null,
     /**
       * Décalage de la marque d'accord par rapport à la portée.
       * @property {Number} chord 
@@ -272,6 +273,11 @@ $.extend(window.Anim,{
       * @property {Float} note_size
       */
     note_size           : 14.3,
+    /**
+      * Hauteur des notes
+      * @property {Float} note_height
+      */
+    note_height         :null,
     /**
       * Si false, les CAPTION afficheront le texte en doublage, hors de l'animation
       * Sinon, ils seront affichés comme des sous-titres, dans l'image de l'animation

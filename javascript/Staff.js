@@ -358,7 +358,16 @@ Object.defineProperties(Staff.prototype,{
     * Hauteur de la portée
     * @property {Number} height
     */
-  "height":{get:function(){return this.img_staff.height()}},
+  "height":{get:function(){
+    return 4 * (Anim.prefs.note_height - 1)}
+  },
+  /**
+    * Bas de la portée
+    * @property {Number} bottom
+    */
+  "bottom":{
+    get:function(){return this.top + this.height}
+  },
   /**
     * Le "zéro" de la portée, en fonction de sa clé, qui permettra
     * de positionner les notes.
@@ -446,10 +455,10 @@ Object.defineProperties(Staff.prototype,{
     */
   "html_img":{
     get:function(){
-      var i=0, c = "", top = this.top ;
+      var i=0, c = "", top = this.top, nheight = (Anim.prefs.note_height - 1) ;
       for(; i<5; ++i)
       {
-        c += '<img style="top:'+(i * 12)+'px;" class="staffline" src="img/line.png" />'
+        c += '<img style="top:'+(i * nheight)+'px;" class="staffline" src="img/line.png" />'
         // top += 12
       }
       return '<div id="'+this.id+'" style="top:'+this.top+'px;" class="staff">'+c+'</div>'

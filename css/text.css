@@ -92,11 +92,16 @@ div.text.modulation div.txtafter {
 /* Le main texte d'une marque de partie */
 div.text.part {
   font-variant  : small-caps;
-  border        : 1px solid #333;
-  padding       : 2px 8px;
+  height        : 60px;
+  border-left   : 6px double;
+  border-top    : 1px solid;
+  padding       : 0 !important;
 }
 div.text.part div.mark_part {
-  
+  border-width  : 0px 1px 1px 0;
+  border-style  : solid;
+  border-color  : #333;
+  padding       : 2px 8px;
 }
 
 div.text:not(.modulation) div.txtbefore,

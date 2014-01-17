@@ -41,7 +41,7 @@ const rompue      = 'rompue'
 const faureenne   = 'faureenne'
 
 // Les parties
-part              = 'partie'
+part              = 'part'
 exposition        = "EXPOSITION"
 expo              = "EXPO."
 developpement     = "DÉVELOPPEMENT"

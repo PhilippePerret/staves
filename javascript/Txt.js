@@ -285,11 +285,11 @@ $.extend(Txt.prototype,{
     // comme les cadences (qui sont pour le moment les seuls à définir un
     // width particulier)
     if(this.width) this.obj.css({width:this.width+'px'})
-    var dpos  = {}
-    var rleft = this.real_left
-    if(rleft != null) dpos.left = rleft+'px'
-    var rtop  = this.real_top
-    if(rtop  != null) dpos.top  = rtop+'px'
+    var dpos  = {}, my = this ;
+    L(['left', 'top', 'height']).each(function(key){
+      var val = my['real_'+key]
+      if(val != null) dpos[key] = val + 'px'
+    })
     this.obj.css(dpos)
     this.positionne_texte_before()
     this.positionne_texte_after()
@@ -355,7 +355,7 @@ $.extend(Txt.prototype,{
       break
     case part:
       Txt.traite_texte_type_harmony(this)
-      this.texte_main = '<div class="mark_partie">'+(this.texte_main||"")+'</div>'
+      this.texte_main = '<div class="mark_part">'+(this.texte_main||"")+'</div>'
       break
     default:
       this.texte_main = this.texte
@@ -468,17 +468,6 @@ Object.defineProperties(Txt.prototype,{
     }
   },
   /**
-    * La hauteur de la boite de texte
-    * Noter que ça renvoie une "vraie" valeur, ie comptée avec le padding et
-    * les bordures.
-    * @property {Number} height
-    */
-  "height":{
-    get:function(){
-      return UI.exact_height_of(this.obj)
-    }
-  },
-  /**
     * Retourne la “vraie” portée sous laquelle on doit écrire la marque de
     * texte en fonction de son type.
     * @property {Staff} real_staff
@@ -568,7 +557,7 @@ Object.defineProperties(Txt.prototype,{
         case 'staff': 
           var h = Anim.prefs.staff_top_text + voffset
           if(Anim.prefs.staff_text_up)
-            return - (h + itxt.height)
+            return - (h + itxt.height_calc)
           else
           {
             return owner.height + h
@@ -621,7 +610,36 @@ Object.defineProperties(Txt.prototype,{
       return this._real_left + (this.offset_x || 0)
     }
   },
-  
+  /**
+    * La hauteur de la boite de texte
+    * Noter que ça renvoie une "vraie" valeur, ie comptée avec le padding et
+    * les bordures.
+    * @property {Number} height_calc
+    */
+  "height_calc":{
+    get:function(){
+      return UI.exact_height_of(this.obj)
+    }
+  },
+  /**
+    * Vraie valeur pour la hauteur
+    * @property {Number|Null} real_height
+    */
+  "real_height":{
+    get:function(){
+      dlog("-> real_height")
+      switch(this.type)
+      {
+      case part:
+        // Pour une partie, on essaie d'aller jusqu'en bas de la portée,
+        // sauf si this.height est défini
+        if(this.height) return this.height
+        var h = this.real_staff.bottom - this.real_top
+        return h
+      default: return null
+      }
+    }
+  },
   /* ---------------------------------------------------------------------
    *  DOM  
    */

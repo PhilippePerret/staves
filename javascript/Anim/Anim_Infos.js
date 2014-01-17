@@ -27,13 +27,19 @@ window.Anim.Infos = {
     // Position actuelle du curseur
     this.section.append(this.div_infos_for('current_x', Anim.current_x, "Position curseur"))
     // Les valeurs des préférences
-    L(Anim.prefs).each(function(k, v){
-      me.section.append(
-        '<div id="infos-'+k+'" class="'+me.oddeven()+'">'+
-          '<label>'+k.replace(/_/g,' ')+'</label>'+'<span id="infos-prefs-'+k+'-value" class="value">'+v+'</span>'+
-        '</div>'
-      )
-    })
+    L(Anim.prefs).each(function(k, v){me.section.append(me.div_infos_for('prefs-'+k, v, k))})
+  },
+  /**
+    * Retourne la valeur à afficher, en fonction de son type
+    * @method displayed_value
+    * @param {Any} value  La valeur transmise
+    * @return {String} La valeur à afficher
+    */
+  displayed_value:function(value)
+  {
+    if('boolean' == typeof value) return value ? 'true' : 'false'
+    if(value === null) return 'null'
+    return value.toString()
   },
   /**
     * Retourne la valeur odd ou even pour la ligne à écrire
@@ -58,7 +64,7 @@ window.Anim.Infos = {
   {
     return  '<div id="infos-'+key+'" class="'+this.oddeven()+'">'+
               '<label>'+(label_alt || key).replace(/_/g,' ')+'</label>'+
-              '<span id="infos-'+key+'-value" class="value">'+value+'</span>'+
+              '<span id="infos-'+key+'-value" class="value">'+this.displayed_value(value)+'</span>'+
             '<div>'
   },
   /**
@@ -77,9 +83,9 @@ window.Anim.Infos = {
     */
   show:function()
   {
-    var me = this
+    var my = this
     // Valeur des préférences
-    L(Anim.prefs).each(function(k,v){$(me.jid_key('prefs-'+k)).html(v)})
+    L(Anim.prefs).each(function(k,v){$(my.jid_key('prefs-'+k)).html(my.displayed_value(v))})
     // Valeur du décalage (next) actuel
     this.show_offset_cursor()
   },
@@ -91,7 +97,7 @@ window.Anim.Infos = {
     */
   set:function(key, value)
   {
-    $(this.jid_key(key)).html(value)
+    $(this.jid_key(key)).html(this.displayed_value(value))
   },
   /**
     * Actualise l'affichage d'une préférence (Anim.prefs)

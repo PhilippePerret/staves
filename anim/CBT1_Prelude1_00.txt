@@ -13,8 +13,9 @@ DEFAULT(\'staff_top\', 120)
 DEFAULT(\'staff_offset\', 120)
 DEFAULT(\'offset_modulation_y\', 5)
 DEFAULT(\'chord\', 35)
+DEFAULT(\'decompte\', 0)
 
-# mettre width à 725
+# La partition
 partition=IMAGE({url:\'asset/img/CBT1_Prelude_01.png\', left:78, top:6, width:725})
 
 CAPTION(\"Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d\'analyse\")
@@ -86,6 +87,8 @@ partition.hide()
 CAPTION(\"Par rapport à ces arpèges ascendant, il est intéressant de noter comment ils s\'opposent au parcours de la mélodie.\")
 NEW_STAFF(SOL, {top:129})
 
+#!START
+
 melodie = MOTIF(\'e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 c4 a3 f3 f5 d5 b4 f4 e4\', {offset_x:34, speed:4})
 WAIT(1)
 WAIT(10)
@@ -102,6 +105,9 @@ melodie.note([5,20]).surround({color:green})
 CAPTION(\"… pour un ambitus — c\'est-à-dire l\'intervalle entre la note la plus haute et la note la plus basse — de sixte redoublée, du la5… au do4…\")
 WAIT(10)
 
+# Mark de la CODA
+melodie.note(33).part(coda, {offset_x:10, offset_y:-10})
+
 CAPTION(\"Noter que je ne tiens pas compte ici de la coda, d\'un caractère mélodique très contrasté.\")
 WAIT(10)
 
@@ -109,6 +115,8 @@ melodie.hide()
 STAFF(1).hide()
 STAFF(2).hide()
 partition.show()
+
+#!END
 
 CAPTION(\"Moralité, des arpèges qui montent, s\'opposant à une mélodie qui descendant… Et puis l\'utilisation d\'un motif répétitif — l\'arpège — mais sur un ambitus large, ça fait déjà quelques beaux contrastes pour une pièce en apparence très simple.\")
 WAIT(15)

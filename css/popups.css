@@ -7,7 +7,7 @@ section#app_popups {
 
 /* Menu désactivé */
 li.disabled {
-  opacity     :0.5; 
+  color       :#ccc;
   font-style  :italic;
 }
 li.disabled:hover {

@@ -1,2 +1,14 @@
-# Nouvelle animation
-# Écrire le code ici
+# Essai des marques de parties
+DEFAULT(\'decompte\',0)
+
+NEW_STAFF(SOL)
+
+acc = CHORD(\'c4 eb4 g4\')
+
+acc.part(dev)
+
+NEXT()
+
+acc = CHORD(\'e4 c5\')
+
+acc.part(coda, {offset_y:10})
