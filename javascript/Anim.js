@@ -527,6 +527,17 @@ $.extend(window.Anim,{
     UI.Popups.unableIf('def_anim', false)
   },
   /**
+    * Quand on active le menu "Fichier > Open" (ou Pomme+O)
+    * Notes
+    *   * Pour le moment, ça ne fait qu'afficher la liste des animations qu'on
+    *     a trouvé dans le dossier `./anim` mais plus tard, on verra.
+    * @method want_open
+    */
+  want_open:function()
+  {
+    UI.Tools.show('animations', {ok:{name:"Ouvrir", method:$.proxy(this.load, this, null)}})
+  },
+  /**
     * Méthode définissant le nom de l'animation (du champ save_as) et
     * l'enregistrant quand c'est une NOUVELLE animation
     * @method set_name_and_save
@@ -637,13 +648,9 @@ $.extend(window.Anim,{
     */
   load:function(name, rajax)
   {
-    if(name == "0")
-    {
-      this.name = null
-      return // premier menu
-    } 
     if(undefined == rajax)
     {
+      if(name == null) name = $('select#animations').val()
       Ajax.send({script:"animation/load", name:name}, $.proxy(this.load, this, name))
     }
     else

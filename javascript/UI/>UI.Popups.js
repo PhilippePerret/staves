@@ -33,7 +33,7 @@ window.UI.Popups = {
       Anim.reload()
     },
     open:function(item){
-      UI.Tools.show('animations')
+      Anim.want_open()
     },
     save:function(item){
       Anim.save()

@@ -8,7 +8,7 @@
   <div id="tool_animations" style="display:none;">
     <div class="titre">Choisir l'animation</div>
     <!-- Le menu contenant les animations courantes -->
-    <select id="animations" onchange="$.proxy(Anim.load, Anim, this.value)()" size="10"></select>
+    <select id="animations" size="10"></select>
   </div>
   <div id="tool_save_as" style="display:none;">
     <div class="titre">Nom de l'animation courante</div>
