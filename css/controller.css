@@ -1,11 +1,17 @@
 section#controller {
   position  : fixed; 
-  bottom    : 0;
-  right     : 0;
-  width     : 340px;
+  bottom    : 10px;
+  right     : 40px;
+  width     : 240px;
   background-color  : #A0A0A0;
 }
 
+section#controller span#mark_play_type {
+  position  : absolute;
+  top       : 4px;
+  left      : 4px;
+  z-index   : 1;
+}
 section#controller label {
     font-size: 10pt;
 }
@@ -18,11 +24,4 @@ section#controller div.buttons {
 section#controller img.btn_controller {
   width             : 52px;
   vertical-align    : sub;
-}
-
-section#controller select#play_type,
-section#controller select#play_type * {
-  font-size   : 14pt;
-  border      : 0;
-  text-align  : center;
 }

@@ -47,7 +47,7 @@ $.extend(Anim,{
         case 'stepbystep' : return Console.steps
         case 'selection'  : return Console.steps_selection
         case 'repairs'    : return Console.steps_between_repairs
-        case 'from_cursor': return Console.steps_from_cursor
+        case 'cursor'     : return Console.steps_from_cursor
         }
       }(this.play_type)
       if(this.Step.list)

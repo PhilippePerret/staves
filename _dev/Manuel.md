@@ -159,7 +159,9 @@ Pour remettre la vitesse à la vitesse normale&nbsp;:
 <a name="run_animation"></a>
 ###Jouer l'animation
 
-Pour jouer l'animation, cliquer simplement sur le bouton “Play”.
+Pour jouer l'animation, cliquer simplement sur le bouton “Play” ou sur la barre espace.
+
+Si un autre choix que l'animation entière avait été fait, sélectionner l'item «&nbsp;Jouer tout&nbsp;» dans le menu «&nbsp;Animation&nbsp;» ou presser le raccourci clavier CMD+0.
 
 <a name="run_only_selection"></a>
 ###Jouer une portion de l'animation
@@ -176,7 +178,7 @@ Il existe plusieurs moyens de le faire avec “STAVES”&nbsp;:
 <a name="run_from_cursor"></a>
 ####Jouer l'animation depuis le curseur
 
-1. Choisir l'item “Depuis curseur” dans le menu à côté du bouton Play&nbsp;;
+1. Choisir l'item “Jouer depuis curseur” dans le menu «&nbsp;Animation&nbsp;» (ou le raccourci clavier CMD+3)&nbsp;;
 2. Placer le curseur dans la première ligne de code à jouer (inutile ici de le placer en début de ligne, il suffit de le mettre dans la ligne de code par laquelle commencer)&nbsp;;
 3. Presser le bouton Play.
 
@@ -193,7 +195,7 @@ Cette méthode est la plus pratique si on compte modifier le code au cours de di
 2. Placer <u>**en dessous**</u> de la dernière ligne à interpréter (sur une seule ligne ne contenant QUE ce repère)&nbsp;:
 
         #!END
-3. Dans le menu à côté du bouton “Play”, choisir l'item “Entre repères”&nbsp;;
+3. Dans le menu «&nbsp;Animation&nbsp;», choisir l'item “Jouer entre #!START et #!END (ou jouer le raccourci CMD + 2)”&nbsp;;
 4. Cliquer sur le bouton “Play”
 
 <a name="run_selection_with_selection"></a>
@@ -202,7 +204,7 @@ Cette méthode est la plus pratique si on compte modifier le code au cours de di
 Pour ce faire&nbsp;:
 
 1. Sélectionner <u>soigneusement</u> la portion de code à tester (“soigneusement” signifie&nbsp;: en étant sûr de bien placer la sélection du début d'une ligne au début d'une autre ou à la toute fin du code. Cf. la procédure la plus simple ci-dessous)
-2. Choisir l'item “Sélection” dans le menu à coté du bouton “Play”.
+2. Choisir l'item “Jouer la sélection” dans le menu «&nbsp;Animation&nbsp;» (ou presser le raccourci CMD+1).
 3. Cliquer sur le bouton “Play”
 
 Pour rejouer la même sélection (mais seulement si le code n'a pas été modifié), cliquer à nouveau sur “Play”.

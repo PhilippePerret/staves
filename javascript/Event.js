@@ -11,6 +11,12 @@
   */
 window.onkeypress = function(evt)
 {
+  // Mettre en route ou arrêter l'animation avec la barre espace
+  if(evt.charCode == K_SPACE)
+  {
+    Anim[Anim.on ? 'stop' : 'start']()
+    return stop_event(evt)
+  }
   if(!evt.metaKey && !evt.altKey && !evt.ctrlKey && !evt.shiftKey) return true
   
   switch(evt.charCode)
@@ -44,7 +50,28 @@ window.onkeypress = function(evt)
       return stop_event(evt)
     }
     break
-    
+  case Key_0:
+  case Key_0PN:
+    if(evt.metaKey){ Anim.onchange_play_type('all');return stop_event(evt) }
+    break
+  case Key_1:
+  case Key_1PN:
+    if(evt.metaKey){ Anim.onchange_play_type('selection');return stop_event(evt) }
+    break
+  case Key_2:
+  case Key_2PN:
+    if(evt.metaKey){ Anim.onchange_play_type('repairs');return stop_event(evt) }
+    break
+  case Key_3:
+  case Key_3PN:
+    if(evt.metaKey){ Anim.onchange_play_type('cursor');return stop_event(evt) }
+    break
+  case Key_4:
+  case Key_4PN:
+    if(evt.metaKey){ Anim.onchange_play_type('stepbystep');return stop_event(evt) }
+    break
+  default:
+    F.show("charcode:"+evt.charCode+ " / keyCode:"+evt.keyCode)
   }
   return true
 }

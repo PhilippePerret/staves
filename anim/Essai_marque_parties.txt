@@ -7,7 +7,7 @@ acc = CHORD(\'c4 eb4 g4\')
 
 acc.part(dev)
 
-NEXT()
+NEXT(80)
 
 acc = CHORD(\'e4 c5\')
 

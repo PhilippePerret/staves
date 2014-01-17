@@ -483,12 +483,20 @@ $.extend(window.Anim,{
     * d'information.
     * @method onchange_play_type
     */
+  PLAY_TYPE:{
+    'all'       :{hname:"Jouer tout"},
+    'selection' :{hname:"Jouer la sélection"},
+    'repairs'   :{hname:"Jouer entre les repère"},
+    'stepbystep':{hname:"Jouer pas à pas"},
+    'cursor'    :{hname:"Jouer depuis le curseur"}
+  },
   onchange_play_type:function(play_type)
   {
     if(this.play_type) UI.Popups.deselect("play::"+this.play_type)
     this.play_type = play_type.toString()
     UI.Popups.select("play::"+this.play_type)
     $('input#play_type').val(this.play_type)
+    $('span#mark_play_type').html(this.PLAY_TYPE[this.play_type].hname)
   },
   /**
     * Met l'animation courante comme animation par défaut
