@@ -141,6 +141,8 @@ $.extend(window.Anim,{
     chord             :40, 
     modulation_x      :-13,
     modulation_y      :26,
+    part_x            :-13,
+    part_y            :26,
     speed             :1,
     note_size         :14.3,
     delai_after_show  :3,
@@ -226,6 +228,18 @@ $.extend(window.Anim,{
       */
     modulation_x        : -13,
     /**
+      * Décalage vertical de la marque de modulation par rapport à l'objet
+      * porteur.
+      * @property {Number} part_y
+      */
+    part_y              :26,
+    /**
+      * Décalage horizontal de la marque de modulation par rapport à l'objet
+      * porteur.
+      * @property {Number} part_x
+      */
+    part_x              :-13,
+    /**
       * Décalage de la marque d'harmonie ou de cadence par rapport à
       * la portée.
       * @property {Number} harmony 
@@ -265,6 +279,8 @@ $.extend(window.Anim,{
     offset_chord          :0,
     offset_modulation_y   :0,
     offset_modulation_x   :0,
+    offset_part_y         :0,
+    offset_part_x         :0,
     offset_num_measure_y  :0
   },
   /**
@@ -494,6 +510,37 @@ $.extend(window.Anim,{
     }
   },
   /**
+    * Création d'une nouvelle animation
+    *
+    * La méthode initialise tout puis demande à l'utilisateur de choisir un 
+    * nom pour l'animation.
+    *
+    * @method new
+    */
+  new:function()
+  {
+    // TODO Avant, il faut vérifier que l'animation courante a bien été
+    // sauvée.
+    this.reset()
+    delete this.name
+    this.set_anim("", '# Nouvelle animation\n# Écrire le code ici')
+    UI.Popups.unableIf('def_anim', false)
+  },
+  /**
+    * Méthode définissant le nom de l'animation (du champ save_as) et
+    * l'enregistrant quand c'est une NOUVELLE animation
+    * @method set_name_and_save
+    */
+  set_name_and_save:function()
+  {
+    var name = this.get_new_name()
+    if(!name) return
+    else this.name = name
+    UI.add_new_animation_to_menu(this.name)
+    this.set_anim(this.name)
+    this.save()
+  },
+  /**
     * Enregistre l'animation courante
     * @method save
     * @async
@@ -503,7 +550,10 @@ $.extend(window.Anim,{
   {
     if(undefined == rajax)
     {
-      if(!this.name) this.name = "Animation-"+Time.now()
+      if(!this.name)
+      {
+        return UI.Tools.show('save_as', {ok:{name:"Enregistrer", method:$.proxy(this.set_name_and_save, this)}})
+      }
       Ajax.send({
         script :'animation/save',
         name   :this.name,
@@ -512,33 +562,48 @@ $.extend(window.Anim,{
     }
     else
     {
-      if(rajax.ok) F.show("Animation sauvegardée sous le nom "+this.name)
+      if(rajax.ok) F.show(this.name + " enregistrée.")
       else F.error(rajax.message)
     }
   },
-  
+  /**
+    * Prend le nom de l'animation dans le champ save_as, le corrige
+    * et le renvoie.
+    * @method get_new_name
+    * @return {String|False} Le nom de l'animation, ou Null si un problème
+    */
+  get_new_name:function()
+  {
+    var name = $('input#animation_name').val().trim()  
+    name = Texte.to_ascii(name).
+                replace(/ /g,'_').
+                replace(/[^a-zA-z0-9_-]/g,'').
+                substring(0, 30)
+    if(name == "") return F.error("Il faut donner un nom (valide) !")
+    else return name
+  },
   /**
     * Enregistre l'animation sous un autre nom
     * @method save_as
     * @param {Object} rajax retour de la requête ajax
     */
-  save_as:function(rajax)
+  save_as:function(new_name_ok, rajax)
   {
     if(undefined == rajax)
     {
+      if(undefined == new_name_ok)
+      {
+        return UI.Tools.show('save_as', {ok:{name:"Enregistrer", method:$.proxy(this.save_as, this, true)}})
+      }
       // On prend le nouveau titre et on le corrige
-      var new_name = $('input#animation_name').val().trim()  
-      if(new_name == "") return F.error("Il faut donner un nouveau nom !")
-      new_name = Texte.to_ascii(new_name).
-                  replace(/ /g,'_').
-                  replace(/[^a-zA-z0-9_-]/g,'')
-                  
+      var new_name = this.get_new_name()
+      if(!new_name) return                  
       Ajax.send({
         script:"animation/save", 
         name      : this.name, 
         new_name  : new_name,
         code      : Console.raw
-      }, $.proxy(this.save_as, this))
+      }, $.proxy(this.save_as, this, true))
     }
     else
     {
@@ -629,7 +694,7 @@ $.extend(window.Anim,{
     this.init_all()
     this.name = name
     $('select#animations').val(name)
-    Console.set(code.stripSlashes())
+    if(code) Console.set(code.stripSlashes())
     $('head > title').html("Anim: "+this.name)
   },
   /**

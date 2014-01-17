@@ -11,13 +11,13 @@
     <select id="animations" onchange="$.proxy(Anim.load, Anim, this.value)()" size="10"></select>
   </div>
   <div id="tool_save_as" style="display:none;">
-    <div class="titre">Définir le nom sous lequel doit être enregistré l'animation courante</div>
-    <input type="text" id="animation_name" style="width:200px;" onfocus="this.select()" />
-    <input type="button" value="Sauver" onclick="$.proxy(Anim.save_as, Anim)()" />
+    <div class="titre">Nom de l'animation courante</div>
+    <input type="text" id="animation_name" style="width:calc(100% - 1em);" onfocus="this.select()" />
   </div>
   
   <div class="buttons">
-    <input type="button" value="OK" onclick="$.proxy(UI.Tools.hide_section, UI.Tools)()" />
+    <input type="button" class="fleft" value="Renoncer" onclick="$.proxy(UI.Tools.on_click_cancel, UI.Tools)()" />
+    <input id="tools_btn_ok" type="button" value="OK" onclick="$.proxy(UI.Tools.on_click_ok, UI.Tools)()" />
   </div>
 </section>
 

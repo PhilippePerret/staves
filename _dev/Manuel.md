@@ -6,6 +6,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 
 * [Animation](#l_animation)
 * [Déplacement du curseur de position](#le_curseur_de_position)
+* [Outils pratiques](#usefull_tools)
 * [Les notes](#les_notes)
 * [Les motifs mélodiques](#les_motifs)
 * [Les accords](#les_chords)
@@ -16,8 +17,6 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Les flèches](#les_fleches)
 * [Régler toutes les valeurs de l'animation](#set_preferences)
 
-
----------------------------------------------------------------------
 
 <a name="l_animation"></a>
 ##Animation
@@ -352,6 +351,31 @@ Par exemple, pour se positionner à 100px exactement&nbsp;:
     SET_CURSOR(100)
 
 Les prochains `NEXT()` partiront de cette nouvelle position.
+
+
+
+---------------------------------------------------------------------
+
+<a name="usefull_tools"></a>
+##Outils pratiques
+
+###Table des matières
+
+* [Outil “Coordonnées”](#outil_coordonnees)
+
+<a name="outil_coordonnees"></a>
+###Outil “Coordonnées”
+
+Cet outil permet d'obtenir les coordonnées précises à l'écran, pour pouvoir positionner un élément par exemple.
+
+On l'active par le menu “Outil > Activer coordonnées”.
+
+Ensuite, il suffit de déplacer et de re-tailler le rectangle rouge pour obtenir les coordonnées des lignes de fuite bleues.
+
+*Noter qu'après un redimensionnement du cadre rouge, il est parfois nécessaire de cliquer au centre du cadre pour obtenir les nouvelles coordonnées.*
+
+
+
 
 ---------------------------------------------------------------------
 <a name="les_notes"></a>
@@ -1078,6 +1102,8 @@ Mais il existe des types qui peuvent être définis grâce à la propriété `ty
   <dd>Écrit le texte sous la portée, à la position courante, sous forme de marque cadentielle (donc avec des traits "__|" pour marquer la fin de la partie). Cf. <a href="#text_cadence">Écrire une cadence</a>.</dd>
   <dt>modulation</dt>
   <dd>Écrit le texte pour une modulation, au-dessus de la portée et de travers. Cf. <a href="#text_modulation">Écrire une modulation</a>.</dd>
+  <dt>part</dt>
+  <dd>Pour la marque d'une partie. Cf. <a href="#text_partie">Écrire une marque de partie<a></dd>
 </dl>
 
 <a name="text_harmonie"></a>
@@ -1188,6 +1214,75 @@ Le ton de la modulation est indiqué au-dessus de la barre transversal, mais un 
     |
 
 *Pour le positionnement de la marque de modulation cf. [Réglage de la position de la marque de modulation](#prefs_position_modulation).*
+
+<a name="text_partie"></a>
+###Écrire une marque de partie
+
+Utiliser la méthode `part` sur un note, un accord etc. pour placer une marque de partie, avec en premier argument le nom de la partie et en second argument les paramètres optionnels.
+
+    <porteur>.part(<nom de partie>[, <parametres>])
+
+Par exemple&nbsp;:
+
+    maMelodie = MOTIF('c3 c3 e3 d3 c3')
+    maMelodie.note(3).part(coda)
+
+… écrira la partie “CODA” sur la troisième note de la mélodie.
+
+Autre exemple&nbsp;:
+
+    STAFF(1).part(pont,{offset_x:10})
+
+… écrira la marque de partie “PONT” sur la première portée (`STAFF(1)`) en la déplaçant de 10px vers la droite par rapport à la position courante du curseur de position.
+
+####Paramètres
+
+Comme pour la plupart des méthodes, les paramètres se mettent entre crochets. Ces paramètres sont les suivants&nbsp;:
+
+PART("Refrain",{
+  offset_x   : décalage horizontal de la marque,
+  offset_y   : décalage vertical de la marque,
+})
+
+####Constantes partie
+
+On peut utiliser ces constantes comme premier argument&nbsp;:
+
+      La marque…            … écrira :
+      ---------------------------------
+      exposition            EXPOSITION
+      expo                  EXPO.
+      developpement         DÉVELOPPEMENT
+      development           DEVELOPMENT
+      dev                   DEV.
+      pont                  PONT
+      coda                  CODA
+      themea                THÈME A
+      tha                   TH. A
+      themeb                THÈME B
+      thb                   TH. B
+      themec                THÈME C
+      thc                   TH. C
+      refrain               REFRAIN
+      couplet               COUPLET
+
+Si le nom de la partie n'est pas une constante, il faut la mettre entre guillemets.
+
+####Réglage de la position de la marque de partie
+
+On peut régler de façon absolue la marque de partie grâce à&nbsp;:
+
+    DEFAULT('part_y', <position verticale>)
+    DEFAULT('part_x', <position horizontale>)
+
+On peut la définir par rapport au décalage actuel avec&nbsp;:
+    
+    DEFAULT('offset_part_y', <decalage vertical>)
+    DEFAULT('offset_part_x', <decalage horizontal>)
+
+On peut bien entendu, très ponctuellement, ajuster la position de la marque dans les paramètres envoyés à la méthode `part` (second argument), avec `offset_x` et `offset_y`.
+
+*Comme pour tout décalage vertical, une valeur positive éloigne de la portée tandis qu'une valeur négative rapproche de la portée.*
 
 <a name="create_texte_animation"></a>
 ###Créer un texte pour l'animation
@@ -1715,6 +1810,7 @@ Pour pouvoir trouver la valeur-pixel à affecter, le mieux est de procéder ains
 3. Ensuite, déplacer la règle de mesure (en bas à gauche de l'animation — l'animation, pas la page) à l'endroit du changement pour estimer les nouvelles valeurs à donner (50, 100 et 150 sont en pixels).
 4. Régler le paramètre avec la valeur estimée et essayer.
 
+Noter qu'on peut aussi, grâce à l'outil “Coordonnées” obtenir les coordonnées exacts des éléments à l'écran (cf. [Outil “Coordonnées”](#outil_coordonnees)).
 
 <a name="prefs_staves"></a>
 ###Réglage de la position des portées

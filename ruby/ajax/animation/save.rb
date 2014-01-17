@@ -5,7 +5,6 @@ OU Sauvegarde sous un autre nom
 
 =end
 new_name = param :new_name
-
 anim = Anim::new (param :name)
 if new_name
   anim.destroy

@@ -17,6 +17,14 @@ window.UI.Popups = {
     */
   Methods:{
     /**
+      * Nouvelle animation demandée
+      * @method new
+      */
+    new:function(item)
+    {
+      Anim.new()
+    },
+    /**
       * Demande de rechargement de l'animation
       * @method reload
       */
@@ -32,7 +40,7 @@ window.UI.Popups = {
     },
     save_as:function(item)
     {
-      UI.Tools.show('save_as')
+      Anim.save_as()
     },
     /**
       * Demande de mise de l'animation courante comme animation par défaut

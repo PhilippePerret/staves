@@ -21,8 +21,10 @@ section#app_popups ul.app_popup {
   background-color  : white;
 }
 section#app_popups ul.app_popup li {
-  padding :2px 12px;
+  padding :1px 12px 4px;
   margin  :0;
+}
+section#app_popups ul.app_popup li:not(.separateur) {
   cursor  :pointer;
 }
 /*Le premier Item (nom du menu)*/
@@ -35,12 +37,14 @@ section#app_popups ul.app_popup li:not(.first) {
   width         :250px;
   font-size     :0.9em;
   background-color :white;
-  border-width  : 0 1px 1px 1px;
-  border-style  : solid;
-  border-color  : #FFF #CCC #DDD #CCC;
-  
+  border-left   : 1px solid #DDD;
+  border-right  : 1px solid #DDD;
 }
-section#app_popups ul.app_popup li:not(.first):hover {
+/* Le dernier menu (pour la bordure inférieure)*/
+section#app_popups ul.app_popup li.last {
+  border-bottom  : 1px solid #DDD;
+}
+section#app_popups ul.app_popup li:not(.first):not(.separateur):not(.last):hover {
   background-color  :#40609F;
   color             :white;
 }
@@ -52,3 +56,7 @@ section#app_popups ul.app_popup:hover {
 /*ul.app_popup li:not(.first){ display: none;}
 
 ul.app_popup:hover li{ display: block;}*/
+
+section#app_popups > ul > li.separateur {
+  height        :12px;
+}

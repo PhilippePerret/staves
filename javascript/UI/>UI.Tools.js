@@ -36,14 +36,41 @@ window.UI.Tools = {
   },
   /**
     * Affiche le tool d'identifiant +tid+
+    * En réglant le bouton OK si les paramètres le nécessitent.
+    *
     * @method show
     * @param  {String} tid    Identifiant de l'outil à afficher (sans 'tool_')
+    * @param  {Object} params Paramètres optionnels
+    *   @param  {Object}  params.ok   Définition du bouton OK
+    *     @param  {String}    params.ok.name    Nom du bouton
+    *     @param  {Function}  params.ok.method  Méthod à appeler quand on clique sur le bouton OK
     */
-  show:function(tid)
+  show:function(tid, params)
   {
+    if(undefined == params)     params = {}
+    if(undefined == params.ok)  params.ok = {name:"OK", method:null}
     this.hide_all()
     this.tools['tool_'+tid].show()
+    this.ok_poursuivre = params.ok.method
+    $('section#tools input#tools_btn_ok')[0].value = params.ok.name
     this.section.show()
+    
+  },
+  /**
+    * Méthode appelée quand on clique le bouton "OK" (ou nouveau nom)
+    * @method on_click_ok
+    */
+  on_click_ok:function()
+  {
+    this.hide_section()
+    if(this.ok_poursuivre) this.ok_poursuivre()
+  },
+  /**
+    * Méthode appelée quand on clique le bouton "Renoncer"
+    * @method on_click_cancel
+    */
+  on_click_cancel:function(){
+    this.hide_section()
   },
   /**
     * Masque la section

@@ -3,9 +3,12 @@ section#tools {
   top       : 4em;
   left      : 10em;
   width     : 494px;
-  background-color  : #ccc;
+  background-color  : #FFFFFF;
   padding   : 20px;
   z-index   : 500;
+  border-color  : #F2F2F2 #E9E9E9 #E9E9E9 #F2F2F2;
+  border-style  : solid;
+  border-width  : 3px;
 }
 
 section#tools * {
@@ -14,10 +17,12 @@ section#tools * {
 
 section#tools div.titre {
   font-weight     :bold;
+  font-size       :1.5em;
   margin-bottom   :1em;
 }
 section#tools div.buttons {
   text-align    : right;
+  margin-top    : 2em;
 }
 
 section#tools select#animations {

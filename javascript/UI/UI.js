@@ -163,8 +163,11 @@ $.extend(UI,{
     old_option = $('select#animations option[value="'+old_name+'"]')
     $(code).insertAfter(old_option)
     old_option.remove()
-    Anim.name = new_name
-    $('select#animations').val(new_name)
+    Anim.set_anim(new_name)
+  },
+  add_new_animation_to_menu:function(new_name)
+  {
+    $('select#animations').append('<option value="'+new_name+'">'+new_name+'</option>')
   }
   
   

@@ -39,3 +39,21 @@ const demi        = 'demie'
 const demie       = 'demie'
 const rompue      = 'rompue'
 const faureenne   = 'faureenne'
+
+// Les parties
+part              = 'partie'
+exposition        = "EXPOSITION"
+expo              = "EXPO."
+developpement     = "DÉVELOPPEMENT"
+development       = "DEVELOPMENT"
+dev               = "DEV."
+pont              = "PONT"
+coda              = "CODA"
+themea            = "THÈME A"
+tha               = "TH.A"
+themeb            = "THÈME B"
+thb               = "TH.B"
+themec            = "THÈME C"
+thc               = "TH.C"
+refrain           = "REFRAIN"
+couplet           = "COUPLET"

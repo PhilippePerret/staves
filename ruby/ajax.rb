@@ -77,6 +77,11 @@ begin
   # collection courante
   Collection::choose(param :collection) unless (param :collection).nil?
   
+  # Petite sécurité 
+  if param :name
+    raise "Pirate !" if (param :name).length > 30
+  end
+  
   # Jouer le script
   require "./ruby/ajax/#{param('script')}.rb"
   

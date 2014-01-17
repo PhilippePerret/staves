@@ -20,7 +20,7 @@ window.METHODES_TEXTE = {
     * @method write
     * @param  {String} texte Le texte à écrire
     * @param  {Object} params Les paramètres optionnels
-    * @return {Object} L'instance Note courante (pour chainage)
+    * @return {Object} L'instance du porteur (pour chainage)
     */
   write:function(texte, params)
   {
@@ -42,7 +42,7 @@ window.METHODES_TEXTE = {
     * Raccourci-write pour écrire un numéro de mesure
     * @method measure
     * @param {Object} params Paramètres optionnels
-    * @return {Object} L'instance courante (pour chainage)
+    * @return {Object} L'instance du porteur (pour chainage)
     */
   measure:function(numero, params)
   {
@@ -64,7 +64,7 @@ window.METHODES_TEXTE = {
     * @param  {Object} params   Paramètres optionnels
     *   @param  {Number}  params.staff      La portée sous laquelle il faut placer l'harmonie
     *   @param  {Number}  params.offset_y   Décalage avec la position normale par rapport à la portée
-    * @return {Object} L'instance Note courante (pour chainage)
+    * @return {Object} L'instance du porteur (pour chainage)
     */
   harmony:function(texte, params)
   {
@@ -79,7 +79,7 @@ window.METHODES_TEXTE = {
     * @method cadence
     * @param  {String} texte    Le texte à écrire
     * @param  {Object} params   Paramètres optionnels
-    * @return {Object} L'instance Note courante (pour chainage)
+    * @return {Object} L'instance du porteur (pour chainage)
     */
   cadence:function(texte, params)
   {
@@ -94,12 +94,26 @@ window.METHODES_TEXTE = {
     * @method modulation
     * @param {String} texte   Le texte de la modulation (au moins la note)
     * @param {Object} params  Les paramètres optionnels
-    * @return {Object} L'instance Note courante (pour chainage)
+    * @return {Object} L'instance du porteur (pour chainage)
     */
   modulation:function(texte, params)
   {
     if(undefined == params) params = {}
     params.type = modulation
+    this.write(texte, params)
+    return this
+  },
+  /**
+    * Écrit une marque de PARTIE
+    * @method part
+    * @param {String} texte     Le texte de la partie
+    * @param {Object} params    Les paramètres optionnels (cf. write, les mêmes)
+    * @return {Object} L'instance du porteur (pour chainage)
+    */
+  part:function(texte, params)
+  {
+    params = define_complete(params)
+    params.type = part
     this.write(texte, params)
     return this
   },

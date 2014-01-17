@@ -76,6 +76,7 @@ div.text.modulation div.mark_modulation {
   font-weight       : bold;
   font-variant      : small-caps;
 }
+
 /* Le "texte_after" pour une marque de modulation */
 div.text.modulation div.txtafter {
   position          : absolute;
@@ -86,6 +87,16 @@ div.text.modulation div.txtafter {
   padding-bottom    : 0px;
   white-space       : nowrap;
   font-size         : 9pt;
+}
+
+/* Le main texte d'une marque de partie */
+div.text.part {
+  font-variant  : small-caps;
+  border        : 1px solid #333;
+  padding       : 2px 8px;
+}
+div.text.part div.mark_part {
+  
 }
 
 div.text:not(.modulation) div.txtbefore,

@@ -353,6 +353,10 @@ $.extend(Txt.prototype,{
       Txt.traite_texte_type_harmony(this)
       this.texte_main = '<div class="mark_modulation">'+(this.texte_main||"")+'</div>'
       break
+    case part:
+      Txt.traite_texte_type_harmony(this)
+      this.texte_main = '<div class="mark_partie">'+(this.texte_main||"")+'</div>'
+      break
     default:
       this.texte_main = this.texte
     }
@@ -449,6 +453,9 @@ Object.defineProperties(Txt.prototype,{
         case modulation:
           top -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y
           break
+        case part:
+          top -= Anim.prefs.part_y + Anim.prefs.offset_part_y + this.offset_y
+          break
         case measure:
           top -= Anim.prefs.num_measure_y + Anim.prefs.offset_num_measure_y
           break
@@ -521,6 +528,8 @@ Object.defineProperties(Txt.prototype,{
     *     Mais cela ne peut être fait qu'une fois qu'on connait la taille du
     *     texte, donc c'est la méthode `positionne` qui s'en charge. c'est quand
     *     elle appelle this.left qu'on le calcule.
+    *   * Ce n'est pas ici que doit être pris en compte la valeur de `offset_x`,
+    *     cf. `real_left`
     *
     * @property {Number} left
     */
@@ -535,6 +544,8 @@ Object.defineProperties(Txt.prototype,{
         case modulation:
           this._left += Anim.prefs.modulation_x
           break
+        case part:
+          this._left += Anim.prefs.part_x
         case measure:
           this._left -= 30
           break
@@ -607,7 +618,7 @@ Object.defineProperties(Txt.prototype,{
       default:
         this._real_left = left - 10
       }
-      return this._real_left + this.offset_x
+      return this._real_left + (this.offset_x || 0)
     }
   },
   
