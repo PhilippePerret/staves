@@ -328,11 +328,14 @@ $.extend(Img.prototype,{
     * sont à 'auto'.
     * @method calcule_width_and_height
     */
-  calcule_width_and_height:function()
+  calcule_width_and_height:function(image_size)
   {
     // Note : dans tous les cas, il faut prendre la taille réelle de l'image
     // Procédé : on l'affiche hors de l'écran et on prend ses dimensions
-    image_size = this.real_taille_image()
+    if(undefined == image_size)
+    {
+      return this.real_taille_image()
+    }
     if(this.width && this.width != auto)
     { // => la largeur (width) est définie
       this.height = (this.width / image_size.width) * image_size.height
@@ -370,7 +373,7 @@ $.extend(Img.prototype,{
     width_image = UI.css2number(width_image)
     var height_image  = UI.css2number($('img#img_prov').height())
     $('img#img_prov').remove()
-    return {width: width_image, height:height_image}
+    this.calcule_width_and_height({width: width_image, height:height_image})
   },
   /**
     * Construit l'image (et passe à l'étape suivante)

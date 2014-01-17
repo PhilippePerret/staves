@@ -198,7 +198,6 @@ window.UI.Popups = {
     */
   select:function(menu)
   {
-    dlog("-> select("+menu+")")
     if('string' == typeof menu) menu = this.section.find('li[data-item="'+menu+'"]')
     menu.addClass('selected')
   },
@@ -210,7 +209,6 @@ window.UI.Popups = {
     */
   deselect:function(menu)
   {
-    dlog("-> deselect("+menu+")")
     if('string' == typeof menu) menu = this.section.find('li[data-item="'+menu+'"]')
     menu.removeClass('selected')
   },

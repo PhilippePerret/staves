@@ -14,7 +14,7 @@ window.onkeypress = function(evt)
   // Mettre en route ou arrêter l'animation avec la barre espace
   if(evt.charCode == K_SPACE)
   {
-    Anim[Anim.on ? 'stop' : 'start']()
+    Anim.on ? Anim.stop(forcer = true) : Anim.start()
     return stop_event(evt)
   }
   if(!evt.metaKey && !evt.altKey && !evt.ctrlKey && !evt.shiftKey) return true

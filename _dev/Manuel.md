@@ -36,6 +36,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Enchainer des animations](#enchainer_animations)
 * [Activer/désactiver le Mode “Flash](#mode_flash)
 * [Définir le décompte de départ](#set_decompte)
+* [Sauvegarde automatique](#autosave_code)
 * [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
 * [Définir l'animation courante comme animation par défaut](#set_anim_courante_as_default)
 
@@ -266,6 +267,11 @@ DEFAULT('decomte', <nombre de secondes>)
 
 *Mettre `0` pour supprimer tout décompte.*
 
+<a name="autosave_code"></a>
+###Sauvegarde automatique
+
+En activant le menu “Options > Activer Auto-Save”, tous les modifications apportées au code seront automatiquement enregistrées.
+
 <a name="reiniti_preferences"></a>
 ###Ré-initialiser toutes les valeurs de préférence
 
@@ -363,7 +369,13 @@ Les prochains `NEXT()` partiront de cette nouvelle position.
 
 ###Table des matières
 
+* [Point de repère avec la grille](#point_repere_grille)
 * [Outil “Coordonnées”](#outil_coordonnees)
+
+<a name="point_repere_grille"></a>
+###Point de repère avec la grille
+
+Lorsque la grille est active (pour l'activer&nbsp;: “Options > Afficher la grille”), lorsque l'on clique à un endroit de l'animation, un point apparait et les coordonnées de ce points sont donnés en bas de l'écran.
 
 <a name="outil_coordonnees"></a>
 ###Outil “Coordonnées”

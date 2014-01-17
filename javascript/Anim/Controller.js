@@ -153,12 +153,14 @@ $.extend(Anim,{
     */
   stop:function(forcer)
   {
+    if(this.on == false) return // retardataires
     this.on       = false
     this.pause_on = false
     this.kill_timer()
     delete this.Step.list
     if(forcer)
     { // => arrêt forcé
+      if(this.animation_pour_suivre) delete this.animation_pour_suivre
       this.real_stop()
     } 
     else
