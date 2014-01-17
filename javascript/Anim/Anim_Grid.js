@@ -92,6 +92,17 @@ window.Anim.Grid = {
     this.cursor.css({left:x+'px'})
     this.cursor.html(x)
     if(this.lefts.indexOf(x) < 0) this.add_left(x)
+  },
+  
+  /**
+    * Quand on clique sur la grille => affichage de la coordonnée
+    * Note : on passe par UI parce que l'animation aussi a cette fonctionnalité
+    * @method onclick
+    */
+  onclickAt:function(x, y)
+  {
+    F.show("Désactiver la grille pour pouvoir gérer l'animation (“Options > Masquer la grille”).")
+    Anim.Dom.show_point_at(x, y)
   }
   
   
@@ -107,7 +118,11 @@ Object.defineProperties(Anim.Grid,{
       if(undefined == this._obj)
       {
         this._obj = $('div#grid')
-        this._obj.bind('click', function(){F.show("Désactiver la grille pour pouvoir gérer l'animation (“Options > Masquer la grille”).")})
+        this._obj.click(function(e){
+          var pos = $(this).position()
+          // var pos = $(this).offset()
+          Anim.Grid.onclickAt(e.pageX - pos.left - 2, e.pageY - pos.top - 18)
+        })
       }
       return this._obj
     }

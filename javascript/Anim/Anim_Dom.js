@@ -125,6 +125,27 @@ Anim.Dom = {
       obj.hide()
     }
     if(is_caption) $('div#caption')[montrer?'show':'hide']()
+  },
+  
+  /**
+    * Méthode d'aide qui affiche un point de repère aux coordonnées x/y, puis
+    * le fait disparaitre. Écrit les coordonnées dans le feedback UI
+    * @method show_point_at
+    * @param  {Number} x    Position horizontale
+    * @param  {Number} y    Position verticale
+    */
+  show_point_at:function(x,y)
+  {
+    UI.feedback("<span class=\"red\">x/left:"+x+" | y/top:"+y+'</span>')
+    if(this.point_repere.length == 0) this.section.append('<div id="point_repere_anim"></div>')
+    this.point_repere.css({opacity:1, left:x+'px', top:y+'px'})
+    this.timer_point_repere = setTimeout($.proxy(this.hide_point_repere, this),500)
+  },
+  hide_point_repere:function()
+  {
+    clearTimeout(this.timer_point_repere)
+    delete this.timer_point_repere
+    this.point_repere.animate({opacity:0})
   }
 }
 
@@ -135,5 +156,13 @@ Object.defineProperties(Anim.Dom,{
     */
   "section":{
     get:function(){return $('section#animation')}
+  },
+  
+  /**
+    * Objet DOM du point de repère
+    * @property {jQuerySet} point_repere
+    */
+  "point_repere":{
+    get:function(){return $('section#animation div#point_repere_anim')}
   }
 })

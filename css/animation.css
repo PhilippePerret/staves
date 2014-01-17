@@ -35,3 +35,11 @@ div#caption > span#caption_text {
   display     : inline-block;
   color       : white;
 }
+
+/* Le point de repère */
+div#point_repere_anim {
+  position  : absolute;
+  width     : 4px;
+  height    : 4px;
+  background-color:red;
+}

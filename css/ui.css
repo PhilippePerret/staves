@@ -3,6 +3,10 @@
 .left{text-align:left;}
 .right{text-align:right;}
 
+.red {color:red;}
+.green {color:green;}
+.blue {color:blue;}
+
 /* Taille du texte */
 .small {font-size: 0.9em;}
 .tiny  {font-size: 0.7em;}
