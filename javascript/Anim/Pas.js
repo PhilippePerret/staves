@@ -99,7 +99,8 @@ $.extend(Pas.prototype,{
     */
   exec:function()
   {
-    if(this.is_comment || this.is_empty) return false
+    if(this.is_comment || this.is_empty)              return false
+    if(Anim.options.caption_omit && this.is_caption)  return false
     if(this.flashed) MODE_FLASH = true
     try{ eval('Anim.Objects.'+this.trimed) }
     catch(err){ 
@@ -228,6 +229,16 @@ Object.defineProperties(Pas.prototype,{
                             this.trimed.substring(0,6) == "SUITE("
       }
       return this._is_setting
+    }
+  },
+  /**
+    * Return TRUE si l'étape est un sous-titre ou doublage (CAPTION)
+    * @property {Boolean} is_caption
+    */
+  "is_caption":{
+    get:function(){
+      if(undefined == this._is_caption) this._is_caption = this.code.indexOf('CAPTION') > -1
+      return this._is_caption
     }
   },
   /**

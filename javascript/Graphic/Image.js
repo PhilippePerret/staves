@@ -180,7 +180,6 @@ $.extend(Img,{
       if(url=found[1].replace(/ +/, ' ').match(/['"]?url['"]? ?: ?['"]([^'"]+)['"] ?,/))
       {
         url = url[1]
-        dlog("URL IMAGE:'"+url+"'")
         absid = Img.idAbsFromUrl(url)
         if(undefined == Img.abs_list[absid]) new Img({url:url, abs:true})
         // Ce code force l'affichage hors-champ de l'image pour calcul de sa taille.
@@ -231,7 +230,7 @@ $.extend(Img,{
     */
   update_listing_html:function(onclick)
   {
-    dlog("-> update_listing_html")
+    // dlog("-> update_listing_html")
     $('div#tool_listing_images').replaceWith(this.html_listing(onclick, {all_done:true}))
   },
   /**
@@ -273,7 +272,6 @@ $.extend(Img,{
     if(undefined == this.absids_images_not_traited)
     {
       this.absids_images_not_traited = L(this.abs_list).collect(function(absid,img){return absid})
-      dlog("Liste des ids absolus des images dont il faut prendre la taille : "+this.absids_images_not_traited)
     }
     else if(this.abs_timer) clearTimeout(this.abs_timer)
     

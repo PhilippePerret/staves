@@ -124,7 +124,19 @@ $.extend(window.Anim,{
     * @static
     */
   options:{
+    /**
+      * Pour sauvegarder ou non automatiquement le code modifié
+      * @property {Boolean} autosave
+      * @default false
+      */
     autosave          :false,
+    /**
+      * Pour passer les captions (sous-titre et doublage) en cours d'élaboration
+      * de l'animation.
+      * @property {Boolean} caption_omit
+      * @default false
+      */
+    caption_omit      :false
   },
   /**
     * Toutes les préférences par défaut
@@ -149,7 +161,7 @@ $.extend(window.Anim,{
     chord             :40, 
     modulation_x      :-13,
     modulation_y      :26,
-    part_x            :17,
+    part_x            :25, // 17 et il faut ajouter 8
     part_y            :46,
     speed             :1,
     note_size         :14.3,

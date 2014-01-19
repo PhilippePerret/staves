@@ -22,9 +22,11 @@ $.extend(window.Console,{
     * Méthode appelée quand on blure du code console
     * @method onblur
     */
-  onblur:function()
+  onblur:function(evt)
   {
     window.onkeypress = KEYPRESS_HORS_CONSOLE
+    $('input#nothing')[0].blur()
+    return stop_event(evt)
   },
   /**
     * Mets un code en console.
@@ -140,7 +142,6 @@ $.extend(window.Console,{
     if(undefined == params.as_flash)  params.as_flash = false
     if(undefined == params.array)     params.array    = []
     if('string' == typeof arr_lines) arr_lines = arr_lines.split("\n")
-    dlog("\nDÉBUT de l'établissement des instances Pas dans Console.code2pas")
     cur_offset = params.offset
     L(arr_lines).each(function(line){
       // On calcule les positions du curseur ici car en mode flash (as_flash),
@@ -152,7 +153,6 @@ $.extend(window.Console,{
       if(pas.is_image) Img.preload_image_of_code(pas.code)
       params.array.push( pas )
     })
-    dlog("/FIN de l'établissement des instances Pas dans Console.code2pas\n")
     return params.array
   }
 })

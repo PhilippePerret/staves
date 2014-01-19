@@ -1354,6 +1354,7 @@ Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuit
 
 *[La commande `CAPTION`](#commande_caption)
 *[Utilisation de sous-titre au lieu de doublage](#use_caption_as_soustitres)
+*[Désactiver les doublages en cours d'élaboration de l'animation](#caption_omit)
 *[Affichage temporisé du doublage](#affichage_temporised_doublage)
 *[Désactiver le doublage temporisé](#desactiver_temporize)]
 *[Effacer le sous-titre ou le doublage](#effacer_caption)
@@ -1394,6 +1395,15 @@ Par exemple&nbsp;:
     CAPTION("Mon doublage", false)
 
     CAPTION("Mon sous-titre", true)
+
+<a name="caption_omit"></a>
+####Désactivation des doublages en cours d'élaboration de l'animation
+
+Lorsqu'on est en train de mettre sur pied l'animation, il peut être intéressant de déactiver les doublages lorsqu'ils sont temporisés avec un paramètre `wait` à `true` qui fait attendre la fin de l'affichage.
+
+Pour les désactiver, actionner le menu “Options > Omettre les doublages”.
+
+Pour remettre cette fonction en route, actionner le menu devenu “Options > Jouer les doublages”.
 
 <a name="affichage_temporised_doublage"></a>
 ####Affichage temporisé du doublage

@@ -39,6 +39,8 @@
     <li data-item="autosave">Activer Auto-Save</li>
     <li data-item="grid">Masquer la grille</li>
     <li class="separateur"></li>
+    <li data-item="caption_omit">Omettre les doublages</li>
+    <li class="separateur"></li>
     <li data-item="fullscreen">Anim en plein écran</li>
     <li class="last"></li>
   </ul>

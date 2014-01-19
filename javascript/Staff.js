@@ -289,7 +289,6 @@ $.extend(Staff.prototype, {
       })
     })
     var liste_notes = $.extend({}, this.notes.list)
-    dlog(liste_notes)
     L(liste_notes)  .each(function(kleft){
       L(liste_notes[kleft]).each(function(note){
         note.remove({dont_unstaff:true})

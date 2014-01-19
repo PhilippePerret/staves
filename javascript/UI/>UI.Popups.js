@@ -42,6 +42,10 @@ window.UI.Popups = {
     {
       Anim.save_as()
     },
+    /* ---------------------------------------------------------------------
+     *  OPTIONS
+     *  
+     */
     /**
       * Appelé pour activer/désactiver la sauvegarde automatique
       * @method autosave
@@ -50,6 +54,15 @@ window.UI.Popups = {
     {
       Anim.options.autosave = !Anim.options.autosave
       item.html((Anim.options.autosave?"Désa":"A")+"ctiver Auto-Save")
+    },
+    /**
+      * Appelé pour activer/désactiver l'omission des doublages
+      * @method caption_omit
+      */
+    caption_omit:function(item)
+    {
+      Anim.options.caption_omit = !Anim.options.caption_omit
+      item.html((Anim.options.caption_omit?"Jouer":"Omettre")+" les doublages")
     },
     /**
       * Demande de mise de l'animation courante comme animation par défaut

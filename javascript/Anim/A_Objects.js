@@ -33,7 +33,7 @@ FONCTIONS_ANIM_OBJETS = {
     * @method STAFF
     */
   STAFF:function(istaff){
-    dlog("-> Anim.Objects.STAFF")
+    // dlog("-> Anim.Objects.STAFF")
     return Anim.staves[istaff - 1]
   },
   /**
