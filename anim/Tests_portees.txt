@@ -1,0 +1,18 @@
+# Tests sur les portées
+DEFAULT(\'caption\', true)
+DEFAULT(\'decompte\',0)
+
+NEW_STAFF(SOL)
+
+CAPTION(\"À la suppression de la portée, les notes doivent disparaitre.\")
+MOTIF(\'c4 e4 g4\')
+WAIT(1)
+STAFF(1).remove() 
+
+WAIT(2)
+
+CAPTION(\"À la suppression de la portée, les lignes supplémentaires doivent disparaitre.\")
+NEW_STAFF(FA)
+MOTIF(\'c3 e4 a3 f4 g4 e3 c3\')
+WAIT(1)
+STAFF(1).remove()

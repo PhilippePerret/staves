@@ -118,13 +118,16 @@ $.extend(Note.prototype,{
     * Destruction de la note
     * Notes
     *   * Pour le moment, je détruis seulement son objet DOM et je la retire
-    *     de la portée.
+    *     de la portée (sauf si dont_unstaff est true).
     * @method remove
+    * @param {Object} params  Paramètres optionnels
+    *   @param {Boolean}  params.dont_unstaff   Si true, on ne retire pas la note de la portée (utile à la destruction de la portée pour éviter les boucles infinies)
     */
-  remove:function()
+  remove:function(params)
   {
-    this.exergue({complete:$.proxy(this.operation, this, this.objets, 'remove')})
-    this.staff.notes.remove(this)
+    if(undefined == params) params = {}
+    this.operation(this.objets, 'remove')
+    if(!params.dont_unstaff) this.staff.notes.remove(this)
     this.arrowed    = false
     this.surrounded = false
   },

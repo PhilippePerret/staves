@@ -33,6 +33,17 @@ window.Staff = function(params)
     */
   this.indice = null
   
+  /**
+    * Liste des identifiants de lignes supplémentaires
+    * Notes
+    *   * Pour le moment, la liste n'est utile que pour la suppression de
+    *     la portée, mais TODO à l'avenir il faudra créer une instance
+    *     SupLine et enregistrer les instances (qui auront des méthodes comme
+    *     les autres objets)
+    * @property {Array} suplines
+    */
+  this.suplines = []
+  
   // On définit l'objet complexe this.notes (qui permet de conserver les notes)
   this.notes = $.extend(deep = true, {}, OBJECT_STAFF_NOTES)
   this.notes.staff = this
@@ -263,7 +274,8 @@ $.extend(Staff.prototype, {
     this.img_cle.animate({opacity:'0'}, Anim.delai_for('show'))
   },
   /**
-    * Destruction de la portée (et retrait de la liste des portées)
+    * Destruction de la portée (et retrait de la liste des portées) et
+    * de tout ce qu'elle porte sans exception.
     * @method remove
     */
   remove:function()
@@ -276,6 +288,14 @@ $.extend(Staff.prototype, {
         me.on_complete()
       })
     })
+    var liste_notes = $.extend({}, this.notes.list)
+    dlog(liste_notes)
+    L(liste_notes)  .each(function(kleft){
+      L(liste_notes[kleft]).each(function(note){
+        note.remove({dont_unstaff:true})
+      })
+    })
+    L(this.suplines).each(function(sid){$('img#'+sid).remove()})
   },  
   /**
     * Positionne la portée, la clé et la métrique (if any)
@@ -315,6 +335,7 @@ $.extend(Staff.prototype, {
   add_suplines:function(params)
   {
     if(undefined == params) return F.error("Staff.add_suplines ne peut être appelé sans paramètres…")
+    if(undefined == this.suplines) this.suplines = []
     var ontop    = params.top == true
     var hauteur  = ontop ? this.top - 12 : this.top + (5 * 12) ;
     var incre    = ontop ? -12 : + 12
@@ -332,6 +353,7 @@ $.extend(Staff.prototype, {
       sid   = prefid + i + suffid
       Anim.Dom.add('<img id="'+sid+'" class="supline" src="img/note/supline.png" style="'+style+'" />')
       hauteur += incre
+      this.suplines.push(sid)
     }
   },
   /**
@@ -391,7 +413,7 @@ Object.defineProperties(Staff.prototype,{
     }
   },
   /**
-    * Liste des objets DOM que possède la portée
+    * Liste des objets DOM que possède la portée (exception faite des notes)
     * @property {Array} objets
     */
   "objets":{
