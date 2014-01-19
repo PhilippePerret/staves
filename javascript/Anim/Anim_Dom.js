@@ -54,6 +54,43 @@ Anim.Dom = {
     }
   },
   /**
+    * Masque un objet quelconque de l'animation
+    * Notes
+    * -----
+    *   * La méthode est toujours en fin de chaine donc elle doit toujours
+    *     appeler NEXT_STEP(). Mais si la méthode `params.complete` est
+    *     définie, elle peut être appelée au lieu de NEXT_STEP, en sachant
+    *     que cette méthode `complete` devra se charger OBLIGATOIREMENT
+    *     d'appeler NEXT_STEP().
+    *     Cela arrive par exemple lorsqu'un objet est constitué de plusieurs
+    *     éléments, comme une note altérée avec lignes supplémentaires
+    *
+    * @method hide
+    * @param  {Any} obj L'objet (Note, Txt, etc.) à masquer
+    * @param  {Object} params Les paramètres optionnels
+    *   @param  {Number}    params.duree      Le temps pour faire apparaitre l'objet
+    *   @param  {Function}  params.complete   La méthode pour suivre (NEXT_STEP par défaut)
+    */
+  hide:function(obj, params)
+  {
+    // dlog("-> Anim.Dom.hide / params:");dlog(params)
+    if(undefined == params) params = {}
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    if(MODE_FLASH)
+    {
+      obj.css('opacity',0)
+      params.complete()
+    }
+    else
+    {
+      obj.animate(
+        {opacity:0}, 
+        params.duree || Anim.delai_for('show' /* même vitesse que 'show' */),
+        params.complete
+        )
+    }
+  },
+  /**
     * Ajoute un objet DOM à l'animation
     * Notes
     *   * Pour pouvoir fonctionner, l'instance doit toujours définir : 

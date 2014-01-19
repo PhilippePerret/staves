@@ -51,6 +51,19 @@ window.Note = function(note, params)
     */
   this.texte = null
   
+  /**
+    * Mis à true si une flèche par de la note
+    * @property {Boolean} arrowed
+    * @default false
+    */
+  this.arrowed = false
+  /**
+    * Mis à true si la note est entourée
+    * @property {Boolean} surrounded
+    * @default false
+    */
+  this.surrounded = false
+  
   ObjetClass.call(this, params)
 
   // C'est la note qui a toujours le dernier mot sur les paramètres. Par exemple,
@@ -63,7 +76,7 @@ window.Note = function(note, params)
   // Note : Normalement, tout est fait pour que cet identifiant soit unique, en partant
   //        du principe qu'il est impossible d'avoir, exactement au même moment (comme
   //        dans un motif, deux notes identiques à la même position left).
-  this.id = this.note + (this.alteration || "") + this.octave + this.left + (new Date()).getTime()
+  this.id = "note-"+this.note + (this.alteration || "") + this.octave + this.left + (new Date()).getTime()
 
 }
 Note.prototype = Object.create( ObjetClass.prototype )
@@ -101,6 +114,21 @@ $.extend(Note.prototype,{
   {
     return this.operation(this.objets, 'hide')
   },
+  /**
+    * Destruction de la note
+    * Notes
+    *   * Pour le moment, je détruis seulement son objet DOM et je la retire
+    *     de la portée.
+    * @method remove
+    */
+  remove:function()
+  {
+    this.exergue({complete:$.proxy(this.operation, this, this.objets, 'remove')})
+    this.staff.notes.remove(this)
+    this.arrowed    = false
+    this.surrounded = false
+  },
+  
   /**
     * Actualise l'affichage de la note
     * Pour le moment, la méthode peut remettre en place une note
@@ -190,8 +218,17 @@ $.extend(Note.prototype,{
     params = $.extend(params, {owner:this, top:y, left:x})
     this._arrow = new Arrow(params)
     Anim.Dom.add(this._arrow)
+    this.arrowed = true
   },
-  
+  /**
+    * Méthode pour supprimer la flèche
+    * @method unarrow
+    */
+  unarrow:function()
+  {
+    this._arrow.remove()
+    this.arrowed = false
+  },
   /**
     * Entoure la note
     * Notes
@@ -212,6 +249,7 @@ $.extend(Note.prototype,{
     params = $.extend(params, {owner:this, top:y, left:x})
     this.circle = new Circle(params)
     Anim.Dom.add(this.circle)
+    this.surrounded = true
   },
   /**
     * Retirer le cercle entourant la note
@@ -221,6 +259,7 @@ $.extend(Note.prototype,{
   {
     if(!this.circle) return F.error("La note "+this.note_str+" n'est pas entourée !")
     this.circle.remove()
+    this.surrounded = false
   },
   /**
     * Met la note en exergue (bleue et au-dessus)
@@ -266,21 +305,7 @@ $.extend(Note.prototype,{
       this.obj_alt.css('z-index', "10")
     }
     if('function'==typeof params.complete) params.complete()
-  },
-  
-  /**
-    * Destruction de la note
-    * Notes
-    *   * Pour le moment, je détruis seulement son objet DOM et je la retire
-    *     de la portée.
-    * @method remove
-    */
-  remove:function()
-  {
-    this.exergue({complete:$.proxy(this.operation, this, this.objets, 'remove')})
-    this.staff.notes.remove(this)
-  }
-  
+  }  
   
 })
 
@@ -776,6 +801,8 @@ Object.defineProperties(Note.prototype,{
     {
       var objets = [this.obj]
       if(this.alteration) objets.push(this.obj_alt)
+      if(this.arrowed)    objets.push(this._arrow.obj)
+      if(this.surrounded) objets.push(this.circle.obj)
       return objets
     }
   },

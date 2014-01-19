@@ -1,0 +1,92 @@
+# Essai de la suppression et
+# masquage des notes avec objets
+# divers
+#
+# TODO: Ajouter des tests avec les
+# textes de la note.
+# Note : des tests, évidemment,
+# centrés sur les apparitions
+# disparition, suivant les options
+# choisies
+
+DEFAULT(\'caption\', true)
+DEFAULT(\'staff_top\', 262)
+DEFAULT(\'x_start\', 414)
+
+NEW_STAFF(SOL)
+
+note = NOTE(a4)
+CAPTION(\"Un A4 doit être affiché\")
+WAIT(2)
+
+note.hide()
+CAPTION(\"La note doit être masquée\")
+
+WAIT(2)
+
+note.show()
+CAPTION(\"La note doit apparaitre\")
+
+WAIT(2)
+
+CAPTION(\"La note doit être entourée\")
+note.surround()
+
+WAIT(2)
+
+CAPTION(\"La note ET le cercle doivent être masqués\")
+note.hide()
+
+WAIT(2)
+
+CAPTION(\"La note ET le cercle doivent ré-apparaitre\")
+note.show()
+
+WAIT(2)
+
+CAPTION(\"La note doit porter un cercle et une flèche\")
+note.arrow()
+
+WAIT(2)
+
+CAPTION(\"Tout doit être masqué.\")
+note.hide()
+
+WAIT(2)
+
+CAPTION(\"Tout doit ré-apparaitre\")
+note.show()
+
+WAIT(2)
+
+CAPTION(\"Le cercle doit disparaitre\")
+note.unsurround()
+
+WAIT(2)
+
+CAPTION(\"La flèche doit disparaitre\")
+note.unarrow()
+
+WAIT(2)
+
+CAPTION(\"La note doit être masquée.\")
+note.hide()
+
+WAIT(2)
+
+CAPTION(\"Seule la note doit apparaitre.\")
+note.show()
+
+WAIT(2)
+
+CAPTION(\"La note doit disparaitre.\")
+note.remove()
+
+WAIT(2)
+
+CAPTION(\"La note ne doit plus apparaitre\")
+note.show()
+
+WAIT(2)
+
+CAPTION(\"Fin du test\")

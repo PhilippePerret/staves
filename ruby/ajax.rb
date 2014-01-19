@@ -79,7 +79,7 @@ begin
   
   # Petite sécurité 
   if param :name
-    raise "Pirate !" if (param :name).length > 30
+    raise "Pirate !" if (param :name).length > 60
   end
   
   # Jouer le script

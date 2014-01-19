@@ -150,11 +150,6 @@ ARROW_METHODS = {
     var h = this.owner._arrow.obj.height()
     this.modify('animate', {width:px+"px", height:h+"px"})
   },
-  /**
-    * Détruire la flèche
-    * @method remove
-    */
-  remove:function(){this.owner._arrow.remove()}
 }
 
 $.extend(Arrow.prototype, ARROW_METHODS)

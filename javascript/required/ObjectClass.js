@@ -20,19 +20,46 @@ window.ObjetClass = function(params)
 }
 $.extend(window.ObjetClass.prototype,{
   /**
-    * Affiche l'objet ou les objets composant l'élément
+    * Méthode consignant les erreurs survenues
+    * Si la console existe, on les affiche
+    * @method error
+    * @param  {String}  err     L'erreur survenue
+    * @param  {Object}  params  Paramètres optionnels
+    */
+  error:function(err)
+  {
+    if(undefined == this.errors) this.errors = []
+    this.errors.push(err)
+    if(console) console.error(err)
+  },
+  /**
+    * Affiche l'objet de l'instance (property `obj`)
     * Noter que la méthode n'est appelée que par certains objets. Pour la plupart,
     * les objets surclassent cette méthode avec leur propre méthode.
     * @method show
     * @param  {Object|Undefined} params Les paramètres optionnels
     *   @param  {Number} params.duree   La durée pour apparaitre (en millisecondes)
-    *                                   Default: 400
+    *                                   Default: Anim.transition.show
     */
   show:function(params)
   {
     Anim.Dom.show(this.obj, params)
   },
-  
+  /**
+    * Masque l'objet de l'instance (property `obj`)
+    * 
+    * Noter que la méthode n'est appelée que par certains objets. Pour la plupart,
+    * les objets surclassent cette méthode avec leur propre méthode.
+    *
+    * @method hide
+    * @param {Object}   params    Les paramètres optionnels
+    *   @param  {Number}  params.duree    La durée pour disparaitre
+    *                                     Default: Anim.transition.show
+    */
+  hide:function(params)
+  {
+    Anim.Dom.hide(this.obj, params)
+  },
   /**
     * Destruction de l'objet DOM de l'objet
     * Notes
@@ -97,7 +124,12 @@ $.extend(window.ObjetClass.prototype,{
     this.tbl_operation = {}
     var me = this
     var objets_corriged = []
-    L(objets).each(function(obj){ 
+    L(objets).each(function(obj){
+      if(undefined == obj)
+      {
+        me.error("#ERROR : Dans `operation`, `obj` est indéfini (this="+me.id+":"+me.type+", operation="+operation+")")
+        dlog("Pour info, `objets` envoyés à la méthode `operation` :");dlog(objets)
+      }
       if(undefined == obj[0]) return
       me.tbl_operation[obj[0].id] = false 
       objets_corriged.push(obj)

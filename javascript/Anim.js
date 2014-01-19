@@ -342,6 +342,7 @@ $.extend(window.Anim,{
     */
   set_pref:function(pref, value, next_step)
   {
+    if(pref == 'x_start'){ this.current_x = value }
     if(pref.substring(0,7)=='offset_')
     {
       if(undefined == value) this.prefs[pref] = 0
@@ -467,7 +468,6 @@ $.extend(window.Anim,{
     Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
     L(this.staves || []).each(function(staff){staff=null; delete staff;})
     this.staves     = []
-    this.current_x = parseInt(this.prefs.x_start,10)
     this.reset_prefs()
     // Il faut ré-initialiser la grid après avoir re-défini current_x, car
     // la grid s'en sert pour replacer le curseur de position.
@@ -622,7 +622,7 @@ $.extend(window.Anim,{
     name = Texte.to_ascii(name).
                 replace(/ /g,'_').
                 replace(/[^a-zA-z0-9_-]/g,'').
-                substring(0, 30)
+                substring(0, 60)
     if(name == "") return F.error("Il faut donner un nom (valide) !")
     else return name
   },
