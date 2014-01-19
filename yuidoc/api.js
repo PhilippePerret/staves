@@ -3,12 +3,14 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "Anim",
         "Anim.Dom",
+        "Anim.Grid",
+        "Anim.options",
         "Arrow",
         "Chord",
         "Circle",
         "Console",
         "Courbe",
-        "Grid",
+        "ImageTool",
         "Img",
         "Infos",
         "Motif",
@@ -23,6 +25,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "Step",
         "Txt",
         "UI",
+        "UI.Popups",
+        "UI.Popups.Methods",
+        "UI.Tools",
+        "options",
+        "tools",
         "window"
     ],
     "modules": [
@@ -38,8 +45,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "Console.js",
         "Controller.js",
         "Courbe.js",
+        "Event.js\nGestion des évènements",
         "GroupNotes.js",
         "Image.js",
+        "ImageTool.js",
         "Motif.js",
         "Note",
         "Pas.js",
@@ -47,9 +56,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "Staff",
         "Texte.js",
         "Txt.js",
+        "UI.Popups",
         "UI.Regle.js",
+        "UI.Tools.js",
         "UI.js",
-        "constantes"
+        "constantes",
+        "handy.js"
     ],
     "allModules": [
         {
@@ -108,12 +120,24 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "Courbe.js"
         },
         {
+            "displayName": "Event.js\nGestion des évènements",
+            "name": "Event.js\nGestion des évènements"
+        },
+        {
             "displayName": "GroupNotes.js",
             "name": "GroupNotes.js"
         },
         {
+            "displayName": "handy.js",
+            "name": "handy.js"
+        },
+        {
             "displayName": "Image.js",
             "name": "Image.js"
+        },
+        {
+            "displayName": "ImageTool.js",
+            "name": "ImageTool.js"
         },
         {
             "displayName": "Motif.js",
@@ -149,8 +173,16 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "UI.js"
         },
         {
+            "displayName": "UI.Popups",
+            "name": "UI.Popups"
+        },
+        {
             "displayName": "UI.Regle.js",
             "name": "UI.Regle.js"
+        },
+        {
+            "displayName": "UI.Tools.js",
+            "name": "UI.Tools.js"
         }
     ]
 } };

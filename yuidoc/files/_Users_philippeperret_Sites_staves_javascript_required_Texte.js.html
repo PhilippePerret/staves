@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -200,7 +226,7 @@ window.METHODES_TEXTE = {
     * @method write
     * @param  {String} texte Le texte à écrire
     * @param  {Object} params Les paramètres optionnels
-    * @return {Object} L&#x27;instance Note courante (pour chainage)
+    * @return {Object} L&#x27;instance du porteur (pour chainage)
     */
   write:function(texte, params)
   {
@@ -222,7 +248,7 @@ window.METHODES_TEXTE = {
     * Raccourci-write pour écrire un numéro de mesure
     * @method measure
     * @param {Object} params Paramètres optionnels
-    * @return {Object} L&#x27;instance courante (pour chainage)
+    * @return {Object} L&#x27;instance du porteur (pour chainage)
     */
   measure:function(numero, params)
   {
@@ -244,7 +270,7 @@ window.METHODES_TEXTE = {
     * @param  {Object} params   Paramètres optionnels
     *   @param  {Number}  params.staff      La portée sous laquelle il faut placer l&#x27;harmonie
     *   @param  {Number}  params.offset_y   Décalage avec la position normale par rapport à la portée
-    * @return {Object} L&#x27;instance Note courante (pour chainage)
+    * @return {Object} L&#x27;instance du porteur (pour chainage)
     */
   harmony:function(texte, params)
   {
@@ -259,7 +285,7 @@ window.METHODES_TEXTE = {
     * @method cadence
     * @param  {String} texte    Le texte à écrire
     * @param  {Object} params   Paramètres optionnels
-    * @return {Object} L&#x27;instance Note courante (pour chainage)
+    * @return {Object} L&#x27;instance du porteur (pour chainage)
     */
   cadence:function(texte, params)
   {
@@ -274,12 +300,26 @@ window.METHODES_TEXTE = {
     * @method modulation
     * @param {String} texte   Le texte de la modulation (au moins la note)
     * @param {Object} params  Les paramètres optionnels
-    * @return {Object} L&#x27;instance Note courante (pour chainage)
+    * @return {Object} L&#x27;instance du porteur (pour chainage)
     */
   modulation:function(texte, params)
   {
     if(undefined == params) params = {}
     params.type = modulation
+    this.write(texte, params)
+    return this
+  },
+  /**
+    * Écrit une marque de PARTIE
+    * @method part
+    * @param {String} texte     Le texte de la partie
+    * @param {Object} params    Les paramètres optionnels (cf. write, les mêmes)
+    * @return {Object} L&#x27;instance du porteur (pour chainage)
+    */
+  part:function(texte, params)
+  {
+    params = define_complete(params)
+    params.type = part
     this.write(texte, params)
     return this
   },

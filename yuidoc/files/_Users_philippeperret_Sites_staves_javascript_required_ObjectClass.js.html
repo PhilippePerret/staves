@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -181,6 +207,7 @@
 /**
   * ObjetClass, la classe mère de tous les objets de l&#x27;animation tels
   * que les notes, les textes, etc.
+  * Elle s&#x27;occupe de dispatcher les paramètres transmis à l&#x27;instanciation de l&#x27;objet.
   *
   * @class ObjetClass
   * @constructor
@@ -193,28 +220,52 @@ window.ObjetClass = function(params)
   {
     // Si la portée a été définie par un nombre, il faut prendre son instance
     if(params.staff &amp;&amp; &#x27;number&#x27; == typeof params.staff) params.staff = Anim.staves[params.staff-1]
-    // Dispatcher les valeurs transmises
     var me = this
     L(params).each(function(prop,value){ me[prop] = value})
   }
 }
 $.extend(window.ObjetClass.prototype,{
   /**
-    * Affiche l&#x27;objet ou les objets composant l&#x27;élément
+    * Méthode consignant les erreurs survenues
+    * Si la console existe, on les affiche
+    * @method error
+    * @param  {String}  err     L&#x27;erreur survenue
+    * @param  {Object}  params  Paramètres optionnels
+    */
+  error:function(err)
+  {
+    if(undefined == this.errors) this.errors = []
+    this.errors.push(err)
+    if(console) console.error(err)
+  },
+  /**
+    * Affiche l&#x27;objet de l&#x27;instance (property &#x60;obj&#x60;)
+    * Noter que la méthode n&#x27;est appelée que par certains objets. Pour la plupart,
+    * les objets surclassent cette méthode avec leur propre méthode.
     * @method show
     * @param  {Object|Undefined} params Les paramètres optionnels
     *   @param  {Number} params.duree   La durée pour apparaitre (en millisecondes)
-    *                                   Default: 400
-    *   @param  {Function} params.complete  La méthode pour suivre
-    *                                       default: NEXT_STEP (Anim.Step.auto_next)
+    *                                   Default: Anim.transition.show
     */
   show:function(params)
   {
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
-    Anim.show(this.obj, params)
+    Anim.Dom.show(this.obj, params)
   },
-  
+  /**
+    * Masque l&#x27;objet de l&#x27;instance (property &#x60;obj&#x60;)
+    * 
+    * Noter que la méthode n&#x27;est appelée que par certains objets. Pour la plupart,
+    * les objets surclassent cette méthode avec leur propre méthode.
+    *
+    * @method hide
+    * @param {Object}   params    Les paramètres optionnels
+    *   @param  {Number}  params.duree    La durée pour disparaitre
+    *                                     Default: Anim.transition.show
+    */
+  hide:function(params)
+  {
+    Anim.Dom.hide(this.obj, params)
+  },
   /**
     * Destruction de l&#x27;objet DOM de l&#x27;objet
     * Notes
@@ -235,6 +286,8 @@ $.extend(window.ObjetClass.prototype,{
   
   /**
     * Positionne l&#x27;objet à son top/left
+    * Comme pour la méthode show, les objets possèdent en général leur propre 
+    * méthode &#x60;positionne&#x60;
     * @method positionne
     */
   positionne:function()
@@ -242,7 +295,7 @@ $.extend(window.ObjetClass.prototype,{
     if(this.obj) this.obj.css({top:this.top, left:this.left})
   },
   /**
-    * Tentative d&#x27;une méthode générale qui permette de gérer un traitement 
+    * Méthode générale qui permet de gérer un traitement 
     * asynchrone de plusieurs éléments DOM de l&#x27;objet.
     * Par exemple : on doit retirer une note qui possède une alteration et une
     * marque de jeu (piqué). Pour la faire disparaitre, on utilise la méthode
@@ -255,26 +308,34 @@ $.extend(window.ObjetClass.prototype,{
     * donne en second argument.
     * Enfin, la méthode a besoin des paramètres propres à cette méthode, par exemple
     * la nouvelle position pour un &#x27;moveTo&#x27;.
+    *
+    * WARNING
+    * -------
+    *   * Si l&#x27;on veut qu&#x27;en toute fin des opérations une méthode spéciale soit
+    *     appelée (autre que la méthode naturelle NEXT_STEP), la méthode appelante
+    *     doit définir &#x60;on_complete_operation&#x60; (en général &#x60;this.on_complete_operation&#x60;)
+    *
     * @method operation
     * @async
     * @param  {Array}   objets La liste des objets (DOM) à traiter
     * @param  {String}  operation  L&#x27;opération à jouer
     * @param  {Object}  params Les paramètres nécessaires à l&#x27;opération + optionnels
-    *   @param {Function} params.complete (optionnel) La méthode à appeler en fin de processus
     *
     * @return {Object} L&#x27;objet this, pour le chainage
     */
   operation:function(objets, operation, params)
   {
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
-    this.on_end_operation = params.complete
     // On commence à créer une table pour savoir quand le traitement sur les
     // objets sera terminé. En clé, on utilise l&#x27;identifiant de l&#x27;objet DOM
     this.tbl_operation = {}
     var me = this
     var objets_corriged = []
-    L(objets).each(function(obj){ 
+    L(objets).each(function(obj){
+      if(undefined == obj)
+      {
+        me.error(&quot;#ERROR : Dans &#x60;operation&#x60;, &#x60;obj&#x60; est indéfini (this=&quot;+me.id+&quot;:&quot;+me.type+&quot;, operation=&quot;+operation+&quot;)&quot;)
+        dlog(&quot;Pour info, &#x60;objets&#x60; envoyés à la méthode &#x60;operation&#x60; :&quot;);dlog(objets)
+      }
       if(undefined == obj[0]) return
       me.tbl_operation[obj[0].id] = false 
       objets_corriged.push(obj)
@@ -322,12 +383,14 @@ $.extend(window.ObjetClass.prototype,{
     * ont été traités.
     * Notes
     * -----
-    *   Si une méthode &#x27;on_complete_&lt;operation&gt;&#x27; existe, elle est appelée avant
-    *   de passer à l&#x27;étape suivante.
+    *   1.  Si une méthode &#x27;on_complete_&lt;operation&gt;&#x27; existe, elle est appelée avant
+    *       de passer à l&#x27;étape suivante.
+    *   2.  Si la méthode appelante a défini on_complete_operation, cette méthode
+    *       est appelée pour poursuivre, sinon, c&#x27;est NEXT_STEP qui est invoqué
     *
     * @method on_end_operation
     * @param  {String} operation  L&#x27;opération qui a été exécutée.
-    * @param  {String} obj_id   Identifiant de l&#x27;objet qui a terminé son traitement
+    * @param  {String} obj_id     Identifiant de l&#x27;objet qui a terminé son traitement
     */
   on_end_operation:function(operation, obj_id)
   {
@@ -348,12 +411,20 @@ $.extend(window.ObjetClass.prototype,{
     this.tbl_operation[obj_id] = true
     for(var id in this.tbl_operation)
     {
-      if(this.tbl_operation[id] == false) return // on ne peut pas finir
+      if(this.tbl_operation[id] == false) return // on ne peut pas encore finir
     }
     // Si on arrive ici, c&#x27;est qu&#x27;on peut finir
     delete this.tbl_operation
     if(&#x27;function&#x27; == typeof this[&#x27;on_complete_&#x27;+operation]) this[&#x27;on_complete_&#x27;+operation]()
-    this.on_end_operation() // en général NEXT_STEP, mais peut être autre chose
+    if(this.on_complete_operation)
+    {
+      if(&#x27;function&#x27; == typeof this.on_complete_operation) this.on_complete_operation()
+      delete this.on_complete_operation
+    }
+    else
+    {
+      NEXT_STEP()
+    } 
   }
 })
 
@@ -388,11 +459,12 @@ Object.defineProperties(ObjetClass.prototype,{
     }
   },
   /**
-    * Offset horizontal du cercle
+    * Offset horizontal de l&#x27;objet
     * @property {Number} left
+    * @default Anim.current_x
     */
   &quot;left&quot;:{
-    get:function(){return this._left},
+    get:function(){return this._left || Anim.current_x},
     set:function(left){
       this._left = left
       if(this.obj) this.obj.css(&#x27;left&#x27;, left)

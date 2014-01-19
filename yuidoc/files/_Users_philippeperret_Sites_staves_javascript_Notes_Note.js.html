@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -196,13 +222,9 @@
 window.NOTE = function(note, params)
 {
   if(undefined == params) params = {}
-  var n = new Note(note, params)
-  if(!params.dont_build)
-  {
-    n.build()
-    Anim.wait(1)
-  }
-  return n
+  var inote = new Note(note, params)
+  if(!params.dont_build) inote.build()
+  return inote
 }
 
 /**
@@ -217,8 +239,14 @@ window.Note = function(note, params)
   this.note       = null
   this.octave     = null
   this.alteration = null
-    
-  this.left   = Anim.current_x
+  
+  /**
+    * Position horizontale de la note
+    * Noter que c&#x27;est une propriété complexe (héritée de ObjectClass), définie 
+    * ici seulement pour la clarté.
+    * @property {Number} left
+    */
+  this.left = null
   
   /**
     * Le texte éventuel que porte la note (instance {Txt})
@@ -228,6 +256,19 @@ window.Note = function(note, params)
     * @property {Txt} texte
     */
   this.texte = null
+  
+  /**
+    * Mis à true si une flèche par de la note
+    * @property {Boolean} arrowed
+    * @default false
+    */
+  this.arrowed = false
+  /**
+    * Mis à true si la note est entourée
+    * @property {Boolean} surrounded
+    * @default false
+    */
+  this.surrounded = false
   
   ObjetClass.call(this, params)
 
@@ -241,7 +282,7 @@ window.Note = function(note, params)
   // Note : Normalement, tout est fait pour que cet identifiant soit unique, en partant
   //        du principe qu&#x27;il est impossible d&#x27;avoir, exactement au même moment (comme
   //        dans un motif, deux notes identiques à la même position left).
-  this.id = this.note + (this.alteration || &quot;&quot;) + this.octave + this.left + (new Date()).getTime()
+  this.id = &quot;note-&quot;+this.note + (this.alteration || &quot;&quot;) + this.octave + this.left + (new Date()).getTime()
 
 }
 Note.prototype = Object.create( ObjetClass.prototype )
@@ -264,12 +305,10 @@ $.extend(Note.prototype,{
     * @method show
     * @async
     * @param  {Object|Undefined} params Les paramètres optionnels
-    *   @param  {Function} params.complete  La méthode à appeler en fin de processus
     * @return {Note} this, pour le chainage
     */
   show:function(params)
   {
-    dlog(&quot;-&gt; &lt;Note&gt;.show / params contient complete ? &quot;+(params &amp;&amp; params.complete ? &quot;oui&quot; : &quot;non&quot;))
     return this.operation(this.objets, &#x27;show&#x27;, params)
   },
   /**
@@ -281,6 +320,21 @@ $.extend(Note.prototype,{
   {
     return this.operation(this.objets, &#x27;hide&#x27;)
   },
+  /**
+    * Destruction de la note
+    * Notes
+    *   * Pour le moment, je détruis seulement son objet DOM et je la retire
+    *     de la portée.
+    * @method remove
+    */
+  remove:function()
+  {
+    this.exergue({complete:$.proxy(this.operation, this, this.objets, &#x27;remove&#x27;)})
+    this.staff.notes.remove(this)
+    this.arrowed    = false
+    this.surrounded = false
+  },
+  
   /**
     * Actualise l&#x27;affichage de la note
     * Pour le moment, la méthode peut remettre en place une note
@@ -370,8 +424,17 @@ $.extend(Note.prototype,{
     params = $.extend(params, {owner:this, top:y, left:x})
     this._arrow = new Arrow(params)
     Anim.Dom.add(this._arrow)
+    this.arrowed = true
   },
-  
+  /**
+    * Méthode pour supprimer la flèche
+    * @method unarrow
+    */
+  unarrow:function()
+  {
+    this._arrow.remove()
+    this.arrowed = false
+  },
   /**
     * Entoure la note
     * Notes
@@ -392,6 +455,7 @@ $.extend(Note.prototype,{
     params = $.extend(params, {owner:this, top:y, left:x})
     this.circle = new Circle(params)
     Anim.Dom.add(this.circle)
+    this.surrounded = true
   },
   /**
     * Retirer le cercle entourant la note
@@ -401,6 +465,7 @@ $.extend(Note.prototype,{
   {
     if(!this.circle) return F.error(&quot;La note &quot;+this.note_str+&quot; n&#x27;est pas entourée !&quot;)
     this.circle.remove()
+    this.surrounded = false
   },
   /**
     * Met la note en exergue (bleue et au-dessus)
@@ -446,21 +511,7 @@ $.extend(Note.prototype,{
       this.obj_alt.css(&#x27;z-index&#x27;, &quot;10&quot;)
     }
     if(&#x27;function&#x27;==typeof params.complete) params.complete()
-  },
-  
-  /**
-    * Destruction de la note
-    * Notes
-    *   * Pour le moment, je détruis seulement son objet DOM et je la retire
-    *     de la portée.
-    * @method remove
-    */
-  remove:function()
-  {
-    this.exergue({complete:$.proxy(this.operation, this, this.objets, &#x27;remove&#x27;)})
-    this.staff.notes.remove(this)
-  }
-  
+  }  
   
 })
 
@@ -956,6 +1007,8 @@ Object.defineProperties(Note.prototype,{
     {
       var objets = [this.obj]
       if(this.alteration) objets.push(this.obj_alt)
+      if(this.arrowed)    objets.push(this._arrow.obj)
+      if(this.surrounded) objets.push(this.circle.obj)
       return objets
     }
   },

@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -234,6 +260,43 @@ Anim.Dom = {
     }
   },
   /**
+    * Masque un objet quelconque de l&#x27;animation
+    * Notes
+    * -----
+    *   * La méthode est toujours en fin de chaine donc elle doit toujours
+    *     appeler NEXT_STEP(). Mais si la méthode &#x60;params.complete&#x60; est
+    *     définie, elle peut être appelée au lieu de NEXT_STEP, en sachant
+    *     que cette méthode &#x60;complete&#x60; devra se charger OBLIGATOIREMENT
+    *     d&#x27;appeler NEXT_STEP().
+    *     Cela arrive par exemple lorsqu&#x27;un objet est constitué de plusieurs
+    *     éléments, comme une note altérée avec lignes supplémentaires
+    *
+    * @method hide
+    * @param  {Any} obj L&#x27;objet (Note, Txt, etc.) à masquer
+    * @param  {Object} params Les paramètres optionnels
+    *   @param  {Number}    params.duree      Le temps pour faire apparaitre l&#x27;objet
+    *   @param  {Function}  params.complete   La méthode pour suivre (NEXT_STEP par défaut)
+    */
+  hide:function(obj, params)
+  {
+    // dlog(&quot;-&gt; Anim.Dom.hide / params:&quot;);dlog(params)
+    if(undefined == params) params = {}
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    if(MODE_FLASH)
+    {
+      obj.css(&#x27;opacity&#x27;,0)
+      params.complete()
+    }
+    else
+    {
+      obj.animate(
+        {opacity:0}, 
+        params.duree || Anim.delai_for(&#x27;show&#x27; /* même vitesse que &#x27;show&#x27; */),
+        params.complete
+        )
+    }
+  },
+  /**
     * Ajoute un objet DOM à l&#x27;animation
     * Notes
     *   * Pour pouvoir fonctionner, l&#x27;instance doit toujours définir : 
@@ -262,7 +325,10 @@ Anim.Dom = {
     {
       code_html = instance.code_html
     }
+    
+    // === Ajout du code ===
     this.section.append(code_html)
+    
     if(a_simple_string)
     {
       
@@ -270,12 +336,104 @@ Anim.Dom = {
     else
     {
       // Positionne et affiche l&#x27;objet
-      dlog(&quot;instance:&quot;);dlog(instance)
       instance.positionne()
       instance.show(params)
     }
   },
-  
+  /**
+    * Initialisation du doublage (efface et masque les champs doublage et caption)
+    * @method init_doublage
+    */
+  init_doublage:function()
+  {
+    $(&#x27;span#caption_text&#x27;).html(&#x27;&#x27;);
+    $(&#x27;div#caption&#x27;).hide();
+    $(&#x27;div#doublage&#x27;).html(&#x27;&#x27;).hide();
+  },
+  /**
+    * Écrit le doublage ou le sous-titre +texte+ (en fonction de params et des
+    * réglages par défaut)
+    * Notes
+    * -----
+    *   * Si Anim.prefs.caption_timer est true, le texte est écrit au débit
+    *     Anim.prefs.caption_debit.
+    *
+    * @method set_doublage
+    * @param {String} texte Le texte (vide ou undefined pour supprimer le div)
+    * @param {Object|Boolean} params  Les paramètres optionnels
+    *                                 Ou une valeur true ou false, qui détermine caption
+    *   @param {Boolean} params.caption    Si false =&gt; doublage, si true =&gt; caption
+    *   @param {Boolean} params.wait      Si true, on attend la fin de l&#x27;affichage du doublage
+    *                                     avant de passer à la suite.
+    */
+  set_doublage:function(texte, params)
+  {
+    // dlog(&quot;-&gt; set_doublage(params :&quot;);dlog(params)
+    if(undefined == params) params = {}
+    else if (&#x27;boolean&#x27; == typeof params) params = {caption:params}
+    else if (params.doublage == true) params.caption = !params.doublage
+    var is_caption  = params.caption == true || Anim.prefs.caption == true
+    var is_doublage = !is_caption
+    var obj = $(is_caption ? &#x27;span#caption_text&#x27; : &#x27;div#doublage&#x27;)
+    var montrer = (undefined != texte) &amp;&amp; (texte.trim() != &quot;&quot;)
+    if(montrer)
+    {
+      obj.show()
+      if(is_doublage &amp;&amp; Anim.prefs.caption_timer)
+      { // On doit afficher le texte comme il sera dit
+        this.mots_doublage = texte.trim().split(&#x27; &#x27;)
+        this.imot_doublage = 0
+        $(&#x27;div#doublage&#x27;).html(&#x27;&#x27;)
+        if(params.wait) this.doublage_temporised.poursuivre = NEXT_STEP
+        // dlog(this.mots_doublage)
+        this.doublage_temporised()
+      }
+      else obj.html(texte.trim())
+    }
+    else
+    {
+      obj.hide()
+    }
+    if(is_caption) $(&#x27;div#caption&#x27;)[montrer?&#x27;show&#x27;:&#x27;hide&#x27;]()
+    if(!params.wait) NEXT_STEP(notimeout=true)
+  },
+  doublage_temporised:function()
+  {
+    if(this.timer_doublage) clearTimeout(this.timer_doublage)
+    if(mot = this.mots_doublage.shift())
+    {
+      ++this.imot_doublage
+      $(&#x27;div#doublage&#x27;).append(&#x27;&lt;span id=&quot;spanmot&#x27;+this.imot_doublage+&#x27;&quot; style=&quot;display:none;&quot;&gt;&#x27;+mot+&#x27;&lt;/span&gt; &#x27;)
+      $(&#x27;div#doublage &gt; span#spanmot&#x27;+this.imot_doublage).show(400)
+      
+      var duree = parseInt(Math.ceil(mot.length / 3) * 200, 10)
+      this.timer_doublage = setTimeout($.proxy(Anim.Dom.doublage_temporised, Anim.Dom), duree)
+    }
+    else
+    {
+      if(this.doublage_temporised.poursuivre) this.doublage_temporised.poursuivre()
+    }
+  },
+  /**
+    * Méthode d&#x27;aide qui affiche un point de repère aux coordonnées x/y, puis
+    * le fait disparaitre. Écrit les coordonnées dans le feedback UI
+    * @method show_point_at
+    * @param  {Number} x    Position horizontale
+    * @param  {Number} y    Position verticale
+    */
+  show_point_at:function(x,y)
+  {
+    UI.feedback(&quot;&lt;span class=\&quot;red\&quot;&gt;x/left:&quot;+x+&quot; | y/top:&quot;+y+&#x27;&lt;/span&gt;&#x27;)
+    if(this.point_repere.length == 0) this.section.append(&#x27;&lt;div id=&quot;point_repere_anim&quot;&gt;&lt;/div&gt;&#x27;)
+    this.point_repere.css({opacity:1, left:x+&#x27;px&#x27;, top:y+&#x27;px&#x27;})
+    this.timer_point_repere = setTimeout($.proxy(this.hide_point_repere, this),500)
+  },
+  hide_point_repere:function()
+  {
+    clearTimeout(this.timer_point_repere)
+    delete this.timer_point_repere
+    this.point_repere.animate({opacity:0})
+  }
 }
 
 Object.defineProperties(Anim.Dom,{
@@ -285,6 +443,14 @@ Object.defineProperties(Anim.Dom,{
     */
   &quot;section&quot;:{
     get:function(){return $(&#x27;section#animation&#x27;)}
+  },
+  
+  /**
+    * Objet DOM du point de repère
+    * @property {jQuerySet} point_repere
+    */
+  &quot;point_repere&quot;:{
+    get:function(){return $(&#x27;section#animation div#point_repere_anim&#x27;)}
   }
 })
     </pre>

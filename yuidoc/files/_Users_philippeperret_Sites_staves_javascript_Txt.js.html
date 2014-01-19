@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -204,7 +230,11 @@ window.Txt = function(owner, params)
 {
   this.class = &#x27;txt&#x27;
 
-  this.id       = &#x27;txt&#x27;+(new Date()).getTime()
+  /**
+    * Identifiant absolu du texte
+    * @property {String} id
+    */
+  this.id = &#x27;txt&#x27;+(new Date()).getTime()
 
   /**
     * Le propriétaire du texte, Staff, Note, Chord, etc.
@@ -461,7 +491,11 @@ $.extend(Txt.prototype,{
     // comme les cadences (qui sont pour le moment les seuls à définir un
     // width particulier)
     if(this.width) this.obj.css({width:this.width+&#x27;px&#x27;})
-    var dpos = {top:(this.real_top)+&quot;px&quot;, left:this.real_left+&quot;px&quot;}
+    var dpos  = {}, my = this ;
+    L([&#x27;left&#x27;, &#x27;top&#x27;, &#x27;height&#x27;]).each(function(key){
+      var val = my[&#x27;real_&#x27;+key]
+      if(val != null) dpos[key] = val + &#x27;px&#x27;
+    })
     this.obj.css(dpos)
     this.positionne_texte_before()
     this.positionne_texte_after()
@@ -524,6 +558,10 @@ $.extend(Txt.prototype,{
     case modulation:
       Txt.traite_texte_type_harmony(this)
       this.texte_main = &#x27;&lt;div class=&quot;mark_modulation&quot;&gt;&#x27;+(this.texte_main||&quot;&quot;)+&#x27;&lt;/div&gt;&#x27;
+      break
+    case part:
+      Txt.traite_texte_type_harmony(this)
+      this.texte_main = &#x27;&lt;div class=&quot;mark_part&quot;&gt;&#x27;+(this.texte_main||&quot;&quot;)+&#x27;&lt;/div&gt;&#x27;
       break
     default:
       this.texte_main = this.texte
@@ -621,6 +659,9 @@ Object.defineProperties(Txt.prototype,{
         case modulation:
           top -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y
           break
+        case part:
+          top -= Anim.prefs.part_y + Anim.prefs.offset_part_y + this.offset_y
+          break
         case measure:
           top -= Anim.prefs.num_measure_y + Anim.prefs.offset_num_measure_y
           break
@@ -630,17 +671,6 @@ Object.defineProperties(Txt.prototype,{
         this._top = top
       }
       return this._top
-    }
-  },
-  /**
-    * La hauteur de la boite de texte
-    * Noter que ça renvoie une &quot;vraie&quot; valeur, ie comptée avec le padding et
-    * les bordures.
-    * @property {Number} height
-    */
-  &quot;height&quot;:{
-    get:function(){
-      return UI.exact_height_of(this.obj)
     }
   },
   /**
@@ -693,6 +723,8 @@ Object.defineProperties(Txt.prototype,{
     *     Mais cela ne peut être fait qu&#x27;une fois qu&#x27;on connait la taille du
     *     texte, donc c&#x27;est la méthode &#x60;positionne&#x60; qui s&#x27;en charge. c&#x27;est quand
     *     elle appelle this.left qu&#x27;on le calcule.
+    *   * Ce n&#x27;est pas ici que doit être pris en compte la valeur de &#x60;offset_x&#x60;,
+    *     cf. &#x60;real_left&#x60;
     *
     * @property {Number} left
     */
@@ -707,6 +739,8 @@ Object.defineProperties(Txt.prototype,{
         case modulation:
           this._left += Anim.prefs.modulation_x
           break
+        case part:
+          this._left += Anim.prefs.part_x
         case measure:
           this._left -= 30
           break
@@ -729,7 +763,7 @@ Object.defineProperties(Txt.prototype,{
         case &#x27;staff&#x27;: 
           var h = Anim.prefs.staff_top_text + voffset
           if(Anim.prefs.staff_text_up)
-            return - (h + itxt.height)
+            return - (h + itxt.height_calc)
           else
           {
             return owner.height + h
@@ -779,10 +813,39 @@ Object.defineProperties(Txt.prototype,{
       default:
         this._real_left = left - 10
       }
-      return this._real_left + this.offset_x
+      return this._real_left + (this.offset_x || 0)
     }
   },
-  
+  /**
+    * La hauteur de la boite de texte
+    * Noter que ça renvoie une &quot;vraie&quot; valeur, ie comptée avec le padding et
+    * les bordures.
+    * @property {Number} height_calc
+    */
+  &quot;height_calc&quot;:{
+    get:function(){
+      return UI.exact_height_of(this.obj)
+    }
+  },
+  /**
+    * Vraie valeur pour la hauteur
+    * @property {Number|Null} real_height
+    */
+  &quot;real_height&quot;:{
+    get:function(){
+      dlog(&quot;-&gt; real_height&quot;)
+      switch(this.type)
+      {
+      case part:
+        // Pour une partie, on essaie d&#x27;aller jusqu&#x27;en bas de la portée,
+        // sauf si this.height est défini
+        if(this.height) return this.height
+        var h = this.real_staff.bottom - this.real_top
+        return h
+      default: return null
+      }
+    }
+  },
   /* ---------------------------------------------------------------------
    *  DOM  
    */
@@ -833,7 +896,10 @@ Object.defineProperties(Txt.prototype,{
       //   after:this.texte_after
       // })
       var css = [&#x27;text&#x27;]
-      if(this.type) css.push(this.type)
+      if(this.type)
+      {
+        css.push(this.type)
+      } 
       var style = []
       if(this.width) style.push(&quot;width:&quot;+this.width+&quot;px;&quot;)
       var boites = &quot;&quot;

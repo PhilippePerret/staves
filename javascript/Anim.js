@@ -181,7 +181,7 @@ $.extend(window.Anim,{
     /**
       * Si True, le code est automatiquement sauvé après changement
       * (false par défaut)
-      * @proprety {Boolean} autosave
+      * @property {Boolean} autosave
       */
     autosave      :false,
     // Positions absolues

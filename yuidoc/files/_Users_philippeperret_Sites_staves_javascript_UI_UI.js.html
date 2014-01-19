@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -189,6 +215,18 @@
 if(undefined == window.UI) window.UI = {}
 $.extend(UI,{
   /**
+    * Écrit un message de feedback
+    * @method feedback
+    * @param  {String} message  Le message à afficher
+    */
+  feedback:function(message)
+  {
+    var o = $(&#x27;div#ui_feedback&#x27;)
+    o.html(message)
+    if(message == &quot;&quot;) o.hide()
+    else o.show()
+  },
+  /**
     * Prépare l&#x27;interface au chargement de l&#x27;application
     * @method prepare
     */
@@ -196,6 +234,11 @@ $.extend(UI,{
   {
     this.Regle.prepare()
     this.onresize_window()
+    this.Popups.prepare()
+    Console.set(&#x27;&#x27;)
+    $(&#x27;input[type=&quot;text&quot;], textarea&#x27;).bind(&#x27;focus&#x27;,function(){IN_TEXT_FIELD = true})
+    $(&#x27;input[type=&quot;text&quot;], textarea&#x27;).bind(&#x27;blur&#x27;,function(){IN_TEXT_FIELD = false})
+    this.chronometre = Horloge.create()
   },
   /**
     * Retourne la vraie largeur de l&#x27;objet DOM +obj+ en tenant compte de
@@ -278,11 +321,14 @@ $.extend(UI,{
       width : console_width+&quot;px&quot;,
       height: anim_height+&quot;px&quot;
     })
-    controller_width = $(&#x27;section#controller&#x27;).width()
-    $(&#x27;section#controller&#x27;).css({
-      top   : (anim_height + 40)+&quot;px&quot;,
-      left  : (anim_width - controller_width + 30) + &quot;px&quot;
+
+    // La position des sous-titres
+    $(&#x27;div#caption&#x27;).css({
+      top   : (anim_height - 25)+&#x27;px&#x27;,
+      width : (anim_width / 2)+&#x27;px&#x27;,
+      left  : (10 + (anim_width / 4))+&#x27;px&#x27;
     })
+
     // La position de la règle de mesure
     this.Regle.obj.css({top:(anim_height - 10)+&#x27;px&#x27;})
     // Positions pour la grille (grid)
@@ -304,7 +350,6 @@ $.extend(UI,{
     */
   peuple_liste_animations:function(name_list)
   {
-    $(&#x27;select#animations&#x27;).html(&#x27;&lt;option value=&quot;0&quot;&gt;Charger l\&#x27;animation…&lt;/option&gt;&#x27;)
     L(name_list).each(function(name){
       $(&#x27;select#animations&#x27;).append(&#x27;&lt;option value=&quot;&#x27;+name+&#x27;&quot;&gt;&#x27;+name+&#x27;&lt;/option&gt;&#x27;)
     })
@@ -327,8 +372,11 @@ $.extend(UI,{
     old_option = $(&#x27;select#animations option[value=&quot;&#x27;+old_name+&#x27;&quot;]&#x27;)
     $(code).insertAfter(old_option)
     old_option.remove()
-    Anim.name = new_name
-    $(&#x27;select#animations&#x27;).val(new_name)
+    Anim.set_anim(new_name)
+  },
+  add_new_animation_to_menu:function(new_name)
+  {
+    $(&#x27;select#animations&#x27;).append(&#x27;&lt;option value=&quot;&#x27;+new_name+&#x27;&quot;&gt;&#x27;+new_name+&#x27;&lt;/option&gt;&#x27;)
   }
   
   

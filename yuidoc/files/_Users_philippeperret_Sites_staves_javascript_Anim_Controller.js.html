@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -205,6 +231,7 @@ $.extend(Anim,{
     * @param  {Object} params   Paramètres optionnels
     */
   start:function(params){
+    dlog(&quot;-&gt; Anim.start (in Controller.js)&quot;)
     if(this.on &amp;&amp; this.Step.mode_pas_a_pas)
     { // En cours de jeu en mode pas à pas
       this.Step.next()
@@ -212,13 +239,10 @@ $.extend(Anim,{
     else if(this.pause_on)
     { // =&gt; redémarrage après pause
       this.play()
+      UI.chronometre.restart
     }
-    else if(this.on)
-    { // =&gt; Stop demandé
-      this.stop()
-    } 
     else
-    { // Démarrage du jeu
+    { // === DÉMARRAGE DE L&#x27;ANIMATION ===
       this.reset()
       this.Step.list = function(playtype){
         switch(playtype)
@@ -227,15 +251,29 @@ $.extend(Anim,{
         case &#x27;stepbystep&#x27; : return Console.steps
         case &#x27;selection&#x27;  : return Console.steps_selection
         case &#x27;repairs&#x27;    : return Console.steps_between_repairs
-        case &#x27;from_cursor&#x27;: return Console.steps_from_cursor
+        case &#x27;cursor&#x27;     : return Console.steps_from_cursor
         }
       }(this.play_type)
       if(this.Step.list)
-      { 
-        this.play_preambule()
-        this.play()
+      {
+        Img.get_taille_all_images.complete = $.proxy(this.post_start, this)
+        Img.get_taille_all_images()
       }
     } 
+  },
+  /**
+    * Méthode appelée lorsque la taille de toutes les images a été relevée
+    * @method post_start
+    */
+  post_start:function()
+  {
+    dlog(&quot;-&gt; Anim.post_start (in Controller.js)&quot;)
+    if(this.Step.list)
+    { 
+      this.play_preambule()
+      UI.chronometre.start
+      this.play()
+    }
   },
   /**
     * Règle l&#x27;interface, soit pour le jeu, soit pour l&#x27;arrêt, soit pour la pause
@@ -247,8 +285,35 @@ $.extend(Anim,{
     this.stop_button.css(&#x27;visibility&#x27;, this.on ? &#x27;visible&#x27;:&#x27;hidden&#x27;)
     this.pause_button[this.on &amp;&amp; !this.pause_on &amp;&amp; !this.Step.mode_pas_a_pas ?&#x27;show&#x27;:&#x27;hide&#x27;]()
     this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?&#x27;show&#x27;:&#x27;hide&#x27;]()
-    if(!this.on || this.pause_on) this.Grid.show()
+
+    if(!this.on || this.pause_on)
+    {
+      if(Anim.prefs.grid) this.Grid.show()
+    } 
     else this.Grid.hide()
+    
+    if(this.on)
+    {
+      /* Les éléments qu&#x27;il faut toujours masquer */
+      UI.Popups.section.hide()
+      /* Les éléments à masquer optionnellement */
+      if(Anim.options.fullscreen)
+      {
+        this.controller.hide()
+        Console.console.css(&#x27;opacity&#x27;, 0.2)
+      }
+    }
+    else
+    {
+      /* Les éléments qu&#x27;il faut toujours masquer (et donc remettre)*/
+      UI.Popups.section.show()
+      /* Les éléments à masquer optionnellement */
+      if(Anim.options.fullscreen)
+      {
+        this.controller.show()
+        Console.console.css(&#x27;opacity&#x27;, 1)
+      }
+    }
   },
   
   /**
@@ -293,22 +358,48 @@ $.extend(Anim,{
     */
   pause:function()
   {
+    UI.chronometre.pause
     this.pause_on = true
     this.set_interface()
   },
   /**
     * Stoppe l&#x27;animation, parce qu&#x27;on est au bout ou parce que 
-    * c&#x27;est demandé
+    * c&#x27;est demandé.
+    * Note : si l&#x27;arrêt est forcé par le bouton stop (+forcer+ = true), on ne
+    * lance pas l&#x27;animation suivante éventellement demandée.
     * @method stop
+    * @param {Boolean|Undefined} forcer Mis à true quand c&#x27;est un arrêt forcé
     */
-  stop:function()
+  stop:function(forcer)
   {
+    if(this.on == false) return // retardataires
+    UI.chronometre.stop
     this.on       = false
     this.pause_on = false
     this.kill_timer()
+    Console.console.blur()
     delete this.Step.list
-    this.decompte.poursuivre = $.proxy(this.real_stop, this)
-    this.decompte(this.prefs.delai_after_show)
+    if(forcer)
+    { // =&gt; arrêt forcé
+      if(this.animation_pour_suivre) delete this.animation_pour_suivre
+      this.real_stop()
+    } 
+    else
+    { // =&gt; Le cas courant
+      var method ;
+      if(this.animation_pour_suivre)
+      { // Une animation doit suivre
+        this.set_pref(&#x27;decompte&#x27;, 0, next_step=false)
+        method = &#x27;load_and_start_animation_pour_suivre&#x27;
+      }
+      else
+      { // vraiment la fin
+        method = &#x27;real_stop&#x27;
+      } 
+      
+      this.decompte.poursuivre = $.proxy(this[method], this)
+      this.decompte(this.prefs.delai_after_show)
+    }
   },
   /**
     * Procède vraiment au stop, en faisant réapparaitre les éléments
@@ -396,6 +487,11 @@ $.extend(Anim,{
 })
 
 Object.defineProperties(Anim,{
+  /**
+    * Objet DOM de la boite de controller
+    * @property {jQuerySet} controller
+    */
+  &quot;controller&quot;:{get:function(){return $(&#x27;section#controller&#x27;)}},
   /** 
     * Objet DOM du bouton Start
     * @property {jQuerySet} start_button

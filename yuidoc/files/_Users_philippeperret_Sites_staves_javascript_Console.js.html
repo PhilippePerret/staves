@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -190,7 +216,22 @@
   */
 if(undefined == window.Console) Console = {}
 $.extend(window.Console,{
-    
+  /**
+    * Méthode appelée quand on focus dans le code console
+    * @method onfocus
+    */
+  onfocus:function()
+  {
+    window.onkeypress = null
+  },
+  /**
+    * Méthode appelée quand on blure du code console
+    * @method onblur
+    */
+  onblur:function()
+  {
+    window.onkeypress = KEYPRESS_HORS_CONSOLE
+  },
   /**
     * Mets un code en console.
     * @method set
@@ -205,14 +246,16 @@ $.extend(window.Console,{
     * Retourne le code depuis le caractère +from+ (0-start) jusqu&#x27;au caractère
     * +to+. Si +as_list+ est true, sous forme de liste (true par défaut).
     * @method get_code
-    * @param  {Number} from   Index du premier caractère
-    * @param  {Number} to     Index du dernier caractère
+    * @param  {Number} from   Index du premier caractère (0 par défaut)
+    * @param  {Number} to     Index du dernier caractère (le dernier par défaut)
     * @param  {Boolean} as_list Si True (défaut) sous forme de liste
     * @return {String|Array}  Le code relevé dans la console
     */
   get_code:function(from, to, as_list)
   {
     if(undefined == as_list) as_list = true
+    if(!from) from = 0
+    if(!to  ) to   = this.raw.length
     var code = this.raw.substring(from, to - from + 1)
     if(as_list) code = code.split(&quot;\n&quot;)
     return code
@@ -255,19 +298,69 @@ $.extend(window.Console,{
   select:function(params)
   {
     Selection.select(this.console, {start:params.start, end:params.end})
+    if(params.blur) this.console[0].blur()
   },
   
   /**
     * La méthode est appelée lorsque le code console a été modifié. Cela
     * permet d&#x27;initialiser les étapes retenues.
+    * Notes
+    * -----
+    *   * Si la sauvegarde automatique est activée, on enregistre tout de
+    *     suite le code.
+    *
     * @method onchange_code
     */
   onchange_code:function()
   {
     if(this._etapes)          delete this._etapes
     if(this._steps_selection) delete this._steps_selection
-  }
+    Anim.modified = true
+    if(Anim.options.autosave) Anim.save()
+  },
   
+  /**
+    * Méthode qui reçoit une liste ou un string de code et le transforme
+    * en instances Pas.
+    * Notes
+    * -----
+    *   * La méthode gère aussi les images pour les charger tout de suite.
+    *
+    * @method code2pas
+    * @protected
+    * @param {String|Array} arr_lines   Le code brut ou une liste de strings
+    * @param {Object} params    Paramètres optionnels
+    *   @param {Number}  params.offset      La position initiale du curseur
+    *   @param {Array}   params.array       Éventuellement, la liste à laquelle les pas doivent être ajoutés
+    *   @param {Boolean} params.as_flash    Si true, le code envoyé est un code
+    *                                       à jouer en mode &quot;flash&quot; (rapide), et
+    *                                       donc une propriété &#x60;flashed&#x60; doit être mise à true
+    *                                       et certaines étapes sont passées.
+    * @return {Array of Pas} Liste des instances de Pas (étapes) correspondant au code
+    */
+  code2pas:function(arr_lines, params)
+  {
+    var pas, cur_offset ;
+    if(undefined == params) params = {}
+    if(undefined == params.offset)    params.offset   = 0
+    if(undefined == params.as_flash)  params.as_flash = false
+    if(undefined == params.array)     params.array    = []
+    if(&#x27;string&#x27; == typeof arr_lines) arr_lines = arr_lines.split(&quot;\n&quot;)
+    dlog(&quot;\nDÉBUT de l&#x27;établissement des instances Pas dans Console.code2pas&quot;)
+    cur_offset = params.offset
+    L(arr_lines).each(function(line){
+      // On calcule les positions du curseur ici car en mode flash (as_flash),
+      // certaines étapes sont passées.
+      cur_start   = parseInt(cur_offset, 10)
+      cur_offset += line.length + 1
+      if(params.as_flash &amp;&amp; line.match(/^(WAIT|CAPTION)/)) return
+      pas = new Pas({code:line, offset_start:cur_start, flashed: params.as_flash})
+      if(pas.is_image) Img.preload_image_of_code(pas.code)
+      params.array.push( pas )
+    })
+    dlog(&quot;/FIN de l&#x27;établissement des instances Pas dans Console.code2pas\n&quot;)
+    return params.array
+  }
 })
 
 Object.defineProperties(window.Console,{
@@ -308,13 +401,8 @@ Object.defineProperties(window.Console,{
     get:function(){
       if(undefined == this._etapes)
       {
-        this._etapes = []
-        var me = this, cur_offset = 0, pas ;
-        L(this.raw.split(&quot;\n&quot;)).each(function(line){
-          pas = new Pas({code:line, offset_start:cur_offset})
-          me._etapes.push( pas )
-          cur_offset += pas.length
-        })
+        Pas.last_id  = 0
+        this._etapes = this.code2pas(this.raw)
       }
       return this.expurge_preambule(this._etapes) // clone
     }
@@ -341,37 +429,13 @@ Object.defineProperties(window.Console,{
     get:function(){
       if( !this._steps_selection )
       { // =&gt; Première sélection (ou modification du code), on la calcule
-        var sel   = this.get_selection()
-        if(sel.content == &quot;&quot;)
-        {
-          F.error(&quot;Il faut sélectionner le code à jouer !&quot;)
-          return null
-        }
-        var steps = []
-        // == On crée les instances étapes ==
         Pas.last_id = 0
-        var cur_offset = parseInt(sel.start,10)
-        var pas ;
-        L(sel.content.split(&quot;\n&quot;)).each(function(line){
-          pas = new Pas({code:line, offset_start:cur_offset})
-          steps.push(pas)
-          cur_offset += pas.length
-        })
-        // == Relève des steps à jouer nécessairement ==
-        var befor = this.get_code(0, sel.start, as_list=true)
-        var steps_before = []
-        cur_offset = 0
-        L(befor).each(function(line){
-          if(line.contains(&#x27;STAFF&#x27;) || line.contains(&#x27;DEFAULT&#x27;) || line.contains(&#x27;NEXT&#x27;))
-          {
-            steps_before.push(new Pas({code:line, offset_start:cur_offset}))
-          }
-          cur_offset += line.length + 1
-        })
-        this._steps_selection  = steps_before.concat(steps)
-        
-      } else {
-        
+        var sel   = this.get_selection()
+        // == Les étapes avant les étapes à vraiment jouer ==
+        var steps = this.code2pas(this.get_code(0, sel.start), {as_flash:true})
+        // == Les étapes à partir desquelles jouer ==
+            steps = this.code2pas(sel.content, {array:steps, cur_offset:parseInt(sel.start,10)})
+        this._steps_selection = steps
       }
       // Il faut renvoyer un clone car l&#x27;exécution des étapes mange (shift) dans
       // cette liste renvoyée.
@@ -385,7 +449,7 @@ Object.defineProperties(window.Console,{
     *   * Pour définir la liste on utilise la propriété &#x60;steps_selection&#x60; simplement
     *     en sélectionnant la portion de texte voulu avant.
     *   * La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
-    *     être définies des préférences.
+    *     être définies des préférences à établir avant le départ.
     *
     * @property {Array of Pas} steps_between_repairs
     */
@@ -418,7 +482,6 @@ Object.defineProperties(window.Console,{
       var dsel    = this.get_selection()
       var before  = this.raw.substring(0, dsel.start)
       var start   = before.lastIndexOf(&quot;\n&quot;)
-      dlog(&quot;50 premiers caractères : &quot;+this.raw.substring(start, 50))
       this.select({start:start+1, end:this.raw.length})
       delete this._steps_selection  // pour forcer le recalcul
       return this.steps_selection

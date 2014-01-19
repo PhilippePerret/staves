@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -234,6 +260,16 @@ window.Pas = function(params)
     */
   this.errors = []
   
+  /**
+    * Propriété qui détermine si l&#x27;étape doit être “flashée” (exécutée le plus
+    * rapidement possible) ou exécutée normalement.
+    * Cette propriété est utile pour les demandes de jeu d&#x27;une sélection seulement
+    * du code (tout ce qui est avant devrait être exécuté, sauf pas qui peuvent
+    * être passés).
+    * @property flashed
+    */
+  this.flashed = false
+  
   var me = this
   L(params).each(function(k,v){me[k]=v})
   
@@ -270,14 +306,19 @@ $.extend(Pas.prototype,{
   exec:function()
   {
     if(this.is_comment || this.is_empty) return false
+    if(this.flashed) MODE_FLASH = true
     try{ eval(&#x27;Anim.Objects.&#x27;+this.trimed) }
-    catch(err){ this.on_error(err, retry = true) }
+    catch(err){ 
+      dlog(&quot;[&lt;Pas&gt;.exec] # Erreur : &quot;+err+&quot; survenue (noter que cela aura pour conséquence directe de passer à l&#x27;étape suivante).&quot;)
+      this.on_error(err, retry = true) 
+    }
     // S&#x27;il y a eu plusieurs essais
     if(this.timer_tries_exec)
     {
       clearTimeout(this.timer_tries_exec)
       delete this.tries_exec
     }
+    if(this.flashed) MODE_FLASH = false
     return true
   },
   /**
@@ -319,12 +360,15 @@ $.extend(Pas.prototype,{
   },
   /**
     * Sélectionne l&#x27;étape dans le code
+    * Notes
+    *   * On blure tout de suite de la console pour ne pas effacer le code
+    *     sélectionné avec le raccourci SPACE (pour arrêter l&#x27;animation)
     * @method select
     */
   select:function()
   {
-    Console.select({start:this.offset_start, end:this.offset_end})
-  }
+    Console.select({start:this.offset_start, end:this.offset_end, blur:true})
+  }  
   
 })
 
@@ -383,7 +427,24 @@ Object.defineProperties(Pas.prototype,{
     * @property {Boolean} is_comment
     */
   &quot;is_setting&quot;:{
-    get:function(){return this.trimed.substring(0,7) == &quot;DEFAULT&quot;}
+    get:function(){
+      if(undefined == this._is_setting)
+      {
+        this._is_setting =  this.trimed.substring(0,7) == &quot;DEFAULT&quot; || 
+                            this.trimed.substring(0,6) == &quot;SUITE(&quot;
+      }
+      return this._is_setting
+    }
+  },
+  /**
+    * Return TRUE si le pas concerne une image (contient IMAGE)
+    * @property {Boolean} is_image
+    */
+  &quot;is_image&quot;:{
+    get:function(){
+      if(undefined == this._is_image) this._is_image = this.code.indexOf(&#x27;IMAGE&#x27;) &gt; -1;
+      return this._is_image
+    }
   }
   
   

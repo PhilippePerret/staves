@@ -34,7 +34,7 @@ window.Img = function(params)
 {
   /** Identifiant absolu de l'image
     * Mais c'est une propriété complexe qui est calculée d'après l'url
-    * @proprety {String} id
+    * @property {String} id
     */
   // this.id   = 'img'+(new Date()).getTime()
   
@@ -56,7 +56,7 @@ window.Img = function(params)
   this.width = null
   /**
     * Hauteur de l'image (ie du div la contenant)
-    * @proprety {Number} height
+    * @property {Number} height
     */
   this.height = null
   

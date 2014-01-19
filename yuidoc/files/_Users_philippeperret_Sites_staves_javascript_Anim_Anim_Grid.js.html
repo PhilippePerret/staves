@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -192,8 +218,7 @@
   *   * Il affiche et masque ces éléments de grille lors du jeu ou de l&#x27;arrêt de
   *     l&#x27;animation.
   *
-  * @class Grid
-  * @for Anim
+  * @class Anim.Grid
   * @static
   */
 if(undefined == window.Anim) window.Anim = {}
@@ -273,6 +298,17 @@ window.Anim.Grid = {
     this.cursor.css({left:x+&#x27;px&#x27;})
     this.cursor.html(x)
     if(this.lefts.indexOf(x) &lt; 0) this.add_left(x)
+  },
+  
+  /**
+    * Quand on clique sur la grille =&gt; affichage de la coordonnée
+    * Note : on passe par UI parce que l&#x27;animation aussi a cette fonctionnalité
+    * @method onclick
+    */
+  onclickAt:function(x, y)
+  {
+    F.show(&quot;Désactiver la grille pour pouvoir gérer l&#x27;animation (“Options &gt; Masquer la grille”).&quot;)
+    Anim.Dom.show_point_at(x, y)
   }
   
   
@@ -281,9 +317,22 @@ window.Anim.Grid = {
 Object.defineProperties(Anim.Grid,{
   /**
     * L&#x27;objet DOM de la grille (contient tous les éléments)
+    * On profite du premier appel pour placer un observer sur le click
     * @property {jQuerySet} obj
     */
-  &quot;obj&quot;:{get:function(){return $(&#x27;div#grid&#x27;)}},
+  &quot;obj&quot;:{get:function(){
+      if(undefined == this._obj)
+      {
+        this._obj = $(&#x27;div#grid&#x27;)
+        this._obj.click(function(e){
+          var pos = $(this).position()
+          // var pos = $(this).offset()
+          Anim.Grid.onclickAt(e.pageX - pos.left - 2, e.pageY - pos.top - 18)
+        })
+      }
+      return this._obj
+    }
+  },
   /**
     * L&#x27;objet DOM du curseur de position
     * @property {jQuerySet} cursor

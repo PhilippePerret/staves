@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -228,6 +254,13 @@
 
                     <ul class="index-list methods">
                         
+                            <li class="index-item method protected">
+                                <a href="#method_code2pas">code2pas</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method">
                                 <a href="#method_expurge_preambule">expurge_preambule</a>
 
@@ -250,7 +283,21 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_onblur">onblur</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_onchange_code">onchange_code</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_onfocus">onfocus</a>
 
                                 
                                 
@@ -343,6 +390,191 @@
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method_code2pas" class="method item protected">
+    <h3 class="name"><code>code2pas</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>arr_lines</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array of Pas</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l116"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:116</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode qui reçoit une liste ou un string de code et le transforme
+en instances Pas.</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>La méthode gère aussi les images pour les charger tout de suite.</li>
+</ul>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">arr_lines</code>
+                        <span class="type">String | Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le code brut ou une liste de strings</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">offset</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La position initiale du curseur</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">array</code>
+                                    <span class="type">Array</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Éventuellement, la liste à laquelle les pas doivent être ajoutés</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">as_flash</code>
+                                    <span class="type">Boolean</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Si true, le code envoyé est un code
+                                      à jouer en mode &quot;flash&quot; (rapide), et
+                                      donc une propriété <code>flashed</code> doit être mise à true
+                                      et certaines étapes sont passées.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array of Pas</span>:
+                    
+                    <p>Liste des instances de Pas (étapes) correspondant au code</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_expurge_preambule" class="method item">
     <h3 class="name"><code>expurge_preambule</code></h3>
 
@@ -389,7 +621,7 @@
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l40"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:40</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l57"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:57</code></a>
         
         </p>
 
@@ -514,7 +746,7 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l24"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:24</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l39"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:39</code></a>
         
         </p>
 
@@ -545,7 +777,7 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
                     
 
                     <div class="param-description">
-                        <p>Index du premier caractère</p>
+                        <p>Index du premier caractère (0 par défaut)</p>
 
                     </div>
 
@@ -561,7 +793,7 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
                     
 
                     <div class="param-description">
-                        <p>Index du dernier caractère</p>
+                        <p>Index du dernier caractère (le dernier par défaut)</p>
 
                     </div>
 
@@ -644,7 +876,7 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l58"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:58</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l75"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:75</code></a>
         
         </p>
 
@@ -675,6 +907,61 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_onblur" class="method item">
+    <h3 class="name"><code>onblur</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l21"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:21</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode appelée quand on blure du code console</p>
+
+    </div>
+
+    
+
     
 
     
@@ -713,7 +1000,7 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l80"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:80</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l98"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:98</code></a>
         
         </p>
 
@@ -726,6 +1013,66 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
     <div class="description">
         <p>La méthode est appelée lorsque le code console a été modifié. Cela
 permet d&#39;initialiser les étapes retenues.</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Si la sauvegarde automatique est activée, on enregistre tout de
+suite le code.</li>
+</ul>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_onfocus" class="method item">
+    <h3 class="name"><code>onfocus</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l13"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:13</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode appelée quand on focus dans le code console</p>
 
     </div>
 
@@ -779,7 +1126,7 @@ permet d&#39;initialiser les étapes retenues.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l68"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:68</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l85"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:85</code></a>
         
         </p>
 
@@ -900,7 +1247,7 @@ permet d&#39;initialiser les étapes retenues.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l14"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:14</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l29"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:29</code></a>
         
         </p>
 
@@ -978,7 +1325,7 @@ permet d&#39;initialiser les étapes retenues.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l94"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:94</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l161"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:161</code></a>
         
         </p>
 
@@ -1023,7 +1370,7 @@ permet d&#39;initialiser les étapes retenues.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l102"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:102</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l169"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:169</code></a>
         
         </p>
 
@@ -1068,7 +1415,7 @@ permet d&#39;initialiser les étapes retenues.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l109"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:109</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l176"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:176</code></a>
         
         </p>
 
@@ -1113,7 +1460,7 @@ permet d&#39;initialiser les étapes retenues.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l115"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:115</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l182"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:182</code></a>
         
         </p>
 
@@ -1164,7 +1511,7 @@ Moins les étapes de préambule éventuelles.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l201"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:201</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l239"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:239</code></a>
         
         </p>
 
@@ -1181,7 +1528,7 @@ Notes</p>
 <li>Pour définir la liste on utilise la propriété <code>steps_selection</code> simplement
 en sélectionnant la portion de texte voulu avant.</li>
 <li>La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
-être définies des préférences.</li>
+être définies des préférences à établir avant le départ.</li>
 </ul>
 
     </div>
@@ -1217,7 +1564,7 @@ en sélectionnant la portion de texte voulu avant.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l226"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:226</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l264"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:264</code></a>
         
         </p>
 
@@ -1270,7 +1617,7 @@ et on place la fin de la sélection à la fin du code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l142"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:142</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l204"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:204</code></a>
         
         </p>
 

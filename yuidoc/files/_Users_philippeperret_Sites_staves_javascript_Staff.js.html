@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -305,7 +331,7 @@ $.extend(Staff,{
   {
     L(indices).each(function(indice_supline){
       var id = &quot;supline-&quot;+istaff+xoffset+&quot;-&quot;+(indice_supline - 1)+endroit
-      $(&#x27;img#&#x27;+id).fadeOut(Anim.transition.show)
+      $(&#x27;img#&#x27;+id).fadeOut(Anim.delai_for(&#x27;show&#x27;))
     })
   }
 })
@@ -439,8 +465,8 @@ $.extend(Staff.prototype, {
     */
   hide:function()
   {
-    this.img_staff.hide(Anim.transition.show)
-    this.img_cle.animate({opacity:&#x27;0&#x27;}, Anim.transition.show)
+    this.img_staff.hide(Anim.delai_for(&#x27;show&#x27;))
+    this.img_cle.animate({opacity:&#x27;0&#x27;}, Anim.delai_for(&#x27;show&#x27;))
   },
   /**
     * Destruction de la portée (et retrait de la liste des portées)
@@ -538,7 +564,16 @@ Object.defineProperties(Staff.prototype,{
     * Hauteur de la portée
     * @property {Number} height
     */
-  &quot;height&quot;:{get:function(){return this.img_staff.height()}},
+  &quot;height&quot;:{get:function(){
+    return 4 * (Anim.prefs.note_height - 1)}
+  },
+  /**
+    * Bas de la portée
+    * @property {Number} bottom
+    */
+  &quot;bottom&quot;:{
+    get:function(){return this.top + this.height}
+  },
   /**
     * Le &quot;zéro&quot; de la portée, en fonction de sa clé, qui permettra
     * de positionner les notes.
@@ -626,10 +661,10 @@ Object.defineProperties(Staff.prototype,{
     */
   &quot;html_img&quot;:{
     get:function(){
-      var i=0, c = &quot;&quot;, top = this.top ;
+      var i=0, c = &quot;&quot;, top = this.top, nheight = (Anim.prefs.note_height - 1) ;
       for(; i&lt;5; ++i)
       {
-        c += &#x27;&lt;img style=&quot;top:&#x27;+(i * 12)+&#x27;px;&quot; class=&quot;staffline&quot; src=&quot;img/line.png&quot; /&gt;&#x27;
+        c += &#x27;&lt;img style=&quot;top:&#x27;+(i * nheight)+&#x27;px;&quot; class=&quot;staffline&quot; src=&quot;img/line.png&quot; /&gt;&#x27;
         // top += 12
       }
       return &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; style=&quot;top:&#x27;+this.top+&#x27;px;&quot; class=&quot;staff&quot;&gt;&#x27;+c+&#x27;&lt;/div&gt;&#x27;

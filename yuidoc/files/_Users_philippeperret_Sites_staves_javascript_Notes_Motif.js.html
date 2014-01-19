@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -237,17 +263,47 @@ window.Motif = function(strnotes, params)
     */
   this.notes = [null]
   
-  if(undefined == params) params = {}
-  for(var prop in params){
-    this[prop] = params[prop]
-  } 
+  // if(undefined == params) params = {}
+  for(var prop in (params || {})){this[prop] = params[prop]} 
   
   this.make_instances_with(strnotes)
-  
-  this.build()  
+  this.build()
+    
 }
 $.extend(Motif.prototype, METHODES_TEXTE)
 $.extend(Motif.prototype, METHODES_GROUPNOTES)
+
+
+/* ---------------------------------------------------------------------
+ *  Méthodes d&#x27;instance pour le code de l&#x27;animation
+ *  
+ */
+$.extend(Motif.prototype,{
+  /**
+    * Méthode qui masque le motif
+    * @method hide
+    * @param {Object} params Paramètres optionnels, donc &#x60;complete&#x60;
+    */
+  hide:function(params)
+  {
+    params = define_complete( params )
+    this.each_note(function(note){ note.hide() })
+  },
+  /**
+    * Méthode qui ré-affiche le motif
+    * @method show
+    * @param {Object} params Paramètres optionnels, donc &#x60;complete&#x60;
+    */
+  show:function(params)
+  {
+    params = define_complete( params )
+    this.each_note(function(note){ note.show() })
+  }
+})
+/* ---------------------------------------------------------------------
+ *  Méthodes d&#x27;instance &quot;protected&quot;
+ *  
+ */
 
 $.extend(Motif.prototype,{
   /**
@@ -303,9 +359,9 @@ $.extend(Motif.prototype,{
       if(rang = this.notes_for_building.shift())
       {
         var note = this.notes[rang], complete ;
-        if(this.notes_for_building.length) complete = $.proxy(this.build, this)
-        else complete = NEXT_STEP
-        note.build({complete:complete})
+        // Tant qu&#x27;il reste des notes à construire, on rappelle cette méthode
+        if(this.notes_for_building.length) this.on_complete_operation = $.proxy(this.build, this)
+        note.build()
         this.timer = setTimeout($.proxy(this.build, this), this.laps_building)
       }
       else

@@ -45,6 +45,10 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.options.html">Anim.options</a></li>
+            
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
                 <li><a href="../classes/Chord.html">Chord</a></li>
@@ -55,7 +59,7 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
-                <li><a href="../classes/Grid.html">Grid</a></li>
+                <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
                 <li><a href="../classes/Img.html">Img</a></li>
             
@@ -71,6 +75,8 @@
             
                 <li><a href="../classes/Objets.html">Objets</a></li>
             
+                <li><a href="../classes/options.html">options</a></li>
+            
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
                 <li><a href="../classes/Regle.html">Regle</a></li>
@@ -81,9 +87,17 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/tools.html">tools</a></li>
+            
                 <li><a href="../classes/Txt.html">Txt</a></li>
             
                 <li><a href="../classes/UI.html">UI</a></li>
+            
+                <li><a href="../classes/UI.Popups.html">UI.Popups</a></li>
+            
+                <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
+            
+                <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
                 <li><a href="../classes/window.html">window</a></li>
             
@@ -117,9 +131,17 @@
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
+                <li><a href="../modules/Event.js
+Gestion des évènements.html">Event.js
+Gestion des évènements</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
+                <li><a href="../modules/handy.js.html">handy.js</a></li>
+            
                 <li><a href="../modules/Image.js.html">Image.js</a></li>
+            
+                <li><a href="../modules/ImageTool.js.html">ImageTool.js</a></li>
             
                 <li><a href="../modules/Motif.js.html">Motif.js</a></li>
             
@@ -137,7 +159,11 @@
             
                 <li><a href="../modules/UI.js.html">UI.js</a></li>
             
+                <li><a href="../modules/UI.Popups.html">UI.Popups</a></li>
+            
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
+            
+                <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
             
             </ul>
         </div>
@@ -189,8 +215,9 @@
   */
 window.IMAGE = function(params)
 {
+  if(undefined != params.x){ params.left = params.x; delete params.x }
+  if(undefined != params.y){ params.top  = params.y; delete params.y }
   var image = new Img(params)
-  image.build()
   return image
 }
 
@@ -204,35 +231,470 @@ window.IMAGE = function(params)
   *   @params {Number} params.left    Left de l&#x27;image dans l&#x27;animation
   *   @params {Number} params.width   Largeur de l&#x27;image
   *   @params {Number} params.height  Hauteur de l&#x27;image
+  *   @params {Number} params.cadre_width   Largeur du cadrage de l&#x27;image
+  *   @params {Number} params.cadre_height  Hauteur du cadrage de l&#x27;image
+  *   @params {Number} params.cadre_offset_x  Décalage horizontal du cadrage dans l&#x27;image
+  *   @params {Number} params.cadre_offset_y  Décalage vertical du cadrage dans l&#x27;image
   */
 window.Img = function(params)
 {
-  this.id   = &#x27;img&#x27;+(new Date()).getTime()
+  /** Identifiant absolu de l&#x27;image
+    * Mais c&#x27;est une propriété complexe qui est calculée d&#x27;après l&#x27;url
+    * @property {String} id
+    */
+  // this.id   = &#x27;img&#x27;+(new Date()).getTime()
+  
+  /**
+    * Position horizontale de l&#x27;image
+    * @property {Number} left
+    */
+  this.left = null
+  /**
+    * Position verticale de l&#x27;image
+    * @property {Number} top
+    */
+  this.top = null
+  
+  /**
+    * Largeur de l&#x27;image (ie du div la contenant)
+    * @property {Number} width
+    */
+  this.width = null
+  /**
+    * Hauteur de l&#x27;image (ie du div la contenant)
+    * @property {Number} height
+    */
+  this.height = null
+  
+  /** Largeur du cadrage de l&#x27;image
+    * @property {Number} cadre_width
+    * @default largeur de l&#x27;image
+    */
+  this.cadre_width = null
+  /** Hauteur du cadrage de l&#x27;image
+    * @property {Number} cadre_height
+    * @default Hauteur de l&#x27;image
+    */
+  this.cadre_height = null
+  /** Décalage horizontal du cadrage dans l&#x27;image
+    * Par exemple, si &#x60;100&#x60;, on affiche l&#x27;image à partir du pixel horizontal 100
+    * @property {Number} cadre_offset_x
+    * @default 0
+    */
+  this.cadre_offset_x = 0
+  /** Décalage vertical du cadrage dans l&#x27;image
+    * @property {Number} cadre_offset_y
+    * @default 0
+    */
+  this.cadre_offset_y = 0
   
   var me = this
-  L(params || {}).each(function(k,v){
-    me[k] = v
-  })
+  L(params || {}).each(function(k,v){me[k] = v})
+  
+  if(!this.abs /* Instanciation d&#x27;une image non &quot;absolue&quot; */)
+  {
+    Img.add(this)
+    if(!this.width  || this.width  == auto || !this.height || this.height == auto)
+    {
+      this.calc_width_and_height()
+    }
+    this.build()
+  }
+  else
+  { // =&gt; Pour une image &quot;absolue&quot;
+    Img.abs_add(this)
+    $(&#x27;body&#x27;).append(this.abs_code_html)
+  }
 }
+/* ---------------------------------------------------------------------
+     Classe
+ --------------------------------------------------------------------- */
+$.extend(Img,{
+  /**
+    * Table {Object} des instances uniques d&#x27;image
+    * Notes : lire la première note de la propriété &#x60;list&#x60; suivante
+    * Key   : L&#x27;identifiant “absolu” de l&#x27;image, calculé par rapport à son URL
+    * Value : L&#x27;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;, elle
+    *             n&#x27;est pas utilisée au cours du jeu de l&#x27;animation.
+    * @property {Object} abs_list
+    */
+  abs_list:{},
+  /**
+    * Table {Object} des images instanciées
+    * Notes
+    * -----
+    *   * Il faut bien comprendre la différence entre ce &#x60;list&#x60; et &#x60;images_list&#x60;.
+    *     La première (cette propriété) contient les instances d&#x27;images utilisées
+    *     pour l&#x27;animation, en considérant qu&#x27;une même image (même URL) peut être
+    *     utilisée plusieurs fois, et pour chaque utilisation doit avoir une instance
+    *     distincte. Revanche, la table &#x60;abs_list&#x60; contient de façon unique toutes
+    *     les images qui sont utilisées par l&#x27;animation et est établie à la pré-estimation
+    *     du code (pas son exécution)
+    *
+    * En clé l&#x27;identifiant de l&#x27;image et en valeur l&#x27;instance image.
+    * @property {Object} images
+    */
+  list:{},
+  /**
+    * Retourne l&#x27;identifiant pour l&#x27;url +url+
+    * @method idAbsFromUrl
+    * @param {String} url   L&#x27;URL de l&#x27;image
+    */
+  idAbsFromUrl:function(url)
+  {
+    return url.replace(/[\/ &#x27;&quot;\&gt;\&lt;\.]/g,&#x27;_&#x27;)
+  },
+  /**
+    * Ajoute une instance absolue d&#x27;image à la liste absolue
+    * @note Contrairement à la méthode &#x60;add&#x60; l&#x27;image est ajoutée à
+    *       la table &#x60;abs_list&#x60; et sa clé est son &#x60;abs_id&#x60;
+    * @method abs_add
+    * @param {Img} image  L&#x27;instance de l&#x27;image à ajouter
+    */
+  abs_add:function(image)
+  {
+    this.abs_list[image.abs_id] = image
+  },
+  /**
+    * Ajoute une image à la liste des images
+    * @note Contrairement à la méthode &#x60;abs_add&#x60; l&#x27;image est ajoutée à
+    *       la table &#x60;list&#x60; et sa clé est son &#x60;id&#x60; unique
+    * @method add
+    * @param {Img} image  L&#x27;instance de l&#x27;image
+    */
+  add:function(image)
+  {
+    this.list[image.id] = image
+  },
+  /**
+    * Méthode qui &quot;pré-charge&quot; l&#x27;image (quand le pas est une image — is_image)
+    * afin qu&#x27;elle soit pleinement disponible au moment où le code sera joué.
+    * Notes
+    * -----
+    *   * La méthode est utilisée au moment de la transformation du code en instances
+    *     {Pas}. À la fin de cette transformation, on fait un tour des images et on
+    *     attend qu&#x27;elles sont toutes chargées.
+    *   * La méthode tient compte du fait que l&#x27;image a déjà pu être pré-loadée
+    * @method preload_image
+    * @protected
+    */
+  preload_image_of_code:function(code)
+  {
+    var found, url, absid ;
+    if(found=code.match(/IMAGE\((.*)\)/))
+    {
+      if(url=found[1].replace(/ +/, &#x27; &#x27;).match(/[&#x27;&quot;]?url[&#x27;&quot;]? ?: ?[&#x27;&quot;]([^&#x27;&quot;]+)[&#x27;&quot;] ?,/))
+      {
+        url = url[1]
+        dlog(&quot;URL IMAGE:&#x27;&quot;+url+&quot;&#x27;&quot;)
+        absid = Img.idAbsFromUrl(url)
+        if(undefined == Img.abs_list[absid]) new Img({url:url, abs:true})
+        // Ce code force l&#x27;affichage hors-champ de l&#x27;image pour calcul de sa taille.
+      }
+    }
+  },
+  /**
+    * Retourne le code HTML pour un listing des images utilisées en version
+    * “thunder” pour un choix. Quand on les click, on invoque sur l&#x27;image la
+    * méthode +onclick+ définie.
+    *
+    * Notes
+    * -----
+    *   Dans un premier temps, la méthode ne liste que les images instanciées au
+    *   moment où le menu est activé. Mais un bouton &quot;Chercher toutes les images&quot;
+    *   permet de chercher dans le code toutes les images.
+    *
+    * @method listing_html
+    * @param {String} onclick   La méthode (d&#x27;instance) invoquée quand on clique sur l&#x27;image dans le listing construit
+    * @param {Object} params    Paramètres optionnels
+    *   @param  {Boolean} params.all_done   Permet de préciser que l&#x27;on vient de relever toutes les images dans le code, donc le bouton pour les chercher ne devra pas être affiché.
+    * @return {String}  Le code HTML, dans un div &quot;tool_listing_images&quot; qui pourra
+    *                   être géré par UI.Tools
+    */
+  html_listing:function(onclick, params)
+  {
+    if(undefined == params) params = {}
+    var c = &quot;&quot;, inststr ;
+    L(this.abs_list).each(function(absid, image){
+      inststr = &quot;Img.abs_list[&#x27;&quot;+absid+&quot;&#x27;]&quot;
+      if($(&#x27;img#img&#x27;+absid).length) return
+      c += &#x27;&lt;img id=&quot;img&#x27;+absid+&#x27;&quot; src=&quot;&#x27;+image.url+&#x27;&quot; style=&quot;width:120px;&quot; onclick=&quot;$.proxy(&#x27;+inststr+&#x27;.&#x27;+onclick+&#x27;, &#x27;+inststr+&#x27;)()&quot; /&gt;&#x27;
+    })
+    if(!params.all_done)
+    {
+      // La méthode qui sera appelée pour suivre &#x60;find_all_images_in_code&#x60;
+      // après la relève de toutes les images dans le code
+      var prox = &#x27;$.proxy(Img.update_listing_html, Img, \&#x27;&#x27;+onclick+&#x27;\&#x27;)&#x27;
+      c += &#x27;&lt;div&gt;&lt;input type=&quot;button&quot; value=&quot;Chercher toutes les images dans le code&quot; &#x27;+
+            &#x27;onclick=&quot;$.proxy(Img.find_all_images_in_code, Img, &#x27;+prox+&#x27;)()&quot; /&gt;&lt;/div&gt;&#x27;
+    }
+    return &#x27;&lt;div id=&quot;tool_listing_images&quot;&gt;&lt;hr /&gt;&#x27;+c+&#x27;&lt;/div&gt;&#x27;
+  },
+  /**
+    * Méthode qui actualise le listing HTML des images
+    * @method update_listing_html
+    * @param {String} onclick     La méthode instance-image à appeler quand on clique sur l&#x27;image.
+    */
+  update_listing_html:function(onclick)
+  {
+    dlog(&quot;-&gt; update_listing_html&quot;)
+    $(&#x27;div#tool_listing_images&#x27;).replaceWith(this.html_listing(onclick, {all_done:true}))
+  },
+  /**
+    * Recherche toutes les images dans le code de la console
+    * La méthode crée toutes les instances nécessaires.
+    * Fonctionnement
+    * --------------
+    *   * La méthode passe simplement en revue toutes les lignes de code, repère
+    *     celles contenant &quot;IMAGE&quot; et les exécute.
+    *
+    * @method find_all_images_in_code
+    * @param {Function} poursuivre  La méthode pour suivre
+    */
+  find_all_images_in_code:function(poursuivre)
+  {
+    L(Console.get_code(null, null, true)).each(function(line){
+      if(line.indexOf(&#x27;IMAGE&#x27;) &lt; 0 ) return
+      Img.preload_image_of_code( line )
+    })
+    this.get_taille_all_images.complete = poursuivre
+    this.get_taille_all_images()
+  },
+ 
+  /**
+    * Méthode asynchrone qui relève les dimensions de toutes les images de
+    * l&#x27;animation et renseigne leurs instances dans &#x60;Img.abs_list&#x60;.
+    * La méthode est appelée après la relève de toutes les images dans le code
+    * au moment de la pré-estimation ou lorsque l&#x27;édition des images est demandée
+    * Notes
+    * -----
+    *   * Si une méthode this.get_taille_all_images.complete est définie, elle est
+    *     appelée lorsque la taille de toutes les images a été relevée
+    *
+    * @method get_taille_all_images
+    */
+  get_taille_all_images:function()
+  {
+    
+    if(undefined == this.absids_images_not_traited)
+    {
+      this.absids_images_not_traited = L(this.abs_list).collect(function(absid,img){return absid})
+      dlog(&quot;Liste des ids absolus des images dont il faut prendre la taille : &quot;+this.absids_images_not_traited)
+    }
+    else if(this.abs_timer) clearTimeout(this.abs_timer)
+    
+    var len = this.absids_images_not_traited.length
+    var new_list = []
+    for(var i=0; i&lt;len; ++i)
+    {
+      var abs_id = this.absids_images_not_traited[i]
+      var image  = this.abs_list[abs_id]
+      if(image.abs_obj.length == 0) $(&#x27;body&#x27;).append(image.abs_code_html)
+      else if(image.width &amp;&amp; image.height) continue // image traitée
+      if(false == image.get_width_and_height())
+      {
+        new_list.push(abs_id)
+      }
+    }
+    if(new_list.length)
+    { // =&gt; Il reste des images dont on n&#x27;a pas la taille
+      // =&gt; On rappelle cette méthode après un court instant
+      this.absids_images_not_traited = new_list
+      this.abs_timer = setTimeout($.proxy(this.get_taille_all_images, this), 200)
+    }
+    else
+    {
+      // C&#x27;est la fin, on a pu relever la taille de toutes les images
+      this.remove_images_absolues()
+      if(this.get_taille_all_images.complete) this.get_taille_all_images.complete()
+    }
+  },
+  /**
+    * Méthode qui détruit tous les objets DOM des images absolues après
+    * relève de leur taille.
+    * @method remove_images_absolues
+    */
+  remove_images_absolues:function()
+  {
+    L(this.abs_list).each(function(id,image){image.abs_obj.remove()})
+  }
+})
+/* Fin méthodes et propriétés de classe
+ --------------------------------------------------------------------- */
+
+
+/* ---------------------------------------------------------------------
+
+     Instance
+
+ --------------------------------------------------------------------- */
+
+/* 
+    === Methodes à utiliser dans le code === 
+ */
+
 $.extend(Img.prototype,{
+  
   /**
     * Affiche l&#x27;image
     * @method show
+    * @return {Img} L&#x27;instance, pour chainage
     */
-  show:function()
+  show:function(params)
   {
-    this.obj.show(Anim.transition.show)
+    params = define_complete( params )
+    this.obj.animate({opacity:1}, Anim.delai_for(&#x27;show&#x27;), params.complete)
+    return this
   },
   /**
     * Masque l&#x27;image
     * @method hide
+    * @param {Object} params  Paramètres optionnels
+    *   @param {Function} params.complete   Méthode à appeler à la fin (NEXT_STEP par défaut)
+    * @return {Img} L&#x27;instance, pour chainage
     */
-  hide:function()
+  hide:function(params)
   {
-    this.obj.hide(Anim.transition.show)
+    params = define_complete( params )
+    this.obj.animate({opacity:0}, Anim.delai_for(&#x27;show&#x27;), params.complete)
+    return this
   },
   /**
-    * Construit l&#x27;image
+    * Pour exécuter un travelling dans l&#x27;image
+    * @method travelling
+    * @param {Object} params    Paramètres (doit exister)
+    *   @param {Number} params.seconds    La durée du travelling (optionnel)
+    *   @param {Number} params.x          La position horizontale de fin du cadrage
+    *   @param {Number} params.y          Position verticale de fin du cadrage
+    *   @param {Number} params.width      La nouvelle largeur de cadre
+    *   @param {Number} params.height     La nouvelle hauteur de cadre
+    *   @param {Number} params.x_for      Nombre de pixels de déplacement horizontal
+    *   @param {Number} params.y_for      Nombre de pixels de déplacement vertical
+    *   @param {Function} params.complete La méthode pour suivre (NEXT_STEP par défaut)
+    * @return {Img} L&#x27;instance, pour chainage
+    */
+  travelling:function(params)
+  {
+    if(undefined == params) return F.error(&quot;Il faut définir les paramètres du travelling !&quot;)
+    params = define_complete( params )
+    if(undefined != params.x_for)     params.x = this.cadre_offset_x + params.x_for
+    if(undefined != params.y_for)     params.y = this.cadre_offset_y + params.y_for
+    if(undefined == params.seconds)   params.seconds = 2
+    if(!params.x &amp;&amp; !params.y &amp;&amp; !params.width &amp;&amp; !params.height) return F.error(&quot;Il faut définir le mouvement du travelling !&quot;)
+    var dtrav = {}
+    if(undefined != params.x) dtrav.left = &quot;-&quot;+params.x+&#x27;px&#x27;
+    if(undefined != params.y) dtrav.top  = &quot;-&quot;+params.y+&#x27;px&#x27;
+    // On redimensionne le cadre si nécessaire
+    var dcadre = {}
+    if(undefined != params.width)   dcadre.width  = params.width  + &#x27;px&#x27;
+    if(undefined != params.height)  dcadre.height = params.height + &#x27;px&#x27;
+    if(dcadre != {}) this.obj.animate(dcadre)
+    // On procède au travelling
+    this.image.animate(dtrav, params.seconds * 1000, params.complete)
+    // On passe les nouvelles valeurs
+    if(params.x)      this.cadre_offset_x = params.x
+    if(params.y)      this.cadre_offset_y = params.y
+    if(params.width)  this.cadre_width    = params.width
+    if(params.height) this.cadre_height   = params.height
+    return this
+  },
+  
+  /**
+    * Méthode pour déplacer l&#x27;image
+    * @method move
+    * @param {Object} params  Définition du déplacement
+    *   @param {Number} params.x      Nouvelle position horizontale
+    *   @param {Number} params.x_for  Nombre de pixels de déplacement horizontal
+    *   @param {Number} params.y      Nouvelle position verticale
+    *   @param {Number} params.y_for  Nombre de pixels de déplacement vertical
+    *   @param {Number} params.seconds  Durée du déplacement
+    *   @param {Function} params.complete   Méthode à appeler en fin de déplacement
+    * @return {Img} L&#x27;instance, pour chainage
+    */
+  move:function(params)
+  {
+    if(undefined == params) return F.error(&quot;Il faut définir le déplacement de l&#x27;image !&quot;)
+    params = define_complete( params )
+    if(undefined != params.x_for)     params.x = this.left + params.x_for
+    if(undefined != params.y_for)     params.y = this.top  + params.y_for
+    if(undefined == params.seconds)   params.seconds  = 2
+    var dmove = {}
+    if(undefined != params.x) dmove.left = params.x+&#x27;px&#x27;
+    if(undefined != params.y) dmove.top  = params.y+&#x27;px&#x27;
+    this.obj.animate(dmove, params.seconds * 1000, params.complete)
+    return this
+  },
+  
+  /**
+    * Méthode pour changer la source de l&#x27;image
+    * @method src
+    * @return {Img} L&#x27;instance, pour chainage
+    */
+  src:function(new_url)
+  {
+    this.url = new_url
+    this.width  = null
+    this.height = null
+    this.image.css({width:null, height:null})
+    this.image[0].src = new_url
+    NEXT_STEP(notimeout=true)
+    return this
+  }
+
+})
+/* === Protected Methods === */
+$.extend(Img.prototype,{
+  /**
+    * Lorsque qu&#x27;une des deux valeurs width ou height n&#x27;est pas fournie au cours
+    * de l&#x27;animation, on la calcule avec cette méthode.
+    * @method calc_width_and_height
+    */
+  calc_width_and_height:function()
+  {
+    // L&#x27;image absolue de référence
+    var abs_image = Img.abs_list[this.abs_id]
+    
+    // Lorsqu&#x27;il faut calculer la hauteur d&#x27;après la largeur fournie
+    if(this.width &amp;&amp; this.width != auto)
+    { // =&gt; la largeur (width) est définie
+      this.height = (this.width / abs_image.width) * abs_image.height
+    }
+    // Lorsqu&#x27;il faut calculer la largeur d&#x27;après la hauteur fournie
+    else if(this.height &amp;&amp; this.height != auto)
+    { // =&gt; la hauteur (height) est définie
+      this.width = (this.height / abs_image.height) * abs_image.width
+    }
+    else
+    { // =&gt; les deux valeurs sont à auto, ou non définies
+      this.width  = abs_image.width
+      this.height = abs_image.height
+    }
+  },
+  /** Méthode qui relève le &#x60;width&#x60; et le &#x60;height&#x60; de l&#x27;image dans son
+    * inscription hors écran. Return false si l&#x27;image n&#x27;est pas encore
+    * chargée et que sa taille ne peut être relevée. Sinon, renseigne
+    * les propriétés width et height
+    * Notes
+    * -----
+    *   * Cette méthode ne doit être utilisée QUE sur les instances &quot;absolues&quot;
+    *     des images. Pour une instance d&#x27;image en cours d&#x27;animation, utiliser
+    *     calc_width_and_height.
+    *
+    * @method get_width_and_height
+    */
+  get_width_and_height:function()
+  {
+    var width   = UI.css2number(this.abs_obj.width())
+    var height  = UI.css2number(this.abs_obj.height())
+    
+    if(width == 0 || height == 0) return false
+    
+    this.width  = width
+    this.height = height
+    
+  },
+  /**
+    * Construit l&#x27;image (et passe à l&#x27;étape suivante)
     * @method build
     */
   build:function()
@@ -241,16 +703,69 @@ $.extend(Img.prototype,{
     NEXT_STEP()
   },
   /**
+    * Pour éditer l&#x27;image
+    * @method edit
+    */
+  edit:function()
+  {
+    UI.Tools.hide_section()
+    ImageTool.edit( this )
+  },
+  /**
     * Pour positionner l&#x27;image
+    * La méthode définit en plus les observers et rend l&#x27;image draggable.
     * @method positionne
     */
   positionne:function()
   {
-    this.obj.draggable()
+    this.obj.draggable({stop:$.proxy(this.on_end_move, this)})
+    this.obj.bind(&#x27;dblclick&#x27;, $.proxy(this.edit, this))
     return this
+  },
+  
+  /**
+    * Méthode appelée en fin de déplacement de l&#x27;image
+    * Elle affiche les nouvelles coordonnées
+    * @method on_end_move
+    * @param {Event} evt    L&#x27;évènement draggable
+    */
+  on_end_move:function(evt)
+  {
+    var pos = this.obj.position()
+    var mess = &quot;x:&quot;+pos.left + &quot; / y:&quot;+pos.top
+    UI.feedback(mess)
   }
 })
 Object.defineProperties(Img.prototype,{
+  /**
+    * Identifiant unique de l&#x27;image
+    * @note Il n&#x27;est pas à confondre avec l&#x27;identifiant absolu calculé
+    *       d&#x27;après l&#x27;URL de l&#x27;image
+    * @property {String} id
+    */
+  &quot;id&quot;:{
+    get:function(){
+      if(undefined == this._id)
+      {
+        this._id = this.abs_id + (new Date()).getTime()
+      } 
+      return this._id
+    }
+  },
+  /**
+    * Identifiant absolu de l&#x27;image, calculé d&#x27;après son URL seule
+    * Noter que toutes les instances d&#x27;image en cours d&#x27;animation qui possèdent
+    * la même URL (les mêmes images) possèdent le même abs_id qui fait référence
+    * à leur clé dans Img.abs_list, la liste des instances uniques d&#x27;images de
+    * l&#x27;animation (où une image de même URL possède une instance unique)
+    * @property {String} abs_id
+    */
+  &quot;abs_id&quot;:{
+    get:function(){
+      if(undefined == this._abs_id) this._abs_id = Img.idAbsFromUrl(this.url)
+      return this._abs_id
+    }
+  },
   /**
     * URL de l&#x27;image (locale ou distante)
     * @property {String} url
@@ -262,25 +777,61 @@ Object.defineProperties(Img.prototype,{
     },
     get:function(){ return this._url}
   },
-  
   /**
-    * L&#x27;image DOM
+    * Identifiant DOM pour le DIV contenant l&#x27;image de l&#x27;animation
+    * @property {String} dom_id
+    */
+  &quot;dom_id&quot;:{
+    get:function(){return &quot;divimg-&quot;+this.id}
+  },
+  /**
+    * Le DIV contenant l&#x27;image (instance normale d&#x27;animation)
     * @property {jQuerySet} obj
     */
-  &quot;obj&quot;:{get:function(){return $(&#x27;img#&#x27;+this.id)}},
+  &quot;obj&quot;:{get:function(){return $(&#x27;div#&#x27;+this.dom_id)}},
+  /**
+    * Objet DOM de l&#x27;image absolue
+    * @property {jQuerySet} abs_obj
+    */
+  &quot;abs_obj&quot;:{
+    get:function(){return $(&#x27;img#&#x27;+this.abs_id)}
+  },
+  /**
+    * DOM Object de l&#x27;image (balise img)
+    * @property {jQuerySet} image
+    */
+  &quot;image&quot;:{get:function(){return $(&#x27;img#&#x27;+this.id)}},
   
   /**
-    * Code HTML de l&#x27;image
+    * Code HTML pour l&#x27;image absolue
+    */
+  &quot;abs_code_html&quot;:{
+    get:function(){
+      return &#x27;&lt;img id=&quot;&#x27;+this.abs_id+&#x27;&quot; src=&quot;&#x27;+this.url+&#x27;&quot; style=&quot;position:absolute;top:-4000px;left:-4000px;&quot;/&gt;&#x27;
+    }
+  },
+  /**
+    * Code HTML de l&#x27;image (instance d&#x27;animation, PAS absolu)
     * @property {HTMLString} code_html
     */
   &quot;code_html&quot;:
   {
     get:function(){
-      var style = []
-      if(this.width)  style.push(&#x27;width:&#x27;+this.width+&#x27;px;&#x27;)
-      if(this.height) style.push(&#x27;height:&#x27;+this.height+&#x27;px;&#x27;)
-      style.push(&#x27;top:&#x27;+this.top+&#x27;px;left:&#x27;+this.left+&#x27;px;&#x27;)
-      return &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;image&quot; src=&quot;&#x27;+this.url+&#x27;&quot; style=&quot;&#x27;+style.join(&#x27;&#x27;)+&#x27;&quot; /&gt;&#x27;
+      var styleimg = [], stylediv = [] ;
+      
+      // Attribut style pour le div de l&#x27;image
+      stylediv.push(&#x27;top:&#x27;+this.top+&#x27;px;left:&#x27;+this.left+&#x27;px&#x27;)
+      stylediv.push(&#x27;width:&#x27;+(this.cadre_width || this.width)+&#x27;px&#x27;)
+      stylediv.push(&#x27;height:&#x27;+(this.cadre_height || this.height)+&#x27;px&#x27;)
+      // Attribut style pour l&#x27;image
+      if(this.width)  styleimg.push(&#x27;width:&#x27;+this.width+&#x27;px&#x27;)
+      if(this.height) styleimg.push(&#x27;height:&#x27;+this.height+&#x27;px&#x27;)
+      if(this.cadre_offset_x) styleimg.push(&#x27;left:-&#x27;+this.cadre_offset_x+&#x27;px&#x27;)
+      if(this.cadre_offset_y) styleimg.push(&#x27;top:-&#x27;+this.cadre_offset_y+&#x27;px&#x27;)
+      
+      return  &#x27;&lt;div id=&quot;&#x27;+this.dom_id+&#x27;&quot; class=&quot;divimage&quot; style=&quot;&#x27;+stylediv.join(&#x27;;&#x27;)+&#x27;&quot;&gt;&#x27;+
+                &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;image&quot; src=&quot;&#x27;+this.url+&#x27;&quot; style=&quot;&#x27;+styleimg.join(&#x27;;&#x27;)+&#x27;&quot; /&gt;&#x27;+
+              &#x27;&lt;/div&gt;&#x27;
     }
   }
     
