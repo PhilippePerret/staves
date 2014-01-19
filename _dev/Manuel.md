@@ -790,6 +790,7 @@ Pour détruire l'accord, utiliser&nbsp;:
 * [Récupérer une portée](#recuperer_staff)
 * [Supprimer les lignes supplémentaires](#remove_suplines)
 * [Placer un texte sur la portée](#ecrire_texte_portee)
+* [Supprimer une portée](#remove_staff)
 
 <a name="create_staff"></a>
 ###Créer une portée
@@ -987,6 +988,41 @@ Si plusieurs styles doivent être combinés, les séparer par des espaces. Par e
   Pour le replacer en haut&nbsp;:
   
   DEFAUT('staff_text_up')
+  
+  
+<a name="remove_staff"></a>
+###Supprimer une portée
+
+Comme pour tout objet de l'animation, on supprime une portée à l'aide de la méthode `remove`&nbsp;:
+
+    NEW_STAFF(SOL)
+    # => Crée une premiere portée
+    STAFF(1).remove()
+    # => Détruit la première portée
+
+Attention cependant à un certain point&nbsp;: chaque fois qu'une portée supérieure est supprimée, l'indice des portées suivante est modifiée, pour tenir compte SEULEMENT des portées de l'animation courante.
+
+Donc, si l'on a deux portées et que l'on veut les détruire les deux, le code suivant produira une erreur&nbsp;:
+
+    NEW_STAFF(SOL)
+    NEW_STAFF(FA)
+    ....
+    STAFF(1).remove()
+    STAFF(2).remove()
+    => !ERREUR : la première portée ayant été détruite, la portée d'indice `2` n'existe pas !
+
+Il convient donc écrire&nbsp;:
+
+    STAFF(1).remove()
+    STAFF(1).remove()
+
+Ou pour la clarté du code&nbsp;:
+
+    STAFF(2).remove()
+    STAFF(1).remove()
+    # => OK
+
+Il en va de même, évidemment pour l'écriture de tout autre élément sur une portée après la suppression de portée supérieures.
   
 ---------------------------------------------------------------------
 

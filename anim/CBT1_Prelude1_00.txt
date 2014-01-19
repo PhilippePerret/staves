@@ -95,9 +95,8 @@ melodie.note(33).part(coda, {offset_x:10, offset_y:-10})
 
 CAPTION(\"Noter que je ne tiens pas compte ici de la coda, d\'un caractère mélodique très contrasté.\",{wait:true})
 
-melodie.hide()
-STAFF(1).hide()
-STAFF(2).hide()
+STAFF(2).remove()
+STAFF(1).remove()
 partition.show()
 
 #!END

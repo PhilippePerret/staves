@@ -315,6 +315,7 @@ sup {
 <ul>
 <li><a href="#l_animation">Animation</a></li>
 <li><a href="#le_curseur_de_position">Déplacement du curseur de position</a></li>
+<li><a href="#usefull_tools">Outils pratiques</a></li>
 <li><a href="#les_notes">Les notes</a></li>
 <li><a href="#les_motifs">Les motifs mélodiques</a></li>
 <li><a href="#les_chords">Les accords</a></li>
@@ -326,8 +327,6 @@ sup {
 <li><a href="#set_preferences">Régler toutes les valeurs de l'animation</a></li>
 </ul>
 
-
-<hr />
 
 <p><a name="l_animation"></a></p>
 
@@ -353,6 +352,7 @@ sup {
 <li><a href="#enchainer_animations">Enchainer des animations</a></li>
 <li><a href="#mode_flash">Activer/désactiver le Mode “Flash</a></li>
 <li><a href="#set_decompte">Définir le décompte de départ</a></li>
+<li><a href="#autosave_code">Sauvegarde automatique</a></li>
 <li><a href="#reiniti_preferences">Ré-initialiser toutes les valeurs de préférences</a></li>
 <li><a href="#set_anim_courante_as_default">Définir l'animation courante comme animation par défaut</a></li>
 </ul>
@@ -504,7 +504,9 @@ monAccord('c3 eb3 g3')
 
 <h3>Jouer l'animation</h3>
 
-<p>Pour jouer l'animation, cliquer simplement sur le bouton “Play”.</p>
+<p>Pour jouer l'animation, cliquer simplement sur le bouton “Play” ou sur la barre espace.</p>
+
+<p>Si un autre choix que l'animation entière avait été fait, sélectionner l'item «&nbsp;Jouer tout&nbsp;» dans le menu «&nbsp;Animation&nbsp;» ou presser le raccourci clavier CMD+0.</p>
 
 <p><a name="run_only_selection"></a></p>
 
@@ -526,7 +528,7 @@ monAccord('c3 eb3 g3')
 <h4>Jouer l'animation depuis le curseur</h4>
 
 <ol>
-<li>Choisir l'item “Depuis curseur” dans le menu à côté du bouton Play&nbsp;;</li>
+<li>Choisir l'item “Jouer depuis curseur” dans le menu «&nbsp;Animation&nbsp;» (ou le raccourci clavier CMD+3)&nbsp;;</li>
 <li>Placer le curseur dans la première ligne de code à jouer (inutile ici de le placer en début de ligne, il suffit de le mettre dans la ligne de code par laquelle commencer)&nbsp;;</li>
 <li>Presser le bouton Play.</li>
 </ol>
@@ -549,7 +551,7 @@ monAccord('c3 eb3 g3')
 
 <pre><code> #!END
 </code></pre></li>
-<li>Dans le menu à côté du bouton “Play”, choisir l'item “Entre repères”&nbsp;;</li>
+<li>Dans le menu «&nbsp;Animation&nbsp;», choisir l'item “Jouer entre #!START et #!END (ou jouer le raccourci CMD + 2)”&nbsp;;</li>
 <li>Cliquer sur le bouton “Play”</li>
 </ol>
 
@@ -562,7 +564,7 @@ monAccord('c3 eb3 g3')
 
 <ol>
 <li>Sélectionner <u>soigneusement</u> la portion de code à tester (“soigneusement” signifie&nbsp;: en étant sûr de bien placer la sélection du début d'une ligne au début d'une autre ou à la toute fin du code. Cf. la procédure la plus simple ci-dessous)</li>
-<li>Choisir l'item “Sélection” dans le menu à coté du bouton “Play”.</li>
+<li>Choisir l'item “Jouer la sélection” dans le menu «&nbsp;Animation&nbsp;» (ou presser le raccourci CMD+1).</li>
 <li>Cliquer sur le bouton “Play”</li>
 </ol>
 
@@ -635,6 +637,12 @@ STOP_MODE_FLASH
 <p>DEFAULT('decomte', <nombre de secondes>)</p>
 
 <p><em>Mettre <code>0</code> pour supprimer tout décompte.</em></p>
+
+<p><a name="autosave_code"></a></p>
+
+<h3>Sauvegarde automatique</h3>
+
+<p>En activant le menu “Options > Activer Auto-Save”, tous les modifications apportées au code seront automatiquement enregistrées.</p>
 
 <p><a name="reiniti_preferences"></a></p>
 
@@ -742,6 +750,38 @@ STOP_MODE_FLASH
 </code></pre>
 
 <p>Les prochains <code>NEXT()</code> partiront de cette nouvelle position.</p>
+
+<hr />
+
+<p><a name="usefull_tools"></a></p>
+
+<h2>Outils pratiques</h2>
+
+<h3>Table des matières</h3>
+
+<ul>
+<li><a href="#point_repere_grille">Point de repère avec la grille</a></li>
+<li><a href="#outil_coordonnees">Outil “Coordonnées”</a></li>
+</ul>
+
+
+<p><a name="point_repere_grille"></a></p>
+
+<h3>Point de repère avec la grille</h3>
+
+<p>Lorsque la grille est active (pour l'activer&nbsp;: “Options > Afficher la grille”), lorsque l'on clique à un endroit de l'animation, un point apparait et les coordonnées de ce points sont donnés en bas de l'écran.</p>
+
+<p><a name="outil_coordonnees"></a></p>
+
+<h3>Outil “Coordonnées”</h3>
+
+<p>Cet outil permet d'obtenir les coordonnées précises à l'écran, pour pouvoir positionner un élément par exemple.</p>
+
+<p>On l'active par le menu “Outil > Activer coordonnées”.</p>
+
+<p>Ensuite, il suffit de déplacer et de re-tailler le rectangle rouge pour obtenir les coordonnées des lignes de fuite bleues.</p>
+
+<p><em>Noter qu'après un redimensionnement du cadre rouge, il est parfois nécessaire de cliquer au centre du cadre pour obtenir les nouvelles coordonnées.</em></p>
 
 <hr />
 
@@ -1226,6 +1266,7 @@ maNote.write("Une seconde !")
 <li><a href="#recuperer_staff">Récupérer une portée</a></li>
 <li><a href="#remove_suplines">Supprimer les lignes supplémentaires</a></li>
 <li><a href="#ecrire_texte_portee">Placer un texte sur la portée</a></li>
+<li><a href="#remove_staff">Supprimer une portée</a></li>
 </ul>
 
 
@@ -1467,6 +1508,45 @@ exergue   Met le texte en exergue (gras)
 
 <p>  DEFAUT('staff_text_up')</p>
 
+<p><a name="remove_staff"></a></p>
+
+<h3>Supprimer une portée</h3>
+
+<p>Comme pour tout objet de l'animation, on supprime une portée à l'aide de la méthode <code>remove</code>&nbsp;:</p>
+
+<pre><code>NEW_STAFF(SOL)
+# =&gt; Crée une premiere portée
+STAFF(1).remove()
+# =&gt; Détruit la première portée
+</code></pre>
+
+<p>Attention cependant à un certain point&nbsp;: chaque fois qu'une portée supérieure est supprimée, l'indice des portées suivante est modifiée, pour tenir compte SEULEMENT des portées de l'animation courante.</p>
+
+<p>Donc, si l'on a deux portées et que l'on veut les détruire les deux, le code suivant produira une erreur&nbsp;:</p>
+
+<pre><code>NEW_STAFF(SOL)
+NEW_STAFF(FA)
+....
+STAFF(1).remove()
+STAFF(2).remove()
+=&gt; !ERREUR : la première portée ayant été détruite, la portée d'indice `2` n'existe pas !
+</code></pre>
+
+<p>Il convient donc écrire&nbsp;:</p>
+
+<pre><code>STAFF(1).remove()
+STAFF(1).remove()
+</code></pre>
+
+<p>Ou pour la clarté du code&nbsp;:</p>
+
+<pre><code>STAFF(2).remove()
+STAFF(1).remove()
+# =&gt; OK
+</code></pre>
+
+<p>Il en va de même, évidemment pour l'écriture de tout autre élément sur une portée après la suppression de portée supérieures.</p>
+
 <hr />
 
 <p><a name="les_gammes"></a></p>
@@ -1587,7 +1667,7 @@ maNote.write("Une seconde !")
 <li><a href="#create_texte_animation">Créer un texte pour l'animation</a></li>
 <li><a href="#create_texte_objet">Créer un texte pour un objet</a></li>
 <li><a href="#ecrire_texte_portee">Créer un texte pour la portée (section “Portée”)</a></li>
-<li><a href="#creer_captions">Créer des sous-titres (réels ou d'aide)</a></li>
+<li><a href="#creer_captions">Créer des sous-titres (réels ou doublage)</a></li>
 </ul>
 </li>
 <li><a href="#set_position_texte">Définir les positions des textes</a></li>
@@ -1627,6 +1707,8 @@ maNote.write("Une seconde !")
   <dd>Écrit le texte sous la portée, à la position courante, sous forme de marque cadentielle (donc avec des traits "__|" pour marquer la fin de la partie). Cf. <a href="#text_cadence">Écrire une cadence</a>.</dd>
   <dt>modulation</dt>
   <dd>Écrit le texte pour une modulation, au-dessus de la portée et de travers. Cf. <a href="#text_modulation">Écrire une modulation</a>.</dd>
+  <dt>part</dt>
+  <dd>Pour la marque d'une partie. Cf. <a href="#text_partie">Écrire une marque de partie<a></dd>
 </dl>
 
 
@@ -1755,6 +1837,82 @@ monAccord.modulation('Sol')
 
 <p><em>Pour le positionnement de la marque de modulation cf. <a href="#prefs_position_modulation">Réglage de la position de la marque de modulation</a>.</em></p>
 
+<p><a name="text_partie"></a></p>
+
+<h3>Écrire une marque de partie</h3>
+
+<p>Utiliser la méthode <code>part</code> sur un note, un accord etc. pour placer une marque de partie, avec en premier argument le nom de la partie et en second argument les paramètres optionnels.</p>
+
+<pre><code>&lt;porteur&gt;.part(&lt;nom de partie&gt;[, &lt;parametres&gt;])
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maMelodie = MOTIF('c3 c3 e3 d3 c3')
+maMelodie.note(3).part(coda)
+</code></pre>
+
+<p>… écrira la partie “CODA” sur la troisième note de la mélodie.</p>
+
+<p>Autre exemple&nbsp;:</p>
+
+<pre><code>STAFF(1).part(pont,{offset_x:10})
+</code></pre>
+
+<p>… écrira la marque de partie “PONT” sur la première portée (<code>STAFF(1)</code>) en la déplaçant de 10px vers la droite par rapport à la position courante du curseur de position.</p>
+
+<h4>Paramètres</h4>
+
+<p>Comme pour la plupart des méthodes, les paramètres se mettent entre crochets. Ces paramètres sont les suivants&nbsp;:</p>
+
+<p>PART("Refrain",{
+  offset_x   : décalage horizontal de la marque,
+  offset_y   : décalage vertical de la marque,
+})</p>
+
+<h4>Constantes partie</h4>
+
+<p>On peut utiliser ces constantes comme premier argument&nbsp;:</p>
+
+<pre><code>  La marque…            … écrira :
+  ---------------------------------
+  exposition            EXPOSITION
+  expo                  EXPO.
+  developpement         DÉVELOPPEMENT
+  development           DEVELOPMENT
+  dev                   DEV.
+  pont                  PONT
+  coda                  CODA
+  themea                THÈME A
+  tha                   TH. A
+  themeb                THÈME B
+  thb                   TH. B
+  themec                THÈME C
+  thc                   TH. C
+  refrain               REFRAIN
+  couplet               COUPLET
+</code></pre>
+
+<p>Si le nom de la partie n'est pas une constante, il faut la mettre entre guillemets.</p>
+
+<h4>Réglage de la position de la marque de partie</h4>
+
+<p>On peut régler de façon absolue la marque de partie grâce à&nbsp;:</p>
+
+<pre><code>DEFAULT('part_y', &lt;position verticale&gt;)
+DEFAULT('part_x', &lt;position horizontale&gt;)
+</code></pre>
+
+<p>On peut la définir par rapport au décalage actuel avec&nbsp;:</p>
+
+<pre><code>DEFAULT('offset_part_y', &lt;decalage vertical&gt;)
+DEFAULT('offset_part_x', &lt;decalage horizontal&gt;)
+</code></pre>
+
+<p>On peut bien entendu, très ponctuellement, ajuster la position de la marque dans les paramètres envoyés à la méthode <code>part</code> (second argument), avec <code>offset_x</code> et <code>offset_y</code>.</p>
+
+<p><em>Comme pour tout décalage vertical, une valeur positive éloigne de la portée tandis qu'une valeur négative rapproche de la portée.</em></p>
+
 <p><a name="create_texte_animation"></a></p>
 
 <h3>Créer un texte pour l'animation</h3>
@@ -1778,6 +1936,16 @@ maNote.write("C'est un LA 4")
 
 <h3>Créer des sous-titres</h3>
 
+<p><em><a href="#commande_caption">La commande <code>CAPTION</code></a>
+</em><a href="#use_caption_as_soustitres">Utilisation de sous-titre au lieu de doublage</a>
+<em><a href="#affichage_temporised_doublage">Affichage temporisé du doublage</a>
+</em><a href="#desactiver_doublage_temporised">Désactiver le doublage temporisé</a>]
+*<a href="#effacer_caption">Effacer le sous-titre ou le doublage</a></p>
+
+<p><a name="commande_caption"></a></p>
+
+<h4>La commande <code>CAPTION</code></h4>
+
 <p>On peut vouloir créer des sous-titres pour deux raisons principales&nbsp;:</p>
 
 <ol>
@@ -1792,6 +1960,10 @@ maNote.write("C'est un LA 4")
 </code></pre>
 
 <p>Cette commande affiche le texte <code>&lt;texte&gt;</code> à l'écran en respectant les paramètres optionnels <code>&lt;parameters&gt;</code>.</p>
+
+<p><a name="use_caption_as_soustitres"></a></p>
+
+<h4>Utilisation de sous-titres au lieu de doublages</h4>
 
 <p>Par défaut, le texte s'affichera comme un texte de doublage, donc hors de l'écran. Pour utiliser vraiment, PENDANT TOUTE L'ANIMATION, le texte en sous-titre (à l'intérieur de l'animation), alors définir&nbsp;:</p>
 
@@ -1816,11 +1988,53 @@ CAPTION("Mon sous-titre", {caption:true})
 CAPTION("Mon sous-titre", true)
 </code></pre>
 
+<p><a name="affichage_temporised_doublage"></a></p>
+
+<h4>Affichage temporisé du doublage</h4>
+
+<p>Il est possible, au lieu d'afficher le texte des doublages comme un bloc, de les faire apparaitre petit à petit, au rythme de la parole.</p>
+
+<p>Pour ce faire, ajouter au début de l'animation (ou à l'endroit où devra être activé cette fonctionnalité)&nbsp;:</p>
+
+<pre><code>DEFAULT('caption_timer', true)
+</code></pre>
+
+<p>On peut régler le débit de parole avec&nbsp;:</p>
+
+<pre><code>DEFAULT('caption_debit', &lt;valeur&gt;)
+</code></pre>
+
+<p>… où <code>&lt;valeur&gt;</code> est 1 par défaut, et le débit augmente à mesure que la valeur augmente et diminue quand la valeur se trouve entre 0 et 1 (p.e. <code>0.5</code> pour aller deux fois moins vite).</p>
+
+<p>Quand le doublage est temporisé, on peut ajouter le paramètres <code>wait</code> au 2e argument de la commande <code>CAPTION</code>, ce qui aura pour effet de faire patienter l'animation en attendant que le texte soit dit.</p>
+
+<pre><code>CAPTION("Mon doublage temporisé", {wait:true})
+</code></pre>
+
+<p>Dans le cas contraire, l'animation passera à l'étape suivante tout en écrivant le texte de façon temporisé.</p>
+
+<p><a name="desactiver_doublage_temporised"></a></p>
+
+<h4>Désactiver le doublage temporisé</h4>
+
+<p>Pour désactiver le double temporisé à un moment de l'animation, écrire à l'endroit où la fonctionnalité doit être désactivée&nbsp;:</p>
+
+<pre><code>DEFAULT('caption_timer', false)
+</code></pre>
+
+<p><a name="effacer_caption"></a></p>
+
 <h4>Effacer le sous-titre ou le doublage</h4>
 
-<p>Pour effacer le sous-titre ou le doublage, utiliser un texte vide en premier argument. Par exemple, pour effacer le sous-titre actif&nbsp;:</p>
+<p>Pour effacer le sous-titre ou le doublage, appeler la méthode sans argument ou utiliser un texte vide en premier argument. Par exemple, pour effacer le sous-titre actif&nbsp;:</p>
 
 <pre><code>CAPTION("", {caption:true})
+CAPTION("", true)
+</code></pre>
+
+<p>Pour effacer le doublage&nbsp;:</p>
+
+<pre><code>CAPTION()
 </code></pre>
 
 <p><a name="set_position_texte"></a></p>
@@ -1982,13 +2196,13 @@ maNote.texte['regular'].hide()
 <p>Les paramètres peuvent être les suivants&nbsp;:</p>
 
 <pre><code>monImg=IMAGE({
-  url     : &lt;chemin vers image&gt; SEUL ATTRIBUT OBLIGATOIRE
+  url     : &lt;chemin vers image&gt; ATTRIBUT OBLIGATOIRE
   x       : &lt;position horizontale dans l'animation&gt;
   left    : // comme `x`, utiliser l'un ou l'autre
   y       : &lt;position verticale dans l'animation&gt;
   top     : // comme `y`, utiliser l'un ou l'autre
-  width   : &lt;taille de l'image&gt;
-  height  : &lt;hauteur de l'image&gt;
+  width   : &lt;taille de l'image|auto&gt;      ATTRIBUT OBLIGATOIRE 
+  height  : &lt;hauteur de l'image|auto&gt;     ATTRIBUT OBLIGATOIRE
   // Propriétés spéciales pour le cadrage, lorsque l'on ne veut pas
   // utiliser toute l'image, mais seulement une portion de l'image
   cadre_width     : &lt;largeur de la portion à prendre dans l'image&gt;
@@ -2000,7 +2214,9 @@ maNote.texte['regular'].hide()
 
 <p><em>Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).</em></p>
 
-<p>Pour des informations concernant le “cadre”, cf. <a href="#modify_cadrage_image">Modifier le cadrage de l'image</a>.</p>
+<p>Noter que le <code>width</code> et le <code>height</code> sont obligatoires (c'est à moitié vrai, puisque s'ils ne sont pas fournis, c'est la taille de l'image qui est prise en référence). Leur valeur peut être <code>auto</code> et dans ce cas elle est calculée automatiquement par rapport à la valeur qui est fournie.</p>
+
+<p>Pour des informations concernant le “recadrage de l'image”, cf. <a href="#modify_cadrage_image">Modifier le cadrage de l'image</a>.</p>
 
 <p>Noter que l'image est aussitôt construite est insérée dans l'animation avec les paramètres fournis, sauf si <code>build:false</code> est ajouté aux paramètres définissant l'image (cf. <a href="#dont_build_image">Ne pas construire l'image</a>).</p>
 
@@ -2066,7 +2282,7 @@ monImage.move({paramètres du déplacement})
 
 <p>Pour recadrer ou cadrer une image&nbsp;:</p>
 
-<p>Si l'image est affichée (par exemple en fin d'animation ou après une pause), il suffit de double-cliquer dessus pour l'éditer.</p>
+<p>Si l'image est affichée (par exemple en fin d'animation ou après une pause), il suffit de double-cliquer dessus pour l'éditer (<em>Noter qu'il ne faut pas que la grille soit affichée pour pouvoir double-cliquer sur l'image. Pour masquer la grille : “Options > Masquer la grille”</em>).</p>
 
 <p>Dans le cas contraire&nbsp;:</p>
 
@@ -2383,6 +2599,8 @@ maNote.arrow.remove() &lt;--
 <li>Régler le paramètre avec la valeur estimée et essayer.</li>
 </ol>
 
+
+<p>Noter qu'on peut aussi, grâce à l'outil “Coordonnées” obtenir les coordonnées exacts des éléments à l'écran (cf. <a href="#outil_coordonnees">Outil “Coordonnées”</a>).</p>
 
 <p><a name="prefs_staves"></a></p>
 
