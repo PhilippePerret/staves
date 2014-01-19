@@ -1355,7 +1355,7 @@ Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuit
 *[La commande `CAPTION`](#commande_caption)
 *[Utilisation de sous-titre au lieu de doublage](#use_caption_as_soustitres)
 *[Affichage temporisé du doublage](#affichage_temporised_doublage)
-*[Désactiver le doublage temporisé](#desactiver_doublage_temporised)]
+*[Désactiver le doublage temporisé](#desactiver_temporize)]
 *[Effacer le sous-titre ou le doublage](#effacer_caption)
 
 <a name="commande_caption"></a>
@@ -1416,7 +1416,7 @@ Quand le doublage est temporisé, on peut ajouter le paramètres `wait` au 2e ar
     
 Dans le cas contraire, l'animation passera à l'étape suivante tout en écrivant le texte de façon temporisé.
 
-<a name="desactiver_doublage_temporised"></a>
+<a name="desactiver_temporize"></a>
 ####Désactiver le doublage temporisé
 
 Pour désactiver le double temporisé à un moment de l'animation, écrire à l'endroit où la fonctionnalité doit être désactivée&nbsp;:

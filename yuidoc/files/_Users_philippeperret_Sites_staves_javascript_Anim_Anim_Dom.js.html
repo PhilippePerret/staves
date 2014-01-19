@@ -384,9 +384,9 @@ Anim.Dom = {
         this.mots_doublage = texte.trim().split(&#x27; &#x27;)
         this.imot_doublage = 0
         $(&#x27;div#doublage&#x27;).html(&#x27;&#x27;)
-        if(params.wait) this.doublage_temporised.poursuivre = NEXT_STEP
+        if(params.wait) this.temporize.poursuivre = NEXT_STEP
         // dlog(this.mots_doublage)
-        this.doublage_temporised()
+        this.temporize()
       }
       else obj.html(texte.trim())
     }
@@ -397,7 +397,7 @@ Anim.Dom = {
     if(is_caption) $(&#x27;div#caption&#x27;)[montrer?&#x27;show&#x27;:&#x27;hide&#x27;]()
     if(!params.wait) NEXT_STEP(notimeout=true)
   },
-  doublage_temporised:function()
+  temporize:function()
   {
     if(this.timer_doublage) clearTimeout(this.timer_doublage)
     if(mot = this.mots_doublage.shift())
@@ -407,11 +407,11 @@ Anim.Dom = {
       $(&#x27;div#doublage &gt; span#spanmot&#x27;+this.imot_doublage).show(400)
       
       var duree = parseInt(Math.ceil(mot.length / 3) * 200, 10)
-      this.timer_doublage = setTimeout($.proxy(Anim.Dom.doublage_temporised, Anim.Dom), duree)
+      this.timer_doublage = setTimeout($.proxy(Anim.Dom.temporize, Anim.Dom), duree)
     }
     else
     {
-      if(this.doublage_temporised.poursuivre) this.doublage_temporised.poursuivre()
+      if(this.temporize.poursuivre) this.temporize.poursuivre()
     }
   },
   /**

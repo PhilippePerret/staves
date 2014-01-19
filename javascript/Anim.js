@@ -472,7 +472,7 @@ $.extend(window.Anim,{
     // Il faut ré-initialiser la grid après avoir re-défini current_x, car
     // la grid s'en sert pour replacer le curseur de position.
     this.Grid.init_all()
-    this.Dom.init_doublage()   // Effacer doublage et sous-titre
+    this.Dom.Doublage.init()   // Effacer doublage et sous-titre
     dlog("<- Anim.reset")
   },
   /**

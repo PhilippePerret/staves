@@ -24,9 +24,18 @@ div#doublage, div#caption > span#caption_text {
 }
 div#doublage {
   left        : 20px;
-  bottom      : 40px !important;
+  height      : 4em;
+  bottom      : 4px !important;
   width       : 860px;
-  color       : #FF74FF;
+  color       : yellow;
+  font-size   : 13.3pt;
+}
+/* Les DIV contenant chaque doublage */
+div#doublage > div {
+  position    : absolute ;
+  top         : 4px;
+  left        : 16px;
+  line-height : 1.4em;
 }
 div#caption {
   text-align  : center;

@@ -23,7 +23,7 @@ CAPTION(\"Suite aux précédents screencasts qui présentent les gammes et les a
 
 CAPTION(\"Pour cette première analyse, c\'est le premier prélude du livre 1 du clavecin bien tempéré de Bach qui va nous servir de support.\", {wait:true})
 
-CAPTION(\"Mais avant de commencer, il me semble important de se demander : “À quoi sert l\'analyse ?” Après tout, la beauté d\'une pièce se passe très bien de toute analyse, elle s\'entend…\", {wait:true})
+CAPTION(\"Mais avant de commencer, il me semble important de se poser cette question : “À quoi sert l\'analyse ?” Après tout, la beauté d\'une pièce se passe très bien de toute analyse, elle s\'entend…\", {wait:true})
 
 CAPTION(\"C\'est vrai. Si ce n\'est peut-être qu\'au plaisir auditif, l\'analyse peut révéler des choses qui ne sautent pas forcément aux oreilles.\", {wait:true})
 
@@ -56,7 +56,7 @@ WAIT(2)
 
 CAPTION(\"Toute bonne analyse procède du général au particulier. La première chose à faire quand on aborde une œuvre, encore plus lorsqu\'elle est courte comme celle-ci, c\'est de s\'en faire une idée générale.\", {wait:true})
 
-CAPTION(\"On va donc essayer de chercher tout ce qui caractérise la pièce dans son ensemble.\", {wait:true})
+CAPTION(\"On va donc essayer dans un premier temps de chercher tout ce qui caractérise la pièce dans son ensemble.\", {wait:true})
 
 CAPTION(\"Ici, les choses sont simples : En dehors de ses deux dernières mesures, ce prélude est intégralement constitué d\'arpèges ascendants, arpèges qui sont joués deux fois à l\'identique dans chaque mesure.\", {wait:true})
 
@@ -93,7 +93,7 @@ WAIT(10)
 # Mark de la CODA
 melodie.note(33).part(coda, {offset_x:10, offset_y:-10})
 
-CAPTION(\"Noter que je ne tiens pas compte ici de la coda, d\'un caractère mélodique très contrasté.\",{wait:true})
+CAPTION(\"Noter que je ne tiens pas compte ici de la coda, d\'un caractère mélodique très contrasté, même si elle ne fait qu\'extrapoler, enfler, le caractère descendant de la mélodie.\",{wait:true})
 
 STAFF(2).remove()
 STAFF(1).remove()
