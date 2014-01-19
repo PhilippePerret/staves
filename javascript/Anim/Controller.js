@@ -32,11 +32,8 @@ $.extend(Anim,{
     else if(this.pause_on)
     { // => redémarrage après pause
       this.play()
+      UI.chronometre.restart
     }
-    else if(this.on)
-    { // => Stop demandé
-      this.stop()
-    } 
     else
     { // Démarrage du jeu
       this.reset()
@@ -53,6 +50,7 @@ $.extend(Anim,{
       if(this.Step.list)
       { 
         this.play_preambule()
+        UI.chronometre.start
         this.play()
       }
     } 
@@ -140,6 +138,7 @@ $.extend(Anim,{
     */
   pause:function()
   {
+    UI.chronometre.pause
     this.pause_on = true
     this.set_interface()
   },
@@ -154,6 +153,7 @@ $.extend(Anim,{
   stop:function(forcer)
   {
     if(this.on == false) return // retardataires
+    UI.chronometre.stop
     this.on       = false
     this.pause_on = false
     this.kill_timer()

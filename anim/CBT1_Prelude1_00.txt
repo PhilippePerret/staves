@@ -78,7 +78,6 @@ NEW_STAFF(SOL, {top:129})
 
 melodie = MOTIF(\'e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 c4 a3 f3 f5 d5 b4 f4 e4\', {offset_x:34, speed:4})
 WAIT(1)
-WAIT(10)
 
 CAPTION(\"En effet, si nous ne prenons que les notes extrêmes de ce prélude, nous notons le parcours clairement descendant de la mélodie…\", {wait:true})
 
@@ -94,8 +93,7 @@ WAIT(10)
 # Mark de la CODA
 melodie.note(33).part(coda, {offset_x:10, offset_y:-10})
 
-CAPTION(\"Noter que je ne tiens pas compte ici de la coda, d\'un caractère mélodique très contrasté.\")
-WAIT(10)
+CAPTION(\"Noter que je ne tiens pas compte ici de la coda, d\'un caractère mélodique très contrasté.\",{wait:true})
 
 melodie.hide()
 STAFF(1).hide()

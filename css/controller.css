@@ -25,3 +25,9 @@ section#controller img.btn_controller {
   width             : 52px;
   vertical-align    : sub;
 }
+
+div#horloge {
+  position :absolute;
+  bottom   :16px;
+  left     :0px;
+}

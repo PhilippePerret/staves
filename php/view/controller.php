@@ -5,6 +5,7 @@
   <div id="decompte" style="display:none;"></div>
   <div class="buttons">
     <input type="hidden" id="play_type" value="all" />
+    <div id="horloge"></div>
     <span id="mark_play_type"></span>
     <img id="btn_anim_start" 
       src="img/bouton/start.png"

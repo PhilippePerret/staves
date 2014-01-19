@@ -32,6 +32,7 @@ $.extend(UI,{
     Console.set('')
     $('input[type="text"], textarea').bind('focus',function(){IN_TEXT_FIELD = true})
     $('input[type="text"], textarea').bind('blur',function(){IN_TEXT_FIELD = false})
+    this.chronometre = Horloge.create()
   },
   /**
     * Retourne la vraie largeur de l'objet DOM +obj+ en tenant compte de

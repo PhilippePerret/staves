@@ -92,6 +92,7 @@ $.extend(window.Console,{
   select:function(params)
   {
     Selection.select(this.console, {start:params.start, end:params.end})
+    if(params.blur) this.console[0].blur()
   },
   
   /**

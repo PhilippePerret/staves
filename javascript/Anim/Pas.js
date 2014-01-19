@@ -154,11 +154,14 @@ $.extend(Pas.prototype,{
   },
   /**
     * Sélectionne l'étape dans le code
+    * Notes
+    *   * On blure tout de suite de la console pour ne pas effacer le code
+    *     sélectionné avec le raccourci SPACE (pour arrêter l'animation)
     * @method select
     */
   select:function()
   {
-    Console.select({start:this.offset_start, end:this.offset_end})
+    Console.select({start:this.offset_start, end:this.offset_end, blur:true})
   }
   
 })
