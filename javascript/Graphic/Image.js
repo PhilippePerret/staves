@@ -12,7 +12,6 @@ window.IMAGE = function(params)
   if(undefined != params.x){ params.left = params.x; delete params.x }
   if(undefined != params.y){ params.top  = params.y; delete params.y }
   var image = new Img(params)
-  if(!Img.virtual_operation) image.build()
   return image
 }
 
@@ -34,9 +33,10 @@ window.IMAGE = function(params)
 window.Img = function(params)
 {
   /** Identifiant absolu de l'image
+    * Mais c'est une propriété complexe qui est calculée d'après l'url
     * @proprety {String} id
     */
-  this.id   = 'img'+(new Date()).getTime()
+  // this.id   = 'img'+(new Date()).getTime()
   
   /**
     * Position horizontale de l'image
@@ -85,16 +85,19 @@ window.Img = function(params)
   var me = this
   L(params || {}).each(function(k,v){me[k] = v})
   
-  Img.add(this)
-  
-  /*
-   *  Si les dimensions ne sont pas fournies, il faut les calculer
-   *  afin de pouvoir les appliquer au DIV qui contient l'image. Dans
-   *  le cas contraire, l'image serait tout simplement invisible.
-   */
-  if(!this.width || this.width == auto || !this.height || this.height == auto)
+  if(!this.abs /* Instanciation d'une image non "absolue" */)
   {
-    this.calcule_width_and_height()
+    Img.add(this)
+    if(!this.width  || this.width  == auto || !this.height || this.height == auto)
+    {
+      this.calc_width_and_height()
+    }
+    this.build()
+  }
+  else
+  { // => Pour une image "absolue"
+    Img.abs_add(this)
+    $('body').append(this.abs_code_html)
   }
 }
 /* ---------------------------------------------------------------------
@@ -102,32 +105,87 @@ window.Img = function(params)
  --------------------------------------------------------------------- */
 $.extend(Img,{
   /**
-    * Liste {Object} des images instanciées
+    * Table {Object} des instances uniques d'image
+    * Notes : lire la première note de la propriété `list` suivante
+    * Key   : L'identifiant “absolu” de l'image, calculé par rapport à son URL
+    * Value : L'instance {Img}. Noter que cette instance est "virtuelle", elle
+    *             n'est pas utilisée au cours du jeu de l'animation.
+    * @property {Object} abs_list
+    */
+  abs_list:{},
+  /**
+    * Table {Object} des images instanciées
+    * Notes
+    * -----
+    *   * Il faut bien comprendre la différence entre ce `list` et `images_list`.
+    *     La première (cette propriété) contient les instances d'images utilisées
+    *     pour l'animation, en considérant qu'une même image (même URL) peut être
+    *     utilisée plusieurs fois, et pour chaque utilisation doit avoir une instance
+    *     distincte. Revanche, la table `abs_list` contient de façon unique toutes
+    *     les images qui sont utilisées par l'animation et est établie à la pré-estimation
+    *     du code (pas son exécution)
+    *
     * En clé l'identifiant de l'image et en valeur l'instance image.
     * @property {Object} images
     */
   list:{},
   /**
-    * Détermine une opération virtuelle en cours, c'est-à-dire une opération
-    * dont les résultats ne doivent pas être affichés. 
-    * On en a besoin par exemple lors de la relève des images dans le code, où
-    * les lignes créant des images sont interprétés, mais il ne faut pas construire
-    * les images comme le ferait la fonction IMAGE.
-    * Note
-    * ----
-    *   * Le lancement de l'animation remet automatiquement ce paramètre à false.
-    * @property {Boolean} virtual_operation
-    * @default false
+    * Retourne l'identifiant pour l'url +url+
+    * @method idAbsFromUrl
+    * @param {String} url   L'URL de l'image
     */
-  virtual_operation:false,
+  idAbsFromUrl:function(url)
+  {
+    return url.replace(/[\/ '"\>\<\.]/g,'_')
+  },
+  /**
+    * Ajoute une instance absolue d'image à la liste absolue
+    * @note Contrairement à la méthode `add` l'image est ajoutée à
+    *       la table `abs_list` et sa clé est son `abs_id`
+    * @method abs_add
+    * @param {Img} image  L'instance de l'image à ajouter
+    */
+  abs_add:function(image)
+  {
+    this.abs_list[image.abs_id] = image
+  },
   /**
     * Ajoute une image à la liste des images
+    * @note Contrairement à la méthode `abs_add` l'image est ajoutée à
+    *       la table `list` et sa clé est son `id` unique
     * @method add
     * @param {Img} image  L'instance de l'image
     */
   add:function(image)
   {
     this.list[image.id] = image
+  },
+  /**
+    * Méthode qui "pré-charge" l'image (quand le pas est une image — is_image)
+    * afin qu'elle soit pleinement disponible au moment où le code sera joué.
+    * Notes
+    * -----
+    *   * La méthode est utilisée au moment de la transformation du code en instances
+    *     {Pas}. À la fin de cette transformation, on fait un tour des images et on
+    *     attend qu'elles sont toutes chargées.
+    *   * La méthode tient compte du fait que l'image a déjà pu être pré-loadée
+    * @method preload_image
+    * @protected
+    */
+  preload_image_of_code:function(code)
+  {
+    var found, url, absid ;
+    if(found=code.match(/IMAGE\((.*)\)/))
+    {
+      if(url=found[1].replace(/ +/, ' ').match(/['"]?url['"]? ?: ?['"]([^'"]+)['"] ?,/))
+      {
+        url = url[1]
+        dlog("URL IMAGE:'"+url+"'")
+        absid = Img.idAbsFromUrl(url)
+        if(undefined == Img.abs_list[absid]) new Img({url:url, abs:true})
+        // Ce code force l'affichage hors-champ de l'image pour calcul de sa taille.
+      }
+    }
   },
   /**
     * Retourne le code HTML pour un listing des images utilisées en version
@@ -138,7 +196,7 @@ $.extend(Img,{
     * -----
     *   Dans un premier temps, la méthode ne liste que les images instanciées au
     *   moment où le menu est activé. Mais un bouton "Chercher toutes les images"
-    *   permet de cherche dans le code toutes les images.
+    *   permet de chercher dans le code toutes les images.
     *
     * @method listing_html
     * @param {String} onclick   La méthode (d'instance) invoquée quand on clique sur l'image dans le listing construit
@@ -151,9 +209,10 @@ $.extend(Img,{
   {
     if(undefined == params) params = {}
     var c = "", inststr ;
-    L(this.list).each(function(iid, image){
-      inststr = "Img.list['"+iid+"']"
-      c += '<img src="'+image.url+'" style="width:120px;" onclick="$.proxy('+inststr+'.'+onclick+', '+inststr+')()" />'
+    L(this.abs_list).each(function(absid, image){
+      inststr = "Img.abs_list['"+absid+"']"
+      if($('img#img'+absid).length) return
+      c += '<img id="img'+absid+'" src="'+image.url+'" style="width:120px;" onclick="$.proxy('+inststr+'.'+onclick+', '+inststr+')()" />'
     })
     if(!params.all_done)
     {
@@ -163,7 +222,7 @@ $.extend(Img,{
       c += '<div><input type="button" value="Chercher toutes les images dans le code" '+
             'onclick="$.proxy(Img.find_all_images_in_code, Img, '+prox+')()" /></div>'
     }
-    return '<div id="tool_listing_images">'+c+'</div>'
+    return '<div id="tool_listing_images"><hr />'+c+'</div>'
   },
   /**
     * Méthode qui actualise le listing HTML des images
@@ -181,19 +240,77 @@ $.extend(Img,{
     * Fonctionnement
     * --------------
     *   * La méthode passe simplement en revue toutes les lignes de code, repère
-    *     celles contenant "IMAGE" est les exécute.
+    *     celles contenant "IMAGE" et les exécute.
     *
     * @method find_all_images_in_code
     * @param {Function} poursuivre  La méthode pour suivre
     */
   find_all_images_in_code:function(poursuivre)
   {
-    this.virtual_operation = true // pour empêcher la fabrication des images
     L(Console.get_code(null, null, true)).each(function(line){
       if(line.indexOf('IMAGE') < 0 ) return
-      eval('Anim.Objects.'+line)
+      Img.preload_image_of_code( line )
     })
-    if('function'==typeof poursuivre) poursuivre()
+    this.get_taille_all_images.complete = poursuivre
+    this.get_taille_all_images()
+  },
+ 
+  /**
+    * Méthode asynchrone qui relève les dimensions de toutes les images de
+    * l'animation et renseigne leurs instances dans `Img.abs_list`.
+    * La méthode est appelée après la relève de toutes les images dans le code
+    * au moment de la pré-estimation ou lorsque l'édition des images est demandée
+    * Notes
+    * -----
+    *   * Si une méthode this.get_taille_all_images.complete est définie, elle est
+    *     appelée lorsque la taille de toutes les images a été relevée
+    *
+    * @method get_taille_all_images
+    */
+  get_taille_all_images:function()
+  {
+    
+    if(undefined == this.absids_images_not_traited)
+    {
+      this.absids_images_not_traited = L(this.abs_list).collect(function(absid,img){return absid})
+      dlog("Liste des ids absolus des images dont il faut prendre la taille : "+this.absids_images_not_traited)
+    }
+    else if(this.abs_timer) clearTimeout(this.abs_timer)
+    
+    var len = this.absids_images_not_traited.length
+    var new_list = []
+    for(var i=0; i<len; ++i)
+    {
+      var abs_id = this.absids_images_not_traited[i]
+      var image  = this.abs_list[abs_id]
+      if(image.abs_obj.length == 0) $('body').append(image.abs_code_html)
+      else if(image.width && image.height) continue // image traitée
+      if(false == image.get_width_and_height())
+      {
+        new_list.push(abs_id)
+      }
+    }
+    if(new_list.length)
+    { // => Il reste des images dont on n'a pas la taille
+      // => On rappelle cette méthode après un court instant
+      this.absids_images_not_traited = new_list
+      this.abs_timer = setTimeout($.proxy(this.get_taille_all_images, this), 200)
+    }
+    else
+    {
+      // C'est la fin, on a pu relever la taille de toutes les images
+      this.remove_images_absolues()
+      if(this.get_taille_all_images.complete) this.get_taille_all_images.complete()
+    }
+  },
+  /**
+    * Méthode qui détruit tous les objets DOM des images absolues après
+    * relève de leur taille.
+    * @method remove_images_absolues
+    */
+  remove_images_absolues:function()
+  {
+    L(this.abs_list).each(function(id,image){image.abs_obj.remove()})
   }
 })
 /* Fin méthodes et propriétés de classe
@@ -318,62 +435,57 @@ $.extend(Img.prototype,{
     return this
   }
 
-
-
 })
 /* === Protected Methods === */
 $.extend(Img.prototype,{
-  /** Méthode qui calcule le `width` et le `height` (obligatoire) de l'image
-    * lorsqu'une des deux valeurs n'a pas été définie ou qu'un ou deux valeurs
-    * sont à 'auto'.
-    * @method calcule_width_and_height
+  /**
+    * Lorsque qu'une des deux valeurs width ou height n'est pas fournie au cours
+    * de l'animation, on la calcule avec cette méthode.
+    * @method calc_width_and_height
     */
-  calcule_width_and_height:function(image_size)
+  calc_width_and_height:function()
   {
-    // Note : dans tous les cas, il faut prendre la taille réelle de l'image
-    // Procédé : on l'affiche hors de l'écran et on prend ses dimensions
-    if(undefined == image_size)
-    {
-      return this.real_taille_image()
-    }
+    // L'image absolue de référence
+    var abs_image = Img.abs_list[this.abs_id]
+    
+    // Lorsqu'il faut calculer la hauteur d'après la largeur fournie
     if(this.width && this.width != auto)
     { // => la largeur (width) est définie
-      this.height = (this.width / image_size.width) * image_size.height
+      this.height = (this.width / abs_image.width) * abs_image.height
     }
+    // Lorsqu'il faut calculer la largeur d'après la hauteur fournie
     else if(this.height && this.height != auto)
     { // => la hauteur (height) est définie
-      this.width = (this.height / image_size.height) * image_size.width
+      this.width = (this.height / abs_image.height) * abs_image.width
     }
     else
     { // => les deux valeurs sont à auto, ou non définies
-      this.width  = image_size.width
-      this.height = image_size.height
+      this.width  = abs_image.width
+      this.height = abs_image.height
     }
   },
-  /**
-    * Méthode qui retourne la vraie taille absolue de l'image
-    * Pour ce faire, elle l'affiche provisoirement (hors écran), et relève
-    * ses dimensions.
-    * @method real_taille_image
-    * @return {Object} Un objet définissant {width:, height:}
-  */
-  real_taille_image:function()
+  /** Méthode qui relève le `width` et le `height` de l'image dans son
+    * inscription hors écran. Return false si l'image n'est pas encore
+    * chargée et que sa taille ne peut être relevée. Sinon, renseigne
+    * les propriétés width et height
+    * Notes
+    * -----
+    *   * Cette méthode ne doit être utilisée QUE sur les instances "absolues"
+    *     des images. Pour une instance d'image en cours d'animation, utiliser
+    *     calc_width_and_height.
+    *
+    * @method get_width_and_height
+    */
+  get_width_and_height:function()
   {
-    if($('img#img_prov').length == 0)
-    {
-      $('body').append('<img id="img_prov" src="'+this.url+'" style="position:absolute;top:-4000px;left:-4000px;" />')
-    }
-    var width_image   = $('img#img_prov').width()
-    if(!width_image)
-    {
-      this.timer = setTimeout($.proxy(this.real_taille_image, this), 200)
-      return
-    }
-    if(this.timer){clearTimeout(this.timer); delete this.timer;}
-    width_image = UI.css2number(width_image)
-    var height_image  = UI.css2number($('img#img_prov').height())
-    $('img#img_prov').remove()
-    this.calcule_width_and_height({width: width_image, height:height_image})
+    var width   = UI.css2number(this.abs_obj.width())
+    var height  = UI.css2number(this.abs_obj.height())
+    
+    if(width == 0 || height == 0) return false
+    
+    this.width  = width
+    this.height = height
+    
   },
   /**
     * Construit l'image (et passe à l'étape suivante)
@@ -390,6 +502,7 @@ $.extend(Img.prototype,{
     */
   edit:function()
   {
+    UI.Tools.hide_section()
     ImageTool.edit( this )
   },
   /**
@@ -419,6 +532,35 @@ $.extend(Img.prototype,{
 })
 Object.defineProperties(Img.prototype,{
   /**
+    * Identifiant unique de l'image
+    * @note Il n'est pas à confondre avec l'identifiant absolu calculé
+    *       d'après l'URL de l'image
+    * @property {String} id
+    */
+  "id":{
+    get:function(){
+      if(undefined == this._id)
+      {
+        this._id = this.abs_id + (new Date()).getTime()
+      } 
+      return this._id
+    }
+  },
+  /**
+    * Identifiant absolu de l'image, calculé d'après son URL seule
+    * Noter que toutes les instances d'image en cours d'animation qui possèdent
+    * la même URL (les mêmes images) possèdent le même abs_id qui fait référence
+    * à leur clé dans Img.abs_list, la liste des instances uniques d'images de
+    * l'animation (où une image de même URL possède une instance unique)
+    * @property {String} abs_id
+    */
+  "abs_id":{
+    get:function(){
+      if(undefined == this._abs_id) this._abs_id = Img.idAbsFromUrl(this.url)
+      return this._abs_id
+    }
+  },
+  /**
     * URL de l'image (locale ou distante)
     * @property {String} url
     */
@@ -429,12 +571,25 @@ Object.defineProperties(Img.prototype,{
     },
     get:function(){ return this._url}
   },
-  
   /**
-    * Le DIV contenant l'image
+    * Identifiant DOM pour le DIV contenant l'image de l'animation
+    * @property {String} dom_id
+    */
+  "dom_id":{
+    get:function(){return "divimg-"+this.id}
+  },
+  /**
+    * Le DIV contenant l'image (instance normale d'animation)
     * @property {jQuerySet} obj
     */
-  "obj":{get:function(){return $('div#divimage-'+this.id)}},
+  "obj":{get:function(){return $('div#'+this.dom_id)}},
+  /**
+    * Objet DOM de l'image absolue
+    * @property {jQuerySet} abs_obj
+    */
+  "abs_obj":{
+    get:function(){return $('img#'+this.abs_id)}
+  },
   /**
     * DOM Object de l'image (balise img)
     * @property {jQuerySet} image
@@ -442,7 +597,15 @@ Object.defineProperties(Img.prototype,{
   "image":{get:function(){return $('img#'+this.id)}},
   
   /**
-    * Code HTML de l'image
+    * Code HTML pour l'image absolue
+    */
+  "abs_code_html":{
+    get:function(){
+      return '<img id="'+this.abs_id+'" src="'+this.url+'" style="position:absolute;top:-4000px;left:-4000px;"/>'
+    }
+  },
+  /**
+    * Code HTML de l'image (instance d'animation, PAS absolu)
     * @property {HTMLString} code_html
     */
   "code_html":
@@ -460,7 +623,7 @@ Object.defineProperties(Img.prototype,{
       if(this.cadre_offset_x) styleimg.push('left:-'+this.cadre_offset_x+'px')
       if(this.cadre_offset_y) styleimg.push('top:-'+this.cadre_offset_y+'px')
       
-      return  '<div id="divimage-'+this.id+'" class="divimage" style="'+stylediv.join(';')+'">'+
+      return  '<div id="'+this.dom_id+'" class="divimage" style="'+stylediv.join(';')+'">'+
                 '<img id="'+this.id+'" class="image" src="'+this.url+'" style="'+styleimg.join(';')+'" />'+
               '</div>'
     }

@@ -25,6 +25,7 @@ $.extend(Anim,{
     * @param  {Object} params   Paramètres optionnels
     */
   start:function(params){
+    dlog("-> Anim.start (in Controller.js)")
     if(this.on && this.Step.mode_pas_a_pas)
     { // En cours de jeu en mode pas à pas
       this.Step.next()
@@ -35,7 +36,7 @@ $.extend(Anim,{
       UI.chronometre.restart
     }
     else
-    { // Démarrage du jeu
+    { // === DÉMARRAGE DE L'ANIMATION ===
       this.reset()
       this.Step.list = function(playtype){
         switch(playtype)
@@ -48,12 +49,25 @@ $.extend(Anim,{
         }
       }(this.play_type)
       if(this.Step.list)
-      { 
-        this.play_preambule()
-        UI.chronometre.start
-        this.play()
+      {
+        Img.get_taille_all_images.complete = $.proxy(this.post_start, this)
+        Img.get_taille_all_images()
       }
     } 
+  },
+  /**
+    * Méthode appelée lorsque la taille de toutes les images a été relevée
+    * @method post_start
+    */
+  post_start:function()
+  {
+    dlog("-> Anim.post_start (in Controller.js)")
+    if(this.Step.list)
+    { 
+      this.play_preambule()
+      UI.chronometre.start
+      this.play()
+    }
   },
   /**
     * Règle l'interface, soit pour le jeu, soit pour l'arrêt, soit pour la pause

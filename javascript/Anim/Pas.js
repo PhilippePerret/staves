@@ -162,7 +162,7 @@ $.extend(Pas.prototype,{
   select:function()
   {
     Console.select({start:this.offset_start, end:this.offset_end, blur:true})
-  }
+  }  
   
 })
 
@@ -222,8 +222,22 @@ Object.defineProperties(Pas.prototype,{
     */
   "is_setting":{
     get:function(){
-      return  this.trimed.substring(0,7) == "DEFAULT" || 
-              this.trimed.substring(0,6) == "SUITE("
+      if(undefined == this._is_setting)
+      {
+        this._is_setting =  this.trimed.substring(0,7) == "DEFAULT" || 
+                            this.trimed.substring(0,6) == "SUITE("
+      }
+      return this._is_setting
+    }
+  },
+  /**
+    * Return TRUE si le pas concerne une image (contient IMAGE)
+    * @property {Boolean} is_image
+    */
+  "is_image":{
+    get:function(){
+      if(undefined == this._is_image) this._is_image = this.code.indexOf('IMAGE') > -1;
+      return this._is_image
     }
   }
   

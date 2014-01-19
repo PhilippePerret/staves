@@ -112,6 +112,49 @@ $.extend(window.Console,{
     Anim.modified = true
     if(Anim.options.autosave) Anim.save()
   },
+  
+  /**
+    * Méthode qui reçoit une liste ou un string de code et le transforme
+    * en instances Pas.
+    * Notes
+    * -----
+    *   * La méthode gère aussi les images pour les charger tout de suite.
+    *
+    * @method code2pas
+    * @protected
+    * @param {String|Array} arr_lines   Le code brut ou une liste de strings
+    * @param {Object} params    Paramètres optionnels
+    *   @param {Number}  params.offset      La position initiale du curseur
+    *   @param {Array}   params.array       Éventuellement, la liste à laquelle les pas doivent être ajoutés
+    *   @param {Boolean} params.as_flash    Si true, le code envoyé est un code
+    *                                       à jouer en mode "flash" (rapide), et
+    *                                       donc une propriété `flashed` doit être mise à true
+    *                                       et certaines étapes sont passées.
+    * @return {Array of Pas} Liste des instances de Pas (étapes) correspondant au code
+    */
+  code2pas:function(arr_lines, params)
+  {
+    var pas, cur_offset ;
+    if(undefined == params) params = {}
+    if(undefined == params.offset)    params.offset   = 0
+    if(undefined == params.as_flash)  params.as_flash = false
+    if(undefined == params.array)     params.array    = []
+    if('string' == typeof arr_lines) arr_lines = arr_lines.split("\n")
+    dlog("\nDÉBUT de l'établissement des instances Pas dans Console.code2pas")
+    cur_offset = params.offset
+    L(arr_lines).each(function(line){
+      // On calcule les positions du curseur ici car en mode flash (as_flash),
+      // certaines étapes sont passées.
+      cur_start   = parseInt(cur_offset, 10)
+      cur_offset += line.length + 1
+      if(params.as_flash && line.match(/^(WAIT|CAPTION)/)) return
+      pas = new Pas({code:line, offset_start:cur_start, flashed: params.as_flash})
+      if(pas.is_image) Img.preload_image_of_code(pas.code)
+      params.array.push( pas )
+    })
+    dlog("/FIN de l'établissement des instances Pas dans Console.code2pas\n")
+    return params.array
+  }
 })
 
 Object.defineProperties(window.Console,{
@@ -152,13 +195,8 @@ Object.defineProperties(window.Console,{
     get:function(){
       if(undefined == this._etapes)
       {
-        this._etapes = []
-        var me = this, cur_offset = 0, pas ;
-        L(this.raw.split("\n")).each(function(line){
-          pas = new Pas({code:line, offset_start:cur_offset})
-          me._etapes.push( pas )
-          cur_offset += pas.length
-        })
+        Pas.last_id  = 0
+        this._etapes = this.code2pas(this.raw)
       }
       return this.expurge_preambule(this._etapes) // clone
     }
@@ -185,33 +223,13 @@ Object.defineProperties(window.Console,{
     get:function(){
       if( !this._steps_selection )
       { // => Première sélection (ou modification du code), on la calcule
-        var sel   = this.get_selection()
-        var steps = []
-        /* == On crée des instances d'étapes précédentes, en sautant
-              toutes celles qu'on peut passer 
-              On ajoute à toutes ces étapes la propriété `flashed` qui va
-              déterminer qu'elles doivent être interprétées le plus vite
-              possible.
-        */
         Pas.last_id = 0
-        var pas, cur_offset = 0 ;
-        L(this.get_code(0, sel.start, as_list=true)).each(function(line){
-          cur_start   = parseInt(cur_offset, 10)
-          cur_offset += line.length + 1
-          // Toutes les commandes qu'on peut passer
-          if(line.match(/^(WAIT|CAPTION)/)) return
-          pas = new Pas({code:line, offset_start:cur_start, flashed:true})
-          steps.push(pas)
-        })
-        // == On crée les instances étapes à partir desquelles jouer ==
-        cur_offset = parseInt(sel.start,10)
-        L(sel.content.split("\n")).each(function(line){
-          pas = new Pas({code:line, offset_start:cur_offset})
-          steps.push(pas)
-          cur_offset += pas.length
-        })
+        var sel   = this.get_selection()
+        // == Les étapes avant les étapes à vraiment jouer ==
+        var steps = this.code2pas(this.get_code(0, sel.start), {as_flash:true})
+        // == Les étapes à partir desquelles jouer ==
+            steps = this.code2pas(sel.content, {array:steps, cur_offset:parseInt(sel.start,10)})
         this._steps_selection = steps
-        
       }
       // Il faut renvoyer un clone car l'exécution des étapes mange (shift) dans
       // cette liste renvoyée.

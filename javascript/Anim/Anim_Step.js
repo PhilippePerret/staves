@@ -41,7 +41,7 @@ Anim.Step = {
     if(undefined == this.current) return Anim.stop()
     /* === On joue l'étape (sauf commentaires ou lignes vides) === */
     var res = this.current.exec()
-    dlog("res de this.current.exec ("+this.current.code+") : "+res)
+    // dlog("res de this.current.exec ("+this.current.code+") : "+res)
     if(false == res)
     { 
       this.next()
