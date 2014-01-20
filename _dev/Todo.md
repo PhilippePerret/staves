@@ -1,5 +1,4 @@
-
-* Le nouveau fonctionnement du jeu de la sélection a l'air de fonctionner (en lisant en flash tout ce qui précède) mais ça mérite des essais plus variés.
+* Implémenter #100
 
 
 * Poursuivre l'analyse du Prélude 1

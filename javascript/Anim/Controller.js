@@ -117,7 +117,7 @@ $.extend(Anim,{
   play_preambule:function()
   {
     this.preambule_on = true
-    while(pas = Console.preambule.shift()) pas.exec()
+    while(step = Console.preambule.shift()) step.exec()
     this.preambule_on = false
   },
   /**

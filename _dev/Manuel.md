@@ -350,6 +350,8 @@ Cela remet automatiquement le curseur au début, donc à gauche, en tenant compt
 <a name="set_cursor_to_position"></a>
 ###Placer le curseur à une position précise (SET_CURSOR)
 
+####Par indication de la position exacte
+
 Pour placer la curseur à une position précise, utiliser la commande&nbsp;:
 
     SET_CURSOR(<position left en pixel>)
@@ -360,6 +362,46 @@ Par exemple, pour se positionner à 100px exactement&nbsp;:
 
 Les prochains `NEXT()` partiront de cette nouvelle position.
 
+####Par indication du “pas”
+
+Chaque fois qu'un `NEXT` est invoqué, le curseur de position se déplace, créant un nouveau “pas”. On peut utiliser ces pas avec la commande `SET_CURSOR` en lui fournissant l'indice (1-start) du pas à utiliser&nbsp;:
+
+    SET_CURSOR({pas:<indice du pas>})
+    
+    ou
+    
+    SET_CURSOR('pas', <indice du pas>)
+
+*Note&nbsp;: On peut voir ces pas en affichant la grille, ils sont représentés par des petits rectangles tout en haut de l'animation.*
+
+Par exemple&nbsp;: 
+
+    NEXT()
+    # => Place le curseur disons à 200. C'est le 1er pas
+    NEXT()
+    # => Place le curseur disons à 250. C'est le 2e pas
+    NEXT()
+    # => Place le curseur à 300. C'est le troisième pas.
+    SET_CURSOR({pas:1}) ou SET_CURSOR('pas', 1)
+    # => Place le curseur au premier pas, donc à 200
+
+####Par indication du décalage de “pas”
+
+Au lieu de fournir l'indice du pas comme dans l'utilisation précédente, on peut fournir aussi le décalage de pas par rapport à la position courante.
+
+    SET_CURSOR({offset:<nombre de pas du déplacement>})
+    
+    ou
+    
+    SET_CURSOR('offset', <nombre de pas du déplacement>)
+  
+Par exemple, pour revenir de deux pas en arrière&nbsp;:
+
+    SET_CURSOR({offset:-2})
+    
+    ou
+    
+    SET_CURSOR('offset', -2)
 
 
 ---------------------------------------------------------------------

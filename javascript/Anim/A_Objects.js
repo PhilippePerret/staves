@@ -20,8 +20,7 @@ if(undefined == window.Anim) window.Anim = {}
   * mais également toutes les fonctions qu'on peut trouver dans les pas.
   * pour que l'évaluation du code soit très simple (`this.Objects.<code>`)
   *
-  * @class Objets
-  * @for   Anim
+  * @class Anim.Objects
   * @static
   */
 
@@ -110,24 +109,24 @@ FONCTIONS_ANIM_OBJETS = {
   },
   
   /**
-    * Déplace le "marker" vers la droite sur les portées (pour inscription) 
-    * Note
-    *   * Cela redéfinit la valeur de Anim.current_x
+    * Déplace le "curseur de position" horizontalement pour définir le décalage 
+    * horizontal de la nouvelle inscription.
+    * Notes
+    *   * Redéfinit la valeur de Anim.current_x
+    *   * Passe à l'étape suivante
     * @method NEXT
-    * @param  {Number} offset   Optionnellement, le déplacement exact à effectuer (en pixels)
-    *                           Par défaut, Anim.prefs.next
+    * @param  {Number|Object} param  Cf. la méthode `Anim.Cursor.next()`   
     */
-  NEXT:function(offset)
-  {
-    if(undefined == offset) offset = Anim.prefs.next + Anim.prefs.offset_next
-    Anim.current_x += parseInt(offset,10)
-    Anim.Infos.show_offset_cursor()
-    NEXT_STEP(no_timeout = true)
-  },
-  SET_CURSOR:function(left)
-  {
-    
-  },
+  NEXT:function(param){Anim.Cursor.next(param)},
+  /**
+    * Place le curseur à une position précise
+    * Notes
+    *   * Redéfinit la valeur de Anim.current_x
+    *   * Passe à l'étape suivante
+    * @method SET_CURSOR
+    * @param {Number|Object} param Définition de la nouvelle position. Cf. `Anim.Cursor.set_cursor`
+    */
+  SET_CURSOR:function(param, value){Anim.Cursor.set_cursor(param,value)},
   /**
     * Activer la portée +indice+ (1-start)
     * @method ACTIVE_STAFF

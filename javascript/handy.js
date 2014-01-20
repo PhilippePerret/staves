@@ -16,6 +16,21 @@ window.define_complete = function(params)
   return params
 }
 
+/**
+  * Beaucoup de méthodes permettent d'être invoquée avec `(attr, value)` qui
+  * doit être transformé en `{attr: value}`. Lorsque `attr` est string, on peut
+  * appeler cette fonction pour créer l'objet
+  * @method twoargs2obj
+  * @param  {String} attr   La propriété de l'objet retourné
+  * @param  {Any}    value  La valeur de la propriété dans l'objet retourné
+  * @return {Object} Un objet définissant la propriété +attr+
+  */
+window.twoargs2obj = function(attr, value)
+{
+  var obj = {}
+  obj[attr] = value
+  return obj
+}
 
 window.dlog = function(foo)
 {

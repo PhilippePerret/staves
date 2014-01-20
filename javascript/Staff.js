@@ -14,13 +14,13 @@ window.Staff = function(params)
   this.id     = "staff"+(new Date()).getTime()
   
   /**
-    * Décalage vertical par défaut de l'image
+    * Décalage vertical par défaut de la portée
     * @property {Number} top
     * @default 0
     */
   this.top  = 100
   /**
-    * Décalage horizontal par défaut de l'image
+    * Décalage horizontal par défaut de la portée
     * @property {Number} left
     * @default 0
     */
@@ -207,7 +207,7 @@ window.OBJECT_STAFF_NOTES = {
   /**
     * Retire une note de la portée
     * Notes : ça la retire simplement de la donnée, pas de l'affichage
-    * @method add
+    * @method remove
     * @param {Note} Instance de la note à ajouter
     */
   remove:function(note)

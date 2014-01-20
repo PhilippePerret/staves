@@ -1,8 +1,10 @@
 /**
   * @module constantes
   */
+// Termes généraux
 const auto    = 'auto'
 
+// Couleurs
 const black   = 'black'
 const BLACK   = 'black'
 const noir    = 'black'
@@ -41,19 +43,19 @@ const rompue      = 'rompue'
 const faureenne   = 'faureenne'
 
 // Les parties
-part              = 'part'
-exposition        = "EXPOSITION"
-expo              = "EXPO."
-developpement     = "DÉVELOPPEMENT"
-development       = "DEVELOPMENT"
-dev               = "DEV."
-pont              = "PONT"
-coda              = "CODA"
-themea            = "THÈME A"
-tha               = "TH.A"
-themeb            = "THÈME B"
-thb               = "TH.B"
-themec            = "THÈME C"
-thc               = "TH.C"
-refrain           = "REFRAIN"
-couplet           = "COUPLET"
+const part              = 'part'
+const exposition        = "EXPOSITION"
+const expo              = "EXPO."
+const developpement     = "DÉVELOPPEMENT"
+const development       = "DEVELOPMENT"
+const dev               = "DEV."
+const pont              = "PONT"
+const coda              = "CODA"
+const themea            = "THÈME A"
+const tha               = "TH.A"
+const themeb            = "THÈME B"
+const thb               = "TH.B"
+const themec            = "THÈME C"
+const thc               = "TH.C"
+const refrain           = "REFRAIN"
+const couplet           = "COUPLET"
