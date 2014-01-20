@@ -288,10 +288,11 @@ $.extend(Staff.prototype, {
         me.on_complete()
       })
     })
+    // On doit détruire toutes les notes, avec leurs textes
     var liste_notes = $.extend({}, this.notes.list)
     L(liste_notes)  .each(function(kleft){
       L(liste_notes[kleft]).each(function(note){
-        note.remove({dont_unstaff:true})
+        note.remove({dont_unstaff:true, texts:true})
       })
     })
     L(this.suplines).each(function(sid){$('img#'+sid).remove()})

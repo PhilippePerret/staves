@@ -1,6 +1,8 @@
 # Tests sur les portées
 DEFAULT(\'caption\', true)
 DEFAULT(\'decompte\',0)
+DEFAULT(\'next\', 100)
+DEFAULT(\'staff_top\', 200)
 
 NEW_STAFF(SOL)
 
@@ -16,3 +18,23 @@ NEW_STAFF(FA)
 MOTIF(\'c3 e4 a3 f4 g4 e3 c3\')
 WAIT(1)
 STAFF(1).remove()
+
+WAIT(2)
+CAPTION(\"À la suppression de la portée, les textes des notes doivent disparaitre\")
+
+NEW_STAFF(SOL)
+la = NOTE(a4)
+la.part(dev)
+NEXT()
+si = NOTE(b4)
+si.write(\"Un texte régulier\")
+NEXT()
+udo = NOTE(c5)
+udo.harmony(\'II\')
+NEXT()
+re = NOTE(d5)
+re.modulation(\'G Maj\')
+
+WAIT(1)
+STAFF(1).remove()
+CAPTION(\"Tous les textes doivent avoir disparu.\")

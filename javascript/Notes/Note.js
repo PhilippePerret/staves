@@ -43,11 +43,12 @@ window.Note = function(note, params)
   this.left = null
   
   /**
-    * Le texte éventuel que porte la note (instance {Txt})
+    * Les textes éventuels que porte la note (instances {Txt})
     * Note
     *   * Il est inauguré par la méthode <note>.write(<texte>)
     *
-    * @property {Txt} texte
+    * @property {Object} texte    L'objet porte en clé le type de texte porté
+    *                             par la note ('regular', 'part', etc.) et en valeur l'instance Txt correspondante.
     */
   this.texte = null
   
@@ -121,12 +122,15 @@ $.extend(Note.prototype,{
     *     de la portée (sauf si dont_unstaff est true).
     * @method remove
     * @param {Object} params  Paramètres optionnels
+    *   @param {Boolean}  params.texts          Si true, on doit aussi détruire les textes de la note (false par défaut)
     *   @param {Boolean}  params.dont_unstaff   Si true, on ne retire pas la note de la portée (utile à la destruction de la portée pour éviter les boucles infinies)
     */
   remove:function(params)
   {
     if(undefined == params) params = {}
-    this.operation(this.objets, 'remove')
+    var objs = this.objets
+    if (params.texts && this.texte) L(this.texte).each(function(ktxt, instance_txt){ objs.push(instance_txt.obj)})
+    this.operation(objs, 'remove')
     if(!params.dont_unstaff) this.staff.notes.remove(this)
     this.arrowed    = false
     this.surrounded = false
