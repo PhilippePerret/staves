@@ -43,9 +43,13 @@
             
                 <li><a href="../classes/Anim.html">Anim</a></li>
             
+                <li><a href="../classes/Anim.Cursor.html">Anim.Cursor</a></li>
+            
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
             
                 <li><a href="../classes/Anim.options.html">Anim.options</a></li>
             
@@ -58,6 +62,8 @@
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
@@ -72,8 +78,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/Objets.html">Objets</a></li>
             
                 <li><a href="../classes/options.html">options</a></li>
             
@@ -107,6 +111,10 @@
             
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
+                <li><a href="../modules/Anim_Cursor
+Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
+Gestion du curseur de position de l&#x27;animation</a></li>
+            
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
@@ -130,6 +138,8 @@
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
+            
+                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -262,6 +272,13 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_echo_last">echo_last</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_hide">hide</a>
 
                                 
@@ -270,6 +287,13 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item method">
                                 <a href="#method_init_doublage">init_doublage</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_remove_last">remove_last</a>
 
                                 
                                 
@@ -305,6 +329,20 @@ Gestion des évènements</a></li>
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_dbl_indx">dbl_indx</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_dbls_list">dbls_list</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item property">
                                 <a href="#property_left_max">left_max</a>
@@ -470,6 +508,100 @@ Notes</p>
                             </li>
                             
                         </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_echo_last" class="method item">
+    <h3 class="name"><code>echo_last</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>dbl_indx</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Doublage.js.html">Doublage.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l86"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:86</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Quand un doublage temporisé est en route, on doit laisser l&#39;&quot;écho&quot;
+du doublage précédent. C&#39;est cette méthode qui s&#39;en charge, en effaçant
+progressivement les mots du précédent doublage (plus vite que le nouveau
+doublage n&#39;apparait).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">dbl_indx</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Indice du doublage à laisser en écho</p>
+
+                    </div>
+
                     
                 </li>
             
@@ -661,6 +793,8 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
         
             
                 
+                    <p>Provided by the <a href="../modules/Doublage.js.html">Doublage.js</a> module.</p>
+                
                 <p>
                 
                 Defined in
@@ -668,7 +802,7 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l137"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:137</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l11"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:11</code></a>
         
         </p>
 
@@ -683,6 +817,103 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_remove_last" class="method item">
+    <h3 class="name"><code>remove_last</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>idoub</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Doublage.js.html">Doublage.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l113"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:113</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode qui efface le doublage d&#39;indice +idoub+. En fait, ça n&#39;est pas
+le dernier, mais l&#39;avant dernier, car :</p>
+<ul>
+<li>Un doublage est en cours d&#39;affichage</li>
+<li>Le doublage précédent est en cours d&#39;écho</li>
+<li>Le doublage d&#39;avant peut être détruit complètement.</li>
+</ul>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">idoub</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Indice du DIV doublage à détruire</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -732,6 +963,8 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
         
             
                 
+                    <p>Provided by the <a href="../modules/Doublage.js.html">Doublage.js</a> module.</p>
+                
                 <p>
                 
                 Defined in
@@ -739,7 +972,7 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l147"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:147</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l36"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:36</code></a>
         
         </p>
 
@@ -1043,7 +1276,7 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l211"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:211</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l137"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:137</code></a>
         
         </p>
 
@@ -1115,6 +1348,103 @@ le fait disparaitre. Écrit les coordonnées dans le feedback UI</p>
                 <h2 class="off-left">Properties</h2>
 
                 
+                    <div id="property_dbl_indx" class="property item">
+    <h3 class="name"><code>dbl_indx</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Doublage.js.html">Doublage.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l23"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:23</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Indice du texte de doublage courant
+Note : utile pour laisse l&#39;&quot;écho&quot; du texte précédent
+Il permet de récupérer la liste de mots dans this.dbls_list</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_dbls_list" class="property item">
+    <h3 class="name"><code>dbls_list</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Doublage.js.html">Doublage.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l30"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:30</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Liste des textes de doublage. En clé <code>dbl_indx</code> (l&#39;indice 1-start du
+doublage) et en valeurs la liste des indices de mots.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_left_max" class="property item">
     <h3 class="name"><code>left_max</code></h3>
     <span class="type">Number</span>
@@ -1184,7 +1514,7 @@ Note : La valeur est calculée par UI.onresize_window</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l242"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:242</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l168"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:168</code></a>
         
         </p>
 
@@ -1229,7 +1559,7 @@ Note : La valeur est calculée par UI.onresize_window</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l234"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:234</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l160"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:160</code></a>
         
         </p>
 

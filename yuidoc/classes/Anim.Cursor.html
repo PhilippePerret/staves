@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Controller.js</title>
+    <title>Anim.Cursor</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -210,16 +210,24 @@ Gestion des évènements</a></li>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Controller.js Module</h1>
-<div class="box clearfix meta">
+                        <h1>Anim.Cursor Class</h1>
+<div class="box meta">
     
 
     
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Controller.js.html#l6"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Controller.js:6</code></a>
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l7"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:7</code></a>
         </div>
+    
+
+    
+        
+            Module: <a href="../modules/Anim_Cursor
+Gestion du curseur de position de l'animation.html">Anim_Cursor
+Gestion du curseur de position de l'animation</a>
+        
     
 
     
@@ -228,18 +236,254 @@ Gestion des évènements</a></li>
 
 
 <div class="box intro">
-    <p>Toutes les méthodes qui gèrent le contrôleur de l&#39;animation</p>
-
+    
 </div>
 
 
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_next">next</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method_set">set</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_next" class="method item">
+    <h3 class="name"><code>next</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l13"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:13</code></a>
+        
+        </p>
+
+
+        
+
         
     </div>
 
-    <div class="yui3-u-1-2">
+    <div class="description">
+        <p>Définir la prochaine position
+Cette méthode répond à la commande NEXT</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Undefined | Number | Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Optionnellement, si c&#39;est un nombre, le déplacement exact à effectuer en pixels
+        Si c&#39;est un objet, il peut définir la propriété <code>pas</code> qui indique le nombre
+        de <code>lefts</code> dont il faut avant ou reculer.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_set" class="method item protected">
+    <h3 class="name"><code>set</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>offset</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l38"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:38</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Positionner le cursor de position à la position +offset+ en réglant
+la position sur la grille et en passant à l&#39;étape suivante.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">offset</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La position du curseur de position</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+
         
     </div>
 </div>

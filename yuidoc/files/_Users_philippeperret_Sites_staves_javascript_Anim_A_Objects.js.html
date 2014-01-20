@@ -43,9 +43,13 @@
             
                 <li><a href="../classes/Anim.html">Anim</a></li>
             
+                <li><a href="../classes/Anim.Cursor.html">Anim.Cursor</a></li>
+            
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
             
                 <li><a href="../classes/Anim.options.html">Anim.options</a></li>
             
@@ -58,6 +62,8 @@
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
@@ -72,8 +78,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/Objets.html">Objets</a></li>
             
                 <li><a href="../classes/options.html">options</a></li>
             
@@ -107,6 +111,10 @@
             
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
+                <li><a href="../modules/Anim_Cursor
+Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
+Gestion du curseur de position de l&#x27;animation</a></li>
+            
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
@@ -130,6 +138,8 @@
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
+            
+                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -226,8 +236,7 @@ if(undefined == window.Anim) window.Anim = {}
   * mais également toutes les fonctions qu&#x27;on peut trouver dans les pas.
   * pour que l&#x27;évaluation du code soit très simple (&#x60;this.Objects.&lt;code&gt;&#x60;)
   *
-  * @class Objets
-  * @for   Anim
+  * @class Anim.Objects
   * @static
   */
 
@@ -239,7 +248,7 @@ FONCTIONS_ANIM_OBJETS = {
     * @method STAFF
     */
   STAFF:function(istaff){
-    dlog(&quot;-&gt; Anim.Objects.STAFF&quot;)
+    // dlog(&quot;-&gt; Anim.Objects.STAFF&quot;)
     return Anim.staves[istaff - 1]
   },
   /**
@@ -268,7 +277,7 @@ FONCTIONS_ANIM_OBJETS = {
     * autre, ils se mettent simplement dans des DIV qui leur sont réservés
     * @method CAPTION
     */
-  CAPTION:function(texte, params){Anim.Dom.set_doublage(texte, params)},
+  CAPTION:function(texte, params){Anim.Dom.Doublage.show(texte, params)},
 
   CHORD:function(notes, params){return CHORD(notes, params)},
   /** Commande pour construire une flèche sans la placer dans une variable
@@ -316,24 +325,23 @@ FONCTIONS_ANIM_OBJETS = {
   },
   
   /**
-    * Déplace le &quot;marker&quot; vers la droite sur les portées (pour inscription) 
-    * Note
-    *   * Cela redéfinit la valeur de Anim.current_x
+    * Déplace le &quot;curseur de position&quot; horizontalement pour définir le décalage 
+    * horizontal de la nouvelle inscription.
+    *   * Redéfinit la valeur de Anim.current_x
+    *   * Passe à l&#x27;étape suivante
     * @method NEXT
-    * @param  {Number} offset   Optionnellement, le déplacement exact à effectuer (en pixels)
-    *                           Par défaut, Anim.prefs.next
+    * @param  {Number|Object} param  Cf. la méthode &#x60;Anim.Cursor.next()&#x60;   
     */
-  NEXT:function(offset)
-  {
-    if(undefined == offset) offset = Anim.prefs.next + Anim.prefs.offset_next
-    Anim.current_x += parseInt(offset,10)
-    Anim.Infos.show_offset_cursor()
-    NEXT_STEP(no_timeout = true)
-  },
-  SET_CURSOR:function(left)
-  {
-    
-  },
+  NEXT:function(param){Anim.Cursor.next(param)},
+  /**
+    * Place le curseur à une position précise
+    * @note
+    *   * Redéfinit la valeur de Anim.current_x
+    *   * Passe à l&#x27;étape suivante
+    * @method SET_CURSOR
+    * @param {Number|Object} param Définition de la nouvelle position. Cf. &#x60;Anim.Cursor.set_cursor&#x60;
+    */
+  SET_CURSOR:function(param){Anim.Cursor.set_cursor(param)},
   /**
     * Activer la portée +indice+ (1-start)
     * @method ACTIVE_STAFF

@@ -1,0 +1,47 @@
+# Test position cursor et méthodes
+# NEXT et SET_CURSOR
+DEFAULT(\'decompte\', 0)
+DEFAULT(\'caption\', true)
+
+DEFAULT(\'next\', 100)
+
+NEW_STAFF(SOL)
+
+# Inscrite à 100
+NOTE(f4)
+
+# Déplacement à 200
+NEXT()
+
+# Inscrite à 200
+NOTE(g4)
+
+# Déplacement à 300
+NEXT()
+
+# Inscrite à 300
+NOTE(a4)
+
+NEW_STAFF(FA)
+
+CAPTION(\"Retour au pas précédent\")
+SET_CURSOR(\'offset\', -1)
+WAIT(1)
+NOTE(g3)
+
+WAIT(2)
+
+CAPTION(\"Placement au pas 3\")
+SET_CURSOR(\'pas\',3)
+WAIT(1)
+NOTE(a3)
+
+WAIT(2)
+
+CAPTION(\"Remonter avec NEXT de 200 pixels\")
+NEXT(-200)
+WAIT(1)
+NOTE(f3)
+
+WAIT(1)
+CAPTION(\"Si les notes sont alignées, ça fonctionne.\")

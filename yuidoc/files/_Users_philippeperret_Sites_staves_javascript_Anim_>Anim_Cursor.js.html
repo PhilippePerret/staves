@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Controller.js</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/Anim/&gt;Anim_Cursor.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -210,38 +210,63 @@ Gestion des évènements</a></li>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Controller.js Module</h1>
-<div class="box clearfix meta">
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Anim/&gt;Anim_Cursor.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+  * @module Anim_Cursor
+  * Gestion du curseur de position de l&#x27;animation
+  */
+
+
+/**
+  * @class Anim.Cursor
+  * @static
+  */
+window.Anim.Cursor = {
+  
+  /**
+    * Définir la prochaine position
+    * Cette méthode répond à la commande NEXT
+    * @method next
+    * @param  {Undefined|Number|Object} params Optionnellement, si c&#x27;est un nombre, le déplacement exact à effectuer en pixels
+    *         Si c&#x27;est un objet, il peut définir la propriété &#x60;pas&#x60; qui indique le nombre
+    *         de &#x60;lefts&#x60; dont il faut avant ou reculer.
+    */
+  next:function(param)
+  {
+    if(undefined == param) offset = Anim.prefs.next + Anim.prefs.offset_next
+
+    this.set(Anim.current_x + offset)
+  },
+  set_cursor:function(param)
+  {
     
-
-    
-
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Controller.js.html#l6"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Controller.js:6</code></a>
-        </div>
-    
-
-    
-</div>
-
-
-
-<div class="box intro">
-    <p>Toutes les méthodes qui gèrent le contrôleur de l&#39;animation</p>
-
-</div>
-
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+    this.set(offset)
+  }
+}
+/*
+ *  Méthodes protégées (usage interne)
+ *  
+ */
+$.extend(Anim.Cursor, {
+  /**
+    * Positionner le cursor de position à la position +offset+ en réglant
+    * la position sur la grille et en passant à l&#x27;étape suivante.
+    *
+    * @method set
+    * @protected
+    * @param  {Number} offset La position du curseur de position
+    */
+  set:function(offset)
+  {
+    Anim.current_x = parseInt(offset,10)
+    Anim.Infos.show_offset_cursor()
+    NEXT_STEP(no_timeout = true)
+  }
+})
+    </pre>
 </div>
 
                     </div>

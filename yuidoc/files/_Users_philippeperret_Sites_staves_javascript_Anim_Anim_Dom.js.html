@@ -43,9 +43,13 @@
             
                 <li><a href="../classes/Anim.html">Anim</a></li>
             
+                <li><a href="../classes/Anim.Cursor.html">Anim.Cursor</a></li>
+            
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
             
                 <li><a href="../classes/Anim.options.html">Anim.options</a></li>
             
@@ -58,6 +62,8 @@
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
@@ -72,8 +78,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/Objets.html">Objets</a></li>
             
                 <li><a href="../classes/options.html">options</a></li>
             
@@ -107,6 +111,10 @@
             
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
+                <li><a href="../modules/Anim_Cursor
+Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
+Gestion du curseur de position de l&#x27;animation</a></li>
+            
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
@@ -130,6 +138,8 @@
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
+            
+                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -338,80 +348,6 @@ Anim.Dom = {
       // Positionne et affiche l&#x27;objet
       instance.positionne()
       instance.show(params)
-    }
-  },
-  /**
-    * Initialisation du doublage (efface et masque les champs doublage et caption)
-    * @method init_doublage
-    */
-  init_doublage:function()
-  {
-    $(&#x27;span#caption_text&#x27;).html(&#x27;&#x27;);
-    $(&#x27;div#caption&#x27;).hide();
-    $(&#x27;div#doublage&#x27;).html(&#x27;&#x27;).hide();
-  },
-  /**
-    * Écrit le doublage ou le sous-titre +texte+ (en fonction de params et des
-    * réglages par défaut)
-    * Notes
-    * -----
-    *   * Si Anim.prefs.caption_timer est true, le texte est écrit au débit
-    *     Anim.prefs.caption_debit.
-    *
-    * @method set_doublage
-    * @param {String} texte Le texte (vide ou undefined pour supprimer le div)
-    * @param {Object|Boolean} params  Les paramètres optionnels
-    *                                 Ou une valeur true ou false, qui détermine caption
-    *   @param {Boolean} params.caption    Si false =&gt; doublage, si true =&gt; caption
-    *   @param {Boolean} params.wait      Si true, on attend la fin de l&#x27;affichage du doublage
-    *                                     avant de passer à la suite.
-    */
-  set_doublage:function(texte, params)
-  {
-    // dlog(&quot;-&gt; set_doublage(params :&quot;);dlog(params)
-    if(undefined == params) params = {}
-    else if (&#x27;boolean&#x27; == typeof params) params = {caption:params}
-    else if (params.doublage == true) params.caption = !params.doublage
-    var is_caption  = params.caption == true || Anim.prefs.caption == true
-    var is_doublage = !is_caption
-    var obj = $(is_caption ? &#x27;span#caption_text&#x27; : &#x27;div#doublage&#x27;)
-    var montrer = (undefined != texte) &amp;&amp; (texte.trim() != &quot;&quot;)
-    if(montrer)
-    {
-      obj.show()
-      if(is_doublage &amp;&amp; Anim.prefs.caption_timer)
-      { // On doit afficher le texte comme il sera dit
-        this.mots_doublage = texte.trim().split(&#x27; &#x27;)
-        this.imot_doublage = 0
-        $(&#x27;div#doublage&#x27;).html(&#x27;&#x27;)
-        if(params.wait) this.temporize.poursuivre = NEXT_STEP
-        // dlog(this.mots_doublage)
-        this.temporize()
-      }
-      else obj.html(texte.trim())
-    }
-    else
-    {
-      obj.hide()
-    }
-    if(is_caption) $(&#x27;div#caption&#x27;)[montrer?&#x27;show&#x27;:&#x27;hide&#x27;]()
-    if(!params.wait) NEXT_STEP(notimeout=true)
-  },
-  temporize:function()
-  {
-    if(this.timer_doublage) clearTimeout(this.timer_doublage)
-    if(mot = this.mots_doublage.shift())
-    {
-      ++this.imot_doublage
-      $(&#x27;div#doublage&#x27;).append(&#x27;&lt;span id=&quot;spanmot&#x27;+this.imot_doublage+&#x27;&quot; style=&quot;display:none;&quot;&gt;&#x27;+mot+&#x27;&lt;/span&gt; &#x27;)
-      $(&#x27;div#doublage &gt; span#spanmot&#x27;+this.imot_doublage).show(400)
-      
-      var duree = parseInt(Math.ceil(mot.length / 3) * 200, 10)
-      this.timer_doublage = setTimeout($.proxy(Anim.Dom.temporize, Anim.Dom), duree)
-    }
-    else
-    {
-      if(this.temporize.poursuivre) this.temporize.poursuivre()
     }
   },
   /**

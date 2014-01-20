@@ -43,9 +43,13 @@
             
                 <li><a href="../classes/Anim.html">Anim</a></li>
             
+                <li><a href="../classes/Anim.Cursor.html">Anim.Cursor</a></li>
+            
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
             
                 <li><a href="../classes/Anim.options.html">Anim.options</a></li>
             
@@ -58,6 +62,8 @@
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
@@ -72,8 +78,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/Objets.html">Objets</a></li>
             
                 <li><a href="../classes/options.html">options</a></li>
             
@@ -107,6 +111,10 @@
             
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
+                <li><a href="../modules/Anim_Cursor
+Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
+Gestion du curseur de position de l&#x27;animation</a></li>
+            
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
@@ -130,6 +138,8 @@
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
+            
+                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -386,7 +396,6 @@ $.extend(Img,{
       if(url=found[1].replace(/ +/, &#x27; &#x27;).match(/[&#x27;&quot;]?url[&#x27;&quot;]? ?: ?[&#x27;&quot;]([^&#x27;&quot;]+)[&#x27;&quot;] ?,/))
       {
         url = url[1]
-        dlog(&quot;URL IMAGE:&#x27;&quot;+url+&quot;&#x27;&quot;)
         absid = Img.idAbsFromUrl(url)
         if(undefined == Img.abs_list[absid]) new Img({url:url, abs:true})
         // Ce code force l&#x27;affichage hors-champ de l&#x27;image pour calcul de sa taille.
@@ -437,7 +446,7 @@ $.extend(Img,{
     */
   update_listing_html:function(onclick)
   {
-    dlog(&quot;-&gt; update_listing_html&quot;)
+    // dlog(&quot;-&gt; update_listing_html&quot;)
     $(&#x27;div#tool_listing_images&#x27;).replaceWith(this.html_listing(onclick, {all_done:true}))
   },
   /**
@@ -479,7 +488,6 @@ $.extend(Img,{
     if(undefined == this.absids_images_not_traited)
     {
       this.absids_images_not_traited = L(this.abs_list).collect(function(absid,img){return absid})
-      dlog(&quot;Liste des ids absolus des images dont il faut prendre la taille : &quot;+this.absids_images_not_traited)
     }
     else if(this.abs_timer) clearTimeout(this.abs_timer)
     

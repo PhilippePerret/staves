@@ -2,14 +2,17 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "Anim",
+        "Anim.Cursor",
         "Anim.Dom",
         "Anim.Grid",
+        "Anim.Objects",
         "Anim.options",
         "Arrow",
         "Chord",
         "Circle",
         "Console",
         "Courbe",
+        "Doublage",
         "ImageTool",
         "Img",
         "Infos",
@@ -17,7 +20,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Note",
         "OBJET_TRAITEMENT",
         "ObjetClass",
-        "Objets",
         "Pas",
         "Regle",
         "Scale",
@@ -34,6 +36,7 @@ YUI.add("yuidoc-meta", function(Y) {
     ],
     "modules": [
         "Anim",
+        "Anim_Cursor\nGestion du curseur de position de l'animation",
         "Anim_Dom.js",
         "Anim_Grid",
         "Anim_Objects.js",
@@ -45,6 +48,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Console.js",
         "Controller.js",
         "Courbe.js",
+        "Doublage.js",
         "Event.js\nGestion des évènements",
         "GroupNotes.js",
         "Image.js",
@@ -67,6 +71,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Anim",
             "name": "Anim"
+        },
+        {
+            "displayName": "Anim_Cursor\nGestion du curseur de position de l'animation",
+            "name": "Anim_Cursor\nGestion du curseur de position de l'animation"
         },
         {
             "displayName": "Anim_Dom.js",
@@ -118,6 +126,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Courbe.js",
             "name": "Courbe.js"
+        },
+        {
+            "displayName": "Doublage.js",
+            "name": "Doublage.js"
         },
         {
             "displayName": "Event.js\nGestion des évènements",

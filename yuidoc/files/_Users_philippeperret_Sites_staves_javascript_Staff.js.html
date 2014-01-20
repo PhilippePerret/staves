@@ -43,9 +43,13 @@
             
                 <li><a href="../classes/Anim.html">Anim</a></li>
             
+                <li><a href="../classes/Anim.Cursor.html">Anim.Cursor</a></li>
+            
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
+            
+                <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
             
                 <li><a href="../classes/Anim.options.html">Anim.options</a></li>
             
@@ -58,6 +62,8 @@
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
+            
+                <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
             
@@ -72,8 +78,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/Objets.html">Objets</a></li>
             
                 <li><a href="../classes/options.html">options</a></li>
             
@@ -107,6 +111,10 @@
             
                 <li><a href="../modules/Anim.html">Anim</a></li>
             
+                <li><a href="../modules/Anim_Cursor
+Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
+Gestion du curseur de position de l&#x27;animation</a></li>
+            
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
@@ -130,6 +138,8 @@
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
+            
+                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -220,13 +230,13 @@ window.Staff = function(params)
   this.id     = &quot;staff&quot;+(new Date()).getTime()
   
   /**
-    * Décalage vertical par défaut de l&#x27;image
+    * Décalage vertical par défaut de la portée
     * @property {Number} top
     * @default 0
     */
   this.top  = 100
   /**
-    * Décalage horizontal par défaut de l&#x27;image
+    * Décalage horizontal par défaut de la portée
     * @property {Number} left
     * @default 0
     */
@@ -238,6 +248,17 @@ window.Staff = function(params)
     * @property {Number} indice
     */
   this.indice = null
+  
+  /**
+    * Liste des identifiants de lignes supplémentaires
+    * Notes
+    *   * Pour le moment, la liste n&#x27;est utile que pour la suppression de
+    *     la portée, mais TODO à l&#x27;avenir il faudra créer une instance
+    *     SupLine et enregistrer les instances (qui auront des méthodes comme
+    *     les autres objets)
+    * @property {Array} suplines
+    */
+  this.suplines = []
   
   // On définit l&#x27;objet complexe this.notes (qui permet de conserver les notes)
   this.notes = $.extend(deep = true, {}, OBJECT_STAFF_NOTES)
@@ -402,7 +423,7 @@ window.OBJECT_STAFF_NOTES = {
   /**
     * Retire une note de la portée
     * Notes : ça la retire simplement de la donnée, pas de l&#x27;affichage
-    * @method add
+    * @method remove
     * @param {Note} Instance de la note à ajouter
     */
   remove:function(note)
@@ -469,7 +490,8 @@ $.extend(Staff.prototype, {
     this.img_cle.animate({opacity:&#x27;0&#x27;}, Anim.delai_for(&#x27;show&#x27;))
   },
   /**
-    * Destruction de la portée (et retrait de la liste des portées)
+    * Destruction de la portée (et retrait de la liste des portées) et
+    * de tout ce qu&#x27;elle porte sans exception.
     * @method remove
     */
   remove:function()
@@ -482,6 +504,13 @@ $.extend(Staff.prototype, {
         me.on_complete()
       })
     })
+    var liste_notes = $.extend({}, this.notes.list)
+    L(liste_notes)  .each(function(kleft){
+      L(liste_notes[kleft]).each(function(note){
+        note.remove({dont_unstaff:true})
+      })
+    })
+    L(this.suplines).each(function(sid){$(&#x27;img#&#x27;+sid).remove()})
   },  
   /**
     * Positionne la portée, la clé et la métrique (if any)
@@ -521,6 +550,7 @@ $.extend(Staff.prototype, {
   add_suplines:function(params)
   {
     if(undefined == params) return F.error(&quot;Staff.add_suplines ne peut être appelé sans paramètres…&quot;)
+    if(undefined == this.suplines) this.suplines = []
     var ontop    = params.top == true
     var hauteur  = ontop ? this.top - 12 : this.top + (5 * 12) ;
     var incre    = ontop ? -12 : + 12
@@ -538,6 +568,7 @@ $.extend(Staff.prototype, {
       sid   = prefid + i + suffid
       Anim.Dom.add(&#x27;&lt;img id=&quot;&#x27;+sid+&#x27;&quot; class=&quot;supline&quot; src=&quot;img/note/supline.png&quot; style=&quot;&#x27;+style+&#x27;&quot; /&gt;&#x27;)
       hauteur += incre
+      this.suplines.push(sid)
     }
   },
   /**
@@ -597,7 +628,7 @@ Object.defineProperties(Staff.prototype,{
     }
   },
   /**
-    * Liste des objets DOM que possède la portée
+    * Liste des objets DOM que possède la portée (exception faite des notes)
     * @property {Array} objets
     */
   &quot;objets&quot;:{
