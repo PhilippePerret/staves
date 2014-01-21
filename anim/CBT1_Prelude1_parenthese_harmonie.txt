@@ -74,11 +74,33 @@ CAPTION(\"Cette pièce ne présente aucune altération à la clé, on est donc e
 
 CLEAR()
 
+SET_CURSOR(200)
+
 SCALE(\'c\', {staff:1})
 
+CAPTION(\"En ajoutant un dièse dans l\'ordre des dièses, on obtient la tonalité de Sol Majeur\")
+
+SET_CURSOR(200)
+
 SCALE(\'g\', {staff:2})
+STAFF(2).write(\"SOL Majeur\", {left:130})
+
+WAIT(1)
+
+CAPTION(\"Comme on ne peut pas retirer de dièses à la tonalité de DO Majeur — elle n\'en a pas — on ajoute un bémol pour obtenir un autre ton voisin. Et on obtient la tonalité de FA Majeur.\", {wait:true})
+
+SET_CURSOR(200)
 
 SCALE(\'f\', {staff:3})
+STAFF(3).write(\"FA Majeur\", {left:130})
+
+
+CAPTION(\"Et le dernier ton proche, c\'est celui du relatif, ici le relatif <u>mineur</u> puisque la tonalité est majeure. C\'est la tonalité de La mineur\", {wait:true})
+
+SET_CURSOR(200)
+
+SCALE(\'a\', {type:\'min_h\', staff:4})
+STAFF(4).write(\"LA mineur\", {left:130})
 
 #!END
 

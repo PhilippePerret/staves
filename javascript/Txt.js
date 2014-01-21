@@ -474,6 +474,7 @@ Object.defineProperties(Txt.prototype,{
     */
   "real_staff":{
     get:function(){
+      if(this.owner.class == 'staff') return this.owner
       switch(this.type)
       {
       case harmony:

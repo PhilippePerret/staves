@@ -1105,7 +1105,7 @@ Il en va de même, évidemment pour l'écriture de tout autre élément sur une 
 * [Paramètres de définition des gammes](#parametres_gammes)
 * [Utilisation des notes de la gammes](#utilisation_notes_gammes)
 
-<a name="introduction_gammes">
+<a name="introduction_gammes"></a>
 ###Introduction
 On peut produire en un seul pas une gamme à l'aide de la commande :
 

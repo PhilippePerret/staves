@@ -92,7 +92,7 @@ window.Scale = function(scale, params)
     */
   this.intervalles = null
   
-  this.staff  = Anim.current_staff
+  this.staff  = null
   this.offset = 60
   this.octave = null
   this.asc    = true
@@ -113,16 +113,20 @@ window.Scale = function(scale, params)
   // Dispatch des paramètres envoyés
   if(undefined == params) params = {}
   for(var prop in params) this[prop] = params[prop]
+  if(this.staff) this.staff = Anim.staves[this.staff - 1]
   
   this.data_scale   = DATA_SCALES[this.type]
   if(undefined == this.data_scale)   throw "Le type de gamme `"+this.type+"` est inconnu…"
   this.intervalles  = this.data_scale.intervalles
-  if(this.octave  == null)  this.octave = Staff.best_octave_scale(this.staff.cle, this.inote_scale)
   if(this.from    == null)  this.from   = this.note_scale
-  
+  if(this.staff   == null)  this.staff  = Anim.current_staff
   if(!this.staff) throw "Portée "+params.staff+" inconnue…"
+  if(this.octave  == null)  this.octave = Staff.best_octave_scale(this.staff.cle, this.inote_scale)
+  
   
   this.build()
+  
+  dlog("Scale : ");dlog(this)
 }
 $.extend(Scale.prototype, METHODES_GROUPNOTES)
 
@@ -134,7 +138,13 @@ $.extend(Scale.prototype,{
   build:function()
   {
     this.notes = [null]
-    var i, note, i_int = -1, alt, last_hauteur, cur_octave = parseInt(this.octave) ;
+    var i, 
+        note, 
+        i_int = -1, 
+        alt, 
+        last_hauteur, 
+        cur_octave  = parseInt(this.octave),
+        theleft     = this.left || Anim.current_x ;
     for(i = 0; i < this.for; ++i)
     {
       note = NOTES[i + this.inote_scale] // p.e. "e"
@@ -167,7 +177,7 @@ $.extend(Scale.prototype,{
       // dlog("note str finale:"+note_str)
     
       Anim.current_x += this.offset
-      this.notes.push(NOTE(note_str))
+      this.notes.push(NOTE(note_str, {staff:this.staff}))
       // On mémorise la hauteur de la note courante pour pouvoir
       // régler la hauteur de la prochaine note
       last_hauteur = REAL_INDICES_NOTES[note]

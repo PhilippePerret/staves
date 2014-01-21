@@ -11,14 +11,13 @@ window.Staff = function(params)
 {
   this.class  = "staff"
   this.cle    = SOL
-  this.id     = "staff"+(new Date()).getTime()
   
   /**
     * Décalage vertical par défaut de la portée
     * @property {Number} top
     * @default 0
     */
-  this.top  = 100
+  this.top  = null
   /**
     * Décalage horizontal par défaut de la portée
     * @property {Number} left
@@ -51,6 +50,8 @@ window.Staff = function(params)
   // On dispatche les valeurs transmises
   var me = this
   L(params || {}).each(function(k,v){me[k]=v})
+  
+  this.id = "staff"+this.cle+this.top+(new Date()).getTime()
   
 }
 /* ---------------------------------------------------------------------
