@@ -38,12 +38,11 @@ window.OBJET_TRAITEMENT = {
   defantomize:function(){return this.traite('defantomize')},
   colorize:function(color){return this.traite('colorize', color)},
   surround:function(params){return this.traite('surround', params)},
-  unsurround:function(params){return this.traite('unsurround', params)}
-  
+  unsurround:function(params){return this.traite('unsurround', params)},
+  arrow:function(id, params){return this.traite('arrow', id, params)}
 }
 
 /**
-  * Remplacement des méthodes ci-dessus pour une utilisation plus rationnelle:
   * Un objet qui gère un groupe de notes (comme Chord ou Scale) définit une 
   * propriété `notes` qui contient la liste des instances Note (1-start) et
   * cette propriété qui est utilisée

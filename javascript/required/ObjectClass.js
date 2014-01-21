@@ -18,20 +18,13 @@ window.ObjetClass = function(params)
     L(params).each(function(prop,value){ me[prop] = value})
   }
 }
-$.extend(window.ObjetClass.prototype,{
-  /**
-    * Méthode consignant les erreurs survenues
-    * Si la console existe, on les affiche
-    * @method error
-    * @param  {String}  err     L'erreur survenue
-    * @param  {Object}  params  Paramètres optionnels
-    */
-  error:function(err)
-  {
-    if(undefined == this.errors) this.errors = []
-    this.errors.push(err)
-    if(console) console.error(err)
-  },
+
+
+/* ---------------------------------------------------------------------
+ *  Méthodes d'animation (utilisables dans le code)
+ *  
+ */
+$.extend(ObjetClass.prototype, {
   /**
     * Affiche l'objet de l'instance (property `obj`)
     * Noter que la méthode n'est appelée que par certains objets. Pour la plupart,
@@ -76,6 +69,31 @@ $.extend(window.ObjetClass.prototype,{
   remove:function(params)
   {
     return this.operation([this.obj], 'remove', params)
+  },
+  
+
+})
+/* Fin des méthodes d'animation
+ * --------------------------------------------------------------------- */
+
+
+/* ---------------------------------------------------------------------
+ *  Méthodes protégées (propres au programme)
+ *  
+ */
+$.extend(window.ObjetClass.prototype,{
+  /**
+    * Méthode consignant les erreurs survenues
+    * Si la console existe, on les affiche
+    * @method error
+    * @param  {String}  err     L'erreur survenue
+    * @param  {Object}  params  Paramètres optionnels
+    */
+  error:function(err)
+  {
+    if(undefined == this.errors) this.errors = []
+    this.errors.push(err)
+    if(console) console.error(err)
   },
   
   /**
@@ -220,6 +238,7 @@ $.extend(window.ObjetClass.prototype,{
       NEXT_STEP()
     } 
   }
+
 })
 
 Object.defineProperties(ObjetClass.prototype,{

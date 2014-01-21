@@ -86,7 +86,10 @@ Note.prototype.constructor = Note
  *      constante `OBJET_TRAITEMENT` du module GroupeNotes.js
  *  
  */
+// Méthodes universelles
+$.extend(Note.prototype, UNVERSAL_METHODS)
 
+// Méthodes propres aux Notes (ou traitements propres)
 $.extend(Note.prototype,{
   /**
     * Ré-affiche une note masquée par `hide`
@@ -196,61 +199,6 @@ $.extend(Note.prototype,{
     this.exergue({complete:$.proxy(this.operation, this, [this.obj], 'moveTo', {top: this.top})})
   },
   
-  /**
-    * Construit des flèches partant de la note
-    * Notes
-    *   * La méthode permet de construire plusieurs flèches pour l'objet.
-    * @method arrow
-    * @param {Number|String|Object} aid     L'identifiant de la flèche, ou les paramètres de la première
-    * @param {Object}               params  Paramètres optionnels
-    *   @param  {Number} params.orientation   L'angle d'orientation de la flèche
-    *                                         Par défaut : 180 (horizontal)
-    * @return {Arrow} La flèche d'index +index+ (1-start)
-    */
-  arrow:function(aid, params)
-  {
-    if('object' == typeof aid)
-    {
-      params  = $.extend(true, {}, aid)
-      aid     = 1
-    }
-    else if(undefined == aid)
-    {
-      aid     = 1
-      params  = {}
-    }
-    if(undefined == this.arrows) this.arrows = {length:0}
-    if(undefined == this.arrows[aid])
-    {
-      // => La flèche n'existe pas, il faut la construire
-      if(undefined == params) params = {}
-      var darrow = 
-      params = $.extend(params, {
-        owner :this, 
-        top   :this.center_y, 
-        left  :this.left + 20 + (this.surrounded ? 4 : 0)
-      })
-      // dlog("params arrow :");dlog(params)
-      this.arrows[aid] = new Arrow(params)
-      ++ this.arrows.length
-      Anim.Dom.add(this.arrows[aid])
-    }
-    return this.arrows[aid]
-  },
-  /**
-    * Méthode pour supprimer la flèche
-    * @method unarrow
-    */
-  unarrow:function(index)
-  {
-    if(undefined != this.arrows[index])
-    {
-      this.arrows[index].remove()
-      delete this.arrows[index]
-      this.arrows.length -= 1
-      if(this.arrows.length == 0) delete this.arrows
-    } 
-  },
   /**
     * Entoure la note
     * Notes

@@ -4,7 +4,7 @@
 # n°1 de J.S BACH
 # =======================
 
-# SUITE(\'CBT1_Prelude1_parenthese_harmonie\')
+SUITE(\'CBT1_Prelude1_parenthese_harmonie\')
 
 # --- Valeurs par défault ---
 DEFAULT(\'next\', 75)

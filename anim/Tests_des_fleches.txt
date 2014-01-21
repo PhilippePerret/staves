@@ -3,6 +3,12 @@ DEFAULT(\'decompte\', 0)
 
 NEW_STAFF(SOL)
 
+acc = CHORD(\'c4 e4 g4 c5\')
+acc.arrow()
+acc.arrow().rotate(15)
+acc.arrow().colorize(red)
+
+NEXT(100)
 la = NOTE(a4)
 la.surround()
 la.arrow({color:red})

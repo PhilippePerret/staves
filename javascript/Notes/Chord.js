@@ -77,6 +77,8 @@ window.Chord = function(strnotes, params)
   Anim.wait(1)
   this.build()  
 }
+
+$.extend(Chord.prototype, UNVERSAL_METHODS)
 $.extend(Chord.prototype, METHODES_TEXTE)
 $.extend(Chord.prototype, METHODES_GROUPNOTES)
 
@@ -109,14 +111,19 @@ Object.defineProperties(Chord.prototype, {
     }
   },
   /**
-    * Le milieu vertical de l'objet
+    * Le milieu vertical de l'accord (moyenne de la hauteur de ses notes extrêmes)
     * @property {Number} center_y
     */
   "center_y":{
     get:function(){
-      var h_accord = 12
-      this.each_note(function(note){ h_accord += note.top })
-      return parseInt(this.top + (h_accord / 2), 10)
+      var h_accord = 12, max_top = 0, min_top = 10000 ;
+      
+      this.each_note(function(note){ 
+        if(note.top > max_top) max_top = note.top
+        if(note.top < min_top) min_top = note.top
+      })
+      dlog("Min top:"+min_top + "/ max top:"+max_top);
+      return parseInt(min_top + ((max_top - min_top) / 2), 10)
     }
   }
   
