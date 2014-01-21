@@ -352,7 +352,7 @@ $.extend(window.Console,{
     */
   code2pas:function(arr_lines, params)
   {
-    var pas, cur_offset ;
+    var step, cur_offset ;
     if(undefined == params) params = {}
     if(undefined == params.offset)    params.offset   = 0
     if(undefined == params.as_flash)  params.as_flash = false
@@ -365,9 +365,9 @@ $.extend(window.Console,{
       cur_start   = parseInt(cur_offset, 10)
       cur_offset += line.length + 1
       if(params.as_flash &amp;&amp; line.match(/^(WAIT|CAPTION)/)) return
-      pas = new Pas({code:line, offset_start:cur_start, flashed: params.as_flash})
-      if(pas.is_image) Img.preload_image_of_code(pas.code)
-      params.array.push( pas )
+      step = new Pas({code:line, offset_start:cur_start, flashed: params.as_flash})
+      if(step.is_image) Img.preload_image_of_code(step.code)
+      params.array.push( step )
     })
     return params.array
   }

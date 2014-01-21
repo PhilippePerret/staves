@@ -283,20 +283,6 @@ window.Arrow = function(params)
     * @property {String} _color   La couleur du cercle
     */
   this._color = &#x27;black&#x27;
-
-  /**
-    * Le possesseur de la flèche.
-    * Voir par exemple la note : elle définit une flèche avec :
-    *   maNote.arrow()
-    * Ensuite, pour pouvoir appeler des méthodes par :
-    *   maNote.arrow.&lt;method&gt;(&lt;paramètres&gt;)
-    * … maNote a mis son _arrow à l&#x27;instance Arrow, et a ajouté les
-    * méthode Arrow ci-dessous à sa méthode maNote.arrow.
-    * Mais si une flèche est créée sans être associée à un objet, elle doit
-    * pouvoir travailler de la même façon, d&#x27;où la définition ci-dessous.
-    * @property {Object} owner
-    */
-  this.owner = {_arrow:this}
   
   ObjetClass.call(this, params)
 }
@@ -304,7 +290,6 @@ Arrow.prototype = Object.create( ObjetClass.prototype )
 Arrow.prototype.constructor = Arrow
 
 ARROW_METHODS = {
-  owner: null,
   /**
     * Méthode générale pour modifier la flèche (appelée par les autres
     * méthodes)
@@ -317,11 +302,11 @@ ARROW_METHODS = {
   {
     if(method != &#x27;animate&#x27;)
     {
-      this.owner._arrow.obj[method](params)  
+      this.obj[method](params)  
     }
     else
     {
-      this.owner._arrow.obj.animate(
+      this.obj.animate(
         params, Anim.delai_for(&#x27;transform&#x27;), complete || NEXT_STEP
       )
     }
@@ -336,7 +321,7 @@ ARROW_METHODS = {
     */
   move:function(params)
   {
-    var pos   = this.owner._arrow.obj.position()
+    var pos   = this.obj.position()
     var data  = {}
     if(undefined != params.x) data.left = (pos.left + params.x) + &quot;px&quot;
     if(undefined != params.y) data.top  = (pos.top + params.y) + &quot;px&quot;
@@ -363,16 +348,17 @@ ARROW_METHODS = {
     */
   size:function(px)
   {
-    var h = this.owner._arrow.obj.height()
+    var h = this.obj.height()
     this.modify(&#x27;animate&#x27;, {width:px+&quot;px&quot;, height:h+&quot;px&quot;})
   },
 }
 
-$.extend(Arrow.prototype, ARROW_METHODS)
+$.extend(true, Arrow.prototype, ARROW_METHODS)
 
 Object.defineProperties(Arrow.prototype, {
   /**
-    * Objet DOM de la flèche s&#x27;il est construit
+    * Objet DOM de la flèche s&#x27;il est construit (un DIV contenant les deux images
+    * de la queue et de la tête)
     * @property {jQuerySet} obj
     * @default NULL
     */
@@ -380,19 +366,42 @@ Object.defineProperties(Arrow.prototype, {
     get:function(){
       if(undefined == this._obj)
       {
-        this._obj = $(&#x27;img#&#x27;+this.id)
+        this._obj = $(&#x27;div#&#x27;+this.id)
         if(this._obj.length == 0) this._obj = null
       }
       return this._obj
     }
   },
+  &quot;obj_head&quot;:{
+    get:function(){
+      if(!this.obj) return null
+      if(undefined == this._obj_head) this._obj_head = $(&#x27;img#&#x27;+this.id+&#x27;-head&#x27;)
+      return this._obj_head
+    }
+  },
+  &quot;obj_queue&quot;:{
+    get:function(){
+      if(!this.obj) return null
+      if(undefined == this._obj_queue) this._obj_queue = $(&#x27;img#&#x27;+this.id+&#x27;-queue&#x27;)
+      return this._obj_queue
+    }
+  },
   /**
-    * Source (src) de la flèche en fonction de sa couleur
+    * Source (src) de la tête de la flèche en fonction de sa couleur
     * @property {String} src
     */
-  &quot;src&quot;:{
+  &quot;src_head&quot;:{
     get:function(){
-      return &quot;../lib/img/divers/arrow/&quot;+this.color+&quot;.png&quot;
+      return &quot;../lib/img/divers/arrow/head-&quot;+this.color+&quot;.png&quot;
+    }
+  },
+  /**
+    * Source (src) de la queue de la flèche en fonction de sa couleur
+    * @property {String} src
+    */
+  &quot;src_queue&quot;:{
+    get:function(){
+      return &quot;../lib/img/divers/arrow/queue-&quot;+this.color+&quot;.png&quot;
     }
   },
   
@@ -401,12 +410,18 @@ Object.defineProperties(Arrow.prototype, {
     * Notes
     * -----
     *   * Si la propriété est re-définit et que l&#x27;objet existe, on change sa taille.
+    *   * Changer la taille consiste à changer deux choses : la taille du div
+    *     et la taille de la queue de flèche
     * @property {Number} width
     */
   &quot;width&quot;:{
     set:function(w){
       this._width = w
-      if(this.obj) this.obj.css(&#x27;width&#x27;, w+&#x27;px&#x27;)
+      if(this.obj)
+      {
+        this.obj.css(&#x27;width&#x27;, w+&#x27;px&#x27;)
+        this.obj_queue.css(&#x27;width&#x27;, (w - UI.css2number(this.obj_head.width()))+&#x27;px&#x27;)
+      } 
     },
     get:function(){
       if(!this._width) this._width == this.DEFAULT_WIDTH
@@ -414,16 +429,22 @@ Object.defineProperties(Arrow.prototype, {
     }
   },
   /**
-    * Retourne le code HTML de la flèche
+    * Retourne le code HTML de la flèche.
+    * Note
+    *   * La flèche est constitué d&#x27;un div qui contient la queue et la tête de la
+    *     la flèche qui permettent de la changer de taille sans changer son aspect.
     * @property {String} code_html
     */
   &quot;code_html&quot;:{
     get:function(){
-      return &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;arrow&quot; src=&quot;&#x27;+this.src+&#x27;&quot; style=&quot;&#x27;+this.style+&#x27;&quot; /&gt;&#x27;
+      return  &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;arrow&quot;&gt;&#x27; +
+                &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;-queue&quot; class=&quot;arrow-queue&quot; src=&quot;&#x27;+this.src_queue+&#x27;&quot; style=&quot;&#x27;+this.style_queue+&#x27;&quot; /&gt;&#x27;+
+                &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;-head&quot; class=&quot;arrow-head&quot; src=&quot;&#x27;+this.src_head+&#x27;&quot; style=&quot;&#x27;+this.style_head+&#x27;&quot; /&gt;&#x27;+
+              &#x27;&lt;/div&gt;&#x27;
     }
   },
   /**
-    * Attribut &#x27;style&#x27; de la balise HTML de la flèche
+    * Attribut &#x27;style&#x27; de la balise DIV HTML de la flèche
     * @property {String} style
     */
   &quot;style&quot;:{
@@ -435,6 +456,20 @@ Object.defineProperties(Arrow.prototype, {
     }
   },
   /**
+    * Attribut &#x27;style&#x27; de la tête de la flèche
+    * @property {String} style_head
+    */
+  &quot;style_head&quot;:{
+    get:function(){return &quot;&quot;}
+  },
+  /**
+    * Attribut &#x27;style&#x27; de la queue de la flèche
+    * @property {String} style_head
+    */
+  &quot;style_queue&quot;:{
+    get:function(){return &quot;&quot;}
+  },
+  /**
     * Décalage horizontal de la flèche (par défaut le décalage courant)
     * @property {Number} left
     */
@@ -444,7 +479,7 @@ Object.defineProperties(Arrow.prototype, {
     set:function(left){this._left = left}
   },
   /**
-    * Décalage vertical de la flèche (par défaut la hauteur de la portée)
+    * Décalage vertical de la flèche
     * @property {Number} top
     */
   &quot;top&quot;:{
@@ -477,7 +512,11 @@ Object.defineProperties(Arrow.prototype, {
   &quot;color&quot;:{
     set:function(couleur){
       this._color = couleur
-      if(this.obj) this.obj[0].src = this.src
+      if(this.obj)
+      {
+        this.obj_head[0].src  = this.src_head
+        this.obj_queue[0].src = this.src_queue
+      }
     },
     get:function(){
       return this._color || &#x27;blue&#x27;

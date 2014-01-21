@@ -277,6 +277,13 @@ Gestion du curseur de position de l'animation</a>
                                 
                             </li>
                         
+                            <li class="index-item method">
+                                <a href="#method_set_cursor">set_cursor</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -302,7 +309,7 @@ Gestion du curseur de position de l'animation</a>
             
                 <li class="arg">
                     
-                        <code>params</code>
+                        <code>offset</code>
                     
                 </li>
             
@@ -346,7 +353,8 @@ Gestion du curseur de position de l'animation</a>
     </div>
 
     <div class="description">
-        <p>Définir la prochaine position
+        <p>Définir la prochaine position d&#39;inscription relativement à la position
+courante.
 Cette méthode répond à la commande NEXT</p>
 
     </div>
@@ -359,16 +367,14 @@ Cette méthode répond à la commande NEXT</p>
             
                 <li class="param">
                     
-                        <code class="param-name">params</code>
-                        <span class="type">Undefined | Number | Object</span>
+                        <code class="param-name">offset</code>
+                        <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Optionnellement, si c&#39;est un nombre, le déplacement exact à effectuer en pixels
-        Si c&#39;est un objet, il peut définir la propriété <code>pas</code> qui indique le nombre
-        de <code>lefts</code> dont il faut avant ou reculer.</p>
+                        <p>Décalage par rapport à la position courante.</p>
 
                     </div>
 
@@ -429,7 +435,7 @@ Cette méthode répond à la commande NEXT</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l38"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:38</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l55"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:55</code></a>
         
         </p>
 
@@ -461,6 +467,121 @@ la position sur la grille et en passant à l&#39;étape suivante.</p>
 
                     <div class="param-description">
                         <p>La position du curseur de position</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_set_cursor" class="method item">
+    <h3 class="name"><code>set_cursor</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>param</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>value.</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l25"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:25</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Définir la prochaine position d&#39;inscription de façon absolue par une valeur
+de pixels ou une valeur de pas.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">param</code>
+                        <span class="type">Number | Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Si c&#39;est un nombre, la position exacte que
+        doit prendre le curseur. Sinon, c&#39;est un objet contenant {pas:<valeur>}
+        où <code>pas</code> est un des <code>left</code> utilisés dans l&#39;animation (toutes portées
+        confondues).</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">value.</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Si +param+ est string, définit la valeur du paramètre</p>
 
                     </div>
 

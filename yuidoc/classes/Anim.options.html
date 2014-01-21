@@ -218,7 +218,7 @@ Gestion des évènements</a></li>
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l41"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:41</code></a>
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l47"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:47</code></a>
         </div>
     
 
@@ -263,6 +263,20 @@ Gestion des évènements</a></li>
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_autosave">autosave</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_caption_omit">caption_omit</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item property">
                                 <a href="#property_fullscreen">fullscreen</a>
@@ -326,6 +340,101 @@ Gestion des évènements</a></li>
                 <h2 class="off-left">Properties</h2>
 
                 
+                    <div id="property_autosave" class="property item">
+    <h3 class="name"><code>autosave</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l63"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:63</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Pour sauvegarder ou non automatiquement le code modifié</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_caption_omit" class="property item">
+    <h3 class="name"><code>caption_omit</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l69"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:69</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Pour passer les captions (sous-titre et doublage) en cours d&#39;élaboration
+de l&#39;animation.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_fullscreen" class="property item">
     <h3 class="name"><code>fullscreen</code></h3>
     <span class="type">Boolean</span>
@@ -349,7 +458,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l47"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:47</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l53"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:53</code></a>
         
         </p>
 
@@ -394,7 +503,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l52"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:52</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l58"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:58</code></a>
         
         </p>
 
@@ -439,7 +548,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l61"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:61</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l95"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:95</code></a>
         
         </p>
 
@@ -449,10 +558,13 @@ Gestion des évènements</a></li>
     </div>
 
     <div class="description">
-        <p>Définition de la vitesse (ou plutôt la durée) des transitions</p>
+        <p>Définition de la vitesse (ou plutôt la durée) des transitions courantes</p>
 <h2 id="notes">Notes</h2>
-<p>  Cf. le mode &quot;flash&quot; qui peut modifier ces valeurs
-      <code>mode_flash</code></p>
+<ul>
+<li>C&#39;est cette table-ci qui est utilisée pour définir les durées courantes
+Cf. le mode &quot;flash&quot; qui peut modifier ces valeurs
+  <code>mode_flash</code></li>
+</ul>
 
     </div>
 
@@ -539,7 +651,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l108"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:108</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l130"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:130</code></a>
         
         </p>
 
@@ -584,7 +696,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l93"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:93</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l115"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:115</code></a>
         
         </p>
 
@@ -638,7 +750,7 @@ par le slider</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l78"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:78</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l80"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:80</code></a>
         
         </p>
 

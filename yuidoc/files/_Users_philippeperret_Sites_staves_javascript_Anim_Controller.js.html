@@ -333,7 +333,7 @@ $.extend(Anim,{
   play_preambule:function()
   {
     this.preambule_on = true
-    while(pas = Console.preambule.shift()) pas.exec()
+    while(step = Console.preambule.shift()) step.exec()
     this.preambule_on = false
   },
   /**
@@ -413,6 +413,7 @@ $.extend(Anim,{
   },
   /**
     * Procède vraiment au stop, en faisant réapparaitre les éléments
+    * + Si nécessaire, arrête l&#x27;enregistrement QuickTime courant
     * @method real_stop
     */
   real_stop:function()
@@ -422,6 +423,7 @@ $.extend(Anim,{
     this.set_interface()
     this.stop_button.css(&#x27;opacity&#x27;, 1)
     UI.Regle.show()
+    if(this.recording) this.stop_record()
   },
   
   /**

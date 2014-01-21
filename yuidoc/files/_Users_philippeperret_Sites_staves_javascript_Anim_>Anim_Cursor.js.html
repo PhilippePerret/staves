@@ -227,22 +227,39 @@ Gestion des évènements</a></li>
 window.Anim.Cursor = {
   
   /**
-    * Définir la prochaine position
+    * Définir la prochaine position d&#x27;inscription relativement à la position
+    * courante.
     * Cette méthode répond à la commande NEXT
     * @method next
-    * @param  {Undefined|Number|Object} params Optionnellement, si c&#x27;est un nombre, le déplacement exact à effectuer en pixels
-    *         Si c&#x27;est un objet, il peut définir la propriété &#x60;pas&#x60; qui indique le nombre
-    *         de &#x60;lefts&#x60; dont il faut avant ou reculer.
+    * @param  {Number} offset Décalage par rapport à la position courante.
     */
-  next:function(param)
+  next:function(offset)
   {
-    if(undefined == param) offset = Anim.prefs.next + Anim.prefs.offset_next
-
+    if(undefined == offset) offset = parseInt(Anim.prefs.next + Anim.prefs.offset_next,10)
     this.set(Anim.current_x + offset)
   },
-  set_cursor:function(param)
+  /**
+    * Définir la prochaine position d&#x27;inscription de façon absolue par une valeur
+    * de pixels ou une valeur de pas.
+    * @method set_cursor
+    * @param {Number|Object} param Si c&#x27;est un nombre, la position exacte que
+    *         doit prendre le curseur. Sinon, c&#x27;est un objet contenant {pas:&lt;valeur&gt;}
+    *         où &#x60;pas&#x60; est un des &#x60;left&#x60; utilisés dans l&#x27;animation (toutes portées
+    *         confondues).
+    * @param  {Number} value. Si +param+ est string, définit la valeur du paramètre
+    */
+  set_cursor:function(param, value)
   {
-    
+    var p, offset, cur_pas ;
+    if(&#x27;string&#x27; == typeof param ) param = twoargs2obj(param, value)
+    if(&#x27;number&#x27;==typeof param)          offset = param
+    else if(undefined != param.pas)     offset = Anim.Grid.lefts[param.pas - 1]
+    else if(undefined != param.offset)
+    {
+      cur_pas = Anim.Grid.lefts.indexOf(Anim.current_x)
+      offset  = Anim.Grid.lefts[cur_pas + param.offset] 
+    }
+    else return F.error(&quot;SET_CURSOR doit être appelé avec la position exacte à donner au curseur ou un objet contenant &#x60;{pas:&amp;lt;le pas&amp;gt;}&#x60;&quot;)
     this.set(offset)
   }
 }

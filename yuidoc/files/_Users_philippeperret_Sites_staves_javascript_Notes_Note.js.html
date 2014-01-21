@@ -225,8 +225,8 @@ Gestion des évènements</a></li>
   * Pour créer une note (instance Note) et la construire sur la portée
   * @method Note
   * @for window
-  * @param  {String} note   La note en version string (p.e. &quot;ab5&quot; pour la bémol 5)
-  * @param  {Object|Undefined} params   Paramètres optionnels
+  * @param  {String}            note   La note en version string (p.e. &quot;ab5&quot; pour la bémol 5)
+  * @param  {Object|Undefined}  params   Paramètres optionnels
   *   @param {Boolean} params.dont_build    Si true, la note n&#x27;est pas construite
   */
 window.NOTE = function(note, params)
@@ -240,8 +240,8 @@ window.NOTE = function(note, params)
 /**
   * @class Note
   * @constructor
-  * @param  {String} note   La note
-  * @param  {Object|String} Les paramètres optionnels
+  * @param  {String}        note    La note
+  * @param  {Object|String} params  Les paramètres optionnels
   */
 window.Note = function(note, params)
 {
@@ -259,20 +259,15 @@ window.Note = function(note, params)
   this.left = null
   
   /**
-    * Le texte éventuel que porte la note (instance {Txt})
+    * Les textes éventuels que porte la note (instances {Txt})
     * Note
     *   * Il est inauguré par la méthode &lt;note&gt;.write(&lt;texte&gt;)
     *
-    * @property {Txt} texte
+    * @property {Object} texte    L&#x27;objet porte en clé le type de texte porté
+    *                             par la note (&#x27;regular&#x27;, &#x27;part&#x27;, etc.) et en valeur l&#x27;instance Txt correspondante.
     */
   this.texte = null
   
-  /**
-    * Mis à true si une flèche par de la note
-    * @property {Boolean} arrowed
-    * @default false
-    */
-  this.arrowed = false
   /**
     * Mis à true si la note est entourée
     * @property {Boolean} surrounded
@@ -297,7 +292,6 @@ window.Note = function(note, params)
 }
 Note.prototype = Object.create( ObjetClass.prototype )
 Note.prototype.constructor = Note
-
 
 /* ---------------------------------------------------------------------
  *
@@ -331,20 +325,19 @@ $.extend(Note.prototype,{
     return this.operation(this.objets, &#x27;hide&#x27;)
   },
   /**
-    * Destruction de la note
-    * Notes
-    *   * Pour le moment, je détruis seulement son objet DOM et je la retire
-    *     de la portée (sauf si dont_unstaff est true).
+    * Destruction de la note de l&#x27;animation
     * @method remove
     * @param {Object} params  Paramètres optionnels
+    *   @param {Boolean}  params.texts          Si true, on doit aussi détruire les textes de la note (false par défaut)
     *   @param {Boolean}  params.dont_unstaff   Si true, on ne retire pas la note de la portée (utile à la destruction de la portée pour éviter les boucles infinies)
     */
   remove:function(params)
   {
     if(undefined == params) params = {}
-    this.operation(this.objets, &#x27;remove&#x27;)
+    var objs = this.objets
+    if (params.texts &amp;&amp; this.texte) L(this.texte).each(function(ktxt, instance_txt){ objs.push(instance_txt.obj)})
+    this.operation(objs, &#x27;remove&#x27;)
     if(!params.dont_unstaff) this.staff.notes.remove(this)
-    this.arrowed    = false
     this.surrounded = false
   },
   
@@ -420,33 +413,55 @@ $.extend(Note.prototype,{
   },
   
   /**
-    * Construit une flèche partant de la note
+    * Construit des flèches partant de la note
+    * Notes
+    *   * La méthode permet de construire plusieurs flèches pour l&#x27;objet.
     * @method arrow
-    * @param {Object} params Paramètres optionnels
+    * @param {Number|String|Object} aid     L&#x27;identifiant de la flèche, ou les paramètres de la première
+    * @param {Object}               params  Paramètres optionnels
     *   @param  {Number} params.orientation   L&#x27;angle d&#x27;orientation de la flèche
     *                                         Par défaut : 180 (horizontal)
+    * @return {Arrow} La flèche d&#x27;index +index+ (1-start)
     */
-  arrow:function(params)
+  arrow:function(aid, params)
   {
-    if(this._arrow) this._arrow.remove()
-    $.extend(this.arrow, ARROW_METHODS)
-    this.arrow.owner = this
-    if(undefined == params) params = {}
-    var x = this.left + 20
-    var y = this.top
-    params = $.extend(params, {owner:this, top:y, left:x})
-    this._arrow = new Arrow(params)
-    Anim.Dom.add(this._arrow)
-    this.arrowed = true
+    if(&#x27;object&#x27; == typeof aid)
+    {
+      params  = $.extend(true, {}, aid)
+      aid     = 1
+    }
+    else if(undefined == aid)
+    {
+      aid     = 1
+      params  = {}
+    }
+    if(undefined == this.arrows) this.arrows = {length:0}
+    if(undefined == this.arrows[aid])
+    {
+      // =&gt; La flèche n&#x27;existe pas, il faut la construire
+      if(undefined == params) params = {}
+      var x = this.left + 20
+      var y = this.top
+      params = $.extend(params, {owner:this, top:y, left:x})
+      this.arrows[aid] = new Arrow(params)
+      ++ this.arrows.length
+      Anim.Dom.add(this.arrows[aid])
+    }
+    return this.arrows[aid]
   },
   /**
     * Méthode pour supprimer la flèche
     * @method unarrow
     */
-  unarrow:function()
+  unarrow:function(index)
   {
-    this._arrow.remove()
-    this.arrowed = false
+    if(undefined != this.arrows[index])
+    {
+      this.arrows[index].remove()
+      delete this.arrows[index]
+      this.arrows.length -= 1
+      if(this.arrows.length == 0) delete this.arrows
+    } 
   },
   /**
     * Entoure la note
@@ -1020,7 +1035,7 @@ Object.defineProperties(Note.prototype,{
     {
       var objets = [this.obj]
       if(this.alteration) objets.push(this.obj_alt)
-      if(this.arrowed)    objets.push(this._arrow.obj)
+      if(this.arrows)     L(this.arrows).each(function(i, arrow){if(i==&#x27;length&#x27;)return; objets.push(arrow.obj)})
       if(this.surrounded) objets.push(this.circle.obj)
       return objets
     }
