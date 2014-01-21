@@ -18,7 +18,8 @@ img.staffline {
 }
 
 img.cle {
-  width:32px;
+  width   :32px;
+  left    :18px;
 }
 
 img.supline {

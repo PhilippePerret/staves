@@ -21,20 +21,33 @@ Anim.Dom = {
     * Efface en douceur le contenu de l'animation
     * (pour un lien fluide entre des animations qui se suivent — ou reset en cours d'animation)
     * @method clear
-    * @param  {Function} complete   La méthode pour suivre (NEXT_STEP par défaut)
+    * @param  {Function}  complete   La méthode pour suivre (NEXT_STEP par défaut)
+    * @param  {Object}    params     Paramètres optionnels
+    *   @param {Boolean}  params.staves   Si true, détruit aussi les portées
+    *   @param {Boolean}  params.all      Pour bien préciser qu'il faut tout détruire
     */
-  clear:function(complete)
+  clear:function(complete, params)
   {
     dlog("-> Effacement de l'animation")
     if(undefined == complete) complete = NEXT_STEP
-    var nombre_elements = $('section#animation *').length
-    $('section#animation *').animate(
+    if(undefined == params) params = {}
+    if(params.all)
+    {
+      params.staves = true
+    } 
+    var not = ""
+    if(!params.staves) not = ":not(.staff)"
+    else Anim.staves = []
+    
+    var selector = 'section#animation > *'+not
+    var nombre_elements = $(selector).length
+    $(selector).animate(
       {opacity:0},
       {always:function(){
         -- nombre_elements
         if(nombre_elements == 0)
         {
-          $('section#animation').html('');
+          $(selector).remove();
           complete()
         }
       }})

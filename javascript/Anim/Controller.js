@@ -121,7 +121,7 @@ $.extend(Anim,{
     if($('section#animation *').length)
     {
       dlog("* Je dois nettoyer l'animation (<- Anim.play_for_good)")
-      return this.Dom.clear($.proxy(this.play_for_good, this))
+      return this.Dom.clear($.proxy(this.play_for_good, this), {all:true})
     } 
     dlog("[play_for_good] Je passe au premier pas.")
     this.Step.next()

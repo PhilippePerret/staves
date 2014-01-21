@@ -177,15 +177,7 @@ FONCTIONS_ANIM_OBJETS = {
     *
     * @method CLEAN
     */
-  CLEAR:function(with_staves)
-  {
-    if(undefined == with_staves) with_staves = false
-    var not = ""
-    if(!with_staves) not = ":not(.staffline, .cle)"
-    $('section#animation *'+not).remove()
-    if(with_staves) Anim.staves = []
-    NEXT_STEP()
-  },
+  CLEAR:function(with_staves){Anim.Dom.clear(NEXT_STEP, {staves:with_staves})},
   
   /**
     * Modifie la vitesse de l'animation

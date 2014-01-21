@@ -306,7 +306,8 @@ $.extend(Staff.prototype, {
   {
     this.img_staff.css({top: this.top+"px", left: this.left+"px"})
     var dec_top = this.cle == SOL ? -19 : -1
-    this.img_cle.css({top:(this.top + dec_top)+"px", left:(this.left+6)+"px"})
+    // this.img_cle.css({top:(this.top + dec_top)+"px", left:(this.left+6)+"px"})
+    this.img_cle.css({top:dec_top+"px"})
     //+9.6 pour clé de FA, -7 pour clé de Sol
   },
   
@@ -463,16 +464,11 @@ Object.defineProperties(Staff.prototype,{
     * Return le code HTML complet de la portée
     * @property {HTMLString} code_html
     */
-  "code_html":{
-    get:function(){
-      return  this.html_img           +
-              this.html_img_cle       + 
-              this.html_img_metrique  +
-              this.html_img_armure
-    }
-  },
+  "code_html":{get:function(){return this.html_img}},
+  
   /**
     * Return le code HTML pour la portée
+    * Avec tous ses éléments (clé, métrique, armure)
     * @property {HTMLString} html_img
     */
   "html_img":{
@@ -483,6 +479,9 @@ Object.defineProperties(Staff.prototype,{
         c += '<img style="top:'+(i * nheight)+'px;" class="staffline" src="img/line.png" />'
         // top += 12
       }
+      c +=  this.html_img_cle +
+            this.html_img_metrique +
+            this.html_img_armure
       return '<div id="'+this.id+'" style="top:'+this.top+'px;" class="staff">'+c+'</div>'
     }
   },

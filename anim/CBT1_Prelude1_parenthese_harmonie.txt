@@ -1,7 +1,8 @@
+#
 # Analyse du Prélude 1 CBT1
 # Parenthèse sur l\'harmonie
 DEFAULT(\'decompte\',0)
-DEFAULT(\'staff_top\',108)
+DEFAULT(\'staff_top\')
 DEFAULT(\'caption_timer\', true)
 DEFAULT(\'next\', 200)
 
@@ -11,6 +12,7 @@ DEFAULT(\'next\', 200)
 # voir les captions
 DEFAULT(\'caption_omit\', true)
 
+NEW_STAFF(SOL)
 NEW_STAFF(SOL)
 NEW_STAFF(SOL)
 NEW_STAFF(SOL)
