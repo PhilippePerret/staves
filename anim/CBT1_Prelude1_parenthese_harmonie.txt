@@ -28,62 +28,79 @@ NEXT()
 # Pas 3
 NEXT()
 
-CAPTION(\"Pour être vraiment à l\'aise avec l\'harmonie, et en tirer profit, je pense que le plus gros effort à faire consiste à connaitre parfaitement les tonalités.\", {wait:true})
+CAPTION(\"Pour être vraiment à l\'aise avec l\'harmonie, et en tirer profit, je pense que le plus gros effort à fournir consiste à connaitre parfaitement les tonalités, ainsi que les notions relatives aux tonalités, comme par exemple les cycles des dièses et des bémols.\", {wait:true})
 
-CAPTION(\"C\'est un travail de mémoire, et aussi de logique simple. Et il demande beaucoup d\'effort au départ\", {wait:true})
+CAPTION(\"C\'est un travail de mémoire, mais aussi de logique simple, qui demande beaucoup d\'investissement au départ. Mais plus on le fait, et plus il devient simple.\", {wait:true})
 
-CAPTION(\"Le but à atteindre est de connaitre par chœur les altérations de toutes les tonalités, et de connaître les tons voisins de chaque tonalité.\", {wait:true})
+CAPTION(\"Le but à atteindre est de connaitre parfaitement les altérations de toutes les tonalités, et de connaître les tons voisins de chacune de ces tonalités.\", {wait:true})
 
-CAPTION(\"Pour la connaissance des tonalités, je vous renvoie à mes premiers screencasts\", {wait:true})
+CAPTION("Pour toutes ces notions, il y a la mémoire, mais il y a également tout un tas de répères mnémotechniques faciles à mettre en œuvre.", {wait:true})
+
+CAPTION(\"Pour la connaissance des tonalités, je vous renvoie à mes premiers screencasts, je n'y reviendrai pas ici. Revenons à notre prélude.\", {wait:true})
 
 WAIT(2)
 
-CAPTION(\"Dès qu\'on aborde une pièce, on se rafraichit aussitôt la mémoire sur les tons voisins si nécessaire\", {wait:true})
+CAPTION(\"Dès qu\'on aborde une pièce, une chose à faire avant même d'aborder les généralités dont on a déjà parlées, consiste à se rafraichir la mémoire concernant la tonalité courante. Et notamment sur les tons voisins.\", {wait:true})
 
-CAPTION(\"Pourquoi ?… Tout simplement parce que jusque que… disons la musique contemporaine… c\'est vers ces tons voisins que se font la plupart du temps les changements de tonalités, changement de tonalités fréquents dans la musique classique (ou le jazz).\", {wait:true})
+CAPTION(\"Pourquoi ?… Tout simplement parce que jusque que… disons la musique contemporaine… c\'est vers ces tons voisins que se font la plupart du temps les changements de tonalités, changement de tonalités fréquents dans la musique classique comme dans le jazz.\", {wait:true})
 
 # QU\'EST-CE QU\'UN TON VOISIN ?
 
-CAPTION(\"Qu\'est-ce qu\'on appelle un “ton voisin” ?… C\'est extrêmement simple : un ton voisin, c\'est une tonalité qui ne différe que par une seule note du ton de référence. Une seule note.\", {wait:true})
+CAPTION(\"Qu\'est-ce qu\'on appelle un “ton voisin” ?… C\'est extrêmement simple : un ton voisin, c\'est un ton, donc un ensemble de notes, qui ne différe que par une seule note du ton de référence. Une seule note.\", {wait:true})
 
-CAPTION(\"Mais cette note, bien entendu, n\'est pas choisie au hasard. Elle répond au cycle des quintes ou au cycle des bémols.\", {wait:true})
+CAPTION(\"Mais cette note n\'est pas choisie au hasard. Cette note répond au cycle des quintes ou au cycle des bémols.\", {wait:true})
 
-CAPTION(\"Ce cycle des quintes et des bémols est également un outil que vous devez connaitre par chœur si vous voulez être un jour à l\'aise avec l\'analyse.\", {wait:true})
+CAPTION(\"Ce cycle des quintes et des bémols fait partie de l'attirail de l'analyse. Il est bon de le connaitre par cœur.\", {wait:true})
 
-CAPTION(\"Je ne rentre pas ici dans le détail de ce cycle des quintes, c\'est l\'objet d\'un autre screencast.\",{wait:true})
+CAPTION(\"Je ne rentre pas ici dans le détail de ces cycles de quintes, c\'est l\'objet d\'un autre screencast, je vais juste les redonner.\",{wait:true})
 
-CAPTION(\"Pour les dièses, apprenez simplement que c\'est le suivant :\", {wait:true})
+CAPTION(\"Pour les dièses, c\'est le suivant : Fa Do Sol Ré La Mi Si\")
 
 SET_CURSOR(100)
 DEFAULT(\'next\')
 
-MOTIF(\'fd5 cd5 gd5 dd5 ad4 ed5 bd4\')
+cycleD = MOTIF(\'fd5 cd5 gd5 dd5 ad4 ed5 bd4\')
 
-CAPTION(\"Et le cycle des bémols va dans l\'autre sens :\", {wait:true})
+WAIT(4)
 
-MOTIF(\'bb4 eb5 ab4 db5 gb4 cb5 fb4\', {staff:2})
+CAPTION(\"Et le cycle des bémols va dans le sens inverse : Si Mi La Ré Sol Do Fa.\")
 
-CAPTION(\"Les altérations qu\'on trouve à la clé, dans toutes les musiques tonales, jazz et variété compris, sont toujours dans cet ordre. Impossible de trouver un MI bémol sans trouver avant un SI bémol. Impossible de trouver un RÉ dièse sans trouver avant FA dièse, do dièse et sol dièse.\", {wait:true})
+cycleB = MOTIF(\'bb4 eb5 ab4 db5 gb4 cb5 fb4\', {staff:2})
+
+WAIT(4)
+
+CAPTION(\"Les altérations qu\'on trouve à la clé — ce qu'on appelle “l'armure”, ou “armature” —, dans toutes les musiques tonales, musique de variété et jazz compris, sont toujours dans cet ordre, en partant de la gauche pour aller vers la droite.\", {wait:true})
+
+cycleB.note([1,3,4,5,6,7]).hide()
+CAPTION(\"Impossible de trouver dans une armure un MI bémol sans trouver le SI bémol qui le précède dans l\'ordre des bémols.", {wait:true})
+cycleB.note(1).show()
+
+WAIT(1)
+
+cycleD.note([1,2,3,5,6,7]).hide()
+CAPTION(" Impossible de trouver un RÉ dièse sans trouver le FA dièse, le do dièse et le sol dièse qui le précèdent dans l\'ordre des dièses.\", {wait:true})
+cycleD.note([1,2,3]).show()
 
 # RETOUR AU TON VOISIN
 
-CAPTION(\"Un ton voisin, c\'est comme je l\'ai dit une tonalité qui n\'a qu\'une note de différence avec la tonalité de référence… C\'est donc une tonalité qui aura une altération en plus, ou une altération en moins, par rapport à cette tonalité\", {wait:true})
+CAPTION(\"Un ton voisin, c\'est donc, comme je l\'ai dit, un ton, une tonalité, qui n\'a qu\'une note de différence avec la tonalité de référence… C\'est donc une tonalité qui aura une altération en plus, ou une altération en moins, par rapport à cette tonalité\", {wait:true})
 
 
-CAPTION(\"Cette pièce ne présente aucune altération à la clé, on est donc en DO Majeur. Ses tons voisins vont être les tons qu\'on obtient en ajoutant ou en retirant une altération.\", {wait:true})
+CAPTION(\"Cette pièce de Bach ne présente aucune altération à la clé, on est donc en DO Majeur. Ses tons voisins vont être les tons qu\'on obtient en ajoutant ou en retirant une altération.\", {wait:true})
 
 CLEAR()
 
 SET_CURSOR(200)
 
 SCALE(\'c\', {staff:1})
+STAFF(1).write(\"DO Majeur\", {left:130, offset_y:-24})
 
 CAPTION(\"En ajoutant un dièse dans l\'ordre des dièses, on obtient la tonalité de Sol Majeur\")
 
 SET_CURSOR(200)
 
 SCALE(\'g\', {staff:2})
-STAFF(2).write(\"SOL Majeur\", {left:130})
+STAFF(2).write(\"SOL Majeur\", {left:130, offset_y:-24})
 
 WAIT(1)
 
@@ -92,7 +109,7 @@ CAPTION(\"Comme on ne peut pas retirer de dièses à la tonalité de DO Majeur �
 SET_CURSOR(200)
 
 SCALE(\'f\', {staff:3})
-STAFF(3).write(\"FA Majeur\", {left:130})
+STAFF(3).write(\"FA Majeur\", {left:130, offset_y:-24})
 
 
 CAPTION(\"Et le dernier ton proche, c\'est celui du relatif, ici le relatif <u>mineur</u> puisque la tonalité est majeure. C\'est la tonalité de La mineur\", {wait:true})
@@ -100,7 +117,7 @@ CAPTION(\"Et le dernier ton proche, c\'est celui du relatif, ici le relatif <u>m
 SET_CURSOR(200)
 
 SCALE(\'a\', {type:\'min_h\', staff:4})
-STAFF(4).write(\"LA mineur\", {left:130})
+STAFF(4).write(\"LA mineur\", {left:130, offset_y:-24})
 
 #!END
 
