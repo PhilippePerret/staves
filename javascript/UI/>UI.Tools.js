@@ -100,6 +100,17 @@ window.UI.Tools = {
     this.init()
   },
   
+  /**
+    * Quand on double clique sur une animation dans la liste des animations
+    * (Open)
+    * @method on_dblclick_animation
+    */
+  on_dblclick_animation:function()
+  {
+    delete Anim.name
+    Anim.load()
+    this.hide_section()
+  },
   /* ---------------------------------------------------------------------
    *  PARTIE DES OBJETS GÉRANT L'OUTIL “COORDONNÉES”
    *  (pour obtenir les coordonnées à l'écran)

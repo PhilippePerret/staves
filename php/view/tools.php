@@ -8,7 +8,7 @@
   <div id="tool_animations" style="display:none;">
     <div class="titre">Choisir l'animation</div>
     <!-- Le menu contenant les animations courantes -->
-    <select id="animations" size="10"></select>
+    <select id="animations" size="10" ondblclick="$.proxy(UI.Tools.on_dblclick_animation, UI.Tools)()"></select>
   </div>
   <div id="tool_save_as" style="display:none;">
     <div class="titre">Nom de l'animation courante</div>
