@@ -122,7 +122,6 @@ FONCTIONS_ANIM_OBJETS = {
     * Place le curseur à une position précise
     * Notes
     *   * Redéfinit la valeur de Anim.current_x
-    *   * Passe à l'étape suivante
     * @method SET_CURSOR
     * @param {Number|Object} param Définition de la nouvelle position. Cf. `Anim.Cursor.set_cursor`
     */

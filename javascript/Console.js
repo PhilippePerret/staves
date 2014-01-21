@@ -258,12 +258,9 @@ Object.defineProperties(window.Console,{
   "steps_between_repairs":{
     get:function(){
       var start = this.raw.indexOf("\n#!START")
+      if(start == -1) start = 0
       var end   = this.raw.indexOf("\n#!END")
-      if(start < -1 || end < -1)
-      {
-        F.error("Il faut placer les repères `#!START` et `#!END` dans le code (et les placer sur une ligne vierge) !")
-        return null
-      }
+      if(end == -1) end = this.raw.length - 1
       this.select({start:start+1, end:end})
       delete this._steps_selection  // pour forcer le recalcul
       return this.steps_selection

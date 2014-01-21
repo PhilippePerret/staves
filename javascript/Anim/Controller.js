@@ -69,47 +69,6 @@ $.extend(Anim,{
     }
   },
   /**
-    * Règle l'interface, soit pour le jeu, soit pour l'arrêt, soit pour la pause
-    * @method set_interface
-    */
-  set_interface:function()
-  {
-    // dlog("-> set_interface [on="+this.on+"/pause_on="+this.pause_on+"]")
-    this.stop_button.css('visibility', this.on ? 'visible':'hidden')
-    this.pause_button[this.on && !this.pause_on && !this.Step.mode_pas_a_pas ?'show':'hide']()
-    this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?'show':'hide']()
-
-    if(!this.on || this.pause_on)
-    {
-      if(Anim.prefs.grid) this.Grid.show()
-    } 
-    else this.Grid.hide()
-    
-    if(this.on)
-    {
-      /* Les éléments qu'il faut toujours masquer */
-      UI.Popups.section.hide()
-      /* Les éléments à masquer optionnellement */
-      if(Anim.options.fullscreen)
-      {
-        this.controller.hide()
-        Console.console.css('opacity', 0.2)
-      }
-    }
-    else
-    {
-      /* Les éléments qu'il faut toujours masquer (et donc remettre)*/
-      UI.Popups.section.show()
-      /* Les éléments à masquer optionnellement */
-      if(Anim.options.fullscreen)
-      {
-        this.controller.show()
-        Console.console.css('opacity', 1)
-      }
-    }
-  },
-  
-  /**
     * Interprète les étapes de préambule
     * @method play_preambule
     */
@@ -189,7 +148,6 @@ $.extend(Anim,{
   stop:function(forcer)
   {
     if(this.on == false) return // retardataires
-    if(!this.hasSuite || forcer) UI.chronometre.stop
     this.on       = false
     this.pause_on = false
     this.kill_timer()
@@ -217,7 +175,7 @@ $.extend(Anim,{
     }
   },
   /**
-    * Procède vraiment au stop, en faisant réapparaitre les éléments
+    * Procède vraiment au stop, en faisant réapparaitre les outils de l'interface
     * Notes
     *   * La méthode n'est pas appelée lors d'une suite d'animations
     *   * Si nécessaire, arrête l'enregistrement QuickTime courant
@@ -226,6 +184,7 @@ $.extend(Anim,{
     */
   real_stop:function()
   {
+    if(!this.hasSuite) UI.chronometre.stop
     this.kill_timer()
     $('div#warning').hide()
     this.set_interface()
@@ -261,6 +220,47 @@ $.extend(Anim,{
     }
   },
 
+  /**
+    * Règle l'interface, soit pour le jeu, soit pour l'arrêt, soit pour la pause
+    * @method set_interface
+    */
+  set_interface:function()
+  {
+    // dlog("-> set_interface [on="+this.on+"/pause_on="+this.pause_on+"]")
+    this.stop_button.css('visibility', this.on ? 'visible':'hidden')
+    this.pause_button[this.on && !this.pause_on && !this.Step.mode_pas_a_pas ?'show':'hide']()
+    this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?'show':'hide']()
+
+    if(!this.on || this.pause_on)
+    {
+      if(Anim.prefs.grid) this.Grid.show()
+    } 
+    else this.Grid.hide()
+    
+    if(this.on)
+    {
+      /* Les éléments qu'il faut toujours masquer */
+      UI.Popups.section.hide()
+      /* Les éléments à masquer optionnellement */
+      if(Anim.options.fullscreen)
+      {
+        this.controller.hide()
+        Console.console.css('opacity', 0.2)
+      }
+    }
+    else
+    {
+      /* Les éléments qu'il faut toujours masquer (et donc remettre)*/
+      UI.Popups.section.show()
+      /* Les éléments à masquer optionnellement */
+      if(Anim.options.fullscreen)
+      {
+        this.controller.show()
+        Console.console.css('opacity', 1)
+      }
+    }
+  },
+  
   /**
     * Définit le slider de vitesse de l'animation
     * @method set_slider

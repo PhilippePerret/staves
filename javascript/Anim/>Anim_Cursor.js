@@ -36,8 +36,18 @@ window.Anim.Cursor = {
   {
     var p, offset, cur_pas ;
     if('string' == typeof param ) param = parametize(param, value)
-    if('number'==typeof param)          offset = param
-    else if(undefined != param.pas)     offset = Anim.Grid.lefts[param.pas - 1]
+    if('number' == typeof param)
+    {
+      if(param < 15) // => définition d'un pas
+      {
+        offset = Anim.Grid.lefts[param]
+      }
+      else          // => définition d'une position précise
+      {
+         offset = param
+      }
+    }
+    else if(undefined != param.pas)     offset = Anim.Grid.lefts[param.pas]
     else if(undefined != param.offset)
     {
       cur_pas = Anim.Grid.lefts.indexOf(Anim.current_x)

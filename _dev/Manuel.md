@@ -287,6 +287,8 @@ Pour remettre toutes les valeurs de décalages aux valeurs de départ, utiliser 
 
 Pour définir l'animation courante comme l'animation par défaut — ie celle qui s'ouvrira au prochain chargement de l'application&nbsp;—, activer le menu “Fichier > Définir comme anim par défaut”.
 
+
+
 ---------------------------------------------------------------------
 
 <a name="le_curseur_de_position"></a>
@@ -299,7 +301,8 @@ Le “curseur de position” est la ligne verticale bleue qui traverse verticale
 ###Table des matières
 
 * [Déplacement du curseur vers la droite](#move_cursor_to_right)
-* [Régler du pas entre chaque déplacement (NEXT())](#set_pas_next)
+* [Déplacement du curseur sur un “pas”](#move_cursor_to_a_pas)
+* [Régler la valeur de déplacement entre chaque NEXT()](#set_pas_next)
 * [Revenir au début des portées](#move_cursor_to_depart)
 * [Placer le curseur à une position précise](#set_cursor_to_position)
 
@@ -325,6 +328,30 @@ Par exemple, pour déplacer le curseur de position de 100px vers la gauche (donc
 
     NEXT(-100)
     // => les notes suivantes s'écriront 100px plus à gauche
+
+<a name="move_cursor_to_a_pas"></a>
+###Déplacer le curseur sur un pas
+
+À chaque déplacement (`NEXT` ou `SET_CURSOR`), l'animation mémorise la position comme un “pas” (*note&nbsp;: si la grille est active, ils sont représentés par des marqueurs tout en haut de l'animation.*). Il est très simple de revenir à un de ces “pas”.
+
+**Première formule**
+
+    SET_CURSOR({pas:<indice du pas>})
+
+**Deuxième formule**
+
+    SET_CURSOR('pas', <indice du pas>)
+    
+**Troisième formule**
+
+    SET_CURSOR(<indice du pas>)
+
+Noter que dans cette dernière formule, on utilise la même syntaxe que pour placer le curseur de position à une position précise. Mais l'animation par du principe que si son premier argument est un nombre inférieur à 15 (donc qui serait positionné sur une clé de portée), c'est un pas et non pas (sic) une position en pixels. Il y a rarement plus de 15 pas dans une animation traditionnelle.
+
+Dans le cas contraire, s'il n'y avait pas de portée et qu'on voulait vraiment positionner un élément à moins de 15 pixels, on devrait alors utiliser la formule explicite&nbsp;:
+
+    SET_CURSOR({offset:<nombre de pixels>})
+
 
 <a name="set_pas_next"></a>
 ###Régler le pas entre chaque NEXT()

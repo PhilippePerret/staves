@@ -5,7 +5,7 @@ DEFAULT(\'staff_top\',108)
 DEFAULT(\'caption_timer\', true)
 DEFAULT(\'next\', 200)
 
-SUITE(\'CBT1_Prelude1_01-11\')
+#SUITE(\'CBT1_Prelude1_01-11\')
 
 # Pour régler l\'animation sans
 # voir les captions
@@ -13,8 +13,18 @@ DEFAULT(\'caption_omit\', true)
 
 NEW_STAFF(SOL)
 NEW_STAFF(SOL)
+NEW_STAFF(SOL)
 
 ACTIVE_STAFF(1)
+
+# Je définis ici les pas pour
+# que ça soit plus pratique
+# Pas 1
+NEXT(100)
+# Pas 2
+NEXT()
+# Pas 3
+NEXT()
 
 CAPTION(\"Pour être vraiment à l\'aise avec l\'harmonie, et en tirer profit, je pense que le plus gros effort à faire consiste à connaitre parfaitement les tonalités.\", {wait:true})
 
@@ -26,41 +36,80 @@ CAPTION(\"Pour la connaissance des tonalités, je vous renvoie à mes premiers s
 
 WAIT(2)
 
-CAPTION(\"Dès qu\'on aborde une pièce, on se rafraichis aussitôt la mémoire sur les tons voisins si nécessaire\", {wait:true})
+CAPTION(\"Dès qu\'on aborde une pièce, on se rafraichit aussitôt la mémoire sur les tons voisins si nécessaire\", {wait:true})
 
-CAPTION(\"Pourquoi ?… Tout simplement parce que jusqu\'à la musique contemporaine disons, c\'est vers ces tons voisins que se font la plupart du temps les modulations et les emprunts.\", {wait:true})
+CAPTION(\"Pourquoi ?… Tout simplement parce que jusque que… disons la musique contemporaine… c\'est vers ces tons voisins que se font la plupart du temps les changements de tonalités, changement de tonalités fréquents dans la musique classique (ou le jazz).\", {wait:true})
 
-CAPTION(\"Nous verrons plus tard ce qu\'est un emprunt et une modulation.\", {wait:true})
+# QU\'EST-CE QU\'UN TON VOISIN ?
 
-NEXT()
+CAPTION(\"Qu\'est-ce qu\'on appelle un “ton voisin” ?… C\'est extrêmement simple : un ton voisin, c\'est une tonalité qui ne différe que par une seule note du ton de référence. Une seule note.\", {wait:true})
+
+CAPTION(\"Mais cette note, bien entendu, n\'est pas choisie au hasard. Elle répond au cycle des quintes ou au cycle des bémols.\", {wait:true})
+
+CAPTION(\"Ce cycle des quintes et des bémols est également un outil que vous devez connaitre par chœur si vous voulez être un jour à l\'aise avec l\'analyse.\", {wait:true})
+
+CAPTION(\"Je ne rentre pas ici dans le détail de ce cycle des quintes, c\'est l\'objet d\'un autre screencast.\",{wait:true})
+
+CAPTION(\"Pour les dièses, apprenez simplement que c\'est le suivant :\", {wait:true})
+
+SET_CURSOR(100)
+DEFAULT(\'next\')
+
+MOTIF(\'fd5 cd5 gd5 dd5 ad4 ed5 bd4\')
+
+CAPTION(\"Et le cycle des bémols va dans l\'autre sens :\", {wait:true})
+
+MOTIF(\'bb4 eb5 ab4 db5 gb4 cb5 fb4\', {staff:2})
+
+CAPTION(\"Les altérations qu\'on trouve à la clé, dans toutes les musiques tonales, jazz et variété compris, sont toujours dans cet ordre. Impossible de trouver un MI bémol sans trouver avant un SI bémol. Impossible de trouver un RÉ dièse sans trouver avant FA dièse, do dièse et sol dièse.\", {wait:true})
+
+# RETOUR AU TON VOISIN
+
+CAPTION(\"Un ton voisin, c\'est comme je l\'ai dit une tonalité qui n\'a qu\'une note de différence avec la tonalité de référence… C\'est donc une tonalité qui aura une altération en plus, ou une altération en moins, par rapport à cette tonalité\", {wait:true})
+
+
+CAPTION(\"Cette pièce ne présente aucune altération à la clé, on est donc en DO Majeur. Ses tons voisins vont être les tons qu\'on obtient en ajoutant ou en retirant une altération.\", {wait:true})
+
+CLEAR()
+
+SCALE(\'c\', {staff:1})
+
+SCALE(\'g\', {staff:2})
+
+SCALE(\'f\', {staff:3})
+
+#!END
+
+# RÉSUMÉ EN PRÉSENTANT LES ACCORDS
+
+SET_CURSOR(2)
 accdo = CHORD(\'c4 e4 g4 c5\')
-
-CAPTION(\"Cette pièce étant en DO Majeur, la tonalité la plus connue, on doit aussitôt connaitre ses tons voisins.\", {wait:true})
-
-CAPTION(\"Les tons voisins se trouvent très facilement, puisqu\'il suffit d\'ajouter et de retirer des altérations à la tonalité de référence, ici DO Majeur\",{wait:true})
 
 CAPTION(\"Quand j\'ajoute un dièse, ou que je retire un bémol, j\'obtiens le ton voisin de la dominante\", {wait:true})
 
 accdo.note(3).arrow()
 
-NEXT()
 
 CAPTION(\"Ici, en Do Majeur, donc sans altération à la clé, j\'obtiens donc en ajoutant un dièse la tonalité de SOL Majeur\", {wait:true})
 
+SET_CURSOR(3)
+
 accsol = CHORD(\'g4 b4 d5 g5\')
+
 
 CAPTION(\"Quand je retire un dièse, ou que j\'ajoute un bémol, j\'obtiens le ton voisin de la sous-dominante\", {wait:true})
 
 CAPTION(\"Ici, en DO Majeur, je dois ajouter un bémol puisque je ne peux pas retirer de dièse, j\'obtiens donc en ajoutant le premier bémol dans l\'ordre des bémols, le sib, une tonalité de FA Majeur\", {wait:true})
 
-NEXT(-2)
+SET_CURSOR(1)
+
 accfa = CHORD(\'f4 a4 c5 f5\')
 
 CAPTION(\"Le troisième ton proche est celui du relatif, ici le relatif mineur puisque nous sommes dans une tonalité majeure.\",{wait:true})
 
 CAPTION(\"Cette tonalité mineur est un ton et demi-sous la tonalité majeur, donc un LA mineur en Do Majeur\", {wait:true})
 
-NEXT()
+SET_CURSOR(2)
 acclam = CHORD(\'a4 c5 e5 a5\', {staff:2})
  
 CAPTION(\"J\'explique tout cela en détail dans les autres screencasts, donc je n\'y reviens pas ici\", {wait:true})
