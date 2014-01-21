@@ -35,7 +35,7 @@ window.Anim.Cursor = {
   set_cursor:function(param, value)
   {
     var p, offset, cur_pas ;
-    if('string' == typeof param ) param = twoargs2obj(param, value)
+    if('string' == typeof param ) param = parametize(param, value)
     if('number'==typeof param)          offset = param
     else if(undefined != param.pas)     offset = Anim.Grid.lefts[param.pas - 1]
     else if(undefined != param.offset)

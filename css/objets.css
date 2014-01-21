@@ -1,3 +1,18 @@
-img.arrow {
+div.arrow {
   height : 15px;
+}
+div.arrow img {
+  height : calc(100%);
+}
+/* La tête */
+div.arrow img.arrow-head {
+  height        : 18px;
+  padding-top   : 4px;
+  position      : absolute;
+  top           : -5.8px;
+  width         : 22px;
+}
+/* La flèche */
+div.arrow img.arrow-queue {
+  
 }

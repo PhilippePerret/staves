@@ -197,6 +197,7 @@ $.extend(Anim,{
   },
   /**
     * Procède vraiment au stop, en faisant réapparaitre les éléments
+    * + Si nécessaire, arrête l'enregistrement QuickTime courant
     * @method real_stop
     */
   real_stop:function()
@@ -206,6 +207,7 @@ $.extend(Anim,{
     this.set_interface()
     this.stop_button.css('opacity', 1)
     UI.Regle.show()
+    if(this.recording) this.stop_record()
   },
   
   /**

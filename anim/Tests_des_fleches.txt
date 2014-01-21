@@ -1,0 +1,24 @@
+# Essai des flèches
+DEFAULT(\'decompte\', 0)
+
+NEW_STAFF(SOL)
+
+la = NOTE(a4)
+la.surround()
+la.arrow({color:red})
+
+#WAIT(1)
+
+la.arrow().size(200)
+la.arrow().rotate(90)
+la.arrow().move(\'x\', -14)
+la.arrow().colorize(blue)
+WAIT(1)
+la.arrow().colorize(green)
+
+# Deuxième flèche avec identifiant
+la.arrow(\'droite\', {width:300, color:red, angle:-30})
+
+WAIT(1)
+la.arrow(\'droite\').colorize(blue)
+la.arrow(\'droite\').rotate(0)

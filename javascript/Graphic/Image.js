@@ -596,6 +596,7 @@ Object.defineProperties(Img.prototype,{
   
   /**
     * Code HTML pour l'image absolue
+    * @property {HTMLString} abs_code_html
     */
   "abs_code_html":{
     get:function(){

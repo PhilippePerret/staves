@@ -8349,7 +8349,7 @@
             "line": 19,
             "description": "Beaucoup de méthodes permettent d'être invoquée avec `(attr, value)` qui\ndoit être transformé en `{attr: value}`. Lorsque `attr` est string, on peut\nappeler cette fonction pour créer l'objet",
             "itemtype": "method",
-            "name": "twoargs2obj",
+            "name": "parametize",
             "params": [
                 {
                     "name": "attr",

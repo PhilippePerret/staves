@@ -39,6 +39,12 @@ $.extend(window.Anim,{
     */
   coef_speed: 1,
   /**
+    * Propriété mise à true lorsque l'animation est en cours d'enregistrement
+    * @property {Boolean} recording
+    * @default false
+    */
+  recording: false,
+  /**
     * Options diverses
     * @class Anim.options
     * @static
@@ -48,33 +54,29 @@ $.extend(window.Anim,{
       * Quand True, joue l'animation en plein écran
       * @property {Boolean} fullscreen
       */
-    fullscreen: false,
+    fullscreen        :false,
     /**
       * Quand True, affiche la grille
       * @property {Boolean} grid
       */
-    grid:true
+    grid              :false,
+    /**
+      * Pour sauvegarder ou non automatiquement le code modifié
+      * @property {Boolean} autosave
+      * @default false
+      */
+    autosave          :false,
+    /**
+      * Pour passer les captions (sous-titre et doublage) en cours d'élaboration
+      * de l'animation.
+      * @property {Boolean} caption_omit
+      * @default false
+      */
+    caption_omit      :false
   },
   /* Fin des options
    * --------------------------------------------------------------------- */
   
-  /**
-    * Définition de la vitesse (ou plutôt la durée) des transitions
-    * Notes
-    * -----
-    *   Cf. le mode "flash" qui peut modifier ces valeurs
-    *       `mode_flash`
-    * @property {Object} transition
-    *   @property {Number} transition.step  Délai entre chaque étape (en millisecondes)
-    *   @property {Number} transition.show Vitesse d'apparition de tout élément
-    *   @property {Number} transition.note_moved  Délai de déplacement des notes (en millisecondes ?)
-    */
-  transition:{
-    step        : 500,
-    show        : 400,
-    note_moved  : 1000,
-    wait        : 1000 // multiplicateur de secondes
-  },
   /**
     * Data vitesse (constantes)
     * Serviront à calculer transition_reg en cas de modification de
@@ -87,7 +89,27 @@ $.extend(window.Anim,{
     step        : 500,
     show        : 400,
     note_moved  : 1000,
-    transform   : 500,  // Transformation comme l'allongement
+    transform   : 1000,  // Transformation comme l'allongement
+    wait        : 1000 // multiplicateur de secondes
+  },
+  /**
+    * Définition de la vitesse (ou plutôt la durée) des transitions courantes
+    *
+    * Notes
+    * -----
+    *   * C'est cette table-ci qui est utilisée pour définir les durées courantes
+    *   Cf. le mode "flash" qui peut modifier ces valeurs
+    *       `mode_flash`
+    * @property {Object} transition
+    *   @property {Number} transition.step  Délai entre chaque étape (en millisecondes)
+    *   @property {Number} transition.show Vitesse d'apparition de tout élément
+    *   @property {Number} transition.note_moved  Délai de déplacement des notes (en millisecondes ?)
+    */
+  transition:{
+    step        : 500,
+    show        : 400,
+    note_moved  : 1000,
+    transform   : 1000,  // Transformation comme l'allongement
     wait        : 1000 // multiplicateur de secondes
   },
   /**
@@ -102,7 +124,7 @@ $.extend(window.Anim,{
     step        : 500,
     show        : 400,
     note_moved  : 1000,
-    transform   : 500,  // Transformation comme l'allongement
+    transform   : 1000,  // Transformation comme l'allongement
     wait        : 1000  // multiplicateur de secondes
   },
   /**
@@ -123,21 +145,6 @@ $.extend(window.Anim,{
     * @class options
     * @static
     */
-  options:{
-    /**
-      * Pour sauvegarder ou non automatiquement le code modifié
-      * @property {Boolean} autosave
-      * @default false
-      */
-    autosave          :false,
-    /**
-      * Pour passer les captions (sous-titre et doublage) en cours d'élaboration
-      * de l'animation.
-      * @property {Boolean} caption_omit
-      * @default false
-      */
-    caption_omit      :false
-  },
   /**
     * Toutes les préférences par défaut
     * Notes
@@ -147,26 +154,123 @@ $.extend(window.Anim,{
     * @final
     */
   prefs_default:{
+    /**
+      * Nombre de secondes de décompte avant le lancement de l'animation
+      * @property {Number} decomte
+      * @default 2
+      */
     decompte          :2,
+    /** Décalage haut de la première portée affichée
+      * @property {Number} staff_top 
+      */
     staff_top         :60,
+    /** Décalage entre portée
+      * @property {Number} staff_offset 
+      */
     staff_offset      :100,
+    /** Décalage des textes de portée
+      * Note : cette valeur sera RETIRÉE du top de la portée (selon le principe
+      * que les valeurs positives éloignent toujours de la portée, et qu'un texte
+      * de portée est par défaut au-dessus de la portée)
+      * @property {Number} staff_top_text
+      */
     staff_top_text    :0,
+    /** Positionnement des textes de portée, au-dessus (défaut) ou en dessous
+      * de la portée
+      * @property {Boolean} staff_text_up
+      # @default TRUE
+      */
     staff_text_up     :true,
+    /** Position left de départ pour chaque portée
+      * @property {Number} x_start 
+      */
     x_start           :100,
+    /**
+      * Décalage à droite quand la commande NEXT est utilisée
+      * @property {Number} next 
+      */
     next              :40,  
+    /**
+      * Décalage de la marque d'harmonie ou de cadence par rapport à
+      * la portée.
+      * @property {Number} harmony 
+      */
     harmony           :70, 
+    /**
+      * Portée qui doit porter l'harmonie. Pour faire porter l'harmonie
+      * par une portée particulière, quelle que soit la portée active
+      * @note : elle peut être définie même si la portée n'existe pas encore,
+      * puisqu'un check est fait à la création de toute portée (cf. Staff.create)
+      * @property {Staff|Numbre} staff_harmony
+      * @default NULL
+      */
     staff_harmony     :null,
+    /**
+      * Portée qui doit porter les accords.
+      * @note : elle peut être définie même si la portée n'existe pas encore,
+      * puisqu'un check est fait à la création de toute portée (cf. Staff.create)
+      * @property {Staff|Number} staff_chords
+      * @default NULL
+      */
     staff_chords      :null,
+    /**
+      * Position verticale du numéro de mesure
+      * @property {Number} num_measure_y
+      */
     num_measure_y     :-8,
+    /**
+      * Décalage de la marque d'accord par rapport à la portée.
+      * @property {Number} chord 
+      */
     chord             :40, 
+    /**
+      * Décalage horizontal de la marque de modulation par rapport à l'objet
+      * qui la porte (souvent, un accord ou une note)
+      * @property {Number} modulation_y
+      */
     modulation_x      :-13,
+    /**
+      * Décalage vertical de la marque de modulation par rapport à la portée
+      * @property {Number} modulation_y
+      */
     modulation_y      :26,
+    /**
+      * Décalage horizontal de la marque de modulation par rapport à l'objet
+      * porteur.
+      * @property {Number} part_x
+      */
     part_x            :25, // 17 et il faut ajouter 8
+    /**
+      * Décalage vertical de la marque de modulation par rapport à l'objet
+      * porteur.
+      * @property {Number} part_y
+      */
     part_y            :46,
+    /**
+      * Coefficiant vitesse
+      * @property {Number} speed 
+      */
     speed             :1,
+    /** Taille des notes (et altérations)
+      * @property {Number} note_size 
+      */
     note_size         :14.3,
+    /**
+      * Hauteur des notes
+      * @property {Float} note_height
+      */
     note_height       :13,
+    /**
+      * Temps d'attente à la fin de l'anim
+      * @property {Number} delai_after_show
+      */
     delai_after_show  :3,
+    /**
+      * Si false, les CAPTION afficheront le texte en doublage, hors de l'animation
+      * Sinon, ils seront affichés comme des sous-titres, dans l'image de l'animation
+      * @property {Boolean} doublage
+      * @default true
+      */
     caption           :false,
     /**
       * Débit de parole pour les captions (doublage seulement).
@@ -182,144 +286,39 @@ $.extend(window.Anim,{
       */
     caption_timer     :false
   },
+  
+  
   /**
-    * Toutes les préférences
-    * De nombreuses valeurs sont remises aux valeurs par défaut au moment
-    * du redémarrage.
+    * Toutes les préférences courant
+    * Notes
+    * -----
+    *   * De nombreuses valeurs sont remises aux valeurs par défaut au moment
+    *     du redémarrage.
     * @property {Object} prefs
     * @static
     */
   prefs:{
-    /**
-      * Si True, le code est automatiquement sauvé après changement
-      * (false par défaut)
-      * @property {Boolean} autosave
-      */
-    autosave      :false,
-    // Positions absolues
-    /**
-      * Nombre de secondes de décompte avant le lancement de l'animation
-      * @property {Number} decomte
-      * @default 2
-      */
-    decompte      : 2,
-    /** Décalage haut de la première portée affichée
-      * @property {Number} staff_top 
-      */
-    staff_top     :60,
-    /** Décalage entre portée
-      * @property {Number} staff_offset 
-      */
-    staff_offset  :100,
-    /** Décalage des textes de portée
-      * Note : cette valeur sera RETIRÉE du top de la portée (selon le principe
-      * que les valeurs positives éloignent toujours de la portée, et qu'un texte
-      * de portée est par défaut au-dessus de la portée)
-      * @property {Number} staff_top_text
-      */
-    staff_top_text:0,
-    /** Positionnement des textes de portée, au-dessus (défaut) ou en dessous
-      * de la portée
-      * @property {Boolean} staff_text_up
-      # @default TRUE
-      */
-    staff_text_up: true,
-    /** Taille des notes (et altérations)
-      * @property {Number} note_size 
-      */
-    /**
-      * Portée qui doit porter l'harmonie. Pour faire porter l'harmonie
-      * par une portée particulière, quelle que soit la portée active
-      * @note : elle peut être définie même si la portée n'existe pas encore,
-      * puisqu'un check est fait à la création de toute portée (cf. Staff.create)
-      * @property {Staff|Numbre} staff_harmony
-      * @default NULL
-      */
-    staff_harmony  :null,
-    /**
-      * Portée qui doit porter les accords.
-      * @note : elle peut être définie même si la portée n'existe pas encore,
-      * puisqu'un check est fait à la création de toute portée (cf. Staff.create)
-      * @property {Staff|Number} staff_chords
-      * @default NULL
-      */
-    staff_chords         : null,
-    /**
-      * Position verticale du numéro de mesure
-      * @property {Number} num_measure_y
-      */
-    num_measure_y       : -8,
-    /** Position left de départ pour chaque portée
-      * @property {Number} x_start 
-      */
-    x_start             : 100,
-    /**
-      * Décalage à droite quand la commande NEXT est utilisée
-      * @property {Number} next 
-      */
-    next                : 40,
-    /**
-      * Décalage vertical de la marque de modulation par rapport à la portée
-      * @property {Number} modulation_y
-      */
-    modulation_y        : 26,
-    /**
-      * Décalage horizontal de la marque de modulation par rapport à l'objet
-      * qui la porte (souvent, un accord ou une note)
-      * @property {Number} modulation_y
-      */
-    modulation_x        :null,
-    /**
-      * Décalage vertical de la marque de modulation par rapport à l'objet
-      * porteur.
-      * @property {Number} part_y
-      */
-    part_y              :null,
-    /**
-      * Décalage horizontal de la marque de modulation par rapport à l'objet
-      * porteur.
-      * @property {Number} part_x
-      */
-    part_x              :null,
-    /**
-      * Décalage de la marque d'harmonie ou de cadence par rapport à
-      * la portée.
-      * @property {Number} harmony 
-      */
-    harmony             :null,
-    /**
-      * Décalage de la marque d'accord par rapport à la portée.
-      * @property {Number} chord 
-      */
-    chord          : 40,
-    /**
-      * Coefficiant vitesse
-      * @property {Number} speed 
-      */
-    speed               : 1,
-    /**
-      * Temps d'attente à la fin de l'anim
-      * @property {Number} delai_after_show
-      */
-    delai_after_show    : 3,
-    /**
-      * Taille des notes
-      * @property {Float} note_size
-      */
-    note_size           : 14.3,
-    /**
-      * Hauteur des notes
-      * @property {Float} note_height
-      */
-    note_height         :null,
-    /**
-      * Si false, les CAPTION afficheront le texte en doublage, hors de l'animation
-      * Sinon, ils seront affichés comme des sous-titres, dans l'image de l'animation
-      * @property {Boolean} doublage
-      * @default true
-      */
-    caption             : false,
-    
+    decompte        :null,
+    staff_top       :null,
+    staff_offset    :null,
+    staff_top_text  :null,
+    staff_text_up   :null,
+    staff_harmony   :null,
+    staff_chords    :null,
+    num_measure_y   :null,
+    x_start         :null,
+    next            :null,
+    modulation_y    :null,
+    modulation_x    :null,
+    part_y          :null,
+    part_x          :null,
+    harmony         :null,
+    chord           :null,
+    speed           :null,
+    delai_after_show:null,
+    note_size       :null,
+    note_height     :null,
+    caption         :null,
     // Positions relatives. Elles seront ajoutées aux valeurs absolues ci-dessus
     offset_next           :0,
     offset_harmony        :0,
@@ -330,6 +329,7 @@ $.extend(window.Anim,{
     offset_part_x         :0,
     offset_num_measure_y  :0
   },
+
   /**
     * Définit une préférence
     *
@@ -510,6 +510,45 @@ $.extend(window.Anim,{
     })
   },
   
+  /**
+    * Méthode qui lance l'enregistrement de l'animation
+    * @method start_record
+    * @async
+    */
+  start_record:function(rajax)
+  {
+    if(undefined == rajax)
+    {
+      Ajax.send({script:'animation/start_record', name:this.name}, $.proxy(this.start_record, this))      
+    }
+    else
+    {
+      if(rajax.ok)
+      {
+        this.recording = false
+        Anim.start()
+      } 
+      else F.error(rajax.message)
+    }
+  },
+  /**
+    * Méthode qui arrête l'enregistrement de l'animation
+    * @method stop_record
+    * @async
+    */
+  stop_record:function(rajax)
+  {
+    if(undefined == rajax)
+    {
+      Ajax.send({script:'animation/stop_record', name:this.name}, $.proxy(this.start_record, this))      
+    }
+    else
+    {
+      if(rajax.ok) F.show("Animation enregistrée.")
+      else F.error(rajax.message)
+      this.recording = false
+    }
+  },
   /**
     * Méthode appelée quand on change le "play type", donc ce qu'il faut
     * jouer de l'animation et comment il faut le jouer. Elle affiche un message

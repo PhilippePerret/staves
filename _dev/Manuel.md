@@ -16,6 +16,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Les images](#les_images)
 * [Les flèches](#les_fleches)
 * [Régler toutes les valeurs de l'animation](#set_preferences)
+* [Annexe](#lannexe)
 
 
 <a name="l_animation"></a>
@@ -1780,21 +1781,37 @@ Puis ensuite, à l'endroit où l'image doit être construite, utiliser :
 
 <a name="intro_fleches"></a>
 ###Introduction
-On peut créer des flèches indépendantes (cf. [Flèches indépendantes](#fleches_independantes)) mais le plus judicieux est de les associer à des objets, à commencer par des notes.
+
+On peut créer des flèches indépendantes (cf. [Flèches indépendantes](#fleches_independantes)) mais le plus judicieux est de les associer à des objets, à commencer par des notes ou des accords.
 
 <a name="associer_fleche_a_objet"></a>
-###Associer une flèche à un objet
+###Associer des flèches à un objet
 
 Pour associer une flèche à un objet quelconque (p.e. une note) on utilise la méthode (de l'objet) :
 
-    arrow(<parameters>)
+    <objet>.arrow([<identifiant fleche>, ]<parameters>)
 
-Par exemple, pour faire partir une flèche d'une note&nbsp;:
+Par exemple, pour faire partir une flèche vers le bas depuis une note&nbsp;:
 
     maNote=NOTE(a4)
     maNote.arrow({color:red, angle:90})
 
 … ce qui produira une flèche rouge, partant de la note avec un angle de 90 degré (cf. ci-dessous [les angles](#angle_des_fleches)).
+
+On peut créer autant de flèches pour l'objet que l'on veut. Il suffit pour cela d'ajouter un identifiant (sans premier argument comme identifiant, c'est la flèche d'identifiant `0` qui est prise en compte).
+
+Par exemple&nbsp;:
+
+    maNote = NOTE(c4)
+    maNote.arrow('droite rouge', {color:red, angle:0})
+    maNote.arrow('bas verte', {color:green, angle:45})
+
+On fait ensuite référence à ces différentes flèches en faisant référence à leur identifiant&nbsp;:
+
+    maNote.arrow('bas verte').rotate(20)
+    # => Tourne la flèche 'bas verte' à l'angle 20
+    maNote.arrow('droite rouge').colorize(blue)
+    # => Colore la flèche 'droite rouge' en bleu.
 
 <a name="definition_arrow"></a>
 ###Définition de la flèche
@@ -1810,18 +1827,12 @@ Lors de la création de la flèche avec la méthode `arrow` (ou ARROW pour une [
       height: {Number} Hauteur de la fleche
     })
 
-Les valeurs **top** et **left** sont calculées automatiquement pour que la flèche soit placée correctement à droite de l'objet.
+Les valeurs **top** et **left** sont calculées automatiquement pour que la flèche soit placée correctement à droite de l'objet en son "centre vertical".
 
 L'**angle** est de 0 degré par défaut, c'est-à-dire que la flèche sera horizontale et pointera à droite (pour une autre valeur cf. [Angle des flèches](#angle_des_fleches)).
 
-La **color** (couleur) est noire par défaut. On peut utiliser toutes les constantes de couleur pré-définies, c'est-à-dire (les valeurs françaises sont des valeurs valides aussi)&nbsp;:
+Pour la définition de **color** (la couleur) cf. [les constantes couleurs](#constantes_couleurs).
 
-    black   noir
-    red     rouge
-    blue    bleu
-    green   vert
-    grey    gris
-    orange
 
 <a name="methodes_animation_fleches"></a>
 ###Méthodes d'animation des flèches
@@ -1829,7 +1840,7 @@ La **color** (couleur) est noire par défaut. On peut utiliser toutes les consta
 * [Faire tourner la flèche](#arrow_rotate)
 * [Changer la taille de la flèche](#method_arrow_size)
 * [Déplacer la flèche](#method_move_arrow)
-
+* [Modifier la couleur de la flèche](#modifier_color_arrow)
 
 <a name="arrow_rotate"></a>
 ####Faire tourner la flèche
@@ -1840,7 +1851,7 @@ Par exemple, pour une flèche associée à une note&nbsp;:
 
     maNote=NOTE(c4)
     maNote.arrow()
-    maNote.arrow.rotate(45)
+    maNote.arrow().rotate(45)
 
 <a name="method_arrow_size"></a>
 ####Changer la taille (longueur) de la flèche
@@ -1850,10 +1861,10 @@ Par exemple, pour une flèche associée à une note&nbsp;:
 Par exemple&nbsp;:
   
     maNote=NOTE(b4)
-    maNote.arrow({color:bleu})
-    maNote.arrow.size(100)
+    maNote.arrow('growup', {color:bleu})
+    maNote.arrow('growup').size(100)
 
-Produira une animation qui fera s'allonger la flèche de sa longueur actuelle à la longueur `100px`.
+Produira une animation qui fera s'allonger (ou se rétrécir) la flèche de sa longueur actuelle à la longueur `100px`.
 
 Noter que cette méthode **crée réellement une animation** c'est-à-dire fait varier sous nos yeux la taille de la flèche. Si on veut définir la taille de la flèche au départ, utiliser plutôt le paramètre `width` dans les paramètres envoyés à la création de la flèche (cf. [définition de la flèche](#definition_arrow)).
 
@@ -1862,7 +1873,7 @@ Noter que cette méthode **crée réellement une animation** c'est-à-dire fait 
 
 Une flèche se déplace à l'aide de la méthode&nbsp;:
 
-    <fleche>.move(<parameters>)
+    <objet>.<fleche>([<id>]).move(<parameters>)
   
 … où les paramètres peuvent être&nbsp;:
   
@@ -1874,11 +1885,28 @@ Une flèche se déplace à l'aide de la méthode&nbsp;:
 Par exemple, si une flèche associée à une note doit se déplacer en descendant et en se déplaçant vers la droite&nbsp;:
 
     maNote=NOTE(g4)
-    maNote.arrow()
+    maNote.arrow('bouge')
     WAIT(2)
-    maNote.arrow.move({x:50, y:50}) <--
+    maNote.arrow('bouge').move({x:50, y:50}) <--
 
 Une valeur positives produira toujours un déplacement vers la droite (->) pour `x` et un déplacement vers le bas pour `y`, un valeur négative produira un déplacement vers la gauche (<-) pour `x` et un déplacement vers le haut pour `y`.
+
+<a name="modifier_color_arrow"></a>
+####Modifier la couleur de la flèche
+
+Pour modifier la couleur de la flèche, utiliser la méthode `colorize` :
+
+    <objet porteur>.arrow([<id>]).colorize(<couleur>)
+
+Par exemple&nbsp;:
+  
+    monAccord = CHORD('c4 e4 g4')
+    monAccord.arrow({color:green})
+    # => Une première flèche verte
+    monAccord.arrow().colorize(blue)
+    # => La colorize en blue
+    
+Pour les constantes couleur utilisable cf. [les constantes couleurs](#constantes_couleurs).
 
 <a name="angle_des_fleches"></a>
 ###Angle des flèches
@@ -1902,7 +1930,7 @@ Par exemple&nbsp;:
     maNote=NOTE(c3)
     maNote.arrow()
     WAIT(2)
-    maNote.arrow.remove() <--
+    maNote.arrow().remove() <--
 
 
 <a name="fleches_independantes"></a>
@@ -2175,3 +2203,23 @@ Pour remettre toutes les valeurs aux valeurs par défaut, utiliser la commande (
     RESET_PREFERENCES
 
 -
+---------------------------------------------------------------------
+
+<a name="lannexe"></a>
+##Annexe
+
+* [Constantes couleurs](#constantes_couleurs)
+
+<a name="constantes_couleurs"></a>
+###Constantes couleurs
+
+La **color** (couleur) d'un objet quelconque est noire par défaut (une note, une flèche, etc.). 
+
+Pour modifier sa couleur, on peut utiliser ces constantes couleur (les valeurs françaises sont des valeurs valides aussi)&nbsp;:
+
+    black   noir
+    red     rouge
+    blue    bleu
+    green   vert
+    grey    gris
+    orange

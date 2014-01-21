@@ -125,7 +125,7 @@ $.extend(UI,{
     })
 
     // La position de la règle de mesure
-    this.Regle.obj.css({top:(anim_height - 10)+'px'})
+    if(this.Regle && this.Regle.obj.length) this.Regle.obj.css({top:(anim_height - 10)+'px'})
     // Positions pour la grille (grid)
     Anim.Grid.obj.css({
       top     :pos_anim.top+'px', 
