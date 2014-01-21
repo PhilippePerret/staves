@@ -22,6 +22,7 @@ window.TXT = function(owner, params)
   */
 window.Txt = function(owner, params)
 {
+  dlog("Params envoyés à Txt:");dlog(params)
   this.class = 'txt'
 
   /**
@@ -317,6 +318,7 @@ $.extend(Txt.prototype,{
   /**
     * Ré-initialisation du texte après la définition de valeur qui peuvent
     * obliger à un recalcul
+    * NON ! ÇA CASSE TOUT CE QUI A PU ÊTRE DÉFINI
     * @method reset
     */
   reset:function()
@@ -377,7 +379,7 @@ Object.defineProperties(Txt.prototype,{
     * @property {String} texte
     */
   "texte":{
-    set:function(t){ this.raw_texte = t; this.reset() },
+    set:function(t){ this.raw_texte = t },
     get:function(){ return this.raw_texte }
   },
   /**
@@ -414,7 +416,6 @@ Object.defineProperties(Txt.prototype,{
   "type":{
     set:function(type){
       this._type = type
-      this.reset()
     },
     get:function(){return this._type}
   },
@@ -436,7 +437,7 @@ Object.defineProperties(Txt.prototype,{
     * @property {Number} top
     */
   "top":{
-    set:function(top){this._top = top; this.reset()},
+    set:function(top){this._top = top},
     get:function(){
       if(undefined == this._top)
       {
@@ -493,19 +494,16 @@ Object.defineProperties(Txt.prototype,{
     */
   "left_per_owner":{
     get:function(){
-      if(undefined == this._left_per_owner)
+      this._left_per_owner = function(owner, me)
       {
-        this._left_per_owner = function(owner, me)
+        switch(owner.class)
         {
-          switch(owner.class)
-          {
-          case 'staff':
-            return Anim.current_x - (UI.exact_width_of(me.obj) / 2) + 18
-          default:
-            return owner.left
-          }
-        }(this.owner, this)
-      }
+        case 'staff':
+          return (this.left || (Anim.current_x + 18)) - (UI.exact_width_of(me.obj) / 2)
+        default:
+          return owner.left
+        }
+      }(this.owner, this)
       return this._left_per_owner
     }
   },
@@ -524,7 +522,7 @@ Object.defineProperties(Txt.prototype,{
     * @property {Number} left
     */
   "left":{
-    set:function(left){this._left = left; this.reset()},
+    set:function(left){ this._left = left},
     get:function(){
       if(undefined == this._left)
       {
