@@ -16,6 +16,29 @@ Anim.Dom = {
     * @property {Number} left_max
     */
   left_max:null,
+  
+  /**
+    * Efface en douceur le contenu de l'animation
+    * (pour un lien fluide entre des animations qui se suivent — ou reset en cours d'animation)
+    * @method clear
+    * @param  {Function} complete   La méthode pour suivre (NEXT_STEP par défaut)
+    */
+  clear:function(complete)
+  {
+    dlog("-> Effacement de l'animation")
+    if(undefined == complete) complete = NEXT_STEP
+    var nombre_elements = $('section#animation *').length
+    $('section#animation *').animate(
+      {opacity:0},
+      {always:function(){
+        -- nombre_elements
+        if(nombre_elements == 0)
+        {
+          $('section#animation').html('');
+          complete()
+        }
+      }})
+  },
   /**
     * Affiche un objet quelconque de l'animation
     * Notes

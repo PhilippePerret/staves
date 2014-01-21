@@ -65,7 +65,6 @@ $.extend(Anim,{
     if(this.Step.list)
     { 
       this.play_preambule()
-      UI.chronometre.start
       this.play()
     }
   },
@@ -116,12 +115,14 @@ $.extend(Anim,{
     */
   play_preambule:function()
   {
+    dlog("-> Anim.play_preambule ("+Console.preambule.length+" étapes préambule à jouer)")
     this.preambule_on = true
     while(step = Console.preambule.shift()) step.exec()
     this.preambule_on = false
+    dlog("<- Anim.play_preambule")
   },
   /**
-    * Démarre véritablement l'animation
+    * Pré-démarrage de l'animation
     * Notes
     * -----
     *   * Cette méthode a été inaugurée pour gérer les différents traitement
@@ -135,16 +136,37 @@ $.extend(Anim,{
     this.pause_on = false
     this.set_interface()
     UI.Regle.hide()
-    var delai_before = this.prefs.decompte
-    if(delai_before)
+    var delai_before = (this.isSuite) ? 0 : this.prefs.decompte
+    if(delai_before > 0)
     {
-      this.decompte.poursuivre = $.proxy(this.Step.next, this.Step)
+      this.decompte.poursuivre = $.proxy(this.play_for_good, this)
       this.decompte(delai_before)
     }
     else
     { // Pas de décompte
-      this.Step.next()
+      this.play_for_good()
     } 
+  },
+  /**
+    * Lance véritablement l'animation, soit après le décompte, soit tout de suite
+    * @method play_for_good
+    */
+  play_for_good:function()
+  {
+    dlog("-> Anim.play_for_good")
+    if( !this.isSuite ) UI.chronometre.start
+    // C'est seulement ici qu'on efface l'écran précédent, pour la lien le plus
+    // fluide dans une suite d'animation
+    // Noter que c'est la possibilité d'une boucle infinie, si complete n'attend
+    // pas vraiment la fin de l'effacement
+    if($('section#animation *').length)
+    {
+      dlog("* Je dois nettoyer l'animation (<- Anim.play_for_good)")
+      return this.Dom.clear($.proxy(this.play_for_good, this))
+    } 
+    dlog("[play_for_good] Je passe au premier pas.")
+    this.Step.next()
+    dlog("<- Anim.play_for_good")
   },
   /**
     * Pause demandée
@@ -158,7 +180,7 @@ $.extend(Anim,{
   },
   /**
     * Stoppe l'animation, parce qu'on est au bout ou parce que 
-    * c'est demandé.
+    * le bouton Stop a été cliqué (ou barre espace).
     * Note : si l'arrêt est forcé par le bouton stop (+forcer+ = true), on ne
     * lance pas l'animation suivante éventellement demandée.
     * @method stop
@@ -167,7 +189,7 @@ $.extend(Anim,{
   stop:function(forcer)
   {
     if(this.on == false) return // retardataires
-    UI.chronometre.stop
+    if(!this.hasSuite || forcer) UI.chronometre.stop
     this.on       = false
     this.pause_on = false
     this.kill_timer()
@@ -175,16 +197,15 @@ $.extend(Anim,{
     delete this.Step.list
     if(forcer)
     { // => arrêt forcé
-      if(this.animation_pour_suivre) delete this.animation_pour_suivre
+      if(this.hasSuite) delete this.animation_pour_suivre
       this.real_stop()
     } 
     else
-    { // => Le cas courant
+    { // => Le cas courant du stop
       var method ;
-      if(this.animation_pour_suivre)
-      { // Une animation doit suivre
-        this.set_pref('decompte', 0, next_step=false)
-        method = 'load_and_start_animation_pour_suivre'
+      if(this.hasSuite)
+      { // Une animation doit suivre (noter qu'on s'en retourne tout de suite)
+        return this.load_and_start_animation_pour_suivre()
       }
       else
       { // vraiment la fin
@@ -197,7 +218,10 @@ $.extend(Anim,{
   },
   /**
     * Procède vraiment au stop, en faisant réapparaitre les éléments
-    * + Si nécessaire, arrête l'enregistrement QuickTime courant
+    * Notes
+    *   * La méthode n'est pas appelée lors d'une suite d'animations
+    *   * Si nécessaire, arrête l'enregistrement QuickTime courant
+    *
     * @method real_stop
     */
   real_stop:function()

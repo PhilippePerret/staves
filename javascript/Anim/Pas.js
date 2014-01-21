@@ -102,7 +102,12 @@ $.extend(Pas.prototype,{
     if(this.is_comment || this.is_empty)              return false
     if(Anim.options.caption_omit && this.is_caption)  return false
     if(this.flashed) MODE_FLASH = true
-    try{ eval('Anim.Objects.'+this.trimed) }
+    try
+    { 
+      dlog("Pas.exec("+this.trimed+")")
+      // Anim.Step.set_exec_on()
+      eval('Anim.Objects.'+this.trimed) 
+    }
     catch(err){ 
       dlog("[<Pas>.exec] # Erreur : "+err+" survenue (noter que cela aura pour conséquence directe de passer à l'étape suivante).")
       this.on_error(err, retry = true) 
@@ -237,7 +242,7 @@ Object.defineProperties(Pas.prototype,{
     */
   "is_caption":{
     get:function(){
-      if(undefined == this._is_caption) this._is_caption = this.code.indexOf('CAPTION') > -1
+      if(undefined == this._is_caption) this._is_caption = this.trimed.substring(0,7) == 'CAPTION'
       return this._is_caption
     }
   },

@@ -17,8 +17,8 @@ window.Anim.Dom.Doublage = {
     $('span#caption_text').html('');
     $('div#caption').hide();
     $('div#doublage').html('').hide();
-    this.dbl_indx = 0
-    this.dbls_list = {}
+    this.dbl_indx   = 0
+    this.dbls_list  = {}
   },
   /**
     * Indice du texte de doublage courant
@@ -81,7 +81,11 @@ window.Anim.Dom.Doublage = {
       obj.hide()
     }
     if(is_caption) $('div#caption')[montrer?'show':'hide']()
-    if(!params.wait) NEXT_STEP(notimeout=true)
+    if(!params.wait)
+    {
+      // dlog("params.wait est false ou undefined, => tout de suite next step")
+      NEXT_STEP(notimeout=true)
+    } 
   },
   /**
     * Quand un doublage temporisé est en route, on doit laisser l'"écho"

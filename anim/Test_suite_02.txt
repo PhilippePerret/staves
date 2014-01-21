@@ -1,0 +1,10 @@
+# Test suite animations
+# La seconde
+
+#SUITE(\'Test_suite_01\')
+
+NEW_STAFF(FA)
+
+NOTE(f3)
+
+WAIT(2)

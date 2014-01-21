@@ -11,6 +11,14 @@
 if(undefined == window.Console) Console = {}
 $.extend(window.Console,{
   /**
+    * Liste des étapes préambule de l'animation courante
+    * @rappel : les étapes "préambule" sont des étapes à interpréter avant que
+    * l'animation ne soit lancée
+    * @property {Array} preambule
+    */
+  preambule:[],
+  
+  /**
     * Méthode appelée quand on focus dans le code console
     * @method onfocus
     */

@@ -28,6 +28,35 @@ Anim.Step = {
     */
   current:null,
   
+  // /**
+  //   * Indicateur de processus en cours
+  //   * Tant que sa valeur est TRUE, on ne peut pas passer à l'étape suivante
+  //   * @property {Boolean} EXEC_ON
+  //   * @default false
+  //   */
+  // EXEC_ON: false,
+  
+  // /**
+  //   * Méthode appelée par Pas.exec pour indiquer qu'un processus est en
+  //   * cours. Tant que ce processus est en cours, on ne peut pas passer à
+  //   * l'étape suivante, quel que soit les appels
+  //   * Définit la valeur de Anim.Step.EXEC_ON (this.EXEC_ON)
+  //   * @method set_exec_on
+  //   */
+  // set_exec_on:function()
+  // {
+  //   this.EXEC_ON = true
+  // },
+  // /**
+  //   * Méthode appelée lorsque l'on est certain que le processus est terminé
+  //   * et qu'on peut passer à l'étape suivante.
+  //   * Définit la valeur de Anim.Step.EXEC_ON (this.EXEC_ON)
+  //   * @method set_exec_off
+  //   */
+  // set_exec_off:function()
+  // {
+  //   this.EXEC_ON = false
+  // },
   /**
     * Méthode qui définit et exécute l'étape suivante
     * @method next
@@ -35,18 +64,21 @@ Anim.Step = {
   next:function()
   {
     if(this.timer) clearTimeout(this.timer)
+    // if(this.EXEC_ON)  return // Un processus est encore en cours
     if(Anim.pause_on) return 
     if(!this.list) return Anim.stop()
     this.set_current()
+    /* Si this.current est indéfini, c'est qu'on est arrivé au bout */
     if(undefined == this.current) return Anim.stop()
-    /* === On joue l'étape (sauf commentaires ou lignes vides) === */
+    /* === 
+       
+       On joue l'étape (sauf commentaires ou lignes vides) 
+       
+       === */
     var res = this.current.exec()
-    // dlog("res de this.current.exec ("+this.current.code+") : "+res)
-    if(false == res)
-    { 
-      this.next()
-    }
-    else if(!this.list || this.list.length == 0) Anim.stop()
+    // Si l'étape est une étape qui ne produit rien (commentaire, ligne vide),
+    // ou qu'il y a eu un problème grave, on passe à l'étape suivante.
+    if(false == res) this.next()
   },
   /**
     * Définit l'étape courante et la sélectionne dans le code
@@ -84,6 +116,8 @@ Anim.Step = {
     */
   auto_next:function(no_timeout)
   {
+    dlog("-> Anim.Step.auto_next(no_timeout="+no_timeout+")")
+    // if(no_timeout) this.EXEC_ON = false
     if(Anim.preambule_on) return
     if(this.timer) clearTimeout(this.timer)
     if(this.mode_pas_a_pas) return

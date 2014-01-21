@@ -44,6 +44,27 @@ $.extend(window.Anim,{
     * @default false
     */
   recording: false,
+  
+  /**
+    * Propriété mise à TRUE si l'animation en cours de jeu possède une
+    * suite.
+    * @property {Boolean} hasSuite
+    * @default false
+    */
+  hasSuite: false,
+  
+  /**
+    * Propriété mise à TRUE si l'animation en cours est la suite d'une autre
+    * animation.
+    * @property {Boolean} isSuite
+    * @default false
+    */
+  isSuite: false,
+  
+  /* ---------------------------------------------------------------------
+   *  OPTIONS
+   *  
+   */
   /**
     * Options diverses
     * @class Anim.options
@@ -77,6 +98,11 @@ $.extend(window.Anim,{
   /* Fin des options
    * --------------------------------------------------------------------- */
   
+  
+  /* ---------------------------------------------------------------------
+   *  TRANSITIONS
+   *  
+   */
   /**
     * Data vitesse (constantes)
     * Serviront à calculer transition_reg en cas de modification de
@@ -140,11 +166,11 @@ $.extend(window.Anim,{
     transform   : 1,
     wait        : 1
   },
-  /**
-    * Options
-    * @class options
-    * @static
-    */
+
+  /* ---------------------------------------------------------------------
+   *  PRÉFÉRENCES
+   *  
+   */
   /**
     * Toutes les préférences par défaut
     * Notes
@@ -472,19 +498,31 @@ $.extend(window.Anim,{
   reset:function()
   {
     dlog("-> Anim.reset")
+    var my = this
+    
     Flash.clean()
-    $('section#animation').html('')
-    this.Objects    = {}
     this.Step.list  = null
+    // Destruction des (instances) objets de l'animation et ré-initialisation
+    // de this.Objects (avec les méthodes-commandes)
+    L(this.Objects).each(function(key,val){ delete my.Objects[key] })
+    this.Objects    = {}
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
     Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
+    
+    // Destruction des instances portées
     L(this.staves || []).each(function(staff){staff=null; delete staff;})
     this.staves     = []
+    
+    // Ré-initialisation des préférences
     this.reset_prefs()
+    
     // Il faut ré-initialiser la grid après avoir re-défini current_x, car
     // la grid s'en sert pour replacer le curseur de position.
     this.Grid.init_all()
-    this.Dom.Doublage.init()   // Effacer doublage et sous-titre
+    
+    // Effacer doublage et sous-titre
+    this.Dom.Doublage.init()
+    
     dlog("<- Anim.reset")
   },
   /**
@@ -742,6 +780,13 @@ $.extend(window.Anim,{
     {
       if(rajax.ok)
       {
+        
+        // C'est ici qu'on détermine si l'animation chargée est la suite
+        // d'une animation précédente.
+        this.isSuite = (true == this.hasSuite)
+        
+        delete this.animation_pour_suivre
+        this.hasSuite = false
         this.set_anim(name, rajax.raw_code)
         this.modified = false
         UI.Popups.unableIf('def_anim', rajax.is_default_anim)
@@ -750,18 +795,25 @@ $.extend(window.Anim,{
       else F.error(rajax.message)
     }
   },
+  
+  /* ---------------------------------------------------------------------
+   *  Méthodes pour la suite d'animations
+   *  @rappel : Une suite d'animations est définie dès que la commande `SUITE`
+   *  est utilisée dans le code de l'animation.
+   */
   /**
     * Définit l'animation pour suivre, qui sera exécutée lorsque l'animation
-    * courante sera achevée
+    * courante sera achevée. La méthode est appelée par la commande `SUITE`
+    *
     * @method set_animation_pour_suivre
     * @param {String} path    Le nom ou le chemin de l'animation
     * @param {Object} params  Les paramètres optionnels (non utilisés pour le moment)
     */
   set_animation_pour_suivre:function(path, params)
   {
+    this.hasSuite = true
     this.animation_pour_suivre = path
-    dlog("this.animation_pour_suivre:"+this.animation_pour_suivre)
-    NEXT_STEP(notimeout = true)
+    NEXT_STEP(no_timeout = true)
   },
   /**
     * Méthode qui charge et joue l'animation pour suivre si elle a été définie
@@ -771,7 +823,6 @@ $.extend(window.Anim,{
   {
     this.load.poursuivre = $.proxy(Anim.start, Anim)
     this.load(this.animation_pour_suivre)
-    delete this.animation_pour_suivre
   },
   /**
     * Définit l'animation courante de nom +nom+ et de code +code+

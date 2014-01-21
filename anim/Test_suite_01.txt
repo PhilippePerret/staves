@@ -1,0 +1,11 @@
+# Test de suite d\'animation
+# La première
+DEFAULT(\'caption_timer\', true)
+
+SUITE(\'Test_suite_02\')
+
+NEW_STAFF(SOL)
+
+NOTE(c4)
+
+CAPTION(\"Ce texte doit s\'afficher jusqu\'au bout et rester afficher jusqu\'à ce que l\'autre animation soit prête.\", {wait:true})
