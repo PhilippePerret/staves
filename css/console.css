@@ -5,19 +5,20 @@ section#section_console {
   width     : 348px;
   height    : 450px;
   border    : 0;
+  padding   : 0;
+  color     : white;
   background-color  : white;
-  color             : white;
 }
 
 section#section_console textarea#console {
-  background-color  :black;
-  color             :white;
-  width             :93%; 
-  height            :400px;
-  font-family       :Courier;
-  font-size         :11.6pt;
-  padding           :9pt;
-  border            :0;
+  background-color  : black;
+  color             : white;
+  font-family       : Courier;
+  font-size         : 11.6pt;
+  width             : calc(100% - 40px);
+  padding           : 20px;
+  border            : 0;
+  resize            : none;
 }
 
 /* Style de la sélection */

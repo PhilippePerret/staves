@@ -21,6 +21,7 @@ window.KEYPRESS_HORS_CONSOLE = function(evt)
   {
     if(IN_CONSOLE && Console.autocompletion(evt)) return stop_event(evt)
   }
+  
   if(!evt.metaKey && !evt.altKey && !evt.ctrlKey)
   {
     return true
@@ -52,8 +53,8 @@ window.KEYPRESS_HORS_CONSOLE = function(evt)
   case Key_s: // => Sauver/Sauver sous l'animation
     if(evt.metaKey)
     {
-      if(evt.shiftKey) Anim.save_as()
-      else Anim.save()
+      if(evt.shiftKey)  Anim.save_as()
+      else              Anim.save()
       return stop_event(evt)
     }
     break

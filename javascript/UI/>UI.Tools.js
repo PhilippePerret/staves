@@ -100,17 +100,33 @@ window.UI.Tools = {
     this.init()
   },
   
+  /* ---------------------------------------------------------------------
+   *  MÉTHODE GÉRANT L'OUVERTURE DE L'ANIMATION OU DU DOSSIER
+   *  
+   */
+  
   /**
-    * Quand on double clique sur une animation dans la liste des animations
-    * (Open)
-    * @method on_dblclick_animation
+    * Méthode appelée quand on double clique sur un dossier ou une animation
+    * dans la liste et qui :
+    *   - Charge l'animation si c'est une animation qui a été choisie
+    *   - Charge la liste des dossiers et animation du dossier si c'est un dossier
+    * @method open_anim_or_folder
     */
-  on_dblclick_animation:function()
+  open_anim_or_folder:function()
   {
-    delete Anim.name
-    Anim.load()
-    this.hide_section()
+    if(true /* plus tard : is_animation */)
+    {
+      delete this.name
+      Anim.File.load()
+      this.hide_section()
+    }
+    else
+    {
+      
+    }
   },
+  
+  
   /* ---------------------------------------------------------------------
    *  MÉTHODES GÉRANT L'AIDE À L'AUTOCOMPLETION
    */

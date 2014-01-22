@@ -19,6 +19,7 @@ window.DATA_AUTOCOMPLETION = {
   'act' : {replace:"ACTIVE_STAFF(X)",         boffset:2,  length:1  },
   'cap' : {replace:'CAPTION("")',             boffset:2             },
   'cho' : {replace:"CHORD('c4 e4 g4')",       boffset:10, length:8  },
+  'cur' : {replace:"SET_CURSOR(200)",         boffset:4,  length:3  },
   'def' : {replace:"DEFAULT('PROP', VALUE)",  boffset:13, length:4  },
   'mot' : {replace:"MOTIF('c4 d4 e4')",       boffset:10, length:8  },
   'nex' : {replace:"NEXT()",                  boffset:0             },
@@ -26,5 +27,6 @@ window.DATA_AUTOCOMPLETION = {
   'not' : {replace:"NOTE('c4')",              boffset:4,  length:2  },
   'sca' : {replace:"SCALE('c')",              boffset:3,  length:1  },
   'sta' : {replace:"STAFF(1)",                boffset:2,  length:1  },
-  'sui' : {replace:"SUITE('ANIM')",           boffset:6,  length:4  }
+  'sui' : {replace:"SUITE('ANIM')",           boffset:6,  length:4  },
+  'wai' : {replace:"WAIT(5)",                 boffset:2,  length:1  }
 }

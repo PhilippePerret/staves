@@ -17,6 +17,6 @@ end
 
 RETOUR_AJAX[:list]              = Anim::list
 if defanim = Anim::default_animation
-  RETOUR_AJAX[:default_animation] = defanim
-  RETOUR_AJAX[:raw_code]          = Anim::new(defanim).raw_code
+  RETOUR_AJAX[:default_animation] = defanim # un hash, maintenant
+  RETOUR_AJAX[:raw_code]          = Anim::new(defanim[:name], defanim[:folder]).raw_code
 end

@@ -11,6 +11,24 @@
 if(undefined == window.Console) Console = {}
 $.extend(window.Console,{
   /**
+    * Width de la console en mode d'arrêt
+    * Note : Définie par UI.on_resize
+    * @property {Number} width_opened
+    */
+  width_opened: null,
+  /**
+    * Width de la console en mode de jeu
+    * Note : Définie par UI.on_resize
+    * @property {Number} width_ranged
+    */
+  width_ranged: null,
+  /**
+    * Hauteur de la console
+    * Note : Définie par UI.on_resize
+    * @property {Number} height
+    */
+  height: null,
+  /**
     * Liste des étapes préambule de l'animation courante
     * @rappel : les étapes "préambule" sont des étapes à interpréter avant que
     * l'animation ne soit lancée
@@ -18,6 +36,22 @@ $.extend(window.Console,{
     */
   preambule:[],
   
+  /**
+    * Ouvre la console (l'étend)
+    * @method open
+    */
+  open:function()
+  {
+    this.section.animate({right:"8px"})
+  },
+  /**
+    * Range la console (la rétracte)
+    * @method range
+    */
+  range:function()
+  {
+    this.section.animate({right:"-"+400+"px"})
+  },
   /**
     * Méthode qui s'occupe de l'autocompletion. Par exemple, lorsque l'on tape
     * une accolade ouverte, la méthode écrit l'accolade fermante et place le curseur
@@ -57,6 +91,9 @@ $.extend(window.Console,{
     case 40  : // Parenthèse ouvrante
       this.set_caret_to('()', 1)
       return true
+    case 91  : // Crochet ouvrant
+      this.set_caret_to('[]', 1)
+      return true
     default:
       UI.feedback("[Console.autocompletion] charCode:"+evt.charCode+" / "+"keyCode:"+evt.keyCode)
     }
@@ -84,6 +121,8 @@ $.extend(window.Console,{
     */
   onfocus:function()
   {
+    if(Anim.on) return true
+    this.open()
     IN_CONSOLE = true
   },
   /**
@@ -92,7 +131,8 @@ $.extend(window.Console,{
     */
   onblur:function(evt)
   {
-    window.onkeypress = KEYPRESS_HORS_CONSOLE
+    if(Anim.on) return true
+    this.range()
     IN_CONSOLE = false
     $('input#nothing')[0].blur()
     return stop_event(evt)
@@ -180,8 +220,8 @@ $.extend(window.Console,{
   {
     if(this._etapes)          delete this._etapes
     if(this._steps_selection) delete this._steps_selection
-    Anim.modified = true
-    if(Anim.options.autosave) Anim.save()
+    Anim.File.modified = true
+    if(Anim.options.autosave) Anim.File.save()
   },
   
   /**
@@ -233,6 +273,13 @@ Object.defineProperties(window.Console,{
     */
   "console":{
     get:function(){return $('textarea#console')}
+  },
+  /**
+    * L'objet DOM de la section console
+    * @property {jQuerySet} section
+    */
+  "section":{
+    get:function(){return $('section#section_console')}
   },
   
   /**

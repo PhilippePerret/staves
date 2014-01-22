@@ -105,18 +105,22 @@ $.extend(UI,{
   
     anim_width      = parseInt(x * 70/100)
     anim_height     = parseInt(y * 78/100)
-    console_width   = x - ( anim_width + 10 + 32)
-  
+    
     var oanim     = $('section#animation')
     var pos_anim  = oanim.position()
     oanim.css({
       width : anim_width+"px", 
       height: anim_height+"px"}
     )
-    $('section#section_console').css({
-      width : console_width+"px",
-      height: anim_height+"px"
-    })
+    
+    // Dimensions pour la console
+    console_width         = x - anim_width - 40
+    Console.width_ranged  = console_width
+    Console.width_opened  = parseInt(console_width + 400, 10)
+    Console.height        = anim_height + 16
+    Console.section.css({height: Console.height+'px', width:Console.width_opened+'px'})
+    Console.console.css({height: (Console.height - 40)+'px'})
+    Console.range()
 
     // La position des sous-titres
     $('div#caption').css({
@@ -168,10 +172,11 @@ $.extend(UI,{
     old_option = $('select#animations option[value="'+old_name+'"]')
     $(code).insertAfter(old_option)
     old_option.remove()
-    Anim.set_anim(new_name)
+    Anim.set_anim(new_name, Anim.File.folder)
   },
   add_new_animation_to_menu:function(new_name)
   {
+    // TODO Vérifier si c'est toujours valable avec les dossiers
     $('select#animations').append('<option value="'+new_name+'">'+new_name+'</option>')
   }
   

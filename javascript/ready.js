@@ -5,7 +5,7 @@ $(document).ready(function(){
   
   Anim.on_load()
     
-  Anim.load_list_animations()
+  Anim.File.load_list_animations()
   
 
   UI.Tools.init()

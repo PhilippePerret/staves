@@ -1,0 +1,14 @@
+# Pour essayer de caler les gammes voisines
+
+DEFAULT(\'next\', 40)
+
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+
+SET_CURSOR(180)
+gammedo = SCALE(\'c\', {speed:4, staff:2, next:40})
+
+SET_CURSOR(100)
+gammelam = SCALE(\'a\', {type:\'min_h\', speed:4, staff:1})

@@ -27,12 +27,6 @@ if(undefined == window.Anim) window.Anim = {}
 $.extend(window.Anim,{
   
   /**
-    * Nom de l'animation (ie l'affixe de son fichier de code)
-    * @property {String|Null} name
-    */
-  name: null,
-  
-  /**
     * Coefficiant de vitesse (déterminé par le slider)
     * De -100 à 100
     * @property {Float} coef_speed
@@ -531,8 +525,8 @@ $.extend(window.Anim,{
     */
   on_load:function()
   {
-    Anim.Infos.prepare()
-    Anim.set_slider()
+    this.Infos.prepare()
+    this.set_slider()
     this.play_type = $('input#play_type').val().toString()
     this.onchange_play_type(this.play_type)
   },
@@ -557,7 +551,7 @@ $.extend(window.Anim,{
   {
     if(undefined == rajax)
     {
-      Ajax.send({script:'animation/start_record', name:this.name}, $.proxy(this.start_record, this))      
+      Ajax.send({script:'animation/start_record', name:this.name, folder:this.folder}, $.proxy(this.start_record, this))      
     }
     else
     {
@@ -578,7 +572,7 @@ $.extend(window.Anim,{
   {
     if(undefined == rajax)
     {
-      Ajax.send({script:'animation/stop_record', name:this.name}, $.proxy(this.start_record, this))      
+      Ajax.send({script:'animation/stop_record', name:this.name, folder:this.folder}, $.proxy(this.start_record, this))      
     }
     else
     {
@@ -618,7 +612,7 @@ $.extend(window.Anim,{
     if(undefined == rajax)
     {
       if(!this.name) return F.error("Aucune animation n'est encore chargée !")
-      Ajax.send({script:'animation/set_default', name:this.name},
+      Ajax.send({script:'animation/set_default', name:this.name, folder:this.folder},
       $.proxy(this.set_current_as_default, this))
     }
     else
@@ -640,160 +634,17 @@ $.extend(window.Anim,{
     // TODO Avant, il faut vérifier que l'animation courante a bien été
     // sauvée.
     this.reset()
-    delete this.name
-    this.set_anim("", '# Nouvelle animation\n# Écrire le code ici')
+    delete this.File.name
+    this.set_anim("", "", '# Nouvelle animation\n# Écrire le code ici')
     UI.Popups.unableIf('def_anim', false)
   },
   /**
     * Quand on active le menu "Fichier > Open" (ou Pomme+O)
-    * Notes
-    *   * Pour le moment, ça ne fait qu'afficher la liste des animations qu'on
-    *     a trouvé dans le dossier `./anim` mais plus tard, on verra.
     * @method want_open
     */
   want_open:function()
   {
-    UI.Tools.show('animations', {ok:{name:"Ouvrir", method:$.proxy(this.load, this, null)}})
-  },
-  /**
-    * Méthode définissant le nom de l'animation (du champ save_as) et
-    * l'enregistrant quand c'est une NOUVELLE animation
-    * @method set_name_and_save
-    */
-  set_name_and_save:function()
-  {
-    var name = this.get_new_name()
-    if(!name) return
-    else this.name = name
-    UI.add_new_animation_to_menu(this.name)
-    this.set_anim(this.name)
-    this.save()
-  },
-  /**
-    * Enregistre l'animation courante
-    * @method save
-    * @async
-    * @param  {Object} rajax  Le retour ajax au retour de la requête
-    */
-  save:function(rajax)
-  {
-    if(undefined == rajax)
-    {
-      if(!this.name)
-      {
-        return UI.Tools.show('save_as', {ok:{name:"Enregistrer", method:$.proxy(this.set_name_and_save, this)}})
-      }
-      Ajax.send({
-        script :'animation/save',
-        name   :this.name,
-        code   :Console.raw
-      }, $.proxy(this.save, this))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        F.show("“"+this.name + "” enregistré.")
-        this.modified = false
-      } 
-      else F.error(rajax.message)
-    }
-  },
-  /**
-    * Prend le nom de l'animation dans le champ save_as, le corrige
-    * et le renvoie.
-    * @method get_new_name
-    * @return {String|False} Le nom de l'animation, ou Null si un problème
-    */
-  get_new_name:function()
-  {
-    var name = $('input#animation_name').val().trim()  
-    name = Texte.to_ascii(name).
-                replace(/ /g,'_').
-                replace(/[^a-zA-z0-9_-]/g,'').
-                substring(0, 60)
-    if(name == "") return F.error("Il faut donner un nom (valide) !")
-    else return name
-  },
-  /**
-    * Enregistre l'animation sous un autre nom
-    * @method save_as
-    * @param {Object} rajax retour de la requête ajax
-    */
-  save_as:function(new_name_ok, rajax)
-  {
-    if(undefined == rajax)
-    {
-      if(undefined == new_name_ok)
-      {
-        return UI.Tools.show('save_as', {ok:{name:"Enregistrer", method:$.proxy(this.save_as, this, true)}})
-      }
-      // On prend le nouveau titre et on le corrige
-      var new_name = this.get_new_name()
-      if(!new_name) return                  
-      Ajax.send({
-        script:"animation/save", 
-        name      : this.name, 
-        new_name  : new_name,
-        code      : Console.raw
-      }, $.proxy(this.save_as, this, true))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        // Il faut retirer l'ancien nom et le remplacer par le nouveau
-        // Ça change aussi le nom courant de l'animation
-        UI.change_animation_name(this.name, rajax.name)
-        this.modified = false
-      }
-      else F.error(rajax.message)
-    }
-  },
-  
-  /**
-    * Recharge l'animation courante (utile quand on la code dans un fichier)
-    * @method reload
-    */
-  reload:function()
-  {
-    this.load(this.name)
-  },
-  /**
-    * Charge l'animation de nom +name+
-    * Si une méthode `this.load.poursuivre` est définie, on la joue en fin
-    * de chargement (c'est par exemple ce que fait la commande LOAD_ANIM pour
-    * lancer l'animation suivante).
-    * @method load
-    * @async
-    * @param  {String} name Nom de l'animation (choisie dans le menu)
-    * @param  {Object} rajax  Le retour de la requête
-    */
-  load:function(name, rajax)
-  {
-    if(undefined == rajax)
-    {
-      if(name == null) name = $('select#animations').val()
-      Ajax.send({script:"animation/load", name:name}, $.proxy(this.load, this, name))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        
-        // C'est ici qu'on détermine si l'animation chargée est la suite
-        // d'une animation précédente.
-        this.isSuite = (true == this.hasSuite)
-        
-        delete this.animation_pour_suivre
-        this.hasSuite = false
-        this.set_anim(name, rajax.raw_code)
-        this.modified = false
-        UI.Popups.unableIf('def_anim', rajax.is_default_anim)
-        if('function' == typeof this.load.poursuivre) this.load.poursuivre()
-      }
-      else F.error(rajax.message)
-    }
+    UI.Tools.show('animations', {ok:{name:"Ouvrir", method:$.proxy(UI.Tools.open_anim_or_folder, UI.Tools, null)}})
   },
   
   /* ---------------------------------------------------------------------
@@ -821,8 +672,11 @@ $.extend(window.Anim,{
     */
   load_and_start_animation_pour_suivre:function()
   {
-    this.load.poursuivre = $.proxy(Anim.start, Anim)
-    this.load(this.animation_pour_suivre)
+    this.File.load.poursuivre = $.proxy(Anim.start, Anim)
+    var danim = this.animation_pour_suivre.split('/')
+    var anim_name = danim.pop()
+    var anim_fold = danim.join('/')
+    this.File.load(anim_name, anim_fold)
   },
   /**
     * Définit l'animation courante de nom +nom+ et de code +code+
@@ -831,61 +685,21 @@ $.extend(window.Anim,{
     *
     * @method set_anim
     * @param {String} name    Le nom de l'animation
+    * @param {String} folder  Le dossier de l'animation
     * @param {String} code    Les commandes et autres de l'animation
     */
-  set_anim:function(name, code)
+  set_anim:function(name, folder, code)
   {
     this.init_all()
-    this.name = name
+    this.File.name    = name
+    this.File.folder  = folder
     $('select#animations').val(name)
     if(code) Console.set(code.stripSlashes())
     $('head > title').html("Anim: "+this.name)
-  },
-  /**
-    * Charge la liste des animations et peuple le menu
-    * @method load_list_animations
-    * @param  {Object} rajax  Le retour ajax
-    */
-  load_list_animations:function(rajax)
-  {
-    if(undefined == rajax)
-    {
-      Ajax.send({script:"animation/list"}, $.proxy(this.load_list_animations, this))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        UI.peuple_liste_animations(rajax.list)
-        // Y a-t-il une animation par défaut
-        if(rajax.default_animation)
-        {
-          this.set_anim(rajax.default_animation, rajax.raw_code)
-          UI.Popups.unableIf('def_anim', true)
-          this.modified = false
-        }
-        if(this.load_list_animations.poursuivre) this.load_list_animations.poursuivre()
-      }
-      else F.error(rajax.message)
-    }
   }
 })
 
 Object.defineProperties(Anim,{
-  /**
-    * Gère la propriété 'modified' de l'animation
-    * Propriété complexe pour pouvoir faire suivre le menu "Enregistrer"
-    *
-    * @property {Boolean} modified
-    */
-  "modified":{
-    set:function(mod)
-    {
-      this._modified = mod
-      UI.Popups.enableIf('save', mod)
-    },
-    get:function(){return this._modified}
-  },
   /**
     * Position x courante
     * @property {Number} current_x
@@ -897,6 +711,22 @@ Object.defineProperties(Anim,{
       this.Grid.set_cursor(x)
     },
     get:function(){ return this._current_x || parseInt(Anim.prefs.x_start,10)}
+  },
+  /**
+    * Propriété raccourci pour Anim.File.name
+    * @property {String} name
+    */
+  "name":{
+    set:function(name){ this.File.name = name },
+    get:function(){return this.File.name}
+  },
+  /**
+    * Propriété raccourci pour Anim.File.folder
+    * @property {String} folder
+    */
+  "folder":{
+    set:function(folder){this.File.folder = folder},
+    get:function(){return this.File.folder}
   }
   
 })

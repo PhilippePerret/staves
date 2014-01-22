@@ -1,0 +1,30 @@
+CAPTION("Ce cycle des quintes et des bémols fait partie de l'attirail de l'analyse. Il est bon de le connaitre par cœur.", {wait:true})
+
+CAPTION("Je ne rentre pas ici dans le détail de ces cycles de quintes, c'est l'objet d'un autre screencast, je vais juste les redonner.",{wait:true})
+
+CAPTION("Pour les dièses, c'est le suivant : Fa Do Sol Ré La Mi Si")
+
+SET_CURSOR(100)
+DEFAULT('next')
+
+cycleD = MOTIF('fd5 cd5 gd5 dd5 ad4 ed5 bd4', {speed:4})
+
+WAIT(4)
+
+CAPTION("Et le cycle des bémols va dans le sens inverse : Si Mi La Ré Sol Do Fa.")
+
+cycleB = MOTIF('bb4 eb5 ab4 db5 gb4 cb5 fb4', {staff:2, speed:4})
+
+WAIT(4)
+
+CAPTION("Les altérations qu'on trouve à la clé — ce qu'on appelle “l'armure”, ou “armature” —, dans toutes les musiques tonales, musique de variété et jazz compris, sont toujours dans cet ordre, en partant de la gauche pour aller vers la droite.", {wait:true})
+
+cycleB.note([1,3,4,5,6,7]).hide()
+CAPTION("Impossible de trouver dans une armure un MI bémol sans trouver le SI bémol qui le précède dans l'ordre des bémols.", {wait:true})
+cycleB.note(1).show()
+
+WAIT(1)
+
+cycleD.note([1,2,3,5,6,7]).hide()
+CAPTION("Impossible de trouver un RÉ dièse sans trouver le FA dièse, le do dièse et le sol dièse qui le précèdent dans l'ordre des dièses.", {wait:true})
+cycleD.note([1,2,3]).show()
