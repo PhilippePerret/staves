@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -308,7 +318,7 @@ window.Scale = function(scale, params)
     */
   this.intervalles = null
   
-  this.staff  = Anim.current_staff
+  this.staff  = null
   this.offset = 60
   this.octave = null
   this.asc    = true
@@ -329,16 +339,20 @@ window.Scale = function(scale, params)
   // Dispatch des paramètres envoyés
   if(undefined == params) params = {}
   for(var prop in params) this[prop] = params[prop]
+  if(this.staff) this.staff = Anim.staves[this.staff - 1]
   
   this.data_scale   = DATA_SCALES[this.type]
   if(undefined == this.data_scale)   throw &quot;Le type de gamme &#x60;&quot;+this.type+&quot;&#x60; est inconnu…&quot;
   this.intervalles  = this.data_scale.intervalles
-  if(this.octave  == null)  this.octave = Staff.best_octave_scale(this.staff.cle, this.inote_scale)
   if(this.from    == null)  this.from   = this.note_scale
-  
+  if(this.staff   == null)  this.staff  = Anim.current_staff
   if(!this.staff) throw &quot;Portée &quot;+params.staff+&quot; inconnue…&quot;
+  if(this.octave  == null)  this.octave = Staff.best_octave_scale(this.staff.cle, this.inote_scale)
+  
   
   this.build()
+  
+  dlog(&quot;Scale : &quot;);dlog(this)
 }
 $.extend(Scale.prototype, METHODES_GROUPNOTES)
 
@@ -350,7 +364,13 @@ $.extend(Scale.prototype,{
   build:function()
   {
     this.notes = [null]
-    var i, note, i_int = -1, alt, last_hauteur, cur_octave = parseInt(this.octave) ;
+    var i, 
+        note, 
+        i_int = -1, 
+        alt, 
+        last_hauteur, 
+        cur_octave  = parseInt(this.octave),
+        theleft     = this.left || Anim.current_x ;
     for(i = 0; i &lt; this.for; ++i)
     {
       note = NOTES[i + this.inote_scale] // p.e. &quot;e&quot;
@@ -383,7 +403,7 @@ $.extend(Scale.prototype,{
       // dlog(&quot;note str finale:&quot;+note_str)
     
       Anim.current_x += this.offset
-      this.notes.push(NOTE(note_str))
+      this.notes.push(NOTE(note_str, {staff:this.staff}))
       // On mémorise la hauteur de la note courante pour pouvoir
       // régler la hauteur de la prochaine note
       last_hauteur = REAL_INDICES_NOTES[note]

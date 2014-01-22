@@ -155,7 +155,7 @@ window.Anim.File = {
         
         delete Anim.animation_pour_suivre
         Anim.hasSuite = false
-        Anim.set_anim(name, rajax.raw_code)
+        Anim.set_anim(name, folder, rajax.raw_code)
         this.modified = false
         UI.Popups.unableIf('def_anim', rajax.is_default_anim)
         if('function' == typeof this.load.poursuivre) this.load.poursuivre()

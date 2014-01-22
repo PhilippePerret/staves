@@ -80,6 +80,7 @@ window.Arrow = function(params)
     * Width de la flèche
     * On peut obtenir et définir la taille (à l'écran) en appelant la 
     * propriété complexe `width`.
+    * @property {Number} _width
     */
   this._width = undefined
   

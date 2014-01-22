@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -266,6 +276,13 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item method">
                                 <a href="#method_add">add</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_clear">clear</a>
 
                                 
                                 
@@ -429,7 +446,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l93"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:93</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l129"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:129</code></a>
         
         </p>
 
@@ -521,6 +538,150 @@ Notes</p>
 </div>
 
                 
+                    <div id="method_clear" class="method item">
+    <h3 class="name"><code>clear</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>complete</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l20"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:20</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Efface en douceur le contenu de l&#39;animation
+(pour un lien fluide entre des animations qui se suivent — ou reset en cours d&#39;animation)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">complete</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La méthode pour suivre (NEXT_STEP par défaut)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">staves</code>
+                                    <span class="type">Boolean</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Si true, détruit aussi les portées</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">all</code>
+                                    <span class="type">Boolean</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Pour bien préciser qu&#39;il faut tout détruire</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_echo_last" class="method item">
     <h3 class="name"><code>echo_last</code></h3>
 
@@ -565,7 +726,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l86"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:86</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l90"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:90</code></a>
         
         </p>
 
@@ -663,7 +824,7 @@ doublage n&#39;apparait).</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l56"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:56</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l92"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:92</code></a>
         
         </p>
 
@@ -869,7 +1030,7 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l113"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:113</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Doublage.js.html#l117"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Doublage.js:117</code></a>
         
         </p>
 
@@ -1123,7 +1284,7 @@ Anim.prefs.caption_debit.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l19"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:19</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l55"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:55</code></a>
         
         </p>
 
@@ -1276,7 +1437,7 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l137"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:137</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l173"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:173</code></a>
         
         </p>
 
@@ -1514,7 +1675,7 @@ Note : La valeur est calculée par UI.onresize_window</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l168"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:168</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l204"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:204</code></a>
         
         </p>
 
@@ -1559,7 +1720,7 @@ Note : La valeur est calculée par UI.onresize_window</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l160"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:160</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l196"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:196</code></a>
         
         </p>
 

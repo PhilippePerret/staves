@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -264,6 +274,13 @@ Gestion des évènements</a></li>
 
                     <ul class="index-list methods">
                         
+                            <li class="index-item method">
+                                <a href="#method_autocompletion">autocompletion</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method protected">
                                 <a href="#method_code2pas">code2pas</a>
 
@@ -314,6 +331,20 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_open">open</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_range">range</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_select">select</a>
 
                                 
@@ -322,6 +353,13 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item method">
                                 <a href="#method_set">set</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_set_caret_to">set_caret_to</a>
 
                                 
                                 
@@ -345,6 +383,20 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_height">height</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_preambule">preambule</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_raw">raw</a>
 
                                 
@@ -353,6 +405,13 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item property">
                                 <a href="#property_raw_trimed">raw_trimed</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_section">section</a>
 
                                 
                                 
@@ -386,6 +445,20 @@ Gestion des évènements</a></li>
                                 
                             </li>
                         
+                            <li class="index-item property">
+                                <a href="#property_width_opened">width_opened</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_width_ranged">width_ranged</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -398,6 +471,115 @@ Gestion des évènements</a></li>
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_autocompletion" class="method item">
+    <h3 class="name"><code>autocompletion</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>evt</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l55"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:55</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode qui s&#39;occupe de l&#39;autocompletion. Par exemple, lorsque l&#39;on tape
+une accolade ouverte, la méthode écrit l&#39;accolade fermante et place le curseur
+à la bonne position.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">evt</code>
+                        <span class="type">KeybaordEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>L&#39;évènement Keyboard (keypress)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>TRUE si une autocompletion a été exécutée, false otherwise</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
 
                 
                     <div id="method_code2pas" class="method item protected">
@@ -454,7 +636,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l118"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:118</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l227"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:227</code></a>
         
         </p>
 
@@ -631,7 +813,7 @@ en instances Pas.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l59"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:59</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l168"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:168</code></a>
         
         </p>
 
@@ -756,7 +938,7 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l41"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:41</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l150"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:150</code></a>
         
         </p>
 
@@ -886,7 +1068,7 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l77"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:77</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l186"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:186</code></a>
         
         </p>
 
@@ -955,7 +1137,7 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l21"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:21</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l128"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:128</code></a>
         
         </p>
 
@@ -1010,7 +1192,7 @@ La méthode produit this.preambule qui sera joué en tout premier lieu.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l100"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:100</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l209"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:209</code></a>
         
         </p>
 
@@ -1071,7 +1253,7 @@ suite le code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l13"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:13</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l118"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:118</code></a>
         
         </p>
 
@@ -1083,6 +1265,116 @@ suite le code.</li>
 
     <div class="description">
         <p>Méthode appelée quand on focus dans le code console</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_open" class="method item">
+    <h3 class="name"><code>open</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l39"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:39</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Ouvre la console (l&#39;étend)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_range" class="method item">
+    <h3 class="name"><code>range</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l47"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:47</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Range la console (la rétracte)</p>
 
     </div>
 
@@ -1136,7 +1428,7 @@ suite le code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l87"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:87</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l196"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:196</code></a>
         
         </p>
 
@@ -1257,7 +1549,7 @@ suite le code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l31"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:31</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l140"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:140</code></a>
         
         </p>
 
@@ -1288,6 +1580,119 @@ suite le code.</li>
 
                     <div class="param-description">
                         <p>Le code à écrire, sous forme de String ou d&#39;Array</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_set_caret_to" class="method item">
+    <h3 class="name"><code>set_caret_to</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>inserted</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>back_offset</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l103"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:103</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode qui place le texte +inserted+ à la position du curseur et place
+le cursor au décalage +back_offset+ (0 par défaut = après l&#39;ajout)</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">inserted</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le nouveau texte</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">back_offset</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le décalage gauche (arrière) par rapport à la fin de l&#39;insert.
+                          Par exemple, la valeur <code>1</code> fera REMONTER le curseur d&#39;un caractère.</p>
 
                     </div>
 
@@ -1335,7 +1740,7 @@ suite le code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l161"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:161</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l270"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:270</code></a>
         
         </p>
 
@@ -1346,6 +1751,97 @@ suite le code.</li>
 
     <div class="description">
         <p>L&#39;objet DOM de la console</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_height" class="property item">
+    <h3 class="name"><code>height</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l25"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:25</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Hauteur de la console
+Note : Définie par UI.on_resize</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_preambule" class="property item">
+    <h3 class="name"><code>preambule</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l31"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:31</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Liste des étapes préambule de l&#39;animation courante</p>
 
     </div>
 
@@ -1380,7 +1876,7 @@ suite le code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l169"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:169</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l285"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:285</code></a>
         
         </p>
 
@@ -1425,7 +1921,7 @@ suite le code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l176"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:176</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l292"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:292</code></a>
         
         </p>
 
@@ -1436,6 +1932,51 @@ suite le code.</li>
 
     <div class="description">
         <p>Retourne le code brut mais trimé</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_section" class="property item">
+    <h3 class="name"><code>section</code></h3>
+    <span class="type">JQuerySet</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l277"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:277</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>L&#39;objet DOM de la section console</p>
 
     </div>
 
@@ -1470,7 +2011,7 @@ suite le code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l182"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:182</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l298"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:298</code></a>
         
         </p>
 
@@ -1521,7 +2062,7 @@ Moins les étapes de préambule éventuelles.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l239"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:239</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l355"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:355</code></a>
         
         </p>
 
@@ -1574,7 +2115,7 @@ en sélectionnant la portion de texte voulu avant.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l264"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:264</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l377"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:377</code></a>
         
         </p>
 
@@ -1627,7 +2168,7 @@ et on place la fin de la sélection à la fin du code.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l204"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:204</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l320"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:320</code></a>
         
         </p>
 
@@ -1653,6 +2194,98 @@ qui doivent être jouées.</li>
 <li>La liste renvoyée est expurgée des pas de &quot;préambule&quot; ou peuvent
 être définies des préférences.</li>
 </ul>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width_opened" class="property item">
+    <h3 class="name"><code>width_opened</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l13"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:13</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Width de la console en mode d&#39;arrêt
+Note : Définie par UI.on_resize</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width_ranged" class="property item">
+    <h3 class="name"><code>width_ranged</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Console.js.html#l19"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Console.js:19</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Width de la console en mode de jeu
+Note : Définie par UI.on_resize</p>
 
     </div>
 

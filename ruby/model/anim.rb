@@ -7,7 +7,7 @@ class Anim
     def list_of_folder subfolder
       subfolder += "/" if subfolder.to_s != "" && !subfolder.end_with?('/')
       Dir["#{folder}/#{subfolder.to_s}*"].collect do |path|
-        pathrel = path.sub(/^#{folder}\//, '')
+        pathrel = path.sub(/^#{folder}\//, '').sub(/(\.txt)$/, '')
         if File.directory?(path)
           {:dir => true, :path => pathrel, :name => File.basename(pathrel)}
         else
@@ -21,7 +21,7 @@ class Anim
     # 
     def default_animation
       return nil unless File.exists?('.default')
-      defanim = File.read('.default').split("\n")
+      defanim = File.read('.default').force_encoding('utf-8').split("\n")
       return {:name => defanim[0], :folder => defanim[1].to_s} if(new(defanim[0], defanim[1].to_s)).exists?
     end
     

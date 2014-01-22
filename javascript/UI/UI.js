@@ -159,11 +159,12 @@ $.extend(UI,{
     if(folder != "")
     { // => Il y a un dossier supérieur
       var cur_path = ""
-      L(folder.split('/')).collect(function(dossier){
-        cur_path += dossier + "/"
-        $('select#folders_animations').append('<option value="'+cur_path+'">' + dossier + '</option>')
+      L($.merge(['Animations'], folder.split('/'))).collect(function(dossier){
+        if(!(cur_path == "" && dossier == "Animations")) cur_path += dossier + "/"
+        $('select#folders_animations').prepend('<option value="'+cur_path+'">' + dossier + '</option>')
       }).join('')
     }
+    $('select#folders_animations')[0].selectedIndex = 0
     L(arr).each(function(danim){
       var css = danim.dir ? "folder" : "anim" ;
       $('select#animations').append('<option class="'+css+'" value="'+danim.path+'">'+danim.name+'</option>')        

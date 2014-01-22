@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -243,12 +253,6 @@ if(undefined == window.Anim) window.Anim = {}
 $.extend(window.Anim,{
   
   /**
-    * Nom de l&#x27;animation (ie l&#x27;affixe de son fichier de code)
-    * @property {String|Null} name
-    */
-  name: null,
-  
-  /**
     * Coefficiant de vitesse (déterminé par le slider)
     * De -100 à 100
     * @property {Float} coef_speed
@@ -260,6 +264,27 @@ $.extend(window.Anim,{
     * @default false
     */
   recording: false,
+  
+  /**
+    * Propriété mise à TRUE si l&#x27;animation en cours de jeu possède une
+    * suite.
+    * @property {Boolean} hasSuite
+    * @default false
+    */
+  hasSuite: false,
+  
+  /**
+    * Propriété mise à TRUE si l&#x27;animation en cours est la suite d&#x27;une autre
+    * animation.
+    * @property {Boolean} isSuite
+    * @default false
+    */
+  isSuite: false,
+  
+  /* ---------------------------------------------------------------------
+   *  OPTIONS
+   *  
+   */
   /**
     * Options diverses
     * @class Anim.options
@@ -293,6 +318,11 @@ $.extend(window.Anim,{
   /* Fin des options
    * --------------------------------------------------------------------- */
   
+  
+  /* ---------------------------------------------------------------------
+   *  TRANSITIONS
+   *  
+   */
   /**
     * Data vitesse (constantes)
     * Serviront à calculer transition_reg en cas de modification de
@@ -356,11 +386,11 @@ $.extend(window.Anim,{
     transform   : 1,
     wait        : 1
   },
-  /**
-    * Options
-    * @class options
-    * @static
-    */
+
+  /* ---------------------------------------------------------------------
+   *  PRÉFÉRENCES
+   *  
+   */
   /**
     * Toutes les préférences par défaut
     * Notes
@@ -688,19 +718,31 @@ $.extend(window.Anim,{
   reset:function()
   {
     dlog(&quot;-&gt; Anim.reset&quot;)
+    var my = this
+    
     Flash.clean()
-    $(&#x27;section#animation&#x27;).html(&#x27;&#x27;)
-    this.Objects    = {}
     this.Step.list  = null
+    // Destruction des (instances) objets de l&#x27;animation et ré-initialisation
+    // de this.Objects (avec les méthodes-commandes)
+    L(this.Objects).each(function(key,val){ delete my.Objects[key] })
+    this.Objects    = {}
     $.extend(this.Objects, FONCTIONS_ANIM_OBJETS)
     Object.defineProperties(this.Objects, METHODES_ANIM_OBJETS)
+    
+    // Destruction des instances portées
     L(this.staves || []).each(function(staff){staff=null; delete staff;})
     this.staves     = []
+    
+    // Ré-initialisation des préférences
     this.reset_prefs()
+    
     // Il faut ré-initialiser la grid après avoir re-défini current_x, car
     // la grid s&#x27;en sert pour replacer le curseur de position.
     this.Grid.init_all()
-    this.Dom.Doublage.init()   // Effacer doublage et sous-titre
+    
+    // Effacer doublage et sous-titre
+    this.Dom.Doublage.init()
+    
     dlog(&quot;&lt;- Anim.reset&quot;)
   },
   /**
@@ -709,8 +751,8 @@ $.extend(window.Anim,{
     */
   on_load:function()
   {
-    Anim.Infos.prepare()
-    Anim.set_slider()
+    this.Infos.prepare()
+    this.set_slider()
     this.play_type = $(&#x27;input#play_type&#x27;).val().toString()
     this.onchange_play_type(this.play_type)
   },
@@ -735,7 +777,7 @@ $.extend(window.Anim,{
   {
     if(undefined == rajax)
     {
-      Ajax.send({script:&#x27;animation/start_record&#x27;, name:this.name}, $.proxy(this.start_record, this))      
+      Ajax.send({script:&#x27;animation/start_record&#x27;, name:this.name, folder:this.folder}, $.proxy(this.start_record, this))      
     }
     else
     {
@@ -756,7 +798,7 @@ $.extend(window.Anim,{
   {
     if(undefined == rajax)
     {
-      Ajax.send({script:&#x27;animation/stop_record&#x27;, name:this.name}, $.proxy(this.start_record, this))      
+      Ajax.send({script:&#x27;animation/stop_record&#x27;, name:this.name, folder:this.folder}, $.proxy(this.start_record, this))      
     }
     else
     {
@@ -796,7 +838,7 @@ $.extend(window.Anim,{
     if(undefined == rajax)
     {
       if(!this.name) return F.error(&quot;Aucune animation n&#x27;est encore chargée !&quot;)
-      Ajax.send({script:&#x27;animation/set_default&#x27;, name:this.name},
+      Ajax.send({script:&#x27;animation/set_default&#x27;, name:this.name, folder:this.folder},
       $.proxy(this.set_current_as_default, this))
     }
     else
@@ -818,166 +860,37 @@ $.extend(window.Anim,{
     // TODO Avant, il faut vérifier que l&#x27;animation courante a bien été
     // sauvée.
     this.reset()
-    delete this.name
-    this.set_anim(&quot;&quot;, &#x27;# Nouvelle animation\n# Écrire le code ici&#x27;)
+    delete this.File.name
+    this.set_anim(&quot;&quot;, &quot;&quot;, &#x27;# Nouvelle animation\n# Écrire le code ici&#x27;)
     UI.Popups.unableIf(&#x27;def_anim&#x27;, false)
   },
   /**
     * Quand on active le menu &quot;Fichier &gt; Open&quot; (ou Pomme+O)
-    * Notes
-    *   * Pour le moment, ça ne fait qu&#x27;afficher la liste des animations qu&#x27;on
-    *     a trouvé dans le dossier &#x60;./anim&#x60; mais plus tard, on verra.
     * @method want_open
     */
   want_open:function()
   {
-    UI.Tools.show(&#x27;animations&#x27;, {ok:{name:&quot;Ouvrir&quot;, method:$.proxy(this.load, this, null)}})
-  },
-  /**
-    * Méthode définissant le nom de l&#x27;animation (du champ save_as) et
-    * l&#x27;enregistrant quand c&#x27;est une NOUVELLE animation
-    * @method set_name_and_save
-    */
-  set_name_and_save:function()
-  {
-    var name = this.get_new_name()
-    if(!name) return
-    else this.name = name
-    UI.add_new_animation_to_menu(this.name)
-    this.set_anim(this.name)
-    this.save()
-  },
-  /**
-    * Enregistre l&#x27;animation courante
-    * @method save
-    * @async
-    * @param  {Object} rajax  Le retour ajax au retour de la requête
-    */
-  save:function(rajax)
-  {
-    if(undefined == rajax)
-    {
-      if(!this.name)
-      {
-        return UI.Tools.show(&#x27;save_as&#x27;, {ok:{name:&quot;Enregistrer&quot;, method:$.proxy(this.set_name_and_save, this)}})
-      }
-      Ajax.send({
-        script :&#x27;animation/save&#x27;,
-        name   :this.name,
-        code   :Console.raw
-      }, $.proxy(this.save, this))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        F.show(&quot;“&quot;+this.name + &quot;” enregistré.&quot;)
-        this.modified = false
-      } 
-      else F.error(rajax.message)
-    }
-  },
-  /**
-    * Prend le nom de l&#x27;animation dans le champ save_as, le corrige
-    * et le renvoie.
-    * @method get_new_name
-    * @return {String|False} Le nom de l&#x27;animation, ou Null si un problème
-    */
-  get_new_name:function()
-  {
-    var name = $(&#x27;input#animation_name&#x27;).val().trim()  
-    name = Texte.to_ascii(name).
-                replace(/ /g,&#x27;_&#x27;).
-                replace(/[^a-zA-z0-9_-]/g,&#x27;&#x27;).
-                substring(0, 60)
-    if(name == &quot;&quot;) return F.error(&quot;Il faut donner un nom (valide) !&quot;)
-    else return name
-  },
-  /**
-    * Enregistre l&#x27;animation sous un autre nom
-    * @method save_as
-    * @param {Object} rajax retour de la requête ajax
-    */
-  save_as:function(new_name_ok, rajax)
-  {
-    if(undefined == rajax)
-    {
-      if(undefined == new_name_ok)
-      {
-        return UI.Tools.show(&#x27;save_as&#x27;, {ok:{name:&quot;Enregistrer&quot;, method:$.proxy(this.save_as, this, true)}})
-      }
-      // On prend le nouveau titre et on le corrige
-      var new_name = this.get_new_name()
-      if(!new_name) return                  
-      Ajax.send({
-        script:&quot;animation/save&quot;, 
-        name      : this.name, 
-        new_name  : new_name,
-        code      : Console.raw
-      }, $.proxy(this.save_as, this, true))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        // Il faut retirer l&#x27;ancien nom et le remplacer par le nouveau
-        // Ça change aussi le nom courant de l&#x27;animation
-        UI.change_animation_name(this.name, rajax.name)
-        this.modified = false
-      }
-      else F.error(rajax.message)
-    }
+    UI.Tools.show(&#x27;animations&#x27;, {ok:{name:&quot;Ouvrir&quot;, method:$.proxy(UI.Tools.open_anim_or_folder, UI.Tools, null)}})
   },
   
-  /**
-    * Recharge l&#x27;animation courante (utile quand on la code dans un fichier)
-    * @method reload
-    */
-  reload:function()
-  {
-    this.load(this.name)
-  },
-  /**
-    * Charge l&#x27;animation de nom +name+
-    * Si une méthode &#x60;this.load.poursuivre&#x60; est définie, on la joue en fin
-    * de chargement (c&#x27;est par exemple ce que fait la commande LOAD_ANIM pour
-    * lancer l&#x27;animation suivante).
-    * @method load
-    * @async
-    * @param  {String} name Nom de l&#x27;animation (choisie dans le menu)
-    * @param  {Object} rajax  Le retour de la requête
-    */
-  load:function(name, rajax)
-  {
-    if(undefined == rajax)
-    {
-      if(name == null) name = $(&#x27;select#animations&#x27;).val()
-      Ajax.send({script:&quot;animation/load&quot;, name:name}, $.proxy(this.load, this, name))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        this.set_anim(name, rajax.raw_code)
-        this.modified = false
-        UI.Popups.unableIf(&#x27;def_anim&#x27;, rajax.is_default_anim)
-        if(&#x27;function&#x27; == typeof this.load.poursuivre) this.load.poursuivre()
-      }
-      else F.error(rajax.message)
-    }
-  },
+  /* ---------------------------------------------------------------------
+   *  Méthodes pour la suite d&#x27;animations
+   *  @rappel : Une suite d&#x27;animations est définie dès que la commande &#x60;SUITE&#x60;
+   *  est utilisée dans le code de l&#x27;animation.
+   */
   /**
     * Définit l&#x27;animation pour suivre, qui sera exécutée lorsque l&#x27;animation
-    * courante sera achevée
+    * courante sera achevée. La méthode est appelée par la commande &#x60;SUITE&#x60;
+    *
     * @method set_animation_pour_suivre
     * @param {String} path    Le nom ou le chemin de l&#x27;animation
     * @param {Object} params  Les paramètres optionnels (non utilisés pour le moment)
     */
   set_animation_pour_suivre:function(path, params)
   {
+    this.hasSuite = true
     this.animation_pour_suivre = path
-    dlog(&quot;this.animation_pour_suivre:&quot;+this.animation_pour_suivre)
-    NEXT_STEP(notimeout = true)
+    NEXT_STEP(no_timeout = true)
   },
   /**
     * Méthode qui charge et joue l&#x27;animation pour suivre si elle a été définie
@@ -985,9 +898,11 @@ $.extend(window.Anim,{
     */
   load_and_start_animation_pour_suivre:function()
   {
-    this.load.poursuivre = $.proxy(Anim.start, Anim)
-    this.load(this.animation_pour_suivre)
-    delete this.animation_pour_suivre
+    this.File.load.poursuivre = $.proxy(Anim.start, Anim)
+    var danim = this.animation_pour_suivre.split(&#x27;/&#x27;)
+    var anim_name = danim.pop()
+    var anim_fold = danim.join(&#x27;/&#x27;)
+    this.File.load(anim_name, anim_fold)
   },
   /**
     * Définit l&#x27;animation courante de nom +nom+ et de code +code+
@@ -996,61 +911,21 @@ $.extend(window.Anim,{
     *
     * @method set_anim
     * @param {String} name    Le nom de l&#x27;animation
+    * @param {String} folder  Le dossier de l&#x27;animation
     * @param {String} code    Les commandes et autres de l&#x27;animation
     */
-  set_anim:function(name, code)
+  set_anim:function(name, folder, code)
   {
     this.init_all()
-    this.name = name
+    this.File.name    = name
+    this.File.folder  = folder
     $(&#x27;select#animations&#x27;).val(name)
     if(code) Console.set(code.stripSlashes())
     $(&#x27;head &gt; title&#x27;).html(&quot;Anim: &quot;+this.name)
-  },
-  /**
-    * Charge la liste des animations et peuple le menu
-    * @method load_list_animations
-    * @param  {Object} rajax  Le retour ajax
-    */
-  load_list_animations:function(rajax)
-  {
-    if(undefined == rajax)
-    {
-      Ajax.send({script:&quot;animation/list&quot;}, $.proxy(this.load_list_animations, this))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        UI.peuple_liste_animations(rajax.list)
-        // Y a-t-il une animation par défaut
-        if(rajax.default_animation)
-        {
-          this.set_anim(rajax.default_animation, rajax.raw_code)
-          UI.Popups.unableIf(&#x27;def_anim&#x27;, true)
-          this.modified = false
-        }
-        if(this.load_list_animations.poursuivre) this.load_list_animations.poursuivre()
-      }
-      else F.error(rajax.message)
-    }
   }
 })
 
 Object.defineProperties(Anim,{
-  /**
-    * Gère la propriété &#x27;modified&#x27; de l&#x27;animation
-    * Propriété complexe pour pouvoir faire suivre le menu &quot;Enregistrer&quot;
-    *
-    * @property {Boolean} modified
-    */
-  &quot;modified&quot;:{
-    set:function(mod)
-    {
-      this._modified = mod
-      UI.Popups.enableIf(&#x27;save&#x27;, mod)
-    },
-    get:function(){return this._modified}
-  },
   /**
     * Position x courante
     * @property {Number} current_x
@@ -1062,6 +937,22 @@ Object.defineProperties(Anim,{
       this.Grid.set_cursor(x)
     },
     get:function(){ return this._current_x || parseInt(Anim.prefs.x_start,10)}
+  },
+  /**
+    * Propriété raccourci pour Anim.File.name
+    * @property {String} name
+    */
+  &quot;name&quot;:{
+    set:function(name){ this.File.name = name },
+    get:function(){return this.File.name}
+  },
+  /**
+    * Propriété raccourci pour Anim.File.folder
+    * @property {String} folder
+    */
+  &quot;folder&quot;:{
+    set:function(folder){this.File.folder = folder},
+    get:function(){return this.File.folder}
   }
   
 })

@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -249,6 +259,7 @@ $.extend(UI,{
     $(&#x27;input[type=&quot;text&quot;], textarea&#x27;).bind(&#x27;focus&#x27;,function(){IN_TEXT_FIELD = true})
     $(&#x27;input[type=&quot;text&quot;], textarea&#x27;).bind(&#x27;blur&#x27;,function(){IN_TEXT_FIELD = false})
     Console.console.bind(&#x27;blur&#x27;, $.proxy(Console.onblur, Console))
+    Console.console.bind(&#x27;focus&#x27;, $.proxy(Console.onfocus, Console))
     this.chronometre = Horloge.create()
   },
   /**
@@ -320,18 +331,22 @@ $.extend(UI,{
   
     anim_width      = parseInt(x * 70/100)
     anim_height     = parseInt(y * 78/100)
-    console_width   = x - ( anim_width + 10 + 32)
-  
+    
     var oanim     = $(&#x27;section#animation&#x27;)
     var pos_anim  = oanim.position()
     oanim.css({
       width : anim_width+&quot;px&quot;, 
       height: anim_height+&quot;px&quot;}
     )
-    $(&#x27;section#section_console&#x27;).css({
-      width : console_width+&quot;px&quot;,
-      height: anim_height+&quot;px&quot;
-    })
+    
+    // Dimensions pour la console
+    console_width         = x - anim_width - 40
+    Console.width_ranged  = console_width
+    Console.width_opened  = parseInt(console_width + 400, 10)
+    Console.height        = anim_height + 16
+    Console.section.css({height: Console.height+&#x27;px&#x27;, width:Console.width_opened+&#x27;px&#x27;})
+    Console.console.css({height: (Console.height - 40)+&#x27;px&#x27;})
+    Console.range()
 
     // La position des sous-titres
     $(&#x27;div#caption&#x27;).css({
@@ -341,7 +356,7 @@ $.extend(UI,{
     })
 
     // La position de la règle de mesure
-    this.Regle.obj.css({top:(anim_height - 10)+&#x27;px&#x27;})
+    if(this.Regle &amp;&amp; this.Regle.obj.length) this.Regle.obj.css({top:(anim_height - 10)+&#x27;px&#x27;})
     // Positions pour la grille (grid)
     Anim.Grid.obj.css({
       top     :pos_anim.top+&#x27;px&#x27;, 
@@ -355,14 +370,30 @@ $.extend(UI,{
     Anim.Dom.left_max = anim_width - 40
   },
   /**
-    * Peuple le menu des applications avec la liste +name_list+
+    * Peuple le menu des applications avec la liste +arr+
     * @method peuple_liste_animations
-    * @param {Array} name_list  Liste des affixes d&#x27;animation
+    * @param {Array} arr  Liste du contenu du dossier courant.
+    *                       C&#x27;est un Array d&#x27;objets définissant :path (chemin
+    *                       relatif depuis ./anim), :dir (à true si c&#x27;est un dossier)
+    *                       et :name (affixe de l&#x27;animation)
+    * @param  {String} folder   Le dossier dont on affiche le contenu
     */
-  peuple_liste_animations:function(name_list)
+  peuple_liste_animations:function(arr, folder)
   {
-    L(name_list).each(function(name){
-      $(&#x27;select#animations&#x27;).append(&#x27;&lt;option value=&quot;&#x27;+name+&#x27;&quot;&gt;&#x27;+name+&#x27;&lt;/option&gt;&#x27;)
+    $(&#x27;select#animations&#x27;).html(&#x27;&#x27;)
+    $(&#x27;select#folders_animations&#x27;).html(&#x27;&#x27;)
+    if(folder != &quot;&quot;)
+    { // =&gt; Il y a un dossier supérieur
+      var cur_path = &quot;&quot;
+      L($.merge([&#x27;Animations&#x27;], folder.split(&#x27;/&#x27;))).collect(function(dossier){
+        if(!(cur_path == &quot;&quot; &amp;&amp; dossier == &quot;Animations&quot;)) cur_path += dossier + &quot;/&quot;
+        $(&#x27;select#folders_animations&#x27;).prepend(&#x27;&lt;option value=&quot;&#x27;+cur_path+&#x27;&quot;&gt;&#x27; + dossier + &#x27;&lt;/option&gt;&#x27;)
+      }).join(&#x27;&#x27;)
+    }
+    $(&#x27;select#folders_animations&#x27;)[0].selectedIndex = 0
+    L(arr).each(function(danim){
+      var css = danim.dir ? &quot;folder&quot; : &quot;anim&quot; ;
+      $(&#x27;select#animations&#x27;).append(&#x27;&lt;option class=&quot;&#x27;+css+&#x27;&quot; value=&quot;&#x27;+danim.path+&#x27;&quot;&gt;&#x27;+danim.name+&#x27;&lt;/option&gt;&#x27;)        
     })
   },
   
@@ -379,14 +410,16 @@ $.extend(UI,{
     */
   change_animation_name:function(old_name, new_name)
   {
+    // TODO Vérifier si c&#x27;est toujours valable avec les dossiers
     code = &#x27;&lt;option value=&quot;&#x27;+new_name+&#x27;&quot;&gt;&#x27;+new_name+&#x27;&lt;/option&gt;&#x27;
     old_option = $(&#x27;select#animations option[value=&quot;&#x27;+old_name+&#x27;&quot;]&#x27;)
     $(code).insertAfter(old_option)
     old_option.remove()
-    Anim.set_anim(new_name)
+    Anim.set_anim(new_name, Anim.File.folder)
   },
   add_new_animation_to_menu:function(new_name)
   {
+    // TODO Vérifier si c&#x27;est toujours valable avec les dossiers
     $(&#x27;select#animations&#x27;).append(&#x27;&lt;option value=&quot;&#x27;+new_name+&#x27;&quot;&gt;&#x27;+new_name+&#x27;&lt;/option&gt;&#x27;)
   }
   

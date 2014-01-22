@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Anim.Cursor</title>
+    <title>Anim.File</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -220,7 +220,7 @@ Gestion des évènements</a></li>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Anim.Cursor Class</h1>
+                        <h1>Anim.File Class</h1>
 <div class="box meta">
     
 
@@ -228,15 +228,13 @@ Gestion des évènements</a></li>
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l7"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:7</code></a>
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:5</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Anim_Cursor
-Gestion du curseur de position de l'animation.html">Anim_Cursor
-Gestion du curseur de position de l'animation</a>
+            Module: <a href="../modules/Anim_File.html">Anim_File</a>
         
     
 
@@ -259,6 +257,8 @@ Gestion du curseur de position de l'animation</a>
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
         
         
     </ul>
@@ -274,21 +274,80 @@ Gestion du curseur de position de l'animation</a>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_next">next</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method protected">
-                                <a href="#method_set">set</a>
+                                <a href="#method_get_new_name">get_new_name</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_set_cursor">set_cursor</a>
+                                <a href="#method_load">load</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_load_list_animations">load_list_animations</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_reload">reload</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_save">save</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_save_as">save_as</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_set_name_and_save">set_name_and_save</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_folder">folder</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_modified">modified</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_name">name</a>
 
                                 
                                 
@@ -301,8 +360,6 @@ Gestion du curseur de position de l'animation</a>
             
 
             
-
-            
         </div>
 
         
@@ -310,23 +367,17 @@ Gestion du curseur de position de l'animation</a>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_next" class="method item">
-    <h3 class="name"><code>next</code></h3>
+                    <div id="method_get_new_name" class="method item">
+    <h3 class="name"><code>get_new_name</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>offset</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
+    
+        <span class="returns-inline">
+            <span class="type">String | False</span>
+        </span>
     
 
     
@@ -352,7 +403,7 @@ Gestion du curseur de position de l'animation</a>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l13"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:13</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l68"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:68</code></a>
         
         </p>
 
@@ -363,9 +414,104 @@ Gestion du curseur de position de l'animation</a>
     </div>
 
     <div class="description">
-        <p>Définir la prochaine position d&#39;inscription relativement à la position
-courante.
-Cette méthode répond à la commande NEXT</p>
+        <p>Prend le nom de l&#39;animation dans le champ save_as, le corrige
+et le renvoie.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String | False</span>:
+                    
+                    <p>Le nom de l&#39;animation, ou Null si un problème</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_load" class="method item">
+    <h3 class="name"><code>load</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>folder</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>rajax</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag async">async</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l129"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:129</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Charge l&#39;animation de nom +name+
+Si une méthode <code>this.load.poursuivre</code> est définie, on la joue en fin
+de chargement (c&#39;est par exemple ce que fait la commande LOAD_ANIM pour
+lancer l&#39;animation suivante).</p>
 
     </div>
 
@@ -377,14 +523,46 @@ Cette méthode répond à la commande NEXT</p>
             
                 <li class="param">
                     
-                        <code class="param-name">offset</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Décalage par rapport à la position courante.</p>
+                        <p>Nom de l&#39;animation (choisie dans le menu)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">folder</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Dossier (relatif depuis <code>anim</code>) de l&#39;animation</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">rajax</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le retour de la requête</p>
 
                     </div>
 
@@ -401,8 +579,8 @@ Cette méthode répond à la commande NEXT</p>
 </div>
 
                 
-                    <div id="method_set" class="method item protected">
-    <h3 class="name"><code>set</code></h3>
+                    <div id="method_load_list_animations" class="method item">
+    <h3 class="name"><code>load_list_animations</code></h3>
 
     
         <div class="args">
@@ -410,7 +588,7 @@ Cette méthode répond à la commande NEXT</p>
             
                 <li class="arg">
                     
-                        <code>offset</code>
+                        <code>rajax</code>
                     
                 </li>
             
@@ -422,8 +600,6 @@ Cette méthode répond à la commande NEXT</p>
 
     
 
-    
-        <span class="flag protected">protected</span>
     
 
     
@@ -445,7 +621,7 @@ Cette méthode répond à la commande NEXT</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l65"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:65</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l167"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:167</code></a>
         
         </p>
 
@@ -456,8 +632,7 @@ Cette méthode répond à la commande NEXT</p>
     </div>
 
     <div class="description">
-        <p>Positionner le cursor de position à la position +offset+ en réglant
-la position sur la grille et en passant à l&#39;étape suivante.</p>
+        <p>Charge la liste des animations et peuple le menu</p>
 
     </div>
 
@@ -469,14 +644,14 @@ la position sur la grille et en passant à l&#39;étape suivante.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">offset</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">rajax</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>La position du curseur de position</p>
+                        <p>Le retour ajax</p>
 
                     </div>
 
@@ -493,8 +668,63 @@ la position sur la grille et en passant à l&#39;étape suivante.</p>
 </div>
 
                 
-                    <div id="method_set_cursor" class="method item">
-    <h3 class="name"><code>set_cursor</code></h3>
+                    <div id="method_reload" class="method item">
+    <h3 class="name"><code>reload</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l121"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:121</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Recharge l&#39;animation courante (utile quand on la code dans un fichier)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_save" class="method item">
+    <h3 class="name"><code>save</code></h3>
 
     
         <div class="args">
@@ -502,13 +732,98 @@ la position sur la grille et en passant à l&#39;étape suivante.</p>
             
                 <li class="arg">
                     
-                        <code>param</code>
+                        <code>rajax</code>
                     
                 </li>
             
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag async">async</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l37"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:37</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Enregistre l&#39;animation courante</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">rajax</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le retour ajax au retour de la requête</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_save_as" class="method item">
+    <h3 class="name"><code>save_as</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
                 <li class="arg">
                     
-                        <code>value.</code>
+                        <code>rajax</code>
                     
                 </li>
             
@@ -541,7 +856,7 @@ la position sur la grille et en passant à l&#39;étape suivante.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_&gt;Anim_Cursor.js.html#l25"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;&gt;Anim_Cursor.js:25</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l84"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:84</code></a>
         
         </p>
 
@@ -552,8 +867,7 @@ la position sur la grille et en passant à l&#39;étape suivante.</p>
     </div>
 
     <div class="description">
-        <p>Définir la prochaine position d&#39;inscription de façon absolue par une valeur
-de pixels ou une valeur de pas.</p>
+        <p>Enregistre l&#39;animation sous un autre nom</p>
 
     </div>
 
@@ -565,33 +879,14 @@ de pixels ou une valeur de pas.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">param</code>
-                        <span class="type">Number | Object</span>
+                        <code class="param-name">rajax</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Si c&#39;est un nombre, la position exacte que
-        doit prendre le curseur. Sinon, c&#39;est un objet contenant {pas:<valeur>}
-        où <code>pas</code> est un des <code>left</code> utilisés dans l&#39;animation (toutes portées
-        confondues).</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">value.</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Si +param+ est string, définit la valeur du paramètre</p>
+                        <p>retour de la requête ajax</p>
 
                     </div>
 
@@ -600,6 +895,62 @@ de pixels ou une valeur de pas.</p>
             
             </ul>
         </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_set_name_and_save" class="method item">
+    <h3 class="name"><code>set_name_and_save</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l22"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:22</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode définissant le nom de l&#39;animation (du champ save_as) et
+l&#39;enregistrant quand c&#39;est une NOUVELLE animation</p>
+
+    </div>
+
     
 
     
@@ -611,6 +962,150 @@ de pixels ou une valeur de pas.</p>
             </div>
         
 
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_folder" class="property item">
+    <h3 class="name"><code>folder</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l16"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:16</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Dossier de l&#39;animation</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_modified" class="property item">
+    <h3 class="name"><code>modified</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l201"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:201</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gère la propriété &#39;modified&#39; de l&#39;animation
+Propriété complexe pour pouvoir faire suivre le menu &quot;Enregistrer&quot;</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_name" class="property item">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String | Null</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l11"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:11</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Nom de l&#39;animation (ie l&#39;affixe de son fichier de code)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

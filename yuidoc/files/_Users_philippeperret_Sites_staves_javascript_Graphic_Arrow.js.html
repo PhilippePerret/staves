@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -284,6 +294,22 @@ window.Arrow = function(params)
     */
   this._color = &#x27;black&#x27;
   
+  /**
+    * Angle de la flèche
+    * On peut obtenir et définir la rotation (en la changeant à l&#x27;écran) en
+    * appelant la propriété complexe &#x60;rotation&#x60;
+    * @property {Number} _rotation
+    */
+  this._angle = 0
+  
+  /**
+    * Width de la flèche
+    * On peut obtenir et définir la taille (à l&#x27;écran) en appelant la 
+    * propriété complexe &#x60;width&#x60;.
+    * @property {Number} _width
+    */
+  this._width = undefined
+  
   ObjetClass.call(this, params)
 }
 Arrow.prototype = Object.create( ObjetClass.prototype )
@@ -306,21 +332,30 @@ ARROW_METHODS = {
     }
     else
     {
-      this.obj.animate(
-        params, Anim.delai_for(&#x27;transform&#x27;), complete || NEXT_STEP
-      )
+      var suf_objs = []
+      if(undefined == params.div || params.div)   suf_objs.push(&#x27;div&#x27;)
+      if(params.head)   suf_objs.push(&#x27;head&#x27;)
+      if(params.queue)  suf_objs.push(&#x27;queue&#x27;)
+      var my = this
+      L(suf_objs).each(function(suf){
+        my[&#x27;obj_&#x27;+suf].animate(
+          params, Anim.delai_for(&#x27;transform&#x27;), complete || NEXT_STEP
+        )
+      })
     }
     
   },
   /**
     * Déplacer la flèche
     * @method move
-    * @param {Object} params Paramètres du déplacement
+    * @param {Object} params Paramètres du déplacement (ou un des attributs ci-dessous)
     *   @param {Number} params.x    Déplacement  horizontal (en pixels)
     *   @param {Number} params.y    Déplacement vertical (en pixels)
+    * @param {Number} value   Si +params+ est une propriété (&#x27;x&#x27; ou &#x27;y&#x27;), +value+ est sa valeur
     */
-  move:function(params)
+  move:function(params, value)
   {
+    params = parametize(params, value)
     var pos   = this.obj.position()
     var data  = {}
     if(undefined != params.x) data.left = (pos.left + params.x) + &quot;px&quot;
@@ -343,14 +378,41 @@ ARROW_METHODS = {
   },
   /**
     * Change la taille de la flèche
+    * Notes
+    *   * Changer sa taille consiste à allonger la queue
     * @method width
     * @param  {Number} px La nouvelle taille en pixels
     */
   size:function(px)
   {
     var h = this.obj.height()
-    this.modify(&#x27;animate&#x27;, {width:px+&quot;px&quot;, height:h+&quot;px&quot;})
+    this.modify(&#x27;animate&#x27;, {width:px+&quot;px&quot;, height:h+&quot;px&quot;, queue:true, div:false})
   },
+  /**
+    * Modifie la couleur de la flèche
+    * @method color
+    * @param {String} couleur   La nouvelle couleur (&#x27;green&#x27;, &#x27;black&#x27;, etc. — ou constante)
+    */
+  colorize:function(couleur)
+  {
+    this.color = couleur // that all! :-)
+    NEXT_STEP()
+  },
+  
+  /**
+    * Positionne
+    * Après sa construction, on positionne la flèche, mais ça définit plus que sa
+    * position (couleur, angle, longueur)
+    * @method positionne
+    */
+  positionne:function()
+  {
+    this.top    = this._top
+    this.left   = this._left
+    this.width  = this._width
+    this.color  = this._color
+    this.angle  = this._angle
+  }
 }
 
 $.extend(true, Arrow.prototype, ARROW_METHODS)
@@ -372,6 +434,11 @@ Object.defineProperties(Arrow.prototype, {
       return this._obj
     }
   },
+  /**
+    * Alias de &#x60;obj&#x60; pour certaines méthodes (cf. &#x60;modify&#x60;)
+    * @property {jQuerySet} obj_div
+    */
+  &quot;obj_div&quot;:{get:function(){return this.obj}},
   &quot;obj_head&quot;:{
     get:function(){
       if(!this.obj) return null
@@ -437,7 +504,7 @@ Object.defineProperties(Arrow.prototype, {
     */
   &quot;code_html&quot;:{
     get:function(){
-      return  &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;arrow&quot;&gt;&#x27; +
+      return  &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; style=&quot;&#x27;+this.style+&#x27;&quot; class=&quot;arrow&quot;&gt;&#x27; +
                 &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;-queue&quot; class=&quot;arrow-queue&quot; src=&quot;&#x27;+this.src_queue+&#x27;&quot; style=&quot;&#x27;+this.style_queue+&#x27;&quot; /&gt;&#x27;+
                 &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;-head&quot; class=&quot;arrow-head&quot; src=&quot;&#x27;+this.src_head+&#x27;&quot; style=&quot;&#x27;+this.style_head+&#x27;&quot; /&gt;&#x27;+
               &#x27;&lt;/div&gt;&#x27;
@@ -452,7 +519,7 @@ Object.defineProperties(Arrow.prototype, {
       var h = this.height || 15
       var w = this.width
       var a = this.angle
-      return &quot;width:&quot;+w+&quot;px;height:&quot;+this.height+&quot;px;transform: rotate(&quot;+a+&quot;deg); transform-origin: 0% 50% 0px;&quot;
+      return &quot;transform: rotate(&quot;+a+&quot;deg); transform-origin: 0% 50% 0px;&quot;
     }
   },
   /**
@@ -476,7 +543,10 @@ Object.defineProperties(Arrow.prototype, {
   &quot;left&quot;:
   {
     get:function(){return this._left || Anim.current_x},
-    set:function(left){this._left = left}
+    set:function(left){
+      this._left = left
+      if(this.obj) this.obj.css(&#x27;left&#x27;, left+&#x27;px&#x27;)
+    }
   },
   /**
     * Décalage vertical de la flèche
@@ -484,7 +554,10 @@ Object.defineProperties(Arrow.prototype, {
     */
   &quot;top&quot;:{
     get:function(){return this._top || Anim.current_staff.top},
-    set:function(top){this._top = top}
+    set:function(top){
+      this._top = top
+      if(this.obj) this.obj.css(&#x27;top&#x27;, this._top+&#x27;px&#x27;)
+    }
   },
   /**
     * Angle de la flèche

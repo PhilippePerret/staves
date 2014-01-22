@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -233,8 +243,8 @@ window.Anim.Dom.Doublage = {
     $(&#x27;span#caption_text&#x27;).html(&#x27;&#x27;);
     $(&#x27;div#caption&#x27;).hide();
     $(&#x27;div#doublage&#x27;).html(&#x27;&#x27;).hide();
-    this.dbl_indx = 0
-    this.dbls_list = {}
+    this.dbl_indx   = 0
+    this.dbls_list  = {}
   },
   /**
     * Indice du texte de doublage courant
@@ -297,7 +307,11 @@ window.Anim.Dom.Doublage = {
       obj.hide()
     }
     if(is_caption) $(&#x27;div#caption&#x27;)[montrer?&#x27;show&#x27;:&#x27;hide&#x27;]()
-    if(!params.wait) NEXT_STEP(notimeout=true)
+    if(!params.wait)
+    {
+      // dlog(&quot;params.wait est false ou undefined, =&gt; tout de suite next step&quot;)
+      NEXT_STEP(notimeout=true)
+    } 
   },
   /**
     * Quand un doublage temporisé est en route, on doit laisser l&#x27;&quot;écho&quot;
@@ -358,7 +372,7 @@ window.Anim.Dom.Doublage = {
       $(jid_div_doublage).append(&#x27;&lt;span id=&quot;spanmot&#x27;+this.dbl_imot+&#x27;&quot; class=&quot;spanmot_&#x27;+this.dbl_indx+&#x27;&quot; style=&quot;display:none;&quot;&gt;&#x27;+mot+&#x27;&lt;/span&gt; &#x27;)
       $(jid_div_doublage +&#x27; &gt; span#spanmot&#x27;+this.dbl_imot).show(400)
       
-      var duree = parseInt(Math.ceil(mot.length / 3) * 200, 10)
+      var duree = parseInt(Math.ceil(mot.length / 3) * 200  * Anim.coef_speed, 10)
       this.timer_doublage = setTimeout($.proxy(Anim.Dom.Doublage.temporize, Anim.Dom.Doublage), duree)
     }
     else

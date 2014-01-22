@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -227,12 +237,119 @@ Gestion des évènements</a></li>
 if(undefined == window.Console) Console = {}
 $.extend(window.Console,{
   /**
+    * Width de la console en mode d&#x27;arrêt
+    * Note : Définie par UI.on_resize
+    * @property {Number} width_opened
+    */
+  width_opened: null,
+  /**
+    * Width de la console en mode de jeu
+    * Note : Définie par UI.on_resize
+    * @property {Number} width_ranged
+    */
+  width_ranged: null,
+  /**
+    * Hauteur de la console
+    * Note : Définie par UI.on_resize
+    * @property {Number} height
+    */
+  height: null,
+  /**
+    * Liste des étapes préambule de l&#x27;animation courante
+    * @rappel : les étapes &quot;préambule&quot; sont des étapes à interpréter avant que
+    * l&#x27;animation ne soit lancée
+    * @property {Array} preambule
+    */
+  preambule:[],
+  
+  /**
+    * Ouvre la console (l&#x27;étend)
+    * @method open
+    */
+  open:function()
+  {
+    this.section.animate({right:&quot;8px&quot;})
+  },
+  /**
+    * Range la console (la rétracte)
+    * @method range
+    */
+  range:function()
+  {
+    this.section.animate({right:&quot;-&quot;+400+&quot;px&quot;})
+  },
+  /**
+    * Méthode qui s&#x27;occupe de l&#x27;autocompletion. Par exemple, lorsque l&#x27;on tape
+    * une accolade ouverte, la méthode écrit l&#x27;accolade fermante et place le curseur
+    * à la bonne position.
+    * @method autocompletion
+    * @param  {KeybaordEvent} evt L&#x27;évènement Keyboard (keypress)
+    * @return {Boolean} TRUE si une autocompletion a été exécutée, false otherwise
+    */
+  autocompletion:function(evt)
+  {
+    /*
+     *  Autocomplétion complexe, avec la touche tabulation
+     *  
+     */
+    if(evt.keyCode == K_TAB)
+    {
+      // On prend les trois caractères avant la position du curseur
+      var dbef = Selection.around(this.console, {before:true, length:3})
+      if(undefined != DATA_AUTOCOMPLETION[dbef.content])
+      {
+        var dauto = DATA_AUTOCOMPLETION[dbef.content]
+      	this.console[0].setSelectionRange(dbef.start, dbef.end)
+        Selection.set(this.console, dauto.replace, {end:-dauto.boffset, length:dauto.length || 0})
+        return true
+      }
+      return false // renverra true
+    }
+    /*
+     *  Autocomplétion simple (p.e. &quot;{&quot; =&gt; &quot;{}&quot;)
+     *  
+     */
+    switch(evt.charCode)
+    {
+    case 123 : // accolade ouvrante
+      this.set_caret_to(&#x27;{}&#x27;, 1)
+      return true
+    case 40  : // Parenthèse ouvrante
+      this.set_caret_to(&#x27;()&#x27;, 1)
+      return true
+    case 91  : // Crochet ouvrant
+      this.set_caret_to(&#x27;[]&#x27;, 1)
+      return true
+    default:
+      UI.feedback(&quot;[Console.autocompletion] charCode:&quot;+evt.charCode+&quot; / &quot;+&quot;keyCode:&quot;+evt.keyCode)
+    }
+    return false
+  },
+  
+  /**
+    * Méthode qui place le texte +inserted+ à la position du curseur et place
+    * le cursor au décalage +back_offset+ (0 par défaut = après l&#x27;ajout)
+    * @method set_caret_to
+    * @param  {String} inserted Le nouveau texte
+    * @param  {Number} back_offset  Le décalage gauche (arrière) par rapport à la fin de l&#x27;insert.
+    *                           Par exemple, la valeur &#x60;1&#x60; fera REMONTER le curseur d&#x27;un caractère.
+    *
+    */
+  set_caret_to:function(inserted, back_offset)
+  {
+    if(undefined == back_offset) back_offset = 0
+    else back_offset = - back_offset
+    Selection.set(this.console, inserted, {end:back_offset})
+  },
+  /**
     * Méthode appelée quand on focus dans le code console
     * @method onfocus
     */
   onfocus:function()
   {
-    window.onkeypress = null
+    if(Anim.on) return true
+    this.open()
+    IN_CONSOLE = true
   },
   /**
     * Méthode appelée quand on blure du code console
@@ -240,7 +357,9 @@ $.extend(window.Console,{
     */
   onblur:function(evt)
   {
-    window.onkeypress = KEYPRESS_HORS_CONSOLE
+    if(Anim.on) return true
+    this.range()
+    IN_CONSOLE = false
     $(&#x27;input#nothing&#x27;)[0].blur()
     return stop_event(evt)
   },
@@ -327,8 +446,8 @@ $.extend(window.Console,{
   {
     if(this._etapes)          delete this._etapes
     if(this._steps_selection) delete this._steps_selection
-    Anim.modified = true
-    if(Anim.options.autosave) Anim.save()
+    Anim.File.modified = true
+    if(Anim.options.autosave) Anim.File.save()
   },
   
   /**
@@ -380,6 +499,13 @@ Object.defineProperties(window.Console,{
     */
   &quot;console&quot;:{
     get:function(){return $(&#x27;textarea#console&#x27;)}
+  },
+  /**
+    * L&#x27;objet DOM de la section console
+    * @property {jQuerySet} section
+    */
+  &quot;section&quot;:{
+    get:function(){return $(&#x27;section#section_console&#x27;)}
   },
   
   /**
@@ -466,12 +592,9 @@ Object.defineProperties(window.Console,{
   &quot;steps_between_repairs&quot;:{
     get:function(){
       var start = this.raw.indexOf(&quot;\n#!START&quot;)
+      if(start == -1) start = 0
       var end   = this.raw.indexOf(&quot;\n#!END&quot;)
-      if(start &lt; -1 || end &lt; -1)
-      {
-        F.error(&quot;Il faut placer les repères &#x60;#!START&#x60; et &#x60;#!END&#x60; dans le code (et les placer sur une ligne vierge) !&quot;)
-        return null
-      }
+      if(end == -1) end = this.raw.length - 1
       this.select({start:start+1, end:end})
       delete this._steps_selection  // pour forcer le recalcul
       return this.steps_selection

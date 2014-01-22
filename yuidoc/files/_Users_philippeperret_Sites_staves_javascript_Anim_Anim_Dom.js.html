@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -232,6 +242,42 @@ Anim.Dom = {
     * @property {Number} left_max
     */
   left_max:null,
+  
+  /**
+    * Efface en douceur le contenu de l&#x27;animation
+    * (pour un lien fluide entre des animations qui se suivent — ou reset en cours d&#x27;animation)
+    * @method clear
+    * @param  {Function}  complete   La méthode pour suivre (NEXT_STEP par défaut)
+    * @param  {Object}    params     Paramètres optionnels
+    *   @param {Boolean}  params.staves   Si true, détruit aussi les portées
+    *   @param {Boolean}  params.all      Pour bien préciser qu&#x27;il faut tout détruire
+    */
+  clear:function(complete, params)
+  {
+    dlog(&quot;-&gt; Effacement de l&#x27;animation&quot;)
+    if(undefined == complete) complete = NEXT_STEP
+    if(undefined == params) params = {}
+    if(params.all)
+    {
+      params.staves = true
+    } 
+    var not = &quot;&quot;
+    if(!params.staves) not = &quot;:not(.staff)&quot;
+    else Anim.staves = []
+    
+    var selector = &#x27;section#animation &gt; *&#x27;+not
+    var nombre_elements = $(selector).length
+    $(selector).animate(
+      {opacity:0},
+      {always:function(){
+        -- nombre_elements
+        if(nombre_elements == 0)
+        {
+          $(selector).remove();
+          complete()
+        }
+      }})
+  },
   /**
     * Affiche un objet quelconque de l&#x27;animation
     * Notes

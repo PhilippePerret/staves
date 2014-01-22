@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>/Users/philippeperret/Sites/staves/javascript/handy.js</title>
+    <title>UNVERSAL_METHODS</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -220,50 +220,306 @@ Gestion des évènements</a></li>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/handy.js</h1>
+                        <h1>UNVERSAL_METHODS Class</h1>
+<div class="box meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
-  * @module handy.js
-  */
+    
 
-/**
-  * Méthode définissant la propriété &#x60;complete&#x60; si nécessaire
-  * @method define_complete
-  * @for window
-  * @return {Object}  Les paramètres, auxquels a été ajouté la méthode complete
-  *                   (à NEXT_STEP) si elle n&#x27;existait pas.
-  */
-window.define_complete = function(params)
-{
-  if(undefined == params) params = {}
-  if(undefined == params.complete) params.complete = NEXT_STEP
-  return params
-}
+    
+        <div class="foundat">
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UniversalMethods.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UniversalMethods.js:5</code></a>
+        </div>
+    
 
-/**
-  * Beaucoup de méthodes permettent d&#x27;être invoquée avec &#x60;(attr, value)&#x60; qui
-  * doit être transformé en &#x60;{attr: value}&#x60;. Lorsque &#x60;attr&#x60; est string, on peut
-  * appeler cette fonction pour créer l&#x27;objet
-  * @method parametize
-  * @param  {String} attr   La propriété de l&#x27;objet retourné
-  * @param  {Any}    value  La valeur de la propriété dans l&#x27;objet retourné
-  * @return {Object} Un objet définissant la propriété +attr+
-  */
-window.parametize = function(attr, value)
-{
-  var obj = {}
-  obj[attr] = value
-  return obj
-}
+    
+        
+            Module: <a href="../modules/UniversalMethods.html">UniversalMethods</a>
+        
+    
 
-window.dlog = function(foo)
-{
-  if(&#x27;object&#x27;==typeof foo) console.dir(foo)
-  else console.log(foo)
-}
-    </pre>
+    
+</div>
+
+
+
+<div class="box intro">
+    <p>Les &quot;Méthodes Universelles&quot; sont des méthodes qui s&#39;appliquent à tout
+objet de l&#39;animation, quelle que soit sa classe (Notes, Accords, Portée, etc.).
+Elles étendent toutes les classes.</p>
+
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_arrow">arrow</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_unarrow">unarrow</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_arrow" class="method item">
+    <h3 class="name"><code>arrow</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>aid</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Arrow.html" class="crosslink">Arrow</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UniversalMethods.js.html#l14"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UniversalMethods.js:14</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Construit des flèches partant de l&#39;objet
+Notes</p>
+<ul>
+<li>La méthode permet de construire plusieurs flèches pour l&#39;objet.</li>
+</ul>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">aid</code>
+                        <span class="type">Number | String | Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>L&#39;identifiant de la flèche, ou les paramètres de la première</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">orientation</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>L&#39;angle d&#39;orientation de la flèche
+                                        Par défaut : 180 (horizontal)</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Arrow.html" class="crosslink">Arrow</a></span>:
+                    
+                    <p>La flèche d&#39;index +index+ (1-start)</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_unarrow" class="method item">
+    <h3 class="name"><code>unarrow</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UniversalMethods.js.html#l55"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UniversalMethods.js:55</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode pour supprimer la flèche</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>

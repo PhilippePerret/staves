@@ -47,6 +47,8 @@
             
                 <li><a href="../classes/Anim.Dom.html">Anim.Dom</a></li>
             
+                <li><a href="../classes/Anim.File.html">Anim.File</a></li>
+            
                 <li><a href="../classes/Anim.Grid.html">Anim.Grid</a></li>
             
                 <li><a href="../classes/Anim.Objects.html">Anim.Objects</a></li>
@@ -63,6 +65,8 @@
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
+                <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
                 <li><a href="../classes/ImageTool.html">ImageTool</a></li>
@@ -78,8 +82,6 @@
                 <li><a href="../classes/OBJET_TRAITEMENT.html">OBJET_TRAITEMENT</a></li>
             
                 <li><a href="../classes/ObjetClass.html">ObjetClass</a></li>
-            
-                <li><a href="../classes/options.html">options</a></li>
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
@@ -103,6 +105,8 @@
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
             
+                <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
+            
                 <li><a href="../classes/window.html">window</a></li>
             
             </ul>
@@ -116,6 +120,8 @@ Gestion du curseur de position de l&#x27;animation.html">Anim_Cursor
 Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Anim_Dom.js.html">Anim_Dom.js</a></li>
+            
+                <li><a href="../modules/Anim_File.html">Anim_File</a></li>
             
                 <li><a href="../modules/Anim_Grid.html">Anim_Grid</a></li>
             
@@ -134,6 +140,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
                 <li><a href="../modules/Console.js.html">Console.js</a></li>
             
                 <li><a href="../modules/constantes.html">constantes</a></li>
+            
+                <li><a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a></li>
             
                 <li><a href="../modules/Controller.js.html">Controller.js</a></li>
             
@@ -174,6 +182,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
             </ul>
         </div>
@@ -281,10 +291,161 @@ $.extend(Anim,{
     if(this.Step.list)
     { 
       this.play_preambule()
-      UI.chronometre.start
       this.play()
     }
   },
+  /**
+    * Interprète les étapes de préambule
+    * @method play_preambule
+    */
+  play_preambule:function()
+  {
+    dlog(&quot;-&gt; Anim.play_preambule (&quot;+Console.preambule.length+&quot; étapes préambule à jouer)&quot;)
+    this.preambule_on = true
+    while(step = Console.preambule.shift()) step.exec()
+    this.preambule_on = false
+    dlog(&quot;&lt;- Anim.play_preambule&quot;)
+  },
+  /**
+    * Pré-démarrage de l&#x27;animation
+    * Notes
+    * -----
+    *   * Cette méthode a été inaugurée pour gérer les différents traitement
+    *     entre jouer tout le code et ne jouer qu&#x27;une sélection du code.
+    *
+    * @method play
+    */
+  play:function()
+  {
+    this.on       = true
+    this.pause_on = false
+    this.set_interface()
+    UI.Regle.hide()
+    var delai_before = (this.isSuite) ? 0 : this.prefs.decompte
+    if(delai_before &gt; 0)
+    {
+      this.decompte.poursuivre = $.proxy(this.play_for_good, this)
+      this.decompte(delai_before)
+    }
+    else
+    { // Pas de décompte
+      this.play_for_good()
+    } 
+  },
+  /**
+    * Lance véritablement l&#x27;animation, soit après le décompte, soit tout de suite
+    * @method play_for_good
+    */
+  play_for_good:function()
+  {
+    dlog(&quot;-&gt; Anim.play_for_good&quot;)
+    if( !this.isSuite ) UI.chronometre.start
+    // C&#x27;est seulement ici qu&#x27;on efface l&#x27;écran précédent, pour la lien le plus
+    // fluide dans une suite d&#x27;animation
+    // Noter que c&#x27;est la possibilité d&#x27;une boucle infinie, si complete n&#x27;attend
+    // pas vraiment la fin de l&#x27;effacement
+    if($(&#x27;section#animation *&#x27;).length)
+    {
+      dlog(&quot;* Je dois nettoyer l&#x27;animation (&lt;- Anim.play_for_good)&quot;)
+      return this.Dom.clear($.proxy(this.play_for_good, this), {all:true})
+    } 
+    dlog(&quot;[play_for_good] Je passe au premier pas.&quot;)
+    this.Step.next()
+    dlog(&quot;&lt;- Anim.play_for_good&quot;)
+  },
+  /**
+    * Pause demandée
+    * @method pause
+    */
+  pause:function()
+  {
+    UI.chronometre.pause
+    this.pause_on = true
+    this.set_interface()
+  },
+  /**
+    * Stoppe l&#x27;animation, parce qu&#x27;on est au bout ou parce que 
+    * le bouton Stop a été cliqué (ou barre espace).
+    * Note : si l&#x27;arrêt est forcé par le bouton stop (+forcer+ = true), on ne
+    * lance pas l&#x27;animation suivante éventellement demandée.
+    * @method stop
+    * @param {Boolean|Undefined} forcer Mis à true quand c&#x27;est un arrêt forcé
+    */
+  stop:function(forcer)
+  {
+    if(this.on == false) return // retardataires
+    this.on       = false
+    this.pause_on = false
+    this.kill_timer()
+    Console.console.blur()
+    delete this.Step.list
+    if(forcer)
+    { // =&gt; arrêt forcé
+      if(this.hasSuite) delete this.animation_pour_suivre
+      this.real_stop()
+    } 
+    else
+    { // =&gt; Le cas courant du stop
+      var method ;
+      if(this.hasSuite)
+      { // Une animation doit suivre (noter qu&#x27;on s&#x27;en retourne tout de suite)
+        return this.load_and_start_animation_pour_suivre()
+      }
+      else
+      { // vraiment la fin
+        method = &#x27;real_stop&#x27;
+      } 
+      
+      this.decompte.poursuivre = $.proxy(this[method], this)
+      this.decompte(this.prefs.delai_after_show)
+    }
+  },
+  /**
+    * Procède vraiment au stop, en faisant réapparaitre les outils de l&#x27;interface
+    * Notes
+    *   * La méthode n&#x27;est pas appelée lors d&#x27;une suite d&#x27;animations
+    *   * Si nécessaire, arrête l&#x27;enregistrement QuickTime courant
+    *
+    * @method real_stop
+    */
+  real_stop:function()
+  {
+    if(!this.hasSuite) UI.chronometre.stop
+    this.kill_timer()
+    $(&#x27;div#warning&#x27;).hide()
+    this.set_interface()
+    this.stop_button.css(&#x27;opacity&#x27;, 1)
+    UI.Regle.show()
+    if(this.recording) this.stop_record()
+  },
+  
+  /**
+    * Affiche un décompte (en fin ou en début d&#x27;animation)
+    * @method decompte
+    * @param  {Number} secs_reste Le nombre de secondes de décompte
+    */
+  decompte:function(reste)
+  {
+    this.kill_timer()
+    if(!this.decompte.on)
+    {
+      this.decompte.on = true
+      $(&#x27;div#decompte&#x27;).show()
+    } 
+    else reste -= 1
+    if(reste == 0)
+    {
+      $(&#x27;div#decompte&#x27;).hide()
+      delete this.decompte.on
+      this.decompte.poursuivre()
+    } 
+    else
+    {
+      $(&#x27;div#decompte&#x27;).html(reste)
+      this.timer = setTimeout($.proxy(this.decompte,this,reste), 1000)
+    }
+  },
+
   /**
     * Règle l&#x27;interface, soit pour le jeu, soit pour l&#x27;arrêt, soit pour la pause
     * @method set_interface
@@ -326,133 +487,6 @@ $.extend(Anim,{
     }
   },
   
-  /**
-    * Interprète les étapes de préambule
-    * @method play_preambule
-    */
-  play_preambule:function()
-  {
-    this.preambule_on = true
-    while(step = Console.preambule.shift()) step.exec()
-    this.preambule_on = false
-  },
-  /**
-    * Démarre véritablement l&#x27;animation
-    * Notes
-    * -----
-    *   * Cette méthode a été inaugurée pour gérer les différents traitement
-    *     entre jouer tout le code et ne jouer qu&#x27;une sélection du code.
-    *
-    * @method play
-    */
-  play:function()
-  {
-    this.on       = true
-    this.pause_on = false
-    this.set_interface()
-    UI.Regle.hide()
-    var delai_before = this.prefs.decompte
-    if(delai_before)
-    {
-      this.decompte.poursuivre = $.proxy(this.Step.next, this.Step)
-      this.decompte(delai_before)
-    }
-    else
-    { // Pas de décompte
-      this.Step.next()
-    } 
-  },
-  /**
-    * Pause demandée
-    * @method pause
-    */
-  pause:function()
-  {
-    UI.chronometre.pause
-    this.pause_on = true
-    this.set_interface()
-  },
-  /**
-    * Stoppe l&#x27;animation, parce qu&#x27;on est au bout ou parce que 
-    * c&#x27;est demandé.
-    * Note : si l&#x27;arrêt est forcé par le bouton stop (+forcer+ = true), on ne
-    * lance pas l&#x27;animation suivante éventellement demandée.
-    * @method stop
-    * @param {Boolean|Undefined} forcer Mis à true quand c&#x27;est un arrêt forcé
-    */
-  stop:function(forcer)
-  {
-    if(this.on == false) return // retardataires
-    UI.chronometre.stop
-    this.on       = false
-    this.pause_on = false
-    this.kill_timer()
-    Console.console.blur()
-    delete this.Step.list
-    if(forcer)
-    { // =&gt; arrêt forcé
-      if(this.animation_pour_suivre) delete this.animation_pour_suivre
-      this.real_stop()
-    } 
-    else
-    { // =&gt; Le cas courant
-      var method ;
-      if(this.animation_pour_suivre)
-      { // Une animation doit suivre
-        this.set_pref(&#x27;decompte&#x27;, 0, next_step=false)
-        method = &#x27;load_and_start_animation_pour_suivre&#x27;
-      }
-      else
-      { // vraiment la fin
-        method = &#x27;real_stop&#x27;
-      } 
-      
-      this.decompte.poursuivre = $.proxy(this[method], this)
-      this.decompte(this.prefs.delai_after_show)
-    }
-  },
-  /**
-    * Procède vraiment au stop, en faisant réapparaitre les éléments
-    * + Si nécessaire, arrête l&#x27;enregistrement QuickTime courant
-    * @method real_stop
-    */
-  real_stop:function()
-  {
-    this.kill_timer()
-    $(&#x27;div#warning&#x27;).hide()
-    this.set_interface()
-    this.stop_button.css(&#x27;opacity&#x27;, 1)
-    UI.Regle.show()
-    if(this.recording) this.stop_record()
-  },
-  
-  /**
-    * Affiche un décompte (en fin ou en début d&#x27;animation)
-    * @method decompte
-    * @param  {Number} secs_reste Le nombre de secondes de décompte
-    */
-  decompte:function(reste)
-  {
-    this.kill_timer()
-    if(!this.decompte.on)
-    {
-      this.decompte.on = true
-      $(&#x27;div#decompte&#x27;).show()
-    } 
-    else reste -= 1
-    if(reste == 0)
-    {
-      $(&#x27;div#decompte&#x27;).hide()
-      delete this.decompte.on
-      this.decompte.poursuivre()
-    } 
-    else
-    {
-      $(&#x27;div#decompte&#x27;).html(reste)
-      this.timer = setTimeout($.proxy(this.decompte,this,reste), 1000)
-    }
-  },
-
   /**
     * Définit le slider de vitesse de l&#x27;animation
     * @method set_slider

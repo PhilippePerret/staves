@@ -35,17 +35,17 @@ window.UI.Popups = {
       */
     reload:function(item)
     {
-      Anim.reload()
+      Anim.File.reload()
     },
     open:function(item){
       Anim.want_open()
     },
     save:function(item){
-      Anim.save()
+      Anim.File.save()
     },
     save_as:function(item)
     {
-      Anim.save_as()
+      Anim.File.save_as()
     },
     /**
       * Demande de mise de l'animation courante comme animation par défaut

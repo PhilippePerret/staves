@@ -53,8 +53,8 @@ window.KEYPRESS_HORS_CONSOLE = function(evt)
   case Key_s: // => Sauver/Sauver sous l'animation
     if(evt.metaKey)
     {
-      if(evt.shiftKey)  Anim.save_as()
-      else              Anim.save()
+      if(evt.shiftKey)  Anim.File.save_as()
+      else              Anim.File.save()
       return stop_event(evt)
     }
     break

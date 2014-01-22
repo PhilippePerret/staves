@@ -4,6 +4,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Anim",
         "Anim.Cursor",
         "Anim.Dom",
+        "Anim.File",
         "Anim.Grid",
         "Anim.Objects",
         "Anim.options",
@@ -12,6 +13,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Circle",
         "Console",
         "Courbe",
+        "DATA_AUTOCOMPLETION",
         "Doublage",
         "ImageTool",
         "Img",
@@ -30,7 +32,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "UI.Popups",
         "UI.Popups.Methods",
         "UI.Tools",
-        "options",
+        "UNVERSAL_METHODS",
         "tools",
         "window"
     ],
@@ -38,6 +40,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Anim",
         "Anim_Cursor\nGestion du curseur de position de l'animation",
         "Anim_Dom.js",
+        "Anim_File",
         "Anim_Grid",
         "Anim_Objects.js",
         "Anim_Step",
@@ -64,7 +67,9 @@ YUI.add("yuidoc-meta", function(Y) {
         "UI.Regle.js",
         "UI.Tools.js",
         "UI.js",
+        "UniversalMethods",
         "constantes",
+        "contantes_autocompletion.js",
         "handy.js"
     ],
     "allModules": [
@@ -79,6 +84,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Anim_Dom.js",
             "name": "Anim_Dom.js"
+        },
+        {
+            "displayName": "Anim_File",
+            "name": "Anim_File"
         },
         {
             "displayName": "Anim_Grid",
@@ -117,6 +126,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "constantes",
             "name": "constantes"
+        },
+        {
+            "displayName": "contantes_autocompletion.js",
+            "name": "contantes_autocompletion.js"
         },
         {
             "displayName": "Controller.js",
@@ -195,6 +208,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "UI.Tools.js",
             "name": "UI.Tools.js"
+        },
+        {
+            "displayName": "UniversalMethods",
+            "name": "UniversalMethods"
         }
     ]
 } };
