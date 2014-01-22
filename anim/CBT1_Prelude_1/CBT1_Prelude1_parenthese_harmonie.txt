@@ -64,6 +64,7 @@ WAIT(10)
 
 CAPTION("Si je monte le 5e degré, j'obtiens le ton voisin du relatif.")
 
+gammedo.note(5).arrow('vers lam', {angle:-90, width:80, offset_x:-6, offset_y:-6})
 SET_CURSOR(140)
 SCALE('a', {type:'min_h', staff:1, offset:40, octave:3})
 
