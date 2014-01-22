@@ -99,7 +99,5 @@ STAFF(2).remove()
 STAFF(1).remove()
 partition.show()
 
-#!END
 
-CAPTION(\"Moralité, des arpèges qui montent, s\'opposant à une mélodie qui descendant… Et puis l\'utilisation d\'un motif répétitif — l\'arpège — mais sur un ambitus large, ça fait déjà quelques beaux contrastes pour une pièce en apparence très simple.\")
-WAIT(15)
+CAPTION(\"Moralité, des arpèges qui montent, s\'opposant à une mélodie qui descendant… Et puis l\'utilisation d\'un motif répétitif — l\'arpège — mais sur un ambitus large, ça fait déjà quelques beaux contrastes pour une pièce en apparence très simple !\")

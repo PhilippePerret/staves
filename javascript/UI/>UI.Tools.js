@@ -112,7 +112,59 @@ window.UI.Tools = {
     this.hide_section()
   },
   /* ---------------------------------------------------------------------
-   *  PARTIE DES OBJETS GÉRANT L'OUTIL “COORDONNÉES”
+   *  MÉTHODES GÉRANT L'AIDE À L'AUTOCOMPLETION
+   */
+  /**
+    * Affichage des raccourcis d'auto-complétion
+    * @method show_autocompletion
+    *
+    */
+  show_autocompletion:function()
+  {
+    if($('div#tool_data_autocompletion').length == 0) this.prepare_data_autocompletion()
+    else $('div#tool_data_autocompletion').show()
+    $('section#tools').show()
+  },
+  /**
+    * Masquage des raccourcis d'autocomplétion
+    * @method hide_autocompletion
+    */
+  hide_autocompletion:function()
+  {
+    $('div#tool_data_autocompletion').hide()
+    $('section#tools').hide()
+  },
+  /**
+    * Préparation du div contenant les données d'autocomplétion (aide)
+    * @method prepare_data_autocompletion
+    */
+  prepare_data_autocompletion:function()
+  {
+    $('section#tools').append(this.html_code_data_autocompletion())
+  },
+  /**
+    * Retourne le code HTML pour le panneau autocomplétion
+    * @method html_code_data_autocompletion
+    * @return {HTMLString} Code HTML du panneau
+    */
+  html_code_data_autocompletion:function()
+  {
+    var c = "";
+    L(DATA_AUTOCOMPLETION).each(function(rac, data){
+      c +=  '<div>' +
+              '<div class="raccomplete">' + rac           + '</div>' +
+              '<div class="replace">'     + data.replace  + '</div>' +
+            '</div>'
+    })
+    return  '<div id="tool_data_autocompletion">' + 
+              '<div class="titre">Raccourcis d\'autocomplétion</div>' +
+              '<div id="autocomp_shortcuts">'+
+                c +
+              '</div>' +
+            '</div>'
+  },
+  /* ---------------------------------------------------------------------
+   *  PARTIE DE UI.Tools GÉRANT L'OUTIL “COORDONNÉES”
    *  (pour obtenir les coordonnées à l'écran)
    */
   /**

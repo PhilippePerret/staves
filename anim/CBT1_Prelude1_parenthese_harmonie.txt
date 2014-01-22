@@ -30,7 +30,7 @@ NEXT()
 
 CAPTION(\"Pour être vraiment à l\'aise avec l\'harmonie, et en tirer profit, je pense que le plus gros effort à fournir consiste à connaitre parfaitement les tonalités, ainsi que les notions relatives aux tonalités, comme par exemple les cycles des dièses et des bémols.\", {wait:true})
 
-CAPTION(\"C\'est un travail de mémoire, mais aussi de logique simple, qui demande beaucoup d\'investissement au départ. Mais plus on le fait, et plus il devient simple.\", {wait:true})
+CAPTION(\"C\'est un travail de mémoire, mais aussi de logique simple, qui demande beaucoup d\'investissement au départ. Mais plus on le fait, et plus il devient profitable.\", {wait:true})
 
 CAPTION(\"Le but à atteindre est de connaitre parfaitement les altérations de toutes les tonalités, et de connaître les tons voisins de chacune de ces tonalités.\", {wait:true})
 
@@ -59,13 +59,13 @@ CAPTION(\"Pour les dièses, c\'est le suivant : Fa Do Sol Ré La Mi Si\")
 SET_CURSOR(100)
 DEFAULT(\'next\')
 
-cycleD = MOTIF(\'fd5 cd5 gd5 dd5 ad4 ed5 bd4\')
+cycleD = MOTIF(\'fd5 cd5 gd5 dd5 ad4 ed5 bd4\', {speed:4})
 
 WAIT(4)
 
 CAPTION(\"Et le cycle des bémols va dans le sens inverse : Si Mi La Ré Sol Do Fa.\")
 
-cycleB = MOTIF(\'bb4 eb5 ab4 db5 gb4 cb5 fb4\', {staff:2})
+cycleB = MOTIF(\'bb4 eb5 ab4 db5 gb4 cb5 fb4\', {staff:2, speed:4})
 
 WAIT(4)
 
@@ -78,7 +78,7 @@ cycleB.note(1).show()
 WAIT(1)
 
 cycleD.note([1,2,3,5,6,7]).hide()
-CAPTION(" Impossible de trouver un RÉ dièse sans trouver le FA dièse, le do dièse et le sol dièse qui le précèdent dans l\'ordre des dièses.\", {wait:true})
+CAPTION("Impossible de trouver un RÉ dièse sans trouver le FA dièse, le do dièse et le sol dièse qui le précèdent dans l\'ordre des dièses.\", {wait:true})
 cycleD.note([1,2,3]).show()
 
 # RETOUR AU TON VOISIN

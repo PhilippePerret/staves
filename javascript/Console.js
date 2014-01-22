@@ -19,12 +19,72 @@ $.extend(window.Console,{
   preambule:[],
   
   /**
+    * Méthode qui s'occupe de l'autocompletion. Par exemple, lorsque l'on tape
+    * une accolade ouverte, la méthode écrit l'accolade fermante et place le curseur
+    * à la bonne position.
+    * @method autocompletion
+    * @param  {KeybaordEvent} evt L'évènement Keyboard (keypress)
+    * @return {Boolean} TRUE si une autocompletion a été exécutée, false otherwise
+    */
+  autocompletion:function(evt)
+  {
+    /*
+     *  Autocomplétion complexe, avec la touche tabulation
+     *  
+     */
+    if(evt.keyCode == K_TAB)
+    {
+      // On prend les trois caractères avant la position du curseur
+      var dbef = Selection.around(this.console, {before:true, length:3})
+      if(undefined != DATA_AUTOCOMPLETION[dbef.content])
+      {
+        var dauto = DATA_AUTOCOMPLETION[dbef.content]
+      	this.console[0].setSelectionRange(dbef.start, dbef.end)
+        Selection.set(this.console, dauto.replace, {end:-dauto.boffset, length:dauto.length || 0})
+        return true
+      }
+      return false // renverra true
+    }
+    /*
+     *  Autocomplétion simple (p.e. "{" => "{}")
+     *  
+     */
+    switch(evt.charCode)
+    {
+    case 123 : // accolade ouvrante
+      this.set_caret_to('{}', 1)
+      return true
+    case 40  : // Parenthèse ouvrante
+      this.set_caret_to('()', 1)
+      return true
+    default:
+      UI.feedback("[Console.autocompletion] charCode:"+evt.charCode+" / "+"keyCode:"+evt.keyCode)
+    }
+    return false
+  },
+  
+  /**
+    * Méthode qui place le texte +inserted+ à la position du curseur et place
+    * le cursor au décalage +back_offset+ (0 par défaut = après l'ajout)
+    * @method set_caret_to
+    * @param  {String} inserted Le nouveau texte
+    * @param  {Number} back_offset  Le décalage gauche (arrière) par rapport à la fin de l'insert.
+    *                           Par exemple, la valeur `1` fera REMONTER le curseur d'un caractère.
+    *
+    */
+  set_caret_to:function(inserted, back_offset)
+  {
+    if(undefined == back_offset) back_offset = 0
+    else back_offset = - back_offset
+    Selection.set(this.console, inserted, {end:back_offset})
+  },
+  /**
     * Méthode appelée quand on focus dans le code console
     * @method onfocus
     */
   onfocus:function()
   {
-    window.onkeypress = null
+    IN_CONSOLE = true
   },
   /**
     * Méthode appelée quand on blure du code console
@@ -33,6 +93,7 @@ $.extend(window.Console,{
   onblur:function(evt)
   {
     window.onkeypress = KEYPRESS_HORS_CONSOLE
+    IN_CONSOLE = false
     $('input#nothing')[0].blur()
     return stop_event(evt)
   },

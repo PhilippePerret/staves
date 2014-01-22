@@ -49,9 +49,11 @@
   <ul id="popup_outils" class="app_popup" style="width:82px">
     <li class="first">Outils</li>
     <li class="separateur"></li>
-    <li data-item="infos">Informations courantes</li>
     <li data-item="coordonnees">Activer coordonnées</li>
     <li data-item="cadrage">Cadrage image…</li>
+    <li class="separateur"></li>
+    <li data-item="infos">Afficher les mesures courantes</li>
+    <li data-item="autocompletion">Afficher les données complétion</li>
     <li class="separateur"></li>
     <li data-item="manual">Manuel d'utilisation</li>
     <li class="last"></li>

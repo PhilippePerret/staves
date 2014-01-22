@@ -2,7 +2,9 @@
   * @module Event.js
   * Gestion des évènements
   */
+
 window.IN_TEXT_FIELD = false
+window.IN_CONSOLE    = false
 
 window.KEYPRESS_HORS_CONSOLE = function(evt)
 {
@@ -15,7 +17,14 @@ window.KEYPRESS_HORS_CONSOLE = function(evt)
       return stop_event(evt)
     }
   }
-  if(!evt.metaKey && !evt.altKey && !evt.ctrlKey) return true
+  else
+  {
+    if(IN_CONSOLE && Console.autocompletion(evt)) return stop_event(evt)
+  }
+  if(!evt.metaKey && !evt.altKey && !evt.ctrlKey)
+  {
+    return true
+  } 
   
   switch(evt.charCode)
   {

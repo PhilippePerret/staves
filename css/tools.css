@@ -63,3 +63,23 @@ div#regle div.divregle:hover div.mesregle {
   width         :40px;
   height        :20px;
 }
+
+/* Panneau des données d'autocomplétion */
+section#tools div#tool_data_autocompletion {
+/*  position : absolute;*/
+  padding :1em;
+  background-color : white;
+}
+section#tools div#tool_data_autocompletion div#autocomp_shortcuts {
+  max-height : 200px;
+  overflow   : scroll;
+}
+section#tools div#tool_data_autocompletion div.raccomplete {
+  display : inline-block;
+  width   : 60px;
+}
+
+section#tools div#tool_data_autocompletion div.replace {
+  display : inline-block;
+  width   : 200px;
+}

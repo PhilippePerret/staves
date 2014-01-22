@@ -33,6 +33,7 @@ $.extend(UI,{
     $('input[type="text"], textarea').bind('focus',function(){IN_TEXT_FIELD = true})
     $('input[type="text"], textarea').bind('blur',function(){IN_TEXT_FIELD = false})
     Console.console.bind('blur', $.proxy(Console.onblur, Console))
+    Console.console.bind('focus', $.proxy(Console.onfocus, Console))
     this.chronometre = Horloge.create()
   },
   /**

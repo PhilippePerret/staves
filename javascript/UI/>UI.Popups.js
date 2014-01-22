@@ -16,6 +16,11 @@ window.UI.Popups = {
     * @static
     */
   Methods:{
+    /* ---------------------------------------------------------------------
+     *  Menu "Fichier"
+     *  
+     */
+    
     /**
       * Nouvelle animation demandée
       * @method new
@@ -42,8 +47,17 @@ window.UI.Popups = {
     {
       Anim.save_as()
     },
+    /**
+      * Demande de mise de l'animation courante comme animation par défaut
+      * @method def_anim
+      */
+    def_anim:function(item)
+    {
+      UI.Popups.unableIf(item, true)
+      Anim.set_current_as_default()
+    },
     /* ---------------------------------------------------------------------
-     *  OPTIONS
+     *  Menu "Options"
      *  
      */
     /**
@@ -64,14 +78,17 @@ window.UI.Popups = {
       Anim.options.caption_omit = !Anim.options.caption_omit
       item.html((Anim.options.caption_omit?"Jouer":"Omettre")+" les doublages")
     },
-    /**
-      * Demande de mise de l'animation courante comme animation par défaut
-      * @method def_anim
-      */
-    def_anim:function(item)
+    
+    /* ---------------------------------------------------------------------
+     *  Menu "Outils"
+     *  
+     */
+    autocomplete_on:false,
+    autocompletion:function(item)
     {
-      UI.Popups.unableIf(item, true)
-      Anim.set_current_as_default()
+      this.autocomplete_on = !this.autocomplete_on
+      UI.Tools[(this.autocomplete_on?'show':'hide')+'_autocompletion']()
+      item.html((this.autocomplete_on ? "Masquer":"Afficher") + " les données complétion")
     },
     /**
       * Afficher le manuel
@@ -79,14 +96,15 @@ window.UI.Popups = {
       */
     manual:function(item){window.open('manuel.html', "aide_staff_animation")},
     /**
-      * Afficher les informations courantes
+      * Afficher les mesures courantes
       * @method infos
       */
     infos_on:false,
     infos:function(item)
     {
-      $('section#infos')[this.infos_on ? 'hide' : 'show']()
       this.infos_on = !this.infos_on
+      $('section#infos')[this.infos_on ? 'show' : 'hide']()
+      item.html((this.infos_on ? "Masquer":"Afficher") + " les mesures courantes")
     },
     /**
       * Méthode qui affiche ou masque la grille
