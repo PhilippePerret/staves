@@ -39,7 +39,8 @@ window.OBJET_TRAITEMENT = {
   colorize:function(color){return this.traite('colorize', color)},
   surround:function(params){return this.traite('surround', params)},
   unsurround:function(params){return this.traite('unsurround', params)},
-  arrow:function(id, params){return this.traite('arrow', id, params)}
+  arrow:function(id, params){return this.traite('arrow', id, params)},
+  unarrow:function(id,params){return this.traite('unarrow', id, params)}
 }
 
 /**

@@ -37,7 +37,7 @@ window.Pas = function(params)
     */
   this.offset_start = null
   /**
-    * Longueur du code
+    * Longueur du code (tient compte du retour chariot, l'inclut dans le compte)
     * @property {Number} length
     */
   this.length = null

@@ -192,7 +192,28 @@ $.extend(Anim,{
     UI.Regle.show()
     if(this.recording) this.stop_record()
   },
-  
+  /**
+    * Pour jouer seulement la sélection
+    * Note : La méthode est appelée par le bouton "•" du contrôleur
+    * @method play_selection
+    */
+  play_selection:function()
+  {
+    var select  = Selection.of(Console.console)
+    var before  = Selection.around(Console.console, {before:true, length:400}).content
+    var after   = Selection.around(Console.console, {before:false, length:400}).content
+    var index_nl_before = before.lastIndexOf("\n")
+    var index_nl_after  = after .indexOf("\n")
+    before = before.substring(index_nl_before+1, before.length)
+    after  = after.substring(0, index_nl_after)
+    var code = before + select.content + after
+    var pas, cur_offset = select.start - before.length ;
+    L(code.split("\n")).each(function(line){
+      pas = new Pas({code:line, offset_start:cur_offset})
+      pas.exec()
+      cur_offset += pas.length
+    })
+  },
   /**
     * Affiche un décompte (en fin ou en début d'animation)
     * @method decompte

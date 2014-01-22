@@ -1,6 +1,14 @@
+# === Un screencast sur le CYCLE DES QUINTES ===
+
+DEFAULT('caption_timer', true)
+
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+
 CAPTION("Ce cycle des quintes et des bémols fait partie de l'attirail de l'analyse. Il est bon de le connaitre par cœur.", {wait:true})
 
-CAPTION("Je ne rentre pas ici dans le détail de ces cycles de quintes, c'est l'objet d'un autre screencast, je vais juste les redonner.",{wait:true})
+# ... ici dire pourquoi on aborde ce problème du cycle des quintes ...
 
 CAPTION("Pour les dièses, c'est le suivant : Fa Do Sol Ré La Mi Si")
 

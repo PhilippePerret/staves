@@ -8,6 +8,7 @@ section#section_console {
   padding   : 0;
   color     : white;
   background-color  : white;
+  z-index   : 1000;
 }
 
 section#section_console textarea#console {

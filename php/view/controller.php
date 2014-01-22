@@ -7,6 +7,13 @@
     <input type="hidden" id="play_type" value="all" />
     <div id="horloge"></div>
     <span id="mark_play_type"></span>
+    <input 
+      type="button"
+      value="•"
+      title="Jouer seulement la sélection"
+      style="font-size:14pt;"
+      onclick="$.proxy(Anim.play_selection, Anim)()"
+      />
     <img id="btn_anim_start" 
       src="img/bouton/start.png"
       class="btn_controller"
