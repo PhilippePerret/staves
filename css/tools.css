@@ -25,9 +25,6 @@ section#tools div.buttons {
   margin-top    : 2em;
 }
 
-section#tools select#animations {
-  width             :324px;
-}
 
 /* La règle à mesurer */
 div#regle {
@@ -82,4 +79,25 @@ section#tools div#tool_data_autocompletion div.raccomplete {
 section#tools div#tool_data_autocompletion div.replace {
   display : inline-block;
   width   : 200px;
+}
+
+/** 
+  * Le menu des animations
+  */
+section#tools select#animations,
+section#tools select#folders_animations {
+  width             :324px;
+}
+section#tools select#folders_animations {display:block;}
+select#animations option {
+  padding-left : 20px;
+}
+/* Un menu (option) dossier */
+select#animations option.folder {
+  background-image:url('http://www.atelier-icare.net/lib/img/picto/dossier.png');
+  background-repeat:no-repeat;
+}
+select#animations option.anim {
+  background-image:url('http://www.atelier-icare.net/lib/img/picto/file-black.png');
+  background-repeat:no-repeat;
 }

@@ -144,14 +144,29 @@ $.extend(UI,{
     Anim.Dom.left_max = anim_width - 40
   },
   /**
-    * Peuple le menu des applications avec la liste +name_list+
+    * Peuple le menu des applications avec la liste +arr+
     * @method peuple_liste_animations
-    * @param {Array} name_list  Liste des affixes d'animation
+    * @param {Array} arr  Liste du contenu du dossier courant.
+    *                       C'est un Array d'objets définissant :path (chemin
+    *                       relatif depuis ./anim), :dir (à true si c'est un dossier)
+    *                       et :name (affixe de l'animation)
+    * @param  {String} folder   Le dossier dont on affiche le contenu
     */
-  peuple_liste_animations:function(name_list)
+  peuple_liste_animations:function(arr, folder)
   {
-    L(name_list).each(function(name){
-      $('select#animations').append('<option value="'+name+'">'+name+'</option>')
+    $('select#animations').html('')
+    $('select#folders_animations').html('')
+    if(folder != "")
+    { // => Il y a un dossier supérieur
+      var cur_path = ""
+      L(folder.split('/')).collect(function(dossier){
+        cur_path += dossier + "/"
+        $('select#folders_animations').append('<option value="'+cur_path+'">' + dossier + '</option>')
+      }).join('')
+    }
+    L(arr).each(function(danim){
+      var css = danim.dir ? "folder" : "anim" ;
+      $('select#animations').append('<option class="'+css+'" value="'+danim.path+'">'+danim.name+'</option>')        
     })
   },
   
@@ -168,6 +183,7 @@ $.extend(UI,{
     */
   change_animation_name:function(old_name, new_name)
   {
+    // TODO Vérifier si c'est toujours valable avec les dossiers
     code = '<option value="'+new_name+'">'+new_name+'</option>'
     old_option = $('select#animations option[value="'+old_name+'"]')
     $(code).insertAfter(old_option)

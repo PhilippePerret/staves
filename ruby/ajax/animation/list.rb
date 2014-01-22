@@ -1,4 +1,4 @@
-# Remonte la liste des animations (les affixes seuls)
+# Remonte la liste des animations et des dossiers (les affixes seuls)
 # 
 # Comme certaines animation ont pu être écrite depuis leur fichier,
 # on force le possesseur, en mettant aussi le chmod à 0770.
@@ -15,7 +15,7 @@ Dir["#{Anim::folder}/**/*.txt"].each do |path|
   RETOUR_AJAX[:exitstatus] << $?.exitstatus
 end
 
-RETOUR_AJAX[:list]              = Anim::list
+RETOUR_AJAX[:list]              = Anim::list_of_folder(param :folder)
 if defanim = Anim::default_animation
   RETOUR_AJAX[:default_animation] = defanim # un hash, maintenant
   RETOUR_AJAX[:raw_code]          = Anim::new(defanim[:name], defanim[:folder]).raw_code

@@ -114,18 +114,46 @@ window.UI.Tools = {
     */
   open_anim_or_folder:function()
   {
-    if(true /* plus tard : is_animation */)
+    var s = $('select#animations'),
+        m = s.find('> option').eq(s[0].selectedIndex),
+        is_animation = m.hasClass('anim'),
+        v = s.val(),
+        folder = "", 
+        name ;
+    if(!v) return F.error("Il faut sélectionner le dossier ou l'animation.")
+    if(v.indexOf('/') > -1)
     {
-      delete this.name
-      Anim.File.load()
+      dv      = v.split('/')
+      name    = dv.pop()
+      folder  = dv.join('/')
+    }
+    else
+    {
+      name = v
+    }
+    if(is_animation)
+    {
+      delete Anim.File.name
+      delete Anim.File.folder
+      Anim.File.load(name, folder)
       this.hide_section()
     }
     else
     {
-      
+      $('select#animations').html('')
+      Anim.File.load_list_animations(v)
     }
   },
-  
+  /**
+    * Méthode appelée quand on choisit un dossier dans la hiérarchie
+    * des dossiers
+    * @method on_choose_folder
+    */
+  on_choose_folder:function()
+  {
+    $('select#animations').html('')
+    Anim.File.load_list_animations($('select#folders_animations').val())
+  },
   
   /* ---------------------------------------------------------------------
    *  MÉTHODES GÉRANT L'AIDE À L'AUTOCOMPLETION

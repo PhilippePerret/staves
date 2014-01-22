@@ -2,22 +2,27 @@
 class Anim
   class << self
     
-    # Retourne la liste des animations
-    def list
-      @list ||= pick_list
+    # Retourne la liste des animations et dossier du dossier +folder+
+    # @return {Array} Un objet contenant 
+    def list_of_folder subfolder
+      subfolder += "/" if subfolder.to_s != "" && !subfolder.end_with?('/')
+      Dir["#{folder}/#{subfolder.to_s}*"].collect do |path|
+        pathrel = path.sub(/^#{folder}\//, '')
+        if File.directory?(path)
+          {:dir => true, :path => pathrel, :name => File.basename(pathrel)}
+        else
+          {:dir => false, :path => pathrel, :name => File.basename(pathrel, File.extname(pathrel))}
+        end
+      end
     end
     
-    # Relève la liste des animations 
-    def pick_list
-      Dir["#{folder}/*.txt"].collect{|path| File.basename(path, File.extname(path))}
-    end
     
     # Retourne le NOM de l'animation par défaut si elle existe (NIL otherwise)
     # 
     def default_animation
       return nil unless File.exists?('.default')
       defanim = File.read('.default').split("\n")
-      return {:name => defanim[0], :folder => defanim[1]} if(new defanim[0], defanim[1]).exists?
+      return {:name => defanim[0], :folder => defanim[1].to_s} if(new(defanim[0], defanim[1].to_s)).exists?
     end
     
     def folder

@@ -170,17 +170,18 @@ window.Anim.File = {
     * @method load_list_animations
     * @param  {Object} rajax  Le retour ajax
     */
-  load_list_animations:function(rajax)
+  load_list_animations:function(folder, rajax)
   {
     if(undefined == rajax)
     {
-      Ajax.send({script:"animation/list"}, $.proxy(this.load_list_animations, this))
+      if(undefined == folder) folder = ""
+      Ajax.send({script:"animation/list", folder:folder}, $.proxy(this.load_list_animations, this, folder))
     }
     else
     {
       if(rajax.ok)
       {
-        UI.peuple_liste_animations(rajax.list)
+        UI.peuple_liste_animations(rajax.list, folder)
         // Y a-t-il une animation par défaut
         if(rajax.default_animation)
         {
