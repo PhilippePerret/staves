@@ -17,6 +17,7 @@
   */
 window.DATA_AUTOCOMPLETION = {
   'act' : {replace:"ACTIVE_STAFF(X)",         boffset:2,  length:1  },
+  'aic' : {fourth:'w'},
   'cap' : {replace:'CAPTION("")',             boffset:2             },
   'apw' : {fourth:'c'},
   'cho' : {replace:"CHORD('c4 e4 g4')",       boffset:10, length:8  },
@@ -38,6 +39,6 @@ window.DATA_AUTOCOMPLETION = {
  *          le paramètre `fourth` définissant la première lettre
  */
 $.extend(window.DATA_AUTOCOMPLETION, {
-  'capw': {replace:'CAPTION("", {wait:true})', boffset:15             }
-  
+  'capw': {replace:'CAPTION("", {wait:true})', boffset:15             },
+  'waic': {replace:'WAIT_CAPTION',             boffset:0              }
 })

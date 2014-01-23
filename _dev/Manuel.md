@@ -35,6 +35,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Vitesse de l'animation](#vitesse_animation)
 * [Jouer l'animation](#run_animation)
 * [Jouer seulement la sélection (bouton “Point”)](#run_with_point)
+* [Créer des sous-titres ou des doublages](#creer_captions)
 * [Enchainer des animations](#enchainer_animations)
 * [Activer/désactiver le Mode “Flash](#mode_flash)
 * [Définir le décompte de départ](#set_decompte)
@@ -1202,7 +1203,7 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
   * [Créer un texte pour l'animation](#create_texte_animation)
   * [Créer un texte pour un objet](#create_texte_objet)
   * [Créer un texte pour la portée (section “Portée”)](#ecrire_texte_portee)
-  * [Créer des sous-titres (réels ou doublage)](#creer_captions)
+  * [Créer des sous-titres ou des doublages)](#creer_captions)
 * [Définir les positions des textes](#set_position_texte)
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)
@@ -1444,8 +1445,8 @@ Pour associer un texte à un objet, il faut bien sûr créer l'objet puis ensuit
 
 On peut vouloir créer des sous-titres pour deux raisons principales&nbsp;:
 
-1. Afficher des explications en même temps que l'animation joue (vrais sous-titres)&nbsp;;
-2. Comme pour un doublage, afficher un texte qui sera lu au cours de l'animation, donc affiché hors animation.
+1. Afficher des explications en même temps que l'animation joue (vrais sous-titres qui seront lisibles dans l'animation)&nbsp;;
+2. Comme pour un doublage, afficher un texte qui sera lu au cours de l'animation, donc affiché hors animation (qui ne sera pas visible dans l'animation finale).
 
 Pour ces deux utilisations, on utilise la commande&nbsp;:
 
@@ -1456,7 +1457,7 @@ Cette commande affiche le texte `<texte>` à l'écran en respectant les paramèt
 <a name="use_caption_as_soustitres"></a>
 ####Utilisation de sous-titres au lieu de doublages
 
-Par défaut, le texte s'affichera comme un texte de doublage, donc hors de l'écran. Pour utiliser vraiment, PENDANT TOUTE L'ANIMATION, le texte en sous-titre (à l'intérieur de l'animation), alors définir&nbsp;:
+Par défaut, le texte s'affichera comme un **texte de doublage**, donc hors du cadre de l'animation. Pour utiliser vraiment, PENDANT TOUTE L'ANIMATION, le texte en sous-titre (à l'intérieur de l'animation), alors définir&nbsp;:
 
     DEFAULT('caption', true)
 
@@ -1476,15 +1477,6 @@ Par exemple&nbsp;:
 
     CAPTION("Mon sous-titre", true)
 
-<a name="caption_omit"></a>
-####Désactivation des doublages en cours d'élaboration de l'animation
-
-Lorsqu'on est en train de mettre sur pied l'animation, il peut être intéressant de déactiver les doublages lorsqu'ils sont temporisés avec un paramètre `wait` à `true` qui fait attendre la fin de l'affichage.
-
-Pour les désactiver, actionner le menu “Options > Omettre les doublages”.
-
-Pour remettre cette fonction en route, actionner le menu devenu “Options > Jouer les doublages”.
-
 <a name="affichage_temporised_doublage"></a>
 ####Affichage temporisé du doublage
 
@@ -1500,11 +1492,48 @@ On peut régler le débit de parole avec&nbsp;:
   
 … où `<valeur>` est 1 par défaut, et le débit augmente à mesure que la valeur augmente et diminue quand la valeur se trouve entre 0 et 1 (p.e. `0.5` pour aller deux fois moins vite).
   
-Quand le doublage est temporisé, on peut ajouter le paramètres `wait` au 2e argument de la commande `CAPTION`, ce qui aura pour effet de faire patienter l'animation en attendant que le texte soit dit.
+Quand le doublage est temporisé, on peut ajouter le paramètres `wait` au 2e argument de la commande `CAPTION`, ce qui aura pour effet de ne faire à l'étape suivante que lorsque tout le texte aura été dit.
 
     CAPTION("Mon doublage temporisé", {wait:true})
     
 Dans le cas contraire, l'animation passera à l'étape suivante tout en écrivant le texte de façon temporisé.
+
+####Affichage temporisé sur étapes suivantes
+
+Plutôt que d'attendre la fin de l'écriture du doublage, on peut vouloir que l'animation joue certaines étapes sur l'écriture du doublage (donc sur le texte qui sera dit). Mais dans ce cas, si les étapes prennent moins de temps que l'écriture du doublage, et qu'un autre doublage est appelé, le premier doublage sera avorté, coupé avant la fin.
+
+On peut remédier à cela grâce à la commande&nbsp;:
+
+    WAIT_CAPTION
+
+… *(qu'on peut obtenir en autocomplétion par `waic[TAB]`)* qui va attendre, après les étapes d'animation, la fin de l'écriture du doublage avant de passer à la suite.
+
+Par exemple&nbsp;:
+
+    # Il faut que les doublages soient "temporisés"
+    DEFAULT('caption_timer', true)
+    
+    # ....
+    CAPTION("Ceci est un doublage qui sera dit sur les étapes suivantes.")
+    
+    # Puisque CAPTION ci-dessus ne définit pas le paramètre {wait:true}, les
+    # étapes suivantes seront jouées pendant que le doublage s'affichera
+    maGamme = SCALE('c')
+    maGamme.note([1,3,5]).surround()
+    
+    # Même si les deux étapes ci-dessus se terminent avant le doublage, on
+    # attendra ici la fin de l'écriture du doublage avant de de passer à la suite
+    WAIT_CAPTION
+
+
+<a name="caption_omit"></a>
+####Désactivation des doublages en cours d'élaboration de l'animation
+
+Lorsqu'on est en train de mettre sur pied l'animation, il peut être intéressant de déactiver les doublages lorsqu'ils sont temporisés avec un paramètre `wait` à `true` qui fait attendre la fin de l'affichage.
+
+Pour les désactiver, actionner le menu “Options > Omettre les doublages”.
+
+Pour remettre cette fonction en route, actionner le menu devenu “Options > Jouer les doublages”.
 
 <a name="desactiver_temporize"></a>
 ####Désactiver le doublage temporisé
@@ -1512,6 +1541,8 @@ Dans le cas contraire, l'animation passera à l'étape suivante tout en écrivan
 Pour désactiver le double temporisé à un moment de l'animation, écrire à l'endroit où la fonctionnalité doit être désactivée&nbsp;:
 
     DEFAULT('caption_timer', false)
+
+Noter aussi qu'on peut demander, pour se concentrer sur l'animation, demander à l'application d'omettre les doublages (cf. [Omettre les doublages](#caption_omit))
 
 <a name="effacer_caption"></a>
 ####Effacer le sous-titre ou le doublage

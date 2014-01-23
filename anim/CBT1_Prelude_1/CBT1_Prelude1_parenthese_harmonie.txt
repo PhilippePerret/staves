@@ -53,32 +53,43 @@ CAPTION("Par exemple pour DO Majeur…")
 
 SET_CURSOR(220)
 gammedo = SCALE('c', {staff:2, speed:4, offset:40})
+STAFF(2).write("DO Majeur")
+
+WAIT_CAPTION
 
 CAPTION("Les notes pivots sont donc la 4e, la 5e et la 7e")
 
 gammedo.note([4,5,7]).surround()
 
-WAIT(10)
+WAIT_CAPTION
 
-# WAIT_END_CAPTION (il faudrait implémenter cette commande pour attendre la fin du caption)
+CAPTION("Si je monte le 5e degré, j'obtiens le ton voisin du relatif.", {wait:true})
 
-CAPTION("Si je monte le 5e degré, j'obtiens le ton voisin du relatif.")
+gammedo.note(5).arrow('vers lam', {angle:-90, width:60})
 
-gammedo.note(5).arrow('vers lam', {angle:-90, width:80, offset_x:-6, offset_y:-6})
+# --- La gamme de LA mineur ---
+
 SET_CURSOR(140)
 SCALE('a', {type:'min_h', staff:1, offset:40, octave:3})
+STAFF(1).write("LA mineur")
 
 CAPTION("Si je réhausse le quatrième degré, le FA ici, j'obtiens la tonalité de la dominante. Ici, SOL Majeur")
 
+# -- Gamme de SOL Majeur --
+
 SET_CURSOR(100)
 SCALE('g', {staff:3, offset:40, octave:3})
+STAFF(3).write("SOL Majeur (Dominante)")
+
+WAIT_CAPTION
 
 CAPTION("Et enfin, si je baisse le 7e degré, la sensible, j'obtiens le dernier ton voisin, la tonalité de la sous-dominante, donc FA Majeur pour DO Majeur.")
 
 SET_CURSOR(340)
 SCALE('f', {staff:4, offset:40})
 
-WAIT(10)
+
+WAIT_CAPTION
 
 # RETOUR AU TON VOISIN
 

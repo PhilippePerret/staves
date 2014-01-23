@@ -325,6 +325,7 @@ sup {
 <li><a href="#les_images">Les images</a></li>
 <li><a href="#les_fleches">Les flèches</a></li>
 <li><a href="#set_preferences">Régler toutes les valeurs de l'animation</a></li>
+<li><a href="#lannexe">Annexe</a></li>
 </ul>
 
 
@@ -349,6 +350,8 @@ sup {
 </li>
 <li><a href="#vitesse_animation">Vitesse de l'animation</a></li>
 <li><a href="#run_animation">Jouer l'animation</a></li>
+<li><a href="#run_with_point">Jouer seulement la sélection (bouton “Point”)</a></li>
+<li><a href="#creer_captions">Créer des sous-titres ou des doublages</a></li>
 <li><a href="#enchainer_animations">Enchainer des animations</a></li>
 <li><a href="#mode_flash">Activer/désactiver le Mode “Flash</a></li>
 <li><a href="#set_decompte">Définir le décompte de départ</a></li>
@@ -584,6 +587,16 @@ monAccord('c3 eb3 g3')
 </ol>
 
 
+<p><a name="run_with_point"></a></p>
+
+<h3>Jouer seulement la sélection (bouton “Point”)</h3>
+
+<p>Grâce au bouton “Point” (le bouton se trouvant dans le contrôleur à côté du bouton Play), on peut ne jouer que la ligne dans laquelle se trouve le curseur ou les lignes sélectionnées (même si elles ne sont que partiellement sélectionnées).</p>
+
+<p>Noter un point important ici&nbsp;: contrairement à l'option “Jouer seulement la sélection” (menu “Options”) qui va jouer ce qui précède la sélection en mode flash, ie très vite (cf. [Jouer une portion de l'animation][#run_only_selection]), ici, c'est vraiment uniquement la ligne ou les lignes sélectionnées qui seront interprétées.</p>
+
+<p>Cela permet de faire des tests très ponctuels de commandes.</p>
+
 <p><a name="enchainer_animations"></a></p>
 
 <h3>Enchainer des animations</h3>
@@ -675,7 +688,8 @@ STOP_MODE_FLASH
 
 <ul>
 <li><a href="#move_cursor_to_right">Déplacement du curseur vers la droite</a></li>
-<li><a href="#set_pas_next">Régler du pas entre chaque déplacement (NEXT())</a></li>
+<li><a href="#move_cursor_to_a_pas">Déplacement du curseur sur un “pas”</a></li>
+<li><a href="#set_pas_next">Régler la valeur de déplacement entre chaque NEXT()</a></li>
 <li><a href="#move_cursor_to_depart">Revenir au début des portées</a></li>
 <li><a href="#set_cursor_to_position">Placer le curseur à une position précise</a></li>
 </ul>
@@ -709,6 +723,34 @@ STOP_MODE_FLASH
 // =&gt; les notes suivantes s'écriront 100px plus à gauche
 </code></pre>
 
+<p><a name="move_cursor_to_a_pas"></a></p>
+
+<h3>Déplacer le curseur sur un pas</h3>
+
+<p>À chaque déplacement (<code>NEXT</code> ou <code>SET_CURSOR</code>), l'animation mémorise la position comme un “pas” (<em>note&nbsp;: si la grille est active, ils sont représentés par des marqueurs tout en haut de l'animation.</em>). Il est très simple de revenir à un de ces “pas”.</p>
+
+<p><strong>Première formule</strong></p>
+
+<pre><code>SET_CURSOR({pas:&lt;indice du pas&gt;})
+</code></pre>
+
+<p><strong>Deuxième formule</strong></p>
+
+<pre><code>SET_CURSOR('pas', &lt;indice du pas&gt;)
+</code></pre>
+
+<p><strong>Troisième formule</strong></p>
+
+<pre><code>SET_CURSOR(&lt;indice du pas&gt;)
+</code></pre>
+
+<p>Noter que dans cette dernière formule, on utilise la même syntaxe que pour placer le curseur de position à une position précise. Mais l'animation par du principe que si son premier argument est un nombre inférieur à 15 (donc qui serait positionné sur une clé de portée), c'est un pas et non pas (sic) une position en pixels. Il y a rarement plus de 15 pas dans une animation traditionnelle.</p>
+
+<p>Dans le cas contraire, s'il n'y avait pas de portée et qu'on voulait vraiment positionner un élément à moins de 15 pixels, on devrait alors utiliser la formule explicite&nbsp;:</p>
+
+<pre><code>SET_CURSOR({offset:&lt;nombre de pixels&gt;})
+</code></pre>
+
 <p><a name="set_pas_next"></a></p>
 
 <h3>Régler le pas entre chaque NEXT()</h3>
@@ -739,6 +781,8 @@ STOP_MODE_FLASH
 
 <h3>Placer le curseur à une position précise (SET_CURSOR)</h3>
 
+<h4>Par indication de la position exacte</h4>
+
 <p>Pour placer la curseur à une position précise, utiliser la commande&nbsp;:</p>
 
 <pre><code>SET_CURSOR(&lt;position left en pixel&gt;)
@@ -750,6 +794,51 @@ STOP_MODE_FLASH
 </code></pre>
 
 <p>Les prochains <code>NEXT()</code> partiront de cette nouvelle position.</p>
+
+<h4>Par indication du “pas”</h4>
+
+<p>Chaque fois qu'un <code>NEXT</code> est invoqué, le curseur de position se déplace, créant un nouveau “pas”. On peut utiliser ces pas avec la commande <code>SET_CURSOR</code> en lui fournissant l'indice (1-start) du pas à utiliser&nbsp;:</p>
+
+<pre><code>SET_CURSOR({pas:&lt;indice du pas&gt;})
+
+ou
+
+SET_CURSOR('pas', &lt;indice du pas&gt;)
+</code></pre>
+
+<p><em>Note&nbsp;: On peut voir ces pas en affichant la grille, ils sont représentés par des petits rectangles tout en haut de l'animation.</em></p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>NEXT()
+# =&gt; Place le curseur disons à 200. C'est le 1er pas
+NEXT()
+# =&gt; Place le curseur disons à 250. C'est le 2e pas
+NEXT()
+# =&gt; Place le curseur à 300. C'est le troisième pas.
+SET_CURSOR({pas:1}) ou SET_CURSOR('pas', 1)
+# =&gt; Place le curseur au premier pas, donc à 200
+</code></pre>
+
+<h4>Par indication du décalage de “pas”</h4>
+
+<p>Au lieu de fournir l'indice du pas comme dans l'utilisation précédente, on peut fournir aussi le décalage de pas par rapport à la position courante.</p>
+
+<pre><code>SET_CURSOR({offset:&lt;nombre de pas du déplacement&gt;})
+
+ou
+
+SET_CURSOR('offset', &lt;nombre de pas du déplacement&gt;)
+</code></pre>
+
+<p>Par exemple, pour revenir de deux pas en arrière&nbsp;:</p>
+
+<pre><code>SET_CURSOR({offset:-2})
+
+ou
+
+SET_CURSOR('offset', -2)
+</code></pre>
 
 <hr />
 
@@ -1562,7 +1651,7 @@ STAFF(1).remove()
 </ul>
 
 
-<p><a name="introduction_gammes"></p>
+<p><a name="introduction_gammes"></a></p>
 
 <h3>Introduction</h3>
 
@@ -1667,7 +1756,7 @@ maNote.write("Une seconde !")
 <li><a href="#create_texte_animation">Créer un texte pour l'animation</a></li>
 <li><a href="#create_texte_objet">Créer un texte pour un objet</a></li>
 <li><a href="#ecrire_texte_portee">Créer un texte pour la portée (section “Portée”)</a></li>
-<li><a href="#creer_captions">Créer des sous-titres (réels ou doublage)</a></li>
+<li><a href="#creer_captions">Créer des sous-titres ou des doublages)</a></li>
 </ul>
 </li>
 <li><a href="#set_position_texte">Définir les positions des textes</a></li>
@@ -1938,9 +2027,10 @@ maNote.write("C'est un LA 4")
 
 <p><em><a href="#commande_caption">La commande <code>CAPTION</code></a>
 </em><a href="#use_caption_as_soustitres">Utilisation de sous-titre au lieu de doublage</a>
-<em><a href="#affichage_temporised_doublage">Affichage temporisé du doublage</a>
-</em><a href="#desactiver_temporize">Désactiver le doublage temporisé</a>]
-*<a href="#effacer_caption">Effacer le sous-titre ou le doublage</a></p>
+<em><a href="#caption_omit">Désactiver les doublages en cours d'élaboration de l'animation</a>
+</em><a href="#affichage_temporised_doublage">Affichage temporisé du doublage</a>
+<em><a href="#desactiver_temporize">Désactiver le doublage temporisé</a>]
+</em><a href="#effacer_caption">Effacer le sous-titre ou le doublage</a></p>
 
 <p><a name="commande_caption"></a></p>
 
@@ -1949,8 +2039,8 @@ maNote.write("C'est un LA 4")
 <p>On peut vouloir créer des sous-titres pour deux raisons principales&nbsp;:</p>
 
 <ol>
-<li>Afficher des explications en même temps que l'animation joue (vrais sous-titres)&nbsp;;</li>
-<li>Comme pour un doublage, afficher un texte qui sera lu au cours de l'animation, donc affiché hors animation.</li>
+<li>Afficher des explications en même temps que l'animation joue (vrais sous-titres qui seront lisibles dans l'animation)&nbsp;;</li>
+<li>Comme pour un doublage, afficher un texte qui sera lu au cours de l'animation, donc affiché hors animation (qui ne sera pas visible dans l'animation finale).</li>
 </ol>
 
 
@@ -1965,7 +2055,7 @@ maNote.write("C'est un LA 4")
 
 <h4>Utilisation de sous-titres au lieu de doublages</h4>
 
-<p>Par défaut, le texte s'affichera comme un texte de doublage, donc hors de l'écran. Pour utiliser vraiment, PENDANT TOUTE L'ANIMATION, le texte en sous-titre (à l'intérieur de l'animation), alors définir&nbsp;:</p>
+<p>Par défaut, le texte s'affichera comme un <strong>texte de doublage</strong>, donc hors du cadre de l'animation. Pour utiliser vraiment, PENDANT TOUTE L'ANIMATION, le texte en sous-titre (à l'intérieur de l'animation), alors définir&nbsp;:</p>
 
 <pre><code>DEFAULT('caption', true)
 </code></pre>
@@ -2006,12 +2096,51 @@ CAPTION("Mon sous-titre", true)
 
 <p>… où <code>&lt;valeur&gt;</code> est 1 par défaut, et le débit augmente à mesure que la valeur augmente et diminue quand la valeur se trouve entre 0 et 1 (p.e. <code>0.5</code> pour aller deux fois moins vite).</p>
 
-<p>Quand le doublage est temporisé, on peut ajouter le paramètres <code>wait</code> au 2e argument de la commande <code>CAPTION</code>, ce qui aura pour effet de faire patienter l'animation en attendant que le texte soit dit.</p>
+<p>Quand le doublage est temporisé, on peut ajouter le paramètres <code>wait</code> au 2e argument de la commande <code>CAPTION</code>, ce qui aura pour effet de ne faire à l'étape suivante que lorsque tout le texte aura été dit.</p>
 
 <pre><code>CAPTION("Mon doublage temporisé", {wait:true})
 </code></pre>
 
 <p>Dans le cas contraire, l'animation passera à l'étape suivante tout en écrivant le texte de façon temporisé.</p>
+
+<h4>Affichage temporisé sur étapes suivantes</h4>
+
+<p>Plutôt que d'attendre la fin de l'écriture du doublage, on peut vouloir que l'animation joue certaines étapes sur l'écriture du doublage (donc sur le texte qui sera dit). Mais dans ce cas, si les étapes prennent moins de temps que l'écriture du doublage, et qu'un autre doublage est appelé, le premier doublage sera avorté, coupé avant la fin.</p>
+
+<p>On peut remédier à cela grâce à la commande&nbsp;:</p>
+
+<pre><code>WAIT_CAPTION
+</code></pre>
+
+<p>… <em>(qu'on peut obtenir en autocomplétion par <code>waic[TAB]</code>)</em> qui va attendre, après les étapes d'animation, la fin de l'écriture du doublage avant de passer à la suite.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code># Il faut que les doublages soient "temporisés"
+DEFAULT('caption_timer', true)
+
+# ....
+CAPTION("Ceci est un doublage qui sera dit sur les étapes suivantes.")
+
+# Puisque CAPTION ci-dessus ne définit pas le paramètre {wait:true}, les
+# étapes suivantes seront jouées pendant que le doublage s'affichera
+maGamme = SCALE('c')
+maGamme.note([1,3,5]).surround()
+
+# Même si les deux étapes ci-dessus se terminent avant le doublage, on
+# attendra ici la fin de l'écriture du doublage avant de de passer à la suite
+WAIT_CAPTION
+</code></pre>
+
+<p><a name="caption_omit"></a></p>
+
+<h4>Désactivation des doublages en cours d'élaboration de l'animation</h4>
+
+<p>Lorsqu'on est en train de mettre sur pied l'animation, il peut être intéressant de déactiver les doublages lorsqu'ils sont temporisés avec un paramètre <code>wait</code> à <code>true</code> qui fait attendre la fin de l'affichage.</p>
+
+<p>Pour les désactiver, actionner le menu “Options > Omettre les doublages”.</p>
+
+<p>Pour remettre cette fonction en route, actionner le menu devenu “Options > Jouer les doublages”.</p>
 
 <p><a name="desactiver_temporize"></a></p>
 
@@ -2021,6 +2150,8 @@ CAPTION("Mon sous-titre", true)
 
 <pre><code>DEFAULT('caption_timer', false)
 </code></pre>
+
+<p>Noter aussi qu'on peut demander, pour se concentrer sur l'animation, demander à l'application d'omettre les doublages (cf. <a href="#caption_omit">Omettre les doublages</a>)</p>
 
 <p><a name="effacer_caption"></a></p>
 
@@ -2387,18 +2518,18 @@ monImage.src('path/to/image_2.png')
 
 <h3>Introduction</h3>
 
-<p>On peut créer des flèches indépendantes (cf. <a href="#fleches_independantes">Flèches indépendantes</a>) mais le plus judicieux est de les associer à des objets, à commencer par des notes.</p>
+<p>On peut créer des flèches indépendantes (cf. <a href="#fleches_independantes">Flèches indépendantes</a>) mais le plus judicieux est de les associer à des objets, à commencer par des notes ou des accords.</p>
 
 <p><a name="associer_fleche_a_objet"></a></p>
 
-<h3>Associer une flèche à un objet</h3>
+<h3>Associer des flèches à un objet</h3>
 
 <p>Pour associer une flèche à un objet quelconque (p.e. une note) on utilise la méthode (de l'objet) :</p>
 
-<pre><code>arrow(&lt;parameters&gt;)
+<pre><code>&lt;objet&gt;.arrow([&lt;identifiant fleche&gt;, ]&lt;parameters&gt;)
 </code></pre>
 
-<p>Par exemple, pour faire partir une flèche d'une note&nbsp;:</p>
+<p>Par exemple, pour faire partir une flèche vers le bas depuis une note&nbsp;:</p>
 
 <pre><code>maNote=NOTE(a4)
 maNote.arrow({color:red, angle:90})
@@ -2406,35 +2537,54 @@ maNote.arrow({color:red, angle:90})
 
 <p>… ce qui produira une flèche rouge, partant de la note avec un angle de 90 degré (cf. ci-dessous <a href="#angle_des_fleches">les angles</a>).</p>
 
+<p>On peut créer autant de flèches pour l'objet que l'on veut. Il suffit pour cela d'ajouter un identifiant (sans premier argument comme identifiant, c'est la flèche d'identifiant <code>0</code> qui est prise en compte).</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maNote = NOTE(c4)
+maNote.arrow('droite rouge', {color:red, angle:0})
+maNote.arrow('bas verte', {color:green, angle:45})
+</code></pre>
+
+<p>On fait ensuite référence à ces différentes flèches en faisant référence à leur identifiant&nbsp;:</p>
+
+<pre><code>maNote.arrow('bas verte').rotate(20)
+# =&gt; Tourne la flèche 'bas verte' à l'angle 20
+maNote.arrow('droite rouge').colorize(blue)
+# =&gt; Colore la flèche 'droite rouge' en bleu.
+</code></pre>
+
 <p><a name="definition_arrow"></a></p>
 
 <h3>Définition de la flèche</h3>
 
 <p>Lors de la création de la flèche avec la méthode <code>arrow</code> (ou ARROW pour une <a href="#fleches_independantes">flèche indépendante</a>) on peut envoyer ces paramètres optionnels à la méthode&nbsp;:</p>
 
-<pre><code>maNote.arrow({
-  width:  {Number} longueur fleche en pixels
-  angle:  {Number} Angle en degres
-  color:  {String} La couleur (constante ou string)
-  top:    {Number} Placement vertical de la fleche (pixels)
-  left:   {Number} Placement horizontal de la fleche (pixels)
-  height: {Number} Hauteur de la fleche
+<pre><code>&lt;objet&gt;.arrow(['&lt;id flèche&gt;',]{
+  width     : {Number} longueur fleche en pixels
+  angle     : {Number} Angle en degres
+  color     : {String} La couleur (constante ou string)
+  offset_x  : {Number} Décalage horizontal par rapport à position normale
+  offset_y  : {Number} Décalage vertical par rapport à position normale
+  top       : {Number} Placement vertical de la fleche (pixels)
+  left      : {Number} Placement horizontal de la fleche (pixels)
+  height    : {Number} Hauteur de la fleche
 })
 </code></pre>
 
-<p>Les valeurs <strong>top</strong> et <strong>left</strong> sont calculées automatiquement pour que la flèche soit placée correctement à droite de l'objet.</p>
+<p><strong><code>&lt;objet&gt;</code></strong> est “l'objet porteur” de la flèche, c'est par exemple une note.</p>
+
+<pre><code>maNote = NOTE(a4)
+maNote.arrow('fleche vers droite', {angle:0})
+</code></pre>
+
+<p><strong><code>&lt;id flèche&gt;</code></strong> est l'identifiant optionnel de la flèche, utile si l'objet porteur doit porter plusieurs flèches.</p>
+
+<p>Les valeurs <strong>top</strong> et <strong>left</strong> sont calculées automatiquement pour que la flèche soit placée correctement suivant l'objet porteur. On peut ajuster ponctuellement la valeur avec <strong>offset_x</strong> et <strong>offset_y</strong>.</p>
 
 <p>L'<strong>angle</strong> est de 0 degré par défaut, c'est-à-dire que la flèche sera horizontale et pointera à droite (pour une autre valeur cf. <a href="#angle_des_fleches">Angle des flèches</a>).</p>
 
-<p>La <strong>color</strong> (couleur) est noire par défaut. On peut utiliser toutes les constantes de couleur pré-définies, c'est-à-dire (les valeurs françaises sont des valeurs valides aussi)&nbsp;:</p>
-
-<pre><code>black   noir
-red     rouge
-blue    bleu
-green   vert
-grey    gris
-orange
-</code></pre>
+<p>Pour la définition de <strong>color</strong> (la couleur) cf. <a href="#constantes_couleurs">les constantes couleurs</a>.</p>
 
 <p><a name="methodes_animation_fleches"></a></p>
 
@@ -2444,6 +2594,7 @@ orange
 <li><a href="#arrow_rotate">Faire tourner la flèche</a></li>
 <li><a href="#method_arrow_size">Changer la taille de la flèche</a></li>
 <li><a href="#method_move_arrow">Déplacer la flèche</a></li>
+<li><a href="#modifier_color_arrow">Modifier la couleur de la flèche</a></li>
 </ul>
 
 
@@ -2458,7 +2609,7 @@ orange
 
 <pre><code>maNote=NOTE(c4)
 maNote.arrow()
-maNote.arrow.rotate(45)
+maNote.arrow().rotate(45)
 </code></pre>
 
 <p><a name="method_arrow_size"></a></p>
@@ -2471,11 +2622,11 @@ maNote.arrow.rotate(45)
 <p>Par exemple&nbsp;:</p>
 
 <pre><code>maNote=NOTE(b4)
-maNote.arrow({color:bleu})
-maNote.arrow.size(100)
+maNote.arrow('growup', {color:bleu})
+maNote.arrow('growup').size(100)
 </code></pre>
 
-<p>Produira une animation qui fera s'allonger la flèche de sa longueur actuelle à la longueur <code>100px</code>.</p>
+<p>Produira une animation qui fera s'allonger (ou se rétrécir) la flèche de sa longueur actuelle à la longueur <code>100px</code>.</p>
 
 <p>Noter que cette méthode <strong>crée réellement une animation</strong> c'est-à-dire fait varier sous nos yeux la taille de la flèche. Si on veut définir la taille de la flèche au départ, utiliser plutôt le paramètre <code>width</code> dans les paramètres envoyés à la création de la flèche (cf. <a href="#definition_arrow">définition de la flèche</a>).</p>
 
@@ -2485,7 +2636,7 @@ maNote.arrow.size(100)
 
 <p>Une flèche se déplace à l'aide de la méthode&nbsp;:</p>
 
-<pre><code>&lt;fleche&gt;.move(&lt;parameters&gt;)
+<pre><code>&lt;objet&gt;.&lt;fleche&gt;([&lt;id&gt;]).move(&lt;parameters&gt;)
 </code></pre>
 
 <p>… où les paramètres peuvent être&nbsp;:</p>
@@ -2499,12 +2650,32 @@ maNote.arrow.size(100)
 <p>Par exemple, si une flèche associée à une note doit se déplacer en descendant et en se déplaçant vers la droite&nbsp;:</p>
 
 <pre><code>maNote=NOTE(g4)
-maNote.arrow()
+maNote.arrow('bouge')
 WAIT(2)
-maNote.arrow.move({x:50, y:50}) &lt;--
+maNote.arrow('bouge').move({x:50, y:50}) &lt;--
 </code></pre>
 
 <p>Une valeur positives produira toujours un déplacement vers la droite (->) pour <code>x</code> et un déplacement vers le bas pour <code>y</code>, un valeur négative produira un déplacement vers la gauche (&lt;-) pour <code>x</code> et un déplacement vers le haut pour <code>y</code>.</p>
+
+<p><a name="modifier_color_arrow"></a></p>
+
+<h4>Modifier la couleur de la flèche</h4>
+
+<p>Pour modifier la couleur de la flèche, utiliser la méthode <code>colorize</code> :</p>
+
+<pre><code>&lt;objet porteur&gt;.arrow([&lt;id&gt;]).colorize(&lt;couleur&gt;)
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monAccord = CHORD('c4 e4 g4')
+monAccord.arrow({color:green})
+# =&gt; Une première flèche verte
+monAccord.arrow().colorize(blue)
+# =&gt; La colorize en blue
+</code></pre>
+
+<p>Pour les constantes couleur utilisable cf. <a href="#constantes_couleurs">les constantes couleurs</a>.</p>
 
 <p><a name="angle_des_fleches"></a></p>
 
@@ -2531,7 +2702,7 @@ angle = 180 =&gt; flèche horizontale pointant à gauche
 <pre><code>maNote=NOTE(c3)
 maNote.arrow()
 WAIT(2)
-maNote.arrow.remove() &lt;--
+maNote.arrow().remove() &lt;--
 </code></pre>
 
 <p><a name="fleches_independantes"></a></p>
@@ -2861,6 +3032,31 @@ DEFAULT('offset_chord')
 <pre><code>RESET_PREFERENCES
 </code></pre>
 
-<p>-</p>
+<h2>-</h2>
+
+<p><a name="lannexe"></a></p>
+
+<h2>Annexe</h2>
+
+<ul>
+<li><a href="#constantes_couleurs">Constantes couleurs</a></li>
+</ul>
+
+
+<p><a name="constantes_couleurs"></a></p>
+
+<h3>Constantes couleurs</h3>
+
+<p>La <strong>color</strong> (couleur) d'un objet quelconque est noire par défaut (une note, une flèche, etc.).</p>
+
+<p>Pour modifier sa couleur, on peut utiliser ces constantes couleur (les valeurs françaises sont des valeurs valides aussi)&nbsp;:</p>
+
+<pre><code>black   noir
+red     rouge
+blue    bleu
+green   vert
+grey    gris
+orange
+</code></pre>
 </body>
 </html>
