@@ -110,7 +110,7 @@ Object.defineProperties(Circle.prototype, {
       {
         switch(this.owner.class)
         {
-        case 'Note':
+        case 'note':
           this._width = 30 + (this.owner.alteration ? 18 : 0)
           break
         }

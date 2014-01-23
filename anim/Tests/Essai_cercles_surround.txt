@@ -35,8 +35,10 @@ CAPTION("On 'unsurround' la deuxième note")
 no2.unsurround()
 WAIT(2)
 
-# Devrait changer la taille du rectangle
-CAPTION("On déplace la première note en hauteur vers LA#4")
+CAPTION("On altère la première note (devrait changer la taille du carré)")
 no.moveTo('ad4')
 WAIT(2)
 
+CAPTION("On déplace la première note (devrait déplacer aussi le carré)")
+no.moveTo('fd5')
+WAIT(2)

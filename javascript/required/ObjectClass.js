@@ -277,7 +277,10 @@ Object.defineProperties(ObjetClass.prototype,{
     * @default Anim.current_x
     */
   "left":{
-    get:function(){return this._left || Anim.current_x},
+    get:function(){
+      if(undefined == this._left) this._left = Anim.current_x
+      return this._left
+    },
     set:function(left){
       this._left = left
       if(this.obj) this.obj.css('left', left)

@@ -173,7 +173,10 @@ $.extend(Note.prototype,{
     return this
   },
   /**
-    * Déplace la note à la hauteur +hauteur+
+    * Déplace la note à la hauteur +hauteur+ (noter qu'il s'agit en fait d'un
+    * changement de note. On l'utilise aussi s'il faut simplement ajouter une
+    * altération).
+    *
     * Notes
     * -----
     *   * Le déplacement a été simplifié : la note change de couleur et 
@@ -185,18 +188,28 @@ $.extend(Note.prototype,{
     * @method moveTo
     * @param  {String}  hauteur   La nouvelle hauteur
     * @param  {Object}  params    Les paramètres optionnels
+    *   @param {Boolean}  params.no_exergue   Si TRUE, ne met pas la note en exergue
     */
-  moveTo:function(hauteur)
+  moveTo:function(hauteur, params)
   {
-    var top_init = parseInt(this.top,10)
-    var staff_init = parseInt(this.staff.indice)
+    var top_init    = parseInt(this.top,10),
+        staff_init  = parseInt(this.staff.indice),
+        objs,
+        method ;
+    if(undefined == params) params = {}
     this.analyse_note(hauteur)
     if(staff_init != this.staff.indice)
     {
       Anim.staves[staff_init - 1].notes.remove(this)
       this.staff_changed = true
-    } 
-    this.exergue({complete:$.proxy(this.operation, this, [this.obj], 'moveTo', {top: this.top})})
+    }
+    objs = [this.obj]
+    var was_surrounded = true && this.surrounded
+    if(this.surrounded) this.unsurround()
+    method = $.proxy(this.operation, this, objs, 'moveTo', {top: this.top})
+    if(!params.no_exergue) this.exergue({complete:method})
+    else method()
+    if(was_surrounded) this.surround()
   },
   
   /**
@@ -212,10 +225,19 @@ $.extend(Note.prototype,{
     */
   surround:function(params)
   {
-    if(this.circle) this.circle.remove()
+    var x, y ;
     if(undefined == params) params = {}
-    var x = this.left - (6 + (this.alteration ? 18 : 0))
-    var y = this.top  - (6 + (this.alteration ? 9  : 0))
+    if(this.circle) this.circle.remove()
+    if(this.alteration)
+    {
+      x = this.left - 24
+      y = this.top  - 15
+    }
+    else
+    {
+      x = this.left - 6
+      y = this.top  - 7
+    }
     params = $.extend(params, {owner:this, top:y, left:x})
     this.circle = new Circle(params)
     Anim.Dom.add(this.circle)
@@ -734,6 +756,15 @@ Object.defineProperties(Note.prototype,{
     * @property {Number} center_y
     */
   "center_y":{get:function(){return this.top}},
+  /**
+    * Retourne le “center_x” de la note, c'est-à-dire la position left qui passe
+    * vraiment au milieu de la note (sauf si elle est décalée à cause d'une
+    * note conjointe)
+    * C'est cette valeur qui doit être utilisée pour positionner des éléments
+    * par rapport à cette note.
+    * @property {Number} center_x
+    */
+  "center_x":{get:function(){return this.left + 6}},
   
   /**
     * Retourne la largeur exacte qu'occupe la note à l'écran
@@ -766,19 +797,6 @@ Object.defineProperties(Note.prototype,{
       {
         return UI.exact_height_of(this.obj)
       }
-    }
-  },
-  /**
-    * Retourne le “center_x” de la note, c'est-à-dire la position left qui passe
-    * vraiment au milieu de la note (sauf si elle est décalée à cause d'une
-    * note conjointe)
-    * C'est cette valeur qui doit être utilisée pour positionner des éléments
-    * par rapport à cette note.
-    * @property {Number} center_x
-    */
-  "center_x":{
-    get:function(){
-      return this.left + 6
     }
   },
   /**
