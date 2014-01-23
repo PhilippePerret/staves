@@ -182,19 +182,14 @@ $.extend(UI,{
     * @param  {String} L'ancien nom (le nom actuel)
     * @param  {String} Le nouveau nom
     */
-  change_animation_name:function(old_name, new_name)
+  change_animation_name:function(new_name, new_path)
   {
-    // TODO Vérifier si c'est toujours valable avec les dossiers
-    code = '<option value="'+new_name+'">'+new_name+'</option>'
-    old_option = $('select#animations option[value="'+old_name+'"]')
-    $(code).insertAfter(old_option)
-    old_option.remove()
-    Anim.set_anim(new_name, Anim.File.folder)
+    code = '<option value="'+new_path+'">'+new_name+'</option>'
+    $('select#animations').append(code)
   },
-  add_new_animation_to_menu:function(new_name)
+  add_new_animation_to_menu:function(new_name, new_path)
   {
-    // TODO Vérifier si c'est toujours valable avec les dossiers
-    $('select#animations').append('<option value="'+new_name+'">'+new_name+'</option>')
+    $('select#animations').append('<option value="'+new_path+'">'+new_name+'</option>')
   }
   
   

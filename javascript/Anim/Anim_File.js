@@ -26,11 +26,9 @@ window.Anim.File = {
     */
   set_name_and_save:function()
   {
-    var dname = this.get_new_name().split('/')
-    var name  = dname.pop()
-    var fold  = dname.join('/')
-    if(!name) return
-    Anim.set_anim(name, fold)
+    var dname = this.get_new_name() ;
+    if(!dname) return
+    Anim.set_anim(dname[1], dname[0])
     UI.add_new_animation_to_menu(this.name)
     this.save()
   },
@@ -69,17 +67,21 @@ window.Anim.File = {
     * Prend le nom de l'animation dans le champ save_as, le corrige
     * et le renvoie.
     * @method get_new_name
-    * @return {String|False} Le nom de l'animation, ou Null si un problème
+    * @return {Array} contenant [folder, nom] ou FALSE en cas de problème
     */
   get_new_name:function()
   {
-    var name = $('input#animation_name').val().trim()  
+    var name, dname, fold ;
+    name = $('input#animation_name').val().trim()
+    dname = name.split('/')
+    name = dname.pop()
+    fold = dname.join('/')
     name = Texte.to_ascii(name).
                 replace(/ /g,'_').
                 replace(/[^a-zA-z0-9_-]/g,'').
                 substring(0, 60)
     if(name == "") return F.error("Il faut donner un nom (valide) !")
-    else return name
+    else return [fold, name]
   },
   /**
     * Enregistre l'animation sous un autre nom
@@ -95,13 +97,12 @@ window.Anim.File = {
         return UI.Tools.show('save_as', {ok:{name:"Enregistrer", method:$.proxy(this.save_as, this, true)}})
       }
       // On prend le nouveau titre et on le corrige
-      var new_name = this.get_new_name()
-      if(!new_name) return                  
+      var dname = this.get_new_name() ;
+      if(!dname) return
       Ajax.send({
         script:"animation/save", 
-        name      : this.name,
-        folder    : this.folder,
-        new_name  : new_name,
+        name      : dname[0],
+        folder    : dname[1],
         code      : Console.raw
       }, $.proxy(this.save_as, this, true))
     }
@@ -109,9 +110,8 @@ window.Anim.File = {
     {
       if(rajax.ok)
       {
-        // Il faut retirer l'ancien nom et le remplacer par le nouveau
-        // Ça change aussi le nom courant de l'animation
-        UI.change_animation_name(this.name, rajax.name)
+        UI.add_new_animation_to_menu(rajax.name, rajax.path)
+        Anim.set_anim(rajax.name, rajax.folder)
         this.modified = false
       }
       else F.error(rajax.message)

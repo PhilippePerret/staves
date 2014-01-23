@@ -16,6 +16,18 @@ class Anim
       end
     end
     
+    # Construit un dossier (ou une hiérarchie de dossier) dans le dossier
+    # des animations si un dossier n'est pas trouvé. Ce check est fait à
+    # chaque enregistrement d'animation lorsque le path n'existe pas.
+    # @param  {String}  path    Path AVEC LE NOM DE L'ANIMATION (qui sera retiré)
+    #                           ET le dossier "anim" en premier
+    def build_folders_animation_up_to path
+      cur_folder = folder
+      dpath = path.split('/')[2..-2]
+      dpath.each do |dossier|
+        cur_folder = (getfolder File.join(cur_folder, dossier))
+      end
+    end
     
     # Retourne le NOM de l'animation par défaut si elle existe (NIL otherwise)
     # 
@@ -65,7 +77,13 @@ class Anim
   end
   
   def save
-    unlink if exists?
+    if exists?
+      unlink
+    else
+      # Au cas où, on regarde si le dossier existe et on le construit
+      # si nécessaire (fonctionne avec autant de dossiers qu'on veut)
+      self.class.build_folders_animation_up_to path
+    end
     File.open(path, 'wb'){|f| f.write raw_code}
     File.chmod(0770, path)
   end
@@ -89,6 +107,16 @@ class Anim
   # Détruit le fichier de l'animation
   def unlink
     File.unlink path
+  end
+  
+  # Path relatif de l'animation
+  # Ce path est le path depuis `./anim/` et il permet de renseigner
+  # le menu des animations pour charger l'animation.
+  # Il est construit d'après @folder et @name. Noter qu'il ne contient
+  # donc aucune extension (pas de ".txt")
+  # 
+  def relpath_sans_ext
+    @relpath ||= File.join(@folder, @name)
   end
 
   def path
