@@ -199,9 +199,9 @@ $.extend(Anim,{
     */
   play_selection:function()
   {
-    var select  = Selection.of(Console.console)
-    var before  = Selection.around(Console.console, {before:true, length:400}).content
-    var after   = Selection.around(Console.console, {before:false, length:400}).content
+    var select  = Selection.of(Console.console),
+        before  = this.around_selection(true, 400, true),
+        after   = this.around_selection(false, 400, true) ;
     var index_nl_before = before.lastIndexOf("\n")
     var index_nl_after  = after .indexOf("\n")
     before = before.substring(index_nl_before+1, before.length)
@@ -213,6 +213,20 @@ $.extend(Anim,{
       pas.exec()
       cur_offset += pas.length
     })
+  },
+  /**
+    * Retourne les +x+ caractères avant ou après la sélection courante
+    * @method around_selection
+    * @param {Boolean} before   Si true, les caractères avant sinon après
+    * @param {Number}  length   Le nombre de caractères à retourner
+    * @param {Boolean} content  Si true, la méthode ne retourne que le texte (false par défaut)
+    * @return {Object|String} Soit un objet contenant {content, start, end} soit seulement le texte
+    */
+  around_selection:function(before, length, content)
+  {
+    var sel = Selection.around(Console.console, {before:before, length:length})
+    if(content) return sel.content
+    else        return sel
   },
   /**
     * Affiche un décompte (en fin ou en début d'animation)

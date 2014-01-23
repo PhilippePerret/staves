@@ -145,6 +145,8 @@ $.extend(Scale.prototype,{
         last_hauteur, 
         cur_octave  = parseInt(this.octave),
         theleft     = this.left || Anim.current_x ;
+    
+    Anim.current_x = theleft
     for(i = 0; i < this.for; ++i)
     {
       note = NOTES[i + this.inote_scale] // p.e. "e"
@@ -177,7 +179,7 @@ $.extend(Scale.prototype,{
       // dlog("note str finale:"+note_str)
     
       Anim.current_x += this.offset
-      this.notes.push(NOTE(note_str, {staff:this.staff}))
+      this.notes.push(NOTE(note_str, {staff:this.staff, left:Anim.current_x}))
       // On mémorise la hauteur de la note courante pour pouvoir
       // régler la hauteur de la prochaine note
       last_hauteur = REAL_INDICES_NOTES[note]
