@@ -33,6 +33,26 @@ window.Anim.File = {
     this.save()
   },
   /**
+    * Prend le nom de l'animation dans le champ save_as, le corrige
+    * et le renvoie.
+    * @method get_new_name
+    * @return {Array} contenant [folder, nom] ou FALSE en cas de problème
+    */
+  get_new_name:function()
+  {
+    var name, dname, fold ;
+    name = $('input#animation_name').val().trim()
+    dname = name.split('/')
+    name = dname.pop()
+    fold = dname.join('/')
+    name = Texte.to_ascii(name).
+                replace(/ /g,'_').
+                replace(/[^a-zA-z0-9_-]/g,'').
+                substring(0, 60)
+    if(name == "") return F.error("Il faut donner un nom (valide) !")
+    else return [fold, name]
+  },
+  /**
     * Enregistre l'animation courante
     * @method save
     * @async
@@ -62,26 +82,6 @@ window.Anim.File = {
       } 
       else F.error(rajax.message)
     }
-  },
-  /**
-    * Prend le nom de l'animation dans le champ save_as, le corrige
-    * et le renvoie.
-    * @method get_new_name
-    * @return {Array} contenant [folder, nom] ou FALSE en cas de problème
-    */
-  get_new_name:function()
-  {
-    var name, dname, fold ;
-    name = $('input#animation_name').val().trim()
-    dname = name.split('/')
-    name = dname.pop()
-    fold = dname.join('/')
-    name = Texte.to_ascii(name).
-                replace(/ /g,'_').
-                replace(/[^a-zA-z0-9_-]/g,'').
-                substring(0, 60)
-    if(name == "") return F.error("Il faut donner un nom (valide) !")
-    else return [fold, name]
   },
   /**
     * Enregistre l'animation sous un autre nom
