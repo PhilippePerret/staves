@@ -1,14 +1,126 @@
-# Essai flèches
+# Test des flèches
+DEFAULT('staff_top', 180)
+DEFAULT('caption', true)
+SET_CURSOR(380)
+
+# On place une note simple sur une portée
 NEW_STAFF(SOL)
-na4=NOTE(a4)
-na4.arrow()
+n = NOTE(a4)
+
+# Une flèche à l'horizontal partant vers la gauche
+CAPTION("Une flèche vers la gauche")
+n.arrow('left')
+
+WAIT(2)
+
+# Une flèche vers le haut
+CAPTION("Une flèche vers le haut")
+n.arrow('up', {angle:-90})
+
+WAIT(2)
+
+# Une flèche vers l'arrière
+CAPTION("Une flèche vers l'arrière")
+n.arrow('back', {angle:-180})
+
+WAIT(2)
+
+# Une flèche vers le bas
+CAPTION("Une flèche vers le bas")
+n.arrow('down', {angle:90})
+
 WAIT(1)
-na4.arrow.rotate(30)
+
+# On tourne la première de 30°
+CAPTION("On tourne la 'left' de 30°")
+n.arrow('left').rotate(30)
+
+WAIT(2)
+
+# On allonge la 'up' à 100
+CAPTION("On allonge la 'up' à 100px")
+n.arrow('up').size(100)
+
+WAIT(2)
+
+# On déplace la 'down' de 50
+CAPTION("On déplace la 'down' de 50 pixels vers la droite")
+n.arrow('down').move({x:50})
+
+WAIT(2)
+
+# On descend la 'back' de 50px
+CAPTION("On descend la 'back' de 50 pixels")
+n.arrow('back').move({y:50})
+
+WAIT(2)
+
+# On efface la 'up' et la 'down'
+CAPTION("On efface la 'up' et la 'down'")
+n.arrow('up').remove()
+n.arrow('down').remove()
+
+WAIT(2)
+
+# --- Test avec une note entourée ---
+# Les mêmes essais
+
+NEXT(100)
+n = NOTE(c5)
+n.surround()
+
+
+# Une flèche à l'horizontal partant vers la gauche
+CAPTION("Une flèche vers la gauche")
+n.arrow('left')
+
+WAIT(2)
+
+# Une flèche vers le haut
+CAPTION("Une flèche vers le haut")
+n.arrow('up', {angle:-90})
+
+WAIT(2)
+
+# Une flèche vers l'arrière
+CAPTION("Une flèche vers l'arrière")
+n.arrow('back', {angle:-180})
+
+WAIT(2)
+
+# Une flèche vers le bas
+CAPTION("Une flèche vers le bas")
+n.arrow('down', {angle:90})
+
 WAIT(1)
-na4.arrow.width(200)
-WAIT(1)
-na4.arrow.move({x:50})
-WAIT(1)
-na4.arrow.move({y:50})
-WAIT(1)
-na4.arrow.remove()
+
+# On tourne la première de 30°
+CAPTION("On tourne la 'left' de 30°")
+n.arrow('left').rotate(30)
+
+WAIT(2)
+
+# On allonge la 'up' à 100
+CAPTION("On allonge la 'up' à 100px")
+n.arrow('up').size(100)
+
+WAIT(2)
+
+# On déplace la 'down' de 50
+CAPTION("On déplace la 'down' de 50 pixels vers la droite")
+n.arrow('down').move({x:50})
+
+WAIT(2)
+
+# On descend la 'back' de 50px
+CAPTION("On descend la 'back' de 50 pixels")
+n.arrow('back').move({y:50})
+
+WAIT(2)
+
+# On efface la 'up' et la 'down'
+CAPTION("On efface la 'up' et la 'down'")
+n.arrow('up').remove()
+n.arrow('down').remove()
+
+WAIT(2)

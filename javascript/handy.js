@@ -27,6 +27,7 @@ window.define_complete = function(params)
   */
 window.parametize = function(attr, value)
 {
+  if('object' == typeof attr) return attr
   var obj = {}
   obj[attr] = value
   return obj

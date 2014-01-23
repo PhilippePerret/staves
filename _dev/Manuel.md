@@ -34,6 +34,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
 * [Vitesse de l'animation](#vitesse_animation)
 * [Jouer l'animation](#run_animation)
+* [Jouer seulement la sélection (bouton “Point”)](#run_with_point)
 * [Enchainer des animations](#enchainer_animations)
 * [Activer/désactiver le Mode “Flash](#mode_flash)
 * [Définir le décompte de départ](#set_decompte)
@@ -220,6 +221,15 @@ Le plus simple, pour sélectionner correctement la portion de code à tester, es
 3. Faire défiler le code de la console jusqu'à afficher la dernière ligne de code à tester.
 4. Presser la touche Majuscule
 5. Tout en tenant la touche Majuscule, cliquer au bout de la dernière ligne du code à tester.
+
+<a name="run_with_point"></a>
+###Jouer seulement la sélection (bouton “Point”)
+
+Grâce au bouton “Point” (le bouton se trouvant dans le contrôleur à côté du bouton Play), on peut ne jouer que la ligne dans laquelle se trouve le curseur ou les lignes sélectionnées (même si elles ne sont que partiellement sélectionnées).
+
+Noter un point important ici&nbsp;: contrairement à l'option “Jouer seulement la sélection” (menu “Options”) qui va jouer ce qui précède la sélection en mode flash, ie très vite (cf. [Jouer une portion de l'animation][#run_only_selection]), ici, c'est vraiment uniquement la ligne ou les lignes sélectionnées qui seront interprétées.
+
+Cela permet de faire des tests très ponctuels de commandes.
 
 <a name="enchainer_animations"></a>
 ###Enchainer des animations

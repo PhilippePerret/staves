@@ -417,9 +417,9 @@ Object.defineProperties(Motif.prototype, {
     * Le milieu horizontal de l&#x27;objet. Il correspond au centre de ses notes
     * Si le motif s&#x27;étale sur plusieurs portées, c&#x27;est la largeur de la portée
     * qui est utilisée
-    * @property {Number} centre_x
+    * @property {Number} center_x
     */
-  &quot;centre_x&quot;:{
+  &quot;center_x&quot;:{
     get:function(){
       var w_motif = 0
       this.each_note(function(note){ w_motif += note.width })

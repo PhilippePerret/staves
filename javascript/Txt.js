@@ -587,13 +587,13 @@ Object.defineProperties(Txt.prototype,{
       //   'this': this.id+":"+this.type,
       //   'left': this.left,
       //   'owner left': this.owner.left,
-      //   'owner center x':this.owner.centre_x,
+      //   'owner center x':this.owner.center_x,
       //   'width box' : w_box
       // })
       switch(this.type)
       {
       case harmony:
-        this._real_left = this.owner.centre_x - (w_box / 2)
+        this._real_left = this.owner.center_x - (w_box / 2)
         break
       case cadence:
         // Pour un texte d'harmonie, le bord droit doit être aligné au possesseur,
@@ -601,7 +601,7 @@ Object.defineProperties(Txt.prototype,{
         this._real_left = left - w_box + 4
         break
       case chord:
-        this._real_left = this.owner.centre_x - (w_box / 2)
+        this._real_left = this.owner.center_x - (w_box / 2)
         break
       default:
         this._real_left = left - 10

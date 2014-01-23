@@ -84,6 +84,20 @@ window.Arrow = function(params)
     */
   this._width = undefined
   
+  /**
+    * Décalage horizontal de la flèche par rapport à sa position naturelle
+    * @property {Number} offset_x
+    * @default 0
+    */
+  this.offset_x = 0
+  
+  /**
+    * Décalage vertical de la flèche par rapport à sa position naturelle
+    * @property {Number} offset_y
+    * @default 0
+    */
+  this.offset_y = 0
+  
   ObjetClass.call(this, params)
 }
 Arrow.prototype = Object.create( ObjetClass.prototype )
@@ -110,6 +124,8 @@ ARROW_METHODS = {
       if(undefined == params.div || params.div)   suf_objs.push('div')
       if(params.head)   suf_objs.push('head')
       if(params.queue)  suf_objs.push('queue')
+      dlog("[modify] params : ");dlog(params)
+      dlog("[modify] suf_objs : ");dlog(suf_objs)
       var my = this
       L(suf_objs).each(function(suf){
         my['obj_'+suf].animate(
@@ -133,7 +149,7 @@ ARROW_METHODS = {
     var pos   = this.obj.position()
     var data  = {}
     if(undefined != params.x) data.left = (pos.left + params.x) + "px"
-    if(undefined != params.y) data.top  = (pos.top + params.y) + "px"
+    if(undefined != params.y) data.top  = (pos.top  + params.y) + "px"
     this.modify('animate', data)
   },
   /**
@@ -169,7 +185,7 @@ ARROW_METHODS = {
     */
   colorize:function(couleur)
   {
-    this.color = couleur // that all! :-)
+    this.color = couleur
     NEXT_STEP()
   },
   
@@ -181,12 +197,80 @@ ARROW_METHODS = {
     */
   positionne:function()
   {
-    this.top    = this._top
-    this.left   = this._left
+    this.obj.css({left: this.real_left+'px', top: this.real_top+'px'})
     this.width  = this._width
     this.color  = this._color
     this.angle  = this._angle
+  },
+  /**
+    * Méthode qui calcule la vraie position de la flèche (_real_top et _real_left)
+    * en fonction du possesseur et de l'angle à donner.
+    * @methode calcule_real_top_and_left
+    */
+  calcule_real_top_and_left:function()
+  {
+    var rleft = parseInt(this.left, 10), 
+        rtop  = parseInt(this.top, 10), 
+        angle, angle_tri, angle_rad, sin, cos, offx, offy,
+        rayon = 10,
+        ajout_around = 0,
+        rectif_x = 0,
+        rectif_y = 0 ;
+
+    // Valeur si la flèche est portée par un owner
+    if(this.owner)
+    {
+      // Centre absolu du porteur
+      rleft = parseInt(this.owner.center_x, 10)
+      rtop  = parseInt(this.owner.center_y, 10)
+      // Le rayon d'après la largeur et la hauteur de l'objet porteur (if any)
+      rayon = parseInt(Math.max(this.owner.width, this.owner.height) / 2, 10)
+      // L'objet est-il entouré ? Il faut alors ajouter un peu de marge
+      if(this.owner.surrounded) ajout_around = 4
+     }
+    
+    // Valeur du rayon (qu'on augmente toujours un peu)
+    rayon += ajout_around + 4
+    
+    // L'angle en valeur toujours positive, trigonométrique et en radian
+    // pour calculer sinus et cosinus.
+    angle = parseInt(this.angle,10)
+    if (angle < 0) angle = 360 + angle
+    angle_tri = 360 - (angle % 360)
+    angle_rad = Math.radians(angle_tri)
+    sin   = Math.sin(angle_rad)
+    cos   = Math.cos(angle_rad)
+    offx  = parseInt(rayon * cos, 10)
+    offy  = parseInt(rayon * sin, 10)
+    
+    rleft += offx
+    rtop  -= offy
+    
+    // dlog({
+    //   angle: angle, angle_tri:angle_tri, offx:offx, offy:offy, rleft:rleft, rtop:rtop
+    // })
+
+    
+    // Quelques petites rectifications en fonction du possesseur
+    if(this.owner)
+    {
+      switch(this.owner.class)
+      {
+      case 'note':
+        if(angle < 180) rectif_x = 3
+        break
+      }
+    }
+
+    // On ajoute finalement le décalage horizontal et vertical (if any)
+    // et les petites rectifications suivant le possesseur
+    rtop  += rectif_y + ((angle >= 0 && angle <= 180) ? this.offset_y : - this.offset_y) ;
+    rleft += rectif_x + this.offset_x
+    // On dispatche les valeurs
+    this._real_left = rleft
+    this._real_top  = rtop
   }
+  
 }
 
 $.extend(true, Arrow.prototype, ARROW_METHODS)
@@ -311,7 +395,26 @@ Object.defineProperties(Arrow.prototype, {
     get:function(){return ""}
   },
   /**
-    * Décalage horizontal de la flèche (par défaut le décalage courant)
+    * La vraie position gauche de la flèche, en fonction de son angle et
+    * d'un éventuel `offset_x` défini.
+    * @property {Number} real_left
+    */
+  "real_left":{
+    get:function(){
+      if(undefined == this._real_left) this.calcule_real_top_and_left()
+      return this._real_left
+    }
+  },
+  "real_top":{
+    get:function(){
+      if(undefined == this._real_top) this.calcule_real_top_and_left()
+      return this._real_top
+    }
+  },
+  /**
+    * Position horizontal de la flèche
+    * Attention, elle peut être très différent de la position réelle de la 
+    * flèche après son calcul selon l'angle.
     * @property {Number} left
     */
   "left":
@@ -321,9 +424,11 @@ Object.defineProperties(Arrow.prototype, {
       this._left = left
       if(this.obj) this.obj.css('left', left+'px')
     }
-  },
+  },      
   /**
-    * Décalage vertical de la flèche
+    * Position verticale de la flèche
+    * Attention, il peut être très différent de la position réelle de la 
+    * flèche après son calcul selon l'angle.
     * @property {Number} top
     */
   "top":{

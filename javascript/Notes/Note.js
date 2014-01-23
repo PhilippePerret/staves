@@ -29,7 +29,7 @@ window.NOTE = function(note, params)
   */
 window.Note = function(note, params)
 {
-  this.class      = 'Note'
+  this.class      = 'note'
   this.note       = null
   this.octave     = null
   this.alteration = null
@@ -742,18 +742,41 @@ Object.defineProperties(Note.prototype,{
   "width":{
     get:function()
     {
-      return UI.exact_width_of(this.obj) + UI.exact_width_of(this.obj_alt)
+      if(this.surrounded)
+      {
+        return UI.exact_width_of(this.circle.obj)
+      }
+      else
+      {
+        return UI.exact_width_of(this.obj) + (this.alteration ? UI.exact_width_of(this.obj_alt) : 0)
+      }
     }
   },
   /**
-    * Retourne le “centre_x” de la note, c'est-à-dire la position left qui passe
+    * La taille en hauteur de la note
+    * @property {Number} height
+    */
+  "height":{
+    get:function(){
+      if(this.surrounded)
+      {
+        return UI.exact_height_of(this.circle.obj)
+      }
+      else
+      {
+        return UI.exact_height_of(this.obj)
+      }
+    }
+  },
+  /**
+    * Retourne le “center_x” de la note, c'est-à-dire la position left qui passe
     * vraiment au milieu de la note (sauf si elle est décalée à cause d'une
     * note conjointe)
     * C'est cette valeur qui doit être utilisée pour positionner des éléments
     * par rapport à cette note.
-    * @property {Number} centre_x
+    * @property {Number} center_x
     */
-  "centre_x":{
+  "center_x":{
     get:function(){
       return this.left + 6
     }

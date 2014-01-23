@@ -40,12 +40,7 @@ window.UNVERSAL_METHODS = {
       // => La flèche n'existe pas, il faut la construire
       if(undefined == params) params = {}
       var darrow = 
-      params = $.extend(params, {
-        owner :this, 
-        top   :this.center_y, 
-        left  :this.left + 20 + (this.surrounded ? 4 : 0)
-      })
-      // dlog("params arrow :");dlog(params)
+      params = $.extend( params, {owner:this, top:this.top, left:this.left} )
       this.arrows[aid] = new Arrow(params)
       ++ this.arrows.length
       Anim.Dom.add(this.arrows[aid])

@@ -103,11 +103,11 @@ Object.defineProperties(Chord.prototype, {
   },
   /**
     * Le milieu horizontal de l'objet. Il correspond au centre de ses notes
-    * @property {Number} centre_x
+    * @property {Number} center_x
     */
-  "centre_x":{
+  "center_x":{
     get:function(){
-      return parseInt(this.note(1).centre_x,10)
+      return parseInt(this.note(1).center_x,10)
     }
   },
   /**
