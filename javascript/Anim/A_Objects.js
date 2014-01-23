@@ -192,7 +192,7 @@ FONCTIONS_ANIM_OBJETS = {
     Anim.set_speed(indice_vitesse + 1)
     NEXT_STEP(no_timeout = true)
   },
-  
+    
   /* ---------------------------------------------------------------------
    *    PRÉFÉRENCES
    */
@@ -317,7 +317,37 @@ METHODES_ANIM_OBJETS = {
       Anim.reset_prefs()
       NEXT_STEP(no_timeout = true)
     }
+  },
+  /**
+    * Pseudo-méthode qui permet d'attendre la fin de l'écriture d'un doublage avant
+    * de passer à la suite
+    * Si le CAPTION contient les paramètres {wait:true}, l'animation attend la fin
+    * de l'écriture du doublage, mais parfois on veut que pendant l'écriture du 
+    * doublage il se passe quelque chose. C'est dans ce cas que cette commande entre
+    * en action.
+    * @method WAIT_CAPTION
+    */
+  "WAIT_CAPTION":{
+    get:function(){
+      if(Anim.prefs.caption_timer == false)
+      {
+        if(!MODE_FLASH) F.error("WAIT_CAPTION doit être utilisé dans le contexte de doublage énoncés (`DEFAULT('caption_timer', true)`).\nJe passe à l'étape suivante sans attendre.")
+        NEXT_STEP(no_timeout = true)
+      }
+      else
+      {
+        // Si un doublage est toujours en cours d'écriture, on ne fait simplement
+        // rien du tout. C'est la fin du doublage qui lancera l'étape suivante.
+        // Dans le cas contraire, on lance l'étape suivante.
+        if(Anim.Dom.Doublage.on)
+        {
+          Anim.Dom.Doublage.temporize.poursuivre = NEXT_STEP
+        } 
+        else NEXT_STEP(no_timeout = true)
+      }
+    }
   }
+  
 }
 
 $.extend(Anim.Objects, FONCTIONS_ANIM_OBJETS)

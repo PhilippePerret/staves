@@ -1,0 +1,25 @@
+# === ESSAIS DOUBLAGE ===
+
+DEFAULT('caption_timer', true)
+DEFAULT('decompte', 0)
+
+
+CAPTION("Un doublage qui doit être intégralement affiché avant qu'on ne puisse passer à la suite.")
+
+WAIT_CAPTION
+
+CAPTION("Un autre doublage qui ne doit s'afficher qu'après le précédent.")
+
+WAIT_CAPTION
+
+CAPTION("Un doublage plus court que étapes suivantes")
+
+NEW_STAFF(SOL)
+mot = MOTIF('c4 d e f g a b c b a g f e d c', {speed:0.5})
+
+# CF. LE BUG ICI : on ne devrait pas à  QUE
+# LORSQUE LE MOTIF A ÉTÉ ÉCRIT.
+
+WAIT_CAPTION
+
+CAPTION("Et ce doublage doit être donné après l'affichage du motif.", {wait:true})
