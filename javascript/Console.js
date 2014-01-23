@@ -97,21 +97,47 @@ $.extend(window.Console,{
      */
     switch(evt.charCode)
     {
+    case 34  : // guillemets (apostrophe double)
+      return this.closed_char_or_move_cursor('"', '"', 1)
+    case 39  : // apostrophe simple
+      return this.closed_char_or_move_cursor("'", "'", 1)
     case 123 : // accolade ouvrante
-      this.set_caret_to('{}', 1)
-      return true
+    case 125 : // accolade fermante
+      return this.closed_char_or_move_cursor("{", "}", 1)
     case 40  : // Parenthèse ouvrante
-      this.set_caret_to('()', 1)
-      return true
+    case 41  : // Parenthèse fermante
+      return this.closed_char_or_move_cursor("(", ")", 1)
     case 91  : // Crochet ouvrant
-      this.set_caret_to('[]', 1)
-      return true
+    case 93  : // Crochet fermant
+      return this.closed_char_or_move_cursor("[", "]", 1)
     default:
       UI.feedback("[Console.autocompletion] charCode:"+evt.charCode+" / "+"keyCode:"+evt.keyCode)
     }
     return false
   },
-  
+  /**
+    * Méthode qui ajoute le caratère "fermant" au caractère fourni, sauf
+    * si ce caractère suit la position courante du curseur
+    * @method closed_char_or_move_cursor
+    * @param  {String}  opening_char    Le caractère qui provoque l'appel
+    * @param  {String}  closing_char    Le caractère fermant à ajouter
+    * @param  {Number}  moving          Le déplacement de curseur à effectuer
+    * @return {Boolean} TRUE pour pouvoir renvoyer tout de suite la méthode
+    */
+  closed_char_or_move_cursor:function(opening_char, closing_char, moving)
+  {
+    var around = this.around_selection(false, 1)
+    dlog("around:");dlog(around)
+    if( around.content == closing_char)
+    {
+      this.select({start:around.start+1, end:around.start+1})
+    } 
+    else
+    {
+      this.set_caret_to(opening_char+closing_char, moving)
+    }
+    return true
+  },
   /**
     * Méthode qui place le texte +inserted+ à la position du curseur et place
     * le cursor au décalage +back_offset+ (0 par défaut = après l'ajout)
@@ -206,7 +232,21 @@ $.extend(window.Console,{
     return Selection.of(this.console)
   },
   /**
-    * Sélectionne une partie du texte (en général, l'étape courante)
+    * Retourne les +x+ caractères avant ou après la sélection courante
+    * @method around_selection
+    * @param {Boolean} before   Si true, les caractères avant sinon après
+    * @param {Number}  length   Le nombre de caractères à retourner
+    * @param {Boolean} only_content  Si true, la méthode ne retourne que le texte (false par défaut)
+    * @return {Object|String} Soit un objet contenant {content, start, end} soit seulement le texte
+    */
+  around_selection:function(before, length, only_content)
+  {
+    var sel = Selection.around(Console.console, {before:before, length:length})
+    if(only_content)  return sel.content
+    else              return sel
+  },
+  /**
+    * Sélectionne une partie du texte (ou place le curseur)
     * @method select
     * @param  {Object} params Les paramètres obligatoires
     *   @param  {Number} params.start   Début de la sélection
