@@ -9,6 +9,7 @@ window.IN_CONSOLE    = false
 window.KEYPRESS_HORS_CONSOLE = function(evt)
 {
   // Mettre en route ou arrêter l'animation avec la barre espace
+  // (seulement si l'on ne se trouve pas dans un champ d'édition)
   if(!IN_TEXT_FIELD)
   {
     if(evt.charCode == K_SPACE)
@@ -19,6 +20,7 @@ window.KEYPRESS_HORS_CONSOLE = function(evt)
   }
   else
   {
+    // Si l'on est dans la console, l'autocomplétion est active.
     if(IN_CONSOLE && Console.autocompletion(evt)) return stop_event(evt)
   }
   

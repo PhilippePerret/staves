@@ -18,6 +18,7 @@
 window.DATA_AUTOCOMPLETION = {
   'act' : {replace:"ACTIVE_STAFF(X)",         boffset:2,  length:1  },
   'cap' : {replace:'CAPTION("")',             boffset:2             },
+  'apw' : {fourth:'c'},
   'cho' : {replace:"CHORD('c4 e4 g4')",       boffset:10, length:8  },
   'cur' : {replace:"SET_CURSOR(200)",         boffset:4,  length:3  },
   'def' : {replace:"DEFAULT('PROP', VALUE)",  boffset:13, length:4  },
@@ -30,3 +31,13 @@ window.DATA_AUTOCOMPLETION = {
   'sui' : {replace:"SUITE('ANIM')",           boffset:6,  length:4  },
   'wai' : {replace:"WAIT(5)",                 boffset:2,  length:1  }
 }
+/*
+ *  À quatre lettres
+ *
+ *  Note : les trois dernières doivent être définies ci-dessus avec seulement
+ *          le paramètre `fourth` définissant la première lettre
+ */
+$.extend(window.DATA_AUTOCOMPLETION, {
+  'capw': {replace:'CAPTION("", {wait:true})', boffset:15             }
+  
+})

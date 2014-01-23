@@ -1855,16 +1855,25 @@ On fait ensuite référence à ces différentes flèches en faisant référence 
 
 Lors de la création de la flèche avec la méthode `arrow` (ou ARROW pour une [flèche indépendante](#fleches_independantes)) on peut envoyer ces paramètres optionnels à la méthode&nbsp;:
 
-    maNote.arrow({
-      width:  {Number} longueur fleche en pixels
-      angle:  {Number} Angle en degres
-      color:  {String} La couleur (constante ou string)
-      top:    {Number} Placement vertical de la fleche (pixels)
-      left:   {Number} Placement horizontal de la fleche (pixels)
-      height: {Number} Hauteur de la fleche
+    <objet>.arrow(['<id flèche>',]{
+      width     : {Number} longueur fleche en pixels
+      angle     : {Number} Angle en degres
+      color     : {String} La couleur (constante ou string)
+      offset_x  : {Number} Décalage horizontal par rapport à position normale
+      offset_y  : {Number} Décalage vertical par rapport à position normale
+      top       : {Number} Placement vertical de la fleche (pixels)
+      left      : {Number} Placement horizontal de la fleche (pixels)
+      height    : {Number} Hauteur de la fleche
     })
 
-Les valeurs **top** et **left** sont calculées automatiquement pour que la flèche soit placée correctement à droite de l'objet en son "centre vertical".
+**`<objet>`** est “l'objet porteur” de la flèche, c'est par exemple une note.
+
+    maNote = NOTE(a4)
+    maNote.arrow('fleche vers droite', {angle:0})
+
+**`<id flèche>`** est l'identifiant optionnel de la flèche, utile si l'objet porteur doit porter plusieurs flèches.
+
+Les valeurs **top** et **left** sont calculées automatiquement pour que la flèche soit placée correctement suivant l'objet porteur. On peut ajuster ponctuellement la valeur avec **offset_x** et **offset_y**.
 
 L'**angle** est de 0 degré par défaut, c'est-à-dire que la flèche sera horizontale et pointera à droite (pour une autre valeur cf. [Angle des flèches](#angle_des_fleches)).
 

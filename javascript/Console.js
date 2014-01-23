@@ -55,7 +55,10 @@ $.extend(window.Console,{
   /**
     * Méthode qui s'occupe de l'autocompletion. Par exemple, lorsque l'on tape
     * une accolade ouverte, la méthode écrit l'accolade fermante et place le curseur
-    * à la bonne position.
+    * à la bonne position. Lorsque l'on tape une accolade fermante, on vérifie s'il y
+    * en a une après et on déplace simplement le curseur derrière si c'est le cas,
+    * etc.
+    * + la tabulation permet de l'autocomplétion de mots.
     * @method autocompletion
     * @param  {KeybaordEvent} evt L'évènement Keyboard (keypress)
     * @return {Boolean} TRUE si une autocompletion a été exécutée, false otherwise
@@ -66,13 +69,22 @@ $.extend(window.Console,{
      *  Autocomplétion complexe, avec la touche tabulation
      *  
      */
+    var dbef, dauto ;
     if(evt.keyCode == K_TAB)
     {
       // On prend les trois caractères avant la position du curseur
-      var dbef = Selection.around(this.console, {before:true, length:3})
+      dbef = Selection.around(this.console, {before:true, length:3})
       if(undefined != DATA_AUTOCOMPLETION[dbef.content])
       {
-        var dauto = DATA_AUTOCOMPLETION[dbef.content]
+        dauto = DATA_AUTOCOMPLETION[dbef.content]
+        // Si le paramètre `fourth` est défini, il faut chercher la quatrième
+        // lettre
+        if(dauto.fourth)
+        {
+          dbef = Selection.around(this.console, {before:true, length:4})
+          if(undefined == DATA_AUTOCOMPLETION[dbef.content]) return false
+          dauto = DATA_AUTOCOMPLETION[dbef.content]
+        }
       	this.console[0].setSelectionRange(dbef.start, dbef.end)
         Selection.set(this.console, dauto.replace, {end:-dauto.boffset, length:dauto.length || 0})
         return true
