@@ -1,15 +1,42 @@
 # Essai cercle (surround)
+DEFAULT('decompte', 0)
+DEFAULT('staff_top', 180)
+DEFAULT('caption', true)
+DEFAULT('next', 100)
+
 NEW_STAFF(SOL)
+
+SET_CURSOR(200)
 no=NOTE(a4)
+
+CAPTION("On entoure la note")
 no.surround()
 WAIT(2)
-no2=NOTE(\'cd4\')
+
+CAPTION("Une deuxième note avec altération.")
+NEXT()
+no2=NOTE('cd4')
+WAIT(2)
+
+CAPTION("On entoure la note d'un cercle rouge")
 no2.surround({color:red})
+WAIT(2)
+
+CAPTION("On efface le cercle de la première")
 no.circle.remove()
+
+WAIT(2)
+
+CAPTION("On entoure la première note d'un carré")
 no.surround({square:true})
 WAIT(2)
+
+CAPTION("On 'unsurround' la deuxième note")
 no2.unsurround()
-# Devrait changer la taille du rectangle
-no.moveTo(\'ad4\')
 WAIT(2)
-RESET
+
+# Devrait changer la taille du rectangle
+CAPTION("On déplace la première note en hauteur vers LA#4")
+no.moveTo('ad4')
+WAIT(2)
+

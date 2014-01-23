@@ -155,6 +155,7 @@ $.extend(Anim,{
     delete this.Step.list
     if(forcer)
     { // => arrêt forcé
+      UI.chronometre.stop
       if(this.hasSuite) delete this.animation_pour_suivre
       this.real_stop()
     } 
@@ -184,7 +185,11 @@ $.extend(Anim,{
     */
   real_stop:function()
   {
-    if(!this.hasSuite) UI.chronometre.stop
+    if(!this.hasSuite)
+    {
+      dlog("Je stoppe le chronomètre (this.hasSuite est false)")
+      UI.chronometre.stop
+    } 
     this.kill_timer()
     $('div#warning').hide()
     this.set_interface()
