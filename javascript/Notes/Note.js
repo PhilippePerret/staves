@@ -65,6 +65,8 @@ window.Note = function(note, params)
   // avec un accord, Chord met sa staff dans les paramètres. Mais si des notes
   // sont définies par "2:...", le "2" qui signifie 2e portée doit prendre le
   // dessus.
+  // Petite réserve quand à l'octave. S'il est défini dans le paramètres, comme
+  // pour les motifs, il n'est pas pris dans la note
   this.analyse_note(note)
 
   // On peut calculer l'identifiant
@@ -702,9 +704,14 @@ Clé de SOL
     }
     
     // === Définition de l'octave ===//
-    this.octave = note_str.shift()
-    if(this.octave == "-") this.octave = "-" + note_str.shift()
-    this.octave = parseInt(this.octave,10)
+    // Il peut ne pas exister dans la note mais avoir été défini explicitement,
+    // comme dans le cas d'un motif
+    if(!this.octave)
+    {
+      this.octave = note_str.shift()
+      if(this.octave == "-") this.octave = "-" + note_str.shift()
+      this.octave = parseInt(this.octave,10)
+    }
     
   },
   positionne_and_show_alteration:function()

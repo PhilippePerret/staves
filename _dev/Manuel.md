@@ -499,7 +499,11 @@ Les notes doivent être désignées par :
 
 * On désigne le `nom des notes` par une seule lettre, anglaise, de "a" (la) à "g" (sol).
 * L'altération est soit rien (note naturelle), soit un signe (cf. ci-dessous "b", "d", "x", ou "t").
-* Vient ensuite l'octave, un nombre, négatif si nécessaire (*mais pour le moment, on va seulement jusqu'à l'octave 0, les autres ne sont pas gérés*).
+* Vient ensuite l'octave, un nombre, négatif si nécessaire (*mais pour le moment, on va seulement jusqu'à l'octave 0, les autres ne sont pas gérés*). Noter que l'octave
+  peut être omis s'il est défini dans les paramètres de la création de la note.
+  Par exemple&nbsp;:
+  
+      maNote = NOTE('e', {octave:4})
 
 <a name="les_alterations"></a>
 ####Marque des altérations
@@ -714,7 +718,9 @@ monMotif = MOTIF('<suite de notes>'[, <parametres optionnels>])
   
 Par exemple&nbsp;:
 
-unMotif = MOTIF('c4 c4 c4 d4 e4 d4 c4 e4 d4 d4 c4')
+unMotif = MOTIF('c4 c c d e d c5 e d d c')
+
+*Noter que dans un motif, l'octave n'a besoin d'être stipulé avec la note que s'il est différent de l'octave de la note précédente. Par défaut (si aucune note ne possède de définition d'octave), c'est l'octave 4 qui est choisi.*
 
 <a name="parametres_motif"></a>
 ###Paramètres optionnels
@@ -1151,9 +1157,11 @@ C'est un objet de propriétés&nbsp;:
   <dt>staff : {Number}</dt>
   <dd>L'indice de la portée sur laquelle il faut écrire la gamme. Par défaut, la portée active.</dd>
   <dt>offset : {Number}</dt>
-  <dd>Le décalage horizontal pour commencer la gamme. Par défaut le décalage courant (la position du “pointeur”).</dd>
+  <dd>Le décalage horizontal entre chaque note de la gamme.</dd>
   <dt>asc : {Boolean}</dt>
   <dd>Si TRUE (défaut), la gamme sera ascendante, sinon, elle descendra.</dd>
+  <dt>speed</dt>
+  <dd>La vitesse d'affichage de la gamme. La valeur correspond au nombre de notes qui seront afficher par seconde. Donc utiliser une valeur entre 0.01 et 1 pour afficher moins d'une note par seconde. Par exemple, la valeur `0.5` affichera 1 note toutes les deux secondes.</dd>
   <dt>for : {Number}</dt>
   <dd>Le nombre de notes de la gamme à afficher. Par défaut, 8 pour pouvoir les afficher toutes, de la tonique à la tonique.</dd>
   <dt>from : {Number}</dt>

@@ -108,14 +108,26 @@ $.extend(Motif.prototype,{
     */
   make_instances_with:function(strnotes)
   {
-    var me = this
-    var hoffset   = this.left || Anim.current_x
-    var the_staff = this.staff
-    var lanote, cur_rang = 0 ;
+    var me = this,
+        data,
+        hoffset   = this.left || Anim.current_x,
+        the_staff = this.staff,
+        lanote, cur_rang = 0,
+        last_octave = 4 ;
+        
     L(strnotes.split(' ')).each(function(strnote){
       ++cur_rang // se souvenir que les notes commencent à 1, car le premier
       // élément de `notes` est un NULL
-      lanote = NOTE(strnote,{dont_build:true, rang:cur_rang, staff:the_staff, left:hoffset})
+      data = {
+        dont_build  :true, 
+        rang        :cur_rang, 
+        staff       :the_staff, 
+        left        :hoffset
+      }
+      // Si la note ne définit pas d'octave, il faut prendre l'octave précédent
+      if(strnote.indexOf(/[0-9]/) < 0) data.octave = last_octave
+      lanote = NOTE(strnote, data)
+      last_octave = lanote.octave
       if(lanote.alteration)
       {
         lanote.left = lanote.left + 18
