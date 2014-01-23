@@ -123,19 +123,18 @@ window.Scale = function(scale, params)
   if(!this.staff) throw "Portée "+params.staff+" inconnue…"
   if(this.octave  == null)  this.octave = Staff.best_octave_scale(this.staff.cle, this.inote_scale)
   
-  
+  this.define_instances()
   this.build()
   
-  dlog("Scale : ");dlog(this)
 }
 $.extend(Scale.prototype, METHODES_GROUPNOTES)
 
 $.extend(Scale.prototype,{
   /**
-    * Construction de la gamme
+    * Instanciation de toutes les notes de la gamme.
     * @method build
     */
-  build:function()
+  define_instances:function()
   {
     this.notes = [null]
     var i, 
@@ -179,7 +178,7 @@ $.extend(Scale.prototype,{
       // dlog("note str finale:"+note_str)
     
       Anim.current_x += this.offset
-      this.notes.push(NOTE(note_str, {staff:this.staff, left:Anim.current_x}))
+      this.notes.push(NOTE(note_str, {dont_build:true, staff:this.staff, left:Anim.current_x}))
       // On mémorise la hauteur de la note courante pour pouvoir
       // régler la hauteur de la prochaine note
       last_hauteur = REAL_INDICES_NOTES[note]

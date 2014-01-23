@@ -145,27 +145,13 @@ Anim.Dom = {
     */
   add:function(instance, params)
   {
-    // dlog("-> Anim.Dom.add")
-    var a_simple_string = 'string' == typeof instance, code_html ;
-    if(a_simple_string)
-    {
-      code_html = instance
-    }
-    else
-    {
-      code_html = instance.code_html
-    }
+    var real_instance = 'string' != typeof instance ;
     
-    // === Ajout du code ===
-    this.section.append(code_html)
+    // === Ajout du code à l'animation ===
+    this.section.append(real_instance ? instance.code_html : instance)
     
-    if(a_simple_string)
+    if(instance.code_html)
     {
-      
-    }
-    else
-    {
-      // Positionne et affiche l'objet
       instance.positionne()
       instance.show(params)
     }

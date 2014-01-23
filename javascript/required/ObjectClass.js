@@ -124,8 +124,13 @@ $.extend(window.ObjetClass.prototype,{
     * WARNING
     * -------
     *   * Si l'on veut qu'en toute fin des opérations une méthode spéciale soit
-    *     appelée (autre que la méthode naturelle NEXT_STEP), la méthode appelante
-    *     doit définir `on_complete_operation` (en général `this.on_complete_operation`)
+    *     appelée, la méthode appelante doit définir `on_complete_operation` (en général
+    *     `this.on_complete_operation`)
+    *     Mais attention aux cas spéciaux : par exemple, pour les motifs et les gammes,
+    *     cette `operation` est appelée pour autant que notes que le motif ou la gamme
+    *     en contient. Donc elles possèdent leur propre gestion du lancement de
+    *     l'étape suivante, tant que leur opération (à commencer par la construction et
+    *     l'affichage) n'est pas achevé.
     *
     * @method operation
     * @async
@@ -235,7 +240,9 @@ $.extend(window.ObjetClass.prototype,{
     }
     else
     {
-      NEXT_STEP()
+      // TODO Ça n'est pas bon, ça fait passer tout de suite à l'étape suivante
+      // dès qu'un objet est construit
+      // NEXT_STEP()
     } 
   }
 

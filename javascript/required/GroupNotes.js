@@ -52,13 +52,22 @@ window.OBJET_TRAITEMENT = {
   */
 window.METHODES_GROUPNOTES = {
   /**
-    * Construit les notes du groupe de notes
+    * Construction des notes (du motif ou de la gamme), soit en mode normal, soit
+    * en mode temporisé si `speed` est défini.
     * @method build
     */
   build:function()
   {
-    this.each_note(function(note){note.build()})
+    if(undefined != this.speed)
+    {
+      Note.building_temporized(this.notes, this.speed, {complete:NEXT_STEP})
+    }
+    else 
+    {
+      this.each_note(function(note){note.build()})
+    }
   },
+  
   /**
     * Retourne la note d'indice (1-start) +indice+
     * @method note

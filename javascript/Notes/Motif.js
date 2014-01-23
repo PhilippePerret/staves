@@ -80,17 +80,15 @@ $.extend(Motif.prototype,{
     */
   hide:function(params)
   {
-    params = define_complete( params )
     this.each_note(function(note){ note.hide() })
   },
   /**
     * Méthode qui ré-affiche le motif
     * @method show
-    * @param {Object} params Paramètres optionnels, donc `complete`
+    * @param {Object} params Paramètres optionnels, dont `complete`
     */
   show:function(params)
   {
-    params = define_complete( params )
     this.each_note(function(note){ note.show() })
   }
 })
@@ -125,7 +123,10 @@ $.extend(Motif.prototype,{
         left        :hoffset
       }
       // Si la note ne définit pas d'octave, il faut prendre l'octave précédent
-      if(strnote.indexOf(/[0-9]/) < 0) data.octave = last_octave
+      // Pour le moment, le motif tient compte d'une portée qui serait précisée
+      // en amorce de note ("2:..."), d'une altération ou non, et du signe moins
+      // devant l'octave.
+      if( null === strnote.match(/^([0-9]\:)?..?\-?([0-9])/) ) data.octave = last_octave
       lanote = NOTE(strnote, data)
       last_octave = lanote.octave
       if(lanote.alteration)
@@ -141,42 +142,7 @@ $.extend(Motif.prototype,{
         the_staff = Anim.Objects.NEW_STAFF(me.staff.cle)
       }
     })
-  },
-  
-  /**
-    * Construction des notes
-    * La méthode va surclasser la méthode héritée de METHODES_GROUPNOTES
-    * car elle doit gérer un affichage temporisé des notes
-    * @method build
-    */
-  build:function()
-  {
-    if(!this.speed) this.each_note(function(note){note.build()})
-    else
-    {
-      if(undefined == this.notes_for_building)
-      { // => démarrage de la construction
-        this.notes_for_building = []
-        var me = this
-        this.each_note(function(note) me.notes_for_building.push( note.rang ))
-        this.laps_building = parseInt(1000 / this.speed,10)
-      }
-      if(this.timer) clearTimeout(this.timer)
-      if(rang = this.notes_for_building.shift())
-      {
-        var note = this.notes[rang], complete ;
-        // Tant qu'il reste des notes à construire, on rappelle cette méthode
-        if(this.notes_for_building.length) this.on_complete_operation = $.proxy(this.build, this)
-        note.build()
-        this.timer = setTimeout($.proxy(this.build, this), this.laps_building)
-      }
-      else
-      { // Fin de la construction
-        
-      }
-    }
-  },
-  
+  }  
   
 })
 Object.defineProperties(Motif.prototype, {

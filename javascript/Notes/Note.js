@@ -80,6 +80,58 @@ Note.prototype = Object.create( ObjetClass.prototype )
 Note.prototype.constructor = Note
 
 /* ---------------------------------------------------------------------
+ *  MÉTHODES DE CLASSE
+ *  
+ */
+$.extend(Note, {
+  /**
+    * Affichage temporisé de l'ensemble de notes +notes+ à la vitesse +speed+
+    * Utilisé par Scale et Motif
+    * @method building_temporized
+    * @param {Array of Note}  notes Liste des instances de notes à construire
+    * @param {Number}         speed La vitesse de construction
+    * @param {Object}         params  Paramètres optionnels
+    *   @param {Function}   params.complete   La méthode pour suivre quand c'est fini. Par défaut, NEXT_STEP
+    */
+  building_temporized:function(notes, speed, params)
+  {
+    if(undefined == this.building_timer)
+    { // => Première arrivée dans la méthode. On définit les valeurs
+      if(speed == 0)
+      {
+        F.error("La vitesse (speed) ne peut être nulle. Je la mets à 1")
+        speed = 1
+      }
+      if(undefined == params) params = {}
+      if(undefined == params.complete) params.complete = NEXT_STEP
+      this.building_params  = params
+      this.building_laps    = parseInt(1000 / speed, 10)
+      this.building_notes   = $.merge([], notes)
+      this.building_notes.shift() // car pas de première note, mais la valeur null
+    }
+    else clearTimeout(this.building_timer)
+      
+    if(note = this.building_notes.shift()) // Tant qu'il reste des notes
+    {
+      note.build()
+      this.building_timer = setTimeout($.proxy(this.building_temporized, this), this.building_laps)
+    }
+    else
+    { 
+      // === Fin de la construction ===
+      delete this.building_timer
+      delete this.building_laps
+      delete this.building_notes
+      if('function' == typeof this.building_params.complete)
+      {
+        this.building_params.complete()
+      }
+      delete this.building_params
+    }
+    
+  }
+})
+/* ---------------------------------------------------------------------
  *
  *  MÉTHODE POUR LE CODE DE L'APPLICATION
  *  
