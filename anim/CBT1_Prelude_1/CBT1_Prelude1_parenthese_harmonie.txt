@@ -43,23 +43,34 @@ ACTIVE_STAFF(1)
 
 # === QU'EST-CE QU'UN TON VOISIN ? ===
 
-CAPTION("Qu'est-ce qu'on appelle un “ton voisin” ?… C'est extrêmement simple : deux tons voisins, ce sont deux tonalités — donc deux ensembles de notes — qui ne différent que par une seule de leurs notes, qui n'ont qu'une seule note de différence. Ça n'est pas plus compliqué que ça. Ils sont voisins parce qu'il suffit de modifier une seule note pour passer de l'un à l'autre.", {wait:true})
+#CAPTION("Qu'est-ce qu'on appelle un “ton voisin” ?… C'est extrêmement simple : deux tons voisins, ce sont deux tonalités — donc deux ensembles de notes — qui ne différent que par une seule de leurs notes, qui n'ont qu'une seule note de différence.", {wait:true})
 
-CAPTION("Cette note qui diffère répond au cycle des quintes ou au cycle des bémols. Mais ce n'est pas par ce biais qu'on va l'aborder. Si vous voulez des informations sur le cycle des quintes, voyez le screencast que je lui consacre.", {wait:true})
+# CAPTION("Ça n'est pas plus compliqué que ça. Ils sont voisins parce qu'il suffit de modifier une seule note pour passer de l'un à l'autre.", {wait:true})
 
-CAPTION("Ici, nous allons l'aborder en disant que pour une tonalité majeure, les notes qu'on va appeler “notes pivots“, ces notes qui permettent de passer d'une tonalité à l'autre en les altérant sont le degré 4 — donc la 4e note de la gamme de la tonalité —, le degré 5 — donc la 5e note — ou le degré 7 de la tonalité — donc la sensible de cette tonalité. C'est toujours la 4e, la 5e ou la 7e note qui est altérée pour passer ou tout au moins pour produire le ton voisin.", {wait:true})
+# CAPTION("Cette note qui diffère répond au cycle des quintes. Mais ce n'est pas par ce biais qu'on va l'aborder. Si vous voulez des informations sur le cycle des quintes, voyez le screencast que je lui consacre.", {wait:true})
 
-CAPTION("Par exemple pour DO Majeur…")
+# CAPTION("Ici, nous allons l'aborder en parlant de “notes pivots”. Ce n'est pas un nom disons “offciel”, c'est le nom que je leur donner ici. Ces notes “pivots“ sont les notes qu'il suffit d'altérer pour passer d'une tonalité à une autre.", {wait:true})
+
+CAPTION("Pour une tonalité majeure, et pour la tonalité de DO Majeur du prélude… ")
 
 SET_CURSOR(220)
 gammedo = SCALE('c', {staff:2, speed:4, offset:40})
-STAFF(2).write("DO Majeur")
+
+STAFF(2).write("DO Majeur", {left:60, offset_y:-24})
+
+CAPTION("ces notes “pivots“ sont le degré 4 — donc la 4e note de la gamme de la tonalité —, le degré 5 — donc la 5e note — ou le degré 7 de la tonalité — donc la sensible de cette tonalité. C'est toujours la 4e, la 5e ou la 7e note qui est altérée pour passer ou tout au moins pour produire le ton voisin.")
+WAIT(2)
+gammedo.note(4).surround()
+WAIT(1)
+gammedo.note(5).surround()
+WAIT(1)
+gammedo.note(7).surround()
 
 WAIT_CAPTION
 
 CAPTION("Les notes pivots sont donc la 4e, la 5e et la 7e")
 
-gammedo.note([4,5,7]).surround()
+
 
 WAIT_CAPTION
 
@@ -71,7 +82,8 @@ gammedo.note(5).arrow('vers lam', {angle:-90, width:60})
 
 SET_CURSOR(140)
 SCALE('a', {type:'min_h', staff:1, offset:40, octave:3})
-STAFF(1).write("LA mineur")
+
+STAFF(1).write("LA mineur", {left:60, offset_y:-24})
 
 CAPTION("Si je réhausse le quatrième degré, le FA ici, j'obtiens la tonalité de la dominante. Ici, SOL Majeur")
 
@@ -79,7 +91,7 @@ CAPTION("Si je réhausse le quatrième degré, le FA ici, j'obtiens la tonalité
 
 SET_CURSOR(100)
 SCALE('g', {staff:3, offset:40, octave:3})
-STAFF(3).write("SOL Majeur (Dominante)")
+STAFF(3).write("SOL Majeur (Dominante)", {left:60, offset_y:-24})
 
 WAIT_CAPTION
 

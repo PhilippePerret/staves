@@ -198,20 +198,24 @@ $.extend(Note.prototype,{
   /**
     * Rend la note presque invisible, mais toujours présente
     * @method fantomize
+    * @param  {Object} params   Paramètres optionnels
+    *   @param  {Function|False}  params.complete   Méthode à appeler pour suivre (NEXT_STEP par défaut), ou false pour ne pas passer à l'étape suivante
     * @return {Note} pour le chainage
     */
-  fantomize:function()
+  fantomize:function(params)
   {
-    return this.colorize('shadow')
+    this.colorize('shadow', define_complete(params))
+    return this
   },
   /**
     * Remet la note en noir
     * @method defantomize
     * @return {Note} this, pour le chainage
     */
-  defantomize:function()
+  defantomize:function(params)
   {
-    return this.colorize(black)
+    this.colorize(black, define_complete(params))
+    return this
   },
   /**
     * Colorize la note avec la couleur voulue
@@ -219,11 +223,13 @@ $.extend(Note.prototype,{
     * @param  {String} color  La couleur voulue (constante 'red', 'blue', etc.)
     * @return {Note} this, pour le chainage
     */
-  colorize:function(color)
+  colorize:function(color, params)
   {
+    params = define_complete(params)
     this.color      = color
     this.obj[0].src = this.src
     if(this.alteration) this.obj_alt[0].src = this.src_alteration
+    if('function' == typeof params.complete) params.complete()
     return this
   },
   /**
