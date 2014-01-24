@@ -74,9 +74,9 @@ $.extend(Anim,{
     */
   play_preambule:function()
   {
-    // dlog("-> Anim.play_preambule ("+Console.preambule.length+" étapes préambule à jouer)")
+    dlog("-> Anim.play_preambule ("+Console.preambule.length+" étapes)")
     this.preambule_on = true
-    while(step = Console.preambule.shift()) step.exec()
+    L(Console.preambule).each(function(pas){ pas.exec() })
     this.preambule_on = false
     // dlog("<- Anim.play_preambule")
   },

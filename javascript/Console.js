@@ -383,9 +383,9 @@ Object.defineProperties(window.Console,{
       if(undefined == this._etapes)
       {
         Pas.last_id  = 0
-        this._etapes = this.code2pas(this.raw)
+        this._etapes = this.expurge_preambule(this.code2pas(this.raw))
       }
-      return this.expurge_preambule(this._etapes) // clone
+      return $.merge([], this._etapes) // clone
     }
   },
   /**
@@ -404,7 +404,7 @@ Object.defineProperties(window.Console,{
     *     être définies des préférences.
     *
     * @property {Array of Pas} steps_selection La liste des étapes sélectionnées et étapes précédentes
-    *                                   nécessaires.
+    *                          nécessaires. Note : c'est un clone de la liste conservée.
     */
   "steps_selection":{
     get:function(){
@@ -416,11 +416,11 @@ Object.defineProperties(window.Console,{
         var steps = this.code2pas(this.get_code(0, sel.start), {as_flash:true})
         // == Les étapes à partir desquelles jouer ==
             steps = this.code2pas(sel.content, {array:steps, cur_offset:parseInt(sel.start,10)})
-        this._steps_selection = steps
+        this._steps_selection = this.expurge_preambule(steps)
       }
       // Il faut renvoyer un clone car l'exécution des étapes mange (shift) dans
       // cette liste renvoyée.
-      return this.expurge_preambule(this._steps_selection)
+      return $.merge([], this._steps_selection)
     }
   },
   /**
