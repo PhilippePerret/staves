@@ -20,6 +20,8 @@ div#doublage, div#caption {
 }
 div#caption > span#caption_text {
   background-color  : #787878;
+  font-family       : Verdana;
+  font-size         : 11.5pt;
 }
 div#doublage, div#caption > span#caption_text {
   padding           : 4px 16px;

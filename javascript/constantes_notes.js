@@ -62,7 +62,7 @@ NOTES_ENVERS.reverse() // => [c, b, a, g, f, e, d, c, b, a]
   * @final
   */
 NOTE_TO_OFFSET = {}
-for(var octave = 0; octave < 7; ++octave)
+for(var octave = 0; octave < 9; ++octave)
 {
   for(var inote=0; inote<7;++inote)
   {

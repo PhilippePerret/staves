@@ -80,10 +80,44 @@ Note.prototype = Object.create( ObjetClass.prototype )
 Note.prototype.constructor = Note
 
 /* ---------------------------------------------------------------------
- *  MÉTHODES DE CLASSE
+ *  MÉTHODES ET PROPRIÉTÉS DE CLASSE
  *  
  */
 $.extend(Note, {
+  /**
+    * Le motif régulier pour analyser la note
+    *   - [optionnel] portée désignée par 1 ou 2 chiffres suivis de ":"
+    *   - [mandatory] Le nom de la note (une lettre de "a" à "g")
+    *   - [optionnel] L'altération (une lettre parmi "d", "b", "x", "t", "z")
+    *   - [optionnel] Le signe "-" de l'octave
+    *   - [optionnel] l'octave (un nombre de 0 à 8) - il est optionnel dans un motif
+    * @class REGEXP_NOTE
+    * @static
+    * @final
+    */
+  REGEXP_NOTE : new RegExp("^([0-9]{1,2}\:)?([a-g])(b|d|x|z|t)?(\-?[0-8])?$"),
+  /**
+    * Parse la note string +notestr+ et retourne un objet contenant ses données
+    * @method parse
+    * @param {String} notestr   La note comme string fourni en argument d'une méthode
+    * @return {Object} contenant :
+    *   staff   L'indice de la portée (ou undefined)
+    *   note    Le nom de la note (a-g)
+    *   octave  {Number} L'octave, positif ou négatif (ou undefined)
+    *   alter   L'altération (ou undefined)
+    * Retourne NULL si la note n'a pas été trouvée
+    */
+  parse:function(notestr)
+  {
+    founds = notestr.trim().match(this.REGEXP_NOTE)
+    if(!founds) return null
+    return {
+      staff   : founds[1] ? parseInt(founds[1],10) : null,
+      note    : founds[2],
+      alter   : founds[3],
+      octave  : founds[4] ? parseInt(founds[4],10) : null
+    }
+  },
   /**
     * Affichage temporisé de l'ensemble de notes +notes+ à la vitesse +speed+
     * Utilisé par Scale et Motif
@@ -246,18 +280,20 @@ $.extend(Note.prototype,{
     *     (et pas nécessaire) de la faire se déplacer aussi.
     *     Cf. la méthode `analyse_note` qui s'en charge le cas échéant.
     * @method moveTo
-    * @param  {String}  hauteur   La nouvelle hauteur
+    * @param  {String}  new_note  La nouvelle note à atteindre
     * @param  {Object}  params    Les paramètres optionnels
     *   @param {Boolean}  params.no_exergue   Si TRUE, ne met pas la note en exergue
+    *   @param {Function|False} params.complete   La méthode pour suivre. NEXT_STEP PAR DÉFAUT (méthode "terminale")
     */
-  moveTo:function(hauteur, params)
+  moveTo:function(new_note, params)
   {
     var top_init    = parseInt(this.top,10),
         staff_init  = parseInt(this.staff.indice),
         objs,
         method ;
     if(undefined == params) params = {}
-    this.analyse_note(hauteur)
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    this.analyse_note(new_note)
     if(staff_init != this.staff.indice)
     {
       Anim.staves[staff_init - 1].notes.remove(this)
@@ -266,7 +302,7 @@ $.extend(Note.prototype,{
     objs = [this.obj]
     var was_surrounded = true && this.surrounded
     if(this.surrounded) this.unsurround()
-    method = $.proxy(this.operation, this, objs, 'moveTo', {top: this.top})
+    method = $.proxy(this.operation, this, objs, 'moveTo', {top: this.top, complete:params.complete})
     if(!params.no_exergue) this.exergue({complete:method})
     else method()
     if(was_surrounded) this.surround()
@@ -385,6 +421,93 @@ $.extend(Note.prototype,{
     delete this._midi
     delete this._indice
     delete this._indice_real
+  },
+
+  /**
+    * Analyse la note fournie en argument
+    *
+    * Produit
+    * -------
+    *   – La définition de la portée  this.staff
+    *   - La définition de la note    this.note
+    *   - Calcul le top de la note    this.top
+    *   - Définit l'octave            this.octave
+    *   – Définit l'altération        this.alteration     ou undefined
+    *
+    *   - Si c'est un changement de hauteur, et que la note possédait une
+    *     altération, modifie l'altération (le src de l'image).
+    *
+    * @method analyse_note
+    * @param {String} note_str  Un string de la forme :
+    *                           "[<portée>:]<note 1 lettre><altération><octave>"
+    *                           <portée>      : indice portée 1-start
+    *                           <alteration>  : "b", "d", "x", "t" ou ""
+    *                           <octave>      : 0 à 9 avec ou sans "-" devant
+    */
+  analyse_note:function(note_str)
+  {
+    var dnote, staff ;
+    this.reset()
+    
+    var data_note = Note.parse(note_str)
+    if(!data_note)
+    {
+      F.error("La note `"+note_str+"` est mal définie…")
+      return false
+    } 
+    
+    
+    // === Définition de la portée (if any) ===//
+    if(data_note.staff) this.staff  = data_note.staff
+
+    // === Définition de la note === //
+    this.note = data_note.note
+    
+    // === Définition de l'altération (if any, et mémorisation de l'altération courante si nécessaire) ===//
+    this.old_alteration = undefined
+    if(data_note.alter)
+    {
+      if(this.alteration) this.old_alteration = this.alteration.toString()
+      this.alteration = data_note.alter
+    } 
+    else 
+    {
+      if(this.alteration) this.remove_alteration()
+      delete this.alteration
+    }
+    
+    // === Définition de l'octave ===//
+    // Il peut ne pas exister dans la note mais avoir été défini explicitement
+    // dans les paramètres comme dans le cas d'un motif
+    if(data_note.octave) this.octave = data_note.octave
+    
+    /*
+     *  Travail à faire sur les altérations en cas de modification de la note
+     *  
+     */
+    if(this.old_alteration)
+    {
+      if(this.old_alteration != this.alteration)
+      { // Quand l'ancienne et la nouvelle altération ne sont pas identiques.
+        this.hide_alteration($.proxy(this.update_alteration,this))
+      } 
+      else
+      { // Quand l'ancienne altération et la nouvelle sont les mêmes
+        // Dans ce cas, on va masquer l'altération courante, la repositionner
+        // puis la faire ré-apparaitre.
+        this.hide_alteration($.proxy(this.positionne_and_show_alteration,this))
+      }
+    }
+    else
+    {
+      // Construction de l'altération (sauf nouvelle note) et positionnement
+      if(this.obj.length)
+      {
+        Anim.Dom.add(this.html_img_alt)
+        this.positionne_and_show_alteration()
+      }
+    }
+    
   },
 
   /**
@@ -670,108 +793,6 @@ Clé de SOL
     return this.suplines[key]
   },
   
-  /**
-    * Analyse la note fournie en argument
-    *
-    * Produit
-    * -------
-    *   – La définition de la portée  this.staff
-    *   - La définition de la note    this.note
-    *   - Calcul le top de la note    this.top
-    *   - Définit l'octave            this.octave
-    *   – Définit l'altération        this.alteration     ou undefined
-    *
-    *   - Si c'est un changement de hauteur, et que la note possédait une
-    *     altération, modifie l'altération (le src de l'image).
-    *
-    * @method analyse_note
-    * @param {String} note_str  Un string de la forme :
-    *                           "[<portée>:]<note 1 lettre><altération><octave>"
-    *                           <portée>      : indice portée 1-start
-    *                           <alteration>  : "b", "d", "x", "t" ou ""
-    *                           <octave>      : 0 à 9 avec ou sans "-" devant
-    */
-  analyse_note:function(note_str)
-  {
-    var dnote, staff ;
-    this.reset()
-    
-    // === Définit la portée ===//
-    if(note_str.indexOf(':') > -1)
-    {
-      dnote       = note_str.split(':')
-      // this.staff  = Anim.staves[parseInt(dnote.shift(),10) - 1]
-      this.staff  = parseInt(dnote.shift(),10)
-      note_str    = dnote.shift()
-    }
-    note_str = note_str.split('')
-
-    // === Définition de la note === //
-    this.note   = note_str.shift()
-    
-    /*
-     *  Analyse de l'altération
-     *  -----------------------
-     *  En cas de changement de hauteur, trois situations peuvent se produire,
-     *  nécessitant un résultat différent :
-     *  1.  La note possédait une altération, elle n'en possède plus
-     *      => détruire l'altération courante
-     *  2.  La note ne possédait pas d'altération, elle en possède une
-     *      => Il faut construire l'altération
-     *  3.  La note possédait une altération, elle en possède une autre.
-     *      => Il faut modifier l'altération courante.
-     *  Note: Rien à faire quand 4. les deux notes ne possèdent pas d'altération,
-     *        ou 5. les deux notes possèdent la même altération.
-     */
-    if(["b", "d", "x", "z", "t"].indexOf(note_str[0]) > -1)
-    {
-      if(this.alteration)
-      {
-        this.old_alteration = this.alteration.toString()
-      }
-      // === Définition de l'altération ===//
-      this.alteration = note_str.shift()
-      
-      if(this.old_alteration)
-      {
-        if(this.old_alteration != this.alteration)
-        { // Quand l'ancienne et la nouvelle altération ne sont pas identiques.
-          this.hide_alteration($.proxy(this.update_alteration,this))
-        } 
-        else
-        { // Quand l'ancienne altération et la nouvelle sont les mêmes
-          // Dans ce cas, on va masquer l'altération courante, la repositionner
-          // puis la faire ré-apparaitre.
-          this.hide_alteration($.proxy(this.positionne_and_show_alteration,this))
-        }
-      }
-      else
-      {
-        // Construction de l'altération (sauf nouvelle note) et positionnement
-        if(this.obj.length)
-        {
-          Anim.Dom.add(this.html_img_alt)
-          this.positionne_and_show_alteration()
-        }
-      }
-    } 
-    else 
-    {
-      if(this.alteration) this.remove_alteration()
-      delete this.alteration
-    }
-    
-    // === Définition de l'octave ===//
-    // Il peut ne pas exister dans la note mais avoir été défini explicitement,
-    // comme dans le cas d'un motif
-    if(!this.octave)
-    {
-      this.octave = note_str.shift()
-      if(this.octave == "-") this.octave = "-" + note_str.shift()
-      this.octave = parseInt(this.octave,10)
-    }
-    
-  },
   positionne_and_show_alteration:function()
   {
     this.positionne_alteration()
