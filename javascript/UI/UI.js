@@ -174,7 +174,7 @@ $.extend(UI,{
     var menu  = $('select#folders_animations')
     menu.html('')
     var cur_path = ""
-    L($.merge(['Animations'], path.split('/'))).each(function(dossier){
+    L($.merge(['Animations'], (path || "").split('/'))).each(function(dossier){
       if(!(cur_path == "" && dossier == "Animations")) cur_path += dossier + "/"
       menu.prepend('<option value="'+cur_path+'">' + dossier + '</option>')
     })

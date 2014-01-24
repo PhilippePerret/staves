@@ -1,22 +1,20 @@
 # Remonte la liste des animations et des dossiers (les affixes seuls)
 # 
-# Comme certaines animation ont pu être écrite depuis leur fichier,
-# on force le possesseur, en mettant aussi le chmod à 0770.
-
-require '../table_narration/data/secret/data_phil.rb' #=> DATA_PHIL
+# param :folder     Le dossier qu'il faut remonter (nil si c'est le
+#                   chargement de l'application)
+# 
 
 folder_animation = File.expand_path(Anim::folder)
 RETOUR_AJAX[:folder_animation] = folder_animation
 
-RETOUR_AJAX[:exitstatus] = []
-Dir["#{Anim::folder}/**/*.txt"].each do |path|
-  path = File.expand_path(path)
-  `echo "#{DATA_PHIL[:password]}" | sudo -S chowner _www '#{path}';chmod 0770 '#{path}'`
-  RETOUR_AJAX[:exitstatus] << $?.exitstatus
+if (param :folder).nil?
+  if defanim = Anim::default_animation
+    RETOUR_AJAX[:default_animation] = defanim # un hash, maintenant
+    RETOUR_AJAX[:raw_code]          = Anim::new(defanim[:name], defanim[:folder]).raw_code
+    RETOUR_AJAX[:list]              = Anim::list_of_folder defanim[:folder]
+  end
 end
 
-RETOUR_AJAX[:list]              = Anim::list_of_folder(param :folder)
-if defanim = Anim::default_animation
-  RETOUR_AJAX[:default_animation] = defanim # un hash, maintenant
-  RETOUR_AJAX[:raw_code]          = Anim::new(defanim[:name], defanim[:folder]).raw_code
+if RETOUR_AJAX[:list].nil?
+  Anim::list_of_folder ""
 end

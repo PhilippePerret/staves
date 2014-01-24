@@ -4,7 +4,7 @@
 # Dans cette partie on aborde la question des tonalités (survolé) et
 # des tons voisins pour se préparer au travail d'analyse sur le prélude
 #
-# Cette première partie récapitule les ton voisins en montrant les
+# Cette deuxième partie récapitule les ton voisins en montrant les
 # accords.
 #
 

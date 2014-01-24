@@ -163,13 +163,13 @@ window.Anim.File = {
     * Charge la liste des animations et peuple le menu
     *
     * @method load_list_animations
+    * @param  {String} folder Le dossier à remonter (si undefined, c'est le chargement de l'application)
     * @param  {Object} rajax  Le retour ajax
     */
   load_list_animations:function(folder, rajax)
   {
     if(undefined == rajax)
     {
-      if(undefined == folder) folder = ""
       Ajax.send({script:"animation/list", folder:folder}, $.proxy(this.load_list_animations, this, folder))
     }
     else
