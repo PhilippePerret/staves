@@ -4,11 +4,11 @@ section#infos {
   top           : 100px;
   left          : 200px;
   width         : 260px;
-  padding       : 8px;
   font-family   : Courier;
-  font-size     : 7.5pt;
+  font-size     : 8.8pt;
   max-height    : 200px;
   overflow      : auto;
+  border        : 8px solid #CCCCCC;
   background-color:#CCC;
 }
 
@@ -23,7 +23,7 @@ section#infos > div.even {
 }
 section#infos label {
   display       : inline-block;
-  width         : 120px;
+  width         : 168px;
   text-align    : left;
   padding-right : 4px;
 }

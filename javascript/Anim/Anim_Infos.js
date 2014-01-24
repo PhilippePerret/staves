@@ -28,6 +28,7 @@ window.Anim.Infos = {
     this.section.append(this.div_infos_for('current_x', Anim.current_x, "Position curseur"))
     // Les valeurs des préférences
     L(Anim.prefs).each(function(k, v){me.section.append(me.div_infos_for('prefs-'+k, v, k))})
+    this.section.draggable()
   },
   /**
     * Retourne la valeur à afficher, en fonction de son type
