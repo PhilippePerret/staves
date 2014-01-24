@@ -98,7 +98,7 @@ WAIT_CAPTION
 
 # --- Mark de la CODA ---
 SET_CURSOR(470)
-STAFF(2).part(coda)
+STAFF(2).part(coda, {offset_x:24})
 
 WAIT_CAPTION
 

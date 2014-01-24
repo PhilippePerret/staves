@@ -424,7 +424,7 @@ Object.defineProperties(Txt.prototype,{
     * -----
     *   * Ce top dépend de pas mal de choses et notamment du type du texte (finger,
     *     harmony, etc.)
-    *   * Il peut être également influencer par les décalages des préférences
+    *   * Il peut être également influencé par les décalages des préférences
     *   * Ce top est dépendant en tout premier lieu de la portée sous laquelle on
     *     doit le placer. Par ordre de priorité, on trouve la recherche de cette
     *     portée par :
@@ -553,9 +553,15 @@ Object.defineProperties(Txt.prototype,{
         switch(owner.class)
         {
         case 'staff': 
-          var h = Anim.prefs.staff_top_text + voffset
-          if(Anim.prefs.staff_text_up) return - (h + itxt.height_calc)
-          else return owner.height + h
+          // Ce retour 0 est parfait pour les parties (texte de type 'part'), ne
+          // pas modifier sans savoir vraiment ce que je fais…
+          // Ne pas oublier de tenir compte du fait que la valeur renvoyée par
+          // cette fonction est AJOUTÉE À THIS.TOP
+          return 0
+          // C'était le calcul avant, mais ça renvoyait n'importe quoi.
+          // var h = Anim.prefs.staff_top_text + voffset
+          // if(Anim.prefs.staff_text_up) return - (h + itxt.height_calc)
+          // else return owner.height + h
         case 'chord':
           return (owner.top_obj - 30 - voffset) - itxt.top
         }
