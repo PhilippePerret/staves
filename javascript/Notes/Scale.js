@@ -177,7 +177,7 @@ $.extend(Scale.prototype,{
     
       // dlog("note str finale:"+note_str)
     
-      Anim.current_x += this.offset
+      Anim.current_x = Anim.current_x + this.offset // NOT "+="
       this.notes.push(NOTE(note_str, {dont_build:true, staff:this.staff, left:Anim.current_x}))
       // On mémorise la hauteur de la note courante pour pouvoir
       // régler la hauteur de la prochaine note

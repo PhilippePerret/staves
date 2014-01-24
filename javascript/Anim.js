@@ -709,8 +709,9 @@ Object.defineProperties(Anim,{
     set:function(x){
       this._current_x = x
       this.Grid.set_cursor(x)
+      this.Infos.set('current_x', x)
     },
-    get:function(){ return this._current_x || parseInt(Anim.prefs.x_start,10)}
+    get:function(){ return this._current_x || parseInt(Anim.prefs.x_start || Anim.prefs_default.x_start,10)}
   },
   /**
     * Propriété raccourci pour Anim.File.name
