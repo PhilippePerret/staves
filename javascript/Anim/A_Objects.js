@@ -169,9 +169,6 @@ FONCTIONS_ANIM_OBJETS = {
     * portée
     * Notes
     * -----
-    *   * Tous les objets créés resteront quand même dans l'animation, donc
-    *     on pourra tout à fait les faire réapparaitre plus tard 
-    *     (TODO pas pour le moment)
     *   * Si la suppression des portées est demandée, elles disparaitront vraiment,
     *     ie seront retirées de Anim.staves
     *

@@ -41,6 +41,11 @@ Anim.Dom = {
     
     var selector = 'section#animation > *'+not
     var nombre_elements = $(selector).length
+    if(nombre_elements == 0)
+    {
+      complete()
+      return
+    }
     $(selector).animate(
       {opacity:0},
       {always:function(){
