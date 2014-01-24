@@ -31,3 +31,11 @@ textarea#console::-moz-selection {
   background  : white;
   color       : green;
 }
+
+/* Pour afficher la dernière ligne de code jouée */
+section#section_console div#console_last_step {
+  background-color: #000000;
+  font-family     : Courier;
+  font-size       : 8.3pt;
+  padding         : 2px 8px;
+}

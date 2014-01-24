@@ -99,6 +99,7 @@ $.extend(Pas.prototype,{
     */
   exec:function()
   {
+    Console.show_code_line(this.code)
     if(this.is_comment || this.is_empty)              return false
     if(Anim.options.caption_omit && this.is_caption)  return false
     if(this.flashed) MODE_FLASH = true

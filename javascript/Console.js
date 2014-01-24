@@ -172,6 +172,11 @@ $.extend(window.Console,{
     else back_offset = - back_offset
     Selection.set(this.console, inserted, {end:back_offset})
   },
+  
+  /*
+   *  ---------------------------------------------------------------------
+   *  
+   */
   /**
     * Méthode appelée quand on focus dans le code console
     * @method onfocus
@@ -203,6 +208,15 @@ $.extend(window.Console,{
   {
     if('string'!=typeof code) code = code.join("\n")
     this.console.val(code)
+  },
+  /**
+    * Affiche la ligne de code actuellement jouée
+    * @method show_code_line
+    * @param {String} code_line La ligne de code
+    */
+  show_code_line:function(code_line)
+  {
+    $('div#console_last_step').html(code_line)
   },
   /**
     * Retourne le code depuis le caractère +from+ (0-start) jusqu'au caractère
