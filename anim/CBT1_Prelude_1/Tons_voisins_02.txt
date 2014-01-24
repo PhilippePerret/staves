@@ -16,19 +16,9 @@ DEFAULT('next', 200)
 
 #SUITE('CBT1_Prelude1_01-11')
 
-# Pour régler l'animation sans voir les captions
-DEFAULT('caption_omit', true)
-
 NEW_STAFF(SOL)
 NEW_STAFF(SOL)
 NEW_STAFF(SOL)
-NEW_STAFF(SOL)
-
-ACTIVE_STAFF(1)
-
-# === TONS VOISINS AVEC LES ACCORDS ===
-
-CLEAR()
 
 # Définition des pas utilisés pour les accords
 # 1
@@ -38,36 +28,45 @@ NEXT()
 # 3
 NEXT()
 
+# CAPTION("Résumons ce que nous venons de voir sur les tons proches. En se rappelant que c'est une gymnastique à développer jusqu'à ce qu'il n'y ait presque plus à réfléchir.", {wait:true})
+
+CAPTION("Pour une tonalité de DO Majeur…")
+
 SET_CURSOR(2)
-accdo = CHORD('c4 e4 g4 c5')
+accdo = CHORD('c4 e4 g4 c5', {staff:2})
 
-CAPTION("Quand j'ajoute un dièse, ou que je retire un bémol, j'obtiens le ton voisin de la dominante", {wait:true})
+# --- SOL ---
 
-accdo.note(3).arrow()
+CAPTION("J'obtiens le ton de la dominante, SOL Majeur, en ajoutant un dièse, le Fa dièse. Noter que pour des tonalités à armures bémols, ajouter un dièse correspoond à retirer un bémol.")
 
-
-CAPTION("Ici, en Do Majeur, donc sans altération à la clé, en ajoutant un dièse j'obtiens la tonalité de SOL Majeur", {wait:true})
-
+accdo.arrow('vers sol',{color:blue, width:80, offset_x:20, offset_y:-4})
 SET_CURSOR(3)
+accsol = CHORD('g4 b4 d5 g5', {staff:2})
 
-accsol = CHORD('g4 b4 d5 g5')
+WAIT_CAPTION
 
+# --- FA ---
 
-CAPTION("Quand je retire un dièse, ou que j'ajoute un bémol, j'obtiens le ton voisin de la sous-dominante", {wait:true})
+CAPTION("J'obtiens le ton proche de la sous-dominante en ajoutant un bémol. Noter qu'ajouter un bémol correspond pour les tonalités en dièses à retirer un dièse.")
 
-CAPTION("Ici, en DO Majeur, je dois ajouter un bémol puisque je ne peux pas retirer de dièse, j'obtiens donc en ajoutant le premier bémol dans l'ordre des bémols, le sib, une tonalité de FA Majeur", {wait:true})
-
+accdo.arrow('vers fa',{color:blue, angle:180, width:80, offset_x:-20, offset_y:-4})
 SET_CURSOR(1)
+accfa = CHORD('f4 a4 c5 f5', {staff:2})
 
-accfa = CHORD('f4 a4 c5 f5')
+WAIT_CAPTION
 
-CAPTION("Le troisième ton proche est celui du relatif, ici le relatif mineur puisque nous sommes dans une tonalité majeure.",{wait:true})
+# --- LA mineur ---
 
-CAPTION("Cette tonalité mineur est un ton et demi-sous la tonalité majeur, donc un LA mineur en Do Majeur", {wait:true})
+CAPTION("J'obtiens le ton proche du relatif en ré-haussant le 5e degré — ou en baissant la sensible si le morceau était dans une tonalité mineure.")
 
+
+accdo.arrow('vers lam',{color:blue, angle:-90, width:40})
 SET_CURSOR(2)
-acclam = CHORD('a4 c5 e5 a5', {staff:2})
- 
-CAPTION("J'explique tout cela en détail dans les autres screencasts, donc je n'y reviens pas ici", {wait:true})
+acclam = CHORD('a4 c5 e5 a5', {staff:1})
 
-CAPTION("Cette tonalité s'obtient en ajoutant la sensible de la tonalité mineure, ici un sol#", {wait:true})
+# --- Ré mineur ---
+
+CAPTION("On peut avoir en tête aussi la tonalité du deuxième degré — ré ici — qui est une modulation assez fréquente, puisque c'est un ton semi-proche : en altérant une seule note, le do ici, on obtient la gamme harmonique ascendante de Ré mineur.")
+
+accdo.arrow('vers rem',{color:blue, angle:90, width:40})
+accrem = CHORD('d4 f4 a4', {staff:3})

@@ -211,7 +211,8 @@ ARROW_METHODS = {
   {
     var rleft = parseInt(this.left, 10), 
         rtop  = parseInt(this.top, 10), 
-        angle, angle_tri, angle_rad, sin, cos, offx, offy,
+        angle, angle_tri, angle_rad, sin, cos, 
+        offx = 0, offy = 0,
         rayon = 10,
         ajout_around = 0,
         rectif_x = 0,
@@ -240,15 +241,15 @@ ARROW_METHODS = {
     angle_rad = Math.radians(angle_tri)
     sin   = Math.sin(angle_rad)
     cos   = Math.cos(angle_rad)
-    offx  = parseInt(rayon * cos, 10)
-    offy  = parseInt(rayon * sin, 10)
+    if(angle != 90 && angle != 270) offx = parseInt(rayon * cos, 10)
+    if(angle != 0  && angle != 180) offy = parseInt(rayon * sin, 10)
     
     rleft += offx
     rtop  -= offy
     
-    // dlog({
-    //   angle: angle, angle_tri:angle_tri, offx:offx, offy:offy, rleft:rleft, rtop:rtop
-    // })
+    dlog({
+      angle: angle, angle_tri:angle_tri, rayon:rayon, offx:offx, offy:offy, rleft:rleft, rtop:rtop
+    })
 
     
     // Quelques petites rectifications en fonction du possesseur
@@ -258,6 +259,10 @@ ARROW_METHODS = {
       {
       case 'note':
         if(angle < 180) rectif_x = 3
+        break
+      case 'chord':
+        rectif_y = this.owner.position_fleche_per_angle(angle)
+        dlog("rectif_y pour chord : "+rectif_y)
         break
       }
     }

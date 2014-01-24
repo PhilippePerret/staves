@@ -662,9 +662,11 @@ $.extend(window.Anim,{
     */
   set_animation_pour_suivre:function(path, params)
   {
+    stack('-> Anim.set_animation_pour_suivre', {path:path})
     this.hasSuite = true
     this.animation_pour_suivre = path
     NEXT_STEP(no_timeout = true)
+    stack('<- Anim.set_animation_pour_suivre')
   },
   /**
     * Méthode qui charge et joue l'animation pour suivre si elle a été définie

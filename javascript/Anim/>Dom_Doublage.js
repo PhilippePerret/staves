@@ -16,6 +16,15 @@ window.Anim.Dom.Doublage = {
   on:false,
   
   /**
+    * Propriété indiquant qu'il faut attendre la fin de l'écriture du doublage.
+    * Elle est utilisée conjointement avec `on` par Anim.Step.auto_next pour savoir
+    * si elle peut vraiment passer à l'étape suivante.
+    * @property {Boolean} waiting
+    * @default false
+    */
+  waiting:false,
+  
+  /**
     * Initialisation du doublage (efface et masque les champs doublage et caption)
     * @method init_doublage
     */
@@ -64,6 +73,7 @@ window.Anim.Dom.Doublage = {
     if(undefined == params) params = {}
     else if ('boolean' == typeof params) params = {caption:params}
     else if (params.doublage == true) params.caption = !params.doublage
+    this.waiting = params.wait === true
     var is_caption  = params.caption == true || Anim.prefs.caption == true
     var is_doublage = !is_caption
     var obj = $(is_caption ? 'span#caption_text' : 'div#doublage')
@@ -81,7 +91,7 @@ window.Anim.Dom.Doublage = {
         // doublage (le doublage précédent, lui, est traité en écho)
         this.remove_last(this.dbl_indx - 2)
         this.dbls_list[this.dbl_indx] = []
-        if(params.wait) this.temporize.poursuivre = NEXT_STEP
+        if( params.wait ) this.temporize.poursuivre = NEXT_STEP
         this.temporize()
       }
       else obj.html(texte.trim())
@@ -143,6 +153,7 @@ window.Anim.Dom.Doublage = {
   },
   temporize:function()
   {
+    stack('Anim.Dom.Doublage.temporize')
     if(this.timer_doublage) clearTimeout(this.timer_doublage)
     if(mot = this.dbl_mots.shift())
     {
@@ -165,6 +176,7 @@ window.Anim.Dom.Doublage = {
     else
     {
       // Fin du doublage 
+      dlog("Anim.Dom.Doublage.temporize : Fin du doublage (et poursuivre)")
       this.on = false
       if(this.temporize.poursuivre) this.temporize.poursuivre()
     }

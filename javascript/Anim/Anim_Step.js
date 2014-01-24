@@ -116,8 +116,14 @@ Anim.Step = {
     */
   auto_next:function(no_timeout)
   {
-    dlog("-> Anim.Step.auto_next(no_timeout="+no_timeout+")")
-    // if(no_timeout) this.EXEC_ON = false
+    stack('-> Anim.Step.auto_next', {no_timeout:no_timeout})
+    if(Anim.Dom.Doublage.on && Anim.Dom.Doublage.waiting == true)
+    {
+      console.warn("Entrée dans Anim.Step.auto_next alors qu'un doublage est encore en cours. Je renonce.\n"+
+      "Pour info, le stack actuel : ")
+      Debug.output()
+      return false
+    }
     if(Anim.preambule_on) return
     if(this.timer) clearTimeout(this.timer)
     if(this.mode_pas_a_pas) return
@@ -129,6 +135,7 @@ Anim.Step = {
     {
       this.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.delai_for('step'))
     }
+    stack('<- Anim.Step.auto_next')
   }
 }
 Object.defineProperties(Anim.Step,{

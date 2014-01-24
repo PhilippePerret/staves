@@ -239,12 +239,6 @@ $.extend(window.ObjetClass.prototype,{
       if('function' == typeof this.on_complete_operation) this.on_complete_operation()
       delete this.on_complete_operation
     }
-    else
-    {
-      // TODO Ça n'est pas bon, ça fait passer tout de suite à l'étape suivante
-      // dès qu'un objet est construit
-      // NEXT_STEP()
-    } 
   }
 
 })
