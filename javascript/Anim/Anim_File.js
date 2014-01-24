@@ -21,7 +21,7 @@ window.Anim.File = {
   folder: "",
   /**
     * Méthode définissant le nom de l'animation (du champ save_as) et
-    * l'enregistrant quand c'est une NOUVELLE animation
+    * l'enregistrant
     * @method set_name_and_save
     */
   set_name_and_save:function()
@@ -41,14 +41,14 @@ window.Anim.File = {
   get_new_name:function()
   {
     var name, dname, fold ;
-    name = $('input#animation_name').val().trim()
-    dname = name.split('/')
-    name = dname.pop()
-    fold = dname.join('/')
-    name = Texte.to_ascii(name).
+    name  = $('select#animation_folder').val() + $('input#animation_name').val().trim()
+    name  = Texte.to_ascii(name).
                 replace(/ /g,'_').
-                replace(/[^a-zA-z0-9_-]/g,'').
-                substring(0, 60)
+                replace(/[^a-zA-z0-9_\/\-]/g,'')
+    dname = name.split('/')
+    name  = dname.pop()
+    name  = name.substring(0, 60)
+    fold  = dname.join('/')
     if(name == "") return F.error("Il faut donner un nom (valide) !")
     else return [fold, name]
   },
@@ -60,11 +60,11 @@ window.Anim.File = {
     */
   save:function(rajax)
   {
-    if(undefined == rajax)
+    if(undefined == rajax) 
     {
-      if(!this.name)
-      {
-        return UI.Tools.show('save_as', {ok:{name:"Enregistrer", method:$.proxy(this.set_name_and_save, this)}})
+      if( ! this.name ){ 
+        this.is_new = true
+        return this.choose_path()
       }
       Ajax.send({
         script :'animation/save',
@@ -78,46 +78,42 @@ window.Anim.File = {
       if(rajax.ok)
       {
         F.show("“"+this.name + "” enregistré.")
+        if(this.is_new)
+        {
+          UI.add_new_animation_to_menu(this.name, this.path)
+          delete this.is_new
+        }
         this.modified = false
       } 
-      else F.error(rajax.message)
+      else
+      {
+        F.error(rajax.message)
+        this.name   = null
+        this.folder = null
+      } 
     }
   },
   /**
     * Enregistre l'animation sous un autre nom
     * @method save_as
-    * @param {Object} rajax retour de la requête ajax
     */
-  save_as:function(new_name_ok, rajax)
+  save_as:function()
   {
-    if(undefined == rajax)
-    {
-      if(undefined == new_name_ok)
-      {
-        return UI.Tools.show('save_as', {ok:{name:"Enregistrer", method:$.proxy(this.save_as, this, true)}})
-      }
-      // On prend le nouveau titre et on le corrige
-      var dname = this.get_new_name() ;
-      if(!dname) return
-      Ajax.send({
-        script:"animation/save", 
-        name      : dname[0],
-        folder    : dname[1],
-        code      : Console.raw
-      }, $.proxy(this.save_as, this, true))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        UI.add_new_animation_to_menu(rajax.name, rajax.path)
-        Anim.set_anim(rajax.name, rajax.folder)
-        this.modified = false
-      }
-      else F.error(rajax.message)
-    }
+    delete this.name
+    this.save()
   },
-  
+  /**
+    * Affiche la boite de dialogue pour choisir le nom de l'animation et
+    * son dossier
+    * @method choose_path
+    */
+  choose_path:function()
+  {
+    UI.Tools.show('save_as', {ok:{name:"Enregistrer", method:$.proxy(this.set_name_and_save, this)}})
+    var clone = $('select#folders_animations').clone()
+    clone.attr('id', 'animation_folder')
+    $('select#animation_folder').replaceWith(clone)
+  },
   /**
     * Recharge l'animation courante (utile quand on la code dans un fichier)
     * @method reload
@@ -152,7 +148,6 @@ window.Anim.File = {
         // C'est ici qu'on détermine si l'animation chargée est la suite
         // d'une animation précédente.
         Anim.isSuite = (true == Anim.hasSuite)
-        
         delete Anim.animation_pour_suivre
         Anim.hasSuite = false
         Anim.set_anim(name, folder, rajax.raw_code)

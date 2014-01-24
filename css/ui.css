@@ -7,6 +7,9 @@
 .green {color:green;}
 .blue {color:blue;}
 
+/* Style */
+.italic {text-style : italic;}
+
 /* Taille du texte */
 .small {font-size: 0.9em;}
 .tiny  {font-size: 0.7em;}

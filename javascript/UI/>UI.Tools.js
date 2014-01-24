@@ -39,7 +39,7 @@ window.UI.Tools = {
     * En réglant le bouton OK si les paramètres le nécessitent.
     *
     * @method show
-    * @param  {String} tid    Identifiant de l'outil à afficher (sans 'tool_')
+    * @param  {Array|String} tid    Identifiants des outils à afficher (sans 'tool_')
     * @param  {Object} params Paramètres optionnels
     *   @param  {Object}  params.ok   Définition du bouton OK
     *     @param  {String}    params.ok.name    Nom du bouton
@@ -50,7 +50,9 @@ window.UI.Tools = {
     if(undefined == params)     params = {}
     if(undefined == params.ok)  params.ok = {name:"OK", method:null}
     this.hide_all()
-    this.tools['tool_'+tid].show()
+    if('string' == typeof tid) tid = [tid]
+    var my = this
+    L(tid).each(function(id){ my.tools['tool_'+id].show()})
     this.ok_poursuivre = params.ok.method
     $('section#tools input#tools_btn_ok')[0].value = params.ok.name
     this.section.show()

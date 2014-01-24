@@ -694,6 +694,7 @@ $.extend(window.Anim,{
     this.File.name    = name
     this.File.folder  = folder
     $('select#animations').val(name)
+    UI.build_path_folders(folder)
     if(code) Console.set(code.stripSlashes())
     $('head > title').html("Anim: "+this.name)
   }

@@ -155,22 +155,31 @@ $.extend(UI,{
   peuple_liste_animations:function(arr, folder)
   {
     $('select#animations').html('')
-    $('select#folders_animations').html('')
-    if(folder != "")
-    { // => Il y a un dossier supérieur
-      var cur_path = ""
-      L($.merge(['Animations'], folder.split('/'))).collect(function(dossier){
-        if(!(cur_path == "" && dossier == "Animations")) cur_path += dossier + "/"
-        $('select#folders_animations').prepend('<option value="'+cur_path+'">' + dossier + '</option>')
-      }).join('')
-    }
-    $('select#folders_animations')[0].selectedIndex = 0
+    // S'il y a un dossier supérieur
+    if(folder != "") this.build_path_folders(folder)
     L(arr).each(function(danim){
       var css = danim.dir ? "folder" : "anim" ;
       $('select#animations').append('<option class="'+css+'" value="'+danim.path+'">'+danim.name+'</option>')        
     })
   },
-  
+  /**
+    * Méthode qui actualise la liste des dossiers (à l'ouverture d'une animation)
+    * @note C'est la méthode Anim.set_anim qui appelle cette méthode, ainsi que
+    * la méthode précédente.
+    * @method build_path_folders
+    * @param  {String} path   Le chemin du dossier (= Anim.File.folder)
+    */
+  build_path_folders:function(path)
+  {
+    var menu  = $('select#folders_animations')
+    menu.html('')
+    var cur_path = ""
+    L($.merge(['Animations'], path.split('/'))).each(function(dossier){
+      if(!(cur_path == "" && dossier == "Animations")) cur_path += dossier + "/"
+      menu.prepend('<option value="'+cur_path+'">' + dossier + '</option>')
+    })
+    menu[0].selectedIndex = 0
+  },
   /**
     * Modifie le nom courant de l'animation
     * Note
