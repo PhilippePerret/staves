@@ -24,7 +24,7 @@ $.extend(UI,{
     * Prépare l'interface au chargement de l'application
     * @method prepare
     */
-  prepare:function()
+  prepare_on_load:function()
   {
     this.Regle.prepare()
     this.onresize_window()

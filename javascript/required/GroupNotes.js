@@ -64,7 +64,7 @@ window.METHODES_GROUPNOTES = {
     }
     else 
     {
-      this.each_note(function(note){note.build()})
+      this.each_note(function(note){note.build()}, {complete:NEXT_STEP})
     }
   },
   
@@ -93,15 +93,24 @@ window.METHODES_GROUPNOTES = {
   
   /**
     * Exécute une fonction sur toutes les notes de l'accord
+    * Noter que cette méthode n'est pas asynchrone, dès que la méthode a été appelée
+    * sur toutes les notes, même si le processus n'est pas terminé, on passe à la méthode
+    * `params.complete` si elle a été définie.
+    *
     * @method each_note
-    * @param  {Function} fn La fonction à exécuter
+    * @param  {Function}  fn        La fonction à exécuter sur chaque note
+    *                               Cette fonction doit recevoir en premier argument la note.
+    *                               WARNING : ne pas envoyer les paramètres à la fonction, ça provoquerait des erreurs sans fin avec le passage à la suite.
+    * @param  {Object}    params    Les paramètres optionnels
+    *   @param  {Function}  params.complete   La méthode à appeler quand on finit.
     */
-  each_note:function(fn)
+  each_note:function(fn, params)
   {
     for(var i=1, len=this.notes.length; i<len; ++i)
     {
       fn(this.notes[i])
     }
+    if(params && 'function' == typeof params.complete) params.complete()
   },
   
   /**

@@ -22,7 +22,6 @@ window.TXT = function(owner, params)
   */
 window.Txt = function(owner, params)
 {
-  dlog("Params envoyés à Txt:");dlog(params)
   this.class = 'txt'
 
   /**

@@ -63,12 +63,12 @@ $.extend(ObjetClass.prototype, {
     * @method remove
     * @async
     * @param  {Object} params   Les paramètres optionnels
-    *   @param  {Function} params.complete    La méthode pour suivre (NEXT_STEP par défaut)
+    *   @param  {Function} params.complete    La méthode pour suivre
     *
     */
   remove:function(params)
   {
-    return this.operation([this.obj], 'remove', params)
+    return this.operation([this.obj], 'remove', define_complete(params))
   },
   
 
@@ -137,11 +137,12 @@ $.extend(window.ObjetClass.prototype,{
     * @param  {Array}   objets La liste des objets (DOM) à traiter
     * @param  {String}  operation  L'opération à jouer
     * @param  {Object}  params Les paramètres nécessaires à l'opération + optionnels
-    *
+    *   @param  {Function} params.complete  La méthode à appeler en fin de processus
     * @return {Object} L'objet this, pour le chainage
     */
   operation:function(objets, operation, params)
   {
+    if(params && params.complete) this.on_complete_operation = params.complete
     // On commence à créer une table pour savoir quand le traitement sur les
     // objets sera terminé. En clé, on utilise l'identifiant de l'objet DOM
     this.tbl_operation = {}
@@ -203,7 +204,7 @@ $.extend(window.ObjetClass.prototype,{
     *   1.  Si une méthode 'on_complete_<operation>' existe, elle est appelée avant
     *       de passer à l'étape suivante.
     *   2.  Si la méthode appelante a défini on_complete_operation, cette méthode
-    *       est appelée pour poursuivre, sinon, c'est NEXT_STEP qui est invoqué
+    *       est appelée pour poursuivre.
     *
     * @method on_end_operation
     * @param  {String} operation  L'opération qui a été exécutée.

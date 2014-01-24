@@ -41,6 +41,8 @@ window.Anim.Dom.Doublage = {
     */
   dbls_list:{},
   /**
+    * == main ==
+    *
     * Écrit le doublage ou le sous-titre +texte+ (en fonction de params et des
     * réglages par défaut)
     * Notes
@@ -89,9 +91,12 @@ window.Anim.Dom.Doublage = {
       obj.hide()
     }
     if(is_caption) $('div#caption')[montrer?'show':'hide']()
-    if(!params.wait)
+    
+    // Si l'appel ne définissait pas la propriété wait à true OU que le
+    // caption_timer n'est pas à true dans les préférences, alors ou passe tout
+    // de suite à l'étape suivante.
+    if(!params.wait || Anim.prefs.caption_timer == false)
     {
-      // dlog("params.wait est false ou undefined, => tout de suite next step")
       NEXT_STEP(notimeout=true)
     } 
   },

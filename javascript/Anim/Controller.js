@@ -74,11 +74,11 @@ $.extend(Anim,{
     */
   play_preambule:function()
   {
-    dlog("-> Anim.play_preambule ("+Console.preambule.length+" étapes préambule à jouer)")
+    // dlog("-> Anim.play_preambule ("+Console.preambule.length+" étapes préambule à jouer)")
     this.preambule_on = true
     while(step = Console.preambule.shift()) step.exec()
     this.preambule_on = false
-    dlog("<- Anim.play_preambule")
+    // dlog("<- Anim.play_preambule")
   },
   /**
     * Pré-démarrage de l'animation
@@ -120,10 +120,8 @@ $.extend(Anim,{
     // pas vraiment la fin de l'effacement
     if($('section#animation *').length)
     {
-      dlog("* Je dois nettoyer l'animation (<- Anim.play_for_good)")
       return this.Dom.clear($.proxy(this.play_for_good, this), {all:true})
     } 
-    dlog("[play_for_good] Je passe au premier pas.")
     this.Step.next()
     dlog("<- Anim.play_for_good")
   },
@@ -155,8 +153,11 @@ $.extend(Anim,{
     delete this.Step.list
     if(forcer)
     { // => arrêt forcé
-      UI.chronometre.stop
-      if(this.hasSuite) delete this.animation_pour_suivre
+      if(this.hasSuite)
+      { 
+        this.hasSuite = false
+        delete this.animation_pour_suivre
+      }
       this.real_stop()
     } 
     else
@@ -185,11 +186,7 @@ $.extend(Anim,{
     */
   real_stop:function()
   {
-    if(!this.hasSuite)
-    {
-      dlog("Je stoppe le chronomètre (this.hasSuite est false)")
-      UI.chronometre.stop
-    } 
+    if(!this.hasSuite) UI.chronometre.stop
     this.kill_timer()
     $('div#warning').hide()
     this.set_interface()

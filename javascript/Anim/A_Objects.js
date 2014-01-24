@@ -307,9 +307,8 @@ METHODES_ANIM_OBJETS = {
     */
   "RESET":{
     get:function(){
-      RESET_CURSOR
-      $('section#animation *:not(.staffline, .cle)').remove()
-      NEXT_STEP(no_timeout = true)
+      $('section#animation > *:not(div.staff)').remove()
+      this.RESET_CURSOR // c'est elle qui appellera l'étape suivante
     }
   },
   "RESET_PREFERENCES":{

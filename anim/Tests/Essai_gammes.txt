@@ -1,11 +1,27 @@
-# Essai gammes
+# === Tests sur les gammes ===
+DEFAULT('decompte', 0)
+DEFAULT('caption', true)
 NEW_STAFF(SOL)
-SCALE(\'c\')
-WAIT(4)
+
+CAPTION("On écrit une gamme de DO Majeur", {wait:true})
+SCALE('c')
+
+WAIT(1)
+
 RESET
-SCALE(\'cb\')
-WAIT(4)
+
+CAPTION("On écrit une gamme de DO bémol majeur temporisée", {wait:true})
+SCALE('cb', {speed:3})
+
+
+WAIT(1)
 RESET
-g=SCALE(\'fd\')
+
+CAPTION("On écrit une gamme de FA# mineur harmonique")
+g=SCALE('fd', {type:'min_h'})
+
 WAIT(2)
-g.note(3).moveTo(a4)
+CAPTION("On déplace la 3e note vers do#6", {wait:true})
+g.note(3).moveTo(cd6)
+
+CAPTION("On termine le test.")

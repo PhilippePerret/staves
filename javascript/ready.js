@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
   // Préparer l'interface
-  UI.prepare()
+  UI.prepare_on_load()
   
   Anim.on_load()
     

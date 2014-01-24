@@ -17,7 +17,7 @@ window.NOTE = function(note, params)
 {
   if(undefined == params) params = {}
   var inote = new Note(note, params)
-  if(!params.dont_build) inote.build()
+  if(!params.dont_build) inote.build({complete:NEXT_STEP})
   return inote
 }
 

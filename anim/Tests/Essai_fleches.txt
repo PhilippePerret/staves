@@ -1,6 +1,7 @@
-# Test des flèches
+# Test des flèches 
 DEFAULT('staff_top', 180)
 DEFAULT('caption', true)
+DEFAULT('decompte', 0)
 SET_CURSOR(380)
 
 # On place une note simple sur une portée
@@ -13,9 +14,14 @@ n.arrow('left')
 
 WAIT(2)
 
+CAPTION("On la colorise en bleu")
+n.arrow('left').colorize(blue)
+
+WAIT(2)
+
 # Une flèche vers le haut
-CAPTION("Une flèche vers le haut")
-n.arrow('up', {angle:-90})
+CAPTION("Une flèche rouge vers le haut")
+n.arrow('up', {angle:-90, color:red})
 
 WAIT(2)
 

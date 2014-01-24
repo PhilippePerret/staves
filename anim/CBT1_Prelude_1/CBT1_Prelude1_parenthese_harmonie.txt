@@ -51,14 +51,14 @@ ACTIVE_STAFF(1)
 
 # CAPTION("Ici, nous allons l'aborder en parlant de “notes pivots”. Ce n'est pas un nom disons “offciel”, c'est le nom que je leur donner ici. Ces notes “pivots“ sont les notes qu'il suffit d'altérer pour passer d'une tonalité à une autre.", {wait:true})
 
-CAPTION("Pour une tonalité majeure, et pour la tonalité de DO Majeur du prélude… ")
+# CAPTION("Pour une tonalité majeure, et pour la tonalité de DO Majeur du prélude… ")
 
 SET_CURSOR(220)
 gammedo = SCALE('c', {staff:2, speed:4, offset:40})
 
 STAFF(2).write("DO Majeur", {left:60, offset_y:-24})
 
-CAPTION("ces notes “pivots“ sont le degré 4 — donc la 4e note de la gamme de la tonalité —, le degré 5 — donc la 5e note — ou le degré 7 de la tonalité — donc la sensible de cette tonalité. C'est toujours la 4e, la 5e ou la 7e note qui est altérée pour passer ou tout au moins pour produire le ton voisin.")
+# CAPTION("ces notes “pivots“ sont le degré 4 — donc la 4e note de la gamme de la tonalité —, le degré 5 — donc la 5e note — ou le degré 7 de la tonalité — donc la sensible de cette tonalité. C'est toujours la 4e, la 5e ou la 7e note qui est altérée pour passer ou tout au moins pour produire le ton voisin.")
 WAIT(2)
 gammedo.note(4).surround()
 WAIT(1)
@@ -68,20 +68,19 @@ gammedo.note(7).surround()
 
 WAIT_CAPTION
 
-CAPTION("Les notes pivots sont donc la 4e, la 5e et la 7e")
-
+# CAPTION("Les notes pivots sont donc la 4e, la 5e et la 7e")
 
 
 WAIT_CAPTION
 
-CAPTION("Si je monte le 5e degré, j'obtiens le ton voisin du relatif.", {wait:true})
+# CAPTION("Si je monte le 5e degré, j'obtiens le ton voisin du relatif.", {wait:true})
 
 gammedo.note(5).arrow('vers lam', {angle:-90, width:60})
 
 # --- La gamme de LA mineur ---
 
 SET_CURSOR(140)
-SCALE('a', {type:'min_h', staff:1, offset:40, octave:3})
+SCALE('a', {type:'min_h', staff:1, offset:40, octave:3, speed:4})
 
 STAFF(1).write("LA mineur", {left:60, offset_y:-24})
 
@@ -90,7 +89,7 @@ CAPTION("Si je réhausse le quatrième degré, le FA ici, j'obtiens la tonalité
 # -- Gamme de SOL Majeur --
 
 SET_CURSOR(100)
-SCALE('g', {staff:3, offset:40, octave:3})
+gsol = SCALE('g', {staff:3, offset:40, octave:3, speed:4})
 STAFF(3).write("SOL Majeur (Dominante)", {left:60, offset_y:-24})
 
 WAIT_CAPTION

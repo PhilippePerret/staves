@@ -18,17 +18,20 @@ div#doublage, div#caption {
   position          : absolute;
   z-index           : 500;
 }
+div#caption > span#caption_text {
+  background-color  : #787878;
+}
 div#doublage, div#caption > span#caption_text {
-  background-color  : black;
   padding           : 4px 16px;
 }
 div#doublage {
-  left        : 20px;
-  height      : 4em;
-  bottom      : 4px !important;
-  width       : 860px;
-  color       : yellow;
-  font-size   : 13.3pt;
+  left      : 20px;
+  height    : 4em;
+  bottom    : 4px !important;
+  width     : 860px;
+  color     : yellow;
+  font-size : 13.3pt;
+  background-color:black;
 }
 /* Les DIV contenant chaque doublage */
 div#doublage > div {

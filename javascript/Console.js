@@ -59,6 +59,10 @@ $.extend(window.Console,{
     * en a une après et on déplace simplement le curseur derrière si c'est le cas,
     * etc.
     * + la tabulation permet de l'autocomplétion de mots.
+    *
+    * La méthode est appelée dès qu'on frappe une touche alors que le focus se
+    * se trouve dans la console.
+    *
     * @method autocompletion
     * @param  {KeybaordEvent} evt L'évènement Keyboard (keypress)
     * @return {Boolean} TRUE si une autocompletion a été exécutée, false otherwise
@@ -101,6 +105,8 @@ $.extend(window.Console,{
       return this.closed_char_or_move_cursor('"', '"', 1)
     case 39  : // apostrophe simple
       return this.closed_char_or_move_cursor("'", "'", 1)
+    case 44  : // virgule (on la passe s'il y en a une après)
+      return this.move_cursor_if_next(',', 1)    
     case 123 : // accolade ouvrante
     case 125 : // accolade fermante
       return this.closed_char_or_move_cursor("{", "}", 1)
@@ -127,7 +133,6 @@ $.extend(window.Console,{
   closed_char_or_move_cursor:function(opening_char, closing_char, moving)
   {
     var around = this.around_selection(false, 1)
-    dlog("around:");dlog(around)
     if( around.content == closing_char)
     {
       this.select({start:around.start+1, end:around.start+1})
@@ -136,6 +141,20 @@ $.extend(window.Console,{
     {
       this.set_caret_to(opening_char+closing_char, moving)
     }
+    return true
+  },
+  /**
+    * Méthode qui déplace le curseur d'un caractère vers la droite si
+    * le caractère suivant (ou le texte) est +next_str+
+    * @method move_cursor_if_next
+    * @param {String} next_str
+    */
+  move_cursor_if_next:function(next_str)
+  {
+    var len_str = next_str.length
+    var around  = this.around_selection(false, len_str)
+    if(around.content != next_str) return false
+    this.select({start:around.start+len_str, end:around.start+len_str})
     return true
   },
   /**
