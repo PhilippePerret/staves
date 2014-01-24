@@ -247,9 +247,9 @@ ARROW_METHODS = {
     rleft += offx
     rtop  -= offy
     
-    dlog({
-      angle: angle, angle_tri:angle_tri, rayon:rayon, offx:offx, offy:offy, rleft:rleft, rtop:rtop
-    })
+    // dlog({
+    //   angle: angle, angle_tri:angle_tri, rayon:rayon, offx:offx, offy:offy, rleft:rleft, rtop:rtop
+    // })
 
     
     // Quelques petites rectifications en fonction du possesseur
@@ -262,7 +262,6 @@ ARROW_METHODS = {
         break
       case 'chord':
         rectif_y = this.owner.position_fleche_per_angle(angle)
-        dlog("rectif_y pour chord : "+rectif_y)
         break
       }
     }

@@ -447,7 +447,7 @@ Object.defineProperties(Txt.prototype,{
         case cadence:
           top += Anim.prefs.harmony + Anim.prefs.offset_harmony
           break
-        case chord:   
+        case chord: // WARNING : le type de texte, pas un accord portant le texte
           top -= Anim.prefs.chord + Anim.prefs.offset_chord
           break
         case modulation:
@@ -554,13 +554,13 @@ Object.defineProperties(Txt.prototype,{
         {
         case 'staff': 
           var h = Anim.prefs.staff_top_text + voffset
-          if(Anim.prefs.staff_text_up)
-            return - (h + itxt.height_calc)
-          else
-          {
-            return owner.height + h
-          }
+          if(Anim.prefs.staff_text_up) return - (h + itxt.height_calc)
+          else return owner.height + h
+        case 'chord':
+          return (owner.top_obj - 30 - voffset) - itxt.top
         }
+        
+        
         if( voffset ) return itxt.top
         switch(itxt.type){
         case chord:

@@ -237,9 +237,18 @@ Cela permet de faire des tests très ponctuels de commandes.
 
 Le code d'une animation pouvant très vite devenir conséquent, on peut enchainer très facilement des animations. Il suffit pour cela d'utiliser la commande&nbsp;:
 
-    SUITE('<nom ou chemin de l'animation>)
+    SUITE('<nom ou chemin de l'animation sans extension>)
     
 On peut mettre cette commande où l'on veut dans le code, puisqu'elle ne sera interprétée qu'une fois l'animation courante exécutée. Il est donc possible de la mettre au début du code comme à la fin.
+
+Pour faire référence à une animation se trouvant le dossier de l'animation courante (ie qui utilise la commande `SUITE`), on peut indiquer le chemin complet bien sûr, mais aussi le raccourci-point&nbsp;:
+
+    SUITE('./anim_dans_meme_dossier')
+
+*Noter que sans ce `./` l'animation sera cherchée à la racine du dossier des animations.*
+
+*Astuce&nbsp;: on peut remplacer les traits plats (“__”) par des espaces, ils seront automatiquement corrigés.*
+
 
 <a name="mode_flash"></a>
 ###Activer/désactiver le mode “Flash”

@@ -254,7 +254,7 @@ FONCTIONS_ANIM_OBJETS = {
     * Note : La commande peut être placée n'importe où puisqu'elle n'exécutée qu'à
     * la toute fin de l'animation.
     * @method LOAD_ANIM
-    * @param {String} path    Chemin à l'animation à charger
+    * @param {String} path    Chemin à l'animation à charger. Le nom de l'animation si elle se trouve dans le même dossier.
     * @param {Object} params  Paramètres optionnels
     */
   SUITE:function(path, params)

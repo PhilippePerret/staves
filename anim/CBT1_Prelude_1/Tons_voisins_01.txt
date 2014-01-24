@@ -14,10 +14,7 @@ DEFAULT('caption_timer', true)
 DEFAULT('next', 200)
 #SPEED(20)
 
-#SUITE('CBT1_Prelude1_01-11')
-
-# Pour régler l'animation sans voir les captions
-DEFAULT('caption_omit', true)
+SUITE('./Tons_voisins_02')
 
 NEW_STAFF(SOL)
 NEW_STAFF(SOL)

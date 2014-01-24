@@ -664,7 +664,7 @@ $.extend(window.Anim,{
   {
     stack('-> Anim.set_animation_pour_suivre', {path:path})
     this.hasSuite = true
-    this.animation_pour_suivre = path
+    this.animation_pour_suivre = path.replace(/( +)/g, '_')
     NEXT_STEP(no_timeout = true)
     stack('<- Anim.set_animation_pour_suivre')
   },
@@ -678,6 +678,8 @@ $.extend(window.Anim,{
     var danim = this.animation_pour_suivre.split('/')
     var anim_name = danim.pop()
     var anim_fold = danim.join('/')
+    if(anim_fold == '.') anim_fold = this.File.folder
+    dlog({'anim name':anim_name, 'anim folder':anim_fold})
     this.File.load(anim_name, anim_fold)
   },
   /**

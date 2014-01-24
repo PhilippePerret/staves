@@ -170,7 +170,8 @@ window.Anim.File = {
   {
     if(undefined == rajax)
     {
-      Ajax.send({script:"animation/list", folder:folder}, $.proxy(this.load_list_animations, this, folder))
+      var app_loading = (undefined == folder) ? 1 : 0
+      Ajax.send({script:"animation/list", folder:(folder || ""), app_loading:app_loading}, $.proxy(this.load_list_animations, this, folder))
     }
     else
     {

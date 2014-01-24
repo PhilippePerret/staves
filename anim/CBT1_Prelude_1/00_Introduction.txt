@@ -1,10 +1,16 @@
-# =======================
-# Animation analyse du 
-# Premier Prélude du CBT
-# n°1 de J.S BACH
-# =======================
+# =======================================
+# Animation de l'analyse du :            
+# Premier Prélude du CBT n°1 de J.S BACH  
+# =======================================
 
-SUITE('CBT1_Prelude1_parenthese_harmonie')
+#
+# Introduction. Présentation générale de la partition et
+# des pré-requis à l'analyse.
+# Opposition entre les arpèges ascendants et la mélodie
+# descendante.
+#
+
+SUITE('./Tons voisins 01')
 
 # --- Valeurs par défault ---
 DEFAULT('next', 75)
@@ -19,7 +25,7 @@ DEFAULT('caption_timer', true)
 # La partition
 partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', left:78, top:6, width:725})
 
-CAPTION("Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d'analyse", {wait:true})
+CAPTION("Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d'analyse.", {wait:true})
 
 CAPTION("Pour cette première analyse, c'est le premier prélude du livre 1 du clavecin bien tempéré de Bach qui va nous servir de support.", {wait:true})
 
@@ -62,42 +68,47 @@ CAPTION("Ici, les choses sont simples : En dehors de ses deux dernières mesure
 
 CAPTION("On est donc d'emblée dans une pièce de style “exercice”. Avec une même difficulté qui se répète à loisir sur chaque mesure.", {wait:true})
 
-# IMAGE À SUPPRIMER POUR
-# REPARTIR DEPUIS ICI SEULEMENT
-# partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', left:78, top:6, width:725})
 
-
-CAPTION("D'emblée, donc, Bach affirme la destination pédagogique des monuments du clavier que sont ses Clavecins Bien Tempérés.", {wait:true})
+CAPTION("D'emblée, donc, Bach affirme la portée pédagogique des monuments du clavier que sont ses Clavecins Bien Tempérés.", {wait:true})
 
 partition.hide()
 
 CAPTION("Par rapport à ces arpèges ascendant, il est intéressant de noter comment ils s'opposent au parcours de la mélodie.")
+
+# --- La mélodie du prélude ---
+
 NEW_STAFF(SOL, {top:129})
-
-#!START
-
 melodie = MOTIF('e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 c4 a3 f3 f5 d5 b4 f4 e4', {offset_x:34, speed:4})
-WAIT(1)
+
+WAIT_CAPTION
 
 CAPTION("En effet, si nous ne prenons que les notes extrêmes de ce prélude, nous notons le parcours clairement descendant de la mélodie…", {wait:true})
 
+CAPTION("… qui part du mi5 pour aller jusqu'au mi4, donc une octave, …")
+
 melodie.note([1,32,41]).surround({color:blue})
 
-CAPTION("… qui part du mi5 pour aller jusqu'au mi4, donc une octave, …")
+WAIT_CAPTION
+
+CAPTION("… pour un ambitus — c'est-à-dire l'intervalle entre la note la plus haute et la note la plus basse — de sixte redoublée, du la5… au do4…")
 
 melodie.note([5,20]).surround({color:green})
 
-CAPTION("… pour un ambitus — c'est-à-dire l'intervalle entre la note la plus haute et la note la plus basse — de sixte redoublée, du la5… au do4…")
-WAIT(10)
+WAIT_CAPTION
 
-# Mark de la CODA
-melodie.note(33).part(coda, {offset_x:10, offset_y:-10})
+# --- Mark de la CODA ---
+SET_CURSOR(470)
+STAFF(2).part(coda)
 
-CAPTION("Noter que je ne tiens pas compte ici de la coda, d'un caractère mélodique très contrasté, même si elle ne fait qu'extrapoler, enfler, le caractère descendant de la mélodie.",{wait:true})
+WAIT_CAPTION
+
+CAPTION("Noter que je ne tiens pas compte ici de la coda, d'un caractère mélodique contrasté. On remarque entre parenthèses qu'elle est une subtile synthèse de ce que nous venons de voir : elle hérite des arpèges de l'harmonie et elle hérite du caractère mélodique descendant de la mélodie.",{wait:true})
 
 STAFF(2).remove()
 STAFF(1).remove()
 partition.show()
 
 
-CAPTION("Moralité, des arpèges qui montent, s'opposant à une mélodie qui descendant… Et puis l'utilisation d'un motif répétitif — l'arpège — mais sur un ambitus large, ça fait déjà quelques beaux contrastes pour une pièce en apparence très simple !")
+CAPTION("Moralité, des arpèges qui montent, s'opposant à une mélodie qui descend… Et puis l'utilisation d'un motif répétitif — l'arpège — mais sur un ambitus large, ça fait déjà quelques beaux contrastes pour une pièce si simple en apparence !")
+
+WAIT_CAPTION
