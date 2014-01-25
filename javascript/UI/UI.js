@@ -112,6 +112,8 @@ $.extend(UI,{
       width : anim_width+"px", 
       height: anim_height+"px"}
     )
+    Anim.Dom.width  = anim_width
+    Anim.Dom.height = anim_height
     
     // Dimensions pour la console
     console_width         = x - anim_width - 40

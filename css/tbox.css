@@ -1,0 +1,13 @@
+/* ---------------------------------------------------------------------
+    Les T-BOXES
+  --------------------------------------------------------------------- */
+
+div.tbox {
+  position    : absolute;
+  font-family : Verdana;
+  font-size   : 18pt;
+  text-align  : center;
+  padding     : 1em;
+  z-index     : 10;
+  background-color: transparent;
+}

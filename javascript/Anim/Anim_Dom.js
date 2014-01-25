@@ -11,6 +11,17 @@
 if(undefined == window.Anim) window.Anim = {}
 Anim.Dom = {
   /**
+    * Largeur de l'animation (calculée)
+    * @property {Number} width
+    */
+  width:null,
+  /**
+    * Hauteur de l'animation (calculée)
+    * @property {Number} height
+    */
+  height:null,
+  
+  /**
     * Valeur left maximale en fonction de la taille de l'animation à l'écran
     * Note : La valeur est calculée par UI.onresize_window
     * @property {Number} left_max
@@ -155,7 +166,7 @@ Anim.Dom = {
     // === Ajout du code à l'animation ===
     this.section.append(real_instance ? instance.code_html : instance)
     
-    if(instance.code_html)
+    if(real_instance)
     {
       instance.positionne()
       instance.show(params)

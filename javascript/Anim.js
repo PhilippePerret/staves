@@ -304,7 +304,32 @@ $.extend(window.Anim,{
       * @property {Boolean} caption_timer
       * @default false
       */
-    caption_timer     :false
+    caption_timer     :false,
+    /**
+      * Police par défaut des tboxes
+      * @property {String} tbox_font_family
+      */
+    tbox_font_family  : 'Verdana',
+    /**
+      * Taille par défaut de la police de texte (en points — pt)
+      * @property {Number} tbox_font_size
+      */
+    tbox_font_size    : 18,
+    /**
+      * Padding par défaut des boites de texte tbox (en pixels)
+      * @property {Number} tbox_padding
+      */
+    tbox_padding      : 20,
+    /**
+      * Background par défaut des tbox
+      * @property {String} tbox_background
+      */
+    tbox_background   : 'transparent',
+    /**
+      * Bordure par défaut des tbox
+      * @property {String} tbox_border
+      */
+    tbox_border       : 'none'
   },
   
   

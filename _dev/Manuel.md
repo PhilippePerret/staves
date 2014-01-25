@@ -1215,12 +1215,13 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
 ###Table des matières
 
 * [Introduction aux textes](#intro_textes)
-* [Créer un texte](#create_texte)
+* [Créer une boite de texte](#create_tbox)
+* [Créer des sous-titres ou des doublages)](#creer_captions)
+* [Créer un texte pour un objet musical](#create_texte)
   * [Types spéciaux de texte (Accords, harmonie, cadences, etc.)](#types_speciaux_texte)
   * [Créer un texte pour l'animation](#create_texte_animation)
   * [Créer un texte pour un objet](#create_texte_objet)
   * [Créer un texte pour la portée (section “Portée”)](#ecrire_texte_portee)
-  * [Créer des sous-titres ou des doublages)](#creer_captions)
 * [Définir les positions des textes](#set_position_texte)
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)
@@ -1229,7 +1230,64 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
 <a name="intro_textes"></a>
 ###Introduction
 
-Les textes peuvent exister pour l'animation en général (ils sont alors écrits en haut à gauche et chaque nouveau texte remplace l'ancien), mais ils peuvent être associés aussi à tout objet de l'animation, note, portée, mesure, barre, etc.
+Il existe trois sortes de textes dans Staves&nbsp;: 
+
+* [Les textes “portés” par les notes](#create_texte), les portées, les accords, tous les objets musicaux en somme, et  comme les harmonies, les accords. De façon générale, ils sont créés à l'aide de la méthode `write` appelée sur l'objet (p.e. `maNote.write(....)`) ainsi que tous les méthodes-raccourcis comme la méthode `chord` qui permet d'écrire le nom de l'accord (p.e. `monAccord.chord("Do min.")`)&nbsp;;
+* [Les textes de sous-titre ou de doublage](#creer_captions) qui permettent, comme leur nom l'indique, de créer des sous-titres ou des doublages à dire sur l'animation&nbsp;;
+* [les “TBox(es)”, les boites de texte](#create_tbox), indépendantes des objets musicaux, qui permettent d'afficher des textes à l'écran de façon indépendante des objets musicaux, avec un style propre.
+
+
+<a name="create_tbox"></a>
+###Créer une boite de texte
+
+Une “TBox”, une boite de texte, est un texte indépendant de l'animation, qui permet d'afficher un texte à n'importe quel endroit de l'animation, avec le style défini.
+
+* [Créer (instancier) la boite de texte](#instanciate_tbox)
+* [Définir les valeurs par défaut des boites de texte](#set_prefs_tboxes)
+* [Définir le style de la boite de texte](#set_style_tbox)
+* [Définir les dimensions de la boite de texte](#set_dimensions_tbox)
+* [Animer les boites de texte](#animate_tbox)
+
+<a name="set_prefs_tboxes"></a>
+####Définir les valeurs par défaut des boites de texte
+
+Toutes les valeurs par défaut se règlent à l'aide de la commande `DEFAULT`.
+
+    DEFAULT('tbox_font_family', "<police à utiliser>")
+    DEFAULT('tbox_font_size', <nombre de point de la taille de police>)
+    DEFAULT('tbox_padding', <nombre de pixel de marge intérieure>)
+    DEFAULT('tbox_background', "<background par défaut>")
+    DEFAULT('tbox_border', "<bord par défaut des boites de texte>")
+  
+<a name="instanciate_tbox"></a>
+####Instancier la boite de texte
+
+Une boite de texte (une “TBox”) se créer avec la commande `TBOX`
+
+    <variable> = TBOX("<Le texte>"[, <parametres>])
+
+*Noter que cette boite, par défaut, n'apparaitra pas à l'écran. Pour la faire apparaitre, ajouter `show()` derrière. Par exemple&nbsp;:*
+
+    monTexte = TBOX("Le texte").show()
+
+Par défaut, une boite de texte apparaitra toujours au milieu de l'écran, sur un fond blanc, avec un caractère assez grand.
+
+<a name="set_style_tbox">
+####Définir le style de la boite de texte
+
+...
+
+<a name="set_dimensions_tbox"></a>
+####Définir les dimensions de la boite de texte
+
+...
+
+<a name="animate_tbox"></a>
+####Animer les boites de texte
+
+...
+
+---------------------------------------------------------------------
 
 <a name="create_texte"></a>
 ###Créer un texte
