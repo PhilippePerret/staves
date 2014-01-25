@@ -66,6 +66,21 @@ window.TBox = function(texte, params)
     */
   this.hidden = false
   
+  /**
+    * Opacité du fond (se souvenir que c'est une autre boite qui le fait)
+    * @property {Float} opacity
+    * @default 0.05
+    */
+  this.opacity = 0.05
+  
+  /**
+    * Couleur du fond translucide
+    * @property {Constante|Couleur hexa RRVVBB} background
+    * @default 'black'
+    */
+  this.background = 'black'
+  
+  
   if(params)
   {
     var my = this
@@ -96,6 +111,24 @@ $.extend(TBox,{
  */
 $.extend(TBox.prototype,{
   /**
+    * Anime la boite de texte
+    * @method animate
+    * @param {Object} data Les données d'animation (comme jQUery.animate)
+    * @param {Object} params    Paramètres optionnels
+    *   @param {Number}         params.time     La durée de l'animation
+    *   @param {Function|Fals}  params.complete La méthode pour poursuivre
+    *
+    */
+  animate:function(data, params)
+  {
+    params = define_complete(params)
+    this.obj.animate(data, {
+      duration : params.time || Anim.delai_for('transform'),
+      complete :params.complete
+    })
+  },
+  
+  /**
     * Afficher la boite de texte
     * @method show
     * @param  {Object} params   Les paramètres optionnels
@@ -103,12 +136,21 @@ $.extend(TBox.prototype,{
     */
   show:function(params)
   {
-    params = define_complete( params )
-    if(!this.built) this.build()
-    this.obj.show(Anim.delai_for('show'))
-    if('function'==typeof params.complete) params.complete()
+    this.animate({opacity:1}, params)
+    this.hidden = false
   },
-  
+
+  /**
+    * Masquer la boite de texte
+    * @method hide
+    * @param  {Object} params   Les paramètres optionnels
+    *   @param  {Function|False} params.complete    Méthode pour suivre. False si aucune méthode ne doit suivre. Par défaut : NEXT_STEP
+    */
+  hide:function(params)
+  {
+    this.animate({opacity:0}, params)
+    this.hidden = true
+  },
   /**
     * Positionne la boite de texte (mais fait + que ça, en la dimensionnant et
     * en réglant toutes les propriétés css définies — taille de police, etc.)
@@ -126,7 +168,10 @@ $.extend(TBox.prototype,{
       top           : this.top+'px',
       left          : this.left+'px',
       padding       : this.padding+'px'
-      // 'background'  : this.background,
+    })
+    this.obj_background.css({
+      'background-color'  : this.background,
+      'opacity'           : this.opacity
       // 'border'      : this.border
     })
     this.obj.css({height: this.height+'px', width:this.width+'px'})
@@ -345,7 +390,7 @@ Object.defineProperties(TBox.prototype,{
     */
   "code_html":{
     get:function(){
-      return  '<div id="'+this.id+'" class="tbox" style="display:'+(this.hidden ? 'none' : 'block')+';">'+
+      return  '<div id="'+this.id+'" class="tbox" style="opacity:'+(this.hidden ? '0' : '1')+';">'+
                 '<div id="'+this.id+'-background" class="tbox_background"></div>' +
                 '<div id="'+this.id+'-text" class="tbox_content">'+this.texte+'</div>'+
               '</div>'

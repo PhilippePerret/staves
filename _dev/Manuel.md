@@ -1281,7 +1281,24 @@ Toutes les valeurs par défaut se règlent à l'aide de la commande `DEFAULT`.
 ####Définir le style de la boite de texte
 
 ...
+#####Définir la couleur de fond translucide
 
+Pour définir la couleur de fond translucide (noire par défaut), on utilise le paramètre `background`.
+
+    tbox1 = TBOX("Mon texte", {background:<couleur #RRVVBB ou constante>})
+
+Si la boite est déjà créée :
+
+tbox1.background(<couleur>)
+  
+On peut jouer aussi sur l'opacité avec le paramètre `opacity`. Une opacité de 1 rendra complètement opaque le fond (aucune transparence), une opacité de 0.xx où `xx` est un nombre créera la transparence maximale.
+
+    tbox1 = TBOX("mon texte", {opacity:<nombre>})
+    
+Si la boite est déjà créée&nbsp;:
+    
+    tbox1.background(<null ou la couleur voulue>, <nombre opacité>)
+    
 <a name="set_dimensions_tbox"></a>
 ####Définir les dimensions de la boite de texte
 

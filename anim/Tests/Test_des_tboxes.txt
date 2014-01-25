@@ -7,4 +7,4 @@ CAPTION("Une boite tout à fait simple. Elle doit être placée au centre, avec 
 maboite = TBOX("Un premier texte dans une boite")
 #maboite.show()
 
-autre = TBOX("Un autre texte pour voir la transparence")
+autre = TBOX("Un autre texte pour voir la transparence", {background:'blue', opacity:0.2})
