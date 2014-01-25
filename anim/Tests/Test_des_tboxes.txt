@@ -1,0 +1,10 @@
+# === TEST DES TBOX ===
+
+DEFAULT('decompte', 0)
+
+CAPTION("Une boite tout à fait simple. Elle doit être placée au centre, avec toutes les valeurs par défaut.")
+
+maboite = TBOX("Un premier texte dans une boite")
+#maboite.show()
+
+autre = TBOX("Un autre texte pour voir la transparence")

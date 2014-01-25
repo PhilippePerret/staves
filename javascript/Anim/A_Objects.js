@@ -56,6 +56,12 @@ FONCTIONS_ANIM_OBJETS = {
     * cf. la fonction CHORD
     * @method CHORD
     */
+  /** Commande pour construire une boite de texte
+    * cf. la fonction TBOX
+    * @method TBOX
+    */
+  TBOX:function(texte, params){return TBOX(texte, params)},
+  
   /** Commande pour écrire un sous-titre à l'écran (doublage ou sous-titre)
     * Note : les doublages et sous-titres ne sont pas des textes comme les
     * autre, ils se mettent simplement dans des DIV qui leur sont réservés

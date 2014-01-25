@@ -6,8 +6,21 @@ div.tbox {
   position    : absolute;
   font-family : Verdana;
   font-size   : 18pt;
-  text-align  : center;
-  padding     : 1em;
   z-index     : 10;
   background-color: transparent;
+}
+
+/* Le div de fond */
+div.tbox div.tbox_background {
+  position  : absolute;
+  top       : 0;
+  left      : 0;
+  width     : calc(100%);
+  height    : calc(100%);
+  opacity   : 0.05;
+  background-color  : black;
+}
+/* Le div contenant le texte */
+div.tbox div.tbox_content {
+  text-align  : center;
 }

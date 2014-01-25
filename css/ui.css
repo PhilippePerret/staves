@@ -42,4 +42,5 @@ div#ui_feedback {
   font-size   :10pt;
   background-color  : #ccc;
   padding           : 4px 12px;
+  z-index : 1000;
 }

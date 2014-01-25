@@ -1248,6 +1248,24 @@ Une “TBox”, une boite de texte, est un texte indépendant de l'animation, qu
 * [Définir les dimensions de la boite de texte](#set_dimensions_tbox)
 * [Animer les boites de texte](#animate_tbox)
 
+
+<a name="instanciate_tbox"></a>
+####Instancier la boite de texte
+
+Une boite de texte (une “TBox”) se créer avec la commande `TBOX`
+
+    <variable> = TBOX("<Le texte>"[, <parametres>])
+
+Par défaut, une boite de texte apparaitra toujours au milieu de l'écran, sur un fond translucide, avec un caractère assez grand.
+
+Pour créer le texte sans l'afficher, ajouter le paramètre `hidden` à true&nbsp;:
+
+    txt = TBOX("Mon texte masqué", {hidden:true})
+    
+Cela permet par exemple de créer tous les textes au début du code de l'animation pour pouvoir en disposer ensuite grâce à la méthode `show`&nbsp;:
+
+    txt.show()
+
 <a name="set_prefs_tboxes"></a>
 ####Définir les valeurs par défaut des boites de texte
 
@@ -1259,19 +1277,6 @@ Toutes les valeurs par défaut se règlent à l'aide de la commande `DEFAULT`.
     DEFAULT('tbox_background', "<background par défaut>")
     DEFAULT('tbox_border', "<bord par défaut des boites de texte>")
   
-<a name="instanciate_tbox"></a>
-####Instancier la boite de texte
-
-Une boite de texte (une “TBox”) se créer avec la commande `TBOX`
-
-    <variable> = TBOX("<Le texte>"[, <parametres>])
-
-*Noter que cette boite, par défaut, n'apparaitra pas à l'écran. Pour la faire apparaitre, ajouter `show()` derrière. Par exemple&nbsp;:*
-
-    monTexte = TBOX("Le texte").show()
-
-Par défaut, une boite de texte apparaitra toujours au milieu de l'écran, sur un fond blanc, avec un caractère assez grand.
-
 <a name="set_style_tbox">
 ####Définir le style de la boite de texte
 
