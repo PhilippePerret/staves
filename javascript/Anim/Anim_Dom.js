@@ -161,6 +161,7 @@ Anim.Dom = {
     */
   add:function(instance, params)
   {
+    dlog("-> Anim.Dom.add")
     var real_instance = 'string' != typeof instance ;
     
     params = define_complete(params)
@@ -171,8 +172,10 @@ Anim.Dom = {
     if(real_instance)
     {
       instance.positionne()
-      instance.show(params)
+      if(instance.opacity != 0) instance.show(params)
+      else if('function'==typeof params.complete) params.complete()
     }
+    dlog("<- Anim.Dom.add")
   },
   /**
     * Méthode d'aide qui affiche un point de repère aux coordonnées x/y, puis

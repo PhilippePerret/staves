@@ -14,9 +14,11 @@
   */
 window.define_complete = function(params, value)
 {
+  dlog("params reçus par define_complete (value="+value+"):");dlog(params)
   if(undefined == params) params = {}
   if(undefined == value ) value  = NEXT_STEP
   if(undefined == params.complete) params.complete = value
+  dlog("params renvoyés par define_complete : ");dlog(params)
   return params
 }
 

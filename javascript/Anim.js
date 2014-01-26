@@ -109,6 +109,7 @@ $.extend(window.Anim,{
     step        : 500,
     show        : 400,
     note_moved  : 1000,
+    move        : 1000,  // Déplacement quelconque d'un objet
     transform   : 1000,  // Transformation comme l'allongement
     wait        : 1000 // multiplicateur de secondes
   },

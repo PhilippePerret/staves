@@ -72,6 +72,13 @@ window.TBox = function(texte, params)
     */
   this.background = 'black'
   
+  /**
+    * Alignement du texte
+    * @property {String} align
+    * @default 'center'
+    */
+  this.align = 'center'
+  
   // Dispatch des valeurs fournies (même si aucune)
   this.dispatch(params)
   
@@ -111,8 +118,7 @@ $.extend(TBox.prototype,{
   show:function(params)
   {
     if(undefined == params) params = {}
-    if(undefined == this.duree) params.duree = Anim.delai_for('show')
-    else params.duree = this.duree
+    params.duree = this.duree_set_or_default(params, 'show')
     this.animate({opacity:1}, params)
     this.hidden = false
   },
@@ -127,8 +133,11 @@ $.extend(TBox.prototype,{
     this.obj_texte.css({
       'font-size'     : this.font_size+'pt',
       'font-family'   : this.font_family,
-      'color'         : this.color || Anim.prefs.text_color
+      'color'         : this.color || Anim.prefs.text_color,
+      width           : this.width+'px',
+      'text-align'    : this.align
     })
+    dlog("this.x de "+this.id+" : "+this.x)
     this.obj.css({
       width         : this.width+'px',
       height        : this.height+'px',
@@ -157,10 +166,17 @@ $.extend(TBox.prototype,{
     */
   build:function()
   {
-    Anim.Dom.add(this)
+    var params = {}
+    if(this.wait === false) params.complete = false
+    Anim.Dom.add(this, params)
     this.obj.draggable({
       stop:$.proxy(this.coordonnees, this)
     })
+    if(this.wait === false)
+    {
+      delete this.wait
+      NEXT_STEP(notimeout = true)
+    }
   },
   
   /**
@@ -232,16 +248,16 @@ Object.defineProperties(TBox.prototype,{
     */
   "x":{
     set:function(w){
-      this._left = w
+      this._x = w
       this.set_css('left', w)
     },
     get:function(){
-      if(undefined == this._left)
+      if(undefined == this._x)
       { // On définit une valeur par défaut (centrée)
-        this._left = parseInt((Anim.Dom.width - this.width) / 2, 10)
-        this._left += this.offset_x
+        this._x = parseInt((Anim.Dom.width - this.width) / 2, 10)
+        this._x += this.offset_x
       }
-      return this._left
+      return this._x
     }
   },
   /**

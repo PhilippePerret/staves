@@ -1,6 +1,6 @@
 # === Pour faire des essais avant de les ajouter à une animation ===
 
-DEFAULT('decompte', 0)
+#DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 
 bgd = BACKGROUND({opacity:0})

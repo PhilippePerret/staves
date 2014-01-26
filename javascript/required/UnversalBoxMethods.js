@@ -37,11 +37,14 @@ $.extend(UNVERSAL_BOX_METHODS,{
     */
   show:function(params)
   {
+    dlog("-> " + this.id + ".show")
     if(undefined == params) params = {}
     if(undefined == this.duree) params.duree = Anim.delai_for('show')
     else params.duree = this.duree * 1000
+    params.complete = this.wait === false ? false : NEXT_STEP
     this.animate({opacity:this.opacity || 1}, params)
     this.hidden = false
+    dlog("<- " + this.id + ".show")
   },
   
   /**
@@ -51,13 +54,24 @@ $.extend(UNVERSAL_BOX_METHODS,{
     */
   hide:function(params)
   {
-    params = define_complete(params)
+    if(undefined == params) params = {}
     if(undefined == params.duree) params.duree = Anim.delai_for('show')
     else params.duree = params.duree * 1000
+    params.complete = this.wait === false ? false : NEXT_STEP
     this.animate({opacity:0}, params)
     this.hidden = true
   },
 
+  /**
+    * Destruction de l'objet DOM de l'objet courant
+    * Note : c'est une méthode qui enchaine tout de suite la méthode suivante.
+    * @method remove
+    */
+  remove:function(){
+    this.obj.remove()
+    NEXT_STEP(notimeout = true)
+  },
+  
   /**
     * Crée un fondu de l'objet. La méthode détecte automatiquement s'il
     * s'agit d'un fondu au noir ou une ouverture, en fonction de l'opacité
@@ -96,7 +110,8 @@ $.extend(UNVERSAL_BOX_METHODS,{
     if(undefined != params.for_x)   data.left = this.x + params.for_x
     else if (undefined != params.x) data.left = params.x
     if(undefined != params.for_y)   data.top = this.y + params.for_y
-    else if (undefined != params.y) data.top = params.y
+    else if (undefined != params.y) data.top = params.y ;
+    params.duree = this.duree_set_or_default(params, 'move')
     if(undefined != params.wait && params.wait === false) this.wait = false
     this.animate(data, params)
   }
@@ -134,8 +149,17 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   build:function()
   {
-    Anim.Dom.add(this)
+    dlog("-> "+this.id+".build")
+    var params = {}
+    if(this.wait === false) params.complete = false
+    Anim.Dom.add(this, params)
     this.obj.draggable({stop:this.coordonnees})
+    if(this.wait === false)
+    {
+      delete this.wait
+      NEXT_STEP(notimeout = true)
+    }
+    dlog("<- "+this.id+".build")
     return this
   },
   /**
@@ -149,18 +173,22 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   animate:function(data, params)
   {
+    dlog("-> "+this.id+".animate")
     // dlog("Params reçus par BUMP.animate:");dlog(params)
     params = define_complete(params, (this.wait === false) ? false : NEXT_STEP)
-    if(undefined != params.duree) params.duree = params.duree * 1000
+    dlog("params dans animate de "+this.id+" (avec this.wait à : "+(this.wait)+"): ");dlog(params)
     this.obj.animate(data, {
       duration : params.duree || Anim.delai_for('transform'),
       complete : params.complete
     })
+    // Si this.wait a été mis à false, il faut passer immédiatement à l'étape
+    // suivante
     if(this.wait === false)
     {
-      NEXT_STEP(notimeout = true)
       delete this.wait
-    }
+      NEXT_STEP(no_timeout=true)
+    } 
+    dlog("<- "+this.id+".animate")
   },
     
   /**
@@ -174,12 +202,10 @@ $.extend(UNVERSAL_BOX_METHODS, {
     *
     * @method positionne
     * @param {Object} params Paramètres optionnels
-    *   @param  {Function|False} params.complete Méthode à appeler en fin de processus, ou false, ou NEXT_STEP par défaut.
     */
   positionne:function(params)
   {
-    dlog("-> UniversalBoxMethods.positionne")
-    params = define_complete(params)
+    dlog("-> "+this.id+".positionne")
     var data = {
       'left'    : (this.val_or_default('x'))       + 'px',
       'top'     : (this.val_or_default('y'))       + 'px',
@@ -197,9 +223,19 @@ $.extend(UNVERSAL_BOX_METHODS, {
       this.set_css('background-color', this.background || this.background_default)
     }
     if('function'==typeof this.after_positionne) this.after_positionne()
-    if('function'==typeof params.complete) params.complete()
   },
   
+  /** Retourne la durée définie dans +params+ ou la durée par défaut d'identifiant
+    * +duree_id+
+    * @method duree_set_or_default
+    * @param {Object} params    Les paramètres contenant peut-être `duree`
+    * @param {String} duree_id  L'identifiant dans Anim.transition de la durée par défaut
+    * @return {Float} Le nombre de millisecondes
+    */
+  duree_set_or_default:function(params, duree_id)
+  {
+    return (undefined == params.duree) ? Anim.delai_for(duree_id) : params.duree * 1000
+  },
   /**
     * Définit une propriété css de l'objet
     * @method set_css

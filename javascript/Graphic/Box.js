@@ -26,7 +26,7 @@ window.BACKGROUND = function(color, params)
   }
   else
   {
-    params = color
+    params = color || {}
     if(undefined == params.background) params.background = 'black'
   }
   params.class = 'background'
@@ -124,7 +124,7 @@ Object.defineProperties(Box.prototype,{
     */
   "code_html":{
     get:function(){
-      return '<div id="'+this.id+'" class="box" style="opacity:'+(this.hidden ? '0' : this.opacity)+';"></div>'
+      return '<div id="'+this.id+'" class="box" style="opacity:0;"></div>'
     }
   }
   

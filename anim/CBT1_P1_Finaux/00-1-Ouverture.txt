@@ -1,0 +1,43 @@
+# =======================================
+# Animation de l'analyse du :            
+# Premier Prélude du CBT n°1 de J.S BACH  
+# =======================================
+
+#
+# Ouverture.
+#
+
+SUITE('./01-1-A_quoi_sert_lanalyse')
+
+# --- Valeurs par défault ---
+DEFAULT('next', 75)
+DEFAULT('harmony', 65)
+DEFAULT('staff_top', 120)
+DEFAULT('staff_offset', 120)
+DEFAULT('offset_modulation_y', 5)
+DEFAULT('chord', 35)
+DEFAULT('decompte', 0)
+DEFAULT('caption_timer', true)
+
+BACKGROUND('black')
+
+CAPTION("Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d'analyse. Pour cette première analyse, c'est …", {wait:true})
+
+CAPTION("… le premier prélude du livre 1 du clavecin bien tempéré de Bach qui va nous servir de support.")
+
+titre = TBOX("Premier prélude du Premier cahier du Clavecin bien tempéré", {x:198-100, y: 132-50, background:red, opacity:0.33, duree:1, wait:false})
+
+bach  = TBOX("Jean-Sébastien Bach", {x:386+100, y:247+50, background:blue, opacity:0.125, duree:1, wait:false})
+
+WAIT(0.2)
+
+titre.move({x:198, y: 132, wait:false, duree:2.5})
+
+bach.move({x:386, y:247, duree:3})
+
+ligne_or = BOX({width:565, background:'#FFCF3C', height:5, x:232, y:106, hidden:true})
+
+WAIT(4)
+
+CLEAR()
+

@@ -22,45 +22,8 @@ DEFAULT('chord', 35)
 DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 
-# La partition
-partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
 
-CAPTION("Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d'analyse.", {wait:true})
-
-CAPTION("Pour cette première analyse, c'est le premier prélude du livre 1 du clavecin bien tempéré de Bach qui va nous servir de support.", {wait:true})
-
-titre = TBOX("Premier prélude du premier cahier du clavecin bien tempéré")
-bach  = TBOX("Jean-Sébastien Bach")
-
-CAPTION("Mais avant de commencer, il me semble important de se poser cette question : “À quoi sert l'analyse ?” Après tout, la beauté d'une pièce se passe très bien de toute analyse, elle s'entend…", {wait:true})
-
-CAPTION("C'est vrai. Si ce n'est peut-être qu'au plaisir auditif, l'analyse peut révéler des choses qui ne sautent pas forcément aux oreilles.", {wait:true})
-
-CAPTION("Mais plus encore, pour le musicien, ou pour celui qui joue de la musique, l'analyse vise deux buts très concrets qu'il me semblent important de souligner.", {wait:true})
-
-CAPTION("Le premier but, c'est que l'analyse apporte une compréhension plus profonde du morceau, et permet donc de mieux l'interpréter, et même d'avoir des partis-pris de jeu qui reposent sur cette compréhension plus profonde.", {wait:true})
-
-CAPTION("L'analyse permet de mieux jouer le morceau, par la compréhension plus profonde qu'on en a.", true)
-
-
-CAPTION("Le second but que peut viser l'analyse, et ça n'est pas le moindre de ses intérêts, c'est de permettre d'apprendre un morceau beaucoup plus vite, et de mieux le retenir, et plus longtemps.", {wait:true})
-
-CAPTION("L'analyse permet d'apprendre le morceau plus vite et<br>de mieux le retenir.", true)
-
-CAPTION("CEPENDANT, il vaut mieux être informé de quelque chose que n'imaginent pas ceux qui se lancent dans l'analyse plein d'enthousiasme et de foi. Et qui les conduit fatalement au découragement.", {wait:true})
-
-# Effacer le sous-titre
-CAPTION("", true)
-
-CAPTION("Cette chose, c'est qu'avant de voir sa capacité à analyser porter les fruits dont je viens de parler, il faudra beaucoup de temps… et beaucoup d'efforts.", {wait:true})
-
-CAPTION("Mais franchement, le jeu en vaut la chandelle.", {wait:true})
-
-CAPTION("Donc souvenez-vous que c'est au bout d'un certain temps, et au bout d'un temps certain seulement, qu'on peut tirer vraiment profit de l'analyse musicale.", {wait:true})
-
-CAPTION("Je tenais à faire cette introduction pour que les choses soient bien claires.", {wait:true})
-
-CAPTION("Passons à présent à ce plus que fameux prélude de Bach.", {wait:true})
+CAPTION("Passons à présent à ce + que fameux prélude de Bach.", {wait:true})
 WAIT(2)
 
 CAPTION("Toute bonne analyse procède du général au particulier. La première chose à faire quand on aborde une œuvre, encore plus lorsqu'elle est courte comme celle-ci, c'est de s'en faire une idée générale.", {wait:true})

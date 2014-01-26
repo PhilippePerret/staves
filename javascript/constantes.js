@@ -4,6 +4,12 @@
 // Termes généraux
 const auto    = 'auto'
 
+// Alignement
+const left    = 'left'
+const right   = 'right'
+const center  = 'center'
+
+
 // Couleurs
 const black   = 'black'
 const BLACK   = 'black'

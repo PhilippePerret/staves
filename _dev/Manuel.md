@@ -1248,6 +1248,7 @@ Une “TBox”, une boite de texte, est un texte indépendant de l'animation, qu
 * [Définir les valeurs par défaut des boites de texte](#set_prefs_tboxes)
 * [Définir le style de la boite de texte](#set_style_tbox)
 * [Définir les dimensions de la boite de texte](#set_dimensions_tbox)
+* [Régler l'alignement du texte dans la boite](#tbox_text_alignement)
 * [Animer les boites de texte](#animate_tbox)
 
 
@@ -1318,6 +1319,16 @@ Si la boite est déjà créée&nbsp;:
 ####Définir les dimensions de la boite de texte
 
 ...
+
+<a name="tbox_text_alignement"></a>
+####Définir l'alignement du texte dans la boite
+
+Par défaut, l'alignement du texte est centré. On peut modifier cette alignement en utilisant le paramètre `align` en lui donnant la valeur “left” (alignement à gauche), “right” (alignement à droite), “justify” (justification) et “center” (pour revenir au center).
+
+Par exemple&nbsp;:
+
+    monTexte = TBOX("Mon texte aligné à gauche.", {align:left})
+
 
 <a name="animate_tbox"></a>
 ####Animer les boites de texte
@@ -2191,6 +2202,7 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
 * [Résumé de toutes les méthodes](#bump_all_methods)
 * [Fondu de l'objet](#bump_fading)
 * [Déplacement de l'objet](#bump_moving)
+* [Détruire l'objet](#bump_removing)
 
 <a name="bump_all_properties"></a>
 ###Résumé de toutes les propriétés
@@ -2385,6 +2397,23 @@ Par exemple&nbsp;:
     maboite.fade()
     # … la boite disparaitra
 
+
+<a name="bump_removing"></a>
+###Destruction de l'objet
+
+On détruit l'objet comme les autres objets grâce à la méthode `remove`.
+
+Par exemple&nbsp;:
+
+    maBoite.remove()
+
+Noter que la méthode passe à l'étape suivante sans attendre. Pour faire disparaitre l'objet de façon plus fluide, il est préférable d'appeler avant la méthode `hide` ou `fade`. Par exemple&nbsp;:
+
+    maBoite.hide({duree:5})
+    ... quelque chose qui se passe ici
+    maBoite.remove()
+    # Détruit la boite une fois qu'elle n'est plus visible à l'écran
+    
 ---------------------------------------------------------------------
 
 <a name="set_preferences"></a>
