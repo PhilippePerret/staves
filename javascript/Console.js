@@ -117,7 +117,8 @@ $.extend(window.Console,{
     case 93  : // Crochet fermant
       return this.closed_char_or_move_cursor("[", "]", 1)
     default:
-      UI.feedback("[Console.autocompletion] charCode:"+evt.charCode+" / "+"keyCode:"+evt.keyCode)
+      // Décommenter pour avoir le charCode/keyCode de la touche
+      // UI.feedback("[Console.autocompletion] charCode:"+evt.charCode+" / "+"keyCode:"+evt.keyCode)
     }
     return false
   },

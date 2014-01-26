@@ -1267,6 +1267,19 @@ Pour créer le texte sans l'afficher, ajouter le paramètre `hidden` à true&nbs
 Cela permet par exemple de créer tous les textes au début du code de l'animation pour pouvoir en disposer ensuite grâce à la méthode `show`&nbsp;:
 
     txt.show()
+    
+Un autre paramètre intéressant à la création est le paramètre `wait`. S'il est faux (false) cela permet de passer à l'étape suivante sans attendre la fin de l'apparition de la boite. Cela permet des effets pour l'apparition quasi-simultanée de plusieurs boites ou animations diverses. 
+
+Par exemple&nbsp;:
+
+    boite1 = TBOX("Un premier texte", {wait:false, duree:4})
+    # La boite1 apparaitra en 4 secondes, mais on passe à la suite avant
+    # la fin de son apparition
+    boite2 = TBOX("Un autre texte", {wait:false, duree:3})
+    # La boite2 apparaitra en 3 secondes mais on passe à la suite immédiatement
+    boite3 = TBOX("Un troisième", {duree:2})
+    # La boite3 apparaitra en 2 secondes, mais on attendra la fin de son apparition
+    # pour passer à la suite.
 
 <a name="set_prefs_tboxes"></a>
 ####Définir les valeurs par défaut des boites de texte
@@ -1790,9 +1803,7 @@ Les paramètres peuvent être les suivants&nbsp;:
     monImg=IMAGE({
       url     : <chemin vers image> ATTRIBUT OBLIGATOIRE
       x       : <position horizontale dans l'animation>
-      left    : // comme `x`, utiliser l'un ou l'autre
       y       : <position verticale dans l'animation>
-      top     : // comme `y`, utiliser l'un ou l'autre
       width   : <taille de l'image|auto>      ATTRIBUT OBLIGATOIRE 
       height  : <hauteur de l'image|auto>     ATTRIBUT OBLIGATOIRE
       // Propriétés spéciales pour le cadrage, lorsque l'on ne veut pas
@@ -1814,19 +1825,19 @@ Noter que l'image est aussitôt construite est insérée dans l'animation avec l
 <a name="modify_position_image"></a>
 ###Modifier la position de l'image
 
-Pour modifier la position de l'image, il faut jouer sur les paramètres `top` (haut) et `left` (gauche) de ses paramètres optionnels. Par exemple&nbsp;:
+Pour modifier la position de l'image, il faut jouer sur les paramètres `y` (haut) et `x` (gauche) de ses paramètres optionnels. Par exemple&nbsp;:
 
-    monImage=IMAGE({url:'path/to/image.png', top:100, left:200})
+    monImage=IMAGE({url:'path/to/image.png', y:100, x:200})
 
 … placera l'image 100 pixels plus bas que le haut du cadre de l'animation et à 200 pixels du bord gauche.
 
 Noter qu'il est extrêmement simple de connaitre les coordonnées de l'image&nbsp;: il suffit de la déplacer dans l'animation une fois qu'elle est affichée. Ses coordonnées s'affichent en bas de l'écran. Donc&nbsp;:
 
-* Définir la commande d'affichage de l'image sans définir `top` et `left`&nbsp;;
+* Définir la commande d'affichage de l'image sans définir `y` et `x`&nbsp;;
 * Faire jouer l'animation jusqu'au moment où l'image s'affiche&nbsp;;
 * Se mettre en pause&nbsp;;
 * Déplacer l'image au bon endroit&nbsp;;
-* Relever les coordonnées qui s'affichent et définir `top` et `left` dans les paramètres de la commande IMAGE.
+* Relever les coordonnées qui s'affichent et définir `y` et `x` dans les paramètres de la commande IMAGE.
 
 <a name="move_image"></a>
 ###Déplacer l'image
@@ -1991,8 +2002,8 @@ Lors de la création de la flèche avec la méthode `arrow` (ou ARROW pour une [
       color     : {String} La couleur (constante ou string)
       offset_x  : {Number} Décalage horizontal par rapport à position normale
       offset_y  : {Number} Décalage vertical par rapport à position normale
-      top       : {Number} Placement vertical de la fleche (pixels)
-      left      : {Number} Placement horizontal de la fleche (pixels)
+      y         : {Number} Placement vertical de la fleche (pixels)
+      x         : {Number} Placement horizontal de la fleche (pixels)
       height    : {Number} Hauteur de la fleche
     })
 
@@ -2003,7 +2014,7 @@ Lors de la création de la flèche avec la méthode `arrow` (ou ARROW pour une [
 
 **`<id flèche>`** est l'identifiant optionnel de la flèche, utile si l'objet porteur doit porter plusieurs flèches.
 
-Les valeurs **top** et **left** sont calculées automatiquement pour que la flèche soit placée correctement suivant l'objet porteur. On peut ajuster ponctuellement la valeur avec **offset_x** et 
+Les valeurs **y** et **x** sont calculées automatiquement pour que la flèche soit placée correctement suivant l'objet porteur. On peut ajuster ponctuellement la valeur avec **offset_x** et 
 **offset_y**.
 
 L'**angle** est de 0 degré par défaut, c'est-à-dire que la flèche sera horizontale et pointera à droite (pour une autre valeur cf. [Angle des flèches](#angle_des_fleches)).
@@ -2095,7 +2106,7 @@ Repère pour la définition de l'angle d'une flèche&nbsp;:
     angle = -90 => flèche verticale pointant en haut
     angle = 180 => flèche horizontale pointant à gauche
 
-Noter que pour les valeurs entre 90 et -90 (donc pointant vers la gauche), il faut modifier le `left` de la flèche pour qu'elle ne traverse pas la note.
+Noter que pour les valeurs entre 90 et -90 (donc pointant vers la gauche), il faut modifier le `x` de la flèche pour qu'elle ne traverse pas la note.
 
 <a name="remove_arrow"></a>
 ###Détruire la flèche
@@ -2162,8 +2173,10 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
 
 ###Table des matières
 
+**Propriétés de l'objet**
+
 * [Résumé de toutes les propriétés](#bump_all_properties)
-* [Résumé de toutes les méthodes](#bump_all_methods)
+* [Effet de simultanéité](#bump_quasi_simultane)
 * [Régler la position horizontale](#bump_set_x)
 * [Régler la position verticale](#bump_set_y)
 * [Régler la position avant/arrière de l'objet](#bump_set_z)
@@ -2172,6 +2185,12 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
 * [Régler la couleur de fond de l'objet](#bump_set_background)
 * [Régler la couleur alternative pour le dégradé](#bump_set_gradient)
 * [Régler l'opacité de l'objet (transparence)](#bump_set_opacity)
+
+**Méthodes**
+
+* [Résumé de toutes les méthodes](#bump_all_methods)
+* [Fondu de l'objet](#bump_fading)
+* [Déplacement de l'objet](#bump_moving)
 
 <a name="bump_all_properties"></a>
 ###Résumé de toutes les propriétés
@@ -2190,6 +2209,30 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
 <a name="bump_all_methods"></a>
 ###Résumé de toutes les méthodes
 
+<dl>
+  <dt>fade</dt>
+  <dd>Crée un fondu. cf. <a href="#bump_fading">Fondu de l'objet</a></dd>
+  
+</dl>
+
+
+<a name="bump_quasi_simultane"></a>
+###Effet de simultanéité
+
+Un autre paramètre intéressant à la création d'un objet héritant des méthodes et propriétés universelles de boite est le paramètre `wait`. S'il est faux (false) cela permet de passer à l'étape suivante sans attendre la fin de l'apparition de l'objet.
+
+Cela permet des effets pour l'apparition quasi-simultanée de plusieurs boites ou animations diverses. 
+
+Par exemple&nbsp;:
+
+    boite1 = TBOX("Un premier texte", {wait:false, duree:4})
+    # La boite1 apparaitra en 4 secondes, mais on passe à la suite avant
+    # la fin de son apparition
+    boite2 = TBOX("Un autre texte", {wait:false, duree:3})
+    # La boite2 apparaitra en 3 secondes mais on passe à la suite immédiatement
+    boite3 = TBOX("Un troisième", {duree:2})
+    # La boite3 apparaitra en 2 secondes, mais on attendra la fin de son apparition
+    # pour passer à la suite.
 
 
 <a name="bump_set_x"></a>
@@ -2280,6 +2323,67 @@ Par exemple&nbsp;:
 
     maboitetransparente = BOX({opacity:0.05})
 
+<a name="bump_moving"></a>
+###Déplacement de l'objet
+
+L'objet héritant des méthodes universelles de boite peut être déplacé à l'aide de la méthode `move`.
+
+Cette méthode reçoit principalement trois arguments&nbsp;: `x` qui détermine la nouvelle position horizontale, `y` qui définit la nouvelle position verticale et `duree` qui définit la durée que devra prendre le déplacement, en secondes.
+
+Par exemple&nbsp;:
+
+    maboite = BOX({x:100, y:10})
+    WAIT(1)
+    maboite.move({x:200, y:10, duree:10})
+    # La boite se déplacera vers la droite en 10 secondes
+    
+**Autres paramètres**
+
+On peut également utiliser les paramètres `for_x` et `for_y` pour indiquer le nombre de pixels de déplacement par rapport à la position courante.
+
+Par exemple&nbsp;:
+
+    maboite = BOX({x:100, y:20})
+    WAIT(1)
+    maboite.move({for_x:200, for_y:-10})
+    # La boite se retrouvera à la position x = 300 (100 + 200) et à la
+    # position y = 10 (20 - 10)
+
+**Astuce pour définir le mouvement**
+
+Pour définir de façon simple le mouvement, le plus aisé est de déterminer la position x/y d'arrivée (simplement en déplaçant l'objet pour en prendre les coordonnées), puis de retirer la valeur voulue pour définir le point de départ (entendu que souvent le point d'arrivée est plus important).
+
+Par exemple&nbsp;:
+
+Après déplacement, j'ai déterminé que mes coordonnées d'arrivée sont x=320 et y=144.
+
+Donc je code =
+
+    maboite.move({x:320, y:144})
+
+Ensuite, j'ajoute la création de la boite AU-DESSUS de cette ligne avec un décalage&nbsp;:
+
+    maboite = BOX({x:320 - 100, y: 144 - 60})
+    WAIT(1)
+    maboite.move({x:320, y:144})
+
+<a name="bump_fading"></a>
+###Fondu de l'objet
+
+La méthode `fade` permet de fondre l'objet (noter que cela revient à faire un show ou hide très lent).
+
+La méthode peut s'appeler sans argument, puisqu'elle détecte automatiquement le type de fondu (d'ouverture ou de fermeture) qu'il faut opérer.
+
+Par exemple&nbsp;:
+
+    maboite = BOX({hidden:true})
+    # La boite sera masquée à la création grâce à `hidden:true`
+    maboite.fade()
+    # La boite apparaitra
+    WAIT(2)
+    # Et après 2 secondes…
+    maboite.fade()
+    # … la boite disparaitra
 
 ---------------------------------------------------------------------
 
@@ -2498,7 +2602,7 @@ Pour placer la marque de modulation, on peut utiliser pour la position verticale
 
     DEFAULT('modulation_x', <nombre de pixels>)
   
-Ce `<nombre de pixels>` sera retiré au `left`, donc si le nombre est positif, la marque recule vers la gauche.
+Ce `<nombre de pixels>` sera retiré au `x`, donc si le nombre est positif, la marque recule vers la gauche.
   
 Pour revenir à la position par défaut&nbsp;:
   

@@ -72,12 +72,8 @@ window.TBox = function(texte, params)
     */
   this.background = 'black'
   
-  
-  if(params)
-  {
-    var my = this
-    L(params).each(function(k,v){ my[k] = v })
-  }
+  // Dispatch des valeurs fournies (même si aucune)
+  this.dispatch(params)
   
 }
 
@@ -104,6 +100,23 @@ Object.defineProperties(TBox.prototype, UNIVERSAL_BOX_PROPERTIES)
  *  
  */
 $.extend(TBox.prototype,{
+  /**
+    * Affiche le texte
+    * La méthode surclasse la méthode `show` des méthodes universelles de boite
+    * car l'opacité concerne le background, pas le div principal, or, la propriété
+    * this.opacity d'une TBox est réglée pour le background.
+    * @method show
+    * @param {Object} params Paramètres optionnels
+    */
+  show:function(params)
+  {
+    if(undefined == params) params = {}
+    if(undefined == this.duree) params.duree = Anim.delai_for('show')
+    else params.duree = this.duree
+    this.animate({opacity:1}, params)
+    this.hidden = false
+  },
+  
   /**
     * Positionne la boite de texte (mais fait + que ça, en la dimensionnant et
     * en réglant toutes les propriétés css définies — taille de police, etc.)
@@ -238,16 +251,16 @@ Object.defineProperties(TBox.prototype,{
     */
   "y":{
     set:function(w){
-      this._top = w
+      this._y = w
       this.set_css('top', w)
     },
     get:function(){
-      if(undefined == this._top)
+      if(undefined == this._y)
       { // On définit une valeur par défaut (centrée)
-        this._top = parseInt((Anim.Dom.height - this.height) / 2, 10)
-        this._top += this.offset_y
+        this._y = parseInt((Anim.Dom.height - this.height) / 2 , 10)
+        this._y += this.offset_y
       }
-      return this._top
+      return this._y
     }
   },
   
@@ -319,7 +332,7 @@ Object.defineProperties(TBox.prototype,{
     */
   "code_html":{
     get:function(){
-      return  '<div id="'+this.id+'" class="tbox" style="opacity:'+(this.hidden ? '0' : '1')+';">'+
+      return  '<div id="'+this.id+'" class="tbox" style="opacity:0;">'+
                 '<div id="'+this.id+'-background" class="tbox_background"></div>' +
                 '<div id="'+this.id+'-text" class="tbox_content">'+this.texte+'</div>'+
               '</div>'

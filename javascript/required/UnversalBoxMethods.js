@@ -29,6 +29,35 @@ window.UNVERSAL_BOX_METHODS = {
  */
 $.extend(UNVERSAL_BOX_METHODS,{
   
+  
+  /**
+    * Affiche l'objet
+    * @method show
+    * @param {Object} params Paramètres optionnels (dont .complete, la méthode pour suivre, ou false)
+    */
+  show:function(params)
+  {
+    if(undefined == params) params = {}
+    if(undefined == this.duree) params.duree = Anim.delai_for('show')
+    else params.duree = this.duree * 1000
+    this.animate({opacity:this.opacity || 1}, params)
+    this.hidden = false
+  },
+  
+  /**
+    * Masque l'objet
+    * @method hide
+    * @param {Object} params Paramètres optionnels (dont .complete)
+    */
+  hide:function(params)
+  {
+    params = define_complete(params)
+    if(undefined == params.duree) params.duree = Anim.delai_for('show')
+    else params.duree = params.duree * 1000
+    this.animate({opacity:0}, params)
+    this.hidden = true
+  },
+
   /**
     * Crée un fondu de l'objet. La méthode détecte automatiquement s'il
     * s'agit d'un fondu au noir ou une ouverture, en fonction de l'opacité
@@ -46,6 +75,30 @@ $.extend(UNVERSAL_BOX_METHODS,{
       duration:params.duree || Anim.delai_for('transition'),
       complete:params.complete
     })
+  },
+  
+  /**
+    * Déplacement de l'objet
+    * @method move
+    * @param {Object} params    Paramètres définissant le déplacement
+    *   @param {Number}   params.x        La nouvelle position horizontale à atteindre OU
+    *   @param {Number}   params.for_x    La quantité de pixels de déplacement horizontal
+    *   @param {Number}   params.y        La nouvelle position verticale à atteindre OU
+    *   @param {Number}   params.for_y    La quantité de pixels de déplacement vertical
+    *   @param {Number}   params.duree    La durée en seconde du déplacement
+    *   @param {Boolean}  params.wait     Si FALSE, on n'attend pas pour passer à la suite
+    *   @param {Function} params.complete Très optionnellement, la méthode pour suivre.
+    */
+  move:function(params)
+  {
+    if(undefined == params) return F.error("Il faut définir les paramètres du déplacement !")
+    var data = {}
+    if(undefined != params.for_x)   data.left = this.x + params.for_x
+    else if (undefined != params.x) data.left = params.x
+    if(undefined != params.for_y)   data.top = this.y + params.for_y
+    else if (undefined != params.y) data.top = params.y
+    if(undefined != params.wait && params.wait === false) this.wait = false
+    this.animate(data, params)
   }
 })
 
@@ -66,8 +119,9 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   dispatch:function(params)
   {
+    if(undefined == params) return
     var my = this
-    L(params).each(function(k,v){ my[k] = v})
+    L(params).each(function(k,v){ my[k] = v })
   },
   
   /**
@@ -81,6 +135,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
   build:function()
   {
     Anim.Dom.add(this)
+    this.obj.draggable({stop:this.coordonnees})
     return this
   },
   /**
@@ -88,42 +143,26 @@ $.extend(UNVERSAL_BOX_METHODS, {
     * @method animate
     * @param {Object} data Les données d'animation (comme jQUery.animate)
     * @param {Object} params    Paramètres optionnels
-    *   @param {Number}         params.duree      La durée de l'animation
-    *   @param {Function|Fals}  params.complete   La méthode pour poursuivre
+    *   @param {Number}         params.duree      La durée de l'animation (en secondes)
+    *   @param {Function|False} params.complete   La méthode pour poursuivre
     *
     */
   animate:function(data, params)
   {
-    dlog("Params reçus par BUMP.animate:");dlog(params)
-    params = define_complete(params)
+    // dlog("Params reçus par BUMP.animate:");dlog(params)
+    params = define_complete(params, (this.wait === false) ? false : NEXT_STEP)
+    if(undefined != params.duree) params.duree = params.duree * 1000
     this.obj.animate(data, {
       duration : params.duree || Anim.delai_for('transform'),
       complete : params.complete
     })
+    if(this.wait === false)
+    {
+      NEXT_STEP(notimeout = true)
+      delete this.wait
+    }
   },
-  
-  /**
-    * Affiche l'objet
-    * @method show
-    * @param {Object} params Paramètres optionnels (dont .complete, la méthode pour suivre, ou false)
-    */
-  show:function(params)
-  {
-    this.animate({opacity:this.opacity || 1}, define_complete(params))
-    this.hidden = false
-  },
-  
-  /**
-    * Masque l'objet
-    * @method hide
-    * @param {Object} params Paramètres optionnels (dont .complete)
-    */
-  hide:function(params)
-  {
-    this.animate({opacity:0}, define_complete(params))
-    this.hidden = true
-  },
-  
+    
   /**
     * Règle l'objet principal (this.obj)
     * Notes
@@ -183,7 +222,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
   coordonnees:function(evt, ui)
   {
     var pos = this.obj.position()
-    UI.feedback("Coordonnées de la TBox : left: "+pos.left+" / top: "+pos.top)
+    UI.feedback("Coordonnées de la TBox : x: "+pos.left+" / y: "+pos.top)
     return {x: pos.left, y: pos.top}
   },
   

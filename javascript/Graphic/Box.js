@@ -90,11 +90,11 @@ window.Box = function(params)
     * Position du calque par défaut
     * @property {Number} z_default
     */
-  this.z_default = this.class == 'background' ? 0 : 100
+  this.z_default = (this.class == 'background') ? 0 : 100
 }
 
 // Héritages
-$.extend(true, Box.prototype, UNVERSAL_BOX_METHODS)
+$.extend(Box.prototype, UNVERSAL_BOX_METHODS)
 Object.defineProperties(Box.prototype, UNIVERSAL_BOX_PROPERTIES)
 
 /* ---------------------------------------------------------------------
@@ -124,7 +124,7 @@ Object.defineProperties(Box.prototype,{
     */
   "code_html":{
     get:function(){
-      return '<div id="'+this.id+'" class="box"></div>'
+      return '<div id="'+this.id+'" class="box" style="opacity:'+(this.hidden ? '0' : this.opacity)+';"></div>'
     }
   }
   

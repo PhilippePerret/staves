@@ -20,6 +20,7 @@ div#coord_main_cadre {
   height    : 100px;
   top       : 10em;
   left      : 10em;
+  z-index   : 5000;
 }
 
 /* Le cadre intérieur qui déclenche le déplacement */

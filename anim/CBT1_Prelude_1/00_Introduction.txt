@@ -10,7 +10,7 @@
 # descendante.
 #
 
-SUITE('./Tons voisins 01')
+#SUITE('./Tons voisins 01')
 
 # --- Valeurs par défault ---
 DEFAULT('next', 75)
@@ -23,11 +23,14 @@ DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 
 # La partition
-partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', left:78, top:6, width:725})
+partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
 
 CAPTION("Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d'analyse.", {wait:true})
 
 CAPTION("Pour cette première analyse, c'est le premier prélude du livre 1 du clavecin bien tempéré de Bach qui va nous servir de support.", {wait:true})
+
+titre = TBOX("Premier prélude du premier cahier du clavecin bien tempéré")
+bach  = TBOX("Jean-Sébastien Bach")
 
 CAPTION("Mais avant de commencer, il me semble important de se poser cette question : “À quoi sert l'analyse ?” Après tout, la beauté d'une pièce se passe très bien de toute analyse, elle s'entend…", {wait:true})
 

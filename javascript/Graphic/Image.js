@@ -9,8 +9,6 @@
   */
 window.IMAGE = function(params)
 {
-  if(undefined != params.x){ params.left = params.x; delete params.x }
-  if(undefined != params.y){ params.top  = params.y; delete params.y }
   var image = new Img(params)
   return image
 }
@@ -21,8 +19,8 @@ window.IMAGE = function(params)
   * @constructor
   * @params {Object} params Les paramètres de l'image
   *   @params {String} params.url     Adresse de l'image
-  *   @params {Number} params.top     Top de l'image dans l'animation
-  *   @params {Number} params.left    Left de l'image dans l'animation
+  *   @params {Number} params.y     Top de l'image dans l'animation
+  *   @params {Number} params.x    Left de l'image dans l'animation
   *   @params {Number} params.width   Largeur de l'image
   *   @params {Number} params.height  Hauteur de l'image
   *   @params {Number} params.cadre_width   Largeur du cadrage de l'image
@@ -40,14 +38,14 @@ window.Img = function(params)
   
   /**
     * Position horizontale de l'image
-    * @property {Number} left
+    * @property {Number} x
     */
-  this.left = null
+  this.x = null
   /**
     * Position verticale de l'image
-    * @property {Number} top
+    * @property {Number} y
     */
-  this.top = null
+  this.y = null
   
   /**
     * Largeur de l'image (ie du div la contenant)
@@ -407,13 +405,17 @@ $.extend(Img.prototype,{
   {
     if(undefined == params) return F.error("Il faut définir le déplacement de l'image !")
     params = define_complete( params )
-    if(undefined != params.x_for)     params.x = this.left + params.x_for
-    if(undefined != params.y_for)     params.y = this.top  + params.y_for
-    if(undefined == params.seconds)   params.seconds  = 2
+    if(undefined != params.x_for)     params.x = this.x + params.x_for
+    if(undefined != params.y_for)     params.y = this.y  + params.y_for
+    if(undefined != params.seconds)   params.seconds  = params.seconds * 1000
     var dmove = {}
     if(undefined != params.x) dmove.left = params.x+'px'
     if(undefined != params.y) dmove.top  = params.y+'px'
-    this.obj.animate(dmove, params.seconds * 1000, params.complete)
+    this.obj.animate(
+      dmove, 
+      params.seconds || Anim.delai_for('transform'), 
+      params.complete
+    )
     return this
   },
   
@@ -613,7 +615,7 @@ Object.defineProperties(Img.prototype,{
       var styleimg = [], stylediv = [] ;
       
       // Attribut style pour le div de l'image
-      stylediv.push('top:'+this.top+'px;left:'+this.left+'px')
+      stylediv.push('top:'+this.y+'px;left:'+this.x+'px')
       stylediv.push('width:'+(this.cadre_width || this.width)+'px')
       stylediv.push('height:'+(this.cadre_height || this.height)+'px')
       // Attribut style pour l'image

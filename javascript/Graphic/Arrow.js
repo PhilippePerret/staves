@@ -6,8 +6,8 @@
   * Ajoute une flèche indépendante des objets
   * @method ARROW
   * @param  {Object} params   Les paramètres pour la flèche
-  *   @param  {Number} params.left    Le décalage horizontal
-  *   @param  {Number} params.top     Le décalage vertical
+  *   @param  {Number} params.x    Le décalage horizontal
+  *   @param  {Number} params.y     Le décalage vertical
   *   @param  {String} params.color   La couleur de la flèche
   *   @param  {Number} params.angle   L'angle de la flèche
   *   @param  {Number} params.width   La longueur de la flèche
@@ -148,8 +148,8 @@ ARROW_METHODS = {
     params = parametize(params, value)
     var pos   = this.obj.position()
     var data  = {}
-    if(undefined != params.x) data.left = (pos.left + params.x) + "px"
-    if(undefined != params.y) data.top  = (pos.top  + params.y) + "px"
+    if(undefined != params.x) data.x = (pos.left + params.x) + "px"
+    if(undefined != params.y) data.y = (pos.top  + params.y) + "px"
     this.modify('animate', data)
   },
   /**
@@ -197,20 +197,20 @@ ARROW_METHODS = {
     */
   positionne:function()
   {
-    this.obj.css({left: this.real_left+'px', top: this.real_top+'px'})
+    this.obj.css({left: this.real_x+'px', top: this.real_y+'px'})
     this.width  = this._width
     this.color  = this._color
     this.angle  = this._angle
   },
   /**
-    * Méthode qui calcule la vraie position de la flèche (_real_top et _real_left)
+    * Méthode qui calcule la vraie position de la flèche (_real_y et _real_x)
     * en fonction du possesseur et de l'angle à donner.
-    * @methode calcule_real_top_and_left
+    * @methode calcule_real_x_y
     */
-  calcule_real_top_and_left:function()
+  calcule_real_x_y:function()
   {
-    var rleft = parseInt(this.left, 10), 
-        rtop  = parseInt(this.top, 10), 
+    var realx = parseInt(this.x, 10), 
+        realy = parseInt(this.y, 10), 
         angle, angle_tri, angle_rad, sin, cos, 
         offx = 0, offy = 0,
         rayon = 10,
@@ -222,8 +222,8 @@ ARROW_METHODS = {
     if(this.owner)
     {
       // Centre absolu du porteur
-      rleft = parseInt(this.owner.center_x, 10)
-      rtop  = parseInt(this.owner.center_y, 10)
+      realx = parseInt(this.owner.center_x, 10)
+      realy  = parseInt(this.owner.center_y, 10)
       // Le rayon d'après la largeur et la hauteur de l'objet porteur (if any)
       rayon = parseInt(Math.max(this.owner.width, this.owner.height) / 2, 10)
       // L'objet est-il entouré ? Il faut alors ajouter un peu de marge
@@ -244,11 +244,11 @@ ARROW_METHODS = {
     if(angle != 90 && angle != 270) offx = parseInt(rayon * cos, 10)
     if(angle != 0  && angle != 180) offy = parseInt(rayon * sin, 10)
     
-    rleft += offx
-    rtop  -= offy
+    realx += offx
+    realy  -= offy
     
     // dlog({
-    //   angle: angle, angle_tri:angle_tri, rayon:rayon, offx:offx, offy:offy, rleft:rleft, rtop:rtop
+    //   angle: angle, angle_tri:angle_tri, rayon:rayon, offx:offx, offy:offy, realx:realx, realy:realy
     // })
 
     
@@ -268,11 +268,11 @@ ARROW_METHODS = {
 
     // On ajoute finalement le décalage horizontal et vertical (if any)
     // et les petites rectifications suivant le possesseur
-    rtop  += rectif_y + ((angle >= 0 && angle <= 180) ? this.offset_y : - this.offset_y) ;
-    rleft += rectif_x + this.offset_x
+    realy  += rectif_y + ((angle >= 0 && angle <= 180) ? this.offset_y : - this.offset_y) ;
+    realx += rectif_x + this.offset_x
     // On dispatche les valeurs
-    this._real_left = rleft
-    this._real_top  = rtop
+    this._real_x = realx
+    this._real_y  = realy
   }
   
 }
@@ -401,45 +401,45 @@ Object.defineProperties(Arrow.prototype, {
   /**
     * La vraie position gauche de la flèche, en fonction de son angle et
     * d'un éventuel `offset_x` défini.
-    * @property {Number} real_left
+    * @property {Number} real_x
     */
-  "real_left":{
+  "real_x":{
     get:function(){
-      if(undefined == this._real_left) this.calcule_real_top_and_left()
-      return this._real_left
+      if(undefined == this._real_x) this.calcule_real_x_y()
+      return this._real_x
     }
   },
-  "real_top":{
+  "real_y":{
     get:function(){
-      if(undefined == this._real_top) this.calcule_real_top_and_left()
-      return this._real_top
+      if(undefined == this._real_y) this.calcule_real_x_y()
+      return this._real_y
     }
   },
   /**
     * Position horizontal de la flèche
     * Attention, elle peut être très différent de la position réelle de la 
     * flèche après son calcul selon l'angle.
-    * @property {Number} left
+    * @property {Number} x
     */
-  "left":
+  "x":
   {
-    get:function(){return this._left || Anim.current_x},
-    set:function(left){
-      this._left = left
-      if(this.obj) this.obj.css('left', left+'px')
+    get:function(){return this._x || Anim.current_x},
+    set:function(x){
+      this._x = x
+      if(this.obj) this.obj.css('left', x+'px')
     }
   },      
   /**
     * Position verticale de la flèche
     * Attention, il peut être très différent de la position réelle de la 
     * flèche après son calcul selon l'angle.
-    * @property {Number} top
+    * @property {Number} y
     */
-  "top":{
-    get:function(){return this._top || Anim.current_staff.top},
-    set:function(top){
-      this._top = top
-      if(this.obj) this.obj.css('top', this._top+'px')
+  "y":{
+    get:function(){return this._y || Anim.current_staff.top},
+    set:function(y){
+      this._y = y
+      if(this.obj) this.obj.css('top', this._y+'px')
     }
   },
   /**
