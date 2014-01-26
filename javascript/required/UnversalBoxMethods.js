@@ -40,14 +40,16 @@ $.extend(UNVERSAL_BOX_METHODS,{
   fade:function(params)
   {
     params = define_complete(params)
-    var ouverture = this.obj.css('opacity') == 0
-    var new_opac  = ouverture ? this.opacity : 0
+    var ouverture = this.obj.css('opacity') == "0"
+    var new_opac  = ouverture ? (this.opacity || 1) : 0
     this.animate({opacity:new_opac},{
       duration:params.duree || Anim.delai_for('transition'),
       complete:params.complete
     })
   }
 })
+
+
 /* ---------------------------------------------------------------------
  *  PROTECTED INSTANCES MÉTHODES
  *  
@@ -69,6 +71,19 @@ $.extend(UNVERSAL_BOX_METHODS, {
   },
   
   /**
+    * Construit l'objet
+    * Notes :
+    *   * C'est une propriété terminale (elle appelle NEXT_STEP)
+    *
+    * @method build
+    * @return {Instance} L'instance héritant 
+    */
+  build:function()
+  {
+    Anim.Dom.add(this)
+    return this
+  },
+  /**
     * Anime la boite de texte
     * @method animate
     * @param {Object} data Les données d'animation (comme jQUery.animate)
@@ -79,6 +94,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   animate:function(data, params)
   {
+    dlog("Params reçus par BUMP.animate:");dlog(params)
     params = define_complete(params)
     this.obj.animate(data, {
       duration : params.duree || Anim.delai_for('transform'),
@@ -93,7 +109,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   show:function(params)
   {
-    this.animate({opacity:this.opacity}, define_complete(params))
+    this.animate({opacity:this.opacity || 1}, define_complete(params))
     this.hidden = false
   },
   
@@ -133,7 +149,14 @@ $.extend(UNVERSAL_BOX_METHODS, {
       'z-index' : (this.val_or_default('z'))
     }
     this.obj.css(data)
-    this.set_css('background-color', this.background || this.background_default)
+    if(this.gradient)
+    {
+      this.set_css('background', "linear-gradient( to right, "+this.background+", "+this.gradient+")")
+    }
+    else
+    {
+      this.set_css('background-color', this.background || this.background_default)
+    }
     if('function'==typeof this.after_positionne) this.after_positionne()
     if('function'==typeof params.complete) params.complete()
   },
@@ -178,12 +201,28 @@ $.extend(UNVERSAL_BOX_METHODS, {
   
 })
 
-Object.defineProperties(UNVERSAL_BOX_METHODS, {
+window.UNIVERSAL_BOX_PROPERTIES = {
+// Object.defineProperties(UNVERSAL_BOX_METHODS, {
+  /**
+    * DOM Objet (jQuerySet) de l'instance héritant des méthodes et propriétés universelles
+    * @property {jQuerySet} obj
+    */
+  "obj":{
+    get:function(){
+      if(undefined == this._obj)
+      {
+        this._obj = $('div#'+this.id)
+        if(this._obj.length == 0) delete this._obj
+      }
+      return this._obj
+    }
+  },
   /**
     * Position horizontale de l'objet
     * @property {Number} x
     */
   "x":{
+    configurable:true,
     set:function(x){
       this._x = x
       this.set_css('left', x)
@@ -195,6 +234,7 @@ Object.defineProperties(UNVERSAL_BOX_METHODS, {
     * @property {Number} y
     */
   "y":{
+    configurable:true,
     set:function(y){
       this._y = y
       this.set_css('top', y)
@@ -206,6 +246,7 @@ Object.defineProperties(UNVERSAL_BOX_METHODS, {
     * @property {Number} width
     */
   "width":{
+    configurable:true,
     set:function(w){
       this._width = w
       this.set_css('width', w)
@@ -217,16 +258,19 @@ Object.defineProperties(UNVERSAL_BOX_METHODS, {
     * @property {Number} height
     */
   "height":{
+    configurable:true,
     set:function(h){
       this._height = h
       this.set_css('height', h)
-    }
+    },
+    get:function(){return this._height}
   },
   /**
     * Le z-index du div de l'objet.
     * @property {Number} z
     */
   "z":{
+    configurable:true,
     set:function(z){
       this._z = z
       this.set_css('z-index', z)
@@ -261,6 +305,14 @@ Object.defineProperties(UNVERSAL_BOX_METHODS, {
       }
     },
     get:function(){ return this._background }
+  },
+  /**
+    * La couleur alternative utilisée pour le dégradé (if any)
+    * @property {String} gradient
+    */
+  "gradient":{
+    set:function(gr){ this._gradient = gr},
+    get:function(){ return this._gradient }
   }
-    
-})
+}
+  //})

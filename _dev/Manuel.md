@@ -2170,6 +2170,7 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
 * [Régler la largeur de l'objet](#bump_set_width)
 * [Régler la hauteur de l'objet](#bump_set_height)
 * [Régler la couleur de fond de l'objet](#bump_set_background)
+* [Régler la couleur alternative pour le dégradé](#bump_set_gradient)
 * [Régler l'opacité de l'objet (transparence)](#bump_set_opacity)
 
 <a name="bump_all_properties"></a>
@@ -2182,6 +2183,7 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
       height      : {Number} Hauteur,
       z           : {Number} Placement devant/derrière,
       background  : {String} Couleur du fond,
+      gradient    : {String} Couleur alternative pour le dégradé,
       opacity     : {Float}  Opacité,
     })
 
@@ -2254,6 +2256,19 @@ On la règle avec le paramètre `background` en fournissant une couleur ({String
 Par exemple&nbsp;:
 
     maboite = BOX({background:'blue'})
+
+<a name="bump_set_gradient"></a>
+###Créer un dégradé
+
+On crée un dégradé en utilisant les propriétés `background` qui définit la couleur gauche de départ et `gradient` qui définit la couleur droite d'arrivée.
+
+Par exemple :
+
+    boitedegrade = BOX({background:'blue', gradient:'red'})
+
+Ou&nbsp;:
+
+    boitedegrade = BOX({background:'#00F', gradient:'#F00'})
 
 
 <a name="bump_set_opacity"></a>

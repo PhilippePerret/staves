@@ -2,7 +2,21 @@
 
 DEFAULT('decompte', 0)
 
+CAPTION("Un fond noir placé à z-index 20")
+bgdnoir = BACKGROUND({z:20, gradient:'white'})
 
-BACKGROUND()
+CAPTION("Un texte au centre, de couleur blanche.")
+texte = TBOX("Un texte qui doit apparaitre au centre, en blanc.") 
 
-texte = TBOX("Un texte qui doit apparaitre au centre, en blanc.", {background:'white'})
+CAPTION("Un fond rouge placé à z-index 19 pour faire un fondu")
+
+bgdrouge = BACKGROUND('red', {z:19})
+
+WAIT(2)
+
+bgdnoir.fade()
+
+WAIT(2)
+
+bgdnoir.fade()
+

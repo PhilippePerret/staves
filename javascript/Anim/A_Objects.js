@@ -67,7 +67,7 @@ FONCTIONS_ANIM_OBJETS = {
     * cf. la fonction BACKGROUND
     * @method BACKGROUND
     */
-  BACKGROUND:function(params){return BACKGROUND(params)},
+  BACKGROUND:function(color, params){return BACKGROUND(color, params)},
   
   /** Commande pour construire une boite de texte
     * cf. la fonction TBOX

@@ -167,8 +167,7 @@ $.extend(window.Anim,{
    */
   /**
     * Toutes les préférences par défaut
-    * Notes
-    *   * Cf. les définitions dans `prefs` ci-dessous
+    * Elles servent à redéfinir les valeurs de Anim.prefs au démarrage de l'animation
     * @property {Object} prefs_default
     * @static
     * @final

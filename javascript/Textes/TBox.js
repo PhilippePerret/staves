@@ -35,14 +35,7 @@ window.TBox = function(texte, params)
     * @proprety {String} texte
     */
   this.texte = texte
-  
-  /**
-    * Indicateur de la construction de la boite
-    * @property {Boolean} built
-    * @default false
-    */
-  this.built = false
-  
+    
   /**
     * Décalage horizontal par rapport à la position
     * définie par les autres valeurs
@@ -60,11 +53,10 @@ window.TBox = function(texte, params)
   this.offset_y = 0
   
   /**
-    * Marque de boite masquée
-    * @property {Boolean} hidden
-    * @default false
+    * Z-index par défaut
+    * @property {Number} z_default
     */
-  this.hidden = false
+  this.z_default = 100
   
   /**
     * Opacité du fond (se souvenir que c'est une autre boite qui le fait)
@@ -103,54 +95,15 @@ $.extend(TBox,{
 
 })
 
-
+// Héritage des méthodes et propriétés universelles de boite
+$.extend(true, TBox.prototype, UNVERSAL_BOX_METHODS)
+Object.defineProperties(TBox.prototype, UNIVERSAL_BOX_PROPERTIES)
 
 /* ---------------------------------------------------------------------
  *  MÉTHODES D'INSTANCE ANIMATIONS
  *  
  */
 $.extend(TBox.prototype,{
-  /**
-    * Anime la boite de texte
-    * @method animate
-    * @param {Object} data Les données d'animation (comme jQUery.animate)
-    * @param {Object} params    Paramètres optionnels
-    *   @param {Number}         params.time     La durée de l'animation
-    *   @param {Function|Fals}  params.complete La méthode pour poursuivre
-    *
-    */
-  animate:function(data, params)
-  {
-    params = define_complete(params)
-    this.obj.animate(data, {
-      duration : params.time || Anim.delai_for('transform'),
-      complete :params.complete
-    })
-  },
-  
-  /**
-    * Afficher la boite de texte
-    * @method show
-    * @param  {Object} params   Les paramètres optionnels
-    *   @param  {Function|False} params.complete    Méthode pour suivre. False si aucune méthode ne doit suivre. Par défaut : NEXT_STEP
-    */
-  show:function(params)
-  {
-    this.animate({opacity:1}, params)
-    this.hidden = false
-  },
-
-  /**
-    * Masquer la boite de texte
-    * @method hide
-    * @param  {Object} params   Les paramètres optionnels
-    *   @param  {Function|False} params.complete    Méthode pour suivre. False si aucune méthode ne doit suivre. Par défaut : NEXT_STEP
-    */
-  hide:function(params)
-  {
-    this.animate({opacity:0}, params)
-    this.hidden = true
-  },
   /**
     * Positionne la boite de texte (mais fait + que ça, en la dimensionnant et
     * en réglant toutes les propriétés css définies — taille de police, etc.)
@@ -166,9 +119,10 @@ $.extend(TBox.prototype,{
     this.obj.css({
       width         : this.width+'px',
       height        : this.height+'px',
-      top           : this.top+'px',
-      left          : this.left+'px',
-      padding       : this.padding+'px'
+      top           : this.y+'px',
+      left          : this.x+'px',
+      padding       : this.padding+'px',
+      'z-index'     : this.val_or_default('z')
     })
     this.obj_background.css({
       'background-color'  : this.background,
@@ -190,7 +144,6 @@ $.extend(TBox.prototype,{
     */
   build:function()
   {
-    this.built = true
     Anim.Dom.add(this)
     this.obj.draggable({
       stop:$.proxy(this.coordonnees, this)
@@ -200,11 +153,13 @@ $.extend(TBox.prototype,{
   /**
     * Définit le background sous le texte. La méthode est utilisée par la
     * définission de la propriété UniversalBoxMethods `background`
+    * Par défaut, la couleur de fond est la même que la couleur de police (oui,
+    * étonnant, mais c'est parce que l'opacité est en action)
     * @method set_background
     */
   set_background:function(couleur)
   {
-    this.obj_background.css('background-color', this._background || Anim.prefs.tbox_background)
+    this.obj_background.css('background-color', this._background || Anim.prefs.text_color)
   },
 })
 
@@ -262,10 +217,10 @@ Object.defineProperties(TBox.prototype,{
     * par défaut
     * @property {Number} left
     */
-  "left":{
+  "x":{
     set:function(w){
       this._left = w
-      if(this.obj) this.obj.css({left:w+'px'})
+      this.set_css('left', w)
     },
     get:function(){
       if(undefined == this._left)
@@ -281,10 +236,10 @@ Object.defineProperties(TBox.prototype,{
     * par défaut
     * @property {Number} top
     */
-  "top":{
+  "y":{
     set:function(w){
       this._top = w
-      if(this.obj) this.obj.css({top:w+'px'})
+      this.set_css('top', w)
     },
     get:function(){
       if(undefined == this._top)
@@ -323,6 +278,7 @@ Object.defineProperties(TBox.prototype,{
       if(this.obj) this.obj.css({height:w+'px'})
     },
     get:function(){
+      if(undefined == this.obj_texte) return null
       return UI.exact_height_of(this.obj_texte)
     }
   }
@@ -333,22 +289,6 @@ Object.defineProperties(TBox.prototype,{
  *  
  */
 Object.defineProperties(TBox.prototype,{
-  /**
-    * Objet DOM de la boite de texte (mais retourne NULL si la boite n'est pas construite)
-    * @property {jQuerySet} obj
-    */
-  "obj":{
-    get:function(){
-      if(!this.built) return null
-      if(undefined == this._obj)
-      {
-        var o = $('div#'+this.id)
-        if(o.length == 0) return null
-        this._obj = o
-      }
-      return this._obj
-    }
-  },
   /**
     * Objet DOM contenant le texte
     * @property {jQuerySet} obj_texte

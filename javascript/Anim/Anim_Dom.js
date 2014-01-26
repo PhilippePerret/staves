@@ -163,7 +163,7 @@ Anim.Dom = {
   {
     var real_instance = 'string' != typeof instance ;
     
-    params = define_complete(params, false)
+    params = define_complete(params)
     
     // === Ajout du code à l'animation ===
     this.section.append(real_instance ? instance.code_html : instance)

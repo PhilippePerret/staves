@@ -14,19 +14,29 @@
   *
   * @method BACKGROUND
   * @for window
+  * @param {String|Object} color    Soit la couleur, soit les paramètres
+  * @param {Object} params          Les paramètres ou undefined
   */
-window.BACKGROUND = function(params)
+window.BACKGROUND = function(color, params)
 {
-  if(undefined == params)   params = {}
+  if('string' == typeof color) 
+  {
+    if(undefined == params) params = {}
+    params.background = color
+  }
+  else
+  {
+    params = color
+    if(undefined == params.background) params.background = 'black'
+  }
   params.class = 'background'
   if(undefined == params.z) params.z = 0
   if(undefined == params.x) params.x = 0
   if(undefined == params.y) params.y = 0
   if(undefined == params.width)       params.width      = 0 + Anim.Dom.width
   if(undefined == params.height)      params.height     = 0 + Anim.Dom.height
-  if(undefined == params.background)  params.background = 'black'
   var bgd = BOX(params)
-  Anim.prefs.text_color = COLOR_TEXT_PER_BACKGROUND[bgd.background]
+  Anim.prefs.text_color = COLOR_TEXT_PER_BACKGROUND[bgd.background] || 'black'
   return bgd
 }
 /**
@@ -83,6 +93,10 @@ window.Box = function(params)
   this.z_default = this.class == 'background' ? 0 : 100
 }
 
+// Héritages
+$.extend(true, Box.prototype, UNVERSAL_BOX_METHODS)
+Object.defineProperties(Box.prototype, UNIVERSAL_BOX_PROPERTIES)
+
 /* ---------------------------------------------------------------------
  *  MÉTHODES ET PROPRIÉTÉS DE CLASSE
  *  
@@ -99,35 +113,11 @@ $.extend(Box,{
  *  MÉTHODES ET PROPRIÉTÉS D'INSTANCES
  *  
  */
-$.extend(true, Box.prototype, UNVERSAL_BOX_METHODS)
 $.extend(Box.prototype,{
-  /**
-    * Construction de la boite
-    * @method build
-    */
-  build:function()
-  {
-    Anim.Dom.add(this)
-    return this
-  }
-  
+
 })
 
 Object.defineProperties(Box.prototype,{
-  /**
-    * DOM Objet (jQuerySet) de la boite
-    * @property {jQuerySet} obj
-    */
-  "obj":{
-    get:function(){
-      if(undefined == this._obj)
-      {
-        this._obj = $('div#'+this.id)
-        if(this._obj.length == 0) delete this._obj
-      }
-      return this._obj
-    }
-  },
   /**
     * Code HTML de la box
     * @property {HTMLString} code_html
