@@ -56,6 +56,19 @@ FONCTIONS_ANIM_OBJETS = {
     * cf. la fonction CHORD
     * @method CHORD
     */
+  /**
+    * Commande pour construire une boite (non texte)
+    * cf. la fonction BOX
+    * @method BOX
+    */
+  BOX:function(params){return BOX(params)},
+  /**
+    * Commande pour construire une boite de background
+    * cf. la fonction BACKGROUND
+    * @method BACKGROUND
+    */
+  BACKGROUND:function(params){return BACKGROUND(params)},
+  
   /** Commande pour construire une boite de texte
     * cf. la fonction TBOX
     * @method TBOX

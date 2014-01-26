@@ -306,6 +306,12 @@ $.extend(window.Anim,{
       */
     caption_timer     :false,
     /**
+      * Couleur par défaut des texte
+      * Noter que la valeur est modifiée quand on définit un BACKGROUND
+      * @property {String} text_color
+      */
+    text_color        : 'black',
+    /**
       * Police par défaut des tboxes
       * @property {String} tbox_font_family
       */

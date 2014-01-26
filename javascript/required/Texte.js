@@ -3,6 +3,20 @@
   */
 
 /**
+  * Définition de la couleur du texte en fonction du fond courant (if any)
+  * @class COLOR_TEXT_PER_BACKGROUND
+  * @static 
+  * @final
+  */
+window.COLOR_TEXT_PER_BACKGROUND = {
+  'black'   : 'white',
+  '#00000'  : 'white',
+  '#000'    : 'white',
+  'white'   : 'black',
+  '#FFFFFF' : 'black',
+  '#FFF'    : 'black'
+}
+/**
   * Méthodes qui doivent être héritées ($.extend) par tout objet
   * pouvant contenir un texte (Note, Chord, Staff, etc.)
   * @property {Object} METHODES_TEXTE

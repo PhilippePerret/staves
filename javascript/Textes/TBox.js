@@ -160,7 +160,8 @@ $.extend(TBox.prototype,{
   {
     this.obj_texte.css({
       'font-size'     : this.font_size+'pt',
-      'font-family'   : this.font_family
+      'font-family'   : this.font_family,
+      'color'         : this.color || Anim.prefs.text_color
     })
     this.obj.css({
       width         : this.width+'px',
@@ -192,20 +193,19 @@ $.extend(TBox.prototype,{
     this.built = true
     Anim.Dom.add(this)
     this.obj.draggable({
-      stop:$.proxy(this.show_coordonnees, this)
+      stop:$.proxy(this.coordonnees, this)
     })
   },
   
   /**
-    * Méthode qui affiche (feedback) les coordonnées de la boite de texte
-    * après son déplacement
-    * @method show_coordonnees
+    * Définit le background sous le texte. La méthode est utilisée par la
+    * définission de la propriété UniversalBoxMethods `background`
+    * @method set_background
     */
-  show_coordonnees:function(evt, ui)
+  set_background:function(couleur)
   {
-    var pos = this.obj.position()
-    UI.feedback("Coordonnées de la TBox : left: "+pos.left+" / top: "+pos.top)
-  }
+    this.obj_background.css('background-color', this._background || Anim.prefs.tbox_background)
+  },
 })
 
 /* ---------------------------------------------------------------------
@@ -244,17 +244,6 @@ Object.defineProperties(TBox.prototype,{
     get:function(){
       if(undefined == this._padding) this._padding = Anim.prefs.tbox_padding
       return this._padding
-    }
-  },
-  /**
-    * Background du box
-    * @property {String} background
-    */
-  "background":{
-    set:function(x){this._background = x},
-    get:function(){
-      if(undefined == this._background) this._background = Anim.prefs.tbox_background
-      return this._background
     }
   },
   /**

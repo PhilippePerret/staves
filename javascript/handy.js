@@ -3,16 +3,20 @@
   */
 
 /**
-  * Méthode définissant la propriété `complete` si nécessaire
+  * Méthode définissant la propriété `complete` si nécessaire.
   * @method define_complete
   * @for window
+  * @param  {Object}  params   Les paramètres envoyés à la méthode, ou undefined
+  * @param  {Any}     value     La valeur à donner à complete (NEXT_STEP par défaut)
   * @return {Object}  Les paramètres, auxquels a été ajouté la méthode complete
   *                   (à NEXT_STEP) si elle n'existait pas.
+
   */
-window.define_complete = function(params)
+window.define_complete = function(params, value)
 {
   if(undefined == params) params = {}
-  if(undefined == params.complete) params.complete = NEXT_STEP
+  if(undefined == value ) value  = NEXT_STEP
+  if(undefined == params.complete) params.complete = value
   return params
 }
 

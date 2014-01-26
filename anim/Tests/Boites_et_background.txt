@@ -1,0 +1,8 @@
+# === TEST DES BOITES ET BACKGROUND ===
+
+DEFAULT('decompte', 0)
+
+
+BACKGROUND()
+
+texte = TBOX("Un texte qui doit apparaitre au centre, en blanc.", {background:'white'})

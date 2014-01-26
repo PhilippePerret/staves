@@ -15,6 +15,8 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Les textes](#les_textes)
 * [Les images](#les_images)
 * [Les flèches](#les_fleches)
+* [Les boites](#les_boites)
+* [Fond de l'animation](#background_animation)
 * [Régler toutes les valeurs de l'animation](#set_preferences)
 * [Annexe](#lannexe)
 
@@ -1994,14 +1996,15 @@ Lors de la création de la flèche avec la méthode `arrow` (ou ARROW pour une [
       height    : {Number} Hauteur de la fleche
     })
 
-**`<objet>`** est “l'objet porteur” de la flèche, c'est par exemple une note.
+**`<objet>`** est “l'objet porteur” de la flèche, c'est par exemple une note.**
 
     maNote = NOTE(a4)
     maNote.arrow('fleche vers droite', {angle:0})
 
 **`<id flèche>`** est l'identifiant optionnel de la flèche, utile si l'objet porteur doit porter plusieurs flèches.
 
-Les valeurs **top** et **left** sont calculées automatiquement pour que la flèche soit placée correctement suivant l'objet porteur. On peut ajuster ponctuellement la valeur avec **offset_x** et **offset_y**.
+Les valeurs **top** et **left** sont calculées automatiquement pour que la flèche soit placée correctement suivant l'objet porteur. On peut ajuster ponctuellement la valeur avec **offset_x** et 
+**offset_y**.
 
 L'**angle** est de 0 degré par défaut, c'est-à-dire que la flèche sera horizontale et pointera à droite (pour une autre valeur cf. [Angle des flèches](#angle_des_fleches)).
 
@@ -2111,6 +2114,157 @@ Par exemple&nbsp;:
 ###Flèches indépendantes
 
 [TODO]
+
+
+---------------------------------------------------------------------
+
+<a name="les_boites"></a>
+##Les Boites
+
+Les boites permettre de dessiner des boites (de forme, de couleur et de tailles diverses) dans l'animation.
+
+###Table des matières
+
+* [Création d'une boite](#create_a_box)
+
+
+<a name="create_a_box"></a>
+###Créer une boite
+
+On crée une boite à l'aide de la commande&nbsp;:
+
+    BOX(<parameters>)
+  
+`BOX` “hérite” des [méthodes et des propriétés universelles de boites](#box_methods_and_properties), donc peut être manipulé et défini avec ces méthodes et propriétés.
+
+---------------------------------------------------------------------
+
+
+<a name="background_animation"></a>
+##Fond de l'animation
+
+On peut définir le fond de l'animation avec la commande&nbsp;:
+
+    BACKGROUND([<couleur>][, <parametres>])
+  
+… où **couleur** est une constante couleur CSS (p.e. 'blue' ou 'red') et `<parametrs>` sont les paramètres optionnels. La couleur peut être omise (un seul argument paramètres) ou être mise dans les paramètres avec&nbsp;:
+  
+    BACKGROUND({background:'<couleur>'})
+  
+`BACKGROUND` est un raccourci de `BOX` pour faire une boite qui occupe toute la surface de l'animation, avec un z-index de bas niveau. On peut donc utiliser les mêmes paramèters et les mêmes méthodes que [les boites](#les_boites).
+
+---------------------------------------------------------------------
+
+<a name="box_methods_and_properties"></a>
+##Méthodes et propriétés universelles de boites
+
+Tous les objets qui héritent de ces méthodes et propriétés peuvent les utiliser. Par exemples les [boites (Box)](#les_boites) et les [fond d'animation](#background_animation).
+
+###Table des matières
+
+* [Résumé de toutes les propriétés](#bump_all_properties)
+* [Résumé de toutes les méthodes](#bump_all_methods)
+* [Régler la position horizontale](#bump_set_x)
+* [Régler la position verticale](#bump_set_y)
+* [Régler la position avant/arrière de l'objet](#bump_set_z)
+* [Régler la largeur de l'objet](#bump_set_width)
+* [Régler la hauteur de l'objet](#bump_set_height)
+* [Régler la couleur de fond de l'objet](#bump_set_background)
+* [Régler l'opacité de l'objet (transparence)](#bump_set_opacity)
+
+<a name="bump_all_properties"></a>
+###Résumé de toutes les propriétés
+
+    <var> = <OBJET>({
+      x           : {Number} Position horizontale,
+      y           : {Number} Position verticale,
+      width       : {Number} Largeur,
+      height      : {Number} Hauteur,
+      z           : {Number} Placement devant/derrière,
+      background  : {String} Couleur du fond,
+      opacity     : {Float}  Opacité,
+    })
+
+<a name="bump_all_methods"></a>
+###Résumé de toutes les méthodes
+
+
+
+<a name="bump_set_x"></a>
+###Régler la position horizontale
+
+On la règle avec le paramètre `x` en fournissant un nombre (l'unité sera le pixel).
+
+Par exemple :
+
+    maboite = BOX({x:100})
+
+Pour obtenir cette position x, il suffit de déplacer l'objet (les coordonnées apparaissent dans la feedback en bas à gauche de l'écran). On peut également utiliser l'[Outil “Coordonnées”](#outil_coordonnees).
+
+<a name="bump_set_y"></a>
+###Régler la position verticale
+
+On la règle avec le paramètre `y` en fournissant un nombre (l'unité sera le pixel).
+
+Par exemple :
+
+    maboite = BOX({y:100})
+
+Pour obtenir cette position `y`, il suffit de déplacer l'objet (les coordonnées apparaissent dans la feedback en bas à gauche de l'écran). On peut également utiliser l'[Outil “Coordonnées”](#outil_coordonnees).
+
+<a name="bump_set_z"></a>
+###Régler la position du calque
+
+On peut régler la position de l'objet par rapport aux autres objets, dans l'axe `z` (ie. devant ou derrière) à l'aide du paramètre `z`.
+
+Par exemple&nbsp;:
+
+    boitedevant   = BOX({z: 200})
+    boitederriere = BOX({z: 10})
+    # Même si elle a été créée après, `boitederriere` se retrouvera
+    # derrière `boitedevant`.
+
+<a name="bump_set_width"></a>
+###Régler la largeur de l'objet
+
+On la règle avec le paramètre `width` en fournissant un nombre (l'unité sera le pixel).
+
+Par exemple :
+
+    maboite = BOX({width:100})
+
+On peut obtenir cette valeur `width` à l'aide de l'[Outil “Coordonnées”](#outil_coordonnees).
+
+<a name="bump_set_height"></a>
+###Régler la hauteur de l'objet
+
+On la règle avec le paramètre `height` en fournissant un nombre (l'unité sera le pixel).
+
+Par exemple :
+
+    maboite = BOX({height:100})
+
+On peut obtenir cette valeur `height` à l'aide de l'[Outil “Coordonnées”](#outil_coordonnees).
+
+<a name="bump_set_background"></a>
+###Régler la couleur de fond de l'objet
+
+On la règle avec le paramètre `background` en fournissant une couleur ({String}). Soit une constante couleur CSS, soit une valeur hexadécimale précédée de '#' (p.e. `#FF0000`).
+
+Par exemple&nbsp;:
+
+    maboite = BOX({background:'blue'})
+
+
+<a name="bump_set_opacity"></a>
+###Régler l'opacité de l'objet
+
+On la règle à l'aide du paramètre `opacity` en donnant une valeur flottante de `0` (complètement translucide, donc invisible) à `1` (complètement opaque).
+
+Par exemple&nbsp;:
+
+    maboitetransparente = BOX({opacity:0.05})
+
 
 ---------------------------------------------------------------------
 
