@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -281,7 +317,14 @@ $.extend(window.Console,{
   /**
     * Méthode qui s&#x27;occupe de l&#x27;autocompletion. Par exemple, lorsque l&#x27;on tape
     * une accolade ouverte, la méthode écrit l&#x27;accolade fermante et place le curseur
-    * à la bonne position.
+    * à la bonne position. Lorsque l&#x27;on tape une accolade fermante, on vérifie s&#x27;il y
+    * en a une après et on déplace simplement le curseur derrière si c&#x27;est le cas,
+    * etc.
+    * + la tabulation permet de l&#x27;autocomplétion de mots.
+    *
+    * La méthode est appelée dès qu&#x27;on frappe une touche alors que le focus se
+    * se trouve dans la console.
+    *
     * @method autocompletion
     * @param  {KeybaordEvent} evt L&#x27;évènement Keyboard (keypress)
     * @return {Boolean} TRUE si une autocompletion a été exécutée, false otherwise
@@ -292,13 +335,22 @@ $.extend(window.Console,{
      *  Autocomplétion complexe, avec la touche tabulation
      *  
      */
+    var dbef, dauto ;
     if(evt.keyCode == K_TAB)
     {
       // On prend les trois caractères avant la position du curseur
-      var dbef = Selection.around(this.console, {before:true, length:3})
+      dbef = Selection.around(this.console, {before:true, length:3})
       if(undefined != DATA_AUTOCOMPLETION[dbef.content])
       {
-        var dauto = DATA_AUTOCOMPLETION[dbef.content]
+        dauto = DATA_AUTOCOMPLETION[dbef.content]
+        // Si le paramètre &#x60;fourth&#x60; est défini, il faut chercher la quatrième
+        // lettre
+        if(dauto.fourth)
+        {
+          dbef = Selection.around(this.console, {before:true, length:4})
+          if(undefined == DATA_AUTOCOMPLETION[dbef.content]) return false
+          dauto = DATA_AUTOCOMPLETION[dbef.content]
+        }
       	this.console[0].setSelectionRange(dbef.start, dbef.end)
         Selection.set(this.console, dauto.replace, {end:-dauto.boffset, length:dauto.length || 0})
         return true
@@ -311,21 +363,63 @@ $.extend(window.Console,{
      */
     switch(evt.charCode)
     {
+    case 34  : // guillemets (apostrophe double)
+      return this.closed_char_or_move_cursor(&#x27;&quot;&#x27;, &#x27;&quot;&#x27;, 1)
+    case 39  : // apostrophe simple
+      return this.closed_char_or_move_cursor(&quot;&#x27;&quot;, &quot;&#x27;&quot;, 1)
+    case 44  : // virgule (on la passe s&#x27;il y en a une après)
+      return this.move_cursor_if_next(&#x27;,&#x27;, 1)    
     case 123 : // accolade ouvrante
-      this.set_caret_to(&#x27;{}&#x27;, 1)
-      return true
+    case 125 : // accolade fermante
+      return this.closed_char_or_move_cursor(&quot;{&quot;, &quot;}&quot;, 1)
     case 40  : // Parenthèse ouvrante
-      this.set_caret_to(&#x27;()&#x27;, 1)
-      return true
+    case 41  : // Parenthèse fermante
+      return this.closed_char_or_move_cursor(&quot;(&quot;, &quot;)&quot;, 1)
     case 91  : // Crochet ouvrant
-      this.set_caret_to(&#x27;[]&#x27;, 1)
-      return true
+    case 93  : // Crochet fermant
+      return this.closed_char_or_move_cursor(&quot;[&quot;, &quot;]&quot;, 1)
     default:
-      UI.feedback(&quot;[Console.autocompletion] charCode:&quot;+evt.charCode+&quot; / &quot;+&quot;keyCode:&quot;+evt.keyCode)
+      // Décommenter pour avoir le charCode/keyCode de la touche
+      // UI.feedback(&quot;[Console.autocompletion] charCode:&quot;+evt.charCode+&quot; / &quot;+&quot;keyCode:&quot;+evt.keyCode)
     }
     return false
   },
-  
+  /**
+    * Méthode qui ajoute le caratère &quot;fermant&quot; au caractère fourni, sauf
+    * si ce caractère suit la position courante du curseur
+    * @method closed_char_or_move_cursor
+    * @param  {String}  opening_char    Le caractère qui provoque l&#x27;appel
+    * @param  {String}  closing_char    Le caractère fermant à ajouter
+    * @param  {Number}  moving          Le déplacement de curseur à effectuer
+    * @return {Boolean} TRUE pour pouvoir renvoyer tout de suite la méthode
+    */
+  closed_char_or_move_cursor:function(opening_char, closing_char, moving)
+  {
+    var around = this.around_selection(false, 1)
+    if( around.content == closing_char)
+    {
+      this.select({start:around.start+1, end:around.start+1})
+    } 
+    else
+    {
+      this.set_caret_to(opening_char+closing_char, moving)
+    }
+    return true
+  },
+  /**
+    * Méthode qui déplace le curseur d&#x27;un caractère vers la droite si
+    * le caractère suivant (ou le texte) est +next_str+
+    * @method move_cursor_if_next
+    * @param {String} next_str
+    */
+  move_cursor_if_next:function(next_str)
+  {
+    var len_str = next_str.length
+    var around  = this.around_selection(false, len_str)
+    if(around.content != next_str) return false
+    this.select({start:around.start+len_str, end:around.start+len_str})
+    return true
+  },
   /**
     * Méthode qui place le texte +inserted+ à la position du curseur et place
     * le cursor au décalage +back_offset+ (0 par défaut = après l&#x27;ajout)
@@ -341,6 +435,11 @@ $.extend(window.Console,{
     else back_offset = - back_offset
     Selection.set(this.console, inserted, {end:back_offset})
   },
+  
+  /*
+   *  ---------------------------------------------------------------------
+   *  
+   */
   /**
     * Méthode appelée quand on focus dans le code console
     * @method onfocus
@@ -372,6 +471,15 @@ $.extend(window.Console,{
   {
     if(&#x27;string&#x27;!=typeof code) code = code.join(&quot;\n&quot;)
     this.console.val(code)
+  },
+  /**
+    * Affiche la ligne de code actuellement jouée
+    * @method show_code_line
+    * @param {String} code_line La ligne de code
+    */
+  show_code_line:function(code_line)
+  {
+    $(&#x27;div#console_last_step&#x27;).html(code_line)
   },
   /**
     * Retourne le code depuis le caractère +from+ (0-start) jusqu&#x27;au caractère
@@ -420,7 +528,21 @@ $.extend(window.Console,{
     return Selection.of(this.console)
   },
   /**
-    * Sélectionne une partie du texte (en général, l&#x27;étape courante)
+    * Retourne les +x+ caractères avant ou après la sélection courante
+    * @method around_selection
+    * @param {Boolean} before   Si true, les caractères avant sinon après
+    * @param {Number}  length   Le nombre de caractères à retourner
+    * @param {Boolean} only_content  Si true, la méthode ne retourne que le texte (false par défaut)
+    * @return {Object|String} Soit un objet contenant {content, start, end} soit seulement le texte
+    */
+  around_selection:function(before, length, only_content)
+  {
+    var sel = Selection.around(Console.console, {before:before, length:length})
+    if(only_content)  return sel.content
+    else              return sel
+  },
+  /**
+    * Sélectionne une partie du texte (ou place le curseur)
     * @method select
     * @param  {Object} params Les paramètres obligatoires
     *   @param  {Number} params.start   Début de la sélection
@@ -538,9 +660,9 @@ Object.defineProperties(window.Console,{
       if(undefined == this._etapes)
       {
         Pas.last_id  = 0
-        this._etapes = this.code2pas(this.raw)
+        this._etapes = this.expurge_preambule(this.code2pas(this.raw))
       }
-      return this.expurge_preambule(this._etapes) // clone
+      return $.merge([], this._etapes) // clone
     }
   },
   /**
@@ -559,7 +681,7 @@ Object.defineProperties(window.Console,{
     *     être définies des préférences.
     *
     * @property {Array of Pas} steps_selection La liste des étapes sélectionnées et étapes précédentes
-    *                                   nécessaires.
+    *                          nécessaires. Note : c&#x27;est un clone de la liste conservée.
     */
   &quot;steps_selection&quot;:{
     get:function(){
@@ -571,11 +693,11 @@ Object.defineProperties(window.Console,{
         var steps = this.code2pas(this.get_code(0, sel.start), {as_flash:true})
         // == Les étapes à partir desquelles jouer ==
             steps = this.code2pas(sel.content, {array:steps, cur_offset:parseInt(sel.start,10)})
-        this._steps_selection = steps
+        this._steps_selection = this.expurge_preambule(steps)
       }
       // Il faut renvoyer un clone car l&#x27;exécution des étapes mange (shift) dans
       // cette liste renvoyée.
-      return this.expurge_preambule(this._steps_selection)
+      return $.merge([], this._steps_selection)
     }
   },
   /**

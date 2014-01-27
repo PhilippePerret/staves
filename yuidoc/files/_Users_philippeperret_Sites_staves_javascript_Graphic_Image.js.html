@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -235,26 +271,31 @@ Gestion des évènements</a></li>
   */
 window.IMAGE = function(params)
 {
-  if(undefined != params.x){ params.left = params.x; delete params.x }
-  if(undefined != params.y){ params.top  = params.y; delete params.y }
   var image = new Img(params)
   return image
 }
 
 /**
   * Pour les instances d&#x27;image
+  *
+  * Notes
+  *   * Il y a deux sortes d&#x27;instance image : les images &quot;absolues&quot; qui permettent
+  *     de calculer les dimensions de l&#x27;image, avec une seule instance pour image
+  *     différente et il existe aussi les instances véritablement créées pour 
+  *     l&#x27;animation, qui peuvent partager des mêmes images.
+  *
   * @class Img
   * @constructor
-  * @params {Object} params Les paramètres de l&#x27;image
-  *   @params {String} params.url     Adresse de l&#x27;image
-  *   @params {Number} params.top     Top de l&#x27;image dans l&#x27;animation
-  *   @params {Number} params.left    Left de l&#x27;image dans l&#x27;animation
-  *   @params {Number} params.width   Largeur de l&#x27;image
-  *   @params {Number} params.height  Hauteur de l&#x27;image
-  *   @params {Number} params.cadre_width   Largeur du cadrage de l&#x27;image
-  *   @params {Number} params.cadre_height  Hauteur du cadrage de l&#x27;image
-  *   @params {Number} params.cadre_offset_x  Décalage horizontal du cadrage dans l&#x27;image
-  *   @params {Number} params.cadre_offset_y  Décalage vertical du cadrage dans l&#x27;image
+  * @param {Object} params Les paramètres de l&#x27;image
+  *   @param {String} params.url     Adresse de l&#x27;image
+  *   @param {Number} params.y     Top de l&#x27;image dans l&#x27;animation
+  *   @param {Number} params.x    Left de l&#x27;image dans l&#x27;animation
+  *   @param {Number} params.width   Largeur de l&#x27;image
+  *   @param {Number} params.height  Hauteur de l&#x27;image
+  *   @param {Number} params.cadre_width   Largeur du cadrage de l&#x27;image
+  *   @param {Number} params.cadre_height  Hauteur du cadrage de l&#x27;image
+  *   @param {Number} params.inner_x  Décalage horizontal du cadrage dans l&#x27;image
+  *   @param {Number} params.inner_y  Décalage vertical du cadrage dans l&#x27;image
   */
 window.Img = function(params)
 {
@@ -266,14 +307,14 @@ window.Img = function(params)
   
   /**
     * Position horizontale de l&#x27;image
-    * @property {Number} left
+    * @property {Number} x
     */
-  this.left = null
+  this.x = null
   /**
     * Position verticale de l&#x27;image
-    * @property {Number} top
+    * @property {Number} y
     */
-  this.top = null
+  this.y = null
   
   /**
     * Largeur de l&#x27;image (ie du div la contenant)
@@ -298,21 +339,21 @@ window.Img = function(params)
   this.cadre_height = null
   /** Décalage horizontal du cadrage dans l&#x27;image
     * Par exemple, si &#x60;100&#x60;, on affiche l&#x27;image à partir du pixel horizontal 100
-    * @property {Number} cadre_offset_x
+    * @property {Number} inner_x
     * @default 0
     */
-  this.cadre_offset_x = 0
+  this.inner_x = 0
   /** Décalage vertical du cadrage dans l&#x27;image
-    * @property {Number} cadre_offset_y
+    * @property {Number} inner_y
     * @default 0
     */
-  this.cadre_offset_y = 0
+  this.inner_y = 0
   
   var me = this
   L(params || {}).each(function(k,v){me[k] = v})
   
-  if(!this.abs /* Instanciation d&#x27;une image non &quot;absolue&quot; */)
-  {
+  if( !this.abs )
+  { /* Instanciation d&#x27;une image non &quot;absolue&quot; */
     Img.add(this)
     if(!this.width  || this.width  == auto || !this.height || this.height == auto)
     {
@@ -347,7 +388,7 @@ $.extend(Img,{
     *     La première (cette propriété) contient les instances d&#x27;images utilisées
     *     pour l&#x27;animation, en considérant qu&#x27;une même image (même URL) peut être
     *     utilisée plusieurs fois, et pour chaque utilisation doit avoir une instance
-    *     distincte. Revanche, la table &#x60;abs_list&#x60; contient de façon unique toutes
+    *     distincte. En revanche, la table &#x60;abs_list&#x60; contient de façon unique toutes
     *     les images qui sont utilisées par l&#x27;animation et est établie à la pré-estimation
     *     du code (pas son exécution)
     *
@@ -403,12 +444,13 @@ $.extend(Img,{
     var found, url, absid ;
     if(found=code.match(/IMAGE\((.*)\)/))
     {
-      if(url=found[1].replace(/ +/, &#x27; &#x27;).match(/[&#x27;&quot;]?url[&#x27;&quot;]? ?: ?[&#x27;&quot;]([^&#x27;&quot;]+)[&#x27;&quot;] ?,/))
+      if(url=found[1].replace(/ +/, &#x27; &#x27;).match(/[&#x27;&quot;]?url[&#x27;&quot;]? ?: ?[&#x27;&quot;]([^&#x27;&quot;]+)[&#x27;&quot;]/))
       {
         url = url[1]
         absid = Img.idAbsFromUrl(url)
         if(undefined == Img.abs_list[absid]) new Img({url:url, abs:true})
-        // Ce code force l&#x27;affichage hors-champ de l&#x27;image pour calcul de sa taille.
+        // Le code ci-dessus force l&#x27;affichage hors-champ de l&#x27;image pour calcul 
+        // de sa taille.
       }
     }
   },
@@ -595,8 +637,8 @@ $.extend(Img.prototype,{
   {
     if(undefined == params) return F.error(&quot;Il faut définir les paramètres du travelling !&quot;)
     params = define_complete( params )
-    if(undefined != params.x_for)     params.x = this.cadre_offset_x + params.x_for
-    if(undefined != params.y_for)     params.y = this.cadre_offset_y + params.y_for
+    if(undefined != params.x_for)     params.x = this.inner_x + params.x_for
+    if(undefined != params.y_for)     params.y = this.inner_y + params.y_for
     if(undefined == params.seconds)   params.seconds = 2
     if(!params.x &amp;&amp; !params.y &amp;&amp; !params.width &amp;&amp; !params.height) return F.error(&quot;Il faut définir le mouvement du travelling !&quot;)
     var dtrav = {}
@@ -610,8 +652,8 @@ $.extend(Img.prototype,{
     // On procède au travelling
     this.image.animate(dtrav, params.seconds * 1000, params.complete)
     // On passe les nouvelles valeurs
-    if(params.x)      this.cadre_offset_x = params.x
-    if(params.y)      this.cadre_offset_y = params.y
+    if(params.x)      this.inner_x = params.x
+    if(params.y)      this.inner_y = params.y
     if(params.width)  this.cadre_width    = params.width
     if(params.height) this.cadre_height   = params.height
     return this
@@ -633,13 +675,17 @@ $.extend(Img.prototype,{
   {
     if(undefined == params) return F.error(&quot;Il faut définir le déplacement de l&#x27;image !&quot;)
     params = define_complete( params )
-    if(undefined != params.x_for)     params.x = this.left + params.x_for
-    if(undefined != params.y_for)     params.y = this.top  + params.y_for
-    if(undefined == params.seconds)   params.seconds  = 2
+    if(undefined != params.x_for)     params.x = this.x + params.x_for
+    if(undefined != params.y_for)     params.y = this.y + params.y_for
+    if(undefined != params.seconds)   params.seconds  = params.seconds * 1000
     var dmove = {}
     if(undefined != params.x) dmove.left = params.x+&#x27;px&#x27;
     if(undefined != params.y) dmove.top  = params.y+&#x27;px&#x27;
-    this.obj.animate(dmove, params.seconds * 1000, params.complete)
+    this.obj.animate(
+      dmove, 
+      params.seconds || Anim.delai_for(&#x27;transform&#x27;), 
+      params.complete
+    )
     return this
   },
   
@@ -839,14 +885,14 @@ Object.defineProperties(Img.prototype,{
       var styleimg = [], stylediv = [] ;
       
       // Attribut style pour le div de l&#x27;image
-      stylediv.push(&#x27;top:&#x27;+this.top+&#x27;px;left:&#x27;+this.left+&#x27;px&#x27;)
+      stylediv.push(&#x27;top:&#x27;+this.y+&#x27;px;left:&#x27;+this.x+&#x27;px&#x27;)
       stylediv.push(&#x27;width:&#x27;+(this.cadre_width || this.width)+&#x27;px&#x27;)
       stylediv.push(&#x27;height:&#x27;+(this.cadre_height || this.height)+&#x27;px&#x27;)
       // Attribut style pour l&#x27;image
       if(this.width)  styleimg.push(&#x27;width:&#x27;+this.width+&#x27;px&#x27;)
       if(this.height) styleimg.push(&#x27;height:&#x27;+this.height+&#x27;px&#x27;)
-      if(this.cadre_offset_x) styleimg.push(&#x27;left:-&#x27;+this.cadre_offset_x+&#x27;px&#x27;)
-      if(this.cadre_offset_y) styleimg.push(&#x27;top:-&#x27;+this.cadre_offset_y+&#x27;px&#x27;)
+      if(this.inner_x) styleimg.push(&#x27;left:-&#x27;+this.inner_x+&#x27;px&#x27;)
+      if(this.inner_y) styleimg.push(&#x27;top:-&#x27;+this.inner_y+&#x27;px&#x27;)
       
       return  &#x27;&lt;div id=&quot;&#x27;+this.dom_id+&#x27;&quot; class=&quot;divimage&quot; style=&quot;&#x27;+stylediv.join(&#x27;;&#x27;)+&#x27;&quot;&gt;&#x27;+
                 &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;image&quot; src=&quot;&#x27;+this.url+&#x27;&quot; style=&quot;&#x27;+styleimg.join(&#x27;;&#x27;)+&#x27;&quot; /&gt;&#x27;+

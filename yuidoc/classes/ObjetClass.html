@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -739,7 +775,7 @@ les objets surclassent cette méthode avec leur propre méthode.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l191"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:191</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l197"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:197</code></a>
         
         </p>
 
@@ -759,7 +795,7 @@ ont été traités.</p>
 <li>Si une méthode &#39;on<em>complete</em><operation>&#39; existe, elle est appelée avant
 de passer à l&#39;étape suivante.</li>
 <li>Si la méthode appelante a défini on_complete_operation, cette méthode
-est appelée pour poursuivre, sinon, c&#39;est NEXT_STEP qui est invoqué</li>
+est appelée pour poursuivre.</li>
 </ol>
 
     </div>
@@ -899,8 +935,13 @@ la nouvelle position pour un &#39;moveTo&#39;.</p>
 <h2 id="warning">WARNING</h2>
 <ul>
 <li>Si l&#39;on veut qu&#39;en toute fin des opérations une méthode spéciale soit
-appelée (autre que la méthode naturelle NEXT_STEP), la méthode appelante
-doit définir <code>on_complete_operation</code> (en général <code>this.on_complete_operation</code>)</li>
+appelée, la méthode appelante doit définir <code>on_complete_operation</code> (en général
+<code>this.on_complete_operation</code>)
+Mais attention aux cas spéciaux : par exemple, pour les motifs et les gammes,
+cette <code>operation</code> est appelée pour autant que notes que le motif ou la gamme
+en contient. Donc elles possèdent leur propre gestion du lancement de
+l&#39;étape suivante, tant que leur opération (à commencer par la construction et
+l&#39;affichage) n&#39;est pas achevé.</li>
 </ul>
 
     </div>
@@ -956,6 +997,24 @@ doit définir <code>on_complete_operation</code> (en général <code>this.on_com
 
                     </div>
 
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La méthode à appeler en fin de processus</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
                     
                 </li>
             
@@ -1133,7 +1192,7 @@ méthode <code>positionne</code></p>
                                 
 
                                 <div class="param-description">
-                                    <p>La méthode pour suivre (NEXT_STEP par défaut)</p>
+                                    <p>La méthode pour suivre</p>
 
                                 </div>
 
@@ -1295,7 +1354,7 @@ les objets surclassent cette méthode avec leur propre méthode.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l286"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:286</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l291"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:291</code></a>
         
         </p>
 
@@ -1340,7 +1399,7 @@ les objets surclassent cette méthode avec leur propre méthode.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l274"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:274</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l276"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:276</code></a>
         
         </p>
 
@@ -1387,7 +1446,7 @@ les objets surclassent cette méthode avec leur propre méthode.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l245"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:245</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l247"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:247</code></a>
         
         </p>
 
@@ -1433,7 +1492,7 @@ Pour la définir, on peut soit envoyer la portée, soit envoyer son indice 1-sta
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l263"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:263</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_ObjectClass.js.html#l265"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;ObjectClass.js:265</code></a>
         
         </p>
 

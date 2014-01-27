@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -237,6 +273,17 @@ Gestion des évènements</a></li>
 if(undefined == window.Anim) window.Anim = {}
 Anim.Dom = {
   /**
+    * Largeur de l&#x27;animation (calculée)
+    * @property {Number} width
+    */
+  width:null,
+  /**
+    * Hauteur de l&#x27;animation (calculée)
+    * @property {Number} height
+    */
+  height:null,
+  
+  /**
     * Valeur left maximale en fonction de la taille de l&#x27;animation à l&#x27;écran
     * Note : La valeur est calculée par UI.onresize_window
     * @property {Number} left_max
@@ -267,6 +314,11 @@ Anim.Dom = {
     
     var selector = &#x27;section#animation &gt; *&#x27;+not
     var nombre_elements = $(selector).length
+    if(nombre_elements == 0)
+    {
+      complete()
+      return
+    }
     $(selector).animate(
       {opacity:0},
       {always:function(){
@@ -365,36 +417,27 @@ Anim.Dom = {
     *                               L&#x27;instance ou le code HTML de l&#x27;élément. Si c&#x27;est
     *                               une instance, elle doit répondre à la méthode
     *                               &#x60;code_html&#x60; qui renvoie le code HTML à afficher
-    * @params {Object|Undefined} params Les paramètres optionnels
-    *   @params {Function} params.complete    La méthode à appeler en fin de processus (ce processus étant asynchrone)
+    * @param {Object|Undefined} params Les paramètres optionnels
+    *   @param {Function} params.complete    La méthode à appeler en fin de processus (ce processus étant asynchrone)
     *     
     */
   add:function(instance, params)
   {
-    // dlog(&quot;-&gt; Anim.Dom.add&quot;)
-    var a_simple_string = &#x27;string&#x27; == typeof instance, code_html ;
-    if(a_simple_string)
-    {
-      code_html = instance
-    }
-    else
-    {
-      code_html = instance.code_html
-    }
+    dlog(&quot;-&gt; Anim.Dom.add&quot;)
+    var real_instance = &#x27;string&#x27; != typeof instance ;
     
-    // === Ajout du code ===
-    this.section.append(code_html)
+    params = define_complete(params)
     
-    if(a_simple_string)
+    // === Ajout du code à l&#x27;animation ===
+    this.section.append(real_instance ? instance.code_html : instance)
+    
+    if(real_instance)
     {
-      
-    }
-    else
-    {
-      // Positionne et affiche l&#x27;objet
       instance.positionne()
-      instance.show(params)
+      if(instance.opacity != 0) instance.show(params)
+      else if(&#x27;function&#x27;==typeof params.complete) params.complete()
     }
+    dlog(&quot;&lt;- Anim.Dom.add&quot;)
   },
   /**
     * Méthode d&#x27;aide qui affiche un point de repère aux coordonnées x/y, puis

@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -265,7 +301,8 @@ window.OBJET_TRAITEMENT = {
   colorize:function(color){return this.traite(&#x27;colorize&#x27;, color)},
   surround:function(params){return this.traite(&#x27;surround&#x27;, params)},
   unsurround:function(params){return this.traite(&#x27;unsurround&#x27;, params)},
-  arrow:function(id, params){return this.traite(&#x27;arrow&#x27;, id, params)}
+  arrow:function(id, params){return this.traite(&#x27;arrow&#x27;, id, params)},
+  unarrow:function(id,params){return this.traite(&#x27;unarrow&#x27;, id, params)}
 }
 
 /**
@@ -277,13 +314,22 @@ window.OBJET_TRAITEMENT = {
   */
 window.METHODES_GROUPNOTES = {
   /**
-    * Construit les notes du groupe de notes
+    * Construction des notes (du motif ou de la gamme), soit en mode normal, soit
+    * en mode temporisé si &#x60;speed&#x60; est défini.
     * @method build
     */
   build:function()
   {
-    this.each_note(function(note){note.build()})
+    if(undefined != this.speed)
+    {
+      Note.building_temporized(this.notes, this.speed, {complete:NEXT_STEP})
+    }
+    else 
+    {
+      this.each_note(function(note){note.build()}, {complete:NEXT_STEP})
+    }
   },
+  
   /**
     * Retourne la note d&#x27;indice (1-start) +indice+
     * @method note
@@ -309,15 +355,24 @@ window.METHODES_GROUPNOTES = {
   
   /**
     * Exécute une fonction sur toutes les notes de l&#x27;accord
+    * Noter que cette méthode n&#x27;est pas asynchrone, dès que la méthode a été appelée
+    * sur toutes les notes, même si le processus n&#x27;est pas terminé, on passe à la méthode
+    * &#x60;params.complete&#x60; si elle a été définie.
+    *
     * @method each_note
-    * @param  {Function} fn La fonction à exécuter
+    * @param  {Function}  fn        La fonction à exécuter sur chaque note
+    *                               Cette fonction doit recevoir en premier argument la note.
+    *                               WARNING : ne pas envoyer les paramètres à la fonction, ça provoquerait des erreurs sans fin avec le passage à la suite.
+    * @param  {Object}    params    Les paramètres optionnels
+    *   @param  {Function}  params.complete   La méthode à appeler quand on finit.
     */
-  each_note:function(fn)
+  each_note:function(fn, params)
   {
     for(var i=1, len=this.notes.length; i&lt;len; ++i)
     {
       fn(this.notes[i])
     }
+    if(params &amp;&amp; &#x27;function&#x27; == typeof params.complete) params.complete()
   },
   
   /**

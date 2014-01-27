@@ -9,11 +9,14 @@ YUI.add("yuidoc-meta", function(Y) {
         "Anim.Objects",
         "Anim.options",
         "Arrow",
+        "Box",
+        "COLOR_TEXT_PER_BACKGROUND",
         "Chord",
         "Circle",
         "Console",
         "Courbe",
         "DATA_AUTOCOMPLETION",
+        "Debug",
         "Doublage",
         "ImageTool",
         "Img",
@@ -23,15 +26,18 @@ YUI.add("yuidoc-meta", function(Y) {
         "OBJET_TRAITEMENT",
         "ObjetClass",
         "Pas",
+        "REGEXP_NOTE",
         "Regle",
         "Scale",
         "Staff",
         "Step",
+        "TBox",
         "Txt",
         "UI",
         "UI.Popups",
         "UI.Popups.Methods",
         "UI.Tools",
+        "UNVERSAL_BOX_METHODS",
         "UNVERSAL_METHODS",
         "tools",
         "window"
@@ -46,12 +52,14 @@ YUI.add("yuidoc-meta", function(Y) {
         "Anim_Step",
         "Anim_infos",
         "Arrow.js",
+        "Box.js",
         "Chord.js",
         "Circle.js",
         "Console.js",
         "Controller.js",
         "Courbe.js",
-        "Doublage.js",
+        "Debug\n\nPour le débuggage en temps réel\n\nChaque fonction devrait commencer par :\n  stack(\"-> <nom string de la fonction>\"[, <paramètres éventuels>])\n\nPour obtenir le stack (l'afficher en console) :\n  Debug.output()",
+        "Dom_Doublage.js",
         "Event.js\nGestion des évènements",
         "GroupNotes.js",
         "Image.js",
@@ -61,12 +69,14 @@ YUI.add("yuidoc-meta", function(Y) {
         "Pas.js",
         "Scale.js",
         "Staff",
+        "TBox.js",
         "Texte.js",
         "Txt.js",
         "UI.Popups",
         "UI.Regle.js",
         "UI.Tools.js",
         "UI.js",
+        "UniversalBoxMethods.js",
         "UniversalMethods",
         "constantes",
         "contantes_autocompletion.js",
@@ -111,6 +121,10 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "Arrow.js"
         },
         {
+            "displayName": "Box.js",
+            "name": "Box.js"
+        },
+        {
             "displayName": "Chord.js",
             "name": "Chord.js",
             "description": "Gestion des accords"
@@ -141,8 +155,12 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "Courbe.js"
         },
         {
-            "displayName": "Doublage.js",
-            "name": "Doublage.js"
+            "displayName": "Debug\n\nPour le débuggage en temps réel\n\nChaque fonction devrait commencer par :\n  stack(\"-> <nom string de la fonction>\"[, <paramètres éventuels>])\n\nPour obtenir le stack (l'afficher en console) :\n  Debug.output()",
+            "name": "Debug\n\nPour le débuggage en temps réel\n\nChaque fonction devrait commencer par :\n  stack(\"-> <nom string de la fonction>\"[, <paramètres éventuels>])\n\nPour obtenir le stack (l'afficher en console) :\n  Debug.output()"
+        },
+        {
+            "displayName": "Dom_Doublage.js",
+            "name": "Dom_Doublage.js"
         },
         {
             "displayName": "Event.js\nGestion des évènements",
@@ -186,6 +204,10 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "Staff"
         },
         {
+            "displayName": "TBox.js",
+            "name": "TBox.js"
+        },
+        {
             "displayName": "Texte.js",
             "name": "Texte.js"
         },
@@ -208,6 +230,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "UI.Tools.js",
             "name": "UI.Tools.js"
+        },
+        {
+            "displayName": "UniversalBoxMethods.js",
+            "name": "UniversalBoxMethods.js"
         },
         {
             "displayName": "UniversalMethods",

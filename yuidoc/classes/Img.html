@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -228,7 +264,7 @@ Gestion des évènements</a></li>
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l18"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:18</code></a>
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l16"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:16</code></a>
         </div>
     
 
@@ -245,6 +281,13 @@ Gestion des évènements</a></li>
 
 <div class="box intro">
     <p>Pour les instances d&#39;image</p>
+<p>Notes</p>
+<ul>
+<li>Il y a deux sortes d&#39;instance image : les images &quot;absolues&quot; qui permettent
+de calculer les dimensions de l&#39;image, avec une seule instance pour image
+différente et il existe aussi les instances véritablement créées pour 
+l&#39;animation, qui peuvent partager des mêmes images.</li>
+</ul>
 
 </div>
 
@@ -293,7 +336,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l18"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:18</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l16"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:16</code></a>
         
         </p>
 
@@ -345,7 +388,7 @@ Gestion des évènements</a></li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">top</code>
+                                    <code class="param-name">y</code>
                                     <span class="type">Number</span>
                                 
 
@@ -359,7 +402,7 @@ Gestion des évènements</a></li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">left</code>
+                                    <code class="param-name">x</code>
                                     <span class="type">Number</span>
                                 
 
@@ -429,7 +472,7 @@ Gestion des évènements</a></li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">cadre_offset_x</code>
+                                    <code class="param-name">inner_x</code>
                                     <span class="type">Number</span>
                                 
 
@@ -443,7 +486,7 @@ Gestion des évènements</a></li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">cadre_offset_y</code>
+                                    <code class="param-name">inner_y</code>
                                     <span class="type">Number</span>
                                 
 
@@ -681,20 +724,6 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_cadre_offset_x">cadre_offset_x</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_cadre_offset_y">cadre_offset_y</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
                                 <a href="#property_cadre_width">cadre_width</a>
 
                                 
@@ -751,7 +780,14 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_left">left</a>
+                                <a href="#property_inner_x">inner_x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_inner_y">inner_y</a>
 
                                 
                                 
@@ -759,13 +795,6 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item property">
                                 <a href="#property_obj">obj</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_top">top</a>
 
                                 
                                 
@@ -780,6 +809,20 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item property">
                                 <a href="#property_width">width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_x">x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_y">y</a>
 
                                 
                                 
@@ -841,7 +884,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l141"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:141</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l146"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:146</code></a>
         
         </p>
 
@@ -930,7 +973,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l152"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:152</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l157"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:157</code></a>
         
         </p>
 
@@ -1009,7 +1052,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l488"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:488</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l498"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:498</code></a>
         
         </p>
 
@@ -1064,7 +1107,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l439"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:439</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l449"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:449</code></a>
         
         </p>
 
@@ -1120,7 +1163,7 @@ de l&#39;animation, on la calcule avec cette méthode.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l497"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:497</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l507"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:507</code></a>
         
         </p>
 
@@ -1185,7 +1228,7 @@ de l&#39;animation, on la calcule avec cette méthode.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l236"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:236</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l242"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:242</code></a>
         
         </p>
 
@@ -1270,7 +1313,7 @@ celles contenant &quot;IMAGE&quot; et les exécute.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l257"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:257</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l263"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:263</code></a>
         
         </p>
 
@@ -1333,7 +1376,7 @@ appelée lorsque la taille de toutes les images a été relevée</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l465"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:465</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l475"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:475</code></a>
         
         </p>
 
@@ -1410,7 +1453,7 @@ calc_width_and_height.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l341"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:341</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l347"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:347</code></a>
         
         </p>
 
@@ -1531,7 +1574,7 @@ calc_width_and_height.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l132"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:132</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l137"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:137</code></a>
         
         </p>
 
@@ -1630,7 +1673,7 @@ calc_width_and_height.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l189"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:189</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l195"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:195</code></a>
         
         </p>
 
@@ -1778,7 +1821,7 @@ méthode +onclick+ définie.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l394"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:394</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l400"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:400</code></a>
         
         </p>
 
@@ -1969,7 +2012,7 @@ méthode +onclick+ définie.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l518"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:518</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l528"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:528</code></a>
         
         </p>
 
@@ -2049,7 +2092,7 @@ Elle affiche les nouvelles coordonnées</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l506"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:506</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l516"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:516</code></a>
         
         </p>
 
@@ -2107,7 +2150,7 @@ La méthode définit en plus les observers et rend l&#39;image draggable.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l163"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:163</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l168"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:168</code></a>
         
         </p>
 
@@ -2170,7 +2213,7 @@ attend qu&#39;elles sont toutes chargées.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l304"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:304</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l310"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:310</code></a>
         
         </p>
 
@@ -2230,7 +2273,7 @@ relève de leur taille.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l330"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:330</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l336"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:336</code></a>
         
         </p>
 
@@ -2303,7 +2346,7 @@ relève de leur taille.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l420"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:420</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l430"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:430</code></a>
         
         </p>
 
@@ -2386,7 +2429,7 @@ relève de leur taille.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l354"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:354</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l360"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:360</code></a>
         
         </p>
 
@@ -2605,7 +2648,7 @@ relève de leur taille.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l226"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:226</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l232"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:232</code></a>
         
         </p>
 
@@ -2683,7 +2726,7 @@ relève de leur taille.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l597"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:597</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l607"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:607</code></a>
         
         </p>
 
@@ -2728,7 +2771,7 @@ relève de leur taille.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l547"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:547</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l557"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:557</code></a>
         
         </p>
 
@@ -2777,7 +2820,7 @@ l&#39;animation (où une image de même URL possède une instance unique)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l107"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:107</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l112"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:112</code></a>
         
         </p>
 
@@ -2826,7 +2869,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l584"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:584</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l594"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:594</code></a>
         
         </p>
 
@@ -2871,7 +2914,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l68"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:68</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l73"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:73</code></a>
         
         </p>
 
@@ -2886,99 +2929,6 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
 
     
         <p><strong>Default:</strong> Hauteur de l&#x27;image</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_cadre_offset_x" class="property item">
-    <h3 class="name"><code>cadre_offset_x</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l73"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:73</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Par exemple, si <code>100</code>, on affiche l&#39;image à partir du pixel horizontal 100</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_cadre_offset_y" class="property item">
-    <h3 class="name"><code>cadre_offset_y</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l79"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:79</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -3010,7 +2960,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l63"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:63</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l68"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:68</code></a>
         
         </p>
 
@@ -3056,7 +3006,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l606"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:606</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l616"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:616</code></a>
         
         </p>
 
@@ -3101,7 +3051,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l572"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:572</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l582"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:582</code></a>
         
         </p>
 
@@ -3146,7 +3096,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l57"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:57</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l62"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:62</code></a>
         
         </p>
 
@@ -3191,7 +3141,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l532"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:532</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l40"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:40</code></a>
         
         </p>
 
@@ -3201,7 +3151,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
     </div>
 
     <div class="description">
-        <p>Identifiant unique de l&#39;image</p>
+        <p>Mais c&#39;est une propriété complexe qui est calculée d&#39;après l&#39;url</p>
 
     </div>
 
@@ -3236,7 +3186,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l35"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:35</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l542"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:542</code></a>
         
         </p>
 
@@ -3246,7 +3196,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
     </div>
 
     <div class="description">
-        <p>Mais c&#39;est une propriété complexe qui est calculée d&#39;après l&#39;url</p>
+        <p>Identifiant unique de l&#39;image</p>
 
     </div>
 
@@ -3281,7 +3231,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l591"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:591</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l601"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:601</code></a>
         
         </p>
 
@@ -3326,7 +3276,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l116"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:116</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l121"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:121</code></a>
         
         </p>
 
@@ -3343,7 +3293,7 @@ Value : L&#39;instance {Img}. Noter que cette instance est &quot;virtuelle&quot;
 La première (cette propriété) contient les instances d&#39;images utilisées
 pour l&#39;animation, en considérant qu&#39;une même image (même URL) peut être
 utilisée plusieurs fois, et pour chaque utilisation doit avoir une instance
-distincte. Revanche, la table <code>abs_list</code> contient de façon unique toutes
+distincte. En revanche, la table <code>abs_list</code> contient de façon unique toutes
 les images qui sont utilisées par l&#39;animation et est établie à la pré-estimation
 du code (pas son exécution)</li>
 </ul>
@@ -3359,8 +3309,8 @@ du code (pas son exécution)</li>
 </div>
 
                 
-                    <div id="property_left" class="property item">
-    <h3 class="name"><code>left</code></h3>
+                    <div id="property_inner_x" class="property item">
+    <h3 class="name"><code>inner_x</code></h3>
     <span class="type">Number</span>
 
     
@@ -3382,7 +3332,7 @@ du code (pas son exécution)</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l41"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:41</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l78"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:78</code></a>
         
         </p>
 
@@ -3392,10 +3342,58 @@ du code (pas son exécution)</li>
     </div>
 
     <div class="description">
-        <p>Position horizontale de l&#39;image</p>
+        <p>Par exemple, si <code>100</code>, on affiche l&#39;image à partir du pixel horizontal 100</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_inner_y" class="property item">
+    <h3 class="name"><code>inner_y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l84"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:84</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -3427,7 +3425,7 @@ du code (pas son exécution)</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l579"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:579</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l589"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:589</code></a>
         
         </p>
 
@@ -3438,51 +3436,6 @@ du code (pas son exécution)</li>
 
     <div class="description">
         <p>Le DIV contenant l&#39;image (instance normale d&#39;animation)</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_top" class="property item">
-    <h3 class="name"><code>top</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l46"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:46</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Position verticale de l&#39;image</p>
 
     </div>
 
@@ -3517,7 +3470,7 @@ du code (pas son exécution)</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l561"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:561</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l571"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:571</code></a>
         
         </p>
 
@@ -3562,7 +3515,7 @@ du code (pas son exécution)</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l52"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:52</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l57"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:57</code></a>
         
         </p>
 
@@ -3573,6 +3526,96 @@ du code (pas son exécution)</li>
 
     <div class="description">
         <p>Largeur de l&#39;image (ie du div la contenant)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x" class="property item">
+    <h3 class="name"><code>x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l46"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:46</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position horizontale de l&#39;image</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y" class="property item">
+    <h3 class="name"><code>y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Image.js.html#l51"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Image.js:51</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position verticale de l&#39;image</p>
 
     </div>
 

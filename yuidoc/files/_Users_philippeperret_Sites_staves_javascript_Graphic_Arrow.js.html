@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -232,8 +268,8 @@ Gestion des évènements</a></li>
   * Ajoute une flèche indépendante des objets
   * @method ARROW
   * @param  {Object} params   Les paramètres pour la flèche
-  *   @param  {Number} params.left    Le décalage horizontal
-  *   @param  {Number} params.top     Le décalage vertical
+  *   @param  {Number} params.x    Le décalage horizontal
+  *   @param  {Number} params.y     Le décalage vertical
   *   @param  {String} params.color   La couleur de la flèche
   *   @param  {Number} params.angle   L&#x27;angle de la flèche
   *   @param  {Number} params.width   La longueur de la flèche
@@ -310,6 +346,20 @@ window.Arrow = function(params)
     */
   this._width = undefined
   
+  /**
+    * Décalage horizontal de la flèche par rapport à sa position naturelle
+    * @property {Number} offset_x
+    * @default 0
+    */
+  this.offset_x = 0
+  
+  /**
+    * Décalage vertical de la flèche par rapport à sa position naturelle
+    * @property {Number} offset_y
+    * @default 0
+    */
+  this.offset_y = 0
+  
   ObjetClass.call(this, params)
 }
 Arrow.prototype = Object.create( ObjetClass.prototype )
@@ -336,6 +386,8 @@ ARROW_METHODS = {
       if(undefined == params.div || params.div)   suf_objs.push(&#x27;div&#x27;)
       if(params.head)   suf_objs.push(&#x27;head&#x27;)
       if(params.queue)  suf_objs.push(&#x27;queue&#x27;)
+      dlog(&quot;[modify] params : &quot;);dlog(params)
+      dlog(&quot;[modify] suf_objs : &quot;);dlog(suf_objs)
       var my = this
       L(suf_objs).each(function(suf){
         my[&#x27;obj_&#x27;+suf].animate(
@@ -358,8 +410,8 @@ ARROW_METHODS = {
     params = parametize(params, value)
     var pos   = this.obj.position()
     var data  = {}
-    if(undefined != params.x) data.left = (pos.left + params.x) + &quot;px&quot;
-    if(undefined != params.y) data.top  = (pos.top + params.y) + &quot;px&quot;
+    if(undefined != params.x) data.x = (pos.left + params.x) + &quot;px&quot;
+    if(undefined != params.y) data.y = (pos.top  + params.y) + &quot;px&quot;
     this.modify(&#x27;animate&#x27;, data)
   },
   /**
@@ -395,7 +447,7 @@ ARROW_METHODS = {
     */
   colorize:function(couleur)
   {
-    this.color = couleur // that all! :-)
+    this.color = couleur
     NEXT_STEP()
   },
   
@@ -407,12 +459,84 @@ ARROW_METHODS = {
     */
   positionne:function()
   {
-    this.top    = this._top
-    this.left   = this._left
+    this.obj.css({left: this.real_x+&#x27;px&#x27;, top: this.real_y+&#x27;px&#x27;})
     this.width  = this._width
     this.color  = this._color
     this.angle  = this._angle
+  },
+  /**
+    * Méthode qui calcule la vraie position de la flèche (_real_y et _real_x)
+    * en fonction du possesseur et de l&#x27;angle à donner.
+    * @method calcule_real_x_y
+    */
+  calcule_real_x_y:function()
+  {
+    var realx = parseInt(this.x, 10), 
+        realy = parseInt(this.y, 10), 
+        angle, angle_tri, angle_rad, sin, cos, 
+        offx = 0, offy = 0,
+        rayon = 10,
+        ajout_around = 0,
+        rectif_x = 0,
+        rectif_y = 0 ;
+
+    // Valeur si la flèche est portée par un owner
+    if(this.owner)
+    {
+      // Centre absolu du porteur
+      realx = parseInt(this.owner.center_x, 10)
+      realy  = parseInt(this.owner.center_y, 10)
+      // Le rayon d&#x27;après la largeur et la hauteur de l&#x27;objet porteur (if any)
+      rayon = parseInt(Math.max(this.owner.width, this.owner.height) / 2, 10)
+      // L&#x27;objet est-il entouré ? Il faut alors ajouter un peu de marge
+      if(this.owner.surrounded) ajout_around = 4
+     }
+    
+    // Valeur du rayon (qu&#x27;on augmente toujours un peu)
+    rayon += ajout_around + 4
+    
+    // L&#x27;angle en valeur toujours positive, trigonométrique et en radian
+    // pour calculer sinus et cosinus.
+    angle = parseInt(this.angle,10)
+    if (angle &lt; 0) angle = 360 + angle
+    angle_tri = 360 - (angle % 360)
+    angle_rad = Math.radians(angle_tri)
+    sin   = Math.sin(angle_rad)
+    cos   = Math.cos(angle_rad)
+    if(angle != 90 &amp;&amp; angle != 270) offx = parseInt(rayon * cos, 10)
+    if(angle != 0  &amp;&amp; angle != 180) offy = parseInt(rayon * sin, 10)
+    
+    realx += offx
+    realy  -= offy
+    
+    // dlog({
+    //   angle: angle, angle_tri:angle_tri, rayon:rayon, offx:offx, offy:offy, realx:realx, realy:realy
+    // })
+
+    
+    // Quelques petites rectifications en fonction du possesseur
+    if(this.owner)
+    {
+      switch(this.owner.class)
+      {
+      case &#x27;note&#x27;:
+        if(angle &lt; 180) rectif_x = 3
+        break
+      case &#x27;chord&#x27;:
+        rectif_y = this.owner.position_fleche_per_angle(angle)
+        break
+      }
+    }
+
+    // On ajoute finalement le décalage horizontal et vertical (if any)
+    // et les petites rectifications suivant le possesseur
+    realy  += rectif_y + ((angle &gt;= 0 &amp;&amp; angle &lt;= 180) ? this.offset_y : - this.offset_y) ;
+    realx += rectif_x + this.offset_x
+    // On dispatche les valeurs
+    this._real_x = realx
+    this._real_y  = realy
   }
+  
 }
 
 $.extend(true, Arrow.prototype, ARROW_METHODS)
@@ -537,26 +661,47 @@ Object.defineProperties(Arrow.prototype, {
     get:function(){return &quot;&quot;}
   },
   /**
-    * Décalage horizontal de la flèche (par défaut le décalage courant)
-    * @property {Number} left
+    * La vraie position gauche de la flèche, en fonction de son angle et
+    * d&#x27;un éventuel &#x60;offset_x&#x60; défini.
+    * @property {Number} real_x
     */
-  &quot;left&quot;:
-  {
-    get:function(){return this._left || Anim.current_x},
-    set:function(left){
-      this._left = left
-      if(this.obj) this.obj.css(&#x27;left&#x27;, left+&#x27;px&#x27;)
+  &quot;real_x&quot;:{
+    get:function(){
+      if(undefined == this._real_x) this.calcule_real_x_y()
+      return this._real_x
+    }
+  },
+  &quot;real_y&quot;:{
+    get:function(){
+      if(undefined == this._real_y) this.calcule_real_x_y()
+      return this._real_y
     }
   },
   /**
-    * Décalage vertical de la flèche
-    * @property {Number} top
+    * Position horizontal de la flèche
+    * Attention, elle peut être très différent de la position réelle de la 
+    * flèche après son calcul selon l&#x27;angle.
+    * @property {Number} x
     */
-  &quot;top&quot;:{
-    get:function(){return this._top || Anim.current_staff.top},
-    set:function(top){
-      this._top = top
-      if(this.obj) this.obj.css(&#x27;top&#x27;, this._top+&#x27;px&#x27;)
+  &quot;x&quot;:
+  {
+    get:function(){return this._x || Anim.current_x},
+    set:function(x){
+      this._x = x
+      if(this.obj) this.obj.css(&#x27;left&#x27;, x+&#x27;px&#x27;)
+    }
+  },      
+  /**
+    * Position verticale de la flèche
+    * Attention, il peut être très différent de la position réelle de la 
+    * flèche après son calcul selon l&#x27;angle.
+    * @property {Number} y
+    */
+  &quot;y&quot;:{
+    get:function(){return this._y || Anim.current_staff.top},
+    set:function(y){
+      this._y = y
+      if(this.obj) this.obj.css(&#x27;top&#x27;, this._y+&#x27;px&#x27;)
     }
   },
   /**

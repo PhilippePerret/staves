@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -252,19 +288,19 @@ window.CHORD = function(strnotes, params)
 window.Chord = function(strnotes, params)
 {
   /**
-    * Identifiant absolu de l&#x27;accord
-    * Note : Pour le moment, il n&#x27;est pas utilisé, mais plus tard, on pourra
-    * imaginer consigner les mêmes types d&#x27;éléments dans des Hash de Anim.Objects
-    * @property {String} id
-    */
-  this.id = &#x27;chd&#x27;+(new Date()).getTime()
-  /**
     * Class d&#x27;un type accord
     * @property {String} class
     * @static @final 
     * @default &#x27;chord&#x27;
     */
   this.class = &#x27;chord&#x27;
+  /**
+    * Identifiant absolu de l&#x27;accord
+    * Note : Pour le moment, il n&#x27;est pas utilisé, mais plus tard, on pourra
+    * imaginer consigner les mêmes types d&#x27;éléments dans des Hash de Anim.Objects
+    * @property {String} id
+    */
+  this.id = &#x27;chd&#x27;+(new Date()).getTime()
   /**
     * Position left de l&#x27;accord (par défault le Anim.current_x courant)
     * @property {Number} left
@@ -308,7 +344,39 @@ $.extend(Chord.prototype, UNVERSAL_METHODS)
 $.extend(Chord.prototype, METHODES_TEXTE)
 $.extend(Chord.prototype, METHODES_GROUPNOTES)
 
-$.extend(Chord.prototype,{})
+$.extend(Chord.prototype,{
+  /**
+    * Méthode qui calcule le top et le bottom de l&#x27;accord
+    * @method calcule_top_bottom_objet
+    */
+  calcule_top_bottom_objet:function()
+  {
+    var top_max = 0, top_min = 10000
+    var my = this
+    this.each_note(function(note){ 
+      if(note.top &gt; top_max) top_max  = note.top
+      if(note.top &lt; top_min) top_min  = note.top
+    })
+    this._top_obj     = top_min
+    this._bottom_obj  = top_max + 12
+  },
+  
+  /**
+    * Retourne l&#x27;ajustement vertical pour le placement d&#x27;une flèche en
+    * fonction de l&#x27;angle
+    * @method position_fleche_per_angle
+    * @param  {Number} angle  Angle en degrés, toujours positif
+    * @return {Number} La rectification verticale
+    */
+  position_fleche_per_angle:function(angle)
+  {
+    if(!angle.is_between(80, 100) &amp;&amp; !angle.is_between(260, 280)) return -12
+    var demi = 0 //10 // (this._bottom_obj - this.center_y)
+    return angle.is_between(80, 100) ? -10 : -4 ;
+  }
+  
+})
+
 Object.defineProperties(Chord.prototype, {
   /**
     * Portée de l&#x27;accord ({Staff})
@@ -342,17 +410,61 @@ Object.defineProperties(Chord.prototype, {
     */
   &quot;center_y&quot;:{
     get:function(){
-      var h_accord = 12, max_top = 0, min_top = 10000 ;
-      
-      this.each_note(function(note){ 
-        if(note.top &gt; max_top) max_top = note.top
-        if(note.top &lt; min_top) min_top = note.top
-      })
-      dlog(&quot;Min top:&quot;+min_top + &quot;/ max top:&quot;+max_top);
-      return parseInt(min_top + ((max_top - min_top) / 2), 10)
+      return parseInt(this.top_obj + ((this.bottom_obj - this.top_obj) / 2), 10)
+    }
+  },
+  
+  /**
+    * Le top de l&#x27;accord (MAIS pour l&#x27;instant, c&#x27;est le centre de l&#x27;accord
+    * utiliser &#x27;top_obj&#x27; pour obtenir le vrai top)
+    * @property {Number}
+    */
+  &quot;top&quot;:{
+    get:function(){return this.center_y},
+  },
+  /**
+    * Le left de l&#x27;accord
+    * Correspond à son center_x
+    * @property {Number} top
+    */
+  &quot;left&quot;:{
+    get:function(){return this.center_x}
+  },
+  /**
+    * Largeur de l&#x27;accord (correspond à la largeur d&#x27;une note)
+    * @property {Number} width
+    */
+  &quot;width&quot;:{
+    get:function(){ return this.note(1).width}
+  },
+  /**
+    * Hauteur de l&#x27;accord
+    * @property {Number} height
+    */
+  &quot;height&quot;:{
+    get:function(){ return this.bottom_obj - this.top_obj + this.note(1).height}
+  },
+  /**
+    * Top de l&#x27;accord
+    * @property {Number} top_obj
+    */
+  &quot;top_obj&quot;:{
+    get:function(){
+      if(undefined == this._top_obj) this.calcule_top_bottom_objet()
+      return this._top_obj
+    }
+  },
+  /**
+    * Bottom de l&#x27;accord
+    * @property {Number} bottom_obj
+    */
+  &quot;bottom_obj&quot;:{
+    get:function(){
+      if(undefined == this._bottom_obj) this.calcule_top_bottom_objet()
+      return this._bottom_obj
     }
   }
-  
+
 })
 
     </pre>

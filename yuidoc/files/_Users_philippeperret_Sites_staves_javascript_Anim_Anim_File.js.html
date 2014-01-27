@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -247,18 +283,36 @@ window.Anim.File = {
   folder: &quot;&quot;,
   /**
     * Méthode définissant le nom de l&#x27;animation (du champ save_as) et
-    * l&#x27;enregistrant quand c&#x27;est une NOUVELLE animation
+    * l&#x27;enregistrant
     * @method set_name_and_save
     */
   set_name_and_save:function()
   {
-    var dname = this.get_new_name().split(&#x27;/&#x27;)
-    var name  = dname.pop()
-    var fold  = dname.join(&#x27;/&#x27;)
-    if(!name) return
-    Anim.set_anim(name, fold)
+    var dname = this.get_new_name() ;
+    if(!dname) return
+    Anim.set_anim(dname[1], dname[0])
     UI.add_new_animation_to_menu(this.name)
     this.save()
+  },
+  /**
+    * Prend le nom de l&#x27;animation dans le champ save_as, le corrige
+    * et le renvoie.
+    * @method get_new_name
+    * @return {Array} contenant [folder, nom] ou FALSE en cas de problème
+    */
+  get_new_name:function()
+  {
+    var name, dname, fold ;
+    name  = $(&#x27;select#animation_folder&#x27;).val() + $(&#x27;input#animation_name&#x27;).val().trim()
+    name  = Texte.to_ascii(name).
+                replace(/ /g,&#x27;_&#x27;).
+                replace(/[^a-zA-z0-9_\/\-]/g,&#x27;&#x27;)
+    dname = name.split(&#x27;/&#x27;)
+    name  = dname.pop()
+    name  = name.substring(0, 60)
+    fold  = dname.join(&#x27;/&#x27;)
+    if(name == &quot;&quot;) return F.error(&quot;Il faut donner un nom (valide) !&quot;)
+    else return [fold, name]
   },
   /**
     * Enregistre l&#x27;animation courante
@@ -268,11 +322,11 @@ window.Anim.File = {
     */
   save:function(rajax)
   {
-    if(undefined == rajax)
+    if(undefined == rajax) 
     {
-      if(!this.name)
-      {
-        return UI.Tools.show(&#x27;save_as&#x27;, {ok:{name:&quot;Enregistrer&quot;, method:$.proxy(this.set_name_and_save, this)}})
+      if( ! this.name ){ 
+        this.is_new = true
+        return this.choose_path()
       }
       Ajax.send({
         script :&#x27;animation/save&#x27;,
@@ -286,64 +340,42 @@ window.Anim.File = {
       if(rajax.ok)
       {
         F.show(&quot;“&quot;+this.name + &quot;” enregistré.&quot;)
+        if(this.is_new)
+        {
+          UI.add_new_animation_to_menu(this.name, this.path)
+          delete this.is_new
+        }
         this.modified = false
       } 
-      else F.error(rajax.message)
+      else
+      {
+        F.error(rajax.message)
+        this.name   = null
+        this.folder = null
+      } 
     }
-  },
-  /**
-    * Prend le nom de l&#x27;animation dans le champ save_as, le corrige
-    * et le renvoie.
-    * @method get_new_name
-    * @return {String|False} Le nom de l&#x27;animation, ou Null si un problème
-    */
-  get_new_name:function()
-  {
-    var name = $(&#x27;input#animation_name&#x27;).val().trim()  
-    name = Texte.to_ascii(name).
-                replace(/ /g,&#x27;_&#x27;).
-                replace(/[^a-zA-z0-9_-]/g,&#x27;&#x27;).
-                substring(0, 60)
-    if(name == &quot;&quot;) return F.error(&quot;Il faut donner un nom (valide) !&quot;)
-    else return name
   },
   /**
     * Enregistre l&#x27;animation sous un autre nom
     * @method save_as
-    * @param {Object} rajax retour de la requête ajax
     */
-  save_as:function(new_name_ok, rajax)
+  save_as:function()
   {
-    if(undefined == rajax)
-    {
-      if(undefined == new_name_ok)
-      {
-        return UI.Tools.show(&#x27;save_as&#x27;, {ok:{name:&quot;Enregistrer&quot;, method:$.proxy(this.save_as, this, true)}})
-      }
-      // On prend le nouveau titre et on le corrige
-      var new_name = this.get_new_name()
-      if(!new_name) return                  
-      Ajax.send({
-        script:&quot;animation/save&quot;, 
-        name      : this.name,
-        folder    : this.folder,
-        new_name  : new_name,
-        code      : Console.raw
-      }, $.proxy(this.save_as, this, true))
-    }
-    else
-    {
-      if(rajax.ok)
-      {
-        // Il faut retirer l&#x27;ancien nom et le remplacer par le nouveau
-        // Ça change aussi le nom courant de l&#x27;animation
-        UI.change_animation_name(this.name, rajax.name)
-        this.modified = false
-      }
-      else F.error(rajax.message)
-    }
+    delete this.name
+    this.save()
   },
-  
+  /**
+    * Affiche la boite de dialogue pour choisir le nom de l&#x27;animation et
+    * son dossier
+    * @method choose_path
+    */
+  choose_path:function()
+  {
+    UI.Tools.show(&#x27;save_as&#x27;, {ok:{name:&quot;Enregistrer&quot;, method:$.proxy(this.set_name_and_save, this)}})
+    var clone = $(&#x27;select#folders_animations&#x27;).clone()
+    clone.attr(&#x27;id&#x27;, &#x27;animation_folder&#x27;)
+    $(&#x27;select#animation_folder&#x27;).replaceWith(clone)
+  },
   /**
     * Recharge l&#x27;animation courante (utile quand on la code dans un fichier)
     * @method reload
@@ -378,7 +410,6 @@ window.Anim.File = {
         // C&#x27;est ici qu&#x27;on détermine si l&#x27;animation chargée est la suite
         // d&#x27;une animation précédente.
         Anim.isSuite = (true == Anim.hasSuite)
-        
         delete Anim.animation_pour_suivre
         Anim.hasSuite = false
         Anim.set_anim(name, folder, rajax.raw_code)
@@ -394,14 +425,15 @@ window.Anim.File = {
     * Charge la liste des animations et peuple le menu
     *
     * @method load_list_animations
+    * @param  {String} folder Le dossier à remonter (si undefined, c&#x27;est le chargement de l&#x27;application)
     * @param  {Object} rajax  Le retour ajax
     */
   load_list_animations:function(folder, rajax)
   {
     if(undefined == rajax)
     {
-      if(undefined == folder) folder = &quot;&quot;
-      Ajax.send({script:&quot;animation/list&quot;, folder:folder}, $.proxy(this.load_list_animations, this, folder))
+      var app_loading = (undefined == folder) ? 1 : 0
+      Ajax.send({script:&quot;animation/list&quot;, folder:(folder || &quot;&quot;), app_loading:app_loading}, $.proxy(this.load_list_animations, this, folder))
     }
     else
     {

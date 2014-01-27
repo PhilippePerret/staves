@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -270,6 +306,34 @@ Gestion des évènements</a></li>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
+                                <a href="#method_animate">animate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_BACKGROUND">BACKGROUND</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_BOX">BOX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_build">build</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_build">build</a>
 
                                 
@@ -298,7 +362,28 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_coordonnees">coordonnees</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_define_complete">define_complete</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_dispatch">dispatch</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_duree_set_or_default">duree_set_or_default</a>
 
                                 
                                 
@@ -319,7 +404,21 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_fade">fade</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_harmony">harmony</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_hide">hide</a>
 
                                 
                                 
@@ -354,7 +453,7 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_Note">Note</a>
+                                <a href="#method_move">move</a>
 
                                 
                                 
@@ -362,6 +461,13 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item method">
                                 <a href="#method_note">note</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_Note">Note</a>
 
                                 
                                 
@@ -410,6 +516,20 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_positionne">positionne</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_remove">remove</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_SCALE">SCALE</a>
 
                                 
@@ -418,6 +538,34 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item method">
                                 <a href="#method_select">select</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_set_css">set_css</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_show">show</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_stack">stack</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_val_or_default">val_or_default</a>
 
                                 
                                 
@@ -441,6 +589,13 @@ Gestion des évènements</a></li>
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
+                                <a href="#property_background   Soit une constante couleur CSS soit la définition!~YUIDOC_LINE~!                                hexa ou autre.">background   Soit une constante couleur CSS soit la définition!~YUIDOC_LINE~!                                hexa ou autre.</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_code">code</a>
 
                                 
@@ -456,6 +611,27 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item property">
                                 <a href="#property_flashed">flashed</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_gradient">gradient</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_height">height</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_hidden">hidden</a>
 
                                 
                                 
@@ -555,37 +731,8 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_NOTE_TO_OFFSET">NOTE_TO_OFFSET</a>
+                                <a href="#property_obj">obj</a>
 
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_NOTE_TO_OFFSET">NOTE_TO_OFFSET</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_NOTES">NOTES</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_OFFSET_ALTERATION">OFFSET_ALTERATION</a>
-
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -618,6 +765,34 @@ Gestion des évènements</a></li>
                                 
                             </li>
                         
+                            <li class="index-item property">
+                                <a href="#property_width">width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_x">x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_y">y</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_z">z</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -632,8 +807,273 @@ Gestion des évènements</a></li>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_build" class="method item">
-    <h3 class="name"><code>build</code></h3>
+                    <div id="method_animate" class="method item">
+    <h3 class="name"><code>animate</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>data</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l165"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:165</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Anime la boite de texte</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">data</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les données d&#39;animation (comme jQUery.animate)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">duree</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La durée de l&#39;animation (en secondes)</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function | False</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La méthode pour poursuivre</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_BACKGROUND" class="method item">
+    <h3 class="name"><code>BACKGROUND</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>color</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Box.js.html">Box.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Box.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Box.js:5</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>La méthode/commande BACKGROUND permet de faire un background dans l&#39;animation
+Noter qu&#39;il peut y en avoir autant qu&#39;on veut, pour des effets de fondu par
+exemple.</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>La définition d&#39;un fond définit automatiquement la couleur d&#39;un texte
+qui serait ajouté (Anim.prefs.text_color).</li>
+</ul>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">color</code>
+                        <span class="type">String | Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Soit la couleur, soit les paramètres</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres ou undefined</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_BOX" class="method item">
+    <h3 class="name"><code>BOX</code></h3>
 
     
         <span class="paren">()</span>
@@ -657,7 +1097,7 @@ Gestion des évènements</a></li>
         
             
                 
-                    <p>Provided by the <a href="../modules/GroupNotes.js.html">GroupNotes.js</a> module.</p>
+                    <p>Provided by the <a href="../modules/Box.js.html">Box.js</a> module.</p>
                 
                 <p>
                 
@@ -666,7 +1106,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l53"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:53</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Box.js.html#l42"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Box.js:42</code></a>
         
         </p>
 
@@ -677,8 +1117,7 @@ Gestion des évènements</a></li>
     </div>
 
     <div class="description">
-        <p>Construit les notes du groupe de notes</p>
-
+        
     </div>
 
     
@@ -723,7 +1162,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l97"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:97</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l116"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:116</code></a>
         
         </p>
 
@@ -735,6 +1174,143 @@ Gestion des évènements</a></li>
 
     <div class="description">
         <p>Destruction de l&#39;accord (destruction de chaque note)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_build" class="method item">
+    <h3 class="name"><code>build</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Instance</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l142"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:142</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Construit l&#39;objet
+Notes :</p>
+<ul>
+<li>C&#39;est une propriété terminale (elle appelle NEXT_STEP)</li>
+</ul>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Instance</span>:
+                    
+                    <p>L&#39;instance héritant</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_build" class="method item">
+    <h3 class="name"><code>build</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/GroupNotes.js.html">GroupNotes.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l54"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:54</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Construction des notes (du motif ou de la gamme), soit en mode normal, soit
+en mode temporisé si <code>speed</code> est défini.</p>
 
     </div>
 
@@ -800,7 +1376,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l77"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:77</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l91"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:91</code></a>
         
         </p>
 
@@ -931,7 +1507,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l120"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:120</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l134"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:134</code></a>
         
         </p>
 
@@ -1009,11 +1585,159 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
 </div>
 
                 
+                    <div id="method_coordonnees" class="method item">
+    <h3 class="name"><code>coordonnees</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>evt</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>ui</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l250"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:250</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode qui affiche (feedback) les coordonnées de la boite de texte
+après son déplacement et les renvoie dans un {x:, y:}</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">evt</code>
+                        <span class="type">Event</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>l&#39;évènement (car la méthode peut être invoquée suite à un drag)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">ui</code>
+                        <span class="type">Ui</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Helper jQuery (cf. ci-dessus)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>avec les propriétés <code>x</code> et <code>y</code>.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_define_complete" class="method item">
     <h3 class="name"><code>define_complete</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -1058,10 +1782,50 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
     </div>
 
     <div class="description">
-        <p>Méthode définissant la propriété <code>complete</code> si nécessaire</p>
+        <p>Méthode définissant la propriété <code>complete</code> si nécessaire.</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres envoyés à la méthode, ou undefined</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La valeur à donner à complete (NEXT_STEP par défaut)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -1085,6 +1849,231 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
 </div>
 
                 
+                    <div id="method_dispatch" class="method item">
+    <h3 class="name"><code>dispatch</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l126"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:126</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Dispatche les données +params+ dans l&#39;objet, à l&#39;instantiation
+Noter que dans beaucoup de cas, dispatcher les paramètres signifie 
+également définir l&#39;objet à l&#39;affichage, puisque la plupart des propriétés
+sont complexes et règlent l&#39;objet quand on les modifie.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres de l&#39;objet.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_duree_set_or_default" class="method item">
+    <h3 class="name"><code>duree_set_or_default</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>duree_id</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Float</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l228"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:228</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>+duree_id+</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres contenant peut-être <code>duree</code></p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">duree_id</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>L&#39;identifiant dans Anim.transition de la durée par défaut</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Float</span>:
+                    
+                    <p>Le nombre de millisecondes</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_each_note" class="method item">
     <h3 class="name"><code>each_note</code></h3>
 
@@ -1095,6 +2084,12 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
                 <li class="arg">
                     
                         <code>fn</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
                     
                 </li>
             
@@ -1129,7 +2124,7 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l84"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:84</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l94"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:94</code></a>
         
         </p>
 
@@ -1140,7 +2135,10 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
     </div>
 
     <div class="description">
-        <p>Exécute une fonction sur toutes les notes de l&#39;accord</p>
+        <p>Exécute une fonction sur toutes les notes de l&#39;accord
+Noter que cette méthode n&#39;est pas asynchrone, dès que la méthode a été appelée
+sur toutes les notes, même si le processus n&#39;est pas terminé, on passe à la méthode
+<code>params.complete</code> si elle a été définie.</p>
 
     </div>
 
@@ -1159,10 +2157,46 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
                     
 
                     <div class="param-description">
-                        <p>La fonction à exécuter</p>
+                        <p>La fonction à exécuter sur chaque note
+                              Cette fonction doit recevoir en premier argument la note.
+                              WARNING : ne pas envoyer les paramètres à la fonction, ça provoquerait des erreurs sans fin avec le passage à la suite.</p>
 
                     </div>
 
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La méthode à appeler quand on finit.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
                     
                 </li>
             
@@ -1234,6 +2268,98 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
 </div>
 
                 
+                    <div id="method_fade" class="method item">
+    <h3 class="name"><code>fade</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>UNKNOWN</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l75"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:75</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Crée un fondu de l&#39;objet. La méthode détecte automatiquement s&#39;il
+s&#39;agit d&#39;un fondu au noir ou une ouverture, en fonction de l&#39;opacité
+courante.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">UNKNOWN</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_harmony" class="method item">
     <h3 class="name"><code>harmony</code></h3>
 
@@ -1288,7 +2414,7 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l60"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:60</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l74"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:74</code></a>
         
         </p>
 
@@ -1391,6 +2517,97 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_hide" class="method item">
+    <h3 class="name"><code>hide</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l50"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:50</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Masque l&#39;objet</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels (dont .complete)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -1502,7 +2719,7 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l41"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:41</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l55"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:55</code></a>
         
         </p>
 
@@ -1597,7 +2814,7 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l54"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:54</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l68"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:68</code></a>
         
         </p>
 
@@ -1674,7 +2891,7 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l92"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:92</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l106"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:106</code></a>
         
         </p>
 
@@ -1741,6 +2958,308 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
                         <span class="type">Object</span>:
                     
                     <p>L&#39;instance du porteur (pour chainage)</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_move" class="method item">
+    <h3 class="name"><code>move</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l94"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:94</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Déplacement de l&#39;objet</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres définissant le déplacement</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">x</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La nouvelle position horizontale à atteindre OU</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">for_x</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La quantité de pixels de déplacement horizontal</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">y</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La nouvelle position verticale à atteindre OU</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">for_y</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La quantité de pixels de déplacement vertical</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">duree</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La durée en seconde du déplacement</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">wait</code>
+                                    <span class="type">Boolean</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Si FALSE, on n&#39;attend pas pour passer à la suite</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Très optionnellement, la méthode pour suivre.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_note" class="method item">
+    <h3 class="name"><code>note</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>indice</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Note.html" class="crosslink">Note</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/GroupNotes.js.html">GroupNotes.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l71"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:71</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Retourne la note d&#39;indice (1-start) +indice+</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">indice</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Indice 1-start de la note à retourner</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Note.html" class="crosslink">Note</a></span>:
+                    
+                    <p>L&#39;instance de la note désirée</p>
 
                 
             </div>
@@ -1876,115 +3395,6 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
         </div>
     
 
-    
-
-    
-</div>
-
-                
-                    <div id="method_note" class="method item">
-    <h3 class="name"><code>note</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>indice</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Note.html" class="crosslink">Note</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/GroupNotes.js.html">GroupNotes.js</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l61"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:61</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Retourne la note d&#39;indice (1-start) +indice+</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">indice</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Indice 1-start de la note à retourner</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Note.html" class="crosslink">Note</a></span>:
-                    
-                    <p>L&#39;instance de la note désirée</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -2130,7 +3540,7 @@ de la portée et au-dessus de l&#39;élément porteur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l124"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:124</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l125"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:125</code></a>
         
         </p>
 
@@ -2240,7 +3650,7 @@ Gestion des évènements</a> module.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Event.js.html#l87"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Event.js:87</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Event.js.html#l89"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Event.js:89</code></a>
         
         </p>
 
@@ -2320,7 +3730,7 @@ Gestion des évènements</a> module.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_UI_UI.js.html#l203"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;UI&#x2F;UI.js:203</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_UI_UI.js.html#l209"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;UI&#x2F;UI.js:209</code></a>
         
         </p>
 
@@ -2397,7 +3807,7 @@ Gestion des évènements</a> module.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_handy.js.html#l19"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;handy.js:19</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_handy.js.html#l25"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;handy.js:25</code></a>
         
         </p>
 
@@ -2530,7 +3940,7 @@ appeler cette fonction pour créer l&#39;objet</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l106"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:106</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l120"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:120</code></a>
         
         </p>
 
@@ -2601,6 +4011,162 @@ appeler cette fonction pour créer l&#39;objet</p>
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_positionne" class="method item">
+    <h3 class="name"><code>positionne</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l194"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:194</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Règle l&#39;objet principal (this.obj)</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>La méthode est appelée par Anim.Dom.add à après l&#39;ajout de l&#39;objet
+dans l&#39;animation.</li>
+<li>Si l&#39;objet possédant les méthodes universelles possède une méthode
+<code>after_positionne</code>, elle est appelée en fin de processus.</li>
+</ul>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_remove" class="method item">
+    <h3 class="name"><code>remove</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l65"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:65</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Destruction de l&#39;objet DOM de l&#39;objet courant
+Note : c&#39;est une méthode qui enchaine tout de suite la méthode suivante.</p>
+
+    </div>
+
+    
+
     
 
     
@@ -2883,7 +4449,7 @@ appeler cette fonction pour créer l&#39;objet</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l161"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:161</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l162"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:162</code></a>
         
         </p>
 
@@ -2903,6 +4469,375 @@ sélectionné avec le raccourci SPACE (pour arrêter l&#39;animation)</li>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_set_css" class="method item">
+    <h3 class="name"><code>set_css</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>prop</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l239"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:239</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Définit une propriété css de l&#39;objet</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">prop</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La propriété css à définir</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La valeur. Si c&#39;est un nombre, et que ce n&#39;est pas la propriété <code>z-index</code>, on ajoute &#39;px&#39; derrière</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_show" class="method item">
+    <h3 class="name"><code>show</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l33"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:33</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Affiche l&#39;objet</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels (dont .complete, la méthode pour suivre, ou false)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_stack" class="method item">
+    <h3 class="name"><code>stack</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_debug.js.html#l50"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;debug.js:50</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Raccourci pour <code>Debug.add_stack</code>, enregistre une méthode</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_val_or_default" class="method item">
+    <h3 class="name"><code>val_or_default</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>prop</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l265"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:265</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Retourne soit la valeur définie +prop+ ou la valeur par défaut
+construite par &quot;<prop>_default&quot;</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">prop</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>La propriété</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -2965,7 +4900,7 @@ sélectionné avec le raccourci SPACE (pour arrêter l&#39;animation)</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l12"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:12</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l26"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:26</code></a>
         
         </p>
 
@@ -3054,6 +4989,55 @@ avec en clé le type de texte (&#39;regular&#39;, &#39;harmony&#39;, &#39;chord&
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_background   Soit une constante couleur CSS soit la définition!~YUIDOC_LINE~!                                hexa ou autre." class="property item">
+    <h3 class="name"><code>background   Soit une constante couleur CSS soit la définition!~YUIDOC_LINE~!                                hexa ou autre.</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l366"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:366</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>La couleur de background de l&#39;objet
+Pour la modifier, l&#39;objet/class peut définir une méthode propre <code>set_background</code>.
+Dans le cas contraire, c&#39;est le div principal de l&#39;objet qui sera affecté.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="property_code" class="property item">
@@ -3203,6 +5187,147 @@ du code (tout ce qui est avant devrait être exécuté, sauf pas qui peuvent
 </div>
 
                 
+                    <div id="property_gradient" class="property item">
+    <h3 class="name"><code>gradient</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l384"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:384</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>La couleur alternative utilisée pour le dégradé (if any)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_height" class="property item">
+    <h3 class="name"><code>height</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l331"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:331</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Hauteur de l&#39;objet</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_hidden" class="property item">
+    <h3 class="name"><code>hidden</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l355"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:355</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Visibilité de l&#39;élément</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_id" class="property item">
     <h3 class="name"><code>id</code></h3>
     <span class="type">Number</span>
@@ -3275,7 +5400,7 @@ du code (tout ce qui est avant devrait être exécuté, sauf pas qui peuvent
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l239"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:239</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l240"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:240</code></a>
         
         </p>
 
@@ -3322,7 +5447,54 @@ du code (tout ce qui est avant devrait être exécuté, sauf pas qui peuvent
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l215"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:215</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l206"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:206</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return TRUE si l&#39;étape est un commentaire</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_is_comment" class="property item">
+    <h3 class="name"><code>is_comment</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/Pas.js.html">Pas.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l216"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:216</code></a>
         
         </p>
 
@@ -3369,7 +5541,7 @@ du code (tout ce qui est avant devrait être exécuté, sauf pas qui peuvent
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l225"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:225</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l226"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:226</code></a>
         
         </p>
 
@@ -3380,53 +5552,6 @@ du code (tout ce qui est avant devrait être exécuté, sauf pas qui peuvent
 
     <div class="description">
         <p>Return TRUE si l&#39;étape est un réglage par défaut</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_is_comment" class="property item">
-    <h3 class="name"><code>is_comment</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Pas.js.html">Pas.js</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l205"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:205</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Return TRUE si l&#39;étape est un commentaire</p>
 
     </div>
 
@@ -3463,7 +5588,7 @@ du code (tout ce qui est avant devrait être exécuté, sauf pas qui peuvent
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l190"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:190</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l191"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:191</code></a>
         
         </p>
 
@@ -3512,7 +5637,7 @@ soit un réglage de préférence (DEFAULT), soit un commentaire, etc., toute
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l249"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:249</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l250"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:250</code></a>
         
         </p>
 
@@ -3616,7 +5741,7 @@ soit un réglage de préférence (DEFAULT), soit un commentaire, etc., toute
     </div>
 
     <div class="description">
-        <p>Longueur du code</p>
+        <p>Longueur du code (tient compte du retour chariot, l&#39;inclut dans le compte)</p>
 
     </div>
 
@@ -3653,7 +5778,7 @@ soit un réglage de préférence (DEFAULT), soit un commentaire, etc., toute
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l45"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:45</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_GroupNotes.js.html#l46"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;GroupNotes.js:46</code></a>
         
         </p>
 
@@ -3702,7 +5827,7 @@ cette propriété qui est utilisée</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:5</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l19"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:19</code></a>
         
         </p>
 
@@ -3804,7 +5929,7 @@ de jouer très rapidement une partie de l&#39;animation.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Step.js.html#l141"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Step.js:141</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Step.js.html#l148"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Step.js:148</code></a>
         
         </p>
 
@@ -3826,27 +5951,23 @@ de jouer très rapidement une partie de l&#39;animation.</p>
 </div>
 
                 
-                    <div id="property_NOTE_TO_OFFSET" class="property item">
-    <h3 class="name"><code>NOTE_TO_OFFSET</code></h3>
-    <span class="type">Object</span>
+                    <div id="property_obj" class="property item">
+    <h3 class="name"><code>obj</code></h3>
+    <span class="type">JQuerySet</span>
 
     
 
     
 
     
-        <span class="flag final">final</span>
-    
 
-    
-        <span class="flag static">static</span>
     
 
     <div class="meta">
         
             
                 
-                    <p>Provided by the <a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a> module.</p>
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
                 
                 <p>
                 
@@ -3855,7 +5976,7 @@ de jouer très rapidement une partie de l&#39;animation.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_constantes_notes.js.html#l28"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;constantes_notes.js:28</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l281"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:281</code></a>
         
         </p>
 
@@ -3865,163 +5986,7 @@ de jouer très rapidement une partie de l&#39;animation.</p>
     </div>
 
     <div class="description">
-        <p>En clé, la note et son octave et en valeur son décalage par
-rapport à la portée. Donc il faut ajouter cette valeur à la hauteur
-de la portée pour placer la note.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_NOTE_TO_OFFSET" class="property item">
-    <h3 class="name"><code>NOTE_TO_OFFSET</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_constantes_notes.js.html#l58"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;constantes_notes.js:58</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Définition des positions en hauteur des notes en fonction de leur octave</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_NOTES" class="property item">
-    <h3 class="name"><code>NOTES</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_constantes_notes.js.html#l48"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;constantes_notes.js:48</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Suite des notes (redoublé pour pouvoir faire une recherche sur 
-des intervalles)</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_OFFSET_ALTERATION" class="property item">
-    <h3 class="name"><code>OFFSET_ALTERATION</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/contantes_autocompletion.js.html">contantes_autocompletion.js</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_constantes_notes.js.html#l77"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;constantes_notes.js:77</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Décalage de l&#39;altération par rapport à la note en fonction de son type</p>
+        <p>DOM Objet (jQuerySet) de l&#39;instance héritant des méthodes et propriétés universelles</p>
 
     </div>
 
@@ -4152,7 +6117,7 @@ des intervalles)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l136"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:136</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_Texte.js.html#l150"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;Texte.js:150</code></a>
         
         </p>
 
@@ -4200,7 +6165,7 @@ pouvant contenir un texte (Note, Accords, etc.)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l180"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:180</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Pas.js.html#l181"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Pas.js:181</code></a>
         
         </p>
 
@@ -4211,6 +6176,194 @@ pouvant contenir un texte (Note, Accords, etc.)</p>
 
     <div class="description">
         <p>Code &quot;trimé&quot;</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width" class="property item">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l319"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:319</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Largeur de l&#39;objet</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x" class="property item">
+    <h3 class="name"><code>x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l295"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:295</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position horizontale de l&#39;objet</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y" class="property item">
+    <h3 class="name"><code>y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l307"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:307</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position verticale de l&#39;objet</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_z" class="property item">
+    <h3 class="name"><code>z</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                    <p>Provided by the <a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a> module.</p>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_required_UnversalBoxMethods.js.html#l343"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;required&#x2F;UnversalBoxMethods.js:343</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Le z-index du div de l&#39;objet.</p>
 
     </div>
 

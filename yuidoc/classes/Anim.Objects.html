@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -283,6 +319,20 @@ pour que l&#39;évaluation du code soit très simple (<code>this.Objects.&lt;cod
                         
                             <li class="index-item method">
                                 <a href="#method_ARROW">ARROW</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_BACKGROUND">BACKGROUND</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_BOX">BOX</a>
 
                                 
                                 
@@ -436,7 +486,21 @@ pour que l&#39;évaluation du code soit très simple (<code>this.Objects.&lt;cod
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_TBOX">TBOX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_WAIT">WAIT</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_WAIT_CAPTION">WAIT_CAPTION</a>
 
                                 
                                 
@@ -500,7 +564,7 @@ pour que l&#39;évaluation du code soit très simple (<code>this.Objects.&lt;cod
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l129"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:129</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l148"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:148</code></a>
         
         </p>
 
@@ -579,7 +643,7 @@ pour que l&#39;évaluation du code soit très simple (<code>this.Objects.&lt;cod
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l67"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:67</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l86"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:86</code></a>
         
         </p>
 
@@ -591,6 +655,118 @@ pour que l&#39;évaluation du code soit très simple (<code>this.Objects.&lt;cod
 
     <div class="description">
         <p>cf. la fonction ARROW</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_BACKGROUND" class="method item">
+    <h3 class="name"><code>BACKGROUND</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l65"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:65</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Commande pour construire une boite de background
+cf. la fonction BACKGROUND</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_BOX" class="method item">
+    <h3 class="name"><code>BOX</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l59"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:59</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Commande pour construire une boite (non texte)
+cf. la fonction BOX</p>
 
     </div>
 
@@ -634,7 +810,7 @@ pour que l&#39;évaluation du code soit très simple (<code>this.Objects.&lt;cod
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l59"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:59</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l78"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:78</code></a>
         
         </p>
 
@@ -745,7 +921,7 @@ autre, ils se mettent simplement dans des DIV qui leur sont réservés</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l167"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:167</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l186"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:186</code></a>
         
         </p>
 
@@ -760,9 +936,6 @@ autre, ils se mettent simplement dans des DIV qui leur sont réservés</p>
 portée</p>
 <h2 id="notes">Notes</h2>
 <ul>
-<li>Tous les objets créés resteront quand même dans l&#39;animation, donc
-on pourra tout à fait les faire réapparaitre plus tard 
-(TODO pas pour le moment)</li>
 <li>Si la suppression des portées est demandée, elles disparaitront vraiment,
 ie seront retirées de Anim.staves</li>
 </ul>
@@ -825,7 +998,7 @@ ie seront retirées de Anim.staves</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l199"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:199</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l215"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:215</code></a>
         
         </p>
 
@@ -932,7 +1105,7 @@ nom commence toujours par &quot;offset_&quot;.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l72"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:72</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l91"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:91</code></a>
         
         </p>
 
@@ -1003,7 +1176,7 @@ nom commence toujours par &quot;offset_&quot;.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l254"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:254</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l270"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:270</code></a>
         
         </p>
 
@@ -1036,7 +1209,7 @@ la toute fin de l&#39;animation.</p>
                     
 
                     <div class="param-description">
-                        <p>Chemin à l&#39;animation à charger</p>
+                        <p>Chemin à l&#39;animation à charger. Le nom de l&#39;animation si elle se trouve dans le même dossier.</p>
 
                     </div>
 
@@ -1101,7 +1274,7 @@ la toute fin de l&#39;animation.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l270"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:270</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l286"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:286</code></a>
         
         </p>
 
@@ -1222,7 +1395,7 @@ cf. la fonction MOTIF</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l111"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:111</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l130"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:130</code></a>
         
         </p>
 
@@ -1372,7 +1545,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l241"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:241</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l257"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:257</code></a>
         
         </p>
 
@@ -1463,7 +1636,7 @@ la portée</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l231"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:231</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l247"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:247</code></a>
         
         </p>
 
@@ -1552,7 +1725,7 @@ la portée</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l140"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:140</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l159"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:159</code></a>
         
         </p>
 
@@ -1692,7 +1865,7 @@ la portée</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l298"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:298</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l314"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:314</code></a>
         
         </p>
 
@@ -1753,7 +1926,7 @@ la portée</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l288"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:288</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l304"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:304</code></a>
         
         </p>
 
@@ -1874,7 +2047,7 @@ Cf. la fonction SCALE.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l121"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:121</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l140"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:140</code></a>
         
         </p>
 
@@ -1983,7 +2156,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l96"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:96</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l115"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:115</code></a>
         
         </p>
 
@@ -2118,7 +2291,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l182"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:182</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l198"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:198</code></a>
         
         </p>
 
@@ -2252,7 +2425,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l279"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:279</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l295"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:295</code></a>
         
         </p>
 
@@ -2264,6 +2437,61 @@ Notes</p>
 
     <div class="description">
         <p>Pseudo-méthode pour sortir du mode flash</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_TBOX" class="method item">
+    <h3 class="name"><code>TBOX</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l72"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:72</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>cf. la fonction TBOX</p>
 
     </div>
 
@@ -2317,7 +2545,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l78"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:78</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l97"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:97</code></a>
         
         </p>
 
@@ -2371,6 +2599,66 @@ l&#39;animation</p>
 
             </div>
         </div>
+    
+</div>
+
+                
+                    <div id="method_WAIT_CAPTION" class="method item">
+    <h3 class="name"><code>WAIT_CAPTION</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_A_Objects.js.html#l336"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;A_Objects.js:336</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Pseudo-méthode qui permet d&#39;attendre la fin de l&#39;écriture d&#39;un doublage avant
+de passer à la suite
+Si le CAPTION contient les paramètres {wait:true}, l&#39;animation attend la fin
+de l&#39;écriture du doublage, mais parfois on veut que pendant l&#39;écriture du 
+doublage il se passe quelque chose. C&#39;est dans ce cas que cette commande entre
+en action.</p>
+
+    </div>
+
+    
+
+    
+
     
 </div>
 

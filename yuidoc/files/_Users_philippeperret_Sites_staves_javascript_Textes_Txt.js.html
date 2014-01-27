@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>/Users/philippeperret/Sites/staves/javascript/Txt.js</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/Textes/Txt.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -220,7 +256,7 @@ Gestion des évènements</a></li>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Txt.js</h1>
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Textes/Txt.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -248,7 +284,6 @@ window.TXT = function(owner, params)
   */
 window.Txt = function(owner, params)
 {
-  dlog(&quot;Params envoyés à Txt:&quot;);dlog(params)
   this.class = &#x27;txt&#x27;
 
   /**
@@ -651,7 +686,7 @@ Object.defineProperties(Txt.prototype,{
     * -----
     *   * Ce top dépend de pas mal de choses et notamment du type du texte (finger,
     *     harmony, etc.)
-    *   * Il peut être également influencer par les décalages des préférences
+    *   * Il peut être également influencé par les décalages des préférences
     *   * Ce top est dépendant en tout premier lieu de la portée sous laquelle on
     *     doit le placer. Par ordre de priorité, on trouve la recherche de cette
     *     portée par :
@@ -674,7 +709,7 @@ Object.defineProperties(Txt.prototype,{
         case cadence:
           top += Anim.prefs.harmony + Anim.prefs.offset_harmony
           break
-        case chord:   
+        case chord: // WARNING : le type de texte, pas un accord portant le texte
           top -= Anim.prefs.chord + Anim.prefs.offset_chord
           break
         case modulation:
@@ -780,14 +815,20 @@ Object.defineProperties(Txt.prototype,{
         switch(owner.class)
         {
         case &#x27;staff&#x27;: 
-          var h = Anim.prefs.staff_top_text + voffset
-          if(Anim.prefs.staff_text_up)
-            return - (h + itxt.height_calc)
-          else
-          {
-            return owner.height + h
-          }
+          // Ce retour 0 est parfait pour les parties (texte de type &#x27;part&#x27;), ne
+          // pas modifier sans savoir vraiment ce que je fais…
+          // Ne pas oublier de tenir compte du fait que la valeur renvoyée par
+          // cette fonction est AJOUTÉE À THIS.TOP
+          return 0
+          // C&#x27;était le calcul avant, mais ça renvoyait n&#x27;importe quoi.
+          // var h = Anim.prefs.staff_top_text + voffset
+          // if(Anim.prefs.staff_text_up) return - (h + itxt.height_calc)
+          // else return owner.height + h
+        case &#x27;chord&#x27;:
+          return (owner.top_obj - 30 - voffset) - itxt.top
         }
+        
+        
         if( voffset ) return itxt.top
         switch(itxt.type){
         case chord:

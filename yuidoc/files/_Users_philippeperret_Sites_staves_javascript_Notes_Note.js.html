@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -243,7 +279,7 @@ window.NOTE = function(note, params)
 {
   if(undefined == params) params = {}
   var inote = new Note(note, params)
-  if(!params.dont_build) inote.build()
+  if(!params.dont_build) inote.build({complete:NEXT_STEP})
   return inote
 }
 
@@ -255,7 +291,7 @@ window.NOTE = function(note, params)
   */
 window.Note = function(note, params)
 {
-  this.class      = &#x27;Note&#x27;
+  this.class      = &#x27;note&#x27;
   this.note       = null
   this.octave     = null
   this.alteration = null
@@ -291,6 +327,8 @@ window.Note = function(note, params)
   // avec un accord, Chord met sa staff dans les paramètres. Mais si des notes
   // sont définies par &quot;2:...&quot;, le &quot;2&quot; qui signifie 2e portée doit prendre le
   // dessus.
+  // Petite réserve quand à l&#x27;octave. S&#x27;il est défini dans le paramètres, comme
+  // pour les motifs, il n&#x27;est pas pris dans la note
   this.analyse_note(note)
 
   // On peut calculer l&#x27;identifiant
@@ -303,6 +341,92 @@ window.Note = function(note, params)
 Note.prototype = Object.create( ObjetClass.prototype )
 Note.prototype.constructor = Note
 
+/* ---------------------------------------------------------------------
+ *  MÉTHODES ET PROPRIÉTÉS DE CLASSE
+ *  
+ */
+$.extend(Note, {
+  /**
+    * Le motif régulier pour analyser la note
+    *   - [optionnel] portée désignée par 1 ou 2 chiffres suivis de &quot;:&quot;
+    *   - [mandatory] Le nom de la note (une lettre de &quot;a&quot; à &quot;g&quot;)
+    *   - [optionnel] L&#x27;altération (une lettre parmi &quot;d&quot;, &quot;b&quot;, &quot;x&quot;, &quot;t&quot;, &quot;z&quot;)
+    *   - [optionnel] Le signe &quot;-&quot; de l&#x27;octave
+    *   - [optionnel] l&#x27;octave (un nombre de 0 à 8) - il est optionnel dans un motif
+    * @class REGEXP_NOTE
+    * @static
+    * @final
+    */
+  REGEXP_NOTE : new RegExp(&quot;^([0-9]{1,2}\:)?([a-g])(b|d|x|z|t)?(\-?[0-8])?$&quot;),
+  /**
+    * Parse la note string +notestr+ et retourne un objet contenant ses données
+    * @method parse
+    * @param {String} notestr   La note comme string fourni en argument d&#x27;une méthode
+    * @return {Object} contenant :
+    *   staff   L&#x27;indice de la portée (ou undefined)
+    *   note    Le nom de la note (a-g)
+    *   octave  {Number} L&#x27;octave, positif ou négatif (ou undefined)
+    *   alter   L&#x27;altération (ou undefined)
+    * Retourne NULL si la note n&#x27;a pas été trouvée
+    */
+  parse:function(notestr)
+  {
+    founds = notestr.trim().match(this.REGEXP_NOTE)
+    if(!founds) return null
+    return {
+      staff   : founds[1] ? parseInt(founds[1],10) : null,
+      note    : founds[2],
+      alter   : founds[3],
+      octave  : founds[4] ? parseInt(founds[4],10) : null
+    }
+  },
+  /**
+    * Affichage temporisé de l&#x27;ensemble de notes +notes+ à la vitesse +speed+
+    * Utilisé par Scale et Motif
+    * @method building_temporized
+    * @param {Array of Note}  notes Liste des instances de notes à construire
+    * @param {Number}         speed La vitesse de construction
+    * @param {Object}         params  Paramètres optionnels
+    *   @param {Function}   params.complete   La méthode pour suivre quand c&#x27;est fini. Par défaut, NEXT_STEP
+    */
+  building_temporized:function(notes, speed, params)
+  {
+    if(undefined == this.building_timer)
+    { // =&gt; Première arrivée dans la méthode. On définit les valeurs
+      if(speed == 0)
+      {
+        F.error(&quot;La vitesse (speed) ne peut être nulle. Je la mets à 1&quot;)
+        speed = 1
+      }
+      if(undefined == params) params = {}
+      if(undefined == params.complete) params.complete = NEXT_STEP
+      this.building_params  = params
+      this.building_laps    = parseInt(1000 / speed, 10)
+      this.building_notes   = $.merge([], notes)
+      this.building_notes.shift() // car pas de première note, mais la valeur null
+    }
+    else clearTimeout(this.building_timer)
+      
+    if(note = this.building_notes.shift()) // Tant qu&#x27;il reste des notes
+    {
+      note.build()
+      this.building_timer = setTimeout($.proxy(this.building_temporized, this), this.building_laps)
+    }
+    else
+    { 
+      // === Fin de la construction ===
+      delete this.building_timer
+      delete this.building_laps
+      delete this.building_notes
+      if(&#x27;function&#x27; == typeof this.building_params.complete)
+      {
+        this.building_params.complete()
+      }
+      delete this.building_params
+    }
+    
+  }
+})
 /* ---------------------------------------------------------------------
  *
  *  MÉTHODE POUR LE CODE DE L&#x27;APPLICATION
@@ -370,20 +494,24 @@ $.extend(Note.prototype,{
   /**
     * Rend la note presque invisible, mais toujours présente
     * @method fantomize
+    * @param  {Object} params   Paramètres optionnels
+    *   @param  {Function|False}  params.complete   Méthode à appeler pour suivre (NEXT_STEP par défaut), ou false pour ne pas passer à l&#x27;étape suivante
     * @return {Note} pour le chainage
     */
-  fantomize:function()
+  fantomize:function(params)
   {
-    return this.colorize(&#x27;shadow&#x27;)
+    this.colorize(&#x27;shadow&#x27;, define_complete(params))
+    return this
   },
   /**
     * Remet la note en noir
     * @method defantomize
     * @return {Note} this, pour le chainage
     */
-  defantomize:function()
+  defantomize:function(params)
   {
-    return this.colorize(black)
+    this.colorize(black, define_complete(params))
+    return this
   },
   /**
     * Colorize la note avec la couleur voulue
@@ -391,15 +519,20 @@ $.extend(Note.prototype,{
     * @param  {String} color  La couleur voulue (constante &#x27;red&#x27;, &#x27;blue&#x27;, etc.)
     * @return {Note} this, pour le chainage
     */
-  colorize:function(color)
+  colorize:function(color, params)
   {
+    params = define_complete(params)
     this.color      = color
     this.obj[0].src = this.src
     if(this.alteration) this.obj_alt[0].src = this.src_alteration
+    if(&#x27;function&#x27; == typeof params.complete) params.complete()
     return this
   },
   /**
-    * Déplace la note à la hauteur +hauteur+
+    * Déplace la note à la hauteur +hauteur+ (noter qu&#x27;il s&#x27;agit en fait d&#x27;un
+    * changement de note. On l&#x27;utilise aussi s&#x27;il faut simplement ajouter une
+    * altération).
+    *
     * Notes
     * -----
     *   * Le déplacement a été simplifié : la note change de couleur et 
@@ -409,20 +542,32 @@ $.extend(Note.prototype,{
     *     (et pas nécessaire) de la faire se déplacer aussi.
     *     Cf. la méthode &#x60;analyse_note&#x60; qui s&#x27;en charge le cas échéant.
     * @method moveTo
-    * @param  {String}  hauteur   La nouvelle hauteur
+    * @param  {String}  new_note  La nouvelle note à atteindre
     * @param  {Object}  params    Les paramètres optionnels
+    *   @param {Boolean}  params.no_exergue   Si TRUE, ne met pas la note en exergue
+    *   @param {Function|False} params.complete   La méthode pour suivre. NEXT_STEP PAR DÉFAUT (méthode &quot;terminale&quot;)
     */
-  moveTo:function(hauteur)
+  moveTo:function(new_note, params)
   {
-    var top_init = parseInt(this.top,10)
-    var staff_init = parseInt(this.staff.indice)
-    this.analyse_note(hauteur)
+    var top_init    = parseInt(this.top,10),
+        staff_init  = parseInt(this.staff.indice),
+        objs,
+        method ;
+    if(undefined == params) params = {}
+    if(undefined == params.complete) params.complete = NEXT_STEP
+    this.analyse_note(new_note)
     if(staff_init != this.staff.indice)
     {
       Anim.staves[staff_init - 1].notes.remove(this)
       this.staff_changed = true
-    } 
-    this.exergue({complete:$.proxy(this.operation, this, [this.obj], &#x27;moveTo&#x27;, {top: this.top})})
+    }
+    objs = [this.obj]
+    var was_surrounded = true &amp;&amp; this.surrounded
+    if(this.surrounded) this.unsurround()
+    method = $.proxy(this.operation, this, objs, &#x27;moveTo&#x27;, {top: this.top, complete:params.complete})
+    if(!params.no_exergue) this.exergue({complete:method})
+    else method()
+    if(was_surrounded) this.surround()
   },
   
   /**
@@ -438,10 +583,19 @@ $.extend(Note.prototype,{
     */
   surround:function(params)
   {
-    if(this.circle) this.circle.remove()
+    var x, y ;
     if(undefined == params) params = {}
-    var x = this.left - (6 + (this.alteration ? 18 : 0))
-    var y = this.top  - (6 + (this.alteration ? 9  : 0))
+    if(this.circle) this.circle.remove()
+    if(this.alteration)
+    {
+      x = this.left - 24
+      y = this.top  - 15
+    }
+    else
+    {
+      x = this.left - 6
+      y = this.top  - 7
+    }
     params = $.extend(params, {owner:this, top:y, left:x})
     this.circle = new Circle(params)
     Anim.Dom.add(this.circle)
@@ -460,10 +614,10 @@ $.extend(Note.prototype,{
   /**
     * Met la note en exergue (bleue et au-dessus)
     * @method exergue
-    * @params {Object|String} params        Paramètres optionnels pour définir l&#x27;exergue.
+    * @param {Object|String} params        Paramètres optionnels pour définir l&#x27;exergue.
     *                                       OU seulement la couleur en String (constante)
-    *   @params {String} params.color       La couleur de l&#x27;exergue (constante ou def)
-    *   @params {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
+    *   @param {String} params.color       La couleur de l&#x27;exergue (constante ou def)
+    *   @param {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
     * @return {Object} this, pour le chainage
     */
   exergue:function(params)
@@ -529,6 +683,93 @@ $.extend(Note.prototype,{
     delete this._midi
     delete this._indice
     delete this._indice_real
+  },
+
+  /**
+    * Analyse la note fournie en argument
+    *
+    * Produit
+    * -------
+    *   – La définition de la portée  this.staff
+    *   - La définition de la note    this.note
+    *   - Calcul le top de la note    this.top
+    *   - Définit l&#x27;octave            this.octave
+    *   – Définit l&#x27;altération        this.alteration     ou undefined
+    *
+    *   - Si c&#x27;est un changement de hauteur, et que la note possédait une
+    *     altération, modifie l&#x27;altération (le src de l&#x27;image).
+    *
+    * @method analyse_note
+    * @param {String} note_str  Un string de la forme :
+    *                           &quot;[&lt;portée&gt;:]&lt;note 1 lettre&gt;&lt;altération&gt;&lt;octave&gt;&quot;
+    *                           &lt;portée&gt;      : indice portée 1-start
+    *                           &lt;alteration&gt;  : &quot;b&quot;, &quot;d&quot;, &quot;x&quot;, &quot;t&quot; ou &quot;&quot;
+    *                           &lt;octave&gt;      : 0 à 9 avec ou sans &quot;-&quot; devant
+    */
+  analyse_note:function(note_str)
+  {
+    var dnote, staff ;
+    this.reset()
+    
+    var data_note = Note.parse(note_str)
+    if(!data_note)
+    {
+      F.error(&quot;La note &#x60;&quot;+note_str+&quot;&#x60; est mal définie…&quot;)
+      return false
+    } 
+    
+    
+    // === Définition de la portée (if any) ===//
+    if(data_note.staff) this.staff  = data_note.staff
+
+    // === Définition de la note === //
+    this.note = data_note.note
+    
+    // === Définition de l&#x27;altération (if any, et mémorisation de l&#x27;altération courante si nécessaire) ===//
+    this.old_alteration = undefined
+    if(data_note.alter)
+    {
+      if(this.alteration) this.old_alteration = this.alteration.toString()
+      this.alteration = data_note.alter
+    } 
+    else 
+    {
+      if(this.alteration) this.remove_alteration()
+      delete this.alteration
+    }
+    
+    // === Définition de l&#x27;octave ===//
+    // Il peut ne pas exister dans la note mais avoir été défini explicitement
+    // dans les paramètres comme dans le cas d&#x27;un motif
+    if(data_note.octave) this.octave = data_note.octave
+    
+    /*
+     *  Travail à faire sur les altérations en cas de modification de la note
+     *  
+     */
+    if(this.old_alteration)
+    {
+      if(this.old_alteration != this.alteration)
+      { // Quand l&#x27;ancienne et la nouvelle altération ne sont pas identiques.
+        this.hide_alteration($.proxy(this.update_alteration,this))
+      } 
+      else
+      { // Quand l&#x27;ancienne altération et la nouvelle sont les mêmes
+        // Dans ce cas, on va masquer l&#x27;altération courante, la repositionner
+        // puis la faire ré-apparaitre.
+        this.hide_alteration($.proxy(this.positionne_and_show_alteration,this))
+      }
+    }
+    else
+    {
+      // Construction de l&#x27;altération (sauf nouvelle note) et positionnement
+      if(this.obj.length)
+      {
+        Anim.Dom.add(this.html_img_alt)
+        this.positionne_and_show_alteration()
+      }
+    }
+    
   },
 
   /**
@@ -814,103 +1055,6 @@ Clé de SOL
     return this.suplines[key]
   },
   
-  /**
-    * Analyse la note fournie en argument
-    *
-    * Produit
-    * -------
-    *   – La définition de la portée  this.staff
-    *   - La définition de la note    this.note
-    *   - Calcul le top de la note    this.top
-    *   - Définit l&#x27;octave            this.octave
-    *   – Définit l&#x27;altération        this.alteration     ou undefined
-    *
-    *   - Si c&#x27;est un changement de hauteur, et que la note possédait une
-    *     altération, modifie l&#x27;altération (le src de l&#x27;image).
-    *
-    * @method analyse_note
-    * @param {String} note_str  Un string de la forme :
-    *                           &quot;[&lt;portée&gt;:]&lt;note 1 lettre&gt;&lt;altération&gt;&lt;octave&gt;&quot;
-    *                           &lt;portée&gt;      : indice portée 1-start
-    *                           &lt;alteration&gt;  : &quot;b&quot;, &quot;d&quot;, &quot;x&quot;, &quot;t&quot; ou &quot;&quot;
-    *                           &lt;octave&gt;      : 0 à 9 avec ou sans &quot;-&quot; devant
-    */
-  analyse_note:function(note_str)
-  {
-    var dnote, staff ;
-    this.reset()
-    
-    // === Définit la portée ===//
-    if(note_str.indexOf(&#x27;:&#x27;) &gt; -1)
-    {
-      dnote       = note_str.split(&#x27;:&#x27;)
-      // this.staff  = Anim.staves[parseInt(dnote.shift(),10) - 1]
-      this.staff  = parseInt(dnote.shift(),10)
-      note_str    = dnote.shift()
-    }
-    note_str = note_str.split(&#x27;&#x27;)
-
-    // === Définition de la note === //
-    this.note   = note_str.shift()
-    
-    /*
-     *  Analyse de l&#x27;altération
-     *  -----------------------
-     *  En cas de changement de hauteur, trois situations peuvent se produire,
-     *  nécessitant un résultat différent :
-     *  1.  La note possédait une altération, elle n&#x27;en possède plus
-     *      =&gt; détruire l&#x27;altération courante
-     *  2.  La note ne possédait pas d&#x27;altération, elle en possède une
-     *      =&gt; Il faut construire l&#x27;altération
-     *  3.  La note possédait une altération, elle en possède une autre.
-     *      =&gt; Il faut modifier l&#x27;altération courante.
-     *  Note: Rien à faire quand 4. les deux notes ne possèdent pas d&#x27;altération,
-     *        ou 5. les deux notes possèdent la même altération.
-     */
-    if([&quot;b&quot;, &quot;d&quot;, &quot;x&quot;, &quot;z&quot;, &quot;t&quot;].indexOf(note_str[0]) &gt; -1)
-    {
-      if(this.alteration)
-      {
-        this.old_alteration = this.alteration.toString()
-      }
-      // === Définition de l&#x27;altération ===//
-      this.alteration = note_str.shift()
-      
-      if(this.old_alteration)
-      {
-        if(this.old_alteration != this.alteration)
-        { // Quand l&#x27;ancienne et la nouvelle altération ne sont pas identiques.
-          this.hide_alteration($.proxy(this.update_alteration,this))
-        } 
-        else
-        { // Quand l&#x27;ancienne altération et la nouvelle sont les mêmes
-          // Dans ce cas, on va masquer l&#x27;altération courante, la repositionner
-          // puis la faire ré-apparaitre.
-          this.hide_alteration($.proxy(this.positionne_and_show_alteration,this))
-        }
-      }
-      else
-      {
-        // Construction de l&#x27;altération (sauf nouvelle note) et positionnement
-        if(this.obj.length)
-        {
-          Anim.Dom.add(this.html_img_alt)
-          this.positionne_and_show_alteration()
-        }
-      }
-    } 
-    else 
-    {
-      if(this.alteration) this.remove_alteration()
-      delete this.alteration
-    }
-    
-    // === Définition de l&#x27;octave ===//
-    this.octave = note_str.shift()
-    if(this.octave == &quot;-&quot;) this.octave = &quot;-&quot; + note_str.shift()
-    this.octave = parseInt(this.octave,10)
-    
-  },
   positionne_and_show_alteration:function()
   {
     this.positionne_alteration()
@@ -960,17 +1104,6 @@ Object.defineProperties(Note.prototype,{
     * @property {Number} center_y
     */
   &quot;center_y&quot;:{get:function(){return this.top}},
-  
-  /**
-    * Retourne la largeur exacte qu&#x27;occupe la note à l&#x27;écran
-    * @property {Number} width
-    */
-  &quot;width&quot;:{
-    get:function()
-    {
-      return UI.exact_width_of(this.obj) + UI.exact_width_of(this.obj_alt)
-    }
-  },
   /**
     * Retourne le “center_x” de la note, c&#x27;est-à-dire la position left qui passe
     * vraiment au milieu de la note (sauf si elle est décalée à cause d&#x27;une
@@ -979,9 +1112,39 @@ Object.defineProperties(Note.prototype,{
     * par rapport à cette note.
     * @property {Number} center_x
     */
-  &quot;center_x&quot;:{
+  &quot;center_x&quot;:{get:function(){return this.left + 6}},
+  
+  /**
+    * Retourne la largeur exacte qu&#x27;occupe la note à l&#x27;écran
+    * @property {Number} width
+    */
+  &quot;width&quot;:{
+    get:function()
+    {
+      if(this.surrounded)
+      {
+        return UI.exact_width_of(this.circle.obj)
+      }
+      else
+      {
+        return UI.exact_width_of(this.obj) + (this.alteration ? UI.exact_width_of(this.obj_alt) : 0)
+      }
+    }
+  },
+  /**
+    * La taille en hauteur de la note
+    * @property {Number} height
+    */
+  &quot;height&quot;:{
     get:function(){
-      return this.left + 6
+      if(this.surrounded)
+      {
+        return UI.exact_height_of(this.circle.obj)
+      }
+      else
+      {
+        return UI.exact_height_of(this.obj)
+      }
     }
   },
   /**

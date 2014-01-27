@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -660,6 +696,48 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_tbox_background">tbox_background</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_tbox_border">tbox_border</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_tbox_font_family">tbox_font_family</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_tbox_font_size">tbox_font_size</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_tbox_padding">tbox_padding</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_text_color">text_color</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_transition">transition</a>
 
                                 
@@ -758,7 +836,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l445"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:445</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l476"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:476</code></a>
         
         </p>
 
@@ -852,7 +930,7 @@ pondéré par le coefficiant de vitesse (Anim.prefs.speed)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l478"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:478</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l509"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:509</code></a>
         
         </p>
 
@@ -907,7 +985,7 @@ pondéré par le coefficiant de vitesse (Anim.prefs.speed)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l468"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:468</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l499"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:499</code></a>
         
         </p>
 
@@ -962,7 +1040,7 @@ pondéré par le coefficiant de vitesse (Anim.prefs.speed)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l669"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:669</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l702"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:702</code></a>
         
         </p>
 
@@ -1027,7 +1105,7 @@ pondéré par le coefficiant de vitesse (Anim.prefs.speed)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l408"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:408</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l439"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:439</code></a>
         
         </p>
 
@@ -1108,7 +1186,7 @@ d&#39;où on repart normalement.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l624"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:624</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l655"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:655</code></a>
         
         </p>
 
@@ -1165,7 +1243,7 @@ nom pour l&#39;animation.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l522"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:522</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l553"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:553</code></a>
         
         </p>
 
@@ -1220,7 +1298,7 @@ nom pour l&#39;animation.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l584"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:584</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l615"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:615</code></a>
         
         </p>
 
@@ -1277,7 +1355,7 @@ d&#39;information.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l488"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:488</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l519"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:519</code></a>
         
         </p>
 
@@ -1332,7 +1410,7 @@ d&#39;information.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l533"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:533</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l564"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:564</code></a>
         
         </p>
 
@@ -1409,7 +1487,7 @@ d&#39;information.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l681"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:681</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l716"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:716</code></a>
         
         </p>
 
@@ -1538,7 +1616,7 @@ de la liste des animations si une animation par défaut a été définie.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l655"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:655</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l686"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:686</code></a>
         
         </p>
 
@@ -1634,7 +1712,7 @@ courante sera achevée. La méthode est appelée par la commande <code>SUITE</co
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l605"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:605</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l636"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:636</code></a>
         
         </p>
 
@@ -1711,7 +1789,7 @@ courante sera achevée. La méthode est appelée par la commande <code>SUITE</co
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l353"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:353</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l384"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:384</code></a>
         
         </p>
 
@@ -1837,7 +1915,7 @@ de portée qu&#39;on transforme en instance de Staff.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l545"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:545</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l576"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:576</code></a>
         
         </p>
 
@@ -1894,7 +1972,7 @@ de portée qu&#39;on transforme en instance de Staff.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l566"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:566</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l597"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:597</code></a>
         
         </p>
 
@@ -1959,7 +2037,7 @@ de portée qu&#39;on transforme en instance de Staff.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l456"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:456</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l487"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:487</code></a>
         
         </p>
 
@@ -2043,7 +2121,7 @@ dans la programmation.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l641"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:641</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l672"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:672</code></a>
         
         </p>
 
@@ -2332,7 +2410,7 @@ de l&#39;animation.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l426"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:426</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l457"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:457</code></a>
         
         </p>
 
@@ -2377,7 +2455,7 @@ de l&#39;animation.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l703"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:703</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l739"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:739</code></a>
         
         </p>
 
@@ -2564,7 +2642,7 @@ Sinon, ils seront affichés comme des sous-titres, dans l&#39;image de l&#39;ani
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l723"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:723</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l760"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:760</code></a>
         
         </p>
 
@@ -2836,7 +2914,7 @@ qui la porte (souvent, un accord ou une note)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l715"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:715</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l752"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:752</code></a>
         
         </p>
 
@@ -3060,7 +3138,7 @@ qui la porte (souvent, un accord ou une note)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l432"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:432</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l463"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:463</code></a>
         
         </p>
 
@@ -3199,7 +3277,7 @@ porteur.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l438"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:438</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l469"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:469</code></a>
         
         </p>
 
@@ -3248,7 +3326,7 @@ porteur.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l311"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:311</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l342"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:342</code></a>
         
         </p>
 
@@ -3302,7 +3380,7 @@ du redémarrage.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l168"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:168</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l169"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:169</code></a>
         
         </p>
 
@@ -3313,10 +3391,7 @@ du redémarrage.</li>
 
     <div class="description">
         <p>Toutes les préférences par défaut
-Notes</p>
-<ul>
-<li>Cf. les définitions dans <code>prefs</code> ci-dessous</li>
-</ul>
+Elles servent à redéfinir les valeurs de Anim.prefs au démarrage de l&#39;animation</p>
 
     </div>
 
@@ -3671,7 +3746,7 @@ de portée est par défaut au-dessus de la portée)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l420"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:420</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l451"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:451</code></a>
         
         </p>
 
@@ -3682,6 +3757,277 @@ de portée est par défaut au-dessus de la portée)</p>
 
     <div class="description">
         <p>Liste des portées affichées</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tbox_background" class="property item">
+    <h3 class="name"><code>tbox_background</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l329"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:329</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Background par défaut des tbox</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tbox_border" class="property item">
+    <h3 class="name"><code>tbox_border</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l334"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:334</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Bordure par défaut des tbox</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tbox_font_family" class="property item">
+    <h3 class="name"><code>tbox_font_family</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l314"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:314</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Police par défaut des tboxes</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tbox_font_size" class="property item">
+    <h3 class="name"><code>tbox_font_size</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l319"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:319</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Taille par défaut de la police de texte (en points — pt)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tbox_padding" class="property item">
+    <h3 class="name"><code>tbox_padding</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l324"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:324</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Padding par défaut des boites de texte tbox (en pixels)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_text_color" class="property item">
+    <h3 class="name"><code>text_color</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l308"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:308</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Couleur par défaut des texte
+Noter que la valeur est modifiée quand on définit un BACKGROUND</p>
 
     </div>
 
@@ -3716,7 +4062,7 @@ de portée est par défaut au-dessus de la portée)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l115"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:115</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l116"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:116</code></a>
         
         </p>
 
@@ -3819,7 +4165,7 @@ Cf. le mode &quot;flash&quot; qui peut modifier ces valeurs
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l150"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:150</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l151"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:151</code></a>
         
         </p>
 
@@ -3864,7 +4210,7 @@ Cf. le mode &quot;flash&quot; qui peut modifier ces valeurs
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l135"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:135</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim.js.html#l136"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim.js:136</code></a>
         
         </p>
 

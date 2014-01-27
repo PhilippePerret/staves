@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -335,6 +371,7 @@ $.extend(window.Anim,{
     step        : 500,
     show        : 400,
     note_moved  : 1000,
+    move        : 1000,  // Déplacement quelconque d&#x27;un objet
     transform   : 1000,  // Transformation comme l&#x27;allongement
     wait        : 1000 // multiplicateur de secondes
   },
@@ -393,8 +430,7 @@ $.extend(window.Anim,{
    */
   /**
     * Toutes les préférences par défaut
-    * Notes
-    *   * Cf. les définitions dans &#x60;prefs&#x60; ci-dessous
+    * Elles servent à redéfinir les valeurs de Anim.prefs au démarrage de l&#x27;animation
     * @property {Object} prefs_default
     * @static
     * @final
@@ -530,7 +566,38 @@ $.extend(window.Anim,{
       * @property {Boolean} caption_timer
       * @default false
       */
-    caption_timer     :false
+    caption_timer     :false,
+    /**
+      * Couleur par défaut des texte
+      * Noter que la valeur est modifiée quand on définit un BACKGROUND
+      * @property {String} text_color
+      */
+    text_color        : &#x27;black&#x27;,
+    /**
+      * Police par défaut des tboxes
+      * @property {String} tbox_font_family
+      */
+    tbox_font_family  : &#x27;Verdana&#x27;,
+    /**
+      * Taille par défaut de la police de texte (en points — pt)
+      * @property {Number} tbox_font_size
+      */
+    tbox_font_size    : 18,
+    /**
+      * Padding par défaut des boites de texte tbox (en pixels)
+      * @property {Number} tbox_padding
+      */
+    tbox_padding      : 20,
+    /**
+      * Background par défaut des tbox
+      * @property {String} tbox_background
+      */
+    tbox_background   : &#x27;transparent&#x27;,
+    /**
+      * Bordure par défaut des tbox
+      * @property {String} tbox_border
+      */
+    tbox_border       : &#x27;none&#x27;
   },
   
   
@@ -888,9 +955,11 @@ $.extend(window.Anim,{
     */
   set_animation_pour_suivre:function(path, params)
   {
+    stack(&#x27;-&gt; Anim.set_animation_pour_suivre&#x27;, {path:path})
     this.hasSuite = true
-    this.animation_pour_suivre = path
+    this.animation_pour_suivre = path.replace(/( +)/g, &#x27;_&#x27;)
     NEXT_STEP(no_timeout = true)
+    stack(&#x27;&lt;- Anim.set_animation_pour_suivre&#x27;)
   },
   /**
     * Méthode qui charge et joue l&#x27;animation pour suivre si elle a été définie
@@ -902,6 +971,8 @@ $.extend(window.Anim,{
     var danim = this.animation_pour_suivre.split(&#x27;/&#x27;)
     var anim_name = danim.pop()
     var anim_fold = danim.join(&#x27;/&#x27;)
+    if(anim_fold == &#x27;.&#x27;) anim_fold = this.File.folder
+    dlog({&#x27;anim name&#x27;:anim_name, &#x27;anim folder&#x27;:anim_fold})
     this.File.load(anim_name, anim_fold)
   },
   /**
@@ -920,6 +991,7 @@ $.extend(window.Anim,{
     this.File.name    = name
     this.File.folder  = folder
     $(&#x27;select#animations&#x27;).val(name)
+    UI.build_path_folders(folder)
     if(code) Console.set(code.stripSlashes())
     $(&#x27;head &gt; title&#x27;).html(&quot;Anim: &quot;+this.name)
   }
@@ -935,8 +1007,9 @@ Object.defineProperties(Anim,{
     set:function(x){
       this._current_x = x
       this.Grid.set_cursor(x)
+      this.Infos.set(&#x27;current_x&#x27;, x)
     },
-    get:function(){ return this._current_x || parseInt(Anim.prefs.x_start,10)}
+    get:function(){ return this._current_x || parseInt(Anim.prefs.x_start || Anim.prefs_default.x_start,10)}
   },
   /**
     * Propriété raccourci pour Anim.File.name

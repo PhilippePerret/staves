@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -343,6 +379,13 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_calcule_real_x_y">calcule_real_x_y</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_color">color</a>
 
                                 
@@ -462,13 +505,6 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_left">left</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
                                 <a href="#property_obj">obj</a>
 
                                 
@@ -483,7 +519,28 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_offset_x">offset_x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_offset_y">offset_y</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_owner">owner</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_real_x">real_x</a>
 
                                 
                                 
@@ -525,14 +582,21 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_top">top</a>
+                                <a href="#property_width">width</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_width">width</a>
+                                <a href="#property_x">x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_y">y</a>
 
                                 
                                 
@@ -633,7 +697,7 @@ Gestion des évènements</a></li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">left</code>
+                                    <code class="param-name">x</code>
                                     <span class="type">Number</span>
                                 
 
@@ -647,7 +711,7 @@ Gestion des évènements</a></li>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">top</code>
+                                    <code class="param-name">y</code>
                                     <span class="type">Number</span>
                                 
 
@@ -715,6 +779,62 @@ Gestion des évènements</a></li>
 </div>
 
                 
+                    <div id="method_calcule_real_x_y" class="method item">
+    <h3 class="name"><code>calcule_real_x_y</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l205"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:205</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode qui calcule la vraie position de la flèche (_real_y et _real_x)
+en fonction du possesseur et de l&#39;angle à donner.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_color" class="method item">
     <h3 class="name"><code>color</code></h3>
 
@@ -757,7 +877,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l165"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:165</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l181"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:181</code></a>
         
         </p>
 
@@ -858,7 +978,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l93"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:93</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l107"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:107</code></a>
         
         </p>
 
@@ -986,7 +1106,7 @@ méthodes)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l122"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:122</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l138"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:138</code></a>
         
         </p>
 
@@ -1113,7 +1233,7 @@ méthodes)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l176"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:176</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l192"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:192</code></a>
         
         </p>
 
@@ -1180,7 +1300,7 @@ position (couleur, angle, longueur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l139"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:139</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l155"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:155</code></a>
         
         </p>
 
@@ -1269,7 +1389,7 @@ position (couleur, angle, longueur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l153"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:153</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l169"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:169</code></a>
         
         </p>
 
@@ -1494,7 +1614,7 @@ propriété complexe <code>width</code>.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l336"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:336</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l445"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:445</code></a>
         
         </p>
 
@@ -1588,7 +1708,7 @@ propriété complexe <code>width</code>.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l272"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:272</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l360"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:360</code></a>
         
         </p>
 
@@ -1638,7 +1758,7 @@ la flèche qui permettent de la changer de taille sans changer son aspect.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l348"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:348</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l457"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:457</code></a>
         
         </p>
 
@@ -1761,51 +1881,6 @@ construit.</li>
 </div>
 
                 
-                    <div id="property_left" class="property item">
-    <h3 class="name"><code>left</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l313"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:313</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Décalage horizontal de la flèche (par défaut le décalage courant)</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="property_obj" class="property item">
     <h3 class="name"><code>obj</code></h3>
     <span class="type">JQuerySet</span>
@@ -1829,7 +1904,7 @@ construit.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l195"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:195</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l283"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:283</code></a>
         
         </p>
 
@@ -1877,7 +1952,7 @@ de la queue et de la tête)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l211"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:211</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l299"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:299</code></a>
         
         </p>
 
@@ -1891,6 +1966,100 @@ de la queue et de la tête)</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_offset_x" class="property item">
+    <h3 class="name"><code>offset_x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l87"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:87</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Décalage horizontal de la flèche par rapport à sa position naturelle</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_offset_y" class="property item">
+    <h3 class="name"><code>offset_y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l94"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:94</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Décalage vertical de la flèche par rapport à sa position naturelle</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -1944,6 +2113,52 @@ de la queue et de la tête)</p>
 </div>
 
                 
+                    <div id="property_real_x" class="property item">
+    <h3 class="name"><code>real_x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l401"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:401</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>La vraie position gauche de la flèche, en fonction de son angle et
+d&#39;un éventuel <code>offset_x</code> défini.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_src" class="property item">
     <h3 class="name"><code>src</code></h3>
     <span class="type">String</span>
@@ -1967,7 +2182,7 @@ de la queue et de la tête)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l230"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:230</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l318"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:318</code></a>
         
         </p>
 
@@ -2012,7 +2227,7 @@ de la queue et de la tête)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l239"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:239</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l327"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:327</code></a>
         
         </p>
 
@@ -2057,7 +2272,7 @@ de la queue et de la tête)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l287"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:287</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l375"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:375</code></a>
         
         </p>
 
@@ -2102,7 +2317,7 @@ de la queue et de la tête)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l306"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:306</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l394"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:394</code></a>
         
         </p>
 
@@ -2147,7 +2362,7 @@ de la queue et de la tête)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l299"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:299</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l387"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:387</code></a>
         
         </p>
 
@@ -2158,51 +2373,6 @@ de la queue et de la tête)</p>
 
     <div class="description">
         <p>Attribut &#39;style&#39; de la tête de la flèche</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_top" class="property item">
-    <h3 class="name"><code>top</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l325"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:325</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Décalage vertical de la flèche</p>
 
     </div>
 
@@ -2237,7 +2407,7 @@ de la queue et de la tête)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l249"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:249</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l337"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:337</code></a>
         
         </p>
 
@@ -2254,6 +2424,100 @@ de la queue et de la tête)</p>
 <li>Changer la taille consiste à changer deux choses : la taille du div
 et la taille de la queue de flèche</li>
 </ul>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x" class="property item">
+    <h3 class="name"><code>x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l418"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:418</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position horizontal de la flèche
+Attention, elle peut être très différent de la position réelle de la 
+flèche après son calcul selon l&#39;angle.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y" class="property item">
+    <h3 class="name"><code>y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l432"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:432</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Position verticale de la flèche
+Attention, il peut être très différent de la position réelle de la 
+flèche après son calcul selon l&#39;angle.</p>
 
     </div>
 

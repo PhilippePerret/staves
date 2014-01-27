@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>/Users/philippeperret/Sites/staves/javascript/Anim/&gt;Doublage.js</title>
+    <title>TBox.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -57,15 +57,21 @@
             
                 <li><a href="../classes/Arrow.html">Arrow</a></li>
             
+                <li><a href="../classes/Box.html">Box</a></li>
+            
                 <li><a href="../classes/Chord.html">Chord</a></li>
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/COLOR_TEXT_PER_BACKGROUND.html">COLOR_TEXT_PER_BACKGROUND</a></li>
             
                 <li><a href="../classes/Console.html">Console</a></li>
             
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
             
@@ -85,6 +91,8 @@
             
                 <li><a href="../classes/Pas.html">Pas</a></li>
             
+                <li><a href="../classes/REGEXP_NOTE.html">REGEXP_NOTE</a></li>
+            
                 <li><a href="../classes/Regle.html">Regle</a></li>
             
                 <li><a href="../classes/Scale.html">Scale</a></li>
@@ -92,6 +100,8 @@
                 <li><a href="../classes/Staff.html">Staff</a></li>
             
                 <li><a href="../classes/Step.html">Step</a></li>
+            
+                <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
             
@@ -104,6 +114,8 @@
                 <li><a href="../classes/UI.Popups.Methods.html">UI.Popups.Methods</a></li>
             
                 <li><a href="../classes/UI.Tools.html">UI.Tools</a></li>
+            
+                <li><a href="../classes/UNVERSAL_BOX_METHODS.html">UNVERSAL_BOX_METHODS</a></li>
             
                 <li><a href="../classes/UNVERSAL_METHODS.html">UNVERSAL_METHODS</a></li>
             
@@ -133,6 +145,8 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Arrow.js.html">Arrow.js</a></li>
             
+                <li><a href="../modules/Box.js.html">Box.js</a></li>
+            
                 <li><a href="../modules/Chord.js.html">Chord.js</a></li>
             
                 <li><a href="../modules/Circle.js.html">Circle.js</a></li>
@@ -147,7 +161,25 @@ Gestion du curseur de position de l&#x27;animation</a></li>
             
                 <li><a href="../modules/Courbe.js.html">Courbe.js</a></li>
             
-                <li><a href="../modules/Doublage.js.html">Doublage.js</a></li>
+                <li><a href="../modules/Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output().html">Debug
+
+Pour le débuggage en temps réel
+
+Chaque fonction devrait commencer par :
+  stack(&quot;-&gt; &lt;nom string de la fonction&gt;&quot;[, &lt;paramètres éventuels&gt;])
+
+Pour obtenir le stack (l&#x27;afficher en console) :
+  Debug.output()</a></li>
+            
+                <li><a href="../modules/Dom_Doublage.js.html">Dom_Doublage.js</a></li>
             
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
@@ -171,6 +203,8 @@ Gestion des évènements</a></li>
             
                 <li><a href="../modules/Staff.html">Staff</a></li>
             
+                <li><a href="../modules/TBox.js.html">TBox.js</a></li>
+            
                 <li><a href="../modules/Texte.js.html">Texte.js</a></li>
             
                 <li><a href="../modules/Txt.js.html">Txt.js</a></li>
@@ -182,6 +216,8 @@ Gestion des évènements</a></li>
                 <li><a href="../modules/UI.Regle.js.html">UI.Regle.js</a></li>
             
                 <li><a href="../modules/UI.Tools.js.html">UI.Tools.js</a></li>
+            
+                <li><a href="../modules/UniversalBoxMethods.js.html">UniversalBoxMethods.js</a></li>
             
                 <li><a href="../modules/UniversalMethods.html">UniversalMethods</a></li>
             
@@ -220,169 +256,49 @@ Gestion des évènements</a></li>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/Anim/&gt;Doublage.js</h1>
+                        <h1>TBox.js Module</h1>
+<div class="box clearfix meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
-  *
-  * @module Doublage.js
-  */
+    
 
-/**
-  * @class  Doublage
-  * @for    Anim.Dom
-  */
-window.Anim.Dom.Doublage = {
-  /**
-    * Initialisation du doublage (efface et masque les champs doublage et caption)
-    * @method init_doublage
-    */
-  init:function()
-  {
-    $(&#x27;span#caption_text&#x27;).html(&#x27;&#x27;);
-    $(&#x27;div#caption&#x27;).hide();
-    $(&#x27;div#doublage&#x27;).html(&#x27;&#x27;).hide();
-    this.dbl_indx   = 0
-    this.dbls_list  = {}
-  },
-  /**
-    * Indice du texte de doublage courant
-    * Note : utile pour laisse l&#x27;&quot;écho&quot; du texte précédent
-    * Il permet de récupérer la liste de mots dans this.dbls_list
-    * @property {Number} dbl_indx
-    */
-  dbl_indx:0,
-  /**
-    * Liste des textes de doublage. En clé &#x60;dbl_indx&#x60; (l&#x27;indice 1-start du
-    * doublage) et en valeurs la liste des indices de mots.
-    * @property {Object} dbls_list
-    */
-  dbls_list:{},
-  /**
-    * Écrit le doublage ou le sous-titre +texte+ (en fonction de params et des
-    * réglages par défaut)
-    * Notes
-    * -----
-    *   * Si Anim.prefs.caption_timer est true, le texte est écrit au débit
-    *     Anim.prefs.caption_debit.
-    *
-    * @method set_doublage
-    * @param {String} texte Le texte (vide ou undefined pour supprimer le div)
-    * @param {Object|Boolean} params  Les paramètres optionnels
-    *                                 Ou une valeur true ou false, qui détermine caption
-    *   @param {Boolean} params.caption    Si false =&gt; doublage, si true =&gt; caption
-    *   @param {Boolean} params.wait      Si true, on attend la fin de l&#x27;affichage du doublage
-    *                                     avant de passer à la suite.
-    */
-  show:function(texte, params)
-  {
-    // dlog(&quot;-&gt; set_doublage(params :&quot;);dlog(params)
-    if(undefined == params) params = {}
-    else if (&#x27;boolean&#x27; == typeof params) params = {caption:params}
-    else if (params.doublage == true) params.caption = !params.doublage
-    var is_caption  = params.caption == true || Anim.prefs.caption == true
-    var is_doublage = !is_caption
-    var obj = $(is_caption ? &#x27;span#caption_text&#x27; : &#x27;div#doublage&#x27;)
-    var montrer = (undefined != texte) &amp;&amp; (texte.trim() != &quot;&quot;)
-    if(montrer)
-    {
-      obj.show()
-      if(is_doublage &amp;&amp; Anim.prefs.caption_timer)
-      { // On doit afficher le texte comme il sera dit (version &quot;temporisé&quot;)
-        this.dbl_mots = texte.trim().split(&#x27; &#x27;)
-        this.dbl_imot = 0
-        this.dbl_indx += 1
-        // Si nécessaire, on peut détruire complètement l&#x27;avant-dernier
-        // doublage (le doublage précédent, lui, est traité en écho)
-        this.remove_last(this.dbl_indx - 2)
-        this.dbls_list[this.dbl_indx] = []
-        if(params.wait) this.temporize.poursuivre = NEXT_STEP
-        this.temporize()
-      }
-      else obj.html(texte.trim())
-    }
-    else
-    {
-      obj.hide()
-    }
-    if(is_caption) $(&#x27;div#caption&#x27;)[montrer?&#x27;show&#x27;:&#x27;hide&#x27;]()
-    if(!params.wait)
-    {
-      // dlog(&quot;params.wait est false ou undefined, =&gt; tout de suite next step&quot;)
-      NEXT_STEP(notimeout=true)
-    } 
-  },
-  /**
-    * Quand un doublage temporisé est en route, on doit laisser l&#x27;&quot;écho&quot;
-    * du doublage précédent. C&#x27;est cette méthode qui s&#x27;en charge, en effaçant
-    * progressivement les mots du précédent doublage (plus vite que le nouveau
-    * doublage n&#x27;apparait).
-    * @method echo_last
-    * @param {Number} dbl_indx   Indice du doublage à laisser en écho
-    */
-  echo_last:function(idoub)
-  {
-    if(undefined == this.dbls_list[idoub]) return
-    if(this.dbls_list[idoub].length == 0)
-    {
-      return this.remove_last(idoub)
-    }
-    // Sinon, on efface les mots du précédent doublage à concurrence de 3
-    // anciens mots pour un nouveau mot (puisque cette méthode est appelée chaque
-    // fois qu&#x27;un nouveau mot doit être affiché)
-    for(var i=0; i&lt;3; ++i)
-    {
-      var iprev_mot = this.dbls_list[idoub].shift()
-      if(undefined != iprev_mot) $(&#x27;span#spanmot&#x27;+iprev_mot).animate({&#x27;opacity&#x27;:0})
-      // Note : on ne peut pas supprimer les mots tout de suite, ça déplacerait
-      // les derniers mots. On le fera lorsque tous les mots auront été traités
-      // en supprimant tous les div du doublage en question.
-    }
-  },
-  /**
-    * Méthode qui efface le doublage d&#x27;indice +idoub+. En fait, ça n&#x27;est pas
-    * le dernier, mais l&#x27;avant dernier, car :
-    *   - Un doublage est en cours d&#x27;affichage
-    *   - Le doublage précédent est en cours d&#x27;écho
-    *   - Le doublage d&#x27;avant peut être détruit complètement.
-    * @method remove_last
-    * @param {Number} idoub   Indice du DIV doublage à détruire
-    *
-    */
-  remove_last:function(idoub)
-  {
-    $(&#x27;div#doublage &gt; div#doublage-&#x27;+idoub).remove()
-  },
-  temporize:function()
-  {
-    if(this.timer_doublage) clearTimeout(this.timer_doublage)
-    if(mot = this.dbl_mots.shift())
-    {
-      ++ this.dbl_imot
-      this.dbls_list[this.dbl_indx].push(this.dbl_imot)
-      this.echo_last(this.dbl_indx-1)
-      var jid_div_doublage = &#x27;div#doublage &gt; div#doublage-&#x27;+this.dbl_indx
-      // Doit-on construire le div de ce doublage là ?
-      if($(jid_div_doublage).length == 0)
-      {
-        $(&#x27;div#doublage&#x27;).append(&#x27;&lt;div id=&quot;doublage-&#x27;+this.dbl_indx+&#x27;&quot;&gt;&lt;/div&gt;&#x27;)
-        $(jid_div_doublage).css(&#x27;color&#x27;, this.dbl_indx % 2 == 0 ? &quot;mediumspringgreen&quot; : &quot;yellow&quot;)
-      }
-      $(jid_div_doublage).append(&#x27;&lt;span id=&quot;spanmot&#x27;+this.dbl_imot+&#x27;&quot; class=&quot;spanmot_&#x27;+this.dbl_indx+&#x27;&quot; style=&quot;display:none;&quot;&gt;&#x27;+mot+&#x27;&lt;/span&gt; &#x27;)
-      $(jid_div_doublage +&#x27; &gt; span#spanmot&#x27;+this.dbl_imot).show(400)
-      
-      var duree = parseInt(Math.ceil(mot.length / 3) * 200  * Anim.coef_speed, 10)
-      this.timer_doublage = setTimeout($.proxy(Anim.Dom.Doublage.temporize, Anim.Dom.Doublage), duree)
-    }
-    else
-    {
-      if(this.temporize.poursuivre) this.temporize.poursuivre()
-    }
-  }
+    
+        <div class="foundat">
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l16"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:16</code></a>
+        </div>
+    
 
-}
-    </pre>
+    
+</div>
+
+
+
+<div class="box intro">
+    
+</div>
+
+
+
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+            <p>This module provides the following classes:</p>
+
+            <ul class="module-classes">
+            
+                <li class="module-class">
+                    <a href="../classes/TBox.html">
+                        TBox
+                    </a>
+                </li>
+            
+            </ul>
+        
+    </div>
+
+    <div class="yui3-u-1-2">
+        
+    </div>
 </div>
 
                     </div>
