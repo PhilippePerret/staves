@@ -1,9 +1,11 @@
-# Essais MOTIF
-DEFAULT(\'decompte\',0)
+# ===== Test de la commande  MOTIF ======
+#
 
-# NOTE : C\'EST LA MÉLODIE DU PREMIER PRELUDE, NE PAS L\'EFFACER, MAIS LA COPIER DANS UN FICHIER POUR LE PRÉLUDE
+DEFAULT('decompte',0)
+
+# NOTE : C'EST LA MÉLODIE DU PREMIER PRELUDE
 
 
 NEW_STAFF(SOL)
-CAPTION(\"La mélodie est descendante, en contraste avec le mvt des arpèges\")
-melodie = MOTIF(\'e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 f5 f4 e4\', {offset_x:34, speed:4})
+CAPTION("La mélodie est descendante, en contraste avec le mvt des arpèges")
+melodie = MOTIF('e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 f5 f4 e4', {offset_x:34, speed:4})

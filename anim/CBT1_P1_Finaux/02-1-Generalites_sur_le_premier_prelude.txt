@@ -21,8 +21,10 @@ DEFAULT('chord', 35)
 DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 
+# La partition
+partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
 
-CAPTION("Passons à présent à ce + que fameux prélude de Bach.", {wait:true})
+CAPTION("Revenons à ce + que fameux prélude de Bach.", {wait:true})
 WAIT(2)
 
 CAPTION("Toute bonne analyse procède du général au particulier. La première chose à faire quand on aborde une œuvre, encore plus lorsqu'elle est courte comme celle-ci, c'est de s'en faire une idée générale.", {wait:true})
@@ -38,7 +40,7 @@ CAPTION("D'emblée, donc, Bach affirme la portée pédagogique des monuments du 
 
 partition.hide()
 
-CAPTION("Par rapport à ces arpèges ascendant, il est intéressant de noter comment ils s'opposent au parcours de la mélodie.")
+CAPTION("Par rapport à ces arpèges ascendant, il est intéressant de noter comment ils s'opposent au parcours descendant de la mélodie.")
 
 # --- La mélodie du prélude ---
 

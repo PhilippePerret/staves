@@ -1,6 +1,7 @@
 # === Analyse du Prélude 1 CBT1 ===
 # 
 # Parenthèse sur l'harmonie
+# -------------------------
 # Dans cette partie on aborde la question des tonalités (survolé) et
 # des tons voisins pour se préparer au travail d'analyse sur le prélude
 #
@@ -14,7 +15,7 @@ DEFAULT('caption_timer', true)
 DEFAULT('next', 200)
 #SPEED(20)
 
-SUITE('./Tons_voisins_02')
+# SUITE('./Tons_voisins_02')
 
 NEW_STAFF(SOL)
 NEW_STAFF(SOL)

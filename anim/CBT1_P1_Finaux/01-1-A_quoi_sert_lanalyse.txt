@@ -9,6 +9,8 @@
 DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 
+SUITE('02-1-Generalites_sur_le_premier_prelude')
+
 # La partition
 partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
 bgd = BACKGROUND({opacity:0})
