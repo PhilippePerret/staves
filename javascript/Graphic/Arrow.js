@@ -205,7 +205,7 @@ ARROW_METHODS = {
   /**
     * Méthode qui calcule la vraie position de la flèche (_real_y et _real_x)
     * en fonction du possesseur et de l'angle à donner.
-    * @methode calcule_real_x_y
+    * @method calcule_real_x_y
     */
   calcule_real_x_y:function()
   {

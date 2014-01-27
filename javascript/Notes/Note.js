@@ -352,10 +352,10 @@ $.extend(Note.prototype,{
   /**
     * Met la note en exergue (bleue et au-dessus)
     * @method exergue
-    * @params {Object|String} params        Paramètres optionnels pour définir l'exergue.
+    * @param {Object|String} params        Paramètres optionnels pour définir l'exergue.
     *                                       OU seulement la couleur en String (constante)
-    *   @params {String} params.color       La couleur de l'exergue (constante ou def)
-    *   @params {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
+    *   @param {String} params.color       La couleur de l'exergue (constante ou def)
+    *   @param {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
     * @return {Object} this, pour le chainage
     */
   exergue:function(params)

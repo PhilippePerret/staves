@@ -155,8 +155,8 @@ Anim.Dom = {
     *                               L'instance ou le code HTML de l'élément. Si c'est
     *                               une instance, elle doit répondre à la méthode
     *                               `code_html` qui renvoie le code HTML à afficher
-    * @params {Object|Undefined} params Les paramètres optionnels
-    *   @params {Function} params.complete    La méthode à appeler en fin de processus (ce processus étant asynchrone)
+    * @param {Object|Undefined} params Les paramètres optionnels
+    *   @param {Function} params.complete    La méthode à appeler en fin de processus (ce processus étant asynchrone)
     *     
     */
   add:function(instance, params)

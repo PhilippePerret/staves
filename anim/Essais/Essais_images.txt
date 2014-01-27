@@ -2,7 +2,7 @@
 
 DEFAULT(\'decompte\',0)
 
-img=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', top:100, left:75, cadre_offset_x:-1, cadre_offset_y:0, cadre_width:266, cadre_height:96})
+img=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', top:100, left:75, inner_x:-1, inner_y:0, cadre_width:266, cadre_height:96})
 
 WAIT(2)
 

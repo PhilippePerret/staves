@@ -14,8 +14,8 @@
   *
   * @method BACKGROUND
   * @for window
-  * @param {String|Object} color    Soit la couleur, soit les paramètres
-  * @param {Object} params          Les paramètres ou undefined
+  * @param {String|Object}  color    Soit la couleur, soit les paramètres
+  * @param {Object}         params   Les paramètres ou undefined
   */
 window.BACKGROUND = function(color, params)
 {
@@ -49,7 +49,7 @@ window.BOX = function(params)
   return box.build()
 }
 /**
-  * @class
+  * @class Box
   * @constructor
   */
 window.Box = function(params)

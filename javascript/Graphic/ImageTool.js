@@ -35,8 +35,8 @@ window.ImageTool = {
   set_data_image:function()
   {
     this.data_image = {
-      cadre_offset_x  : this.current.cadre_offset_x, // recadrage horizontal
-      cadre_offset_y  : this.current.cadre_offset_y, // recadrage vertical
+      inner_x  : this.current.inner_x, // recadrage horizontal
+      inner_y  : this.current.inner_y, // recadrage vertical
       cadre_width     : this.current.cadre_width,
       cadre_height    : this.current.cadre_height,
       src             : this.current.url
@@ -102,18 +102,18 @@ window.ImageTool = {
               'left:'   +this.current.left+', '+
               'width:'  +this.data_image.width+', '+
               'height:' +this.data_image.height+', '+
-              'cadre_offset_x:' +this.data_image.cadre_offset_x+', '+
-              'cadre_offset_y:' +this.data_image.cadre_offset_y+', '+
+              'inner_x:' +this.data_image.inner_x+', '+
+              'inner_y:' +this.data_image.inner_y+', '+
               'cadre_width:'    +this.data_image.cadre_width+', '+
               'cadre_height:'   +this.data_image.cadre_height +
             '}'
     this.box_feedback.val(code)
     
     code = [];
-    if(this.current.cadre_offset_x != this.data_image.cadre_offset_x)
-      code.push('x:' +this.data_image.cadre_offset_x);
-    if(this.current.cadre_offset_y != this.data_image.cadre_offset_y)
-      code.push('y:' +this.data_image.cadre_offset_y) ;
+    if(this.current.inner_x != this.data_image.inner_x)
+      code.push('x:' +this.data_image.inner_x);
+    if(this.current.inner_y != this.data_image.inner_y)
+      code.push('y:' +this.data_image.inner_y) ;
     if(this.current.cadre_width != this.data_image.cadre_width)
       code.push('width:'+this.data_image.cadre_width);
     if(this.current.cadre_height != this.data_image.cadre_height)
@@ -130,8 +130,8 @@ window.ImageTool = {
   calcul_recadrage:function()
   {
     var pos = this.box_cadre.position()
-    this.data_image.cadre_offset_x = pos.left - 10 // car image placée à 10px
-    this.data_image.cadre_offset_y = pos.top  - 10 // car image placée à 10px
+    this.data_image.inner_x = pos.left - 10 // car image placée à 10px
+    this.data_image.inner_y = pos.top  - 10 // car image placée à 10px
     this.data_image.cadre_width   = this.box_cadre.width()
     this.data_image.cadre_height  = this.box_cadre.height()
   },
@@ -168,8 +168,8 @@ window.ImageTool = {
     this.box_cadre.css({
       width   :this.data_image.cadre_width+'px',
       height  :this.data_image.cadre_height+'px',
-      top     :(this.data_image.cadre_offset_y+10)+'px',
-      left    :(this.data_image.cadre_offset_x+10)+'px'
+      top     :(this.data_image.inner_y+10)+'px',
+      left    :(this.data_image.inner_x+10)+'px'
     })
   },
   /**
