@@ -78,7 +78,8 @@ $.extend(UNVERSAL_BOX_METHODS,{
     * courante.
     *
     * @method fade
-    * @param {Object}
+    * @param {Object} params    Paramètres optionnels
+    *   @param {False} params.wait    Si false, on passe tout de suite à la suite
     */
   fade:function(params)
   {
@@ -86,9 +87,10 @@ $.extend(UNVERSAL_BOX_METHODS,{
     var ouverture = this.obj.css('opacity') == "0"
     var new_opac  = ouverture ? (this.opacity || 1) : 0
     this.animate({opacity:new_opac},{
-      duration:params.duree || Anim.delai_for('transition'),
+      duration:this.duree_set_or_default(params, 'fade'),
       complete:params.complete
     })
+    if(params.wait === false) NEXT_STEP(notimeout = true)
   },
   
   /**
@@ -176,7 +178,6 @@ $.extend(UNVERSAL_BOX_METHODS, {
     dlog("-> "+this.id+".animate")
     // dlog("Params reçus par BUMP.animate:");dlog(params)
     params = define_complete(params, (this.wait === false) ? false : NEXT_STEP)
-    dlog("params dans animate de "+this.id+" (avec this.wait à : "+(this.wait)+"): ");dlog(params)
     this.obj.animate(data, {
       duration : params.duree || Anim.delai_for('transform'),
       complete : params.complete

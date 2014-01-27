@@ -1246,7 +1246,8 @@ Une “TBox”, une boite de texte, est un texte indépendant de l'animation, qu
 
 * [Créer (instancier) la boite de texte](#instanciate_tbox)
 * [Définir les valeurs par défaut des boites de texte](#set_prefs_tboxes)
-* [Définir le style de la boite de texte](#set_style_tbox)
+* [Définir l'aspect de la boite de texte](#set_style_tbox)
+* [Styles de textes des boites de texte](#tbox_styles_textes)
 * [Définir les dimensions de la boite de texte](#set_dimensions_tbox)
 * [Régler l'alignement du texte dans la boite](#tbox_text_alignement)
 * [Animer les boites de texte](#animate_tbox)
@@ -1259,7 +1260,15 @@ Une boite de texte (une “TBox”) se créer avec la commande `TBOX`
 
     <variable> = TBOX("<Le texte>"[, <parametres>])
 
-Par défaut, une boite de texte apparaitra toujours au milieu de l'écran, sur un fond translucide, avec un caractère assez grand.
+Par défaut, une boite de texte apparaitra toujours au milieu de l'écran, sur un fond translucide, avec un caractère lisible.
+
+**`<parametres>`** peut être un “Hash” (`{<propriété>:<valeur>, <propriété>:<valeur> etc.}`) ou un “String” (une chaine de caractère). Si c'est un String, c'est le nom d'un style prédéfini de texte.
+  
+Par exemple&nbsp;:
+
+    monGrandTitre = TBOX("Mon grand titre en petites capitales", grand_titre)
+
+*Voir tous les [Styles de texte des boites de texte](#tbox_styles_textes).*
 
 Pour créer le texte sans l'afficher, ajouter le paramètre `hidden` à true&nbsp;:
 
@@ -1329,7 +1338,28 @@ Par exemple&nbsp;:
 
     monTexte = TBOX("Mon texte aligné à gauche.", {align:left})
 
+<a name="tbox_styles_textes"></a>
+###Styles de textes des boites de textes
 
+Ces valeurs peuvent définir la propriété `style` dans les paramètres envoyés à TBOX (2e argument) ou servir de 2e argument si aucune autre propriété ne doit être définie.
+
+Par exemple&nbsp;:
+
+    monTexte = TBOX("Mon petit texte", {style:small})
+
+Ou&nbsp;:
+
+    monTexte = TBOX("Mon autre petit texte", small)
+
+**Liste des styles pré-définis**
+
+    grand_titre       Un grand titre pour l'animation
+    chapitre          Un titre de chapitre
+    titre             Un autre titre dans un chapitre.
+    small             Un petit texte
+    tiny              Un texte minuscule
+    copyright         La marque du copyright
+    
 <a name="animate_tbox"></a>
 ####Animer les boites de texte
 

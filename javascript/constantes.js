@@ -9,6 +9,13 @@ const left    = 'left'
 const right   = 'right'
 const center  = 'center'
 
+// Styles des textes (class CSS TBox)
+const grand_titre = 'grand_titre'
+const chapitre    = 'chapitre'
+const titre       = 'titre'
+const small       = 'small'
+const tiny        = 'tiny'
+const copyright   = 'copyright'
 
 // Couleurs
 const black   = 'black'

@@ -129,6 +129,7 @@ $.extend(window.Anim,{
   transition:{
     step        : 500,
     show        : 400,
+    fade        : 1500,
     note_moved  : 1000,
     transform   : 1000,  // Transformation comme l'allongement
     wait        : 1000 // multiplicateur de secondes
@@ -313,14 +314,18 @@ $.extend(window.Anim,{
     text_color        : 'black',
     /**
       * Police par défaut des tboxes
+      * Doit être défini par l'user pour ne pas être null
       * @property {String} tbox_font_family
+      * @default null
       */
-    tbox_font_family  : 'Verdana',
+    tbox_font_family  : null, //'Verdana' dans les CSS,
     /**
       * Taille par défaut de la police de texte (en points — pt)
+      * Doit être défini par l'user pour ne pas être null
       * @property {Number} tbox_font_size
+      * @default null
       */
-    tbox_font_size    : 18,
+    tbox_font_size    : null,
     /**
       * Padding par défaut des boites de texte tbox (en pixels)
       * @property {Number} tbox_padding

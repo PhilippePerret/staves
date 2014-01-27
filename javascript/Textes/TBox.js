@@ -16,6 +16,8 @@ window.TBOX = function(texte, params)
 /**
   * @class TBox
   * @constructor
+  * @param {String} texte   Le texte de la TBox
+  * @param {Object|String} params Soit les paramètres, soit le `style` de la TBox.
   */
 window.TBox = function(texte, params)
 {
@@ -73,14 +75,42 @@ window.TBox = function(texte, params)
   this.background = 'black'
   
   /**
+    * Style du texte (class CSS)
+    * @property {String} style
+    * @default null
+    */
+  this.style = null
+  
+  /**
     * Alignement du texte
     * @property {String} align
     * @default 'center'
     */
   this.align = 'center'
   
+  // Si `params` est de type {String}, c'est le `style` de la TBox
+  if('string'==typeof params) params = {style: params}
+  
   // Dispatch des valeurs fournies (même si aucune)
   this.dispatch(params)
+  
+  /* Si la TBox possède un style, et que les propriétés n'ont pas été
+   * définies explicitement, on prend les propriétés par défaut.
+   * Par exemple, si `width` n'a pas été défini dans les paramètres et que
+   * `style` est 'grand_titre', alors le `width` est mis à 60% et le `y` est
+   * mis à 30%
+   */
+  if(this.style && undefined != TBox.STYLE_TO_PROPS[this.style])
+  {
+    var my = this
+    L(TBox.STYLE_TO_PROPS[this.style]).each(function(prop, value){
+      if(undefined == my['_'+prop])
+      {
+        dlog("[TBox] Propriété "+prop+" mis à "+value+ " pour "+this.id)
+        my[prop] = value
+      }
+    })
+  }
   
 }
 
@@ -94,7 +124,23 @@ $.extend(TBox,{
     * @property {Number} last_id
     * @default 0
     */
-  last_id:0
+  last_id:0,
+  
+  /**
+    * Constantes définissant des propriétés prédéfinies lorsque le
+    * texte est d'un style particulier (paramètre `style` dans la définition
+    * de la TBox)
+    * @class STYLE_TO_PROPS
+    * @static
+    * @final
+    */
+  STYLE_TO_PROPS:{
+    'grand_titre' : {width:'60%', x:'20%', y:'30%'},
+    'titre'       : {width:'60%'},
+    'small'       : {},
+    'tiny'        : {},
+    'copyright'   : {y:null, bottom:0, padding:10, width:'60%', x:'20%'}
+  }
 
 })
 
@@ -130,28 +176,32 @@ $.extend(TBox.prototype,{
     */
   positionne:function()
   {
-    this.obj_texte.css({
-      'font-size'     : this.font_size+'pt',
-      'font-family'   : this.font_family,
+    var data = {
       'color'         : this.color || Anim.prefs.text_color,
-      width           : this.width+'px',
+      width           : as_pixels(this.width),
       'text-align'    : this.align
-    })
-    dlog("this.x de "+this.id+" : "+this.x)
-    this.obj.css({
-      width         : this.width+'px',
-      height        : this.height+'px',
-      top           : this.y+'px',
-      left          : this.x+'px',
-      padding       : this.padding+'px',
+    }
+    if(this.font_size)    data['font-size']   = with_unite(this.font_size, 'pt')
+    if(this.font_family)  data['font-family'] = this.font_family
+    this.obj_texte.css(data)
+    if(this.style && !this.obj_texte.hasClass(this.style)) this.obj_texte.addClass(this.style)
+    
+    data = {
+      width         : as_pixels(this.width),
+      left          : as_pixels(this.x),
+      height        : as_pixels(this.height, false),
+      top           : as_pixels(this.y, false),
+      bottom        : as_pixels(this.bottom, false),
+      padding       : as_pixels(this.padding),
       'z-index'     : this.val_or_default('z')
-    })
+    }
+    this.obj.css(data)
     this.obj_background.css({
       'background-color'  : this.background,
       'opacity'           : this.opacity
       // 'border'      : this.border
     })
-    this.obj.css({height: this.height+'px', width:this.width+'px'})
+    this.obj.css({height: as_pixels(this.height, false), width:as_pixels(this.width)})
   }
 })
 
@@ -204,8 +254,7 @@ Object.defineProperties(TBox.prototype,{
   "font_family":{
     set:function(x){this._font_family = x},
     get:function(){
-      if(undefined == this._font_family) this._font_family = Anim.prefs.tbox_font_family
-      return this._font_family
+      return this._font_family || Anim.prefs.tbox_font_family
     }
   },
   /**
@@ -215,8 +264,7 @@ Object.defineProperties(TBox.prototype,{
   "font_size":{
     set:function(x){this._font_size = x},
     get:function(){
-      if(undefined == this._font_size) this._font_size = Anim.prefs.tbox_font_size
-      return this._font_size
+      return this._font_size || Anim.prefs.tbox_font_size
     }
   },
   /**
@@ -249,10 +297,10 @@ Object.defineProperties(TBox.prototype,{
   "x":{
     set:function(w){
       this._x = w
-      this.set_css('left', w)
+      if(w != null) this.set_css('left', w)
     },
     get:function(){
-      if(undefined == this._x)
+      if(undefined === this._x)
       { // On définit une valeur par défaut (centrée)
         this._x = parseInt((Anim.Dom.width - this.width) / 2, 10)
         this._x += this.offset_x
@@ -268,11 +316,11 @@ Object.defineProperties(TBox.prototype,{
   "y":{
     set:function(w){
       this._y = w
-      this.set_css('top', w)
+      if(w != null) this.set_css('top', w)
     },
     get:function(){
-      if(undefined == this._y)
-      { // On définit une valeur par défaut (centrée)
+      if(undefined === this._y)
+      { // On définit une valeur par défaut (centrée verticalement)
         this._y = parseInt((Anim.Dom.height - this.height) / 2 , 10)
         this._y += this.offset_y
       }

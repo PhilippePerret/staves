@@ -1,14 +1,20 @@
-# === Pour faire des essais avant de les ajouter à une animation ===
+# ===============================================
+# = ANALYSE PRÉLUDE 1 CBT 1 Jean-Sébastien Bach
+# ===============================================
 
-#DEFAULT('decompte', 0)
+# ---
+# --- À quoi sert l'analyse ?
+# ---
+
+DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
-
-bgd = BACKGROUND({opacity:0})
 
 # La partition
 partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
+bgd = BACKGROUND({opacity:0})
 
- 
+WAIT(2)
+
 CAPTION("Mais avant de commencer, il me semble important de se poser cette question :", {wait:true})
 
 bgd.fade()
@@ -34,7 +40,7 @@ point1 = TBOX("• Elle permet de mieux interpréter.", {x:100, y:160, width:70
 
 WAIT_CAPTION
 
-CAPTION("… et même d'adopter des partis-pris de jeu qui se fondent sur cette compréhension plus profonde de ce qu'à chercher à faire le compositeur.", {wait:true})
+CAPTION("… et même d'adopter des partis-pris de jeu qui se fondent sur cette compréhension plus profonde de ce qu'a cherché à faire le compositeur.", {wait:true})
 
 CAPTION("Le second but que peut viser l'analyse, et ça n'est pas le moindre de ses intérêts, c'est…", {wait:true})
 
@@ -44,13 +50,14 @@ point2 = TBOX("• Elle permet d'apprendre plus vite et de mieux retenir.", {x:
 
 WAIT_CAPTION
 
-CAPTION("Pourquoi ? Tout simplement parce qu'au lieu d'apprendre un peu bêtement des suites de notes, l'analyse permet d'apprendre non pas ces notes, mais leur rôle, leur fonction, leur nécessité. Elle offre au musicien des évidences — et il y en a beaucoup en musique — qui allègent considérablement ce qu'il a à retenir.", {wait:true})
+CAPTION("Pourquoi ? Tout simplement parce qu'au lieu d'apprendre un peu bêtement des suites de notes, l'analyse permet d'apprendre non pas ces notes, mais leur rôle, leur fonction, leur nécessité. Elle offre au musicien des évidences — et il y en a beaucoup en musique — qui allègent considérablement ce qu'il faut retenir d'une pièce pour pouvoir la jouer.", {wait:true})
 
 CAPTION("CEPENDANT, il vaut mieux être informé de quelque chose que n'imaginent pas ceux qui se lancent dans l'analyse plein d'enthousiasme et de foi. Et qui les conduit souvent et très rapidement au découragement.")
 
-question.fade()
-point1.fade()
-point2.fade()
+question.fade({wait:false})
+point1.fade({wait:false})
+point2.fade({wait:false})
+bgd.fade({wait:false})
 
 WAIT_CAPTION
 
@@ -59,9 +66,8 @@ CAPTION("Cette chose, c'est qu'avant de voir sa capacité à analyser porter vra
 question.remove()
 point1.remove()
 point2.remove()
+bgd.remove()
 
+CAPTION("C'est seulement au bout d'un temps certain qu'on peut tirer vraiment profit de l'analyse musicale. Il faut être patient, aussi patient qu'on peut l'être pour son instrument.", {wait:true})
 
-CAPTION("C'est au bout d'un temps certain seulement qu'on peut tirer vraiment profit de l'analyse musicale. Il faut être patient, aussi patient qu'on peut l'être pour son instrument.", {wait:true})
-
-
-bgd.fade()
+WAIT(4)

@@ -87,6 +87,13 @@ window.Img = function(params)
     */
   this.inner_y = 0
   
+  /**
+    * Marque de visibilité (à la construction)
+    * @property {Boolean} hidden
+    * @default false  
+    */
+  this.hidden = false
+  
   var me = this
   L(params || {}).each(function(k,v){me[k] = v})
   

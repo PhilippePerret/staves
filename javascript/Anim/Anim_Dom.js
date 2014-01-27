@@ -172,7 +172,7 @@ Anim.Dom = {
     if(real_instance)
     {
       instance.positionne()
-      if(instance.opacity != 0) instance.show(params)
+      if(instance.opacity != 0 && !instance.hidden) instance.show(params)
       else if('function'==typeof params.complete) params.complete()
     }
     dlog("<- Anim.Dom.add")

@@ -7,7 +7,7 @@
 # Ouverture.
 #
 
-# SUITE('./01-1-A_quoi_sert_lanalyse')
+SUITE('./01-1-A_quoi_sert_lanalyse')
 
 # --- Valeurs par défault ---
 DEFAULT('next', 75)
@@ -19,15 +19,32 @@ DEFAULT('chord', 35)
 DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 
-BACKGROUND('black')
+# La partition
+partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725, hidden:true})
 
-CAPTION("Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d'analyse. Pour cette première analyse, c'est …", {wait:true})
+# Le fond
+bgd = BACKGROUND('black', {gradient:'#444'})
+
+CAPTION("Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d'analyse. Pour cette première analyse, c'est …")
+
+WAIT(1)
+
+titrescreencast = TBOX("Initiation<br />à<br />l'analyse musicale", grand_titre)
+copyright = TBOX("©phil-icare-2013", copyright)
+
+WAIT_CAPTION
+
+titrescreencast.fade({wait:false})
+copyright.fade({wait:false})
 
 CAPTION("… le premier prélude du livre 1 du clavecin bien tempéré de Bach qui va nous servir de support.")
 
-titre = TBOX("Premier prélude du Premier cahier du Clavecin bien tempéré", {x:198-100, y: 132-50, background:red, opacity:0.33, duree:1, wait:false})
+titrescreencast.remove()
+copyright.remove()
 
-bach  = TBOX("Jean-Sébastien Bach", {x:386+100, y:247+50, background:blue, opacity:0.125, duree:1, wait:false})
+titre = TBOX("Premier prélude du Premier cahier du Clavecin bien tempéré", {x:198-100, y: 132-50, background:red, opacity:0.33, duree:2, wait:false})
+
+bach  = TBOX("Jean-Sébastien Bach", {x:386+100, y:247+50, background:blue, opacity:0.125, duree:2, wait:false})
 
 WAIT(0.2)
 
@@ -35,9 +52,19 @@ titre.move({x:198, y: 132, wait:false, duree:2.5})
 
 bach.move({x:386, y:247, duree:3})
 
-ligne_or = BOX({width:565, background:'#FFCF3C', height:5, x:232, y:106, hidden:true})
+ligne_or = BOX({width:565, background:'#FFCF3C', height:5, x:232, y:106, duree:2})
+
+WAIT(2)
+
+# --- Faire disparaitre le fond et les titres pour laisser voir 
+# --- la partition du premier prélude
+# ---
+partition.show({duree:4})
+bgd.fade({wait:false, duree:5})
+titre.fade({wait:false})
+bach.fade({wait:false})
+ligne_or.fade({wait:false})
 
 WAIT(4)
 
-CLEAR()
 

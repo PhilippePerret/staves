@@ -20,7 +20,42 @@ div.tbox div.tbox_background {
   opacity   : 0.05;
   background-color  : black;
 }
-/* Le div contenant le texte */
-div.tbox div.tbox_content {
 
+/*
+  * Les styles de textes (utilisable en valeur de `style` dans les paramètres)
+  *
+  * On peut également définir des propriétés propres dans TBox.STYLE_TO_PROPS
+  * pour le div contenant le texte.
+  *
+  */
+
+/* Valeurs par défaut du div contenant le texte */
+div.tbox div.tbox_content {
+  font-family   : 'Verdana';
+  font-size     : 18pt;
 }
+
+div.tbox_content.grand_titre {
+  font-variant  : small-caps !important;
+  font-size     : 24pt !important;
+}
+div.tbox_content.chapitre {
+  font-variant  : small-caps !important;
+  font-size     : 20pt !important;
+}
+div.tbox_content.titre {
+  font-variant  : small-caps !important;
+}
+
+div.tbox_content.small {
+  font-size     : 14pt !important;
+}
+
+div.tbox_content.tiny {
+  font-size     : 12pt !important;
+}
+
+div.tbox_content.copyright {
+  font-size     : 10pt !important;
+}
+
