@@ -15,18 +15,25 @@ window.IMAGE = function(params)
 
 /**
   * Pour les instances d'image
+  *
+  * Notes
+  *   * Il y a deux sortes d'instance image : les images "absolues" qui permettent
+  *     de calculer les dimensions de l'image, avec une seule instance pour image
+  *     différente et il existe aussi les instances véritablement créées pour 
+  *     l'animation, qui peuvent partager des mêmes images.
+  *
   * @class Img
   * @constructor
-  * @params {Object} params Les paramètres de l'image
-  *   @params {String} params.url     Adresse de l'image
-  *   @params {Number} params.y     Top de l'image dans l'animation
-  *   @params {Number} params.x    Left de l'image dans l'animation
-  *   @params {Number} params.width   Largeur de l'image
-  *   @params {Number} params.height  Hauteur de l'image
-  *   @params {Number} params.cadre_width   Largeur du cadrage de l'image
-  *   @params {Number} params.cadre_height  Hauteur du cadrage de l'image
-  *   @params {Number} params.cadre_offset_x  Décalage horizontal du cadrage dans l'image
-  *   @params {Number} params.cadre_offset_y  Décalage vertical du cadrage dans l'image
+  * @param {Object} params Les paramètres de l'image
+  *   @param {String} params.url     Adresse de l'image
+  *   @param {Number} params.y     Top de l'image dans l'animation
+  *   @param {Number} params.x    Left de l'image dans l'animation
+  *   @param {Number} params.width   Largeur de l'image
+  *   @param {Number} params.height  Hauteur de l'image
+  *   @param {Number} params.cadre_width   Largeur du cadrage de l'image
+  *   @param {Number} params.cadre_height  Hauteur du cadrage de l'image
+  *   @param {Number} params.inner_x  Décalage horizontal du cadrage dans l'image
+  *   @param {Number} params.inner_y  Décalage vertical du cadrage dans l'image
   */
 window.Img = function(params)
 {
@@ -70,21 +77,21 @@ window.Img = function(params)
   this.cadre_height = null
   /** Décalage horizontal du cadrage dans l'image
     * Par exemple, si `100`, on affiche l'image à partir du pixel horizontal 100
-    * @property {Number} cadre_offset_x
+    * @property {Number} inner_x
     * @default 0
     */
-  this.cadre_offset_x = 0
+  this.inner_x = 0
   /** Décalage vertical du cadrage dans l'image
-    * @property {Number} cadre_offset_y
+    * @property {Number} inner_y
     * @default 0
     */
-  this.cadre_offset_y = 0
+  this.inner_y = 0
   
   var me = this
   L(params || {}).each(function(k,v){me[k] = v})
   
-  if(!this.abs /* Instanciation d'une image non "absolue" */)
-  {
+  if( !this.abs )
+  { /* Instanciation d'une image non "absolue" */
     Img.add(this)
     if(!this.width  || this.width  == auto || !this.height || this.height == auto)
     {
@@ -119,7 +126,7 @@ $.extend(Img,{
     *     La première (cette propriété) contient les instances d'images utilisées
     *     pour l'animation, en considérant qu'une même image (même URL) peut être
     *     utilisée plusieurs fois, et pour chaque utilisation doit avoir une instance
-    *     distincte. Revanche, la table `abs_list` contient de façon unique toutes
+    *     distincte. En revanche, la table `abs_list` contient de façon unique toutes
     *     les images qui sont utilisées par l'animation et est établie à la pré-estimation
     *     du code (pas son exécution)
     *
@@ -175,12 +182,13 @@ $.extend(Img,{
     var found, url, absid ;
     if(found=code.match(/IMAGE\((.*)\)/))
     {
-      if(url=found[1].replace(/ +/, ' ').match(/['"]?url['"]? ?: ?['"]([^'"]+)['"] ?,/))
+      if(url=found[1].replace(/ +/, ' ').match(/['"]?url['"]? ?: ?['"]([^'"]+)['"]/))
       {
         url = url[1]
         absid = Img.idAbsFromUrl(url)
         if(undefined == Img.abs_list[absid]) new Img({url:url, abs:true})
-        // Ce code force l'affichage hors-champ de l'image pour calcul de sa taille.
+        // Le code ci-dessus force l'affichage hors-champ de l'image pour calcul 
+        // de sa taille.
       }
     }
   },
@@ -367,8 +375,8 @@ $.extend(Img.prototype,{
   {
     if(undefined == params) return F.error("Il faut définir les paramètres du travelling !")
     params = define_complete( params )
-    if(undefined != params.x_for)     params.x = this.cadre_offset_x + params.x_for
-    if(undefined != params.y_for)     params.y = this.cadre_offset_y + params.y_for
+    if(undefined != params.x_for)     params.x = this.inner_x + params.x_for
+    if(undefined != params.y_for)     params.y = this.inner_y + params.y_for
     if(undefined == params.seconds)   params.seconds = 2
     if(!params.x && !params.y && !params.width && !params.height) return F.error("Il faut définir le mouvement du travelling !")
     var dtrav = {}
@@ -382,8 +390,8 @@ $.extend(Img.prototype,{
     // On procède au travelling
     this.image.animate(dtrav, params.seconds * 1000, params.complete)
     // On passe les nouvelles valeurs
-    if(params.x)      this.cadre_offset_x = params.x
-    if(params.y)      this.cadre_offset_y = params.y
+    if(params.x)      this.inner_x = params.x
+    if(params.y)      this.inner_y = params.y
     if(params.width)  this.cadre_width    = params.width
     if(params.height) this.cadre_height   = params.height
     return this
@@ -406,7 +414,7 @@ $.extend(Img.prototype,{
     if(undefined == params) return F.error("Il faut définir le déplacement de l'image !")
     params = define_complete( params )
     if(undefined != params.x_for)     params.x = this.x + params.x_for
-    if(undefined != params.y_for)     params.y = this.y  + params.y_for
+    if(undefined != params.y_for)     params.y = this.y + params.y_for
     if(undefined != params.seconds)   params.seconds  = params.seconds * 1000
     var dmove = {}
     if(undefined != params.x) dmove.left = params.x+'px'
@@ -494,7 +502,9 @@ $.extend(Img.prototype,{
   build:function()
   {
     Anim.Dom.add(this)
-    NEXT_STEP()
+    this.obj.draggable({stop:$.proxy(this.on_end_move, this)})
+    this.obj.bind('dblclick', $.proxy(this.edit, this))
+    NEXT_STEP(no_timeout = true)
   },
   /**
     * Pour éditer l'image
@@ -509,11 +519,27 @@ $.extend(Img.prototype,{
     * Pour positionner l'image
     * La méthode définit en plus les observers et rend l'image draggable.
     * @method positionne
+    * @return {Img} L'instance image (pour chainage éventuel)
     */
   positionne:function()
   {
-    this.obj.draggable({stop:$.proxy(this.on_end_move, this)})
-    this.obj.bind('dblclick', $.proxy(this.edit, this))
+    // Div contenant l'image
+    var data = {
+      left    : this.x+'px',
+      top     : this.y+'px',
+      width   : (this.cadre_width  || this.width)+'px',
+      height  : (this.cadre_height || this.height)+'px'
+    }
+    this.obj.css(data)
+    // Image
+    data = {
+      width : this.width +'px', 
+      height: this.height+'px'
+    }
+    if(this.inner_x) data.left = '-'+this.inner_x+'px'
+    if(this.inner_y) data.top  = '-'+this.inner_y+'px'
+    this.image.css(data)
+    
     return this
   },
   
@@ -614,15 +640,6 @@ Object.defineProperties(Img.prototype,{
     get:function(){
       var styleimg = [], stylediv = [] ;
       
-      // Attribut style pour le div de l'image
-      stylediv.push('top:'+this.y+'px;left:'+this.x+'px')
-      stylediv.push('width:'+(this.cadre_width || this.width)+'px')
-      stylediv.push('height:'+(this.cadre_height || this.height)+'px')
-      // Attribut style pour l'image
-      if(this.width)  styleimg.push('width:'+this.width+'px')
-      if(this.height) styleimg.push('height:'+this.height+'px')
-      if(this.cadre_offset_x) styleimg.push('left:-'+this.cadre_offset_x+'px')
-      if(this.cadre_offset_y) styleimg.push('top:-'+this.cadre_offset_y+'px')
       
       return  '<div id="'+this.dom_id+'" class="divimage" style="'+stylediv.join(';')+'">'+
                 '<img id="'+this.id+'" class="image" src="'+this.url+'" style="'+styleimg.join(';')+'" />'+
