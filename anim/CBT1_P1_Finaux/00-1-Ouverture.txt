@@ -7,7 +7,7 @@
 # Ouverture.
 #
 
-SUITE('./01-1-A_quoi_sert_lanalyse')
+# SUITE('./01-1-A_quoi_sert_lanalyse')
 
 # --- Valeurs par défault ---
 DEFAULT('next', 75)

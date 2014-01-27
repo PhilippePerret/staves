@@ -19,7 +19,7 @@ ACTIVE_STAFF(1)
 
 # --- Image de la partition ---
 WAIT(1)
-partition=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', top:279, left:73, cadre_offset_x:0, cadre_offset_y:0, cadre_width:267, cadre_height:96})
+partition=IMAGE({url:\'asset/img/CBT_1_Prelude_01.png\', top:279, left:73, inner_x:0, inner_y:0, cadre_width:267, cadre_height:96})
 
 # --- Premier accord DO ---
 STAFF(1).measure(\'1\')

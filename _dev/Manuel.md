@@ -1821,8 +1821,8 @@ Les paramètres peuvent être les suivants&nbsp;:
       // utiliser toute l'image, mais seulement une portion de l'image
       cadre_width     : <largeur de la portion à prendre dans l'image>
       cadre_height    : <hauteur de la portion à prendre dans l'image>
-      cadre_offset_x  : <décalage horizontal de la portion d'image>
-      cadre_offset_y  : <décalage vertical de la portion d'image
+      inner_x  : <décalage horizontal de la portion d'image>
+      inner_y  : <décalage vertical de la portion d'image
     })
 
 *Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).*

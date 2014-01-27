@@ -1,3 +1,3 @@
-* Poursuivre avec le calcul du placement vertical d'un texte (il faut prendre en compte la hauteur du div / 2)
 * Poursuivre l'analyse du Prélude 1
+  > # régler le problème de l'image (voir le bug, c'est le height qui n'est pas défini)
 
