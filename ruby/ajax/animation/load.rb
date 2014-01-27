@@ -10,7 +10,7 @@ if (param :name).to_s == ""
 else
   anim = Anim::new (param :name), (param :folder)
   if anim.exists?
-    RETOUR_AJAX[:raw_code] = anim.raw_code
+    RETOUR_AJAX[:raw_code]    = anim.raw_code
     # Est-ce l'animation par défaut ?
     hdefaut = Anim::default_animation
     RETOUR_AJAX[:is_default_anim] =

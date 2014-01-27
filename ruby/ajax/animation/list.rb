@@ -14,8 +14,9 @@ RETOUR_AJAX[:folder] = fold
 
 if (param :app_loading).to_i == 1
   if defanim = Anim::default_animation
+    anim_defaut = Anim::new(defanim[:name], defanim[:folder])
     RETOUR_AJAX[:default_animation] = defanim # un hash, maintenant
-    RETOUR_AJAX[:raw_code]          = Anim::new(defanim[:name], defanim[:folder]).raw_code
+    RETOUR_AJAX[:raw_code]          = anim_defaut.raw_code
     RETOUR_AJAX[:list]              = Anim::list_of_folder defanim[:folder]
   end
 end

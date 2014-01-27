@@ -75,7 +75,7 @@ class Anim
   def raw_code= code
     @raw_code = code
   end
-  
+    
   def save
     if exists?
       unlink
