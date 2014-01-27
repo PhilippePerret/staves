@@ -138,7 +138,8 @@ $.extend(Motif.prototype,{
       hoffset += me.offset_x || Anim.prefs.next
       if(hoffset > Anim.Dom.left_max)
       {
-        hoffset   = this.left || Anim.current_x
+        hoffset   = me.left || Anim.current_x
+        dlog("* hoffset mis à "+hoffset)
         the_staff = Anim.Objects.NEW_STAFF(me.staff.cle)
       }
     })
