@@ -18,6 +18,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Les boites et les cadres](#les_boites)
 * [Fond de l'animation](#background_animation)
 * [Régler toutes les valeurs de l'animation](#set_preferences)
+* [Exécuter du code (débuggage)](#method_exec)
 * [Annexe](#lannexe)
 
 
@@ -2774,7 +2775,22 @@ Pour remettre toutes les valeurs aux valeurs par défaut, utiliser la commande (
 
     RESET_PREFERENCES
 
--
+---------------------------------------------------------------------
+
+<a name="method_exec"></a>
+##Exécuter du code
+
+La commande `EXEC` permet d'exécuter du code. C'est une commande de débuggage.
+
+Par exemple&nbsp;:
+
+    EXEC('now_start()')
+    # => Place un point de départ temporel
+    ... animation ...
+    EXEC('now()')
+    # => Écrit en console le nombre de secondes et millisecondes écoulées
+    #    depuis `now_start`
+
 ---------------------------------------------------------------------
 
 <a name="lannexe"></a>

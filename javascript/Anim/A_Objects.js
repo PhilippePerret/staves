@@ -279,6 +279,15 @@ FONCTIONS_ANIM_OBJETS = {
   SUITE:function(path, params)
   {
     Anim.set_animation_pour_suivre(path, params)
+  },
+  
+  /** Exécute simplement le code fourni et passe tout de suite à l'étape suivante
+    * @method EXEC
+    */
+  EXEC:function(code)
+  {
+    eval(code)
+    NEXT_STEP(0)
   }
 }
 
