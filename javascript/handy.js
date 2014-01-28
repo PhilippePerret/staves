@@ -68,8 +68,44 @@ window.parametize = function(attr, value)
   return obj
 }
 
+/** Message de suivi en console
+  * @method dlog
+  * @param {Object|String} foo  Ce qu'il faut placer en console.
+  * @return {String} le message, mais seulement si foo n'est pas un objet.
+  */
 window.dlog = function(foo)
 {
   if('object'==typeof foo) console.dir(foo)
-  else console.log(foo)
+  else
+  {
+    console.log(foo)
+    return foo // pour l'utiliser dans le code par exemple
+  } 
+}
+
+/** Pour le débuggage, retourne le nombre de secondes courant, avec
+  * deux décimales pour les millisecondes
+  * Note
+  * ----
+  *   * Si un point de départ a été défini avec la méthode `now_start`, c'est
+  *     ce point de référence qui est utilisé. Sinon, on prend la date courante
+  *
+  * @method now
+  * @for window
+  * @return {String} Le nombre de secondes avec millisecondes ("SSSS.MM")
+  */
+window.now = function()
+{
+  var msecs = Time.now() - (this.now.start || 0)
+  var secs  = parseInt(msecs/1000).toString()
+  msecs = (msecs % 1000).toString().substring(0,2)
+  return secs + "." + msecs
+}
+/** Pose un point de départ pour le débuggage
+  * @method now_start
+  * @for window
+  */
+window.now_start = function()
+{
+  this.now.start = Time.now()
 }

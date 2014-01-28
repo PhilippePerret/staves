@@ -1,3 +1,17 @@
 # === Test de wait et duree en paramètres ===
 
 DEFAULT('decompte', 0)
+
+texte = TBOX("Un texte à déplacer")
+
+CAPTION(dlog("--> " + Time.now(true) + " (avant WAIT)"))
+
+WAIT(2)
+
+CAPTION(dlog("--> "+Time.now(true)+" (après WAIT 2 secondes)"))
+
+CAPTION("J'essai un texte qui doit se déplacer en 10 secondes, mais passer à l'étape suivante après 2 secondes seulement.")
+
+texte.set({offset_y:-200}, {duree:10, wait:2})
+
+CAPTION(dlog("--> "+Time.now(true)+" (après 2 secondes de déplacement du texte)"))
