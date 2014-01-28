@@ -84,7 +84,7 @@ window.dlog = function(foo)
 }
 
 /** Pour le débuggage, retourne le nombre de secondes courant, avec
-  * deux décimales pour les millisecondes
+  * deux décimales pour les millisecondes et l'écrit en console
   * Note
   * ----
   *   * Si un point de départ a été défini avec la méthode `now_start`, c'est
@@ -99,7 +99,9 @@ window.now = function()
   var msecs = Time.now() - (this.now.start || 0)
   var secs  = parseInt(msecs/1000).toString()
   msecs = (msecs % 1000).toString().substring(0,2)
-  return secs + "." + msecs
+  var time = secs + "." + msecs
+  dlog(time)
+  return time
 }
 /** Pose un point de départ pour le débuggage
   * @method now_start
