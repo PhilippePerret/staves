@@ -252,7 +252,7 @@ $.extend(window.Console,{
   expurge_preambule:function(liste)
   {
     this.preambule = []
-    while(liste[0].is_etape_preambule) this.preambule.push(liste.shift())
+    while(liste[0] && liste[0].is_etape_preambule) this.preambule.push(liste.shift())
     return $.merge([], liste)
   },
   /**

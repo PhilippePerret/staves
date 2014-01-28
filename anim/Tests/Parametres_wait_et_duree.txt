@@ -1,0 +1,3 @@
+# === Test de wait et duree en paramètres ===
+
+DEFAULT('decompte', 0)
