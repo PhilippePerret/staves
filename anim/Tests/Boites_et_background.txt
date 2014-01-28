@@ -2,6 +2,19 @@
 
 DEFAULT('decompte', 0)
 
+CAPTION("Un cadre par défaut")
+cadre = BOX({type:cadre})
+
+WAIT(1)
+
+CAPTION("On passe le cadre en bleu")
+cadre.set('color', '#0000FF')
+
+WAIT(1)
+
+CAPTION("Déplacement du cadre en modifiant son opacité et sa taille")
+cadre.set({offset_x:100, offset_y:200, width:300, height:10, opacity:0.3})
+
 CAPTION("Un fond noir légèrement dégradé placé à z-index 20")
 bgdnoir = BACKGROUND({z:20, gradient:'#222'})
 

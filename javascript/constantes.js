@@ -17,6 +17,10 @@ const small       = 'small'
 const tiny        = 'tiny'
 const copyright   = 'copyright'
 
+// Styles des boites
+const plain       = 'plain'
+const cadre       = 'cadre'
+
 // Couleurs
 const black   = 'black'
 const BLACK   = 'black'

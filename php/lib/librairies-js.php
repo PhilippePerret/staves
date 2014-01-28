@@ -2,7 +2,7 @@
 // Chargement des librairies générales
 
   $libs = array(
-    'required'  => array('jquery', 'jquery-ui'),
+    'required'  => array('jquery', 'jquery-ui', 'jquery.color'),
     'optional'  => array('ajax_php', 'couleur', 'Edit', 'flash', 'horloge', 'jQueryRotateCompressed', 'Keyboard', 'KeyEvent_constants', 'L', 'Math', 'mouse', 'Number', 'selection', 'String-extensions', 'texte', 'time', 'ui_basic', 'utils')
       // @note :  la librairie 'ajax_send' est utile aux tests, mais elle est remplacée
       //          dans l'application par sa propre librairie.

@@ -15,7 +15,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Les textes](#les_textes)
 * [Les images](#les_images)
 * [Les flèches](#les_fleches)
-* [Les boites](#les_boites)
+* [Les boites et les cadres](#les_boites)
 * [Fond de l'animation](#background_animation)
 * [Régler toutes les valeurs de l'animation](#set_preferences)
 * [Annexe](#lannexe)
@@ -2171,14 +2171,14 @@ Par exemple&nbsp;:
 ---------------------------------------------------------------------
 
 <a name="les_boites"></a>
-##Les Boites
+##Les Boites et les cadre
 
-Les boites permettre de dessiner des boites (de forme, de couleur et de tailles diverses) dans l'animation.
+Les boites (box) permettent de dessiner des boites et des cadres (de forme, de couleur et de tailles diverses) dans l'animation.
 
 ###Table des matières
 
 * [Création d'une boite](#create_a_box)
-
+* [Création d'un cadre](#create_a_cadre)
 
 <a name="create_a_box"></a>
 ###Créer une boite
@@ -2188,6 +2188,28 @@ On crée une boite à l'aide de la commande&nbsp;:
     BOX(<parameters>)
   
 `BOX` “hérite” des [méthodes et des propriétés universelles de boites](#box_methods_and_properties), donc peut être manipulé et défini avec ces méthodes et propriétés.
+
+<a name="create_a_cadre"></a>
+###Créer un cadre
+
+On crée un cadre à l'aide de la commande&nbsp;:
+
+    BOX({type:cadre[, <autres parametres>]})
+
+On peut définir la largeur de bordure du cadre (3 pixels par défaut) à l'aide du paramètres `border` définissant le nombre de pixels.
+
+Par exemple&nbsp;
+
+    monCadre = BOX({type:cadre, border:10})
+    # Pour un cadre de 10 pixels de large
+  
+Pour définir la couleur du cadre, définir le paramètre `color`.
+
+Par exemple&nbsp;:
+
+    cadreBleu = BOX({type:cadre, color:blue})
+
+Pour les autres méthodes et propriétés cf. [Méthodes et des propriétés universelles de boites](#box_methods_and_properties).
 
 ---------------------------------------------------------------------
 
@@ -2218,6 +2240,7 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
 
 * [Résumé de toutes les propriétés](#bump_all_properties)
 * [Effet de simultanéité](#bump_quasi_simultane)
+* [La méthode `set`](#bump_set)
 * [Régler la position horizontale](#bump_set_x)
 * [Régler la position verticale](#bump_set_y)
 * [Régler la position avant/arrière de l'objet](#bump_set_z)
@@ -2230,6 +2253,7 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
 **Méthodes**
 
 * [Résumé de toutes les méthodes](#bump_all_methods)
+* [Modifier l'objet](#bump_set)
 * [Fondu de l'objet](#bump_fading)
 * [Déplacement de l'objet](#bump_moving)
 * [Détruire l'objet](#bump_removing)
@@ -2246,16 +2270,26 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
       background  : {String} Couleur du fond,
       gradient    : {String} Couleur alternative pour le dégradé,
       opacity     : {Float}  Opacité,
+      color       : {String} Couleur de la police ou du cadre,
+      # Pour la méthode `set`
+      offset_x    : {Number} Décalage horizontal
+      offset_y    : {Number} Décalage vertical
+      offset_w    : {Number} Delta largeur (modification relative de la largeur)
+      offset_h    : {Number} Delta hauteur (modification relative de la hauteur)
     })
 
 <a name="bump_all_methods"></a>
 ###Résumé de toutes les méthodes
 
 <dl>
+  <dt>set</dt>
+  <dd>Modifie une propriété quelconque ou plusieurs propriétés en même temps. cf. <a href="#bump_set">Modifier l'objet</a></dd>
+  <dt>move</dt>
+  <dd>Déplacement de l'objet. Cf. <a href="#bump_moving">Déplacer l'objet</a>. Noter qu'on peut objet la même chose avec `set`, avec la possibilité de modifier en même temps d'autres valeurs.</dd>
   <dt>fade</dt>
   <dd>Crée un fondu. cf. <a href="#bump_fading">Fondu de l'objet</a></dd>
-  
 </dl>
+
 
 
 <a name="bump_quasi_simultane"></a>
@@ -2275,7 +2309,6 @@ Par exemple&nbsp;:
     boite3 = TBOX("Un troisième", {duree:2})
     # La boite3 apparaitra en 2 secondes, mais on attendra la fin de son apparition
     # pour passer à la suite.
-
 
 <a name="bump_set_x"></a>
 ###Régler la position horizontale
@@ -2364,6 +2397,39 @@ On la règle à l'aide du paramètre `opacity` en donnant une valeur flottante d
 Par exemple&nbsp;:
 
     maboitetransparente = BOX({opacity:0.05})
+
+
+<a name="bump_set"></a>
+###Modifier l'objet
+
+La méthode `set` invoquée sur l'objet permet de modifier n'importe quelle propriété et même plusieurs propriétés en même temps.
+
+**Syntaxe 1**
+
+    <objet>.set('<propriété>', <nouvelle valeur>[, <parametres optionnels>])
+
+**Syntaxe 2**
+
+    <objet>.set({<hash des propriétés>}[, <paramètres optionnels>])
+
+Cf. les [Propriétés modifiable de l'objet](#bump_all_properties).
+
+Par exemple, pour déplacer une boite pleine verticalement en modifiant son opacité&nbsp;:
+
+    maPlainBox.set({y:200, opacity:0.08})
+
+####Paramètres optionnels
+
+Les deux paramètres optionnels sont `duree` qui détermine en combien de secondes devra se produire le changement et `wait` qui détermine soit que l'on doit passer tout de suite à l'étape suivante sans attendre la fin du changement (si `false`) soit le temps d'attente (si un nombre flottant ou entier de secondes).
+
+Par exemple, pour modifier la position horizontale de l'objet (`x`) en 10 secondes et passer à l'étape suivante après 2 secondes&nbsp;:
+
+    monObjet.set('x', 320, {duree:10, wait:2})
+
+ou&nbsp;:
+
+    monObjet.set({x:320}, {duree:10, wait:2})
+
 
 <a name="bump_moving"></a>
 ###Déplacement de l'objet

@@ -63,11 +63,11 @@ window.with_unite = function(value, unite)
   */
 window.define_complete = function(params, value)
 {
-  dlog("params reçus par define_complete (value="+value+"):");dlog(params)
+  // dlog("params reçus par define_complete (value="+value+"):");dlog(params)
   if(undefined == params) params = {}
   if(undefined == value ) value  = NEXT_STEP
   if(undefined == params.complete && params.wait !== false) params.complete = value
-  dlog("params renvoyés par define_complete : ");dlog(params)
+  // dlog("params renvoyés par define_complete : ");dlog(params)
   return params
 }
 

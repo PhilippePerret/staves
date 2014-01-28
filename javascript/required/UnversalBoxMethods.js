@@ -29,6 +29,125 @@ window.UNVERSAL_BOX_METHODS = {
  */
 $.extend(UNVERSAL_BOX_METHODS,{
   
+  /**
+    * Permet de redéfinir une valeur de l'objet
+    * @method set
+    * @param {String} prop    La propriété de la box — ou un objet définissant plusieurs propriétés
+    * @param {Any}    value   La valeur à donner à la propriété
+    * @param {Object} params  Les paramètres éventuels.
+    *   @param  {Number}  params.duree   La durée que doit prendre la transformation (en secondes)
+    *   @param  {Boolean} params.wait    Si False, on passe tout de suite à la suite.
+    */
+  set:function(prop, value, params)
+  {
+    var data = {}
+         if('string' == typeof prop)  data[prop] = value
+    else if('object' == typeof prop)  data = prop
+    else return F.error("[set] `prop` a un type inconnu et intraitable.")
+
+    // On corrige les propriétés et les valeurs
+    var data = this.real_value_per_prop( this, data )
+    dlog("[set] real-data:");dlog(data)
+    
+    params = define_complete(params)
+    this.animate(data, params)
+    if(params.wait === false) NEXT_STEP(no_timeout = true)
+    traite_wait(params)
+  },
+  
+  /** Méthode qui analyse une propriété et une valeur et renvoie la bonne
+    * propriété et la bonne valeur.
+    * Cette méthode doit fonctionner pour tout type d'objet qui héritent des
+    * propriétés universelles de boites, et elle a été inaugurée pour la gestion
+    * de la méthode `set`.
+    * Par exemple, pour changer la couleur du cadre d'une boite, on utilise :
+    *   monCadre.set('color', blue)
+    * … et cette méthode doit retourner que ce n'est pas la propriété `color` qui
+    * doit être changée (ce qui ne changerait rien puisque la couleur du border est
+    * défini explicitement dans un objet cadre) mais la propriété `border-color`.
+    * Autre exemple : toutes les valeurs numériques, à part `z-index` et `opacity`,
+    * sont transformées en mesures pixels.
+    *
+    * @method real_value_per_prop
+    * @param {Object} obj L'objet porteur (correspond à `this`)
+    * @param {Object} hash    Object contenant les paires propriété/valeur.
+    * @return {Object} Le nouveau hash des paires propriété/valeur avec les bonnes propriétés et les bonnes valeurs
+    */
+  real_value_per_prop:function(obj, hash)
+  {
+    // Le nouveau hash qui sera renvoyé
+    var rhash = {}
+    
+    L(hash).each(function(prop, value){
+
+      /* On met toujours la valeur fournie à l'objet, telle que donnée */
+      obj[prop] = value
+      
+      // === CHANGEMENT DE LA PROPRIÉTÉ (ET VALEUR INITIALE) ===
+      switch(prop)
+      {
+      case 'x':
+        prop = 'left'
+        break
+      case 'y':
+        prop = 'top'
+        break
+      case 'offset_x':
+        prop  = 'left'
+        value = (obj.x || obj.x_default) + value
+        break
+      case 'offset_y':
+        prop  = 'top'
+        value = (obj.y || obj.y_default) + value
+        break
+      case 'z':
+        prop = 'z-index'
+        break
+      case 'offset_w':
+        prop  = 'width'
+        value = (obj.width || obj.width_default) + value
+        break
+      case 'offset_h':
+        prop  = 'height'
+        value = (obj.height || obj.height_default) + value
+        break
+      default:
+        if(obj.class == 'box' && obj.type == 'cadre')
+        {
+          switch(prop)
+          {
+          case 'color':
+            prop = 'border-color'
+            break
+          }
+        }
+      }
+      
+      /* === ON PEUT METTRE LA PROPRIÉTÉ DANS LE HASH === */
+      rhash[prop] = value
+      
+      // === EN FONCTION DU TYPEOF DE LA VALEUR ===
+      switch(typeof value)
+      {
+      case 'number':
+        switch(prop)
+        {
+        case 'z-index':
+        case 'opacity':
+          break
+        default:
+          value = value + 'px'
+        }
+        break
+      }
+
+      /* === ON PEUT METTRE LA VALEUR DANS LE HASH === */
+      rhash[prop] = value
+    })
+    
+    
+    return rhash
+  },
   
   /**
     * Affiche l'objet
@@ -196,7 +315,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     * Règle l'objet principal (this.obj)
     * Notes
     * -----
-    *   * La méthode est appelée par Anim.Dom.add à après l'ajout de l'objet
+    *   * La méthode est appelée par Anim.Dom.add après l'ajout de l'objet
     *     dans l'animation.
     *   * Si l'objet possédant les méthodes universelles possède une méthode
     *     `after_positionne`, elle est appelée en fin de processus.
@@ -214,15 +333,22 @@ $.extend(UNVERSAL_BOX_METHODS, {
       'height'  : (this.val_or_default('height'))  + 'px',
       'z-index' : (this.val_or_default('z'))
     }
+    if(this.type == 'cadre') data.border = this.border + 'px solid '+ this.color;
+    
     this.obj.css(data)
     if(this.gradient)
     {
       this.set_css('background', "linear-gradient( to right, "+this.background+", "+this.gradient+")")
     }
-    else
+    else if (this.type != 'cadre')
     {
       this.set_css('background-color', this.background || this.background_default)
     }
+    else // pour un cadre
+    {
+      this.set_css('background-color', 'transparent')
+    }
+    
     if('function'==typeof this.after_positionne) this.after_positionne()
   },
   
@@ -284,6 +410,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     * @property {jQuerySet} obj
     */
   "obj":{
+    enumerable:true,
     get:function(){
       if(undefined == this._obj)
       {
@@ -299,10 +426,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   "x":{
     configurable:true,
-    set:function(x){
-      this._x = x
-      this.set_css('left', x)
-    },
+    set:function(x){this._x = x},
     get:function(){return this._x}
   },
   /**
@@ -311,10 +435,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   "y":{
     configurable:true,
-    set:function(y){
-      this._y = y
-      this.set_css('top', y)
-    },
+    set:function(y){this._y = y},
     get:function(){return this._y}
   },
   /**
@@ -323,10 +444,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   "width":{
     configurable:true,
-    set:function(w){
-      this._width = w
-      this.set_css('width', w)
-    },
+    set:function(w){this._width = w},
     get:function(){return this._width}
   },
   /**
@@ -335,10 +453,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   "height":{
     configurable:true,
-    set:function(h){
-      this._height = h
-      this.set_css('height', h)
-    },
+    set:function(h){this._height = h},
     get:function(){return this._height}
   },
   /**
@@ -347,10 +462,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   "z":{
     configurable:true,
-    set:function(z){
-      this._z = z
-      this.set_css('z-index', z)
-    },
+    set:function(z){this._z = z},
     get:function(){return this._z}
   },
   /**
@@ -365,6 +477,17 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     }
   },
   /**
+    * La couleur de border (color) quand c'est une box de type 'cadre'
+    * @property {String} color
+    */
+  "color":{
+    set:function(couleur)
+    {
+      this._color = couleur
+    },
+    get:function(){ return this._color }
+  },
+  /**
     * La couleur de background de l'objet
     * Pour la modifier, l'objet/class peut définir une méthode propre `set_background`.
     * Dans le cas contraire, c'est le div principal de l'objet qui sera affecté.
@@ -377,7 +500,6 @@ window.UNIVERSAL_BOX_PROPERTIES = {
       if(this.obj)
       {
         if('function'==typeof this.set_background) this.set_background(couleur)
-        else this.obj.css('background-color', couleur)
       }
     },
     get:function(){ return this._background }

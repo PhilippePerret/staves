@@ -30,6 +30,7 @@ window.BACKGROUND = function(color, params)
     if(undefined == params.background) params.background = 'black'
   }
   params.class = 'background'
+  params.type  = 'plain'
   if(undefined == params.z) params.z = 0
   if(undefined == params.x) params.x = 0
   if(undefined == params.y) params.y = 0
@@ -58,6 +59,14 @@ window.Box = function(params)
   this.id     = 'box'+(++Box.last_id)
   
   /**
+    * Type de la boite
+    * Les types sont 'plain' boite pleine, 'cadre' un cadre
+    * @property {String} type
+    * @default 'plain'
+    */
+  this.type = 'plain'
+  
+  /**
     * Position horizontale par défaut d'une boite
     * @property {Number} x_default
     */
@@ -81,11 +90,23 @@ window.Box = function(params)
     * Couleur de fond par défaut d'une boite
     * @property {String} background_default
     */
-  this.background_default = 'blue'
+  this.background_default = '#0000FF'
+  /**
+    * Couleur de la border (pour le fond, c'est la propriété `background`)
+    * @property {String} color
+    * @default 'black'
+    */
+  this.color = '#000000'
   
   // === Dispatch des paramètres ===
   this.dispatch(params)
 
+  /**
+    * La largeur du bord, pour une box de type 'cadre'
+    * @property {Number} border
+    */
+  this.border = this.border || (this.type == 'plain' ? 0 : 3)
+  
   /**
     * Position du calque par défaut
     * @property {Number} z_default
@@ -124,7 +145,7 @@ Object.defineProperties(Box.prototype,{
     */
   "code_html":{
     get:function(){
-      return '<div id="'+this.id+'" class="box" style="opacity:0;"></div>'
+      return '<div id="'+this.id+'" class="box '+this.type+'" style="opacity:0;"></div>'
     }
   }
   
