@@ -226,7 +226,7 @@ $.extend(Note.prototype,{
   update:function()
   {
     this.update_affichage()
-    NEXT_STEP(notimeout=true)
+    NEXT_STEP(0)
     return this
   },
   /**

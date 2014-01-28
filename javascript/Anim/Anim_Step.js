@@ -112,9 +112,10 @@ Anim.Step = {
     *     l'animation ne démarre vraiment).
     *
     * @method auto_next
-    * @param  {Boolean} no_timeout Si true, pas de délai avant d'appeler l'étape suivante
+    * @param  {Undefined|Number} timeout Le temps d'attente avant de passer à la suite.
+    *                             Si indéfini, c'est le temps par défaut (Anim.transition.step), si 0, on passe tout de suite à l'étape suivante. Si c'est un nombre, c'est le nombre de secondes.
     */
-  auto_next:function(no_timeout)
+  auto_next:function(timeout)
   {
     stack('-> Anim.Step.auto_next', {no_timeout:no_timeout})
     if(Anim.Dom.Doublage.on && Anim.Dom.Doublage.waiting == true)
@@ -127,13 +128,23 @@ Anim.Step = {
     if(Anim.preambule_on) return
     if(this.timer) clearTimeout(this.timer)
     if(this.mode_pas_a_pas) return
+    
+    /* On doit passer à l'étape suivante, reste à déterminer quand :
+     *    - Tout de suite (timeout == 0)
+     *    - Après le délai par défaut (timeout indéfini)
+     *    - Après le délai spécifié explicitement par `timeout`
+     */
+    var no_timeout = (timeout === 0) ;
     if(MODE_FLASH || no_timeout || Anim.transition.step == 0)
     {
       this.next()
     }
     else
     {
-      this.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.delai_for('step'))
+      this.timer = setTimeout(
+        $.proxy(Anim.Step.next, Anim.Step), 
+        ('number' == typeof timeout) ? timeout * 1000 : Anim.delai_for('step')
+      )
     }
     stack('<- Anim.Step.auto_next')
   }

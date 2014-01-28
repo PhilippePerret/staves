@@ -107,7 +107,7 @@ window.Anim.Dom.Doublage = {
     // de suite à l'étape suivante.
     if(!params.wait || Anim.prefs.caption_timer == false)
     {
-      NEXT_STEP(notimeout=true)
+      NEXT_STEP(0)
     } 
   },
   /**

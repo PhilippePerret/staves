@@ -446,7 +446,7 @@ $.extend(Img.prototype,{
     this.height = null
     this.image.css({width:null, height:null})
     this.image[0].src = new_url
-    NEXT_STEP(notimeout=true)
+    NEXT_STEP(0)
     return this
   }
 
@@ -511,7 +511,7 @@ $.extend(Img.prototype,{
     Anim.Dom.add(this)
     this.obj.draggable({stop:$.proxy(this.on_end_move, this)})
     this.obj.bind('dblclick', $.proxy(this.edit, this))
-    NEXT_STEP(no_timeout = true)
+    NEXT_STEP(0)
   },
   /**
     * Pour éditer l'image

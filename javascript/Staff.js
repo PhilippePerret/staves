@@ -262,7 +262,7 @@ $.extend(Staff.prototype, {
     if(this.decompte_complete == this.nombre_objets)
     {
       delete this.decompte_complete
-      NEXT_STEP(no_timeout = true)
+      NEXT_STEP(0)
     }
   },
   /**

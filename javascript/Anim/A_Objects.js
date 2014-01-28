@@ -123,7 +123,7 @@ FONCTIONS_ANIM_OBJETS = {
   NEW_STAFF:function(cle, params)
   {
     Anim.current_staff = Staff.create(cle, params || {})
-    NEXT_STEP(no_timeout = true)
+    NEXT_STEP(0)
     return Anim.current_staff
   },
   
@@ -153,7 +153,7 @@ FONCTIONS_ANIM_OBJETS = {
   ACTIVE_STAFF:function(indice)
   {
     Anim.current_staff = Anim.staves[indice-1]
-    NEXT_STEP(no_timeout = true)
+    NEXT_STEP(0)
   },
   
   /**
@@ -206,7 +206,7 @@ FONCTIONS_ANIM_OBJETS = {
     if(isNaN(indice_vitesse)) throw "Il faut donner un nombre pour la vitesse ! (SPEED)"
     if(indice_vitesse < 0 || indice_vitesse > 20) throw "L'indice vitesse est invalide (SPEED(0&lt;->21))"
     Anim.set_speed(indice_vitesse + 1)
-    NEXT_STEP(no_timeout = true)
+    NEXT_STEP(0)
   },
     
   /* ---------------------------------------------------------------------
@@ -242,7 +242,7 @@ FONCTIONS_ANIM_OBJETS = {
         Anim.set_pref(k, v, next_step=false)
       })
     }
-    NEXT_STEP(no_timeout=true)
+    NEXT_STEP(0)
   },
   /**
     * Décalage des marques d'harmonie par rapport à la portée
@@ -288,7 +288,7 @@ METHODES_ANIM_OBJETS = {
     * @method MODE_FLASH
     */
   "MODE_FLASH":{
-    get:function(){ MODE_FLASH = true; NEXT_STEP(no_timeout=true)}
+    get:function(){ MODE_FLASH = true; NEXT_STEP(0)}
   },
   // Alias
   "FLASH":{get:function(){this.MODE_FLASH}},
@@ -297,7 +297,7 @@ METHODES_ANIM_OBJETS = {
     * @method STOP_MODE_FLASH
     */
   "STOP_MODE_FLASH":{
-    get:function(){ MODE_FLASH = false; NEXT_STEP(no_timeout=true)}
+    get:function(){ MODE_FLASH = false; NEXT_STEP(0)}
   },
   // Alias
   "STOP_FLASH":{get:function(){this.STOP_MODE_FLASH}},
@@ -308,7 +308,7 @@ METHODES_ANIM_OBJETS = {
   "RESET_CURSOR":{
     get:function(){
       Anim.current_x = parseInt(Anim.prefs.x_start,10)
-      NEXT_STEP(no_timeout=true)
+      NEXT_STEP(0)
     }
   },
   /**
@@ -330,7 +330,7 @@ METHODES_ANIM_OBJETS = {
   "RESET_PREFERENCES":{
     get:function(){
       Anim.reset_prefs()
-      NEXT_STEP(no_timeout = true)
+      NEXT_STEP(0)
     }
   },
   /**
@@ -347,7 +347,7 @@ METHODES_ANIM_OBJETS = {
       if(Anim.prefs.caption_timer == false)
       {
         if(!MODE_FLASH) F.error("WAIT_CAPTION doit être utilisé dans le contexte de doublage énoncés (`DEFAULT('caption_timer', true)`).\nJe passe à l'étape suivante sans attendre.")
-        NEXT_STEP(no_timeout = true)
+        NEXT_STEP(0)
       }
       else
       {
@@ -358,7 +358,7 @@ METHODES_ANIM_OBJETS = {
         {
           Anim.Dom.Doublage.temporize.poursuivre = NEXT_STEP
         } 
-        else NEXT_STEP(no_timeout = true)
+        else NEXT_STEP(0)
       }
     }
   }

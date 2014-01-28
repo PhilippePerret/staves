@@ -225,7 +225,7 @@ $.extend(TBox.prototype,{
     if(this.wait === false)
     {
       delete this.wait
-      NEXT_STEP(notimeout = true)
+      NEXT_STEP(0)
     }
   },
   

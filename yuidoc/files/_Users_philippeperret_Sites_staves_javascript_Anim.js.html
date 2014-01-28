@@ -696,7 +696,7 @@ $.extend(window.Anim,{
       if(undefined != this.prefs[&#x27;offset_&#x27;+pref]) this.prefs[&#x27;offset_&#x27;+pref]  = 0
     }
     this.Infos.show_pref(pref, value)
-    if(undefined == next_step || next_step == true) NEXT_STEP(no_timeout=true)
+    if(undefined == next_step || next_step == true) NEXT_STEP(0)
   },
   /**
     * Activer ou désactiver le mode flash
@@ -958,7 +958,7 @@ $.extend(window.Anim,{
     stack(&#x27;-&gt; Anim.set_animation_pour_suivre&#x27;, {path:path})
     this.hasSuite = true
     this.animation_pour_suivre = path.replace(/( +)/g, &#x27;_&#x27;)
-    NEXT_STEP(no_timeout = true)
+    NEXT_STEP(0)
     stack(&#x27;&lt;- Anim.set_animation_pour_suivre&#x27;)
   },
   /**

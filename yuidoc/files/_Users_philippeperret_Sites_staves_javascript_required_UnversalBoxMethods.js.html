@@ -331,7 +331,7 @@ $.extend(UNVERSAL_BOX_METHODS,{
     */
   remove:function(){
     this.obj.remove()
-    NEXT_STEP(notimeout = true)
+    NEXT_STEP(0)
   },
   
   /**
@@ -419,7 +419,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     if(this.wait === false)
     {
       delete this.wait
-      NEXT_STEP(notimeout = true)
+      NEXT_STEP(0)
     }
     dlog(&quot;&lt;- &quot;+this.id+&quot;.build&quot;)
     return this
@@ -448,7 +448,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     if(this.wait === false)
     {
       delete this.wait
-      NEXT_STEP(no_timeout=true)
+      NEXT_STEP(0)
     } 
     dlog(&quot;&lt;- &quot;+this.id+&quot;.animate&quot;)
   },

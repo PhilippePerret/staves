@@ -40,10 +40,7 @@ $.extend(UNVERSAL_BOX_METHODS,{
     */
   set:function(prop, value, params)
   {
-    var data = {}
-         if('string' == typeof prop)  data[prop] = value
-    else if('object' == typeof prop)  data = prop
-    else return F.error("[set] `prop` a un type inconnu et intraitable.")
+    var data = parametize(prop, value)
 
     // On corrige les propriétés et les valeurs
     var data = this.real_value_per_prop( this, data )
@@ -51,7 +48,7 @@ $.extend(UNVERSAL_BOX_METHODS,{
     
     params = define_complete(params)
     this.animate(data, params)
-    if(params.wait === false) NEXT_STEP(no_timeout = true)
+    if(params.wait === false) NEXT_STEP(0)
     traite_wait(params)
   },
   
@@ -188,7 +185,7 @@ $.extend(UNVERSAL_BOX_METHODS,{
     */
   remove:function(){
     this.obj.remove()
-    NEXT_STEP(notimeout = true)
+    NEXT_STEP(0)
   },
   
   /**
@@ -209,7 +206,7 @@ $.extend(UNVERSAL_BOX_METHODS,{
       duration:this.duree_set_or_default(params, 'fade'),
       complete:params.complete
     })
-    if(params.wait === false) NEXT_STEP(notimeout = true)
+    if(params.wait === false) NEXT_STEP(0)
   },
   
   /**
@@ -278,7 +275,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     if(this.wait === false)
     {
       delete this.wait
-      NEXT_STEP(notimeout = true)
+      NEXT_STEP(0)
     }
     dlog("<- "+this.id+".build")
     return this
@@ -306,7 +303,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     if(this.wait === false)
     {
       delete this.wait
-      NEXT_STEP(no_timeout=true)
+      NEXT_STEP(0)
     } 
     dlog("<- "+this.id+".animate")
   },

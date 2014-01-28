@@ -19,10 +19,31 @@ window.traite_wait = function(params)
   if(undefined == params || undefined === params.wait) return
   if(params.wait === false)
   {
-    NEXT_STEP(no_timeout = true)
+    NEXT_STEP(0)
   }
   else if('number' == params.wait)
   {
-    NEXT_STEP(params.wait * 1000)
+    NEXT_STEP(params.wait)
   }
+}
+
+
+/**
+  * Méthode définissant la propriété `complete` si nécessaire.
+  * @method define_complete
+  * @for window
+  * @param  {Object}  params   Les paramètres envoyés à la méthode, ou undefined
+  * @param  {Any}     value     La valeur à donner à complete (NEXT_STEP par défaut)
+  * @return {Object}  Les paramètres, auxquels a été ajouté la méthode complete
+  *                   (à NEXT_STEP) si elle n'existait pas.
+
+  */
+window.define_complete = function(params, value)
+{
+  // dlog("params reçus par define_complete (value="+value+"):");dlog(params)
+  if(undefined == params) params = {}
+  if(undefined == value ) value  = NEXT_STEP
+  if(undefined == params.complete && params.wait !== false) params.complete = value
+  // dlog("params renvoyés par define_complete : ");dlog(params)
+  return params
 }

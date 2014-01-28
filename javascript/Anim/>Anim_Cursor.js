@@ -74,6 +74,6 @@ $.extend(Anim.Cursor, {
   {
     Anim.current_x = parseInt(offset,10)
     Anim.Infos.show_offset_cursor()
-    NEXT_STEP(no_timeout = true)
+    NEXT_STEP(0)
   }
 })

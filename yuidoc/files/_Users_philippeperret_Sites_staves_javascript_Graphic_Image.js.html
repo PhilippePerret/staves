@@ -701,7 +701,7 @@ $.extend(Img.prototype,{
     this.height = null
     this.image.css({width:null, height:null})
     this.image[0].src = new_url
-    NEXT_STEP(notimeout=true)
+    NEXT_STEP(0)
     return this
   }
 
