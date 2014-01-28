@@ -2791,6 +2791,10 @@ Par exemple&nbsp;:
     # => Écrit en console le nombre de secondes et millisecondes écoulées
     #    depuis `now_start`
 
+Pour écrire un message en console depuis le code, on peut utiliser&nbsp;:
+
+    EXEC('dlog("<le message à écrire>")')
+
 ---------------------------------------------------------------------
 
 <a name="lannexe"></a>

@@ -2,16 +2,21 @@
 
 DEFAULT('decompte', 0)
 
+# Placer un départ temporel
+EXEC('now_start()')
+
 texte = TBOX("Un texte à déplacer")
 
-CAPTION(dlog("--> " + Time.now(true) + " (avant WAIT)"))
+EXEC('now()')
 
 WAIT(2)
 
-CAPTION(dlog("--> "+Time.now(true)+" (après WAIT 2 secondes)"))
+EXEC('dlog("Après deux secondes")')
+EXEC('now()')
 
 CAPTION("J'essai un texte qui doit se déplacer en 10 secondes, mais passer à l'étape suivante après 2 secondes seulement.")
 
 texte.set({offset_y:-200}, {duree:10, wait:2})
 
-CAPTION(dlog("--> "+Time.now(true)+" (après 2 secondes de déplacement du texte)"))
+EXEC('dlog("Après 2 secondes de déplacement du texte")')
+EXEC('now()')
