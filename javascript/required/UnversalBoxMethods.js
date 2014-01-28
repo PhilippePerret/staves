@@ -40,16 +40,168 @@ $.extend(UNVERSAL_BOX_METHODS,{
     */
   set:function(prop, value, params)
   {
-    var data = parametize(prop, value)
-
+    var data ;
+    if(undefined == params && 'object' == typeof value)
+    {
+      data    = prop
+      params  = value
+    }
+    else
+    {
+      data = parametize(prop, value)
+    }
+    if(undefined !== params.duree) params.duree = params.duree * 1000
     // On corrige les propriétés et les valeurs
-    var data = this.real_value_per_prop( this, data )
-    dlog("[set] real-data:");dlog(data)
+    data = this.real_value_per_prop( this, data )
+    // dlog("[set] real-data:");dlog(data)
     
-    params = define_complete(params)
     this.animate(data, params)
+
+  },
+  
+
+  /**
+    * Affiche l'objet
+    * @method show
+    * @param {Object} params Paramètres optionnels (dont .complete, la méthode pour suivre, ou false)
+    */
+  show:function(params)
+  {
+    dlog("-> " + this.id + ".show")
+    if(undefined == params) params = {}
+    if(undefined == this.duree) params.duree = Anim.delai_for('show')
+    else params.duree = this.duree * 1000
+    params.complete = this.wait === false ? false : NEXT_STEP
+    this.animate({opacity:this.opacity || 1}, params)
+    this.hidden = false
+    dlog("<- " + this.id + ".show")
+  },
+  
+  /**
+    * Masque l'objet
+    * @method hide
+    * @param {Object} params Paramètres optionnels (dont .complete)
+    */
+  hide:function(params)
+  {
+    if(undefined == params) params = {}
+    if(undefined == params.duree) params.duree = Anim.delai_for('show')
+    else params.duree = params.duree * 1000
+    params.complete = this.wait === false ? false : NEXT_STEP
+    this.animate({opacity:0}, params)
+    this.hidden = true
+  },
+
+  /**
+    * Destruction de l'objet DOM de l'objet courant
+    * Note : c'est une méthode qui enchaine tout de suite la méthode suivante.
+    * @method remove
+    */
+  remove:function(){
+    this.obj.remove()
+    NEXT_STEP(0)
+  },
+  
+  /**
+    * Crée un fondu de l'objet. La méthode détecte automatiquement s'il
+    * s'agit d'un fondu au noir ou une ouverture, en fonction de l'opacité
+    * courante.
+    *
+    * @method fade
+    * @param {Object} params    Paramètres optionnels
+    *   @param {False} params.wait    Si false, on passe tout de suite à la suite
+    */
+  fade:function(params)
+  {
+    params = define_complete(params)
+    var ouverture = this.obj.css('opacity') == "0"
+    var new_opac  = ouverture ? (this.opacity || 1) : 0
+    this.animate({opacity:new_opac},{
+      duration:this.duree_set_or_default(params, 'fade'),
+      complete:params.complete
+    })
     if(params.wait === false) NEXT_STEP(0)
+  },
+  
+  /**
+    * Déplacement de l'objet
+    * @method move
+    * @param {Object} params    Paramètres définissant le déplacement
+    *   @param {Number}   params.x        La nouvelle position horizontale à atteindre OU
+    *   @param {Number}   params.for_x    La quantité de pixels de déplacement horizontal
+    *   @param {Number}   params.y        La nouvelle position verticale à atteindre OU
+    *   @param {Number}   params.for_y    La quantité de pixels de déplacement vertical
+    *   @param {Number}   params.duree    La durée en seconde du déplacement
+    *   @param {Boolean}  params.wait     Si FALSE, on n'attend pas pour passer à la suite
+    *   @param {Function} params.complete Très optionnellement, la méthode pour suivre.
+    */
+  move:function(params)
+  {
+    if(undefined == params) return F.error("Il faut définir les paramètres du déplacement !")
+    var data = {}
+    if(undefined != params.for_x)   data.left = this.x + params.for_x
+    else if (undefined != params.x) data.left = params.x
+    if(undefined != params.for_y)   data.top = this.y + params.for_y
+    else if (undefined != params.y) data.top = params.y ;
+    params.duree = this.duree_set_or_default(params, 'move')
+    if(undefined != params.wait && params.wait === false) this.wait = false
+    this.animate(data, params)
+  }
+})
+
+
+/* ---------------------------------------------------------------------
+ *  PROTECTED INSTANCES MÉTHODES
+ *  
+ */
+$.extend(UNVERSAL_BOX_METHODS, {
+  
+  /**
+    * Anime la boite de texte
+    * @method animate
+    * @param {Object} data Les données d'animation (comme jQUery.animate)
+    * @param {Object} params    Paramètres optionnels
+    *   @param {Number}         params.duree      La durée de l'animation (en secondes)
+    *   @param {Function|False} params.complete   La méthode pour poursuivre
+    *
+    */
+  animate:function(data, params)
+  {
+    dlog("-> "+this.id+".animate")
+    // dlog("Params reçus par BUMP.animate:");dlog(params)
+    if(undefined !== this.wait){
+      if(undefined == params) params = {}
+      params.wait = this.wait
+      delete this.wait
+    }
+    params = define_complete( params )
+    
+    /* === L'animation proprement dite === */
+    this.obj.animate(data, {
+      duration : params.duree || Anim.delai_for('transform'),
+      complete : params.complete
+    })
+
+    /* On traite éventuellement le paramètre wait */
     traite_wait(params)
+    
+    dlog("<- "+this.id+".animate")
+  },
+  
+  /**
+    * Dispatche les données +params+ dans l'objet, à l'instantiation
+    * Noter que dans beaucoup de cas, dispatcher les paramètres signifie 
+    * également définir l'objet à l'affichage, puisque la plupart des propriétés
+    * sont complexes et règlent l'objet quand on les modifie.
+    *
+    * @method dispatch
+    * @param {Object} params    Paramètres de l'objet.
+    */
+  dispatch:function(params)
+  {
+    if(undefined == params) return
+    var my = this
+    L(params).each(function(k,v){ my[k] = v })
   },
   
   /** Méthode qui analyse une propriété et une valeur et renvoie la bonne
@@ -147,117 +299,6 @@ $.extend(UNVERSAL_BOX_METHODS,{
   },
   
   /**
-    * Affiche l'objet
-    * @method show
-    * @param {Object} params Paramètres optionnels (dont .complete, la méthode pour suivre, ou false)
-    */
-  show:function(params)
-  {
-    dlog("-> " + this.id + ".show")
-    if(undefined == params) params = {}
-    if(undefined == this.duree) params.duree = Anim.delai_for('show')
-    else params.duree = this.duree * 1000
-    params.complete = this.wait === false ? false : NEXT_STEP
-    this.animate({opacity:this.opacity || 1}, params)
-    this.hidden = false
-    dlog("<- " + this.id + ".show")
-  },
-  
-  /**
-    * Masque l'objet
-    * @method hide
-    * @param {Object} params Paramètres optionnels (dont .complete)
-    */
-  hide:function(params)
-  {
-    if(undefined == params) params = {}
-    if(undefined == params.duree) params.duree = Anim.delai_for('show')
-    else params.duree = params.duree * 1000
-    params.complete = this.wait === false ? false : NEXT_STEP
-    this.animate({opacity:0}, params)
-    this.hidden = true
-  },
-
-  /**
-    * Destruction de l'objet DOM de l'objet courant
-    * Note : c'est une méthode qui enchaine tout de suite la méthode suivante.
-    * @method remove
-    */
-  remove:function(){
-    this.obj.remove()
-    NEXT_STEP(0)
-  },
-  
-  /**
-    * Crée un fondu de l'objet. La méthode détecte automatiquement s'il
-    * s'agit d'un fondu au noir ou une ouverture, en fonction de l'opacité
-    * courante.
-    *
-    * @method fade
-    * @param {Object} params    Paramètres optionnels
-    *   @param {False} params.wait    Si false, on passe tout de suite à la suite
-    */
-  fade:function(params)
-  {
-    params = define_complete(params)
-    var ouverture = this.obj.css('opacity') == "0"
-    var new_opac  = ouverture ? (this.opacity || 1) : 0
-    this.animate({opacity:new_opac},{
-      duration:this.duree_set_or_default(params, 'fade'),
-      complete:params.complete
-    })
-    if(params.wait === false) NEXT_STEP(0)
-  },
-  
-  /**
-    * Déplacement de l'objet
-    * @method move
-    * @param {Object} params    Paramètres définissant le déplacement
-    *   @param {Number}   params.x        La nouvelle position horizontale à atteindre OU
-    *   @param {Number}   params.for_x    La quantité de pixels de déplacement horizontal
-    *   @param {Number}   params.y        La nouvelle position verticale à atteindre OU
-    *   @param {Number}   params.for_y    La quantité de pixels de déplacement vertical
-    *   @param {Number}   params.duree    La durée en seconde du déplacement
-    *   @param {Boolean}  params.wait     Si FALSE, on n'attend pas pour passer à la suite
-    *   @param {Function} params.complete Très optionnellement, la méthode pour suivre.
-    */
-  move:function(params)
-  {
-    if(undefined == params) return F.error("Il faut définir les paramètres du déplacement !")
-    var data = {}
-    if(undefined != params.for_x)   data.left = this.x + params.for_x
-    else if (undefined != params.x) data.left = params.x
-    if(undefined != params.for_y)   data.top = this.y + params.for_y
-    else if (undefined != params.y) data.top = params.y ;
-    params.duree = this.duree_set_or_default(params, 'move')
-    if(undefined != params.wait && params.wait === false) this.wait = false
-    this.animate(data, params)
-  }
-})
-
-
-/* ---------------------------------------------------------------------
- *  PROTECTED INSTANCES MÉTHODES
- *  
- */
-$.extend(UNVERSAL_BOX_METHODS, {
-  /**
-    * Dispatche les données +params+ dans l'objet, à l'instantiation
-    * Noter que dans beaucoup de cas, dispatcher les paramètres signifie 
-    * également définir l'objet à l'affichage, puisque la plupart des propriétés
-    * sont complexes et règlent l'objet quand on les modifie.
-    *
-    * @method dispatch
-    * @param {Object} params    Paramètres de l'objet.
-    */
-  dispatch:function(params)
-  {
-    if(undefined == params) return
-    var my = this
-    L(params).each(function(k,v){ my[k] = v })
-  },
-  
-  /**
     * Construit l'objet
     * Notes :
     *   * C'est une propriété terminale (elle appelle NEXT_STEP)
@@ -279,33 +320,6 @@ $.extend(UNVERSAL_BOX_METHODS, {
     }
     dlog("<- "+this.id+".build")
     return this
-  },
-  /**
-    * Anime la boite de texte
-    * @method animate
-    * @param {Object} data Les données d'animation (comme jQUery.animate)
-    * @param {Object} params    Paramètres optionnels
-    *   @param {Number}         params.duree      La durée de l'animation (en secondes)
-    *   @param {Function|False} params.complete   La méthode pour poursuivre
-    *
-    */
-  animate:function(data, params)
-  {
-    dlog("-> "+this.id+".animate")
-    // dlog("Params reçus par BUMP.animate:");dlog(params)
-    params = define_complete(params, (this.wait === false) ? false : NEXT_STEP)
-    this.obj.animate(data, {
-      duration : params.duree || Anim.delai_for('transform'),
-      complete : params.complete
-    })
-    // Si this.wait a été mis à false, il faut passer immédiatement à l'étape
-    // suivante
-    if(this.wait === false)
-    {
-      delete this.wait
-      NEXT_STEP(0)
-    } 
-    dlog("<- "+this.id+".animate")
   },
     
   /**

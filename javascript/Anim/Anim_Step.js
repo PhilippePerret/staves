@@ -117,7 +117,7 @@ Anim.Step = {
     */
   auto_next:function(timeout)
   {
-    stack('-> Anim.Step.auto_next', {no_timeout:no_timeout})
+    stack('-> Anim.Step.auto_next', {timeout:timeout})
     if(Anim.Dom.Doublage.on && Anim.Dom.Doublage.waiting == true)
     {
       console.warn("Entrée dans Anim.Step.auto_next alors qu'un doublage est encore en cours. Je renonce.\n"+
@@ -125,8 +125,8 @@ Anim.Step = {
       Debug.output()
       return false
     }
-    if(Anim.preambule_on) return
     if(this.timer) clearTimeout(this.timer)
+    if(Anim.preambule_on) return
     if(this.mode_pas_a_pas) return
     
     /* On doit passer à l'étape suivante, reste à déterminer quand :
@@ -141,6 +141,7 @@ Anim.Step = {
     }
     else
     {
+      // dlog("[Anim.Step.auto_next] Je dois attendre : " + (('number' == typeof timeout) ? timeout * 1000 : Anim.delai_for('step')) + " millisecondes")
       this.timer = setTimeout(
         $.proxy(Anim.Step.next, Anim.Step), 
         ('number' == typeof timeout) ? timeout * 1000 : Anim.delai_for('step')

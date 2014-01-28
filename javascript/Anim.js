@@ -109,9 +109,9 @@ $.extend(window.Anim,{
     step        : 500,
     show        : 400,
     note_moved  : 1000,
-    move        : 1000,  // Déplacement quelconque d'un objet
-    transform   : 1000,  // Transformation comme l'allongement
-    wait        : 1000 // multiplicateur de secondes
+    move        : 1000,   // Déplacement quelconque d'un objet
+    transform   : 1000,   // Transformation comme l'allongement
+    wait        : 1       // multiplicateur pour la commande WAIT
   },
   /**
     * Définition de la vitesse (ou plutôt la durée) des transitions courantes
@@ -131,8 +131,8 @@ $.extend(window.Anim,{
     show        : 400,
     fade        : 1500,
     note_moved  : 1000,
-    transform   : 1000,  // Transformation comme l'allongement
-    wait        : 1000 // multiplicateur de secondes
+    transform   : 1000,   // Transformation comme l'allongement
+    wait        : 1       // multiplicateur pour la commande WAIT
   },
   /**
     * Vitesses normales
@@ -146,8 +146,8 @@ $.extend(window.Anim,{
     step        : 500,
     show        : 400,
     note_moved  : 1000,
-    transform   : 1000,  // Transformation comme l'allongement
-    wait        : 1000  // multiplicateur de secondes
+    transform   : 1000,   // Transformation comme l'allongement
+    wait        : 1       // multiplicateur pour la commande WAIT
   },
   /**
     * Vitesses flash
@@ -160,7 +160,7 @@ $.extend(window.Anim,{
     show        : 1,
     note_moved  : 5,
     transform   : 1,
-    wait        : 1
+    wait        : 0
   },
 
   /* ---------------------------------------------------------------------

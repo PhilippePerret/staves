@@ -16,12 +16,13 @@
   */
 window.traite_wait = function(params)
 {
+  dlog("-> traite_wait(params:");dlog(params)
   if(undefined == params || undefined === params.wait) return
   if(params.wait === false)
   {
     NEXT_STEP(0)
   }
-  else if('number' == params.wait)
+  else if('number' == typeof params.wait)
   {
     NEXT_STEP(params.wait)
   }
@@ -43,7 +44,7 @@ window.define_complete = function(params, value)
   // dlog("params reçus par define_complete (value="+value+"):");dlog(params)
   if(undefined == params) params = {}
   if(undefined == value ) value  = NEXT_STEP
-  if(undefined == params.complete && params.wait !== false) params.complete = value
-  // dlog("params renvoyés par define_complete : ");dlog(params)
+  if(undefined == params.complete && (undefined === params.wait || params.wait === true)) params.complete = value
+  dlog("params renvoyés par define_complete : ");dlog(params)
   return params
 }

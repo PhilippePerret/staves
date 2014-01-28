@@ -96,10 +96,19 @@ window.dlog = function(foo)
   */
 window.now = function()
 {
-  var msecs = Time.now() - (this.now.start || 0)
-  var secs  = parseInt(msecs/1000).toString()
-  msecs = (msecs % 1000).toString().substring(0,2)
-  var time = secs + "." + msecs
+  var time_now, dtime, time, dlaps ;
+  time_now = Time.now()
+  // La donnée temps depuis le départ temporel ou absolu
+  dtime = Time.decompose(time_now - (this.now.start || 0))
+  time = "= TIME POINT = " + dtime.scs + "." + dtime.only_mls
+  // La donnée temps depuis le dernier passage dans cette méthode
+  if(this.now.now_last)
+  {
+    dlaps = Time.decompose(time_now - this.now.now_last)
+    time += " [depuis dernier PT : "+dlaps.scs+"."+dlaps.only_mls+"]"
+  } 
+  // On mémorise ce temps courant
+  this.now.now_last = parseInt(time_now)
   dlog(time)
   return time
 }
@@ -110,4 +119,5 @@ window.now = function()
 window.now_start = function()
 {
   this.now.start = Time.now()
+  dlog("= START POINT TEMPOREL =")
 }
