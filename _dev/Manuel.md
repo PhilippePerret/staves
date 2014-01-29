@@ -29,18 +29,18 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 
 * [Introduction](#intro_animation)
 * [Composer le code de l'animation](#code_composition)
-  * [Commentaires dans le code](#code_comments)
-  * [Faire une pause](#pause_animation)
   * [Se déplacer sur la portée](#move_on_staff)
+  * [Faire une pause](#pause_animation)
   * [Écrire un texte général](#texte_animation)
   * [Resetter l'animation](#reset_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
+  * [Commentaires dans le code](#code_comments)
 * [Vitesse de l'animation](#vitesse_animation)
 * [Jouer l'animation](#run_animation)
 * [Jouer seulement la sélection (bouton “Point”)](#run_with_point)
 * [Créer des sous-titres ou des doublages](#creer_captions)
 * [Enchainer des animations](#enchainer_animations)
-* [Activer/désactiver le Mode “Flash](#mode_flash)
+* [Activer/désactiver le Mode “Flash”](#mode_flash)
 * [Définir le décompte de départ](#set_decompte)
 * [Sauvegarde automatique](#autosave_code)
 * [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
@@ -53,10 +53,13 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 
 Une animation est composée de `pas` (step) qui vont être exécutés l'un après l'autre, produisant des choses aussi diverses que&nbsp;:
 
-* L'apparitioin d'une portée&nbsp;;
+* L'apparition d'une portée&nbsp;;
 * L'écriture d'une note ou d'un accord sur la portée&nbsp;;
+* La création d'un fond, avec dégradé&nbsp;;
 * Le déplacement de notes&nbsp;;
-* L'écriture de textes explicatifs&nbsp;;
+* L'écriture et l'animation de textes avec des effets d'opacité&nbsp;;
+* L'aide à l'audio avec l'inscription de textes de doublage&nbsp;;
+* L'animation de flèches&nbsp;;
 * etc.
 
 Chaque pas (chaque “step”) exécute une action. Ces pas se définissent dans la console située à gauche de l'écran (le bloc noir). Chaque pas se trouve sur une ligne distincte. Donc chaque ligne est un nouveau pas, une nouvelle étape de l'animation.
@@ -95,10 +98,16 @@ On utilise la méthode `WAIT` pour faire une pause, avec en argument le nombre d
 Par exemple, pour attendre 4 secondes&nbsp;:
 
     maNote=NOTE(a3)
-    WAIT(4)                 // 4 secondes avant de construire l'accord
+    WAIT(4)                 
+    # => 4 secondes avant de construire l'accord
     monAccord('c3 eb3 g3')
   
 *Note&nbsp;: C'est un “pas” comme les autres, donc il doit être mis sur une ligne seule comme toute étape.*
+
+Noter qu'on aurait pu aussi utiliser le [paramètre spécial d'attente](#parametre_wait) en créant la note pour obtenir le même résultat&nbsp;:
+
+    maNote = NOTE(a3, {wait:4})
+    # => Attente de 4 secondes avant de passer à la suite
 
 <a name="move_on_staff"></a>
 ####Se déplacer sur la portée

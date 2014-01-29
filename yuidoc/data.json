@@ -3003,7 +3003,7 @@
             "line": 109,
             "description": "Lance véritablement l'animation, soit après le décompte, soit tout de suite",
             "itemtype": "method",
-            "name": "plafor_y_good",
+            "name": "play_for_good",
             "class": "Anim",
             "module": "Controller.js"
         },

@@ -291,8 +291,8 @@ $.extend(Note.prototype,{
         staff_init  = parseInt(this.staff.indice),
         objs,
         method ;
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
+
+    params = define_complete( params )
     this.analyse_note(new_note)
     if(staff_init != this.staff.indice)
     {
