@@ -329,7 +329,7 @@ $.extend(Anim,{
     this.coef_speed = parseFloat(11 / new_coef)
     for(var prop in this.TRANSITIONS)
     {
-      this.transition_reg[prop] = parseInt(this.TRANSITIONS[prop] * this.coef_speed)
+      this.transition_reg[prop] = parseFloat(this.TRANSITIONS[prop] * this.coef_speed)
     }
     this.transition = this.transition_reg
   }

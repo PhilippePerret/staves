@@ -126,12 +126,12 @@ ARROW_METHODS = {
     }
     else
     {
-      var objets = []
+      var objets = [], my = this ;
       if(undefined == params.div) params.div = true
       L(['div', 'head', 'queue']).each(function(suffix){
         if(params[suffix])
         {
-          objets.push('obj_'+suffix)
+          objets.push( my['obj_'+suffix] )
           delete params[suffix]
         }
       })
@@ -159,12 +159,12 @@ ARROW_METHODS = {
     else
     {
       data = parametize(data, value)
-      if(undefined == params) params = {}
     }
+    if(undefined == params) params = {}
     if(undefined == params.duree) params.duree = Anim.delai_for('move')
     var pos   = this.obj.position()
-    if(undefined != data.x) data.x = (pos.left + data.x) + "px"
-    if(undefined != data.y) data.y = (pos.top  + data.y) + "px"
+    if(undefined != data.x) data.left = (pos.left + data.x) + "px"
+    if(undefined != data.y) data.top = (pos.top  + data.y) + "px"
     this.modify('animate', data, params)
   },
   /**
