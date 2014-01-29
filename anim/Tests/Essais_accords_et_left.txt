@@ -1,6 +1,0 @@
-# Essai de placement sur portée différente sans changement de portée active
-NEW_STAFF(SOL)
-NEW_STAFF(FA)
-ACTIVE_STAFF(1)
-ndo4=NOTE(c4)
-ndo5=NOTE(c5)

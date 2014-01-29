@@ -1,4 +1,12 @@
-# Essai accord
+# --- Tests sur les accords ---
+DEFAULT('decompte', 0)
+DEFAULT('caption', true)
+
 NEW_STAFF(SOL)
-acc=CHORD(\'eb4 g4 c5\')
+
+
+CAPTION("On écrit un accord de Do minteur (1er renversement)", {wait:4})
+acc=CHORD('eb4 g4 c5')
+
+CAPTION("On déplace le do.")
 acc.note(3).move(c4)

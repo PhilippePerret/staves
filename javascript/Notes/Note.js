@@ -513,9 +513,9 @@ $.extend(Note.prototype,{
   /**
     * Appelée en fin de l'opération 'move' ci-dessus, juste avant 
     * le passage à l'étape suivante.
-    * @method on_complete_moveTo
+    * @method on_complete_move
     */
-  on_complete_moveTo:function()
+  on_complete_move:function()
   {
     this.suplines_if_necessary()
     if(this.staff_changed)
