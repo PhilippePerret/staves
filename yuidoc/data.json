@@ -5348,7 +5348,7 @@
             "line": 269,
             "description": "Déplace la note à la hauteur +hauteur+ (noter qu'il s'agit en fait d'un\nchangement de note. On l'utilise aussi s'il faut simplement ajouter une\naltération).\n\nNotes\n-----\n  * Le déplacement a été simplifié : la note change de couleur et \n    se déplace de façon rectiligne en passant au-dessus des autres\n  * L'option prise, par rapport à l'altération, est de la faire disparaitre\n    et ré-apparaitre à la nouvelle position. Sinon c'est trop compliqué\n    (et pas nécessaire) de la faire se déplacer aussi.\n    Cf. la méthode `analyse_note` qui s'en charge le cas échéant.",
             "itemtype": "method",
-            "name": "moveTo",
+            "name": "move",
             "params": [
                 {
                     "name": "new_note",
@@ -5487,7 +5487,7 @@
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
             "line": 513,
-            "description": "Appelée en fin de l'opération 'moveTo' ci-dessus, juste avant \nle passage à l'étape suivante.",
+            "description": "Appelée en fin de l'opération 'move' ci-dessus, juste avant \nle passage à l'étape suivante.",
             "itemtype": "method",
             "name": "on_complete_moveTo",
             "class": "REGEXP_NOTE",
@@ -5505,7 +5505,7 @@
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/Notes/Note.js",
             "line": 548,
-            "description": "Méthode qui \"complete\" vraiment l'affichage et passe à l'étape\nsuivante. Elle sort la note de son exergue si nécessaire.\nNotes\n-----\n  * Noter que la méthode ne doit être appelée directement que lorsqu'on\n    est sûr que tous les éléments sont traités ou affichés (cf. on_complete).\n    La méthode `moveTo` peut le faire par exemple.",
+            "description": "Méthode qui \"complete\" vraiment l'affichage et passe à l'étape\nsuivante. Elle sort la note de son exergue si nécessaire.\nNotes\n-----\n  * Noter que la méthode ne doit être appelée directement que lorsqu'on\n    est sûr que tous les éléments sont traités ou affichés (cf. on_complete).\n    La méthode `move` peut le faire par exemple.",
             "itemtype": "method",
             "name": "complete",
             "class": "REGEXP_NOTE",
@@ -7635,7 +7635,7 @@
         {
             "file": "/Users/philippeperret/Sites/staves/javascript/required/ObjectClass.js",
             "line": 109,
-            "description": "Méthode générale qui permet de gérer un traitement \nasynchrone de plusieurs éléments DOM de l'objet.\nPar exemple : on doit retirer une note qui possède une alteration et une\nmarque de jeu (piqué). Pour la faire disparaitre, on utilise la méthode\n`animate` de jQuery qui est asynchrone. Et c'est seulement lorsque les trois\nélément du DOM ont été retiré (la note, l'altération, la marque du jeu) qu'on\npeut passer à la suite.\nPour se faire, la méthode a besoin de connaître les objets à traiter.\nOn les donne en premier argument ({Array}). Ensuite, la méthode a besoin de\nconnaître l'opération à exécuter ('show', 'remove', 'moveTo', etc.). On la\ndonne en second argument.\nEnfin, la méthode a besoin des paramètres propres à cette méthode, par exemple\nla nouvelle position pour un 'moveTo'.\n\nWARNING\n-------\n  * Si l'on veut qu'en toute fin des opérations une méthode spéciale soit\n    appelée, la méthode appelante doit définir `on_complete_operation` (en général\n    `this.on_complete_operation`)\n    Mais attention aux cas spéciaux : par exemple, pour les motifs et les gammes,\n    cette `operation` est appelée pour autant que notes que le motif ou la gamme\n    en contient. Donc elles possèdent leur propre gestion du lancement de\n    l'étape suivante, tant que leur opération (à commencer par la construction et\n    l'affichage) n'est pas achevé.",
+            "description": "Méthode générale qui permet de gérer un traitement \nasynchrone de plusieurs éléments DOM de l'objet.\nPar exemple : on doit retirer une note qui possède une alteration et une\nmarque de jeu (piqué). Pour la faire disparaitre, on utilise la méthode\n`animate` de jQuery qui est asynchrone. Et c'est seulement lorsque les trois\nélément du DOM ont été retiré (la note, l'altération, la marque du jeu) qu'on\npeut passer à la suite.\nPour se faire, la méthode a besoin de connaître les objets à traiter.\nOn les donne en premier argument ({Array}). Ensuite, la méthode a besoin de\nconnaître l'opération à exécuter ('show', 'remove', 'move', etc.). On la\ndonne en second argument.\nEnfin, la méthode a besoin des paramètres propres à cette méthode, par exemple\nla nouvelle position pour un 'move'.\n\nWARNING\n-------\n  * Si l'on veut qu'en toute fin des opérations une méthode spéciale soit\n    appelée, la méthode appelante doit définir `on_complete_operation` (en général\n    `this.on_complete_operation`)\n    Mais attention aux cas spéciaux : par exemple, pour les motifs et les gammes,\n    cette `operation` est appelée pour autant que notes que le motif ou la gamme\n    en contient. Donc elles possèdent leur propre gestion du lancement de\n    l'étape suivante, tant que leur opération (à commencer par la construction et\n    l'affichage) n'est pas achevé.",
             "itemtype": "method",
             "name": "operation",
             "async": 1,

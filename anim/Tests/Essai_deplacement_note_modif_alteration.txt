@@ -10,13 +10,13 @@ ACTIVE_STAFF(1)
 no=NOTE(cd4)
 WAIT(1)
 REMOVE_SUPLINE({bottom:1})
-no.moveTo(f4)
+no.move(f4)
 # Test 2 : déplacement d'une note sans altération vers une note avec altération
-no.moveTo('at4')
+no.move('at4')
 WAIT(1)
-no.moveTo('cb6')
+no.move('cb6')
 
 WAIT(2)
 
 STAFF(1).remove_suplines({top:[1,2]})
-no.moveTo('2:cz3')
+no.move('2:cz3')

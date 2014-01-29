@@ -279,13 +279,13 @@ $.extend(Note.prototype,{
     *     et ré-apparaitre à la nouvelle position. Sinon c'est trop compliqué
     *     (et pas nécessaire) de la faire se déplacer aussi.
     *     Cf. la méthode `analyse_note` qui s'en charge le cas échéant.
-    * @method moveTo
+    * @method move
     * @param  {String}  new_note  La nouvelle note à atteindre
     * @param  {Object}  params    Les paramètres optionnels
     *   @param {Boolean}  params.no_exergue   Si TRUE, ne met pas la note en exergue
     *   @param {Function|False} params.complete   La méthode pour suivre. NEXT_STEP PAR DÉFAUT (méthode "terminale")
     */
-  moveTo:function(new_note, params)
+  move:function(new_note, params)
   {
     var top_init    = parseInt(this.top,10),
         staff_init  = parseInt(this.staff.indice),
@@ -302,7 +302,7 @@ $.extend(Note.prototype,{
     objs = [this.obj]
     var was_surrounded = true && this.surrounded
     if(this.surrounded) this.unsurround()
-    method = $.proxy(this.operation, this, objs, 'moveTo', {top: this.top, complete:params.complete})
+    method = $.proxy(this.operation, this, objs, 'move', {top: this.top, complete:params.complete})
     if(!params.no_exergue) this.exergue({complete:method})
     else method()
     if(was_surrounded) this.surround()
@@ -511,7 +511,7 @@ $.extend(Note.prototype,{
   },
 
   /**
-    * Appelée en fin de l'opération 'moveTo' ci-dessus, juste avant 
+    * Appelée en fin de l'opération 'move' ci-dessus, juste avant 
     * le passage à l'étape suivante.
     * @method on_complete_moveTo
     */
@@ -552,7 +552,7 @@ $.extend(Note.prototype,{
     * -----
     *   * Noter que la méthode ne doit être appelée directement que lorsqu'on
     *     est sûr que tous les éléments sont traités ou affichés (cf. on_complete).
-    *     La méthode `moveTo` peut le faire par exemple.
+    *     La méthode `move` peut le faire par exemple.
     *
     * @method complete
     */

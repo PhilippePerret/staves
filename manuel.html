@@ -986,13 +986,13 @@ NOTE(a4).cadence('V I').chord('A Maj')
 
 <p>Pour déplacer une note, on utilise le pas&nbsp;:</p>
 
-<pre><code>&lt;nom variable note&gt;.moveTo(&lt;nouvelle note&gt;[,&lt;params&gt;])
+<pre><code>&lt;nom variable note&gt;.move(&lt;nouvelle note&gt;[,&lt;params&gt;])
 </code></pre>
 
 <p>Exemple&nbsp;:</p>
 
 <pre><code>maNote=NOTE(a4) // crée la note LA 4
-maNote.moveTo(g4) // descend la note vers SOL4
+maNote.move(g4) // descend la note vers SOL4
 </code></pre>
 
 <p><em>Ne mettre aucune espace dans ce code.</em></p>
@@ -1130,7 +1130,7 @@ oNote.surround({color:blue, rectangle:true})
 <pre><code>nosi = NOTE(b3)
 nodo = NOTE(c4)
 # =&gt; c4 sera décalé à droite
-nosi.moveTo(b2)
+nosi.move(b2)
 # =&gt; Le si est déplacé mais le do
 #    reste décalé à droite
 </code></pre>
@@ -1138,7 +1138,7 @@ nosi.moveTo(b2)
 <p>Dans ce cas (avant que ce bug #49 ne soit corrigé), on peut utiliser la méthode <code>update</code> sur la note pour la remettre bien en place&nbsp;:</p>
 
 <pre><code>...
-nosi.moveTo(b2)
+nosi.move(b2)
 nodo.update()
 </code></pre>
 
@@ -1273,7 +1273,7 @@ nodo.update()
 <p>Par exemple&nbsp;:</p>
 
 <pre><code>accDom=CHORD('c3 eb3 g3')
-accDom.note(1).moveTo('c4')
+accDom.note(1).move('c4')
 // Prends la première note (c3) et la déplace en c4.
 </code></pre>
 
@@ -1487,7 +1487,7 @@ maNote.write("Une seconde !")
 <pre><code>note=NOTE(c4) // ajoute une ligne supplément en bas
 WAIT(2)
 REMOVE_SUPLINE({bottom:1})
-note.moveTo(c5)
+note.move(c5)
 </code></pre>
 
 <h4>Précision des indices</h4>

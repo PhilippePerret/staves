@@ -116,10 +116,10 @@ $.extend(window.ObjetClass.prototype,{
     * peut passer à la suite.
     * Pour se faire, la méthode a besoin de connaître les objets à traiter.
     * On les donne en premier argument ({Array}). Ensuite, la méthode a besoin de
-    * connaître l'opération à exécuter ('show', 'remove', 'moveTo', etc.). On la
+    * connaître l'opération à exécuter ('show', 'remove', 'move', etc.). On la
     * donne en second argument.
     * Enfin, la méthode a besoin des paramètres propres à cette méthode, par exemple
-    * la nouvelle position pour un 'moveTo'.
+    * la nouvelle position pour un 'move'.
     *
     * WARNING
     * -------
@@ -179,7 +179,7 @@ $.extend(window.ObjetClass.prototype,{
         // deux couleurs et fondre la première en faisant apparaitre la deuxième.
         // À voir si l'effet vaut la chandelle…
         break
-      case 'moveTo':
+      case 'move':
         if(undefined == params.left)  params.left = obj.left
         if(undefined == params.top)   params.top  = obj.top
         if('function' != typeof obj.animate)

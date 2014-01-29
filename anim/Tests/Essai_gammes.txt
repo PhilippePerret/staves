@@ -22,6 +22,6 @@ g=SCALE('fd', {type:'min_h'})
 
 WAIT(2)
 CAPTION("On déplace la 3e note vers do#6", {wait:true})
-g.note(3).moveTo(cd6)
+g.note(3).move(cd6)
 
 CAPTION("On termine le test.")

@@ -541,13 +541,13 @@ $.extend(Note.prototype,{
     *     et ré-apparaitre à la nouvelle position. Sinon c&#x27;est trop compliqué
     *     (et pas nécessaire) de la faire se déplacer aussi.
     *     Cf. la méthode &#x60;analyse_note&#x60; qui s&#x27;en charge le cas échéant.
-    * @method moveTo
+    * @method move
     * @param  {String}  new_note  La nouvelle note à atteindre
     * @param  {Object}  params    Les paramètres optionnels
     *   @param {Boolean}  params.no_exergue   Si TRUE, ne met pas la note en exergue
     *   @param {Function|False} params.complete   La méthode pour suivre. NEXT_STEP PAR DÉFAUT (méthode &quot;terminale&quot;)
     */
-  moveTo:function(new_note, params)
+  move:function(new_note, params)
   {
     var top_init    = parseInt(this.top,10),
         staff_init  = parseInt(this.staff.indice),
@@ -564,7 +564,7 @@ $.extend(Note.prototype,{
     objs = [this.obj]
     var was_surrounded = true &amp;&amp; this.surrounded
     if(this.surrounded) this.unsurround()
-    method = $.proxy(this.operation, this, objs, &#x27;moveTo&#x27;, {top: this.top, complete:params.complete})
+    method = $.proxy(this.operation, this, objs, &#x27;move&#x27;, {top: this.top, complete:params.complete})
     if(!params.no_exergue) this.exergue({complete:method})
     else method()
     if(was_surrounded) this.surround()
@@ -773,7 +773,7 @@ $.extend(Note.prototype,{
   },
 
   /**
-    * Appelée en fin de l&#x27;opération &#x27;moveTo&#x27; ci-dessus, juste avant 
+    * Appelée en fin de l&#x27;opération &#x27;move&#x27; ci-dessus, juste avant 
     * le passage à l&#x27;étape suivante.
     * @method on_complete_moveTo
     */
@@ -814,7 +814,7 @@ $.extend(Note.prototype,{
     * -----
     *   * Noter que la méthode ne doit être appelée directement que lorsqu&#x27;on
     *     est sûr que tous les éléments sont traités ou affichés (cf. on_complete).
-    *     La méthode &#x60;moveTo&#x60; peut le faire par exemple.
+    *     La méthode &#x60;move&#x60; peut le faire par exemple.
     *
     * @method complete
     */

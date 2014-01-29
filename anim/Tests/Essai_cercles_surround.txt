@@ -36,9 +36,9 @@ no2.unsurround()
 WAIT(2)
 
 CAPTION("On altère la première note (devrait changer la taille du carré)")
-no.moveTo('ad4')
+no.move('ad4')
 WAIT(2)
 
 CAPTION("On déplace la première note (devrait déplacer aussi le carré)")
-no.moveTo('fd5')
+no.move('fd5')
 WAIT(2)
