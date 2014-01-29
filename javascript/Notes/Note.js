@@ -501,7 +501,7 @@ $.extend(Note.prototype,{
     else
     {
       // Construction de l'altération (sauf nouvelle note) et positionnement
-      if(this.obj.length)
+      if(this.obj.length && this.alteration)
       {
         Anim.Dom.add(this.html_img_alt)
         this.positionne_and_show_alteration()
@@ -678,6 +678,11 @@ $.extend(Note.prototype,{
   positionne_alteration:function()
   {
     var off = OFFSET_ALTERATION[this.alteration]
+    if(undefined == off)
+    {
+      console.error("Altération inconnue (`"+this.alteration+"`) avec note:"+this.note_str+". Des problèmes collatéraux seront posés.")
+      return false
+    }
     this.obj_alt.css({top:(this.top - off.top)+"px", left:(this.left - off.left)+"px"})
   },
   /**
@@ -795,6 +800,7 @@ Clé de SOL
   
   positionne_and_show_alteration:function()
   {
+    if(!this.alteration) return
     this.positionne_alteration()
     this.obj_alt.animate({opacity:1}, Anim.delai_for('show'))
   },
@@ -803,14 +809,15 @@ Clé de SOL
     * Actualise l'altération
     * Notes
     * -----
-    *   * Cette méthode n'est appelée QUE si une altération existe, mais
-    *     qu'il faut la modifier. Elle se sert de la nouvelle valeur de
+    *   * Cette méthode peut être appelée même s'il n'y a pas d'altération, il 
+    *     faut donc vérifier. Sinon, elle se sert de la nouvelle valeur de
     *     `this.alteration`.
     *
     * @method update_alteration
     */
   update_alteration:function()
   {
+    if(!this.alteration) return
     this.obj_alt[0].src = this.src_alteration
     this.positionne_and_show_alteration()
   }

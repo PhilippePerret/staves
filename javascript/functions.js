@@ -13,6 +13,7 @@
   *   * Soit à l'instanciation de l'objet (dans ce cas, ce sera une propriété de l'objet/l'instance)
   *
   * @method define_wait
+  * @for window
   * @param {Undefined|Object} params    Les paramètres déjà définis ou non
   * @param {Object} instance    L'instance appelant la méthode, de n'importe quelle classe.
   * @return {Object} Les paramètres avec éventuellement la propriété `wait` ajoutée.
@@ -80,6 +81,6 @@ window.define_complete = function(params, value)
   if(undefined == params) params = {}
   if(undefined == value ) value  = NEXT_STEP
   if(undefined == params.complete && (undefined === params.wait || params.wait === true)) params.complete = value
-  dlog("params renvoyés par define_complete : ");dlog(params)
+  // dlog("params renvoyés par define_complete : ");dlog(params)
   return params
 }

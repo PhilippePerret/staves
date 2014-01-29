@@ -1,10 +1,22 @@
+# --- Test du déplace de note avec changement d'altérations ---
+
+DEFAULT('decompte', 0)
+
 NEW_STAFF(SOL)
-# Test 1 : déplacement d\'une note qui a une altération vers une note sans altération
+NEW_STAFF(FA)
+ACTIVE_STAFF(1)
+
+# Test 1 : déplacement d'une note qui a une altération vers une note sans altération
 no=NOTE(cd4)
 WAIT(1)
 REMOVE_SUPLINE({bottom:1})
 no.moveTo(f4)
-# Test 2 : déplacement d\'une note sans altération vers une note avec altération
-no.moveTo(\'at4\')
+# Test 2 : déplacement d'une note sans altération vers une note avec altération
+no.moveTo('at4')
 WAIT(1)
-no.moveTo(\'cb6\')
+no.moveTo('cb6')
+
+WAIT(2)
+
+STAFF(1).remove_suplines({top:[1,2]})
+no.moveTo('2:cz3')

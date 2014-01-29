@@ -158,19 +158,20 @@ $.extend(window.ObjetClass.prototype,{
       me.tbl_operation[obj[0].id] = false 
       objets_corriged.push(obj)
     })
-    // On envoie ensuite chaque objet dans la méthode `method`
+    // On envoie ensuite chaque objet dans la méthode `operation`
+    // TODO: Maintenant, il faudrait utiliser Anim.Dom.anim
     L(objets_corriged).each(function(obj){
       var complete = $.proxy(me.on_end_operation, me, operation, obj[0].id)
       switch(operation)
       {
       case 'show':
-        obj.animate({opacity:1}, Anim.delai_for('show'), complete)
+        obj.animate({opacity:1}, Anim.delai_for('show') * 1000, complete)
         break
       case 'hide':
-        obj.animate({opacity:0}, Anim.delai_for('show'), complete)
+        obj.animate({opacity:0}, Anim.delai_for('show') * 1000, complete)
         break
       case 'remove':
-        obj.animate({opacity:0}, Anim.delai_for('show'), function(){obj.remove(); complete()})
+        obj.animate({opacity:0}, Anim.delai_for('show') * 1000, function(){obj.remove(); complete()})
         break
       case 'colorize':
         // Note : la couleur est donnée par une image de la note ou de l'altération
@@ -188,7 +189,7 @@ $.extend(window.ObjetClass.prototype,{
         var dpos = {top:params.top+"px", left:params.left+"px"}
         // if(MODE_FLASH){ obj.css(dpos); complete() }
         // else 
-        obj.animate(dpos, Anim.delai_for('note_moved'), complete)
+        obj.animate(dpos, Anim.delai_for('note_moved') * 1000, complete)
         break
       }
     })
