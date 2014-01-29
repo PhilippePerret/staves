@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -292,6 +296,7 @@ window.BACKGROUND = function(color, params)
     if(undefined == params.background) params.background = &#x27;black&#x27;
   }
   params.class = &#x27;background&#x27;
+  params.type  = &#x27;plain&#x27;
   if(undefined == params.z) params.z = 0
   if(undefined == params.x) params.x = 0
   if(undefined == params.y) params.y = 0
@@ -320,6 +325,14 @@ window.Box = function(params)
   this.id     = &#x27;box&#x27;+(++Box.last_id)
   
   /**
+    * Type de la boite
+    * Les types sont &#x27;plain&#x27; boite pleine, &#x27;cadre&#x27; un cadre
+    * @property {String} type
+    * @default &#x27;plain&#x27;
+    */
+  this.type = &#x27;plain&#x27;
+  
+  /**
     * Position horizontale par défaut d&#x27;une boite
     * @property {Number} x_default
     */
@@ -343,11 +356,23 @@ window.Box = function(params)
     * Couleur de fond par défaut d&#x27;une boite
     * @property {String} background_default
     */
-  this.background_default = &#x27;blue&#x27;
+  this.background_default = &#x27;#0000FF&#x27;
+  /**
+    * Couleur de la border (pour le fond, c&#x27;est la propriété &#x60;background&#x60;)
+    * @property {String} color
+    * @default &#x27;black&#x27;
+    */
+  this.color = &#x27;#000000&#x27;
   
   // === Dispatch des paramètres ===
   this.dispatch(params)
 
+  /**
+    * La largeur du bord, pour une box de type &#x27;cadre&#x27;
+    * @property {Number} border
+    */
+  this.border = this.border || (this.type == &#x27;plain&#x27; ? 0 : 3)
+  
   /**
     * Position du calque par défaut
     * @property {Number} z_default
@@ -386,7 +411,7 @@ Object.defineProperties(Box.prototype,{
     */
   &quot;code_html&quot;:{
     get:function(){
-      return &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;box&quot; style=&quot;opacity:0;&quot;&gt;&lt;/div&gt;&#x27;
+      return &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;box &#x27;+this.type+&#x27;&quot; style=&quot;opacity:0;&quot;&gt;&lt;/div&gt;&#x27;
     }
   }
   

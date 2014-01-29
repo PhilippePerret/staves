@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -811,7 +815,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l205"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:205</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l223"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:223</code></a>
         
         </p>
 
@@ -877,7 +881,7 @@ en fonction du possesseur et de l&#39;angle à donner.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l181"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:181</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l199"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:199</code></a>
         
         </p>
 
@@ -939,13 +943,13 @@ en fonction du possesseur et de l&#39;angle à donner.</p>
             
                 <li class="arg">
                     
-                        <code>params</code>
+                        <code>data</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>complete</code>
+                        <code>params</code>
                     
                 </li>
             
@@ -1018,14 +1022,14 @@ méthodes)</p>
             
                 <li class="param">
                     
-                        <code class="param-name">params</code>
+                        <code class="param-name">data</code>
                         <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Les paramètres de la modification</p>
+                        <p>Les paramètres CSS de la modification + les éléments à traiter</p>
 
                     </div>
 
@@ -1034,17 +1038,104 @@ méthodes)</p>
             
                 <li class="param">
                     
-                        <code class="param-name">complete</code>
-                        <span class="type">Function</span>
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>La méthode pour suivre</p>
-
+                         
                     </div>
 
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">div</code>
+                                    <span class="type">Boolean</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Si true, traitera <code>this.obj_div</code></p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">head</code>
+                                    <span class="type">Boolean</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Si true, traitera <code>this.obj_head</code></p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">queue</code>
+                                    <span class="type">Boolean</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Si true, traitera <code>this.obj_queue</code></p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La méthode pour suivre (NEXT_STEP par défaut)</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">duree</code>
+                                    <span class="type">Float</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La durée de l&#39;animation</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">wait</code>
+                                    <span class="type">Boolean | Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Le paramètre d&#39;attente</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
                     
                 </li>
             
@@ -1073,7 +1164,25 @@ méthodes)</p>
             
                 <li class="arg">
                     
+                        <code>data.x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>data.y</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
                         <code>value</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
                     
                 </li>
             
@@ -1106,7 +1215,7 @@ méthodes)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l138"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:138</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l141"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:141</code></a>
         
         </p>
 
@@ -1141,37 +1250,37 @@ méthodes)</p>
                     </div>
 
                     
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">x</code>
-                                    <span class="type">Number</span>
-                                
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">data.x</code>
+                        <span class="type">Number</span>
+                    
 
-                                <div class="param-description">
-                                    <p>Déplacement  horizontal (en pixels)</p>
+                    
 
-                                </div>
+                    <div class="param-description">
+                        <p>Déplacement  horizontal (en pixels)</p>
 
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">y</code>
-                                    <span class="type">Number</span>
-                                
+                    </div>
 
-                                <div class="param-description">
-                                    <p>Déplacement vertical (en pixels)</p>
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">data.y</code>
+                        <span class="type">Number</span>
+                    
 
-                                </div>
+                    
 
-                                
-                            </li>
-                            
-                        </ul>
+                    <div class="param-description">
+                        <p>Déplacement vertical (en pixels)</p>
+
+                    </div>
+
                     
                 </li>
             
@@ -1184,10 +1293,59 @@ méthodes)</p>
                     
 
                     <div class="param-description">
-                        <p>Si +params+ est une propriété (&#39;x&#39; ou &#39;y&#39;), +value+ est sa valeur</p>
+                        <p>Si +params+ est une propriété (&#39;x&#39; ou &#39;y&#39;), +value+ est sa valeur
+                        Sinon, ça peut être l&#39;objet <code>params</code> ci-dessous</p>
 
                     </div>
 
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name"></code>
+                                    <span class="type">Float</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La durée que doit prendre la transformation</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name"></code>
+                                    <span class="type">Boolean | Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Le paramètre d&#39;attente</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
                     
                 </li>
             
@@ -1233,7 +1391,7 @@ méthodes)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l192"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:192</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l210"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:210</code></a>
         
         </p>
 
@@ -1300,7 +1458,7 @@ position (couleur, angle, longueur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l155"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:155</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l170"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:170</code></a>
         
         </p>
 
@@ -1360,6 +1518,12 @@ position (couleur, angle, longueur)</p>
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -1389,7 +1553,7 @@ position (couleur, angle, longueur)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l169"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:169</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l184"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:184</code></a>
         
         </p>
 
@@ -1424,6 +1588,22 @@ Notes</p>
 
                     <div class="param-description">
                         <p>La nouvelle taille en pixels</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Paramètres optionnels (comme <code>duree</code> ou <code>wait</code>)</p>
 
                     </div>
 
@@ -1614,7 +1794,7 @@ propriété complexe <code>width</code>.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l445"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:445</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l463"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:463</code></a>
         
         </p>
 
@@ -1708,7 +1888,7 @@ propriété complexe <code>width</code>.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l360"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:360</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l378"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:378</code></a>
         
         </p>
 
@@ -1758,7 +1938,7 @@ la flèche qui permettent de la changer de taille sans changer son aspect.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l457"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:457</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l475"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:475</code></a>
         
         </p>
 
@@ -1904,7 +2084,7 @@ construit.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l283"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:283</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l301"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:301</code></a>
         
         </p>
 
@@ -1952,7 +2132,7 @@ de la queue et de la tête)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l299"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:299</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l317"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:317</code></a>
         
         </p>
 
@@ -2136,7 +2316,7 @@ de la queue et de la tête)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l401"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:401</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l419"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:419</code></a>
         
         </p>
 
@@ -2182,7 +2362,7 @@ d&#39;un éventuel <code>offset_x</code> défini.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l318"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:318</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l336"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:336</code></a>
         
         </p>
 
@@ -2227,7 +2407,7 @@ d&#39;un éventuel <code>offset_x</code> défini.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l327"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:327</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l345"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:345</code></a>
         
         </p>
 
@@ -2272,7 +2452,7 @@ d&#39;un éventuel <code>offset_x</code> défini.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l375"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:375</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l393"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:393</code></a>
         
         </p>
 
@@ -2317,7 +2497,7 @@ d&#39;un éventuel <code>offset_x</code> défini.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l394"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:394</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l412"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:412</code></a>
         
         </p>
 
@@ -2362,7 +2542,7 @@ d&#39;un éventuel <code>offset_x</code> défini.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l387"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:387</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l405"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:405</code></a>
         
         </p>
 
@@ -2407,7 +2587,7 @@ d&#39;un éventuel <code>offset_x</code> défini.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l337"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:337</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l355"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:355</code></a>
         
         </p>
 
@@ -2458,7 +2638,7 @@ et la taille de la queue de flèche</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l418"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:418</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l436"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:436</code></a>
         
         </p>
 
@@ -2505,7 +2685,7 @@ flèche après son calcul selon l&#39;angle.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l432"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:432</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Graphic_Arrow.js.html#l450"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Graphic&#x2F;Arrow.js:450</code></a>
         
         </p>
 

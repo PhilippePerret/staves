@@ -28,6 +28,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Pas",
         "REGEXP_NOTE",
         "Regle",
+        "STYLE_TO_PROPS",
         "Scale",
         "Staff",
         "Step",
@@ -61,6 +62,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Debug\n\nPour le débuggage en temps réel\n\nChaque fonction devrait commencer par :\n  stack(\"-> <nom string de la fonction>\"[, <paramètres éventuels>])\n\nPour obtenir le stack (l'afficher en console) :\n  Debug.output()",
         "Dom_Doublage.js",
         "Event.js\nGestion des évènements",
+        "Functions.js",
         "GroupNotes.js",
         "Image.js",
         "ImageTool.js",
@@ -165,6 +167,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Event.js\nGestion des évènements",
             "name": "Event.js\nGestion des évènements"
+        },
+        {
+            "displayName": "Functions.js",
+            "name": "Functions.js"
         },
         {
             "displayName": "GroupNotes.js",

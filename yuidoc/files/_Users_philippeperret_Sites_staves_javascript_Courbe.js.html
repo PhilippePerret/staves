@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -277,7 +281,7 @@ $.extend(window.Courbe,{
     * Pour régler la vitesse de déplacement de l&#x27;objet
     * @property {Number} WAIT Delai du timeout
     */
-  WAIT: 20,
+  WAIT: 0.02,
   
   /**
     * Déplace l&#x27;objet +obj+ selon une courbe avec les paramètres +params+
@@ -326,9 +330,6 @@ $.extend(window.Courbe,{
      *  
      */
     var xadd = []
-    // obj.animate({
-    //   
-    // }, vitesse, params.complete)
     var iinc = 0.1
     for(ycur=ydep; ycur &lt;= yfin; ycur)
     {
@@ -392,7 +393,7 @@ $.extend(window.Courbe,{
     }
     else
     {
-      this.timer = setTimeout($.proxy(this.doItNow, this), this.WAIT)
+      this.timer = setTimeout($.proxy(this.doItNow, this), this.WAIT * 1000)
     }
   },
   doItNow:function()

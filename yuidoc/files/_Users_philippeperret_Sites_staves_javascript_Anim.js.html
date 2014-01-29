@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -368,12 +372,13 @@ $.extend(window.Anim,{
     * @final
     */
   TRANSITIONS:{
-    step        : 500,
-    show        : 400,
-    note_moved  : 1000,
-    move        : 1000,  // Déplacement quelconque d&#x27;un objet
-    transform   : 1000,  // Transformation comme l&#x27;allongement
-    wait        : 1000 // multiplicateur de secondes
+    step        : 0.5,
+    show        : 0.4,
+    move        : 1,   // Déplacement quelconque d&#x27;un objet
+    note_moved  : 1,
+    fade        : 1.5,
+    transform   : 1,   // Transformation comme l&#x27;allongement
+    wait        : 1       // multiplicateur pour la commande WAIT
   },
   /**
     * Définition de la vitesse (ou plutôt la durée) des transitions courantes
@@ -389,11 +394,13 @@ $.extend(window.Anim,{
     *   @property {Number} transition.note_moved  Délai de déplacement des notes (en millisecondes ?)
     */
   transition:{
-    step        : 500,
-    show        : 400,
-    note_moved  : 1000,
-    transform   : 1000,  // Transformation comme l&#x27;allongement
-    wait        : 1000 // multiplicateur de secondes
+    step        : 0.5,
+    show        : 0.4,
+    move        : 1,   // Déplacement quelconque d&#x27;un objet
+    note_moved  : 1,
+    fade        : 1.5,
+    transform   : 1,    // Transformation comme l&#x27;allongement
+    wait        : 1     // multiplicateur pour la commande WAIT
   },
   /**
     * Vitesses normales
@@ -404,11 +411,13 @@ $.extend(window.Anim,{
     * @property {Object} transition_reg
     */
   transition_reg:{
-    step        : 500,
-    show        : 400,
-    note_moved  : 1000,
-    transform   : 1000,  // Transformation comme l&#x27;allongement
-    wait        : 1000  // multiplicateur de secondes
+    step        : 0.5,
+    show        : 0.4,
+    move        : 1,   // Déplacement quelconque d&#x27;un objet
+    note_moved  : 1,
+    fade        : 1.5,
+    transform   : 1,      // Transformation comme l&#x27;allongement
+    wait        : 1       // multiplicateur pour la commande WAIT
   },
   /**
     * Vitesses flash
@@ -417,11 +426,13 @@ $.extend(window.Anim,{
     * @final
     */
   transition_flash:{
-    step        : 1,
-    show        : 1,
-    note_moved  : 5,
-    transform   : 1,
-    wait        : 1
+    step        : 0.001,
+    show        : 0.001,
+    move        : 0.001,   // Déplacement quelconque d&#x27;un objet
+    note_moved  : 0.005,
+    fade        : 0.001,
+    transform   : 0.001,
+    wait        : 0
   },
 
   /* ---------------------------------------------------------------------
@@ -575,14 +586,18 @@ $.extend(window.Anim,{
     text_color        : &#x27;black&#x27;,
     /**
       * Police par défaut des tboxes
+      * Doit être défini par l&#x27;user pour ne pas être null
       * @property {String} tbox_font_family
+      * @default null
       */
-    tbox_font_family  : &#x27;Verdana&#x27;,
+    tbox_font_family  : null, //&#x27;Verdana&#x27; dans les CSS,
     /**
       * Taille par défaut de la police de texte (en points — pt)
+      * Doit être défini par l&#x27;user pour ne pas être null
       * @property {Number} tbox_font_size
+      * @default null
       */
-    tbox_font_size    : 18,
+    tbox_font_size    : null,
     /**
       * Padding par défaut des boites de texte tbox (en pixels)
       * @property {Number} tbox_padding

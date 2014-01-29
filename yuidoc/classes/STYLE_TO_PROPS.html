@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Anim.File</title>
+    <title>STYLE_TO_PROPS</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -260,7 +260,7 @@ Gestion des évènements</a></li>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Anim.File Class</h1>
+                        <h1>STYLE_TO_PROPS Class</h1>
 <div class="box meta">
     
 
@@ -268,13 +268,13 @@ Gestion des évènements</a></li>
 
     
         <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:5</code></a>
+            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l129"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:129</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Anim_File.html">Anim_File</a>
+            Module: <a href="../modules/TBox.js.html">TBox.js</a>
         
     
 
@@ -284,7 +284,10 @@ Gestion des évènements</a></li>
 
 
 <div class="box intro">
-    
+    <p>Constantes définissant des propriétés prédéfinies lorsque le
+texte est d&#39;un style particulier (paramètre <code>style</code> dans la définition
+de la TBox)</p>
+
 </div>
 
 
@@ -314,56 +317,28 @@ Gestion des évènements</a></li>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_choose_path">choose_path</a>
+                                <a href="#method_build">build</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_get_new_name">get_new_name</a>
+                                <a href="#method_positionne">positionne</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_load">load</a>
+                                <a href="#method_set_background">set_background</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_load_list_animations">load_list_animations</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_reload">reload</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_save">save</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_save_as">save_as</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_set_name_and_save">set_name_and_save</a>
+                                <a href="#method_show">show</a>
 
                                 
                                 
@@ -380,21 +355,84 @@ Gestion des évènements</a></li>
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_folder">folder</a>
+                                <a href="#property_border">border</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_modified">modified</a>
+                                <a href="#property_code_html">code_html</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_name">name</a>
+                                <a href="#property_font_family">font_family</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_font_size">font_size</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_left">left</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_obj_background">obj_background</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_obj_texte">obj_texte</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_padding">padding</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_texte">texte</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_top">top</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_width">width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_width">width</a>
 
                                 
                                 
@@ -414,8 +452,8 @@ Gestion des évènements</a></li>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_choose_path" class="method item">
-    <h3 class="name"><code>choose_path</code></h3>
+                    <div id="method_build" class="method item">
+    <h3 class="name"><code>build</code></h3>
 
     
         <span class="paren">()</span>
@@ -446,7 +484,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l105"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:105</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l213"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:213</code></a>
         
         </p>
 
@@ -457,8 +495,7 @@ Gestion des évènements</a></li>
     </div>
 
     <div class="description">
-        <p>Affiche la boite de dialogue pour choisir le nom de l&#39;animation et
-son dossier</p>
+        <p>Construction de la boite de texte</p>
 
     </div>
 
@@ -470,17 +507,69 @@ son dossier</p>
 </div>
 
                 
-                    <div id="method_get_new_name" class="method item">
-    <h3 class="name"><code>get_new_name</code></h3>
+                    <div id="method_positionne" class="method item">
+    <h3 class="name"><code>positionne</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
-        <span class="returns-inline">
-            <span class="type">Array</span>
-        </span>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l172"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:172</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Positionne la boite de texte (mais fait + que ça, en la dimensionnant et
+en réglant toutes les propriétés css définies — taille de police, etc.)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_set_background" class="method item">
+    <h3 class="name"><code>set_background</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
     
 
     
@@ -506,7 +595,7 @@ son dossier</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l35"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:35</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l232"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:232</code></a>
         
         </p>
 
@@ -517,163 +606,13 @@ son dossier</p>
     </div>
 
     <div class="description">
-        <p>Prend le nom de l&#39;animation dans le champ save_as, le corrige
-et le renvoie.</p>
+        <p>Définit le background sous le texte. La méthode est utilisée par la
+définission de la propriété UniversalBoxMethods <code>background</code>
+Par défaut, la couleur de fond est la même que la couleur de police (oui,
+étonnant, mais c&#39;est parce que l&#39;opacité est en action)</p>
 
     </div>
 
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Array</span>:
-                    
-                    <p>contenant [folder, nom] ou FALSE en cas de problème</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_load" class="method item">
-    <h3 class="name"><code>load</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>name</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>folder</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>rajax</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag async">async</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l125"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:125</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Charge l&#39;animation de nom +name+
-Si une méthode <code>this.load.poursuivre</code> est définie, on la joue en fin
-de chargement (c&#39;est par exemple ce que fait la commande LOAD_ANIM pour
-lancer l&#39;animation suivante).</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Nom de l&#39;animation (choisie dans le menu)</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">folder</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Dossier (relatif depuis <code>anim</code>) de l&#39;animation</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">rajax</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Le retour de la requête</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -682,8 +621,8 @@ lancer l&#39;animation suivante).</p>
 </div>
 
                 
-                    <div id="method_load_list_animations" class="method item">
-    <h3 class="name"><code>load_list_animations</code></h3>
+                    <div id="method_show" class="method item">
+    <h3 class="name"><code>show</code></h3>
 
     
         <div class="args">
@@ -691,13 +630,7 @@ lancer l&#39;animation suivante).</p>
             
                 <li class="arg">
                     
-                        <code>folder</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>rajax</code>
+                        <code>params</code>
                     
                 </li>
             
@@ -730,7 +663,7 @@ lancer l&#39;animation suivante).</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l162"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:162</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l156"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:156</code></a>
         
         </p>
 
@@ -741,7 +674,10 @@ lancer l&#39;animation suivante).</p>
     </div>
 
     <div class="description">
-        <p>Charge la liste des animations et peuple le menu</p>
+        <p>Affiche le texte
+La méthode surclasse la méthode <code>show</code> des méthodes universelles de boite
+car l&#39;opacité concerne le background, pas le div principal, or, la propriété
+this.opacity d&#39;une TBox est réglée pour le background.</p>
 
     </div>
 
@@ -753,30 +689,14 @@ lancer l&#39;animation suivante).</p>
             
                 <li class="param">
                     
-                        <code class="param-name">folder</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Le dossier à remonter (si undefined, c&#39;est le chargement de l&#39;application)</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">rajax</code>
+                        <code class="param-name">params</code>
                         <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Le retour ajax</p>
+                        <p>Paramètres optionnels</p>
 
                     </div>
 
@@ -785,263 +705,6 @@ lancer l&#39;animation suivante).</p>
             
             </ul>
         </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_reload" class="method item">
-    <h3 class="name"><code>reload</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l117"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:117</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Recharge l&#39;animation courante (utile quand on la code dans un fichier)</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_save" class="method item">
-    <h3 class="name"><code>save</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>rajax</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag async">async</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l55"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:55</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Enregistre l&#39;animation courante</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">rajax</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Le retour ajax au retour de la requête</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_save_as" class="method item">
-    <h3 class="name"><code>save_as</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l96"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:96</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Enregistre l&#39;animation sous un autre nom</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_set_name_and_save" class="method item">
-    <h3 class="name"><code>set_name_and_save</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l22"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:22</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Méthode définissant le nom de l&#39;animation (du champ save_as) et
-l&#39;enregistrant</p>
-
-    </div>
-
     
 
     
@@ -1058,8 +721,8 @@ l&#39;enregistrant</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_folder" class="property item">
-    <h3 class="name"><code>folder</code></h3>
+                    <div id="property_border" class="property item">
+    <h3 class="name"><code>border</code></h3>
     <span class="type">String</span>
 
     
@@ -1081,7 +744,7 @@ l&#39;enregistrant</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l16"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:16</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l281"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:281</code></a>
         
         </p>
 
@@ -1091,12 +754,10 @@ l&#39;enregistrant</p>
     </div>
 
     <div class="description">
-        <p>Dossier de l&#39;animation</p>
+        <p>Bordure du box</p>
 
     </div>
 
-    
-        <p><strong>Default:</strong> &quot;&quot;</p>
     
 
     
@@ -1105,9 +766,9 @@ l&#39;enregistrant</p>
 </div>
 
                 
-                    <div id="property_modified" class="property item">
-    <h3 class="name"><code>modified</code></h3>
-    <span class="type">Boolean</span>
+                    <div id="property_code_html" class="property item">
+    <h3 class="name"><code>code_html</code></h3>
+    <span class="type">HTMLString</span>
 
     
 
@@ -1128,7 +789,7 @@ l&#39;enregistrant</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l197"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:197</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l393"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:393</code></a>
         
         </p>
 
@@ -1138,8 +799,7 @@ l&#39;enregistrant</p>
     </div>
 
     <div class="description">
-        <p>Gère la propriété &#39;modified&#39; de l&#39;animation
-Propriété complexe pour pouvoir faire suivre le menu &quot;Enregistrer&quot;</p>
+        <p>Code HTML de la tbox</p>
 
     </div>
 
@@ -1151,9 +811,9 @@ Propriété complexe pour pouvoir faire suivre le menu &quot;Enregistrer&quot;</
 </div>
 
                 
-                    <div id="property_name" class="property item">
-    <h3 class="name"><code>name</code></h3>
-    <span class="type">String | Null</span>
+                    <div id="property_font_family" class="property item">
+    <h3 class="name"><code>font_family</code></h3>
+    <span class="type">String</span>
 
     
 
@@ -1174,7 +834,7 @@ Propriété complexe pour pouvoir faire suivre le menu &quot;Enregistrer&quot;</
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_File.js.html#l11"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_File.js:11</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l250"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:250</code></a>
         
         </p>
 
@@ -1184,7 +844,414 @@ Propriété complexe pour pouvoir faire suivre le menu &quot;Enregistrer&quot;</
     </div>
 
     <div class="description">
-        <p>Nom de l&#39;animation (ie l&#39;affixe de son fichier de code)</p>
+        <p>Police de caractère</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_font_size" class="property item">
+    <h3 class="name"><code>font_size</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l260"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:260</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Taille de caractère</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_left" class="property item">
+    <h3 class="name"><code>left</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l292"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:292</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Décalage horizontal de la boite de texte. Celle fournie ou celle calculée
+par défaut</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_obj_background" class="property item">
+    <h3 class="name"><code>obj_background</code></h3>
+    <span class="type">JQuerySet</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l374"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:374</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Objet DOM du div du background sous le texte</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_obj_texte" class="property item">
+    <h3 class="name"><code>obj_texte</code></h3>
+    <span class="type">JQuerySet</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l369"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:369</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Objet DOM contenant le texte</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_padding" class="property item">
+    <h3 class="name"><code>padding</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l270"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:270</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Padding de la boite</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texte" class="property item">
+    <h3 class="name"><code>texte</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l380"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:380</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Texte de la boite</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_top" class="property item">
+    <h3 class="name"><code>top</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l311"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:311</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Décalage vertical de la boite de texte. Celle fournie ou celle calculée
+par défaut</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width" class="property item">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l348"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:348</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Hauteur de la boite de texte. Celle fournie ou celle calculée par défaut</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width" class="property item">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l331"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:331</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Largeur de la boite de texte. Celle fournie ou celle calculée par défaut</p>
 
     </div>
 

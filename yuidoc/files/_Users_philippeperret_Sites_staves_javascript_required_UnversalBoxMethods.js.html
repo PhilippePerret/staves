@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -291,7 +295,36 @@ window.UNVERSAL_BOX_METHODS = {
  */
 $.extend(UNVERSAL_BOX_METHODS,{
   
+  /**
+    * Permet de redéfinir une valeur de l&#x27;objet
+    * @method set
+    * @param {String} prop    La propriété de la box — ou un objet définissant plusieurs propriétés
+    * @param {Any}    value   La valeur à donner à la propriété
+    * @param {Object} params  Les paramètres éventuels.
+    *   @param  {Number}  params.duree   La durée que doit prendre la transformation (en secondes)
+    *   @param  {Boolean} params.wait    Si False, on passe tout de suite à la suite.
+    */
+  set:function(prop, value, params)
+  {
+    var data ;
+    if(undefined == params &amp;&amp; &#x27;object&#x27; == typeof value)
+    {
+      data    = prop
+      params  = value
+    }
+    else
+    {
+      data = parametize(prop, value)
+    }
+    // On corrige les propriétés et les valeurs
+    data = this.real_value_per_prop( this, data )
+    // dlog(&quot;[set] real-data:&quot;);dlog(data)
+    
+    this.animate(data, params)
+
+  },
   
+
   /**
     * Affiche l&#x27;objet
     * @method show
@@ -302,7 +335,6 @@ $.extend(UNVERSAL_BOX_METHODS,{
     dlog(&quot;-&gt; &quot; + this.id + &quot;.show&quot;)
     if(undefined == params) params = {}
     if(undefined == this.duree) params.duree = Anim.delai_for(&#x27;show&#x27;)
-    else params.duree = this.duree * 1000
     params.complete = this.wait === false ? false : NEXT_STEP
     this.animate({opacity:this.opacity || 1}, params)
     this.hidden = false
@@ -318,7 +350,6 @@ $.extend(UNVERSAL_BOX_METHODS,{
   {
     if(undefined == params) params = {}
     if(undefined == params.duree) params.duree = Anim.delai_for(&#x27;show&#x27;)
-    else params.duree = params.duree * 1000
     params.complete = this.wait === false ? false : NEXT_STEP
     this.animate({opacity:0}, params)
     this.hidden = true
@@ -340,7 +371,8 @@ $.extend(UNVERSAL_BOX_METHODS,{
     * courante.
     *
     * @method fade
-    * @param {Object}
+    * @param {Object} params    Paramètres optionnels
+    *   @param {False} params.wait    Si false, on passe tout de suite à la suite
     */
   fade:function(params)
   {
@@ -348,9 +380,10 @@ $.extend(UNVERSAL_BOX_METHODS,{
     var ouverture = this.obj.css(&#x27;opacity&#x27;) == &quot;0&quot;
     var new_opac  = ouverture ? (this.opacity || 1) : 0
     this.animate({opacity:new_opac},{
-      duration:params.duree || Anim.delai_for(&#x27;transition&#x27;),
+      duration:this.duree_set_or_default(params, &#x27;fade&#x27;),
       complete:params.complete
     })
+    if(params.wait === false) NEXT_STEP(0)
   },
   
   /**
@@ -385,6 +418,25 @@ $.extend(UNVERSAL_BOX_METHODS,{
  *  
  */
 $.extend(UNVERSAL_BOX_METHODS, {
+  
+  /**
+    * Anime la boite de texte
+    * @method animate
+    * @param {Object} data Les données d&#x27;animation (comme jQUery.animate)
+    * @param {Object} params    Paramètres optionnels
+    *   @param {Number}         params.duree      La durée de l&#x27;animation (en secondes)
+    *   @param {Function|False} params.complete   La méthode pour poursuivre
+    *
+    */
+  animate:function(data, params)
+  {
+    dlog(&quot;-&gt; &quot;+this.id+&quot;.animate&quot;)
+    // dlog(&quot;Params reçus par BUMP.animate:&quot;);dlog(params)
+    params = define_wait(params, this)
+    Anim.Dom.anime([this.obj], data, params)    
+    // dlog(&quot;&lt;- &quot;+this.id+&quot;.animate&quot;)
+  },
+  
   /**
     * Dispatche les données +params+ dans l&#x27;objet, à l&#x27;instantiation
     * Noter que dans beaucoup de cas, dispatcher les paramètres signifie 
@@ -399,6 +451,100 @@ $.extend(UNVERSAL_BOX_METHODS, {
     if(undefined == params) return
     var my = this
     L(params).each(function(k,v){ my[k] = v })
+  },
+  
+  /** Méthode qui analyse une propriété et une valeur et renvoie la bonne
+    * propriété et la bonne valeur.
+    * Cette méthode doit fonctionner pour tout type d&#x27;objet qui héritent des
+    * propriétés universelles de boites, et elle a été inaugurée pour la gestion
+    * de la méthode &#x60;set&#x60;.
+    * Par exemple, pour changer la couleur du cadre d&#x27;une boite, on utilise :
+    *   monCadre.set(&#x27;color&#x27;, blue)
+    * … et cette méthode doit retourner que ce n&#x27;est pas la propriété &#x60;color&#x60; qui
+    * doit être changée (ce qui ne changerait rien puisque la couleur du border est
+    * défini explicitement dans un objet cadre) mais la propriété &#x60;border-color&#x60;.
+    * Autre exemple : toutes les valeurs numériques, à part &#x60;z-index&#x60; et &#x60;opacity&#x60;,
+    * sont transformées en mesures pixels.
+    *
+    * @method real_value_per_prop
+    * @param {Object} obj L&#x27;objet porteur (correspond à &#x60;this&#x60;)
+    * @param {Object} hash    Object contenant les paires propriété/valeur.
+    * @return {Object} Le nouveau hash des paires propriété/valeur avec les bonnes propriétés et les bonnes valeurs
+    */
+  real_value_per_prop:function(obj, hash)
+  {
+    // Le nouveau hash qui sera renvoyé
+    var rhash = {}
+    
+    L(hash).each(function(prop, value){
+
+      /* On met toujours la valeur fournie à l&#x27;objet, telle que donnée */
+      obj[prop] = value
+      
+      // === CHANGEMENT DE LA PROPRIÉTÉ (ET VALEUR INITIALE) ===
+      switch(prop)
+      {
+      case &#x27;x&#x27;:
+        prop = &#x27;left&#x27;
+        break
+      case &#x27;y&#x27;:
+        prop = &#x27;top&#x27;
+        break
+      case &#x27;offset_x&#x27;:
+        prop  = &#x27;left&#x27;
+        value = (obj.x || obj.x_default) + value
+        break
+      case &#x27;offset_y&#x27;:
+        prop  = &#x27;top&#x27;
+        value = (obj.y || obj.y_default) + value
+        break
+      case &#x27;z&#x27;:
+        prop = &#x27;z-index&#x27;
+        break
+      case &#x27;offset_w&#x27;:
+        prop  = &#x27;width&#x27;
+        value = (obj.width || obj.width_default) + value
+        break
+      case &#x27;offset_h&#x27;:
+        prop  = &#x27;height&#x27;
+        value = (obj.height || obj.height_default) + value
+        break
+      default:
+        if(obj.class == &#x27;box&#x27; &amp;&amp; obj.type == &#x27;cadre&#x27;)
+        {
+          switch(prop)
+          {
+          case &#x27;color&#x27;:
+            prop = &#x27;border-color&#x27;
+            break
+          }
+        }
+      }
+      
+      /* === ON PEUT METTRE LA PROPRIÉTÉ DANS LE HASH === */
+      rhash[prop] = value
+      
+      // === EN FONCTION DU TYPEOF DE LA VALEUR ===
+      switch(typeof value)
+      {
+      case &#x27;number&#x27;:
+        switch(prop)
+        {
+        case &#x27;z-index&#x27;:
+        case &#x27;opacity&#x27;:
+          break
+        default:
+          value = value + &#x27;px&#x27;
+        }
+        break
+      }
+
+      /* === ON PEUT METTRE LA VALEUR DANS LE HASH === */
+      rhash[prop] = value
+    })
+    
+    
+    return rhash
   },
   
   /**
@@ -424,40 +570,12 @@ $.extend(UNVERSAL_BOX_METHODS, {
     dlog(&quot;&lt;- &quot;+this.id+&quot;.build&quot;)
     return this
   },
-  /**
-    * Anime la boite de texte
-    * @method animate
-    * @param {Object} data Les données d&#x27;animation (comme jQUery.animate)
-    * @param {Object} params    Paramètres optionnels
-    *   @param {Number}         params.duree      La durée de l&#x27;animation (en secondes)
-    *   @param {Function|False} params.complete   La méthode pour poursuivre
-    *
-    */
-  animate:function(data, params)
-  {
-    dlog(&quot;-&gt; &quot;+this.id+&quot;.animate&quot;)
-    // dlog(&quot;Params reçus par BUMP.animate:&quot;);dlog(params)
-    params = define_complete(params, (this.wait === false) ? false : NEXT_STEP)
-    dlog(&quot;params dans animate de &quot;+this.id+&quot; (avec this.wait à : &quot;+(this.wait)+&quot;): &quot;);dlog(params)
-    this.obj.animate(data, {
-      duration : params.duree || Anim.delai_for(&#x27;transform&#x27;),
-      complete : params.complete
-    })
-    // Si this.wait a été mis à false, il faut passer immédiatement à l&#x27;étape
-    // suivante
-    if(this.wait === false)
-    {
-      delete this.wait
-      NEXT_STEP(0)
-    } 
-    dlog(&quot;&lt;- &quot;+this.id+&quot;.animate&quot;)
-  },
     
   /**
     * Règle l&#x27;objet principal (this.obj)
     * Notes
     * -----
-    *   * La méthode est appelée par Anim.Dom.add à après l&#x27;ajout de l&#x27;objet
+    *   * La méthode est appelée par Anim.Dom.add après l&#x27;ajout de l&#x27;objet
     *     dans l&#x27;animation.
     *   * Si l&#x27;objet possédant les méthodes universelles possède une méthode
     *     &#x60;after_positionne&#x60;, elle est appelée en fin de processus.
@@ -475,15 +593,22 @@ $.extend(UNVERSAL_BOX_METHODS, {
       &#x27;height&#x27;  : (this.val_or_default(&#x27;height&#x27;))  + &#x27;px&#x27;,
       &#x27;z-index&#x27; : (this.val_or_default(&#x27;z&#x27;))
     }
+    if(this.type == &#x27;cadre&#x27;) data.border = this.border + &#x27;px solid &#x27;+ this.color;
+    
     this.obj.css(data)
     if(this.gradient)
     {
       this.set_css(&#x27;background&#x27;, &quot;linear-gradient( to right, &quot;+this.background+&quot;, &quot;+this.gradient+&quot;)&quot;)
     }
-    else
+    else if (this.type != &#x27;cadre&#x27;)
     {
       this.set_css(&#x27;background-color&#x27;, this.background || this.background_default)
     }
+    else // pour un cadre
+    {
+      this.set_css(&#x27;background-color&#x27;, &#x27;transparent&#x27;)
+    }
+    
     if(&#x27;function&#x27;==typeof this.after_positionne) this.after_positionne()
   },
   
@@ -496,7 +621,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   duree_set_or_default:function(params, duree_id)
   {
-    return (undefined == params.duree) ? Anim.delai_for(duree_id) : params.duree * 1000
+    return undefined == params.duree ? Anim.delai_for(duree_id) : params.duree
   },
   /**
     * Définit une propriété css de l&#x27;objet
@@ -545,6 +670,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     * @property {jQuerySet} obj
     */
   &quot;obj&quot;:{
+    enumerable:true,
     get:function(){
       if(undefined == this._obj)
       {
@@ -560,10 +686,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   &quot;x&quot;:{
     configurable:true,
-    set:function(x){
-      this._x = x
-      this.set_css(&#x27;left&#x27;, x)
-    },
+    set:function(x){this._x = x},
     get:function(){return this._x}
   },
   /**
@@ -572,10 +695,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   &quot;y&quot;:{
     configurable:true,
-    set:function(y){
-      this._y = y
-      this.set_css(&#x27;top&#x27;, y)
-    },
+    set:function(y){this._y = y},
     get:function(){return this._y}
   },
   /**
@@ -584,10 +704,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   &quot;width&quot;:{
     configurable:true,
-    set:function(w){
-      this._width = w
-      this.set_css(&#x27;width&#x27;, w)
-    },
+    set:function(w){this._width = w},
     get:function(){return this._width}
   },
   /**
@@ -596,10 +713,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   &quot;height&quot;:{
     configurable:true,
-    set:function(h){
-      this._height = h
-      this.set_css(&#x27;height&#x27;, h)
-    },
+    set:function(h){this._height = h},
     get:function(){return this._height}
   },
   /**
@@ -608,10 +722,7 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     */
   &quot;z&quot;:{
     configurable:true,
-    set:function(z){
-      this._z = z
-      this.set_css(&#x27;z-index&#x27;, z)
-    },
+    set:function(z){this._z = z},
     get:function(){return this._z}
   },
   /**
@@ -626,6 +737,17 @@ window.UNIVERSAL_BOX_PROPERTIES = {
     }
   },
   /**
+    * La couleur de border (color) quand c&#x27;est une box de type &#x27;cadre&#x27;
+    * @property {String} color
+    */
+  &quot;color&quot;:{
+    set:function(couleur)
+    {
+      this._color = couleur
+    },
+    get:function(){ return this._color }
+  },
+  /**
     * La couleur de background de l&#x27;objet
     * Pour la modifier, l&#x27;objet/class peut définir une méthode propre &#x60;set_background&#x60;.
     * Dans le cas contraire, c&#x27;est le div principal de l&#x27;objet qui sera affecté.
@@ -638,7 +760,6 @@ window.UNIVERSAL_BOX_PROPERTIES = {
       if(this.obj)
       {
         if(&#x27;function&#x27;==typeof this.set_background) this.set_background(couleur)
-        else this.obj.css(&#x27;background-color&#x27;, couleur)
       }
     },
     get:function(){ return this._background }

@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -368,7 +372,7 @@ FONCTIONS_ANIM_OBJETS = {
   WAIT:function(laps)
   {
     if(MODE_FLASH) return Anim.Step.auto_next()
-    Anim.timer = setTimeout($.proxy(Anim.Step.auto_next, Anim.Step), laps * Anim.delai_for(&#x27;wait&#x27;))
+    else Anim.Step.auto_next( laps * Anim.delai_for(&#x27;wait&#x27;) )
   },
   WRITE:function(texte)
   {
@@ -541,6 +545,15 @@ FONCTIONS_ANIM_OBJETS = {
   SUITE:function(path, params)
   {
     Anim.set_animation_pour_suivre(path, params)
+  },
+  
+  /** Exécute simplement le code fourni et passe tout de suite à l&#x27;étape suivante
+    * @method EXEC
+    */
+  EXEC:function(code)
+  {
+    eval(code)
+    NEXT_STEP(0)
   }
 }
 

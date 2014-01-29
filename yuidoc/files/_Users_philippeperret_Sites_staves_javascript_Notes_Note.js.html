@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -401,7 +405,7 @@ $.extend(Note, {
       if(undefined == params) params = {}
       if(undefined == params.complete) params.complete = NEXT_STEP
       this.building_params  = params
-      this.building_laps    = parseInt(1000 / speed, 10)
+      this.building_laps    = parseInt(1000 / speed)
       this.building_notes   = $.merge([], notes)
       this.building_notes.shift() // car pas de première note, mais la valeur null
     }
@@ -553,8 +557,8 @@ $.extend(Note.prototype,{
         staff_init  = parseInt(this.staff.indice),
         objs,
         method ;
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
+
+    params = define_complete( params )
     this.analyse_note(new_note)
     if(staff_init != this.staff.indice)
     {
@@ -763,7 +767,7 @@ $.extend(Note.prototype,{
     else
     {
       // Construction de l&#x27;altération (sauf nouvelle note) et positionnement
-      if(this.obj.length)
+      if(this.obj.length &amp;&amp; this.alteration)
       {
         Anim.Dom.add(this.html_img_alt)
         this.positionne_and_show_alteration()
@@ -940,6 +944,11 @@ $.extend(Note.prototype,{
   positionne_alteration:function()
   {
     var off = OFFSET_ALTERATION[this.alteration]
+    if(undefined == off)
+    {
+      console.error(&quot;Altération inconnue (&#x60;&quot;+this.alteration+&quot;&#x60;) avec note:&quot;+this.note_str+&quot;. Des problèmes collatéraux seront posés.&quot;)
+      return false
+    }
     this.obj_alt.css({top:(this.top - off.top)+&quot;px&quot;, left:(this.left - off.left)+&quot;px&quot;})
   },
   /**
@@ -1057,6 +1066,7 @@ Clé de SOL
   
   positionne_and_show_alteration:function()
   {
+    if(!this.alteration) return
     this.positionne_alteration()
     this.obj_alt.animate({opacity:1}, Anim.delai_for(&#x27;show&#x27;))
   },
@@ -1065,14 +1075,15 @@ Clé de SOL
     * Actualise l&#x27;altération
     * Notes
     * -----
-    *   * Cette méthode n&#x27;est appelée QUE si une altération existe, mais
-    *     qu&#x27;il faut la modifier. Elle se sert de la nouvelle valeur de
+    *   * Cette méthode peut être appelée même s&#x27;il n&#x27;y a pas d&#x27;altération, il 
+    *     faut donc vérifier. Sinon, elle se sert de la nouvelle valeur de
     *     &#x60;this.alteration&#x60;.
     *
     * @method update_alteration
     */
   update_alteration:function()
   {
+    if(!this.alteration) return
     this.obj_alt[0].src = this.src_alteration
     this.positionne_and_show_alteration()
   }

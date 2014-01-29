@@ -302,11 +302,11 @@ sup {
 	}
 }
 </style>
-<title>Staff Animation</title>
+<title>Music Animations</title>
 
 </head>
 <body>
-<h1>Staff Animation</h1>
+<h1>Music Animations</h1>
 
 <p>(Animation de portée)</p>
 
@@ -324,7 +324,10 @@ sup {
 <li><a href="#les_textes">Les textes</a></li>
 <li><a href="#les_images">Les images</a></li>
 <li><a href="#les_fleches">Les flèches</a></li>
+<li><a href="#les_boites">Les boites et les cadres</a></li>
+<li><a href="#background_animation">Fond de l'animation</a></li>
 <li><a href="#set_preferences">Régler toutes les valeurs de l'animation</a></li>
+<li><a href="#method_exec">Exécuter du code (débuggage)</a></li>
 <li><a href="#lannexe">Annexe</a></li>
 </ul>
 
@@ -340,20 +343,22 @@ sup {
 <li><a href="#code_composition">Composer le code de l'animation</a>
 
 <ul>
-<li><a href="#code_comments">Commentaires dans le code</a></li>
-<li><a href="#pause_animation">Faire une pause</a></li>
 <li><a href="#move_on_staff">Se déplacer sur la portée</a></li>
+<li><a href="#pause_animation">Faire une pause</a></li>
 <li><a href="#texte_animation">Écrire un texte général</a></li>
 <li><a href="#reset_animation">Resetter l'animation</a></li>
 <li><a href="#clean_animation">"Nettoyer" l'animation (tout effacer)</a></li>
+<li><a href="#code_comments">Commentaires dans le code</a></li>
 </ul>
 </li>
+<li><a href="#parametre_special_wait">Le paramètre spécial d'attente (<code>wait</code>)</a></li>
+<li><a href="#parametre_special_duree">Le paramètre spécial de durée (<code>duree</code>)</a></li>
 <li><a href="#vitesse_animation">Vitesse de l'animation</a></li>
 <li><a href="#run_animation">Jouer l'animation</a></li>
 <li><a href="#run_with_point">Jouer seulement la sélection (bouton “Point”)</a></li>
 <li><a href="#creer_captions">Créer des sous-titres ou des doublages</a></li>
 <li><a href="#enchainer_animations">Enchainer des animations</a></li>
-<li><a href="#mode_flash">Activer/désactiver le Mode “Flash</a></li>
+<li><a href="#mode_flash">Activer/désactiver le Mode “Flash”</a></li>
 <li><a href="#set_decompte">Définir le décompte de départ</a></li>
 <li><a href="#autosave_code">Sauvegarde automatique</a></li>
 <li><a href="#reiniti_preferences">Ré-initialiser toutes les valeurs de préférences</a></li>
@@ -370,10 +375,13 @@ sup {
 <p>Une animation est composée de <code>pas</code> (step) qui vont être exécutés l'un après l'autre, produisant des choses aussi diverses que&nbsp;:</p>
 
 <ul>
-<li>L'apparitioin d'une portée&nbsp;;</li>
+<li>L'apparition d'une portée&nbsp;;</li>
 <li>L'écriture d'une note ou d'un accord sur la portée&nbsp;;</li>
+<li>La création d'un fond, avec dégradé&nbsp;;</li>
 <li>Le déplacement de notes&nbsp;;</li>
-<li>L'écriture de textes explicatifs&nbsp;;</li>
+<li>L'écriture et l'animation de textes avec des effets d'opacité&nbsp;;</li>
+<li>L'aide à l'audio avec l'inscription de textes de doublage&nbsp;;</li>
+<li>L'animation de flèches&nbsp;;</li>
 <li>etc.</li>
 </ul>
 
@@ -421,11 +429,18 @@ sup {
 <p>Par exemple, pour attendre 4 secondes&nbsp;:</p>
 
 <pre><code>maNote=NOTE(a3)
-WAIT(4)                 // 4 secondes avant de construire l'accord
+WAIT(4)                 
+# =&gt; 4 secondes avant de construire l'accord
 monAccord('c3 eb3 g3')
 </code></pre>
 
 <p><em>Note&nbsp;: C'est un “pas” comme les autres, donc il doit être mis sur une ligne seule comme toute étape.</em></p>
+
+<p>Noter qu'on aurait pu aussi utiliser <a href="#parametre_special_wait">le paramètre spécial d'attente</a> en créant la note pour obtenir le même résultat&nbsp;:</p>
+
+<pre><code>maNote = NOTE(a3, {wait:4})
+# =&gt; Attente de 4 secondes avant de passer à la suite
+</code></pre>
 
 <p><a name="move_on_staff"></a></p>
 
@@ -481,6 +496,55 @@ monAccord('c3 eb3 g3')
 <p>… <code>&lt;avec les portées&gt;</code> est FALSE par défaut, donc il faut ajouter <code>true</code> pour effacer aussi les portées&nbsp;:</p>
 
 <pre><code>CLEAR(true) // efface aussi les portées
+</code></pre>
+
+<p><a name="parametre_special_wait"></a></p>
+
+<h3>Le paramètre spécial d'attente (<code>wait</code>)</h3>
+
+<p>Dans toutes les méthodes d'animation, le dernier argument définit les paramètres optionnels (ou parfois obligatoires) de la méthode.</p>
+
+<p>Parmi ces paramètres, on trouve le paramètre spécial <code>wait</code> très utile pour définir le comportement qu'aura l'animation sur l'étape.</p>
+
+<p>Par défaut, en effet, l'animation attend toujours la fin de l'étape courante (la ligne de code courante) avant de passer à la suite. Le paramètre <code>wait</code> permet de modifier ce comportement&nbsp;:</p>
+
+<ul>
+<li>Si <code>wait</code> est mis à <code>false</code>, l'animation lance l'étape courante, mais passe immédiatement à la suite. Utilisé par exemple pour donner l'impression de simultanéité d'effets divers.</li>
+<li>Si <code>wait</code> est un nombre (entier ou flottant), l'animation lance l'étape courante puis attend le nombre de secondes défini avant de passer à la suite. Noter que deux effets peuvent en résulter&nbsp;: si le nombre de secondes est inférieur à la durée que prend l'étape, l'animation de l'étape est lancée, puis au bout du laps de temps stipulé on passe à l'étape suivante. Si, en revanche, le nombre de secondes est supérieur à la durée que prend l'étape, l'animation de l'étape est lancée, puis l'animation attend la fin de la durée avant de lancer l'étape suivante.</li>
+</ul>
+
+
+<p>Exemples d'utilisation du paramètre <code>wait</code>&nbsp;:</p>
+
+<pre><code>maNote = NOTE('a4', {wait:10})
+# =&gt; La note LA 4 est créée, mais l'animation attend 10 secondes avant
+#    de passer à la suite.
+
+maNote.move('2:f2', {wait:false, duree:11})
+# =&gt; L'animation va déplacer la note LA 4 vers la note FA 2, un déplacement
+#    qui va durer 11 secondes, mais l'étape suivante sera appelée dès le début
+#    du déplacement.
+</code></pre>
+
+<p><a name="parametre_special_duree"></a></p>
+
+<h3>Le paramètre spécial de durée (<code>duree</code>)</h3>
+
+<p>Dans toutes les méthodes d'animation, le dernier argument définit les paramètres optionnels (ou parfois obligatoires) de la méthode.</p>
+
+<p>Parmi ces paramètres, on trouve le paramètre spécial <code>duree</code> qui peut définir, en nombre de secondes, la durée que doit prendre l'animation quelconque.</p>
+
+<p>Lorsque la durée doit être inférieur à la seconde, on utilise un flottant. Par exemple <code>0.5</code> pour une demi-seconde. <em>Noter qu'il est aussi possible d'utiliser une fraction, ce qui est peut-être plus clair. Par exemple <code>1/4</code> pour un quart de secondes.</em></p>
+
+<p>Exemples d'utilisation du paramètre spécial <code>duree</code>&nbsp;:</p>
+
+<pre><code>monTexte = TBOX("Ceci est un texte caché au départ", {hidden:true})
+# =&gt; Un texte caché (hidden:true) est créé
+monTexte.show({duree:5})
+# =&gt; Le texte va apparaitre en 5 secondes
+monTexte.move({x:10, y:10, duree:15})
+# =&gt; Le texte va mettre 15 secondes pour rejoindre la position 10/10 de
+#    l'écran de l'animation.
 </code></pre>
 
 <p><a name="vitesse_animation"></a></p>
@@ -603,10 +667,19 @@ monAccord('c3 eb3 g3')
 
 <p>Le code d'une animation pouvant très vite devenir conséquent, on peut enchainer très facilement des animations. Il suffit pour cela d'utiliser la commande&nbsp;:</p>
 
-<pre><code>SUITE('&lt;nom ou chemin de l'animation&gt;)
+<pre><code>SUITE('&lt;nom ou chemin de l'animation sans extension&gt;)
 </code></pre>
 
 <p>On peut mettre cette commande où l'on veut dans le code, puisqu'elle ne sera interprétée qu'une fois l'animation courante exécutée. Il est donc possible de la mettre au début du code comme à la fin.</p>
+
+<p>Pour faire référence à une animation se trouvant le dossier de l'animation courante (ie qui utilise la commande <code>SUITE</code>), on peut indiquer le chemin complet bien sûr, mais aussi le raccourci-point&nbsp;:</p>
+
+<pre><code>SUITE('./anim_dans_meme_dossier')
+</code></pre>
+
+<p><em>Noter que sans ce <code>./</code> l'animation sera cherchée à la racine du dossier des animations.</em></p>
+
+<p><em>Astuce&nbsp;: on peut remplacer les traits plats (“__”) par des espaces, ils seront automatiquement corrigés.</em></p>
 
 <p><a name="mode_flash"></a></p>
 
@@ -1758,14 +1831,15 @@ maNote.write("Une seconde !")
 
 <ul>
 <li><a href="#intro_textes">Introduction aux textes</a></li>
-<li><a href="#create_texte">Créer un texte</a>
+<li><a href="#create_tbox">Créer une boite de texte</a></li>
+<li><a href="#creer_captions">Créer des sous-titres ou des doublages)</a></li>
+<li><a href="#create_texte">Créer un texte pour un objet musical</a>
 
 <ul>
 <li><a href="#types_speciaux_texte">Types spéciaux de texte (Accords, harmonie, cadences, etc.)</a></li>
 <li><a href="#create_texte_animation">Créer un texte pour l'animation</a></li>
 <li><a href="#create_texte_objet">Créer un texte pour un objet</a></li>
 <li><a href="#ecrire_texte_portee">Créer un texte pour la portée (section “Portée”)</a></li>
-<li><a href="#creer_captions">Créer des sous-titres ou des doublages)</a></li>
 </ul>
 </li>
 <li><a href="#set_position_texte">Définir les positions des textes</a></li>
@@ -1782,7 +1856,166 @@ maNote.write("Une seconde !")
 
 <h3>Introduction</h3>
 
-<p>Les textes peuvent exister pour l'animation en général (ils sont alors écrits en haut à gauche et chaque nouveau texte remplace l'ancien), mais ils peuvent être associés aussi à tout objet de l'animation, note, portée, mesure, barre, etc.</p>
+<p>Il existe trois sortes de textes dans Staves&nbsp;:</p>
+
+<ul>
+<li><a href="#create_texte">Les textes “portés” par les notes</a>, les portées, les accords, tous les objets musicaux en somme, et  comme les harmonies, les accords. De façon générale, ils sont créés à l'aide de la méthode <code>write</code> appelée sur l'objet (p.e. <code>maNote.write(....)</code>) ainsi que tous les méthodes-raccourcis comme la méthode <code>chord</code> qui permet d'écrire le nom de l'accord (p.e. <code>monAccord.chord("Do min.")</code>)&nbsp;;</li>
+<li><a href="#creer_captions">Les textes de sous-titre ou de doublage</a> qui permettent, comme leur nom l'indique, de créer des sous-titres ou des doublages à dire sur l'animation&nbsp;;</li>
+<li><a href="#create_tbox">les “TBox(es)”, les boites de texte</a>, indépendantes des objets musicaux, qui permettent d'afficher des textes à l'écran de façon indépendante des objets musicaux, avec un style propre.</li>
+</ul>
+
+
+<p><a name="create_tbox"></a></p>
+
+<h3>Créer une boite de texte</h3>
+
+<p>Une “TBox”, une boite de texte, est un texte indépendant de l'animation, qui permet d'afficher un texte à n'importe quel endroit de l'animation, avec le style défini.</p>
+
+<ul>
+<li><a href="#instanciate_tbox">Créer (instancier) la boite de texte</a></li>
+<li><a href="#set_prefs_tboxes">Définir les valeurs par défaut des boites de texte</a></li>
+<li><a href="#set_style_tbox">Définir l'aspect de la boite de texte</a></li>
+<li><a href="#tbox_styles_textes">Styles de textes des boites de texte</a></li>
+<li><a href="#set_dimensions_tbox">Définir les dimensions de la boite de texte</a></li>
+<li><a href="#tbox_text_alignement">Régler l'alignement du texte dans la boite</a></li>
+<li><a href="#animate_tbox">Animer les boites de texte</a></li>
+</ul>
+
+
+<p><a name="instanciate_tbox"></a></p>
+
+<h4>Instancier la boite de texte</h4>
+
+<p>Une boite de texte (une “TBox”) se créer avec la commande <code>TBOX</code></p>
+
+<pre><code>&lt;variable&gt; = TBOX("&lt;Le texte&gt;"[, &lt;parametres&gt;])
+</code></pre>
+
+<p>Par défaut, une boite de texte apparaitra toujours au milieu de l'écran, sur un fond translucide, avec un caractère lisible.</p>
+
+<p><strong><code>&lt;parametres&gt;</code></strong> peut être un “Hash” (<code>{&lt;propriété&gt;:&lt;valeur&gt;, &lt;propriété&gt;:&lt;valeur&gt; etc.}</code>) ou un “String” (une chaine de caractère). Si c'est un String, c'est le nom d'un style prédéfini de texte.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monGrandTitre = TBOX("Mon grand titre en petites capitales", grand_titre)
+</code></pre>
+
+<p><em>Voir tous les <a href="#tbox_styles_textes">Styles de texte des boites de texte</a>.</em></p>
+
+<p>Pour créer le texte sans l'afficher, ajouter le paramètre <code>hidden</code> à true&nbsp;:</p>
+
+<pre><code>txt = TBOX("Mon texte masqué", {hidden:true})
+</code></pre>
+
+<p>Cela permet par exemple de créer tous les textes au début du code de l'animation pour pouvoir en disposer ensuite grâce à la méthode <code>show</code>&nbsp;:</p>
+
+<pre><code>txt.show()
+</code></pre>
+
+<p>Un autre paramètre intéressant à la création est le paramètre <code>wait</code>. S'il est faux (false) cela permet de passer à l'étape suivante sans attendre la fin de l'apparition de la boite. Cela permet des effets pour l'apparition quasi-simultanée de plusieurs boites ou animations diverses.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>boite1 = TBOX("Un premier texte", {wait:false, duree:4})
+# La boite1 apparaitra en 4 secondes, mais on passe à la suite avant
+# la fin de son apparition
+boite2 = TBOX("Un autre texte", {wait:false, duree:3})
+# La boite2 apparaitra en 3 secondes mais on passe à la suite immédiatement
+boite3 = TBOX("Un troisième", {duree:2})
+# La boite3 apparaitra en 2 secondes, mais on attendra la fin de son apparition
+# pour passer à la suite.
+</code></pre>
+
+<p><a name="set_prefs_tboxes"></a></p>
+
+<h4>Définir les valeurs par défaut des boites de texte</h4>
+
+<p>Toutes les valeurs par défaut se règlent à l'aide de la commande <code>DEFAULT</code>.</p>
+
+<pre><code>DEFAULT('tbox_font_family', "&lt;police à utiliser&gt;")
+DEFAULT('tbox_font_size', &lt;nombre de point de la taille de police&gt;)
+DEFAULT('tbox_padding', &lt;nombre de pixel de marge intérieure&gt;)
+DEFAULT('tbox_background', "&lt;background par défaut&gt;")
+DEFAULT('tbox_border', "&lt;bord par défaut des boites de texte&gt;")
+</code></pre>
+
+<p><a name="set_style_tbox"></p>
+
+<h4>Définir le style de la boite de texte</h4>
+
+<p>...</p>
+
+<h5>Définir la couleur de fond translucide</h5>
+
+<p>Pour définir la couleur de fond translucide (noire par défaut), on utilise le paramètre <code>background</code>.</p>
+
+<pre><code>tbox1 = TBOX("Mon texte", {background:&lt;couleur #RRVVBB ou constante&gt;})
+</code></pre>
+
+<p>Si la boite est déjà créée :</p>
+
+<p>tbox1.background(<couleur>)</p>
+
+<p>On peut jouer aussi sur l'opacité avec le paramètre <code>opacity</code>. Une opacité de 1 rendra complètement opaque le fond (aucune transparence), une opacité de 0.xx où <code>xx</code> est un nombre créera la transparence maximale.</p>
+
+<pre><code>tbox1 = TBOX("mon texte", {opacity:&lt;nombre&gt;})
+</code></pre>
+
+<p>Si la boite est déjà créée&nbsp;:</p>
+
+<pre><code>tbox1.background(&lt;null ou la couleur voulue&gt;, &lt;nombre opacité&gt;)
+</code></pre>
+
+<p><a name="set_dimensions_tbox"></a></p>
+
+<h4>Définir les dimensions de la boite de texte</h4>
+
+<p>...</p>
+
+<p><a name="tbox_text_alignement"></a></p>
+
+<h4>Définir l'alignement du texte dans la boite</h4>
+
+<p>Par défaut, l'alignement du texte est centré. On peut modifier cette alignement en utilisant le paramètre <code>align</code> en lui donnant la valeur “left” (alignement à gauche), “right” (alignement à droite), “justify” (justification) et “center” (pour revenir au center).</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monTexte = TBOX("Mon texte aligné à gauche.", {align:left})
+</code></pre>
+
+<p><a name="tbox_styles_textes"></a></p>
+
+<h3>Styles de textes des boites de textes</h3>
+
+<p>Ces valeurs peuvent définir la propriété <code>style</code> dans les paramètres envoyés à TBOX (2e argument) ou servir de 2e argument si aucune autre propriété ne doit être définie.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monTexte = TBOX("Mon petit texte", {style:small})
+</code></pre>
+
+<p>Ou&nbsp;:</p>
+
+<pre><code>monTexte = TBOX("Mon autre petit texte", small)
+</code></pre>
+
+<p><strong>Liste des styles pré-définis</strong></p>
+
+<pre><code>grand_titre       Un grand titre pour l'animation
+chapitre          Un titre de chapitre
+titre             Un autre titre dans un chapitre.
+small             Un petit texte
+tiny              Un texte minuscule
+copyright         La marque du copyright
+</code></pre>
+
+<p><a name="animate_tbox"></a></p>
+
+<h4>Animer les boites de texte</h4>
+
+<p>...</p>
+
+<hr />
 
 <p><a name="create_texte"></a></p>
 
@@ -2338,9 +2571,7 @@ maNote.texte['regular'].hide()
 <pre><code>monImg=IMAGE({
   url     : &lt;chemin vers image&gt; ATTRIBUT OBLIGATOIRE
   x       : &lt;position horizontale dans l'animation&gt;
-  left    : // comme `x`, utiliser l'un ou l'autre
   y       : &lt;position verticale dans l'animation&gt;
-  top     : // comme `y`, utiliser l'un ou l'autre
   width   : &lt;taille de l'image|auto&gt;      ATTRIBUT OBLIGATOIRE 
   height  : &lt;hauteur de l'image|auto&gt;     ATTRIBUT OBLIGATOIRE
   // Propriétés spéciales pour le cadrage, lorsque l'on ne veut pas
@@ -2364,9 +2595,9 @@ maNote.texte['regular'].hide()
 
 <h3>Modifier la position de l'image</h3>
 
-<p>Pour modifier la position de l'image, il faut jouer sur les paramètres <code>top</code> (haut) et <code>left</code> (gauche) de ses paramètres optionnels. Par exemple&nbsp;:</p>
+<p>Pour modifier la position de l'image, il faut jouer sur les paramètres <code>y</code> (haut) et <code>x</code> (gauche) de ses paramètres optionnels. Par exemple&nbsp;:</p>
 
-<pre><code>monImage=IMAGE({url:'path/to/image.png', top:100, left:200})
+<pre><code>monImage=IMAGE({url:'path/to/image.png', y:100, x:200})
 </code></pre>
 
 <p>… placera l'image 100 pixels plus bas que le haut du cadre de l'animation et à 200 pixels du bord gauche.</p>
@@ -2374,11 +2605,11 @@ maNote.texte['regular'].hide()
 <p>Noter qu'il est extrêmement simple de connaitre les coordonnées de l'image&nbsp;: il suffit de la déplacer dans l'animation une fois qu'elle est affichée. Ses coordonnées s'affichent en bas de l'écran. Donc&nbsp;:</p>
 
 <ul>
-<li>Définir la commande d'affichage de l'image sans définir <code>top</code> et <code>left</code>&nbsp;;</li>
+<li>Définir la commande d'affichage de l'image sans définir <code>y</code> et <code>x</code>&nbsp;;</li>
 <li>Faire jouer l'animation jusqu'au moment où l'image s'affiche&nbsp;;</li>
 <li>Se mettre en pause&nbsp;;</li>
 <li>Déplacer l'image au bon endroit&nbsp;;</li>
-<li>Relever les coordonnées qui s'affichent et définir <code>top</code> et <code>left</code> dans les paramètres de la commande IMAGE.</li>
+<li>Relever les coordonnées qui s'affichent et définir <code>y</code> et <code>x</code> dans les paramètres de la commande IMAGE.</li>
 </ul>
 
 
@@ -2575,13 +2806,13 @@ maNote.arrow('droite rouge').colorize(blue)
   color     : {String} La couleur (constante ou string)
   offset_x  : {Number} Décalage horizontal par rapport à position normale
   offset_y  : {Number} Décalage vertical par rapport à position normale
-  top       : {Number} Placement vertical de la fleche (pixels)
-  left      : {Number} Placement horizontal de la fleche (pixels)
+  y         : {Number} Placement vertical de la fleche (pixels)
+  x         : {Number} Placement horizontal de la fleche (pixels)
   height    : {Number} Hauteur de la fleche
 })
 </code></pre>
 
-<p><strong><code>&lt;objet&gt;</code></strong> est “l'objet porteur” de la flèche, c'est par exemple une note.</p>
+<p><strong><code>&lt;objet&gt;</code></strong> est “l'objet porteur” de la flèche, c'est par exemple une note.**</p>
 
 <pre><code>maNote = NOTE(a4)
 maNote.arrow('fleche vers droite', {angle:0})
@@ -2589,7 +2820,8 @@ maNote.arrow('fleche vers droite', {angle:0})
 
 <p><strong><code>&lt;id flèche&gt;</code></strong> est l'identifiant optionnel de la flèche, utile si l'objet porteur doit porter plusieurs flèches.</p>
 
-<p>Les valeurs <strong>top</strong> et <strong>left</strong> sont calculées automatiquement pour que la flèche soit placée correctement suivant l'objet porteur. On peut ajuster ponctuellement la valeur avec <strong>offset_x</strong> et <strong>offset_y</strong>.</p>
+<p>Les valeurs <strong>y</strong> et <strong>x</strong> sont calculées automatiquement pour que la flèche soit placée correctement suivant l'objet porteur. On peut ajuster ponctuellement la valeur avec <strong>offset_x</strong> et
+<strong>offset_y</strong>.</p>
 
 <p>L'<strong>angle</strong> est de 0 degré par défaut, c'est-à-dire que la flèche sera horizontale et pointera à droite (pour une autre valeur cf. <a href="#angle_des_fleches">Angle des flèches</a>).</p>
 
@@ -2698,7 +2930,7 @@ angle = -90 =&gt; flèche verticale pointant en haut
 angle = 180 =&gt; flèche horizontale pointant à gauche
 </code></pre>
 
-<p>Noter que pour les valeurs entre 90 et -90 (donc pointant vers la gauche), il faut modifier le <code>left</code> de la flèche pour qu'elle ne traverse pas la note.</p>
+<p>Noter que pour les valeurs entre 90 et -90 (donc pointant vers la gauche), il faut modifier le <code>x</code> de la flèche pour qu'elle ne traverse pas la note.</p>
 
 <p><a name="remove_arrow"></a></p>
 
@@ -2719,6 +2951,400 @@ maNote.arrow().remove() &lt;--
 <h3>Flèches indépendantes</h3>
 
 <p>[TODO]</p>
+
+<hr />
+
+<p><a name="les_boites"></a></p>
+
+<h2>Les Boites et les cadre</h2>
+
+<p>Les boites (box) permettent de dessiner des boites et des cadres (de forme, de couleur et de tailles diverses) dans l'animation.</p>
+
+<h3>Table des matières</h3>
+
+<ul>
+<li><a href="#create_a_box">Création d'une boite</a></li>
+<li><a href="#create_a_cadre">Création d'un cadre</a></li>
+</ul>
+
+
+<p><a name="create_a_box"></a></p>
+
+<h3>Créer une boite</h3>
+
+<p>On crée une boite à l'aide de la commande&nbsp;:</p>
+
+<pre><code>BOX(&lt;parameters&gt;)
+</code></pre>
+
+<p><code>BOX</code> “hérite” des <a href="#box_methods_and_properties">méthodes et des propriétés universelles de boites</a>, donc peut être manipulé et défini avec ces méthodes et propriétés.</p>
+
+<p><a name="create_a_cadre"></a></p>
+
+<h3>Créer un cadre</h3>
+
+<p>On crée un cadre à l'aide de la commande&nbsp;:</p>
+
+<pre><code>BOX({type:cadre[, &lt;autres parametres&gt;]})
+</code></pre>
+
+<p>On peut définir la largeur de bordure du cadre (3 pixels par défaut) à l'aide du paramètres <code>border</code> définissant le nombre de pixels.</p>
+
+<p>Par exemple&nbsp;</p>
+
+<pre><code>monCadre = BOX({type:cadre, border:10})
+# Pour un cadre de 10 pixels de large
+</code></pre>
+
+<p>Pour définir la couleur du cadre, définir le paramètre <code>color</code>.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>cadreBleu = BOX({type:cadre, color:blue})
+</code></pre>
+
+<p>Pour les autres méthodes et propriétés cf. <a href="#box_methods_and_properties">Méthodes et des propriétés universelles de boites</a>.</p>
+
+<hr />
+
+<p><a name="background_animation"></a></p>
+
+<h2>Fond de l'animation</h2>
+
+<p>On peut définir le fond de l'animation avec la commande&nbsp;:</p>
+
+<pre><code>BACKGROUND([&lt;couleur&gt;][, &lt;parametres&gt;])
+</code></pre>
+
+<p>… où <strong>couleur</strong> est une constante couleur CSS (p.e. 'blue' ou 'red') et <code>&lt;parametrs&gt;</code> sont les paramètres optionnels. La couleur peut être omise (un seul argument paramètres) ou être mise dans les paramètres avec&nbsp;:</p>
+
+<pre><code>BACKGROUND({background:'&lt;couleur&gt;'})
+</code></pre>
+
+<p><code>BACKGROUND</code> est un raccourci de <code>BOX</code> pour faire une boite qui occupe toute la surface de l'animation, avec un z-index de bas niveau. On peut donc utiliser les mêmes paramèters et les mêmes méthodes que <a href="#les_boites">les boites</a>.</p>
+
+<hr />
+
+<p><a name="box_methods_and_properties"></a></p>
+
+<h2>Méthodes et propriétés universelles de boites</h2>
+
+<p>Tous les objets qui héritent de ces méthodes et propriétés peuvent les utiliser. Par exemples les <a href="#les_boites">boites (Box)</a> et les <a href="#background_animation">fond d'animation</a>.</p>
+
+<h3>Table des matières</h3>
+
+<p><strong>Propriétés de l'objet</strong></p>
+
+<ul>
+<li><a href="#bump_all_properties">Résumé de toutes les propriétés</a></li>
+<li><a href="#bump_quasi_simultane">Effet de simultanéité</a></li>
+<li><a href="#bump_set">La méthode <code>set</code></a></li>
+<li><a href="#bump_set_x">Régler la position horizontale</a></li>
+<li><a href="#bump_set_y">Régler la position verticale</a></li>
+<li><a href="#bump_set_z">Régler la position avant/arrière de l'objet</a></li>
+<li><a href="#bump_set_width">Régler la largeur de l'objet</a></li>
+<li><a href="#bump_set_height">Régler la hauteur de l'objet</a></li>
+<li><a href="#bump_set_background">Régler la couleur de fond de l'objet</a></li>
+<li><a href="#bump_set_gradient">Régler la couleur alternative pour le dégradé</a></li>
+<li><a href="#bump_set_opacity">Régler l'opacité de l'objet (transparence)</a></li>
+</ul>
+
+
+<p><strong>Méthodes</strong></p>
+
+<ul>
+<li><a href="#bump_all_methods">Résumé de toutes les méthodes</a></li>
+<li><a href="#bump_set">Modifier l'objet</a></li>
+<li><a href="#bump_fading">Fondu de l'objet</a></li>
+<li><a href="#bump_moving">Déplacement de l'objet</a></li>
+<li><a href="#bump_removing">Détruire l'objet</a></li>
+</ul>
+
+
+<p><a name="bump_all_properties"></a></p>
+
+<h3>Résumé de toutes les propriétés</h3>
+
+<pre><code>&lt;var&gt; = &lt;OBJET&gt;({
+  x           : {Number} Position horizontale,
+  y           : {Number} Position verticale,
+  width       : {Number} Largeur,
+  height      : {Number} Hauteur,
+  z           : {Number} Placement devant/derrière,
+  background  : {String} Couleur du fond,
+  gradient    : {String} Couleur alternative pour le dégradé,
+  opacity     : {Float}  Opacité,
+  color       : {String} Couleur de la police ou du cadre,
+  # Pour la méthode `set`
+  offset_x    : {Number} Décalage horizontal
+  offset_y    : {Number} Décalage vertical
+  offset_w    : {Number} Delta largeur (modification relative de la largeur)
+  offset_h    : {Number} Delta hauteur (modification relative de la hauteur)
+})
+</code></pre>
+
+<p><a name="bump_all_methods"></a></p>
+
+<h3>Résumé de toutes les méthodes</h3>
+
+<dl>
+  <dt>set</dt>
+  <dd>Modifie une propriété quelconque ou plusieurs propriétés en même temps. cf. <a href="#bump_set">Modifier l'objet</a></dd>
+  <dt>move</dt>
+  <dd>Déplacement de l'objet. Cf. <a href="#bump_moving">Déplacer l'objet</a>. Noter qu'on peut objet la même chose avec `set`, avec la possibilité de modifier en même temps d'autres valeurs.</dd>
+  <dt>fade</dt>
+  <dd>Crée un fondu. cf. <a href="#bump_fading">Fondu de l'objet</a></dd>
+</dl>
+
+
+<p><a name="bump_quasi_simultane"></a></p>
+
+<h3>Effet de simultanéité</h3>
+
+<p>Un autre paramètre intéressant à la création d'un objet héritant des méthodes et propriétés universelles de boite est le paramètre <code>wait</code>. S'il est faux (false) cela permet de passer à l'étape suivante sans attendre la fin de l'apparition de l'objet.</p>
+
+<p>Cela permet des effets pour l'apparition quasi-simultanée de plusieurs boites ou animations diverses.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>boite1 = TBOX("Un premier texte", {wait:false, duree:4})
+# La boite1 apparaitra en 4 secondes, mais on passe à la suite avant
+# la fin de son apparition
+boite2 = TBOX("Un autre texte", {wait:false, duree:3})
+# La boite2 apparaitra en 3 secondes mais on passe à la suite immédiatement
+boite3 = TBOX("Un troisième", {duree:2})
+# La boite3 apparaitra en 2 secondes, mais on attendra la fin de son apparition
+# pour passer à la suite.
+</code></pre>
+
+<p><a name="bump_set_x"></a></p>
+
+<h3>Régler la position horizontale</h3>
+
+<p>On la règle avec le paramètre <code>x</code> en fournissant un nombre (l'unité sera le pixel).</p>
+
+<p>Par exemple :</p>
+
+<pre><code>maboite = BOX({x:100})
+</code></pre>
+
+<p>Pour obtenir cette position x, il suffit de déplacer l'objet (les coordonnées apparaissent dans la feedback en bas à gauche de l'écran). On peut également utiliser l'<a href="#outil_coordonnees">Outil “Coordonnées”</a>.</p>
+
+<p><a name="bump_set_y"></a></p>
+
+<h3>Régler la position verticale</h3>
+
+<p>On la règle avec le paramètre <code>y</code> en fournissant un nombre (l'unité sera le pixel).</p>
+
+<p>Par exemple :</p>
+
+<pre><code>maboite = BOX({y:100})
+</code></pre>
+
+<p>Pour obtenir cette position <code>y</code>, il suffit de déplacer l'objet (les coordonnées apparaissent dans la feedback en bas à gauche de l'écran). On peut également utiliser l'<a href="#outil_coordonnees">Outil “Coordonnées”</a>.</p>
+
+<p><a name="bump_set_z"></a></p>
+
+<h3>Régler la position du calque</h3>
+
+<p>On peut régler la position de l'objet par rapport aux autres objets, dans l'axe <code>z</code> (ie. devant ou derrière) à l'aide du paramètre <code>z</code>.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>boitedevant   = BOX({z: 200})
+boitederriere = BOX({z: 10})
+# Même si elle a été créée après, `boitederriere` se retrouvera
+# derrière `boitedevant`.
+</code></pre>
+
+<p><a name="bump_set_width"></a></p>
+
+<h3>Régler la largeur de l'objet</h3>
+
+<p>On la règle avec le paramètre <code>width</code> en fournissant un nombre (l'unité sera le pixel).</p>
+
+<p>Par exemple :</p>
+
+<pre><code>maboite = BOX({width:100})
+</code></pre>
+
+<p>On peut obtenir cette valeur <code>width</code> à l'aide de l'<a href="#outil_coordonnees">Outil “Coordonnées”</a>.</p>
+
+<p><a name="bump_set_height"></a></p>
+
+<h3>Régler la hauteur de l'objet</h3>
+
+<p>On la règle avec le paramètre <code>height</code> en fournissant un nombre (l'unité sera le pixel).</p>
+
+<p>Par exemple :</p>
+
+<pre><code>maboite = BOX({height:100})
+</code></pre>
+
+<p>On peut obtenir cette valeur <code>height</code> à l'aide de l'<a href="#outil_coordonnees">Outil “Coordonnées”</a>.</p>
+
+<p><a name="bump_set_background"></a></p>
+
+<h3>Régler la couleur de fond de l'objet</h3>
+
+<p>On la règle avec le paramètre <code>background</code> en fournissant une couleur ({String}). Soit une constante couleur CSS, soit une valeur hexadécimale précédée de '#' (p.e. <code>#FF0000</code>).</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maboite = BOX({background:'blue'})
+</code></pre>
+
+<p><a name="bump_set_gradient"></a></p>
+
+<h3>Créer un dégradé</h3>
+
+<p>On crée un dégradé en utilisant les propriétés <code>background</code> qui définit la couleur gauche de départ et <code>gradient</code> qui définit la couleur droite d'arrivée.</p>
+
+<p>Par exemple :</p>
+
+<pre><code>boitedegrade = BOX({background:'blue', gradient:'red'})
+</code></pre>
+
+<p>Ou&nbsp;:</p>
+
+<pre><code>boitedegrade = BOX({background:'#00F', gradient:'#F00'})
+</code></pre>
+
+<p><a name="bump_set_opacity"></a></p>
+
+<h3>Régler l'opacité de l'objet</h3>
+
+<p>On la règle à l'aide du paramètre <code>opacity</code> en donnant une valeur flottante de <code>0</code> (complètement translucide, donc invisible) à <code>1</code> (complètement opaque).</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maboitetransparente = BOX({opacity:0.05})
+</code></pre>
+
+<p><a name="bump_set"></a></p>
+
+<h3>Modifier l'objet</h3>
+
+<p>La méthode <code>set</code> invoquée sur l'objet permet de modifier n'importe quelle propriété et même plusieurs propriétés en même temps.</p>
+
+<p><strong>Syntaxe 1</strong></p>
+
+<pre><code>&lt;objet&gt;.set('&lt;propriété&gt;', &lt;nouvelle valeur&gt;[, &lt;parametres optionnels&gt;])
+</code></pre>
+
+<p><strong>Syntaxe 2</strong></p>
+
+<pre><code>&lt;objet&gt;.set({&lt;hash des propriétés&gt;}[, &lt;paramètres optionnels&gt;])
+</code></pre>
+
+<p>Cf. les <a href="#bump_all_properties">Propriétés modifiable de l'objet</a>.</p>
+
+<p>Par exemple, pour déplacer une boite pleine verticalement en modifiant son opacité&nbsp;:</p>
+
+<pre><code>maPlainBox.set({y:200, opacity:0.08})
+</code></pre>
+
+<h4>Paramètres optionnels</h4>
+
+<p>Les deux paramètres optionnels sont <code>duree</code> qui détermine en combien de secondes devra se produire le changement et <code>wait</code> qui détermine soit que l'on doit passer tout de suite à l'étape suivante sans attendre la fin du changement (si <code>false</code>) soit le temps d'attente (si un nombre flottant ou entier de secondes).</p>
+
+<p>Par exemple, pour modifier la position horizontale de l'objet (<code>x</code>) en 10 secondes et passer à l'étape suivante après 2 secondes&nbsp;:</p>
+
+<pre><code>monObjet.set('x', 320, {duree:10, wait:2})
+</code></pre>
+
+<p>ou&nbsp;:</p>
+
+<pre><code>monObjet.set({x:320}, {duree:10, wait:2})
+</code></pre>
+
+<p><a name="bump_moving"></a></p>
+
+<h3>Déplacement de l'objet</h3>
+
+<p>L'objet héritant des méthodes universelles de boite peut être déplacé à l'aide de la méthode <code>move</code>.</p>
+
+<p>Cette méthode reçoit principalement trois arguments&nbsp;: <code>x</code> qui détermine la nouvelle position horizontale, <code>y</code> qui définit la nouvelle position verticale et <code>duree</code> qui définit la durée que devra prendre le déplacement, en secondes.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maboite = BOX({x:100, y:10})
+WAIT(1)
+maboite.move({x:200, y:10, duree:10})
+# La boite se déplacera vers la droite en 10 secondes
+</code></pre>
+
+<p><strong>Autres paramètres</strong></p>
+
+<p>On peut également utiliser les paramètres <code>for_x</code> et <code>for_y</code> pour indiquer le nombre de pixels de déplacement par rapport à la position courante.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maboite = BOX({x:100, y:20})
+WAIT(1)
+maboite.move({for_x:200, for_y:-10})
+# La boite se retrouvera à la position x = 300 (100 + 200) et à la
+# position y = 10 (20 - 10)
+</code></pre>
+
+<p><strong>Astuce pour définir le mouvement</strong></p>
+
+<p>Pour définir de façon simple le mouvement, le plus aisé est de déterminer la position x/y d'arrivée (simplement en déplaçant l'objet pour en prendre les coordonnées), puis de retirer la valeur voulue pour définir le point de départ (entendu que souvent le point d'arrivée est plus important).</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<p>Après déplacement, j'ai déterminé que mes coordonnées d'arrivée sont x=320 et y=144.</p>
+
+<p>Donc je code =</p>
+
+<pre><code>maboite.move({x:320, y:144})
+</code></pre>
+
+<p>Ensuite, j'ajoute la création de la boite AU-DESSUS de cette ligne avec un décalage&nbsp;:</p>
+
+<pre><code>maboite = BOX({x:320 - 100, y: 144 - 60})
+WAIT(1)
+maboite.move({x:320, y:144})
+</code></pre>
+
+<p><a name="bump_fading"></a></p>
+
+<h3>Fondu de l'objet</h3>
+
+<p>La méthode <code>fade</code> permet de fondre l'objet (noter que cela revient à faire un show ou hide très lent).</p>
+
+<p>La méthode peut s'appeler sans argument, puisqu'elle détecte automatiquement le type de fondu (d'ouverture ou de fermeture) qu'il faut opérer.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maboite = BOX({hidden:true})
+# La boite sera masquée à la création grâce à `hidden:true`
+maboite.fade()
+# La boite apparaitra
+WAIT(2)
+# Et après 2 secondes…
+maboite.fade()
+# … la boite disparaitra
+</code></pre>
+
+<p><a name="bump_removing"></a></p>
+
+<h3>Destruction de l'objet</h3>
+
+<p>On détruit l'objet comme les autres objets grâce à la méthode <code>remove</code>.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maBoite.remove()
+</code></pre>
+
+<p>Noter que la méthode passe à l'étape suivante sans attendre. Pour faire disparaitre l'objet de façon plus fluide, il est préférable d'appeler avant la méthode <code>hide</code> ou <code>fade</code>. Par exemple&nbsp;:</p>
+
+<pre><code>maBoite.hide({duree:5})
+... quelque chose qui se passe ici
+maBoite.remove()
+# Détruit la boite une fois qu'elle n'est plus visible à l'écran
+</code></pre>
 
 <hr />
 
@@ -2985,7 +3611,7 @@ DEFAULT('offset_chord')
 <pre><code>DEFAULT('modulation_x', &lt;nombre de pixels&gt;)
 </code></pre>
 
-<p>Ce <code>&lt;nombre de pixels&gt;</code> sera retiré au <code>left</code>, donc si le nombre est positif, la marque recule vers la gauche.</p>
+<p>Ce <code>&lt;nombre de pixels&gt;</code> sera retiré au <code>x</code>, donc si le nombre est positif, la marque recule vers la gauche.</p>
 
 <p>Pour revenir à la position par défaut&nbsp;:</p>
 
@@ -3041,7 +3667,30 @@ DEFAULT('offset_chord')
 <pre><code>RESET_PREFERENCES
 </code></pre>
 
-<h2>-</h2>
+<hr />
+
+<p><a name="method_exec"></a></p>
+
+<h2>Exécuter du code</h2>
+
+<p>La commande <code>EXEC</code> permet d'exécuter du code. C'est une commande de débuggage.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>EXEC('now_start()')
+# =&gt; Place un point de départ temporel
+... animation ...
+EXEC('now()')
+# =&gt; Écrit en console le nombre de secondes et millisecondes écoulées
+#    depuis `now_start`
+</code></pre>
+
+<p>Pour écrire un message en console depuis le code, on peut utiliser&nbsp;:</p>
+
+<pre><code>EXEC('dlog("&lt;le message à écrire&gt;")')
+</code></pre>
+
+<hr />
 
 <p><a name="lannexe"></a></p>
 

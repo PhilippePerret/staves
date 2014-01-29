@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -185,6 +187,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
             
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
+            
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
                 <li><a href="../modules/handy.js.html">handy.js</a></li>
@@ -264,24 +268,53 @@ Gestion des évènements</a></li>
   * @module handy.js
   */
 
-/**
-  * Méthode définissant la propriété &#x60;complete&#x60; si nécessaire.
-  * @method define_complete
+/** Prends une valeur de longueur de l&#x27;animation (width, height, x, y, etc.)
+  * et, si elle est exprimée en pourcentage, la convertit en pixels par rapport
+  * à la taille de l&#x27;animation courante.
+  *
+  * @method as_pixels
   * @for window
-  * @param  {Object}  params   Les paramètres envoyés à la méthode, ou undefined
-  * @param  {Any}     value     La valeur à donner à complete (NEXT_STEP par défaut)
-  * @return {Object}  Les paramètres, auxquels a été ajouté la méthode complete
-  *                   (à NEXT_STEP) si elle n&#x27;existait pas.
-
+  * @param {Number|String}  value  La valeur fournie
+  * @param {Boolean}        for_width   True si c&#x27;est pour une largeur (sinon, hauteur)
+  * @return {String|Null} La valeur en pixels
   */
-window.define_complete = function(params, value)
+window.as_pixels = function(value, for_width)
 {
-  dlog(&quot;params reçus par define_complete (value=&quot;+value+&quot;):&quot;);dlog(params)
-  if(undefined == params) params = {}
-  if(undefined == value ) value  = NEXT_STEP
-  if(undefined == params.complete) params.complete = value
-  dlog(&quot;params renvoyés par define_complete : &quot;);dlog(params)
-  return params
+  if(&#x27;number&#x27; == typeof value) return with_unite(value, &#x27;px&#x27;)
+  else if (&#x27;string&#x27; == typeof value)
+  {
+    if(undefined == for_width) for_width = true
+    if(value.substring(value.length-1) == &#x27;%&#x27;)
+    {
+      return parseInt(Anim.Dom[for_width ? &#x27;width&#x27;:&#x27;height&#x27;] * parseInt(value) / 100) + &#x27;px&#x27;
+    }
+  }
+  else return null
+}
+/**
+  * Fonction retournant la valeur CSS à mettre, en ajoutant &#x27;px&#x27; si 
+  * nécessaire (ie lorsque la valeur ne contient pas &#x27;%&#x27; ou une autre unité)
+  * @method with_unite
+  * @for window
+  * @param {Number|String}  value   La valeur à testée
+  * @param {String}         unite   L&#x27;unité (&#x27;px&#x27; par défaut)
+  * @return {String|Null} la valeur à mettre dans les styles de l&#x27;objet DOM
+  */
+window.with_unite = function(value, unite)
+{
+  if(undefined == unite) unite = &#x27;px&#x27;
+  switch(typeof value)
+  {
+  case &#x27;number&#x27;:
+    value = &quot;&quot; + value + unite
+    break
+  case &#x27;string&#x27;:
+    if(value.replace(/[0-9]/g, &#x27;&#x27;) == &quot;&quot;) value += unite
+    break
+  default:
+    value = null
+  }
+  return value
 }
 
 /**
@@ -301,10 +334,58 @@ window.parametize = function(attr, value)
   return obj
 }
 
+/** Message de suivi en console
+  * @method dlog
+  * @param {Object|String} foo  Ce qu&#x27;il faut placer en console.
+  * @return {String} le message, mais seulement si foo n&#x27;est pas un objet.
+  */
 window.dlog = function(foo)
 {
   if(&#x27;object&#x27;==typeof foo) console.dir(foo)
-  else console.log(foo)
+  else
+  {
+    console.log(foo)
+    return foo // pour l&#x27;utiliser dans le code par exemple
+  } 
+}
+
+/** Pour le débuggage, retourne le nombre de secondes courant, avec
+  * deux décimales pour les millisecondes et l&#x27;écrit en console
+  * Note
+  * ----
+  *   * Si un point de départ a été défini avec la méthode &#x60;now_start&#x60;, c&#x27;est
+  *     ce point de référence qui est utilisé. Sinon, on prend la date courante
+  *
+  * @method now
+  * @for window
+  * @return {String} Le nombre de secondes avec millisecondes (&quot;SSSS.MM&quot;)
+  */
+window.now = function()
+{
+  var time_now, dtime, time, dlaps ;
+  time_now = Time.now()
+  // La donnée temps depuis le départ temporel ou absolu
+  dtime = Time.decompose(time_now - (this.now.start || 0))
+  time = &quot;= TIME POINT = &quot; + dtime.scs + &quot;.&quot; + dtime.only_mls
+  // La donnée temps depuis le dernier passage dans cette méthode
+  if(this.now.now_last)
+  {
+    dlaps = Time.decompose(time_now - this.now.now_last)
+    time += &quot; [depuis dernier PT : &quot;+dlaps.scs+&quot;.&quot;+dlaps.only_mls+&quot;]&quot;
+  } 
+  // On mémorise ce temps courant
+  this.now.now_last = parseInt(time_now)
+  dlog(time)
+  return time
+}
+/** Pose un point de départ pour le débuggage
+  * @method now_start
+  * @for window
+  */
+window.now_start = function()
+{
+  this.now.start = Time.now()
+  dlog(&quot;= START POINT TEMPOREL =&quot;)
 }
     </pre>
 </div>

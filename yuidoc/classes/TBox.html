@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -290,7 +294,23 @@ Gestion des évènements</a></li>
     <h3 class="name"><code>TBox</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>texte</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -333,6 +353,46 @@ Gestion des évènements</a></li>
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">texte</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Le texte de la TBox</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object | String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Soit les paramètres, soit le <code>style</code> de la TBox.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
 
     
 
@@ -367,34 +427,6 @@ Gestion des évènements</a></li>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_build">build</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_positionne">positionne</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_set_background">set_background</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_show">show</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
                                 <a href="#method_TBOX">TBOX</a>
 
                                 
@@ -426,35 +458,7 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_border">border</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
                                 <a href="#property_class">class</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_code_html">code_html</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_font_family">font_family</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_font_size">font_size</a>
 
                                 
                                 
@@ -469,27 +473,6 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item property">
                                 <a href="#property_last_id">last_id</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_left">left</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_obj_background">obj_background</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_obj_texte">obj_texte</a>
 
                                 
                                 
@@ -517,35 +500,7 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_padding">padding</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_texte">texte</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_top">top</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_width">width</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_width">width</a>
+                                <a href="#property_style">style</a>
 
                                 
                                 
@@ -570,267 +525,6 @@ Gestion des évènements</a></li>
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
-
-                
-                    <div id="method_build" class="method item">
-    <h3 class="name"><code>build</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l163"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:163</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Construction de la boite de texte</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_positionne" class="method item">
-    <h3 class="name"><code>positionne</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l126"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:126</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Positionne la boite de texte (mais fait + que ça, en la dimensionnant et
-en réglant toutes les propriétés css définies — taille de police, etc.)</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_set_background" class="method item">
-    <h3 class="name"><code>set_background</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l182"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:182</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Définit le background sous le texte. La méthode est utilisée par la
-définission de la propriété UniversalBoxMethods <code>background</code>
-Par défaut, la couleur de fond est la même que la couleur de police (oui,
-étonnant, mais c&#39;est parce que l&#39;opacité est en action)</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_show" class="method item">
-    <h3 class="name"><code>show</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l110"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:110</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Affiche le texte
-La méthode surclasse la méthode <code>show</code> des méthodes universelles de boite
-car l&#39;opacité concerne le background, pas le div principal, or, la propriété
-this.opacity d&#39;une TBox est réglée pour le background.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Paramètres optionnels</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
 
                 
                     <div id="method_TBOX" class="method item">
@@ -919,7 +613,7 @@ this.opacity d&#39;une TBox est réglée pour le background.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l75"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:75</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l84"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:84</code></a>
         
         </p>
 
@@ -966,7 +660,7 @@ this.opacity d&#39;une TBox est réglée pour le background.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l68"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:68</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l70"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:70</code></a>
         
         </p>
 
@@ -982,51 +676,6 @@ this.opacity d&#39;une TBox est réglée pour le background.</p>
 
     
         <p><strong>Default:</strong> &#x27;black&#x27;</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_border" class="property item">
-    <h3 class="name"><code>border</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l233"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:233</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Bordure du box</p>
-
-    </div>
-
     
 
     
@@ -1060,7 +709,7 @@ this.opacity d&#39;une TBox est réglée pour le background.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l22"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:22</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l24"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:24</code></a>
         
         </p>
 
@@ -1071,141 +720,6 @@ this.opacity d&#39;une TBox est réglée pour le background.</p>
 
     <div class="description">
         <p>Class TBox</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_code_html" class="property item">
-    <h3 class="name"><code>code_html</code></h3>
-    <span class="type">HTMLString</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l345"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:345</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Code HTML de la tbox</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_font_family" class="property item">
-    <h3 class="name"><code>font_family</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l200"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:200</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Police de caractère</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_font_size" class="property item">
-    <h3 class="name"><code>font_size</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l211"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:211</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Taille de caractère</p>
 
     </div>
 
@@ -1240,7 +754,7 @@ this.opacity d&#39;une TBox est réglée pour le background.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l28"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:28</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l30"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:30</code></a>
         
         </p>
 
@@ -1285,7 +799,7 @@ this.opacity d&#39;une TBox est réglée pour le background.</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l92"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:92</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l122"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:122</code></a>
         
         </p>
 
@@ -1301,142 +815,6 @@ this.opacity d&#39;une TBox est réglée pour le background.</p>
 
     
         <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_left" class="property item">
-    <h3 class="name"><code>left</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l244"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:244</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Décalage horizontal de la boite de texte. Celle fournie ou celle calculée
-par défaut</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_obj_background" class="property item">
-    <h3 class="name"><code>obj_background</code></h3>
-    <span class="type">JQuerySet</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l326"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:326</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Objet DOM du div du background sous le texte</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_obj_texte" class="property item">
-    <h3 class="name"><code>obj_texte</code></h3>
-    <span class="type">JQuerySet</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l321"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:321</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Objet DOM contenant le texte</p>
-
-    </div>
-
     
 
     
@@ -1468,7 +846,7 @@ par défaut</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l39"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:39</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l41"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:41</code></a>
         
         </p>
 
@@ -1516,7 +894,7 @@ définie par les autres valeurs</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l47"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:47</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l49"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:49</code></a>
         
         </p>
 
@@ -1564,7 +942,7 @@ définie par les autres valeurs</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l61"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:61</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l63"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:63</code></a>
         
         </p>
 
@@ -1588,8 +966,8 @@ définie par les autres valeurs</p>
 </div>
 
                 
-                    <div id="property_padding" class="property item">
-    <h3 class="name"><code>padding</code></h3>
+                    <div id="property_style" class="property item">
+    <h3 class="name"><code>style</code></h3>
     <span class="type">String</span>
 
     
@@ -1611,7 +989,7 @@ définie par les autres valeurs</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l222"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:222</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l77"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:77</code></a>
         
         </p>
 
@@ -1621,191 +999,12 @@ définie par les autres valeurs</p>
     </div>
 
     <div class="description">
-        <p>Padding de la boite</p>
+        <p>Style du texte (class CSS)</p>
 
     </div>
 
     
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_texte" class="property item">
-    <h3 class="name"><code>texte</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l332"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:332</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Texte de la boite</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_top" class="property item">
-    <h3 class="name"><code>top</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l263"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:263</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Décalage vertical de la boite de texte. Celle fournie ou celle calculée
-par défaut</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_width" class="property item">
-    <h3 class="name"><code>width</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l300"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:300</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Hauteur de la boite de texte. Celle fournie ou celle calculée par défaut</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_width" class="property item">
-    <h3 class="name"><code>width</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l283"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:283</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Largeur de la boite de texte. Celle fournie ou celle calculée par défaut</p>
-
-    </div>
-
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -1837,7 +1036,7 @@ par défaut</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l55"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:55</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Textes_TBox.js.html#l57"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Textes&#x2F;TBox.js:57</code></a>
         
         </p>
 

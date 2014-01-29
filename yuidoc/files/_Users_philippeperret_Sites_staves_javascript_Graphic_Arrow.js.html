@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -370,49 +374,64 @@ ARROW_METHODS = {
     * Méthode générale pour modifier la flèche (appelée par les autres
     * méthodes)
     * @method modify
-    * @param {String} method  La méthode de mofication (p.e. &#x27;css&#x27;)
-    * @param {Object} params  Les paramètres de la modification
-    * @param {Function} complete  La méthode pour suivre
+    * @param {String}   method    La méthode de mofication (p.e. &#x27;css&#x27;)
+    * @param {Object}   data      Les paramètres CSS de la modification + les éléments à traiter
+    * @param {Object}   params
+    *   @param {Boolean}  params.div        Si true, traitera &#x60;this.obj_div&#x60;
+    *   @param {Boolean}  params.head       Si true, traitera &#x60;this.obj_head&#x60;
+    *   @param {Boolean}  params.queue      Si true, traitera &#x60;this.obj_queue&#x60;
+    *   @param {Function} params.complete   La méthode pour suivre (NEXT_STEP par défaut)
+    *   @param {Float}    params.duree      La durée de l&#x27;animation
+    *   @param {Boolean|Number} params.wait Le paramètre d&#x27;attente
     */
-  modify:function(method, params, complete)
+  modify:function(method, data, params)
   {
     if(method != &#x27;animate&#x27;)
     {
-      this.obj[method](params)  
+      this.obj[method](data)  
     }
     else
     {
-      var suf_objs = []
-      if(undefined == params.div || params.div)   suf_objs.push(&#x27;div&#x27;)
-      if(params.head)   suf_objs.push(&#x27;head&#x27;)
-      if(params.queue)  suf_objs.push(&#x27;queue&#x27;)
-      dlog(&quot;[modify] params : &quot;);dlog(params)
-      dlog(&quot;[modify] suf_objs : &quot;);dlog(suf_objs)
-      var my = this
-      L(suf_objs).each(function(suf){
-        my[&#x27;obj_&#x27;+suf].animate(
-          params, Anim.delai_for(&#x27;transform&#x27;), complete || NEXT_STEP
-        )
+      var objets = []
+      if(undefined == params.div) params.div = true
+      L([&#x27;div&#x27;, &#x27;head&#x27;, &#x27;queue&#x27;]).each(function(suffix){
+        if(params[suffix])
+        {
+          objets.push(&#x27;obj_&#x27;+suffix)
+          delete params[suffix]
+        }
       })
+      Anim.Dom.anime(objets, data, params)
     }
-    
   },
   /**
     * Déplacer la flèche
     * @method move
     * @param {Object} params Paramètres du déplacement (ou un des attributs ci-dessous)
-    *   @param {Number} params.x    Déplacement  horizontal (en pixels)
-    *   @param {Number} params.y    Déplacement vertical (en pixels)
+    *   @param {Number} data.x    Déplacement  horizontal (en pixels)
+    *   @param {Number} data.y    Déplacement vertical (en pixels)
     * @param {Number} value   Si +params+ est une propriété (&#x27;x&#x27; ou &#x27;y&#x27;), +value+ est sa valeur
+    *                         Sinon, ça peut être l&#x27;objet &#x60;params&#x60; ci-dessous
+    * @param {Object} params  Les paramètres optionnels
+    *   @param {Float}          params.duree  La durée que doit prendre la transformation
+    *   @param {Boolean|Number} params.wait   Le paramètre d&#x27;attente
     */
-  move:function(params, value)
+  move:function(data, value, params)
   {
-    params = parametize(params, value)
+    if(&#x27;object&#x27; == typeof data)
+    {
+      if(&#x27;object&#x27; == typeof value) params = value
+    }
+    else
+    {
+      data = parametize(data, value)
+      if(undefined == params) params = {}
+    }
+    if(undefined == params.duree) params.duree = Anim.delai_for(&#x27;move&#x27;)
     var pos   = this.obj.position()
-    var data  = {}
-    if(undefined != params.x) data.x = (pos.left + params.x) + &quot;px&quot;
-    if(undefined != params.y) data.y = (pos.top  + params.y) + &quot;px&quot;
-    this.modify(&#x27;animate&#x27;, data)
+    if(undefined != data.x) data.x = (pos.left + data.x) + &quot;px&quot;
+    if(undefined != data.y) data.y = (pos.top  + data.y) + &quot;px&quot;
+    this.modify(&#x27;animate&#x27;, data, params)
   },
   /**
     * Fait pivoter la flèche de l&#x27;angle +angle+ 
@@ -433,12 +452,15 @@ ARROW_METHODS = {
     * Notes
     *   * Changer sa taille consiste à allonger la queue
     * @method width
-    * @param  {Number} px La nouvelle taille en pixels
+    * @param  {Number}  px La nouvelle taille en pixels
+    * @param  {Object}  params  Paramètres optionnels (comme &#x60;duree&#x60; ou &#x60;wait&#x60;)
     */
-  size:function(px)
+  size:function(px, params)
   {
     var h = this.obj.height()
-    this.modify(&#x27;animate&#x27;, {width:px+&quot;px&quot;, height:h+&quot;px&quot;, queue:true, div:false})
+    if(undefined == params) params = {}
+    $.extend(params, {queue:true, div:false})
+    this.modify(&#x27;animate&#x27;, {width:px+&quot;px&quot;, height:h+&quot;px&quot;}, params)
   },
   /**
     * Modifie la couleur de la flèche
@@ -448,7 +470,7 @@ ARROW_METHODS = {
   colorize:function(couleur)
   {
     this.color = couleur
-    NEXT_STEP()
+    NEXT_STEP(0)
   },
   
   /**

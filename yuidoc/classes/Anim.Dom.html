@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -318,6 +322,13 @@ Gestion des évènements</a></li>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_anime">anime</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_clear">clear</a>
 
                                 
@@ -333,6 +344,13 @@ Gestion des évènements</a></li>
                         
                             <li class="index-item method">
                                 <a href="#method_hide">hide</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_hide_or_show">hide_or_show</a>
 
                                 
                                 
@@ -510,7 +528,7 @@ Gestion des évènements</a></li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l145"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:145</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l194"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:194</code></a>
         
         </p>
 
@@ -602,6 +620,201 @@ Notes</p>
 </div>
 
                 
+                    <div id="method_anime" class="method item">
+    <h3 class="name"><code>anime</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>objets</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>data_css</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l31"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:31</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode Animate générale, qui traite l&#39;animation d&#39;un ou plusieurs objets</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">objets</code>
+                        <span class="type">JQuerySet | Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Un DOM objet ou une liste de DOM Objets à animer</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">data_css</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les données CSS de transformation</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">duree</code>
+                                    <span class="type">Float</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La durée de l&#39;animation, en secondes</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function | False</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La méthode pour suivre, ou false.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">complete_each</code>
+                                    <span class="type">String</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Une méthode (EXPRIMÉE EN STRING) à invoquer sur l&#39;objet qui vient de terminer son animate. Par exemple &#39;remove&#39;.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">wait</code>
+                                    <span class="type">Boolean | Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Soit undéfini : on poursuit à la fin de l&#39;animation
+                                               Soit false : on s&#39;arrête à la fin de l&#39;animation.
+                                               Soit un nombre de secondes : on passe à la suite après x secondes, et on ne fait rien à la fin de l&#39;animation.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_clear" class="method item">
     <h3 class="name"><code>clear</code></h3>
 
@@ -650,7 +863,7 @@ Notes</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l31"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:31</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l104"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:104</code></a>
         
         </p>
 
@@ -849,7 +1062,7 @@ doublage n&#39;apparait).</p>
             
                 <li class="arg">
                     
-                        <code>obj</code>
+                        <code>instance</code>
                     
                 </li>
             
@@ -888,7 +1101,7 @@ doublage n&#39;apparait).</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l108"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:108</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l153"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:153</code></a>
         
         </p>
 
@@ -921,14 +1134,14 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
             
                 <li class="param">
                     
-                        <code class="param-name">obj</code>
+                        <code class="param-name">instance</code>
                         <span class="type">Any</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>L&#39;objet (Note, Txt, etc.) à masquer</p>
+                        <p>L&#39;instance (Note, Txt, etc.) à masquer</p>
 
                     </div>
 
@@ -973,6 +1186,164 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
 
                                 <div class="param-description">
                                     <p>La méthode pour suivre (NEXT_STEP par défaut)</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_hide_or_show" class="method item">
+    <h3 class="name"><code>hide_or_show</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>instance</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l175"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:175</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Méthode générale pour masquer ou afficher l&#39;objet <code>obj</code> de l&#39;instance
+quelconque +instance+.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">instance</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>L&#39;instance (Note, Txt, etc.) à afficher</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Les paramètres optionnels</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">duree</code>
+                                    <span class="type">Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Le temps en secondes pour faire apparaitre/disparaitre l&#39;objet</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function</span>
+                                
+
+                                <div class="param-description">
+                                    <p>La méthode pour suivre (NEXT_STEP par défaut)</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">wait</code>
+                                    <span class="type">Boolean | Number</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Définit comment il faut passer à la suite.</p>
 
                                 </div>
 
@@ -1305,23 +1676,7 @@ Anim.prefs.caption_debit.</li>
     <h3 class="name"><code>show</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>obj</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>params</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -1349,7 +1704,7 @@ Anim.prefs.caption_debit.</li>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l71"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:71</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l144"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:144</code></a>
         
         </p>
 
@@ -1360,92 +1715,11 @@ Anim.prefs.caption_debit.</li>
     </div>
 
     <div class="description">
-        <p>Affiche un objet quelconque de l&#39;animation</p>
-<h2 id="notes">Notes</h2>
-<ul>
-<li>La méthode est toujours en fin de chaine donc elle doit toujours
-appeler NEXT_STEP(). Mais si la méthode <code>params.complete</code> est
-définie, elle peut être appelée au lieu de NEXT_STEP, en sachant
-que cette méthode <code>complete</code> devra se charger OBLIGATOIREMENT
-d&#39;appeler NEXT_STEP().
-Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
-éléments, comme une note altérée avec lignes supplémentaires</li>
-</ul>
+        <p>Affiche un objet quelconque de l&#39;animation
+Pour les paramètres, cf. hide_or_show.</p>
 
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">obj</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>L&#39;objet (Note, Txt, etc.) à afficher</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">params</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Les paramètres optionnels</p>
-
-                    </div>
-
-                    
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">duree</code>
-                                    <span class="type">Number</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Le temps pour faire apparaitre l&#39;objet</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">complete</code>
-                                    <span class="type">Function</span>
-                                
-
-                                <div class="param-description">
-                                    <p>La méthode pour suivre (NEXT_STEP par défaut)</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -1502,7 +1776,7 @@ Cela arrive par exemple lorsqu&#39;un objet est constitué de plusieurs
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l180"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:180</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l229"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:229</code></a>
         
         </p>
 
@@ -1833,7 +2107,7 @@ false si aucun doublage n&#39;est en cours d&#39;écriture)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l211"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:211</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l260"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:260</code></a>
         
         </p>
 
@@ -1878,7 +2152,7 @@ false si aucun doublage n&#39;est en cours d&#39;écriture)</p>
             
         
         
-        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l203"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:203</code></a>
+        <a href="../files/_Users_philippeperret_Sites_staves_javascript_Anim_Anim_Dom.js.html#l252"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;Anim&#x2F;Anim_Dom.js:252</code></a>
         
         </p>
 

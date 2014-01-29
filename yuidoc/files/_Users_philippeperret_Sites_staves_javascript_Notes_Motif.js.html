@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -400,7 +404,8 @@ $.extend(Motif.prototype,{
       hoffset += me.offset_x || Anim.prefs.next
       if(hoffset &gt; Anim.Dom.left_max)
       {
-        hoffset   = this.left || Anim.current_x
+        hoffset   = me.left || Anim.current_x
+        dlog(&quot;* hoffset mis à &quot;+hoffset)
         the_staff = Anim.Objects.NEW_STAFF(me.staff.cle)
       }
     })

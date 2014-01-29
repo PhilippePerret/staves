@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -290,6 +294,79 @@ Anim.Dom = {
     */
   left_max:null,
   
+  /** === Main ===
+    *
+    * Méthode Animate générale, qui traite l&#x27;animation d&#x27;un ou plusieurs objets
+    *
+    * @method anime
+    * @param {jQuerySet|Array}  objets    Un DOM objet ou une liste de DOM Objets à animer
+    * @param {Object}           data_css  Les données CSS de transformation
+    * @param {Object}           params    Les paramètres optionnels
+    *   @param  {Float}           params.duree      La durée de l&#x27;animation, en secondes
+    *   @param  {Function|False}  params.complete   La méthode pour suivre, ou false.
+    *   @param  {String}          params.complete_each  Une méthode (EXPRIMÉE EN STRING) à invoquer sur l&#x27;objet qui vient de terminer son animate. Par exemple &#x27;remove&#x27;.
+    *   @param  {Boolean|Number}  params.wait       Soit undéfini : on poursuit à la fin de l&#x27;animation
+    *                                               Soit false : on s&#x27;arrête à la fin de l&#x27;animation.
+    *                                               Soit un nombre de secondes : on passe à la suite après x secondes, et on ne fait rien à la fin de l&#x27;animation.
+    */
+  anime:function(objets, data_css, params)
+  {
+    if(&#x27;function&#x27; != typeof objets.splice) objets = [objets]
+    var iobjet = 0,
+        nombre_objets = objets.length,
+        nombre_objets_traited = 0 ;
+    
+    /*
+     *  Définition de la méthode params.complete à appeler en fin d&#x27;animation
+     *  ou au temps déterminer par params.wait
+     *  Quand params.complete n&#x27;est pas défini en argument, c&#x27;est NEXT_STEP
+     */
+    params = define_complete(params)
+    
+    /*
+     *  On boucle sur tous les objets fournis en argument pour les animer
+     *  Noter que souvent il n&#x27;y en a qu&#x27;un seul.
+     *
+     *  Pour le moment, le set jQuery (l&#x27;objet) doit renvoyer à un seul élément. Pour
+     *  éviter tout problème, on s&#x27;assure ici de ne prendre que le premier.
+     *
+     */
+    for(; iobjet &lt; nombre_objets; ++iobjet)
+    {
+      objets[iobjet].eq(0).
+        animate(
+          data_css,
+          {
+            duration : (params.duree || Anim.delai_for(&#x27;transform&#x27;)) * 1000,
+            complete : function()
+            {
+              /*
+               *  Si une méthode (simple) a été définie dans &#x60;complete_each&#x60;, on
+               *  l&#x27;exécute sur l&#x27;objet.
+               */
+              if(&#x27;string&#x27; == typeof params.complete_each) this[params.complete_each]()
+            },
+            always   : function()
+            {
+              ++ nombre_objets_traited
+              if(nombre_objets_traited == nombre_objets)
+              {
+                // Fin de l&#x27;animation de tous les objets à traiter
+                if(&#x27;function&#x27; == typeof params.complete) params.complete()
+              }
+            }
+          }
+        )
+    }
+    
+    /* 
+     *  On traite éventuellement le paramètre wait, soit pour passer à l&#x27;étape
+     *  suivante tout de suite, soit après un laps de temps défini par params.wait,
+     *  soit on ne fait rien.
+     */
+    traite_wait( params )
+  },
+  
   /**
     * Efface en douceur le contenu de l&#x27;animation
     * (pour un lien fluide entre des animations qui se suivent — ou reset en cours d&#x27;animation)
@@ -332,40 +409,12 @@ Anim.Dom = {
   },
   /**
     * Affiche un objet quelconque de l&#x27;animation
-    * Notes
-    * -----
-    *   * La méthode est toujours en fin de chaine donc elle doit toujours
-    *     appeler NEXT_STEP(). Mais si la méthode &#x60;params.complete&#x60; est
-    *     définie, elle peut être appelée au lieu de NEXT_STEP, en sachant
-    *     que cette méthode &#x60;complete&#x60; devra se charger OBLIGATOIREMENT
-    *     d&#x27;appeler NEXT_STEP().
-    *     Cela arrive par exemple lorsqu&#x27;un objet est constitué de plusieurs
-    *     éléments, comme une note altérée avec lignes supplémentaires
-    *
+    * Pour les paramètres, cf. hide_or_show.
     * @method show
-    * @param  {Any} obj L&#x27;objet (Note, Txt, etc.) à afficher
-    * @param  {Object} params Les paramètres optionnels
-    *   @param  {Number} params.duree   Le temps pour faire apparaitre l&#x27;objet
-    *   @param  {Function} params.complete  La méthode pour suivre (NEXT_STEP par défaut)
     */
-  show:function(obj, params)
+  show:function(instance, params)
   {
-    // dlog(&quot;-&gt; Anim.Dom.show / params:&quot;);dlog(params)
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
-    if(MODE_FLASH)
-    {
-      obj.css(&#x27;opacity&#x27;,1)
-      params.complete()
-    }
-    else
-    {
-      obj.animate(
-        {opacity:1}, 
-        params.duree || Anim.delai_for(&#x27;show&#x27;),
-        params.complete
-        )
-    }
+    this.hide_or_show(instance, params, true)
   },
   /**
     * Masque un objet quelconque de l&#x27;animation
@@ -380,30 +429,34 @@ Anim.Dom = {
     *     éléments, comme une note altérée avec lignes supplémentaires
     *
     * @method hide
-    * @param  {Any} obj L&#x27;objet (Note, Txt, etc.) à masquer
+    * @param  {Any} instance L&#x27;instance (Note, Txt, etc.) à masquer
     * @param  {Object} params Les paramètres optionnels
     *   @param  {Number}    params.duree      Le temps pour faire apparaitre l&#x27;objet
     *   @param  {Function}  params.complete   La méthode pour suivre (NEXT_STEP par défaut)
     */
-  hide:function(obj, params)
+  hide:function(instance, params)
   {
-    // dlog(&quot;-&gt; Anim.Dom.hide / params:&quot;);dlog(params)
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
-    if(MODE_FLASH)
-    {
-      obj.css(&#x27;opacity&#x27;,0)
-      params.complete()
-    }
-    else
-    {
-      obj.animate(
-        {opacity:0}, 
-        params.duree || Anim.delai_for(&#x27;show&#x27; /* même vitesse que &#x27;show&#x27; */),
-        params.complete
-        )
-    }
+    this.hide_or_show(instance, params, false)
   },
+  /**
+    * Méthode générale pour masquer ou afficher l&#x27;objet &#x60;obj&#x60; de l&#x27;instance
+    * quelconque +instance+.
+    * @method hide_or_show
+    * @param  {Any} instance L&#x27;instance (Note, Txt, etc.) à afficher
+    * @param  {Object} params Les paramètres optionnels
+    *   @param  {Number}    params.duree      Le temps en secondes pour faire apparaitre/disparaitre l&#x27;objet
+    *   @param  {Function}  params.complete   La méthode pour suivre (NEXT_STEP par défaut)
+    *   @param  {Boolean|Number} params.wait  Définit comment il faut passer à la suite.
+    */
+  hide_or_show:function(instance, params, to_show)
+  {
+    var obj = instance.obj
+    if(undefined == obj || obj.length == 0) return F.error(&quot;[Anim.Dom.hide_or_show] Aucun objet à traiter…&quot;)
+    params = define_wait(params, instance)
+    params.duree = params.duree || Anim.delai_for(&#x27;show&#x27;)
+    this.anime([obj], {opacity: to_show ? 1 : 0}, params)
+  },
+  
   /**
     * Ajoute un objet DOM à l&#x27;animation
     * Notes
@@ -434,8 +487,8 @@ Anim.Dom = {
     if(real_instance)
     {
       instance.positionne()
-      if(instance.opacity != 0) instance.show(params)
-      else if(&#x27;function&#x27;==typeof params.complete) params.complete()
+      if(instance.opacity != 0 &amp;&amp; !instance.hidden) instance.show(params)
+      else if(&#x27;function&#x27; == typeof params.complete) params.complete()
     }
     dlog(&quot;&lt;- Anim.Dom.add&quot;)
   },

@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -374,11 +378,12 @@ Anim.Step = {
     *     l&#x27;animation ne démarre vraiment).
     *
     * @method auto_next
-    * @param  {Boolean} no_timeout Si true, pas de délai avant d&#x27;appeler l&#x27;étape suivante
+    * @param  {Undefined|Number} timeout Le temps d&#x27;attente avant de passer à la suite.
+    *                             Si indéfini, c&#x27;est le temps par défaut (Anim.transition.step), si 0, on passe tout de suite à l&#x27;étape suivante. Si c&#x27;est un nombre, c&#x27;est le nombre de secondes.
     */
-  auto_next:function(no_timeout)
+  auto_next:function(timeout)
   {
-    stack(&#x27;-&gt; Anim.Step.auto_next&#x27;, {no_timeout:no_timeout})
+    stack(&#x27;-&gt; Anim.Step.auto_next&#x27;, {timeout:timeout})
     if(Anim.Dom.Doublage.on &amp;&amp; Anim.Dom.Doublage.waiting == true)
     {
       console.warn(&quot;Entrée dans Anim.Step.auto_next alors qu&#x27;un doublage est encore en cours. Je renonce.\n&quot;+
@@ -386,16 +391,27 @@ Anim.Step = {
       Debug.output()
       return false
     }
-    if(Anim.preambule_on) return
     if(this.timer) clearTimeout(this.timer)
+    if(Anim.preambule_on) return
     if(this.mode_pas_a_pas) return
+    
+    /* On doit passer à l&#x27;étape suivante, reste à déterminer quand :
+     *    - Tout de suite (timeout == 0)
+     *    - Après le délai par défaut (timeout indéfini)
+     *    - Après le délai spécifié explicitement par &#x60;timeout&#x60;
+     */
+    var no_timeout = (timeout === 0) ;
     if(MODE_FLASH || no_timeout || Anim.transition.step == 0)
     {
       this.next()
     }
     else
     {
-      this.timer = setTimeout($.proxy(Anim.Step.next, Anim.Step), Anim.delai_for(&#x27;step&#x27;))
+      // dlog(&quot;[Anim.Step.auto_next] Je dois attendre : &quot; + (((&#x27;number&#x27; == typeof timeout) ? timeout : Anim.delai_for(&#x27;step&#x27;)) * 1000) + &quot; millisecondes&quot;)
+      this.timer = setTimeout(
+        $.proxy(Anim.Step.next, Anim.Step), 
+        ((&#x27;number&#x27; == typeof timeout) ? timeout : Anim.delai_for(&#x27;step&#x27;)) * 1000
+      )
     }
     stack(&#x27;&lt;- Anim.Step.auto_next&#x27;)
   }

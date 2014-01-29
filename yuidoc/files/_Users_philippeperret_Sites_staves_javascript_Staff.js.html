@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -502,58 +506,45 @@ $.extend(Staff.prototype, {
   /**
     * Affiche les objets de la portée
     * @method show
-    * @param  {Number} vitesse La vitesse d&#x27;apparition
+    * @param {Number} duree La durée de temps de l&#x27;apparition
+    * @param {Object} params  Les paramètres optionnels
     */
-  show:function(vitesse)
+  show:function(duree, params)
   {
-    if(undefined == vitesse) vitesse = 200
-    var me = this
-    L(this.objets).each(function(obj){
-      obj.animate({opacity:1}, vitesse, me.on_complete)
-    })
+    params = define_wait(params, this)
+    params.duree = duree || Anim.delai_for(&#x27;show&#x27;)
+    Anim.Dom.anime(this.objets, {opacity:1}, params)
   },
-  /**
-    * Methode à appeler par toute opération opérant sur les objets
-    * Lorsque chaque objet a été traité, on passe à l&#x27;étape suivante.
-    * @method on_complete
-    */
-  on_complete:function()
-  {
-    if(undefined == this.decompte_complete) this.decompte_complete = 0
-    ++this.decompte_complete
-    if(this.decompte_complete == this.nombre_objets)
-    {
-      delete this.decompte_complete
-      NEXT_STEP(0)
-    }
-  },
+    
   /**
     * Masque la portée (sans la détruire)
     * @method hide
     */
-  hide:function()
+  hide:function(duree, params)
   {
-    this.img_staff.hide(Anim.delai_for(&#x27;show&#x27;))
-    this.img_cle.animate({opacity:&#x27;0&#x27;}, Anim.delai_for(&#x27;show&#x27;))
+    params = define_wait(params, this)
+    params.duree = duree || Anim.delai_for(&#x27;show&#x27;)
+    Anim.Dom.anime([this.img_staff, this.img_cle], {opacity:0}, params)
   },
+
   /**
     * Destruction de la portée (et retrait de la liste des portées) et
     * de tout ce qu&#x27;elle porte sans exception.
     * @method remove
+    * @param {Object} params Paramètres éventuels
+    *
     */
-  remove:function()
+  remove:function(params)
   {
     Anim.staves.splice(this.indice - 1, 1)
-    var me = this
-    L(this.objets).each(function(obj){ 
-      obj.animate({opacity:0}, 200, function(){
-        this.remove()
-        me.on_complete()
-      })
-    })
+    params = define_wait(params, this)
+    params.duree          = 0.2
+    params.complete_each  = &#x27;remove&#x27;
+    Anim.Dom.anime( {opacity:0}, params)
+    
     // On doit détruire toutes les notes, avec leurs textes
     var liste_notes = $.extend({}, this.notes.list)
-    L(liste_notes)  .each(function(kleft){
+    L(liste_notes).each(function(kleft){
       L(liste_notes[kleft]).each(function(note){
         note.remove({dont_unstaff:true, texts:true})
       })

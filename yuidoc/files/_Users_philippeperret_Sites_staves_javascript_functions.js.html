@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>UI.Tools</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/functions.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -260,73 +260,98 @@ Gestion des évènements</a></li>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>UI.Tools Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/functions.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+  * @module Functions.js
+  */
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_philippeperret_Sites_staves_javascript_UI_&gt;UI.Tools.js.html#l5"><code>&#x2F;Users&#x2F;philippeperret&#x2F;Sites&#x2F;staves&#x2F;javascript&#x2F;UI&#x2F;&gt;UI.Tools.js:5</code></a>
-        </div>
-    
+/**
+  * Méthode qui ajoute la propriété &#x60;wait&#x60; aux paramètres +param+ si nécessaire.
+  *
+  * La méthode est nécessaire car le paramètre &#x60;wait&#x60;, qui va déterminer à quel moment
+  * une étape quelconque va devoir passer la main à l&#x27;étape suivante, peut être déterminé
+  * de plusieurs façons :
+  *   * Soit dans les paramètres envoyés à la méthode d&#x27;animation (dans ce cas &#x60;wait&#x60; sera
+  *     déjà dans +params+)
+  *   * Soit à l&#x27;instanciation de l&#x27;objet (dans ce cas, ce sera une propriété de l&#x27;objet/l&#x27;instance)
+  *
+  * @method define_wait
+  * @for window
+  * @param {Undefined|Object} params    Les paramètres déjà définis ou non
+  * @param {Object} instance    L&#x27;instance appelant la méthode, de n&#x27;importe quelle classe.
+  * @return {Object} Les paramètres avec éventuellement la propriété &#x60;wait&#x60; ajoutée.
+  *
+  */
+window.define_wait = function(params, instance)
+{
+  if(undefined == params) params = {}
 
-    
-        
-            Module: <a href="../modules/UI.Tools.js.html">UI.Tools.js</a>
-        
-    
+  if(undefined !== instance.wait){
+    params.wait = instance.wait
+    delete instance.wait
+  }
+  
+  return params
+}
 
-    
-</div>
+/** Méthode qui traite la propriété &#x60;wait&#x60; dans les paramètres de la
+  * plupart des méthodes.
+  *
+  * L&#x27;idée est la suivante : si &#x60;params.wait&#x60; est exactement égal à &#x60;false&#x60;, on
+  * doit immédiatement passer à la suite (ce n&#x27;est pas la méthode &#x60;animate&#x60; ou autre
+  * qui s&#x27;en charge). Si &#x60;params.wait&#x60; est un nombre, alors c&#x27;est le temps d&#x27;attente,
+  * en secondes, avant de passer à la suite.
+  *
+  * Question :  Est-ce que ce n&#x27;est pas la méthode &#x60;params.complete&#x60; qu&#x27;il faudrait
+  *             appeler ? (qui est souvent à NEXT_STEP, mais pas toujours) TODO
+  *
+  * @method traite_wait
+  * @for window
+  * @param {Objet} params   Les paramètres envoyés (peut être indéfini)
+  */
+window.traite_wait = function(params)
+{
+  // dlog(&quot;-&gt; traite_wait(params:&quot;);dlog(params)
+  if(undefined === params.wait) return
+  if(params.wait === false)
+  {
+    NEXT_STEP(0)
+  }
+  else if(&#x27;number&#x27; == typeof params.wait)
+  {
+    NEXT_STEP(params.wait)
+  }
+  else
+  {
+    // Mauvaise valeur ou true inutile
+  }
+}
 
 
+/**
+  * Méthode définissant la propriété &#x60;complete&#x60; si nécessaire.
+  * @method define_complete
+  * @for window
+  * @param  {Object}  params   Les paramètres envoyés à la méthode, ou undefined
+  * @param  {Any}     value     La valeur à donner à complete (NEXT_STEP par défaut)
+  * @return {Object}  Les paramètres, auxquels a été ajouté la méthode complete
+  *                   (à NEXT_STEP) si elle n&#x27;existait pas.
 
-<div class="box intro">
-    <p>Gestion des Tools
-Les “tools” correspondent à une section HTML dans laquelle se trouvent déjà 
-quelques éléments (comme la liste des animations) et dans laquelle on peut 
-placer tout dialogue interactif, comme par exemple la liste des images quand
-on doit en choisir une.</p>
-<p>C&#39;est aussi cet objet qui gère “Coordonnates”, pour obtenir les coordonnées
-à l&#39;écran.</p>
+  */
+window.define_complete = function(params, value)
+{
+  // dlog(&quot;params reçus par define_complete (value=&quot;+value+&quot;):&quot;);dlog(params)
+  if(undefined == params) params = {}
+  if(undefined == value ) value  = NEXT_STEP
+  if(undefined == params.complete &amp;&amp; (undefined === params.wait || params.wait === true)) params.complete = value
+  // dlog(&quot;params renvoyés par define_complete : &quot;);dlog(params)
+  return params
+}
 
-</div>
-
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-
-        
-
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

@@ -101,6 +101,8 @@
             
                 <li><a href="../classes/Step.html">Step</a></li>
             
+                <li><a href="../classes/STYLE_TO_PROPS.html">STYLE_TO_PROPS</a></li>
+            
                 <li><a href="../classes/TBox.html">TBox</a></li>
             
                 <li><a href="../classes/tools.html">tools</a></li>
@@ -184,6 +186,8 @@ Pour obtenir le stack (l&#x27;afficher en console) :
                 <li><a href="../modules/Event.js
 Gestion des évènements.html">Event.js
 Gestion des évènements</a></li>
+            
+                <li><a href="../modules/Functions.js.html">Functions.js</a></li>
             
                 <li><a href="../modules/GroupNotes.js.html">GroupNotes.js</a></li>
             
@@ -348,6 +352,13 @@ window.Img = function(params)
     * @default 0
     */
   this.inner_y = 0
+  
+  /**
+    * Marque de visibilité (à la construction)
+    * @property {Boolean} hidden
+    * @default false  
+    */
+  this.hidden = false
   
   var me = this
   L(params || {}).each(function(k,v){me[k] = v})
@@ -598,32 +609,30 @@ $.extend(Img.prototype,{
   /**
     * Affiche l&#x27;image
     * @method show
+    * @params {Object} params Paramètres optionnels  (cf. Anim.Dom.hide_or_show)
     * @return {Img} L&#x27;instance, pour chainage
     */
   show:function(params)
   {
-    params = define_complete( params )
-    this.obj.animate({opacity:1}, Anim.delai_for(&#x27;show&#x27;), params.complete)
+    Anim.Dom.show(this, params)
     return this
   },
   /**
     * Masque l&#x27;image
     * @method hide
-    * @param {Object} params  Paramètres optionnels
-    *   @param {Function} params.complete   Méthode à appeler à la fin (NEXT_STEP par défaut)
+    * @param {Object} params  Paramètres optionnels (cf. Anim.Dom.hide_or_show)
     * @return {Img} L&#x27;instance, pour chainage
     */
   hide:function(params)
   {
-    params = define_complete( params )
-    this.obj.animate({opacity:0}, Anim.delai_for(&#x27;show&#x27;), params.complete)
+    Anim.Dom.hide(this, params)
     return this
   },
   /**
     * Pour exécuter un travelling dans l&#x27;image
     * @method travelling
     * @param {Object} params    Paramètres (doit exister)
-    *   @param {Number} params.seconds    La durée du travelling (optionnel)
+    *   @param {Number} params.duree    La durée du travelling (optionnel)
     *   @param {Number} params.x          La position horizontale de fin du cadrage
     *   @param {Number} params.y          Position verticale de fin du cadrage
     *   @param {Number} params.width      La nouvelle largeur de cadre
@@ -639,7 +648,7 @@ $.extend(Img.prototype,{
     params = define_complete( params )
     if(undefined != params.for_x)     params.x = this.inner_x + params.for_x
     if(undefined != params.for_y)     params.y = this.inner_y + params.for_y
-    if(undefined == params.seconds)   params.seconds = 2
+    if(undefined == params.duree)   params.duree = 2
     if(!params.x &amp;&amp; !params.y &amp;&amp; !params.width &amp;&amp; !params.height) return F.error(&quot;Il faut définir le mouvement du travelling !&quot;)
     var dtrav = {}
     if(undefined != params.x) dtrav.left = &quot;-&quot;+params.x+&#x27;px&#x27;
@@ -650,7 +659,7 @@ $.extend(Img.prototype,{
     if(undefined != params.height)  dcadre.height = params.height + &#x27;px&#x27;
     if(dcadre != {}) this.obj.animate(dcadre)
     // On procède au travelling
-    this.image.animate(dtrav, params.seconds * 1000, params.complete)
+    this.image.animate(dtrav, params.duree, params.complete)
     // On passe les nouvelles valeurs
     if(params.x)      this.inner_x = params.x
     if(params.y)      this.inner_y = params.y
@@ -667,25 +676,21 @@ $.extend(Img.prototype,{
     *   @param {Number} params.for_x  Nombre de pixels de déplacement horizontal
     *   @param {Number} params.y      Nouvelle position verticale
     *   @param {Number} params.for_y  Nombre de pixels de déplacement vertical
-    *   @param {Number} params.seconds  Durée du déplacement
+    *   @param {Number} params.duree  Durée du déplacement
     *   @param {Function} params.complete   Méthode à appeler en fin de déplacement
-    * @return {Img} L&#x27;instance, pour chainage
+    *   @param {Boolean|Float} params.wait  Paramètre d&#x27;attente
+    * @return {Img} L&#x27;instance
     */
   move:function(params)
   {
     if(undefined == params) return F.error(&quot;Il faut définir le déplacement de l&#x27;image !&quot;)
-    params = define_complete( params )
-    if(undefined != params.for_x)     params.x = this.x + params.for_x
-    if(undefined != params.for_y)     params.y = this.y + params.for_y
-    if(undefined != params.seconds)   params.seconds  = params.seconds * 1000
+    if(undefined != params.for_x) params.x = this.x + params.for_x
+    if(undefined != params.for_y) params.y = this.y + params.for_y
     var dmove = {}
     if(undefined != params.x) dmove.left = params.x+&#x27;px&#x27;
     if(undefined != params.y) dmove.top  = params.y+&#x27;px&#x27;
-    this.obj.animate(
-      dmove, 
-      params.seconds || Anim.delai_for(&#x27;transform&#x27;), 
-      params.complete
-    )
+    L([&#x27;x&#x27;, &#x27;y&#x27;, &#x27;for_x&#x27;, &#x27;for_y&#x27;]).each(function(prop){ delete params[prop] })
+    Anim.Dom.anime([this.obj], dmove, params)
     return this
   },
   
@@ -764,7 +769,9 @@ $.extend(Img.prototype,{
   build:function()
   {
     Anim.Dom.add(this)
-    NEXT_STEP()
+    this.obj.draggable({stop:$.proxy(this.on_end_move, this)})
+    this.obj.bind(&#x27;dblclick&#x27;, $.proxy(this.edit, this))
+    NEXT_STEP(0)
   },
   /**
     * Pour éditer l&#x27;image
@@ -779,11 +786,27 @@ $.extend(Img.prototype,{
     * Pour positionner l&#x27;image
     * La méthode définit en plus les observers et rend l&#x27;image draggable.
     * @method positionne
+    * @return {Img} L&#x27;instance image (pour chainage éventuel)
     */
   positionne:function()
   {
-    this.obj.draggable({stop:$.proxy(this.on_end_move, this)})
-    this.obj.bind(&#x27;dblclick&#x27;, $.proxy(this.edit, this))
+    // Div contenant l&#x27;image
+    var data = {
+      left    : this.x+&#x27;px&#x27;,
+      top     : this.y+&#x27;px&#x27;,
+      width   : (this.cadre_width  || this.width)+&#x27;px&#x27;,
+      height  : (this.cadre_height || this.height)+&#x27;px&#x27;
+    }
+    this.obj.css(data)
+    // Image
+    data = {
+      width : this.width +&#x27;px&#x27;, 
+      height: this.height+&#x27;px&#x27;
+    }
+    if(this.inner_x) data.left = &#x27;-&#x27;+this.inner_x+&#x27;px&#x27;
+    if(this.inner_y) data.top  = &#x27;-&#x27;+this.inner_y+&#x27;px&#x27;
+    this.image.css(data)
+    
     return this
   },
   
@@ -884,15 +907,6 @@ Object.defineProperties(Img.prototype,{
     get:function(){
       var styleimg = [], stylediv = [] ;
       
-      // Attribut style pour le div de l&#x27;image
-      stylediv.push(&#x27;top:&#x27;+this.y+&#x27;px;left:&#x27;+this.x+&#x27;px&#x27;)
-      stylediv.push(&#x27;width:&#x27;+(this.cadre_width || this.width)+&#x27;px&#x27;)
-      stylediv.push(&#x27;height:&#x27;+(this.cadre_height || this.height)+&#x27;px&#x27;)
-      // Attribut style pour l&#x27;image
-      if(this.width)  styleimg.push(&#x27;width:&#x27;+this.width+&#x27;px&#x27;)
-      if(this.height) styleimg.push(&#x27;height:&#x27;+this.height+&#x27;px&#x27;)
-      if(this.inner_x) styleimg.push(&#x27;left:-&#x27;+this.inner_x+&#x27;px&#x27;)
-      if(this.inner_y) styleimg.push(&#x27;top:-&#x27;+this.inner_y+&#x27;px&#x27;)
       
       return  &#x27;&lt;div id=&quot;&#x27;+this.dom_id+&#x27;&quot; class=&quot;divimage&quot; style=&quot;&#x27;+stylediv.join(&#x27;;&#x27;)+&#x27;&quot;&gt;&#x27;+
                 &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;image&quot; src=&quot;&#x27;+this.url+&#x27;&quot; style=&quot;&#x27;+styleimg.join(&#x27;;&#x27;)+&#x27;&quot; /&gt;&#x27;+
