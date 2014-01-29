@@ -172,8 +172,15 @@ $.extend(Anim,{
         method = 'real_stop'
       } 
       
-      this.decompte.poursuivre = $.proxy(this[method], this)
-      this.decompte(this.prefs.delai_after_show)
+      if(this.prefs.decompte > 0)
+      {
+        this.decompte.poursuivre = $.proxy(this[method], this)
+        this.decompte(this.prefs.delai_after_show)
+      }
+      else
+      {
+        this[method]()
+      }
     }
   },
   /**
