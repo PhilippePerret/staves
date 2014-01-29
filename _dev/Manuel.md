@@ -35,6 +35,8 @@ Cette application permet de faire des animations musicales (écrites), à des fi
   * [Resetter l'animation](#reset_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
   * [Commentaires dans le code](#code_comments)
+* [Le paramètre spécial d'attente (`wait`)](#parametre_special_wait)
+* [Le paramètre spécial de durée (`duree`)](#parametre_special_duree)
 * [Vitesse de l'animation](#vitesse_animation)
 * [Jouer l'animation](#run_animation)
 * [Jouer seulement la sélection (bouton “Point”)](#run_with_point)
@@ -104,7 +106,7 @@ Par exemple, pour attendre 4 secondes&nbsp;:
   
 *Note&nbsp;: C'est un “pas” comme les autres, donc il doit être mis sur une ligne seule comme toute étape.*
 
-Noter qu'on aurait pu aussi utiliser le [paramètre spécial d'attente](#parametre_wait) en créant la note pour obtenir le même résultat&nbsp;:
+Noter qu'on aurait pu aussi utiliser [le paramètre spécial d'attente](#parametre_special_wait) en créant la note pour obtenir le même résultat&nbsp;:
 
     maNote = NOTE(a3, {wait:4})
     # => Attente de 4 secondes avant de passer à la suite
@@ -155,6 +157,48 @@ Le pas à utiliser est :
     
     CLEAR(true) // efface aussi les portées
     
+<a name="parametre_special_wait"></a>
+###Le paramètre spécial d'attente (`wait`)
+
+Dans toutes les méthodes d'animation, le dernier argument définit les paramètres optionnels (ou parfois obligatoires) de la méthode.
+
+Parmi ces paramètres, on trouve le paramètre spécial `wait` très utile pour définir le comportement qu'aura l'animation sur l'étape.
+
+Par défaut, en effet, l'animation attend toujours la fin de l'étape courante (la ligne de code courante) avant de passer à la suite. Le paramètre `wait` permet de modifier ce comportement&nbsp;:
+
+* Si `wait` est mis à `false`, l'animation lance l'étape courante, mais passe immédiatement à la suite. Utilisé par exemple pour donner l'impression de simultanéité d'effets divers.
+* Si `wait` est un nombre (entier ou flottant), l'animation lance l'étape courante puis attend le nombre de secondes défini avant de passer à la suite. Noter que deux effets peuvent en résulter&nbsp;: si le nombre de secondes est inférieur à la durée que prend l'étape, l'animation de l'étape est lancée, puis au bout du laps de temps stipulé on passe à l'étape suivante. Si, en revanche, le nombre de secondes est supérieur à la durée que prend l'étape, l'animation de l'étape est lancée, puis l'animation attend la fin de la durée avant de lancer l'étape suivante.
+
+Exemples d'utilisation du paramètre `wait`&nbsp;:
+
+    maNote = NOTE('a4', {wait:10})
+    # => La note LA 4 est créée, mais l'animation attend 10 secondes avant
+    #    de passer à la suite.
+
+    maNote.move('2:f2', {wait:false, duree:11})
+    # => L'animation va déplacer la note LA 4 vers la note FA 2, un déplacement
+    #    qui va durer 11 secondes, mais l'étape suivante sera appelée dès le début
+    #    du déplacement.
+
+<a name="parametre_special_duree"></a>
+###Le paramètre spécial de durée (`duree`)
+
+Dans toutes les méthodes d'animation, le dernier argument définit les paramètres optionnels (ou parfois obligatoires) de la méthode.
+
+Parmi ces paramètres, on trouve le paramètre spécial `duree` qui peut définir, en nombre de secondes, la durée que doit prendre l'animation quelconque.
+
+Lorsque la durée doit être inférieur à la seconde, on utilise un flottant. Par exemple `0.5` pour une demi-seconde. *Noter qu'il est aussi possible d'utiliser une fraction, ce qui est peut-être plus clair. Par exemple `1/4` pour un quart de secondes.*
+
+Exemples d'utilisation du paramètre spécial `duree`&nbsp;:
+
+    monTexte = TBOX("Ceci est un texte caché au départ", {hidden:true})
+    # => Un texte caché (hidden:true) est créé
+    monTexte.show({duree:5})
+    # => Le texte va apparaitre en 5 secondes
+    monTexte.move({x:10, y:10, duree:15})
+    # => Le texte va mettre 15 secondes pour rejoindre la position 10/10 de
+    #    l'écran de l'animation.
+
 <a name="vitesse_animation"></a>
 ###Vitesse de l'animation
 
@@ -577,12 +621,12 @@ Par exemple, pour placer une note LA 4 avec une marque de cadence et un accord&n
 
 Pour déplacer une note, on utilise le pas&nbsp;:
 
-    <nom variable note>.moveTo(<nouvelle note>[,<params>])
+    <nom variable note>.move(<nouvelle note>[,<params>])
     
 Exemple&nbsp;:
 
     maNote=NOTE(a4) // crée la note LA 4
-    maNote.moveTo(g4) // descend la note vers SOL4
+    maNote.move(g4) // descend la note vers SOL4
 
 *Ne mettre aucune espace dans ce code.*
 
@@ -700,14 +744,14 @@ Par exemple&nbsp;:
     nosi = NOTE(b3)
     nodo = NOTE(c4)
     # => c4 sera décalé à droite
-    nosi.moveTo(b2)
+    nosi.move(b2)
     # => Le si est déplacé mais le do
     #    reste décalé à droite
 
 Dans ce cas (avant que ce bug #49 ne soit corrigé), on peut utiliser la méthode `update` sur la note pour la remettre bien en place&nbsp;:
 
     ...
-    nosi.moveTo(b2)
+    nosi.move(b2)
     nodo.update()
 
 
@@ -821,7 +865,7 @@ Comme tous les types d'objets possédant plusieurs notes (Accords, Gammes, Motif
 Par exemple&nbsp;:
 
     accDom=CHORD('c3 eb3 g3')
-    accDom.note(1).moveTo('c4')
+    accDom.note(1).move('c4')
     // Prends la première note (c3) et la déplace en c4.
 
 ####Opération sur plusieurs notes
@@ -1001,7 +1045,7 @@ Si `xoffset` n'est pas précisé, on prendra le décalage courant (ce qui repré
     note=NOTE(c4) // ajoute une ligne supplément en bas
     WAIT(2)
     REMOVE_SUPLINE({bottom:1})
-    note.moveTo(c5)
+    note.move(c5)
 
 ####Précision des indices
 
