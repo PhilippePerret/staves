@@ -166,23 +166,9 @@ $.extend(UNVERSAL_BOX_METHODS, {
   {
     dlog("-> "+this.id+".animate")
     // dlog("Params reçus par BUMP.animate:");dlog(params)
-    if(undefined !== this.wait){
-      if(undefined == params) params = {}
-      params.wait = this.wait
-      delete this.wait
-    }
-    params = define_complete( params )
-    
-    /* === L'animation proprement dite === */
-    this.obj.animate(data, {
-      duration : params.duree || Anim.delai_for('transform'),
-      complete : params.complete
-    })
-
-    /* On traite éventuellement le paramètre wait */
-    traite_wait(params)
-    
-    dlog("<- "+this.id+".animate")
+    params = define_wait(params, this)
+    Anim.Dom.anime([this.obj], data, params)    
+    // dlog("<- "+this.id+".animate")
   },
   
   /**
@@ -369,7 +355,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   duree_set_or_default:function(params, duree_id)
   {
-    return (undefined == params.duree ? Anim.delai_for(duree_id) : params.duree) * 1000
+    return undefined == params.duree ? Anim.delai_for(duree_id) : params.duree
   },
   /**
     * Définit une propriété css de l'objet

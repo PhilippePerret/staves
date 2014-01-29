@@ -108,49 +108,64 @@ ARROW_METHODS = {
     * Méthode générale pour modifier la flèche (appelée par les autres
     * méthodes)
     * @method modify
-    * @param {String} method  La méthode de mofication (p.e. 'css')
-    * @param {Object} params  Les paramètres de la modification
-    * @param {Function} complete  La méthode pour suivre
+    * @param {String}   method    La méthode de mofication (p.e. 'css')
+    * @param {Object}   data      Les paramètres CSS de la modification + les éléments à traiter
+    * @param {Object}   params
+    *   @param {Boolean}  params.div        Si true, traitera `this.obj_div`
+    *   @param {Boolean}  params.head       Si true, traitera `this.obj_head`
+    *   @param {Boolean}  params.queue      Si true, traitera `this.obj_queue`
+    *   @param {Function} params.complete   La méthode pour suivre (NEXT_STEP par défaut)
+    *   @param {Float}    params.duree      La durée de l'animation
+    *   @param {Boolean|Number} params.wait Le paramètre d'attente
     */
-  modify:function(method, params, complete)
+  modify:function(method, data, params)
   {
     if(method != 'animate')
     {
-      this.obj[method](params)  
+      this.obj[method](data)  
     }
     else
     {
-      var suf_objs = []
-      if(undefined == params.div || params.div)   suf_objs.push('div')
-      if(params.head)   suf_objs.push('head')
-      if(params.queue)  suf_objs.push('queue')
-      dlog("[modify] params : ");dlog(params)
-      dlog("[modify] suf_objs : ");dlog(suf_objs)
-      var my = this
-      L(suf_objs).each(function(suf){
-        my['obj_'+suf].animate(
-          params, Anim.delai_for('transform'), complete || NEXT_STEP
-        )
+      var objets = []
+      if(undefined == params.div) params.div = true
+      L(['div', 'head', 'queue']).each(function(suffix){
+        if(params[suffix])
+        {
+          objets.push('obj_'+suffix)
+          delete params[suffix]
+        }
       })
+      Anim.Dom.anime(objets, data, params)
     }
-    
   },
   /**
     * Déplacer la flèche
     * @method move
     * @param {Object} params Paramètres du déplacement (ou un des attributs ci-dessous)
-    *   @param {Number} params.x    Déplacement  horizontal (en pixels)
-    *   @param {Number} params.y    Déplacement vertical (en pixels)
+    *   @param {Number} data.x    Déplacement  horizontal (en pixels)
+    *   @param {Number} data.y    Déplacement vertical (en pixels)
     * @param {Number} value   Si +params+ est une propriété ('x' ou 'y'), +value+ est sa valeur
+    *                         Sinon, ça peut être l'objet `params` ci-dessous
+    * @param {Object} params  Les paramètres optionnels
+    *   @param {Float}          params.duree  La durée que doit prendre la transformation
+    *   @param {Boolean|Number} params.wait   Le paramètre d'attente
     */
-  move:function(params, value)
+  move:function(data, value, params)
   {
-    params = parametize(params, value)
+    if('object' == typeof data)
+    {
+      if('object' == typeof value) params = value
+    }
+    else
+    {
+      data = parametize(data, value)
+      if(undefined == params) params = {}
+    }
+    if(undefined == params.duree) params.duree = Anim.delai_for('move')
     var pos   = this.obj.position()
-    var data  = {}
-    if(undefined != params.x) data.x = (pos.left + params.x) + "px"
-    if(undefined != params.y) data.y = (pos.top  + params.y) + "px"
-    this.modify('animate', data)
+    if(undefined != data.x) data.x = (pos.left + data.x) + "px"
+    if(undefined != data.y) data.y = (pos.top  + data.y) + "px"
+    this.modify('animate', data, params)
   },
   /**
     * Fait pivoter la flèche de l'angle +angle+ 
@@ -171,12 +186,15 @@ ARROW_METHODS = {
     * Notes
     *   * Changer sa taille consiste à allonger la queue
     * @method width
-    * @param  {Number} px La nouvelle taille en pixels
+    * @param  {Number}  px La nouvelle taille en pixels
+    * @param  {Object}  params  Paramètres optionnels (comme `duree` ou `wait`)
     */
-  size:function(px)
+  size:function(px, params)
   {
     var h = this.obj.height()
-    this.modify('animate', {width:px+"px", height:h+"px", queue:true, div:false})
+    if(undefined == params) params = {}
+    $.extend(params, {queue:true, div:false})
+    this.modify('animate', {width:px+"px", height:h+"px"}, params)
   },
   /**
     * Modifie la couleur de la flèche
@@ -186,7 +204,7 @@ ARROW_METHODS = {
   colorize:function(couleur)
   {
     this.color = couleur
-    NEXT_STEP()
+    NEXT_STEP(0)
   },
   
   /**

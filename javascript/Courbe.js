@@ -64,9 +64,6 @@ $.extend(window.Courbe,{
      *  
      */
     var xadd = []
-    // obj.animate({
-    //   
-    // }, vitesse, params.complete)
     var iinc = 0.1
     for(ycur=ydep; ycur <= yfin; ycur)
     {

@@ -1893,17 +1893,17 @@ On peut déplacer l'image en déterminant sa position finale à l'aide des param
 
     monImage.move({x:300, y:100})
 
-On peut déplacer l'image en déterminant le nombre de pixels de déplacement horizontal à l'aide de `x_for` ou vertical à l'aide de `y_for`&nbsp;:
+On peut déplacer l'image en déterminant le nombre de pixels de déplacement horizontal à l'aide de `for_x` ou vertical à l'aide de `for_y`&nbsp;:
 
-    monImage.move({x_for:10, y_for:100})
+    monImage.move({for_x:10, for_y:100})
 
 Ou en combinant les deux formules&nbsp;:
 
-    monImage.move({x:300, y_for:10})
+    monImage.move({x:300, for_y:10})
 
-On détermine le temps (durée) de déplacement de l'image à l'aide de la propriété `seconds` qui détermine le nombre de secondes que mettra l'image pour atteindre sa nouvelle position (2 secondes par défaut)&nbsp;:
+On détermine le temps (durée) de déplacement de l'image à l'aide de la propriété `duree` qui détermine le nombre de secondes que mettra l'image pour atteindre sa nouvelle position (2 secondes par défaut)&nbsp;:
 
-    monImage.move({x_for:10, y_for:100, seconds:1})
+    monImage.move({for_x:10, for_y:100, duree:1})
 
 
 <a name="modify_cadrage_image"></a>
@@ -1943,15 +1943,15 @@ Cette méthode attend des paramètres qui vont définir le travelling. Ces param
     <image>.travelling({
       x       : {Number} La nouvelle position horizontale du cadrage
       OU
-      x_for   : {Number} Le nombre de pixels de déplacement horizontal
+      for_x   : {Number} Le nombre de pixels de déplacement horizontal
 
       y       : {Number} La nouvelle position verticale du cadrage
       OU
-      y_for   : {Number} Le nombre de pixels de déplacement vertical
+      for_y   : {Number} Le nombre de pixels de déplacement vertical
   
       width   : {Number} La largeur du nouveau cadre (optionnel)
       height  : {Number} La hauteur du nouveau cadre (optionnel)
-      seconds : {Number} La durée du travelling en secondes (2 par défaut).
+      duree : {Number} La durée du travelling en secondes (2 par défaut).
     })
 
 

@@ -240,58 +240,45 @@ $.extend(Staff.prototype, {
   /**
     * Affiche les objets de la portée
     * @method show
-    * @param  {Number} vitesse La vitesse d'apparition
+    * @param {Number} duree La durée de temps de l'apparition
+    * @param {Object} params  Les paramètres optionnels
     */
-  show:function(vitesse)
+  show:function(duree, params)
   {
-    if(undefined == vitesse) vitesse = 200
-    var me = this
-    L(this.objets).each(function(obj){
-      obj.animate({opacity:1}, vitesse, me.on_complete)
-    })
+    params = define_wait(params, this)
+    params.duree = duree || Anim.delai_for('show')
+    Anim.Dom.anime(this.objets, {opacity:1}, params)
   },
-  /**
-    * Methode à appeler par toute opération opérant sur les objets
-    * Lorsque chaque objet a été traité, on passe à l'étape suivante.
-    * @method on_complete
-    */
-  on_complete:function()
-  {
-    if(undefined == this.decompte_complete) this.decompte_complete = 0
-    ++this.decompte_complete
-    if(this.decompte_complete == this.nombre_objets)
-    {
-      delete this.decompte_complete
-      NEXT_STEP(0)
-    }
-  },
+    
   /**
     * Masque la portée (sans la détruire)
     * @method hide
     */
-  hide:function()
+  hide:function(duree, params)
   {
-    this.img_staff.hide(Anim.delai_for('show'))
-    this.img_cle.animate({opacity:'0'}, Anim.delai_for('show'))
+    params = define_wait(params, this)
+    params.duree = duree || Anim.delai_for('show')
+    Anim.Dom.anime([this.img_staff, this.img_cle], {opacity:0}, params)
   },
+
   /**
     * Destruction de la portée (et retrait de la liste des portées) et
     * de tout ce qu'elle porte sans exception.
     * @method remove
+    * @param {Object} params Paramètres éventuels
+    *
     */
-  remove:function()
+  remove:function(params)
   {
     Anim.staves.splice(this.indice - 1, 1)
-    var me = this
-    L(this.objets).each(function(obj){ 
-      obj.animate({opacity:0}, 200, function(){
-        this.remove()
-        me.on_complete()
-      })
-    })
+    params = define_wait(params, this)
+    params.duree          = 0.2
+    params.complete_each  = 'remove'
+    Anim.Dom.anime( {opacity:0}, params)
+    
     // On doit détruire toutes les notes, avec leurs textes
     var liste_notes = $.extend({}, this.notes.list)
-    L(liste_notes)  .each(function(kleft){
+    L(liste_notes).each(function(kleft){
       L(liste_notes[kleft]).each(function(note){
         note.remove({dont_unstaff:true, texts:true})
       })

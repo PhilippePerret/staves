@@ -108,9 +108,9 @@ $.extend(window.Anim,{
   TRANSITIONS:{
     step        : 0.5,
     show        : 0.4,
+    move        : 1,   // Déplacement quelconque d'un objet
     note_moved  : 1,
     fade        : 1.5,
-    move        : 1,   // Déplacement quelconque d'un objet
     transform   : 1,   // Transformation comme l'allongement
     wait        : 1       // multiplicateur pour la commande WAIT
   },
@@ -130,8 +130,9 @@ $.extend(window.Anim,{
   transition:{
     step        : 0.5,
     show        : 0.4,
-    fade        : 1.5,
+    move        : 1,   // Déplacement quelconque d'un objet
     note_moved  : 1,
+    fade        : 1.5,
     transform   : 1,    // Transformation comme l'allongement
     wait        : 1     // multiplicateur pour la commande WAIT
   },
@@ -146,8 +147,9 @@ $.extend(window.Anim,{
   transition_reg:{
     step        : 0.5,
     show        : 0.4,
-    fade        : 1.5,
+    move        : 1,   // Déplacement quelconque d'un objet
     note_moved  : 1,
+    fade        : 1.5,
     transform   : 1,      // Transformation comme l'allongement
     wait        : 1       // multiplicateur pour la commande WAIT
   },
@@ -160,7 +162,9 @@ $.extend(window.Anim,{
   transition_flash:{
     step        : 0.001,
     show        : 0.001,
+    move        : 0.001,   // Déplacement quelconque d'un objet
     note_moved  : 0.005,
+    fade        : 0.001,
     transform   : 0.001,
     wait        : 0
   },

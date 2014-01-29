@@ -36,7 +36,7 @@ $.extend(ObjetClass.prototype, {
     */
   show:function(params)
   {
-    Anim.Dom.show(this.obj, params)
+    Anim.Dom.show(this, params)
   },
   /**
     * Masque l'objet de l'instance (property `obj`)
@@ -51,7 +51,7 @@ $.extend(ObjetClass.prototype, {
     */
   hide:function(params)
   {
-    Anim.Dom.hide(this.obj, params)
+    Anim.Dom.hide(this, params)
   },
   /**
     * Destruction de l'objet DOM de l'objet

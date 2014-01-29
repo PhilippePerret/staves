@@ -343,38 +343,36 @@ $.extend(Img.prototype,{
   /**
     * Affiche l'image
     * @method show
+    * @params {Object} params Paramètres optionnels  (cf. Anim.Dom.hide_or_show)
     * @return {Img} L'instance, pour chainage
     */
   show:function(params)
   {
-    params = define_complete( params )
-    this.obj.animate({opacity:1}, Anim.delai_for('show'), params.complete)
+    Anim.Dom.show(this, params)
     return this
   },
   /**
     * Masque l'image
     * @method hide
-    * @param {Object} params  Paramètres optionnels
-    *   @param {Function} params.complete   Méthode à appeler à la fin (NEXT_STEP par défaut)
+    * @param {Object} params  Paramètres optionnels (cf. Anim.Dom.hide_or_show)
     * @return {Img} L'instance, pour chainage
     */
   hide:function(params)
   {
-    params = define_complete( params )
-    this.obj.animate({opacity:0}, Anim.delai_for('show'), params.complete)
+    Anim.Dom.hide(this, params)
     return this
   },
   /**
     * Pour exécuter un travelling dans l'image
     * @method travelling
     * @param {Object} params    Paramètres (doit exister)
-    *   @param {Number} params.seconds    La durée du travelling (optionnel)
+    *   @param {Number} params.duree    La durée du travelling (optionnel)
     *   @param {Number} params.x          La position horizontale de fin du cadrage
     *   @param {Number} params.y          Position verticale de fin du cadrage
     *   @param {Number} params.width      La nouvelle largeur de cadre
     *   @param {Number} params.height     La nouvelle hauteur de cadre
-    *   @param {Number} params.x_for      Nombre de pixels de déplacement horizontal
-    *   @param {Number} params.y_for      Nombre de pixels de déplacement vertical
+    *   @param {Number} params.for_x      Nombre de pixels de déplacement horizontal
+    *   @param {Number} params.for_y      Nombre de pixels de déplacement vertical
     *   @param {Function} params.complete La méthode pour suivre (NEXT_STEP par défaut)
     * @return {Img} L'instance, pour chainage
     */
@@ -382,9 +380,9 @@ $.extend(Img.prototype,{
   {
     if(undefined == params) return F.error("Il faut définir les paramètres du travelling !")
     params = define_complete( params )
-    if(undefined != params.x_for)     params.x = this.inner_x + params.x_for
-    if(undefined != params.y_for)     params.y = this.inner_y + params.y_for
-    if(undefined == params.seconds)   params.seconds = 2
+    if(undefined != params.for_x)     params.x = this.inner_x + params.for_x
+    if(undefined != params.for_y)     params.y = this.inner_y + params.for_y
+    if(undefined == params.duree)   params.duree = 2
     if(!params.x && !params.y && !params.width && !params.height) return F.error("Il faut définir le mouvement du travelling !")
     var dtrav = {}
     if(undefined != params.x) dtrav.left = "-"+params.x+'px'
@@ -395,7 +393,7 @@ $.extend(Img.prototype,{
     if(undefined != params.height)  dcadre.height = params.height + 'px'
     if(dcadre != {}) this.obj.animate(dcadre)
     // On procède au travelling
-    this.image.animate(dtrav, params.seconds, params.complete)
+    this.image.animate(dtrav, params.duree, params.complete)
     // On passe les nouvelles valeurs
     if(params.x)      this.inner_x = params.x
     if(params.y)      this.inner_y = params.y
@@ -409,27 +407,24 @@ $.extend(Img.prototype,{
     * @method move
     * @param {Object} params  Définition du déplacement
     *   @param {Number} params.x      Nouvelle position horizontale
-    *   @param {Number} params.x_for  Nombre de pixels de déplacement horizontal
+    *   @param {Number} params.for_x  Nombre de pixels de déplacement horizontal
     *   @param {Number} params.y      Nouvelle position verticale
-    *   @param {Number} params.y_for  Nombre de pixels de déplacement vertical
-    *   @param {Number} params.seconds  Durée du déplacement
+    *   @param {Number} params.for_y  Nombre de pixels de déplacement vertical
+    *   @param {Number} params.duree  Durée du déplacement
     *   @param {Function} params.complete   Méthode à appeler en fin de déplacement
-    * @return {Img} L'instance, pour chainage
+    *   @param {Boolean|Float} params.wait  Paramètre d'attente
+    * @return {Img} L'instance
     */
   move:function(params)
   {
     if(undefined == params) return F.error("Il faut définir le déplacement de l'image !")
-    params = define_complete( params )
-    if(undefined != params.x_for)     params.x = this.x + params.x_for
-    if(undefined != params.y_for)     params.y = this.y + params.y_for
+    if(undefined != params.for_x) params.x = this.x + params.for_x
+    if(undefined != params.for_y) params.y = this.y + params.for_y
     var dmove = {}
     if(undefined != params.x) dmove.left = params.x+'px'
     if(undefined != params.y) dmove.top  = params.y+'px'
-    this.obj.animate(
-      dmove, 
-      params.seconds || Anim.delai_for('transform'), 
-      params.complete
-    )
+    L(['x', 'y', 'for_x', 'for_y']).each(function(prop){ delete params[prop] })
+    Anim.Dom.anime([this.obj], dmove, params)
     return this
   },
   

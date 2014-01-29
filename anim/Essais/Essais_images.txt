@@ -10,7 +10,7 @@ img.travelling({x:258, width:228})
 
 WAIT(2)
 
-img.travelling({x:475, width:171, seconds:1})
+img.travelling({x:475, width:171, duree:1})
 
 WAIT(2)
 img.move({x:221, y:215})

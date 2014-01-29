@@ -98,21 +98,21 @@ $.extend(Anim,{
     var delai_before = (this.isSuite) ? 0 : this.prefs.decompte
     if(delai_before > 0)
     {
-      this.decompte.poursuivre = $.proxy(this.play_for_good, this)
+      this.decompte.poursuivre = $.proxy(this.plafor_y_good, this)
       this.decompte(delai_before)
     }
     else
     { // Pas de décompte
-      this.play_for_good()
+      this.plafor_y_good()
     } 
   },
   /**
     * Lance véritablement l'animation, soit après le décompte, soit tout de suite
-    * @method play_for_good
+    * @method plafor_y_good
     */
-  play_for_good:function()
+  plafor_y_good:function()
   {
-    dlog("-> Anim.play_for_good")
+    dlog("-> Anim.plafor_y_good")
     if( !this.isSuite ) UI.chronometre.start
     // C'est seulement ici qu'on efface l'écran précédent, pour la lien le plus
     // fluide dans une suite d'animation
@@ -120,10 +120,10 @@ $.extend(Anim,{
     // pas vraiment la fin de l'effacement
     if($('section#animation *').length)
     {
-      return this.Dom.clear($.proxy(this.play_for_good, this), {all:true})
+      return this.Dom.clear($.proxy(this.plafor_y_good, this), {all:true})
     } 
     this.Step.next()
-    dlog("<- Anim.play_for_good")
+    dlog("<- Anim.plafor_y_good")
   },
   /**
     * Pause demandée

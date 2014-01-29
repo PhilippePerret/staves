@@ -628,8 +628,8 @@ $.extend(Img.prototype,{
     *   @param {Number} params.y          Position verticale de fin du cadrage
     *   @param {Number} params.width      La nouvelle largeur de cadre
     *   @param {Number} params.height     La nouvelle hauteur de cadre
-    *   @param {Number} params.x_for      Nombre de pixels de déplacement horizontal
-    *   @param {Number} params.y_for      Nombre de pixels de déplacement vertical
+    *   @param {Number} params.for_x      Nombre de pixels de déplacement horizontal
+    *   @param {Number} params.for_y      Nombre de pixels de déplacement vertical
     *   @param {Function} params.complete La méthode pour suivre (NEXT_STEP par défaut)
     * @return {Img} L&#x27;instance, pour chainage
     */
@@ -637,8 +637,8 @@ $.extend(Img.prototype,{
   {
     if(undefined == params) return F.error(&quot;Il faut définir les paramètres du travelling !&quot;)
     params = define_complete( params )
-    if(undefined != params.x_for)     params.x = this.inner_x + params.x_for
-    if(undefined != params.y_for)     params.y = this.inner_y + params.y_for
+    if(undefined != params.for_x)     params.x = this.inner_x + params.for_x
+    if(undefined != params.for_y)     params.y = this.inner_y + params.for_y
     if(undefined == params.seconds)   params.seconds = 2
     if(!params.x &amp;&amp; !params.y &amp;&amp; !params.width &amp;&amp; !params.height) return F.error(&quot;Il faut définir le mouvement du travelling !&quot;)
     var dtrav = {}
@@ -664,9 +664,9 @@ $.extend(Img.prototype,{
     * @method move
     * @param {Object} params  Définition du déplacement
     *   @param {Number} params.x      Nouvelle position horizontale
-    *   @param {Number} params.x_for  Nombre de pixels de déplacement horizontal
+    *   @param {Number} params.for_x  Nombre de pixels de déplacement horizontal
     *   @param {Number} params.y      Nouvelle position verticale
-    *   @param {Number} params.y_for  Nombre de pixels de déplacement vertical
+    *   @param {Number} params.for_y  Nombre de pixels de déplacement vertical
     *   @param {Number} params.seconds  Durée du déplacement
     *   @param {Function} params.complete   Méthode à appeler en fin de déplacement
     * @return {Img} L&#x27;instance, pour chainage
@@ -675,8 +675,8 @@ $.extend(Img.prototype,{
   {
     if(undefined == params) return F.error(&quot;Il faut définir le déplacement de l&#x27;image !&quot;)
     params = define_complete( params )
-    if(undefined != params.x_for)     params.x = this.x + params.x_for
-    if(undefined != params.y_for)     params.y = this.y + params.y_for
+    if(undefined != params.for_x)     params.x = this.x + params.for_x
+    if(undefined != params.for_y)     params.y = this.y + params.for_y
     if(undefined != params.seconds)   params.seconds  = params.seconds * 1000
     var dmove = {}
     if(undefined != params.x) dmove.left = params.x+&#x27;px&#x27;

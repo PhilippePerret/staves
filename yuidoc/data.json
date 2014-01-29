@@ -3003,7 +3003,7 @@
             "line": 109,
             "description": "Lance véritablement l'animation, soit après le décompte, soit tout de suite",
             "itemtype": "method",
-            "name": "play_for_good",
+            "name": "plafor_y_good",
             "class": "Anim",
             "module": "Controller.js"
         },
@@ -4309,12 +4309,12 @@
                             "type": "Number"
                         },
                         {
-                            "name": "x_for",
+                            "name": "for_x",
                             "description": "Nombre de pixels de déplacement horizontal",
                             "type": "Number"
                         },
                         {
-                            "name": "y_for",
+                            "name": "for_y",
                             "description": "Nombre de pixels de déplacement vertical",
                             "type": "Number"
                         },
@@ -4351,7 +4351,7 @@
                             "type": "Number"
                         },
                         {
-                            "name": "x_for",
+                            "name": "for_x",
                             "description": "Nombre de pixels de déplacement horizontal",
                             "type": "Number"
                         },
@@ -4361,7 +4361,7 @@
                             "type": "Number"
                         },
                         {
-                            "name": "y_for",
+                            "name": "for_y",
                             "description": "Nombre de pixels de déplacement vertical",
                             "type": "Number"
                         },
