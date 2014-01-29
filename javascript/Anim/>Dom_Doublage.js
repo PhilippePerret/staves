@@ -73,7 +73,7 @@ window.Anim.Dom.Doublage = {
     if(undefined == params) params = {}
     else if ('boolean' == typeof params) params = {caption:params}
     else if (params.doublage == true) params.caption = !params.doublage
-    this.waiting = params.wait === true
+    this.waiting = Anim.prefs.caption_timer && params.wait === true
     var is_caption  = params.caption == true || Anim.prefs.caption == true
     var is_doublage = !is_caption
     var obj = $(is_caption ? 'span#caption_text' : 'div#doublage')
@@ -107,7 +107,7 @@ window.Anim.Dom.Doublage = {
     // de suite à l'étape suivante.
     if(!params.wait || Anim.prefs.caption_timer == false)
     {
-      NEXT_STEP(0)
+      NEXT_STEP(params.wait || 0)
     } 
   },
   /**
