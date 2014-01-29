@@ -15,7 +15,7 @@ $.extend(window.Courbe,{
     * Pour régler la vitesse de déplacement de l'objet
     * @property {Number} WAIT Delai du timeout
     */
-  WAIT: 20,
+  WAIT: 0.02,
   
   /**
     * Déplace l'objet +obj+ selon une courbe avec les paramètres +params+
@@ -130,7 +130,7 @@ $.extend(window.Courbe,{
     }
     else
     {
-      this.timer = setTimeout($.proxy(this.doItNow, this), this.WAIT)
+      this.timer = setTimeout($.proxy(this.doItNow, this), this.WAIT * 1000)
     }
   },
   doItNow:function()

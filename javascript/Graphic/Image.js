@@ -395,7 +395,7 @@ $.extend(Img.prototype,{
     if(undefined != params.height)  dcadre.height = params.height + 'px'
     if(dcadre != {}) this.obj.animate(dcadre)
     // On procède au travelling
-    this.image.animate(dtrav, params.seconds * 1000, params.complete)
+    this.image.animate(dtrav, params.seconds, params.complete)
     // On passe les nouvelles valeurs
     if(params.x)      this.inner_x = params.x
     if(params.y)      this.inner_y = params.y
@@ -422,7 +422,6 @@ $.extend(Img.prototype,{
     params = define_complete( params )
     if(undefined != params.x_for)     params.x = this.x + params.x_for
     if(undefined != params.y_for)     params.y = this.y + params.y_for
-    if(undefined != params.seconds)   params.seconds  = params.seconds * 1000
     var dmove = {}
     if(undefined != params.x) dmove.left = params.x+'px'
     if(undefined != params.y) dmove.top  = params.y+'px'

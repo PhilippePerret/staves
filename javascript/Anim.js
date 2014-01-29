@@ -106,11 +106,12 @@ $.extend(window.Anim,{
     * @final
     */
   TRANSITIONS:{
-    step        : 500,
-    show        : 400,
-    note_moved  : 1000,
-    move        : 1000,   // Déplacement quelconque d'un objet
-    transform   : 1000,   // Transformation comme l'allongement
+    step        : 0.5,
+    show        : 0.4,
+    note_moved  : 1,
+    fade        : 1.5,
+    move        : 1,   // Déplacement quelconque d'un objet
+    transform   : 1,   // Transformation comme l'allongement
     wait        : 1       // multiplicateur pour la commande WAIT
   },
   /**
@@ -127,12 +128,12 @@ $.extend(window.Anim,{
     *   @property {Number} transition.note_moved  Délai de déplacement des notes (en millisecondes ?)
     */
   transition:{
-    step        : 500,
-    show        : 400,
-    fade        : 1500,
-    note_moved  : 1000,
-    transform   : 1000,   // Transformation comme l'allongement
-    wait        : 1       // multiplicateur pour la commande WAIT
+    step        : 0.5,
+    show        : 0.4,
+    fade        : 1.5,
+    note_moved  : 1,
+    transform   : 1,    // Transformation comme l'allongement
+    wait        : 1     // multiplicateur pour la commande WAIT
   },
   /**
     * Vitesses normales
@@ -143,10 +144,11 @@ $.extend(window.Anim,{
     * @property {Object} transition_reg
     */
   transition_reg:{
-    step        : 500,
-    show        : 400,
-    note_moved  : 1000,
-    transform   : 1000,   // Transformation comme l'allongement
+    step        : 0.5,
+    show        : 0.4,
+    fade        : 1.5,
+    note_moved  : 1,
+    transform   : 1,      // Transformation comme l'allongement
     wait        : 1       // multiplicateur pour la commande WAIT
   },
   /**
@@ -156,10 +158,10 @@ $.extend(window.Anim,{
     * @final
     */
   transition_flash:{
-    step        : 1,
-    show        : 1,
-    note_moved  : 5,
-    transform   : 1,
+    step        : 0.001,
+    show        : 0.001,
+    note_moved  : 0.005,
+    transform   : 0.001,
     wait        : 0
   },
 

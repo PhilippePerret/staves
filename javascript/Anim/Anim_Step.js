@@ -141,10 +141,10 @@ Anim.Step = {
     }
     else
     {
-      // dlog("[Anim.Step.auto_next] Je dois attendre : " + (('number' == typeof timeout) ? timeout * 1000 : Anim.delai_for('step')) + " millisecondes")
+      // dlog("[Anim.Step.auto_next] Je dois attendre : " + ((('number' == typeof timeout) ? timeout : Anim.delai_for('step')) * 1000) + " millisecondes")
       this.timer = setTimeout(
         $.proxy(Anim.Step.next, Anim.Step), 
-        ('number' == typeof timeout) ? timeout * 1000 : Anim.delai_for('step')
+        (('number' == typeof timeout) ? timeout : Anim.delai_for('step')) * 1000
       )
     }
     stack('<- Anim.Step.auto_next')

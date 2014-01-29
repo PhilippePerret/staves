@@ -139,7 +139,7 @@ $.extend(Note, {
       if(undefined == params) params = {}
       if(undefined == params.complete) params.complete = NEXT_STEP
       this.building_params  = params
-      this.building_laps    = parseInt(1000 / speed, 10)
+      this.building_laps    = parseInt(1000 / speed)
       this.building_notes   = $.merge([], notes)
       this.building_notes.shift() // car pas de première note, mais la valeur null
     }

@@ -50,7 +50,6 @@ $.extend(UNVERSAL_BOX_METHODS,{
     {
       data = parametize(prop, value)
     }
-    if(undefined !== params.duree) params.duree = params.duree * 1000
     // On corrige les propriétés et les valeurs
     data = this.real_value_per_prop( this, data )
     // dlog("[set] real-data:");dlog(data)
@@ -70,7 +69,6 @@ $.extend(UNVERSAL_BOX_METHODS,{
     dlog("-> " + this.id + ".show")
     if(undefined == params) params = {}
     if(undefined == this.duree) params.duree = Anim.delai_for('show')
-    else params.duree = this.duree * 1000
     params.complete = this.wait === false ? false : NEXT_STEP
     this.animate({opacity:this.opacity || 1}, params)
     this.hidden = false
@@ -86,7 +84,6 @@ $.extend(UNVERSAL_BOX_METHODS,{
   {
     if(undefined == params) params = {}
     if(undefined == params.duree) params.duree = Anim.delai_for('show')
-    else params.duree = params.duree * 1000
     params.complete = this.wait === false ? false : NEXT_STEP
     this.animate({opacity:0}, params)
     this.hidden = true
@@ -372,7 +369,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   duree_set_or_default:function(params, duree_id)
   {
-    return (undefined == params.duree) ? Anim.delai_for(duree_id) : params.duree * 1000
+    return (undefined == params.duree ? Anim.delai_for(duree_id) : params.duree) * 1000
   },
   /**
     * Définit une propriété css de l'objet
