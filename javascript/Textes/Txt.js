@@ -226,23 +226,12 @@ $.extend(Txt.prototype,{
     * @param  {Object} params Paramètres optionnels, et notamment :
     *   @param {Function} params.complete La méthode poursuivre, si elle doit être
     *                                     différente de NEXT_STEP
+    *   @param {Boolean|Number} params.wait   Le paramètre d'attente
+    *   @param {Number}         params.duree  La durée éventuelle du masquage.
     */
   hide:function(params)
   {
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
-    if(MODE_FLASH){
-      this.obj.css('opacity', 0) 
-      params.complete()
-    }
-    else 
-    {
-      this.obj.animate(
-        {opacity:0},
-        Anim.delai_for('show'),
-        params.complete
-      )
-    }
+    Anim.Dom.hide(this, params)
   },
   /**
     * (Ré-)affiche le texte
@@ -250,17 +239,7 @@ $.extend(Txt.prototype,{
     */
   show:function(params)
   {
-    // dlog("-> <Txt>.show("+params+")")
-    if(MODE_FLASH)
-    {
-      this.obj[0].style.opacity = 1
-      NEXT_STEP()
-    }
-    else
-    {
-      if(undefined == params) params = {}
-      Anim.Dom.show(this.obj, $.extend(params, {complete:NEXT_STEP} ))
-    } 
+    Anim.Dom.show(this, params)
   },
   
   /**
