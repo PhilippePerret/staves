@@ -1912,18 +1912,7 @@ Les paramètres peuvent être les suivants&nbsp;:
 
 * *Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).*
 
-* Noter que si l'on veut utiliser tout de suite la variable définie (`monImg` ci-dessus), il faut mieux laisser passer un cours instant pour que cette variable soit vraiment définie.
-
-  Par exemple&nbsp;:
-
-      monImg = IMAGE({... définition ...})
-      # Attendre un cours instant
-      WAIT(0.2)
-      # Je peux utiliser monImg
-      monImg.move({....})
-
-
-* Noter que le `width` et le `height` sont obligatoires (c'est à moitié vrai, puisque s'ils ne sont pas fournis, c'est la taille de l'image qui est prise en référence). Leur valeur peut être `auto` et dans ce cas elle est calculée automatiquement par rapport à la valeur qui est fournie.
+* Noter que si `width` et `height` ne sont pas fournis, c'est la taille original de l'image qui sera prise en référence). Si une seule des deux valeurs est fournie, l'autre sera calculée en conséquence par rapport à la dimension originale (sans déformation).
 
 Pour des informations concernant le “recadrage de l'image”, cf. [Modifier le cadrage de l'image](#modify_cadrage_image).
 

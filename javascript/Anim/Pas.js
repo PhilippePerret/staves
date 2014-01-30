@@ -110,21 +110,29 @@ $.extend(Pas.prototype,{
       eval('Anim.Objects.'+this.trimed) 
     }
     catch(err){ 
-      dlog("[<Pas>.exec] # Erreur : "+err+" survenue (noter que cela aura pour conséquence directe de passer à l'étape suivante).")
-      this.on_error(err, retry = true) 
+      return this.on_error(err, retry = true) 
     }
+    this.flush_tries_exec()
+    if(this.flashed) MODE_FLASH = false
+    return true
+  },
+  /**
+    * Détruit le timer des essais d'exécution (if any)
+    * @method flush_tries_exec
+    */
+  flush_tries_exec:function()
+  {
     // S'il y a eu plusieurs essais
     if(this.timer_tries_exec)
     {
       clearTimeout(this.timer_tries_exec)
       delete this.tries_exec
     }
-    if(this.flashed) MODE_FLASH = false
-    return true
   },
   /**
     * Méthode appelée en cas d'erreur, principalement lors de l'exécution de
-    * l'étape
+    * l'étape. On essaie trois fois de rejouer l'étape avant de produire l'erreur
+    *
     * @method on_error
     * @param  {String|Object} error  L'erreur rencontrée
     * @param  {Boolean}       retry   Si true, on tente de ré-exécuter l'étape
@@ -133,31 +141,21 @@ $.extend(Pas.prototype,{
   {
     var errMess
     
-    if(MODE_FLASH)
+    if(this.tries_exec && this.tries_exec > 2)
     {
-      if(this.tries_exec && this.tries_exec > 2)
-      {
-        errMess = "# ERROR:"+error+". J'ai essayé de jouer 3 fois le code `this.Objects."+this.code+"` (étape #"+this.id+") en vain. Je poursuis, sans bien être sûr du résultat produit…"
-        F.error(errMess)
-        dlog("#ERROR# "+ errMess)
-      }
-      else
-      {
-        if(undefined == this.tries_exec) this.tries_exec = 0
-        ++ this.tries_exec
-        if(this.timer_tries_exec) clearTimeout(this.timer_tries_exec)
-        this.timer_tries_exec = setTimeout($.proxy(this.exec, this), 500)
-        return
-      }
+      errMess = error + "\nJ'ai essayé de jouer 3 fois le code `this.Objects."+this.code+"` (étape #"+this.id+") en vain. J'essaie de poursuivre…"
+      dlog("#Pas.exec ERROR# "+ errMess, true)
+      this.errors.push(error)
+      NEXT_STEP(0)
     }
-    else // mode non flash (normal)
+    else
     {
-      errMess = "# Erreur: "+error+ " survenue avec le code `this.Objects."+this.code+"` (#"+this.id+"). Mais j'essaie de poursuivre."
-      F.error(errMess)
-      dlog("#ERROR# "+errMess)
+      if(undefined == this.tries_exec) this.tries_exec = 0
+      ++ this.tries_exec
+      if(this.timer_tries_exec) clearTimeout(this.timer_tries_exec)
+      this.timer_tries_exec = setTimeout($.proxy(this.exec, this), 100)
+      return
     }
-    this.errors.push(error)
-    NEXT_STEP()
   },
   /**
     * Sélectionne l'étape dans le code
