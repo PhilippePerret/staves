@@ -8,6 +8,101 @@
   */
 if(undefined == window.UI) window.UI = {}
 $.extend(UI,{
+  /** Méthode qui analyse une propriété et une valeur et renvoie la bonne
+    * propriété et la bonne valeur.
+    * Cette méthode doit fonctionner pour tout type d'objet qui héritent des
+    * propriétés universelles de boites, et elle a été inaugurée pour la gestion
+    * de la méthode `set`.
+    * Par exemple, pour changer la couleur du cadre d'une boite, on utilise :
+    *   monCadre.set('color', blue)
+    * … et cette méthode doit retourner que ce n'est pas la propriété `color` qui
+    * doit être changée (ce qui ne changerait rien puisque la couleur du border est
+    * défini explicitement dans un objet cadre) mais la propriété `border-color`.
+    * Autre exemple : toutes les valeurs numériques, à part `z-index` et `opacity`,
+    * sont transformées en mesures pixels.
+    *
+    * @method real_value_per_prop
+    * @param {Object} obj     L'objet porteur (l'instance)
+    * @param {Object} hash    Object contenant les paires propriété/valeur.
+    * @return {Object} Le nouveau hash des paires propriété/valeur avec les bonnes propriétés et les bonnes valeurs
+    */
+  real_value_per_prop:function(obj, hash)
+  {
+    // Le nouveau hash qui sera renvoyé
+    var rhash = {}
+    
+    L(hash).each(function(prop, value){
+
+      /* On met toujours la valeur fournie à l'objet, telle que donnée */
+      obj[prop] = value
+      
+      // === CHANGEMENT DE LA PROPRIÉTÉ (ET VALEUR INITIALE) ===
+      switch(prop)
+      {
+      case 'x':
+        prop = 'left'
+        break
+      case 'offset_x':
+      case 'for_x'   :
+        prop  = 'left'
+        value = (obj.x || obj.x_default) + value
+        break
+      case 'y':
+        prop = 'top'
+        break
+      case 'offset_y':
+      case 'for_y'   :
+        prop  = 'top'
+        value = (obj.y || obj.y_default) + value
+        break
+      case 'z':
+        prop = 'z-index'
+        break
+      case 'offset_w':
+        prop  = 'width'
+        value = (obj.width || obj.width_default) + value
+        break
+      case 'offset_h':
+        prop  = 'height'
+        value = (obj.height || obj.height_default) + value
+        break
+      default:
+        if(obj.class == 'box' && obj.type == 'cadre')
+        {
+          switch(prop)
+          {
+          case 'color':
+            prop = 'border-color'
+            break
+          }
+        }
+      }
+      
+      /* === ON PEUT METTRE LA PROPRIÉTÉ DANS LE HASH === */
+      rhash[prop] = value
+      
+      // === EN FONCTION DU TYPEOF DE LA VALEUR ===
+      switch(typeof value)
+      {
+      case 'number':
+        switch(prop)
+        {
+        case 'z-index':
+        case 'opacity':
+          break
+        default:
+          value = value + 'px'
+        }
+        break
+      }
+
+      /* === ON PEUT METTRE LA VALEUR DANS LE HASH === */
+      rhash[prop] = value
+    })
+    
+    return rhash
+  },
+  
   /**
     * Écrit un message de feedback
     * @method feedback

@@ -1,0 +1,17 @@
+# Nouvelle animation
+# Écrire le code ici
+
+DEFAULT('decompte', 0)
+
+# La partition
+partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, z:11, width:725})
+
+# --- Exergue de la première mesure ---
+exergue = IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:150, y:100, width:975, height:673, inner_x:58, inner_y:14, cadre_width:208, cadre_height:107, bg_color:background_color, bg_opacity:0.8, padding:40, z:12, bg_image:false})
+
+# Le fond
+#bgd = BACKGROUND('black', {gradient:'#444', z:10})
+
+#partition.show()
+
+exergue.move({for_x:100, for_y:50, duree:10})

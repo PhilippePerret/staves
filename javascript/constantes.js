@@ -26,6 +26,8 @@ const black   = 'black'
 const BLACK   = 'black'
 const noir    = 'black'
 // const noire   = 'black' // non : le garder pour les figures rythmiques
+const white   = 'white'
+const blanc   = 'white'
 const blue    = 'blue'
 const BLUE    = 'blue'
 const red     = 'red'
@@ -36,6 +38,8 @@ const green   = 'green'
 const GREEN   = 'green'
 const grey    = 'grey'
 const gris    = 'grey'
+
+const background_color    = '#F8F7F3'
 
 const modulation  = 'modulation'
 const harmony     = 'harmony'

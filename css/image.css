@@ -2,12 +2,30 @@
   * Styles des images
   * (hormis celle qui font partie de l'animation — portée, notes, etc.)
   */
-div.divimage, div.divimage > img.image {
+div.divimage,
+div.divimage > div.bg_image,
+div.divimage > div.image_conteneur,
+div.divimage > div.image_conteneur > img.image
+{
   position : absolute;
 }
-/* Le div contenant l'image */
+
+/* Le DIV principal contenant tous les éléments de l'image
+ *    - Le div pour mettre un fond derrière l'image
+ *    - Le div contenant l'image pour la rogner
+ *    - L'image elle-même
+ */
 div.divimage {
+}
+/* Conteneur de l'image, qui permet de la rogner */
+div.divimage > div.image_conteneur {
   overflow:hidden;
 }
+
 img.image {
+}
+
+div.divimage div.bg_image {
+  width     : calc(100%);
+  height    : calc(100%);
 }

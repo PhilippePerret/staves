@@ -11,7 +11,7 @@ WAIT(1)
 RESET
 
 CAPTION("On écrit une gamme de DO bémol majeur temporisée", {wait:true})
-SCALE('cb', {speed:3})
+SCALE('cb', {speed:3, wait:4})
 
 
 WAIT(1)

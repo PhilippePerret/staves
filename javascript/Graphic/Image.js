@@ -10,6 +10,7 @@
 window.IMAGE = function(params)
 {
   var image = new Img(params)
+  image.build()
   return image
 }
 
@@ -48,6 +49,7 @@ window.Img = function(params)
     * @property {Number} x
     */
   this.x = null
+
   /**
     * Position verticale de l'image
     * @property {Number} y
@@ -59,6 +61,7 @@ window.Img = function(params)
     * @property {Number} width
     */
   this.width = null
+
   /**
     * Hauteur de l'image (ie du div la contenant)
     * @property {Number} height
@@ -70,17 +73,20 @@ window.Img = function(params)
     * @default largeur de l'image
     */
   this.cadre_width = null
+
   /** Hauteur du cadrage de l'image
     * @property {Number} cadre_height
     * @default Hauteur de l'image
     */
   this.cadre_height = null
+
   /** Décalage horizontal du cadrage dans l'image
     * Par exemple, si `100`, on affiche l'image à partir du pixel horizontal 100
     * @property {Number} inner_x
     * @default 0
     */
   this.inner_x = 0
+
   /** Décalage vertical du cadrage dans l'image
     * @property {Number} inner_y
     * @default 0
@@ -94,6 +100,35 @@ window.Img = function(params)
     */
   this.hidden = false
   
+  /**
+    * Couleur du fond derrière l'image
+    * @property {String} bg_color
+    */
+  this.bg_color   = 'tranparent'
+  
+  /**
+    * Opacité du fond derrière l'image
+    * @property {Float} bg_opacity
+    */
+  this.bg_opacity = 1
+  
+  /**
+    * Détermine si le fond de l'image doit être opaque
+    * quand une bordure est utilisé. Lorsqu'une bordure blanche est utilisée,
+    * par exemple, avec une opacité de 0.3, le fond de l'image est lui aussi blanc
+    * mais complètement opaque. Sauf si cette propriété est mis à false.
+    * @property {Boolean} bg_image
+    * @default true
+    */
+  this.bg_image = true
+  
+  /** Padding autour de l'image
+    * Utile seulement lorsqu'un fond est utilisé, qui doit déborder
+    * de l'image
+    */
+  this.padding = 0
+  
+  
   var me = this
   L(params || {}).each(function(k,v){me[k] = v})
   
@@ -104,7 +139,6 @@ window.Img = function(params)
     {
       this.calc_width_and_height()
     }
-    this.build()
   }
   else
   { // => Pour une image "absolue"
@@ -392,8 +426,10 @@ $.extend(Img.prototype,{
     if(undefined != params.width)   dcadre.width  = params.width  + 'px'
     if(undefined != params.height)  dcadre.height = params.height + 'px'
     if(dcadre != {}) this.obj.animate(dcadre)
+
     // On procède au travelling
     this.image.animate(dtrav, params.duree, params.complete)
+
     // On passe les nouvelles valeurs
     if(params.x)      this.inner_x = params.x
     if(params.y)      this.inner_y = params.y
@@ -428,6 +464,52 @@ $.extend(Img.prototype,{
     return this
   },
   
+  /**
+    * Permet de redéfinir une valeur de l'objet
+    * @method set
+    * @param {String} prop    La propriété de la box — ou un objet définissant plusieurs propriétés
+    * @param {Any}    value   La valeur à donner à la propriété
+    * @param {Object} params  Les paramètres éventuels.
+    *   @param  {Number}  params.duree   La durée que doit prendre la transformation (en secondes)
+    *   @param  {Boolean} params.wait    Si False, on passe tout de suite à la suite.
+    */
+  set:function(prop, value, params)
+  {
+    var data ;
+    if(undefined == params && 'object' == typeof value)
+    {
+      data    = prop
+      params  = value
+    }
+    else
+    {
+      data = parametize(prop, value)
+    }
+
+    // On corrige les propriétés et les valeurs
+    data = UI.real_value_per_prop( this, data )
+    
+    var my = this,
+        data_div        = {}
+        data_background = {},
+        data_image      = {}
+    L(data).each(function(prop, value){
+      switch(prop)
+      {
+      case 'src':
+        return my.src(value)
+      case 'bg_color':
+        return data_background['background-color'] = value
+      case 'bg_opacity':
+        return data_background['opacity'] = value
+      case 'opacity':
+        return data_div['opacity'] = value
+      }
+    })
+    
+    return this
+    
+  },
   /**
     * Méthode pour changer la source de l'image
     * @method src
@@ -524,22 +606,62 @@ $.extend(Img.prototype,{
     */
   positionne:function()
   {
+    var padding = this.padding ? this.padding : 0
+    
     // Div contenant l'image
-    var data = {
+    var div_data = {
       left    : this.x+'px',
       top     : this.y+'px',
-      width   : (this.cadre_width  || this.width)+'px',
-      height  : (this.cadre_height || this.height)+'px'
+      width   : ((this.cadre_width  || this.width) + (2 * padding)) +'px',
+      height  : ((this.cadre_height || this.height) + (2 * padding)) +'px'
     }
-    this.obj.css(data)
+    if(undefined !== this.z) div_data['z-index'] = this.z
+    this.obj.css(div_data)
+    
+    // Le fond derrière l'image
+    var bg_data = {}
+    bg_data['background-color'] = this.bg_color ? this.bg_color : 'transparent'
+    if(undefined !== this.bg_opacity) bg_data['opacity'] = this.bg_opacity
+    this.obj_background.css(bg_data)
+    
+    // Le DIV contenant l'image (c'est lui qui permet de rogner l'image)
+    var cont_data = {
+      width  : (this.cadre_width  || this.width) +'px', 
+      height : (this.cadre_height || this.height) +'px',
+      top    : padding + 'px',
+      left   : padding + 'px'
+    }
+    this.obj_conteneur.css( cont_data )
+    
     // Image
-    data = {
-      width : this.width +'px', 
-      height: this.height+'px'
+    var img_data = {
+      width : this.width  +'px', 
+      height: this.height +'px'
     }
-    if(this.inner_x) data.left = '-'+this.inner_x+'px'
-    if(this.inner_y) data.top  = '-'+this.inner_y+'px'
-    this.image.css(data)
+    if(this.bg_color && this.bg_image)
+    {
+      img_data['background-color']  = this.bg_color
+      img_data['opacity']           = 1
+    }
+    var left = 0, top = 0 ;
+    if(this.inner_x) left = - this.inner_x
+    if(this.inner_y) top  = - this.inner_y
+    if(left) img_data.left = left + 'px'
+    if(top ) img_data.top  = top  + 'px'
+    this.image.css(img_data)
+    
+    dlog("Data CSS pour le DIV:");dlog(div_data)
+    dlog("Data CSS pour le fond:");dlog(bg_data)
+    dlog("Data CSS pour l'image:");dlog(img_data)
+    dlog("Données de l'instance :");
+    dlog({
+      width: this.width, height:this.height,
+      padding:padding,
+      x:this.x, y:this.y, z:this.z,
+      bg_color:this.bg_color, bg_opacity:this.bg_opacity,
+      opacity:this.opacity,
+      inner_x:this.inner_x, inner_y:this.inner_y
+    })
     
     return this
   },
@@ -611,18 +733,28 @@ Object.defineProperties(Img.prototype,{
     */
   "obj":{get:function(){return $('div#'+this.dom_id)}},
   /**
+    * DOM Object de l'image (balise img)
+    * @property {jQuerySet} image
+    */
+  "image":{get:function(){return $('img#'+this.id)}},
+  /** 
+    * DOM Object du Div qui contient l'image et la rogne
+    * @property {jQuerySet} obj_conteneur
+    */
+  "obj_conteneur":{get:function(){return $('div#'+this.id+'-conteneur')}},
+  /**
+    * DOM Object du fond derrière l'image
+    * @property {jQuerySet} obj_background
+    */
+  "obj_background":{get:function(){return $('div#'+this.id+'-background')}},
+  
+  /**
     * Objet DOM de l'image absolue
     * @property {jQuerySet} abs_obj
     */
   "abs_obj":{
     get:function(){return $('img#'+this.abs_id)}
   },
-  /**
-    * DOM Object de l'image (balise img)
-    * @property {jQuerySet} image
-    */
-  "image":{get:function(){return $('img#'+this.id)}},
-  
   /**
     * Code HTML pour l'image absolue
     * @property {HTMLString} abs_code_html
@@ -643,7 +775,10 @@ Object.defineProperties(Img.prototype,{
       
       
       return  '<div id="'+this.dom_id+'" class="divimage" style="'+stylediv.join(';')+'">'+
-                '<img id="'+this.id+'" class="image" src="'+this.url+'" style="'+styleimg.join(';')+'" />'+
+                '<div id="'+this.id+'-background" class="bg_image"></div>' +
+                '<div id="'+this.id+'-conteneur" class="image_conteneur">'+
+                  '<img id="'+this.id+'" class="image" src="'+this.url+'" style="'+styleimg.join(';')+'" />'+
+                '</div>'+
               '</div>'
     }
   }

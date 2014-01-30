@@ -6,7 +6,7 @@ NEW_STAFF(SOL)
 
 
 CAPTION("On écrit un accord de Do minteur (1er renversement)")
-acc=CHORD('eb4 g4 c5', {wait:4})
+acc=CHORD('eb4 g4 c5', {duree:5, wait:4})
 
 CAPTION("On déplace le do.")
 acc.note(3).move(c4)

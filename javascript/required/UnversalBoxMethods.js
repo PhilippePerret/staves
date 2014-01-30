@@ -51,7 +51,7 @@ $.extend(UNVERSAL_BOX_METHODS,{
       data = parametize(prop, value)
     }
     // On corrige les propriétés et les valeurs
-    data = this.real_value_per_prop( this, data )
+    data = UI.real_value_per_prop( this, data )
     // dlog("[set] real-data:");dlog(data)
     
     this.animate(data, params)
@@ -67,11 +67,7 @@ $.extend(UNVERSAL_BOX_METHODS,{
   show:function(params)
   {
     dlog("-> " + this.id + ".show")
-    if(undefined == params) params = {}
-    if(undefined == this.duree) params.duree = Anim.delai_for('show')
-    params.complete = this.wait === false ? false : NEXT_STEP
-    this.animate({opacity:this.opacity || 1}, params)
-    this.hidden = false
+    this.show_or_hide(params, true)
     dlog("<- " + this.id + ".show")
   },
   
@@ -82,11 +78,7 @@ $.extend(UNVERSAL_BOX_METHODS,{
     */
   hide:function(params)
   {
-    if(undefined == params) params = {}
-    if(undefined == params.duree) params.duree = Anim.delai_for('show')
-    params.complete = this.wait === false ? false : NEXT_STEP
-    this.animate({opacity:0}, params)
-    this.hidden = true
+    this.show_or_hide(params, false)
   },
 
   /**
@@ -172,6 +164,21 @@ $.extend(UNVERSAL_BOX_METHODS, {
   },
   
   /**
+    * Méthode pour afficher ou masquer l'objet
+    * @method show_or_hide
+    * @param {Object}   params        Les paramètres optionnes
+    * @param {Boolean}  for_showing   True si c'est pour afficher l'objet
+    */
+  show_or_hide:function(params, for_showing)
+  {
+    params = define_wait( params, this )
+    params = define_complete( params )
+    params.duree = this.duree_set_or_default(params, 'show')
+    this.animate({opacity:for_showing ? (this.opacity || 1) : 0}, params)
+    this.hidden = false == for_showing
+  },
+
+  /**
     * Dispatche les données +params+ dans l'objet, à l'instantiation
     * Noter que dans beaucoup de cas, dispatcher les paramètres signifie 
     * également définir l'objet à l'affichage, puisque la plupart des propriétés
@@ -186,101 +193,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     var my = this
     L(params).each(function(k,v){ my[k] = v })
   },
-  
-  /** Méthode qui analyse une propriété et une valeur et renvoie la bonne
-    * propriété et la bonne valeur.
-    * Cette méthode doit fonctionner pour tout type d'objet qui héritent des
-    * propriétés universelles de boites, et elle a été inaugurée pour la gestion
-    * de la méthode `set`.
-    * Par exemple, pour changer la couleur du cadre d'une boite, on utilise :
-    *   monCadre.set('color', blue)
-    * … et cette méthode doit retourner que ce n'est pas la propriété `color` qui
-    * doit être changée (ce qui ne changerait rien puisque la couleur du border est
-    * défini explicitement dans un objet cadre) mais la propriété `border-color`.
-    * Autre exemple : toutes les valeurs numériques, à part `z-index` et `opacity`,
-    * sont transformées en mesures pixels.
-    *
-    * @method real_value_per_prop
-    * @param {Object} obj L'objet porteur (correspond à `this`)
-    * @param {Object} hash    Object contenant les paires propriété/valeur.
-    * @return {Object} Le nouveau hash des paires propriété/valeur avec les bonnes propriétés et les bonnes valeurs
-    */
-  real_value_per_prop:function(obj, hash)
-  {
-    // Le nouveau hash qui sera renvoyé
-    var rhash = {}
     
-    L(hash).each(function(prop, value){
-
-      /* On met toujours la valeur fournie à l'objet, telle que donnée */
-      obj[prop] = value
-      
-      // === CHANGEMENT DE LA PROPRIÉTÉ (ET VALEUR INITIALE) ===
-      switch(prop)
-      {
-      case 'x':
-        prop = 'left'
-        break
-      case 'y':
-        prop = 'top'
-        break
-      case 'offset_x':
-        prop  = 'left'
-        value = (obj.x || obj.x_default) + value
-        break
-      case 'offset_y':
-        prop  = 'top'
-        value = (obj.y || obj.y_default) + value
-        break
-      case 'z':
-        prop = 'z-index'
-        break
-      case 'offset_w':
-        prop  = 'width'
-        value = (obj.width || obj.width_default) + value
-        break
-      case 'offset_h':
-        prop  = 'height'
-        value = (obj.height || obj.height_default) + value
-        break
-      default:
-        if(obj.class == 'box' && obj.type == 'cadre')
-        {
-          switch(prop)
-          {
-          case 'color':
-            prop = 'border-color'
-            break
-          }
-        }
-      }
-      
-      /* === ON PEUT METTRE LA PROPRIÉTÉ DANS LE HASH === */
-      rhash[prop] = value
-      
-      // === EN FONCTION DU TYPEOF DE LA VALEUR ===
-      switch(typeof value)
-      {
-      case 'number':
-        switch(prop)
-        {
-        case 'z-index':
-        case 'opacity':
-          break
-        default:
-          value = value + 'px'
-        }
-        break
-      }
-
-      /* === ON PEUT METTRE LA VALEUR DANS LE HASH === */
-      rhash[prop] = value
-    })
-    
-    
-    return rhash
-  },
-  
   /**
     * Construit l'objet
     * Notes :
@@ -292,15 +205,10 @@ $.extend(UNVERSAL_BOX_METHODS, {
   build:function()
   {
     dlog("-> "+this.id+".build")
-    var params = {}
-    if(this.wait === false) params.complete = false
+    params = define_wait({}, this)
     Anim.Dom.add(this, params)
     this.obj.draggable({stop:this.coordonnees})
-    if(this.wait === false)
-    {
-      delete this.wait
-      NEXT_STEP(0)
-    }
+    traite_wait(params)
     dlog("<- "+this.id+".build")
     return this
   },
@@ -355,7 +263,11 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   duree_set_or_default:function(params, duree_id)
   {
-    return undefined == params.duree ? Anim.delai_for(duree_id) : params.duree
+    return function(d_params, d_this, d_id){
+      if(undefined !== d_params) return d_params
+      if(undefined !== d_this)   return d_this
+      return Anim.delai_for(d_id)
+    }(params.duree, this.duree, duree_id)
   },
   /**
     * Définit une propriété css de l'objet

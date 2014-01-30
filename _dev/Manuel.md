@@ -1879,6 +1879,7 @@ En revanche, si on utilise&nbsp;:
 * [Modifier la position de l'image](#modify_position_image)
 * [Déplacer l'image](#move_image)
 * [Modifier le cadrage de l'image](#modify_cadrage_image)
+* [Bordure de couleur ou flou autour de l'image](#bordure_flou_image)
 * [Modifier la source de l'image](#modify_source_image)
 * [Ne pas construire l'image lors de l'instanciation](#dont_build_image)
 
@@ -1909,9 +1910,20 @@ Les paramètres peuvent être les suivants&nbsp;:
       inner_y  : <décalage vertical de la portion d'image
     })
 
-*Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).*
+* *Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).*
 
-Noter que le `width` et le `height` sont obligatoires (c'est à moitié vrai, puisque s'ils ne sont pas fournis, c'est la taille de l'image qui est prise en référence). Leur valeur peut être `auto` et dans ce cas elle est calculée automatiquement par rapport à la valeur qui est fournie.
+* Noter que si l'on veut utiliser tout de suite la variable définie (`monImg` ci-dessus), il faut mieux laisser passer un cours instant pour que cette variable soit vraiment définie.
+
+  Par exemple&nbsp;:
+
+      monImg = IMAGE({... définition ...})
+      # Attendre un cours instant
+      WAIT(0.2)
+      # Je peux utiliser monImg
+      monImg.move({....})
+
+
+* Noter que le `width` et le `height` sont obligatoires (c'est à moitié vrai, puisque s'ils ne sont pas fournis, c'est la taille de l'image qui est prise en référence). Leur valeur peut être `auto` et dans ce cas elle est calculée automatiquement par rapport à la valeur qui est fournie.
 
 Pour des informations concernant le “recadrage de l'image”, cf. [Modifier le cadrage de l'image](#modify_cadrage_image).
 
@@ -2014,6 +2026,27 @@ Noter que pour obtenir les nouvelles coordonnées du cadrage, il suffit&nbsp;:
 * De déterminer le cadrage de fin du travelling&nbsp;;
 * De demander le code (bouton “-> Code” de l'édition)&nbsp;;
 * De copier-coller le code donné dans le cadre “Paramètres travelling”.
+
+<a name="bordure_flou_image"></a>
+###Bordure de couleur et flou autour de l'image
+
+On peut définir une border de couleur et une opacité de cette bordure pour créer un effet de flou (transparence) autour de l'image.
+
+Pour cela, on joue sur les paramètres&nbsp;:
+
+    padding         Nombre de pixels de la bordure
+    bg_color        La couleur de la bordure
+    bg_opacity      L'opacité de cette bordure
+
+Par exemple, pour créer une transparence blanche bien visible autour de l'image&nbsp;:
+
+    monImage = IMAGE({url:'path/de/mon/image.png', padding:40, bg_color:40, bg_opacity:0.7})
+
+Noter que par défaut, le fond de l'image sera lui aussi de la couleur `bg_color`, mais complètement opaque.
+
+Pour empêcher ce comportement, ajouter le paramètre&nbsp;:
+
+    bg_image:false
 
 <a name="modify_source_image"></a>
 ###Modifier la source de l'image
@@ -2863,8 +2896,11 @@ La **color** (couleur) d'un objet quelconque est noire par défaut (une note, un
 Pour modifier sa couleur, on peut utiliser ces constantes couleur (les valeurs françaises sont des valeurs valides aussi)&nbsp;:
 
     black   noir
+    white   blanc
     red     rouge
     blue    bleu
     green   vert
     grey    gris
     orange
+
+    background_color    La couleur de fond de l'animation (blanc cassé)

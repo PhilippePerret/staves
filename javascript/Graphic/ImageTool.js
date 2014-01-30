@@ -97,13 +97,13 @@ window.ImageTool = {
     // Il faut prendre la position du recadrage
     this.calcul_recadrage()
     var code = '{'+
-              'url:\''  +this.data_image.src+'\', '+
-              'top:'    +this.current.top+', '+
-              'left:'   +this.current.left+', '+
-              'width:'  +this.data_image.width+', '+
-              'height:' +this.data_image.height+', '+
-              'inner_x:' +this.data_image.inner_x+', '+
-              'inner_y:' +this.data_image.inner_y+', '+
+              'url:\''    +this.data_image.src+'\', '+
+              'x:'        +this.current.x+', '+
+              'y:'        +this.current.y+', '+
+              'width:'    +this.data_image.width+', '+
+              'height:'   +this.data_image.height+', '+
+              'inner_x:'  +this.data_image.inner_x+', '+
+              'inner_y:'  +this.data_image.inner_y+', '+
               'cadre_width:'    +this.data_image.cadre_width+', '+
               'cadre_height:'   +this.data_image.cadre_height +
             '}'
