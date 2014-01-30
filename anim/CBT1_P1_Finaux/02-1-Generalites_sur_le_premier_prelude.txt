@@ -44,13 +44,13 @@ CAPTION("…, ce prélude est intégralement constitué d'un motif d'arpèges as
 
 CAPTION("On est donc d'emblée dans une pièce de style “exercice”. Avec une même difficulté qui se répète à loisir sur chaque mesure.", {wait:true})
 
-exergue.remove()
+exergue.remove({duree:5, wait:false})
 
 CAPTION("D'emblée, donc, Bach affirme la portée pédagogique des monuments du clavier que sont ses Clavecins Bien Tempérés.", {wait:true})
 
 partition.hide()
 
-CAPTION("Par rapport à ces arpèges ascendant, il est intéressant de noter comment ils s'opposent au parcours descendant de la mélodie.")
+CAPTION("Par rapport à ces arpèges ascendants, il est intéressant de noter comment ils s'opposent au parcours descendant de la mélodie.")
 
 # --- La mélodie du prélude ---
 
@@ -59,25 +59,19 @@ melodie = MOTIF('e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e
 
 WAIT_CAPTION
 
-CAPTION("En effet, si nous ne prenons que les notes extrêmes de ce prélude, nous notons le parcours clairement descendant de la mélodie…", {wait:true})
+CAPTION("En effet, si nous ne prenons que les notes extrêmes de ce prélude… ", {wait:true})
 
-CAPTION("… qui part du mi5 pour aller jusqu'au mi4, donc une octave, …")
+melodie.note([1,32,41]).surround({color:blue, wait:false})
 
-melodie.note([1,32,41]).surround({color:blue})
+CAPTION("… , ici entourées en bleu, nous notons le parcours clairement descendant de la mélodie qui part du mi5 pour aller jusqu'au mi4, donc une octave… pour un ambitus — c'est-à-dire l'intervalle entre la note la plus haute et la note la plus basse, ici entourées en vert", {wait:true})
 
-WAIT_CAPTION
+melodie.note([5,20]).surround({color:green, wait:false})
 
-CAPTION("… pour un ambitus — c'est-à-dire l'intervalle entre la note la plus haute et la note la plus basse — de sixte redoublée, du la5… au do4…")
-
-melodie.note([5,20]).surround({color:green})
-
-WAIT_CAPTION
+CAPTION(" — donc un ambitus de sixte redoublée, du LA 5 au DO 4.", {wait:true})
 
 # --- Mark de la CODA ---
 SET_CURSOR(470)
 STAFF(2).part(coda, {offset_x:24})
-
-WAIT_CAPTION
 
 CAPTION("Noter que je ne tiens pas compte ici de la coda, d'un caractère mélodique contrasté. On remarque entre parenthèses qu'elle est une subtile synthèse de ce que nous venons de voir : elle hérite des arpèges de l'harmonie et elle hérite du caractère mélodique descendant de la mélodie.",{wait:true})
 

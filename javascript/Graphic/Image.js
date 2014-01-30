@@ -412,6 +412,18 @@ $.extend(Img.prototype,{
     Anim.Dom.hide(this, params)
     return this
   },
+  
+  /**
+    * Pour détruire complètement l'image
+    * @method remove
+    * @param {Object} params    Paramètres optionnels
+    *   @param {Boolean|Number}   params.wait   Le paramètre d'attente
+    *   @param {Float}            params.duree  La durée d'évanouissement
+    */
+  remove:function(params)
+  {
+    this.hide($.extend(params, {complete_each:function(){this.remove()}}))
+  },
   /**
     * Pour exécuter un travelling dans l'image
     * @method travelling
