@@ -755,11 +755,11 @@ Object.defineProperties(Txt.prototype,{
   },
   /**
     * left en fonction du owner (utilisé par &quot;left&quot;)
-    * @property {Number} left_per_owner
+    * @property {Number} x_per_owner
     */
-  &quot;left_per_owner&quot;:{
+  &quot;x_per_owner&quot;:{
     get:function(){
-      this._left_per_owner = function(owner, me)
+      this._x_per_owner = function(owner, me)
       {
         switch(owner.class)
         {
@@ -769,7 +769,7 @@ Object.defineProperties(Txt.prototype,{
           return owner.left
         }
       }(this.owner, this)
-      return this._left_per_owner
+      return this._x_per_owner
     }
   },
   /**
@@ -791,7 +791,7 @@ Object.defineProperties(Txt.prototype,{
     get:function(){
       if(undefined == this._left)
       {
-        this._left = this.left_per_owner
+        this._left = this.x_per_owner
         switch(this.type)
         {
         case modulation:

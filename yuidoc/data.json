@@ -6868,7 +6868,7 @@
             "line": 490,
             "description": "left en fonction du owner (utilisé par \"left\")",
             "itemtype": "property",
-            "name": "left_per_owner",
+            "name": "x_per_owner",
             "type": "Number",
             "class": "Txt",
             "module": "Txt.js"

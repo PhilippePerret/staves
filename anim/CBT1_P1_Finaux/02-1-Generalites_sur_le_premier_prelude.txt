@@ -71,7 +71,7 @@ CAPTION(" — donc un ambitus de sixte redoublée, du LA 5 au DO 4.", {wait:true
 
 # --- Mark de la CODA ---
 SET_CURSOR(470)
-STAFF(2).part(coda, {offset_x:24})
+STAFF(2).part(coda, {x:470})
 
 CAPTION("Noter que je ne tiens pas compte ici de la coda, d'un caractère mélodique contrasté. On remarque entre parenthèses qu'elle est une subtile synthèse de ce que nous venons de voir : elle hérite des arpèges de l'harmonie et elle hérite du caractère mélodique descendant de la mélodie.",{wait:true})
 

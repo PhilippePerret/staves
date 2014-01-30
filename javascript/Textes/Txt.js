@@ -79,7 +79,7 @@ window.Txt = function(owner, params)
     */
   this.offset_y = 0
   /**
-    * Décalage horizontal par rapport à la position courante (left)
+    * Décalage horizontal par rapport à la position courante (x)
     * Une valeur positive pousse vers la droite, une valeur négative vers la gauche
     * @property {Number} offset_x
     * @default 0
@@ -206,50 +206,25 @@ $.extend(Txt, {
   }
 })
 
+/* ---------------------------------------------------------------------
+ *
+ *  MÉTHODES ET PROPRIÉTÉS D'INSTANCE
+ *  
+ */
+
+/* Héritage des méthodes universelles */
+$.extend(Txt.prototype, UNVERSAL_METHODS)
+
 $.extend(Txt.prototype,{
-  
-  /**
-    * Écrit le texte (en fait, construit son élément et le positionne)
-    * @method build
-    */
-  build:function()
-  {
-    // dlog("-> <Txt>.build ("+this.texte_main+")")
-    Anim.Dom.add(this)
-    return this
-  },
-  /**
-    * Masque le texte (sans le détruire)
-    * Note
-    * ----
-    * @method hide
-    * @param  {Object} params Paramètres optionnels, et notamment :
-    *   @param {Function} params.complete La méthode poursuivre, si elle doit être
-    *                                     différente de NEXT_STEP
-    *   @param {Boolean|Number} params.wait   Le paramètre d'attente
-    *   @param {Number}         params.duree  La durée éventuelle du masquage.
-    */
-  hide:function(params)
-  {
-    Anim.Dom.hide(this, params)
-  },
-  /**
-    * (Ré-)affiche le texte
-    * @method show
-    */
-  show:function(params)
-  {
-    Anim.Dom.show(this, params)
-  },
   
   /**
     * Positionne l'élément (en fonction de son possesseur)
     * Notes
     *   * Le texte est placé à différents endroit de la portée en fonction
     *     du type de texte.
-    *   * Le left doit être recalculé, une fois qu'on connait la taille du texte,
+    *   * Le x doit être recalculé, une fois qu'on connait la taille du texte,
     *     pour être calé correctement contre le possesseur.
-    *   * Le top doit lui aussi être recalculé en fonction de offset_y
+    *   * Le y doit lui aussi être recalculé en fonction de offset_y
     *   * Le code contient des boites div `txtbefore` et `txtafter` qui,
     *     si elles ne sont pas vides, doivent être positionnées correctement.
     *
@@ -259,15 +234,15 @@ $.extend(Txt.prototype,{
   positionne:function()
   {
     // NOTE : j'ai placé le traitement de la largeur avant le calcul de
-    // real_left, car real_left se sert de la taille du texte, mais ça
+    // real_x, car real_x se sert de la taille du texte, mais ça
     // risque de poser un problème pour le placement de certains éléments
     // comme les cadences (qui sont pour le moment les seuls à définir un
     // width particulier)
     if(this.width) this.obj.css({width:this.width+'px'})
     var dpos  = {}, my = this ;
-    L(['left', 'top', 'height']).each(function(key){
+    L({'left':'x', 'right':'y', 'height':'height'}).each(function(key_css, key){
       var val = my['real_'+key]
-      if(val != null) dpos[key] = val + 'px'
+      if(val != null) dpos[key_css] = val + 'px'
     })
     this.obj.css(dpos)
     this.positionne_texte_before()
@@ -302,8 +277,8 @@ $.extend(Txt.prototype,{
   reset:function()
   {
     delete this._texte
-    delete this._top
-    delete this._left
+    delete this._y
+    delete this._x
     delete this._width
   },
   /**
@@ -401,10 +376,10 @@ Object.defineProperties(Txt.prototype,{
     * Retourne le TOP DU TEXTE
     * Notes
     * -----
-    *   * Ce top dépend de pas mal de choses et notamment du type du texte (finger,
+    *   * Ce y dépend de pas mal de choses et notamment du type du texte (finger,
     *     harmony, etc.)
     *   * Il peut être également influencé par les décalages des préférences
-    *   * Ce top est dépendant en tout premier lieu de la portée sous laquelle on
+    *   * Ce y est dépendant en tout premier lieu de la portée sous laquelle on
     *     doit le placer. Par ordre de priorité, on trouve la recherche de cette
     *     portée par :
     *       - la propriété `staff` définie explicitement
@@ -412,38 +387,38 @@ Object.defineProperties(Txt.prototype,{
     *       - sinon la portée du propriétaire du texte
     *       - sinon la portée active courante
     *
-    * @property {Number} top
+    * @property {Number} y
     */
-  "top":{
-    set:function(top){this._top = top},
+  "y":{
+    set:function(y){this._y = y},
     get:function(){
-      if(undefined == this._top)
+      if(undefined == this._y)
       {
-        var top = this.real_staff.top
+        var y = this.real_staff.y
         switch(this.type)
         {
         case harmony:
         case cadence:
-          top += Anim.prefs.harmony + Anim.prefs.offset_harmony
+          y += Anim.prefs.harmony + Anim.prefs.offset_harmony
           break
         case chord: // WARNING : le type de texte, pas un accord portant le texte
-          top -= Anim.prefs.chord + Anim.prefs.offset_chord
+          y -= Anim.prefs.chord + Anim.prefs.offset_chord
           break
         case modulation:
-          top -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y
+          y -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y
           break
         case part:
-          top -= Anim.prefs.part_y + Anim.prefs.offset_part_y + this.offset_y
+          y -= Anim.prefs.part_y + Anim.prefs.offset_part_y + this.offset_y
           break
         case measure:
-          top -= Anim.prefs.num_measure_y + Anim.prefs.offset_num_measure_y
+          y -= Anim.prefs.num_measure_y + Anim.prefs.offset_num_measure_y
           break
         default:
-          top = Math.min(top, this.owner.top) - 20
+          y = Math.min(y, this.owner.y) - 20
         }
-        this._top = top
+        this._y = y
       }
-      return this._top
+      return this._y
     }
   },
   /**
@@ -467,22 +442,22 @@ Object.defineProperties(Txt.prototype,{
     }
   },
   /**
-    * left en fonction du owner (utilisé par "left")
-    * @property {Number} left_per_owner
+    * x en fonction du owner (utilisé par "x")
+    * @property {Number} x_per_owner
     */
-  "left_per_owner":{
+  "x_per_owner":{
     get:function(){
-      this._left_per_owner = function(owner, me)
+      this._x_per_owner = function(owner, me)
       {
         switch(owner.class)
         {
         case 'staff':
-          return (this.left || (Anim.current_x + 18)) - (UI.exact_width_of(me.obj) / 2)
+          return (Anim.current_x + 18) - ( UI.exact_width_of(me.obj) / 2 )
         default:
-          return owner.left
+          return owner.x
         }
       }(this.owner, this)
-      return this._left_per_owner
+      return this._x_per_owner
     }
   },
   /**
@@ -493,42 +468,42 @@ Object.defineProperties(Txt.prototype,{
     *     pouvoir placer son bord droit au bout du possesseur.
     *     Mais cela ne peut être fait qu'une fois qu'on connait la taille du
     *     texte, donc c'est la méthode `positionne` qui s'en charge. c'est quand
-    *     elle appelle this.left qu'on le calcule.
+    *     elle appelle this.x qu'on le calcule.
     *   * Ce n'est pas ici que doit être pris en compte la valeur de `offset_x`,
-    *     cf. `real_left`
+    *     cf. `real_x`
     *
-    * @property {Number} left
+    * @property {Number} x
     */
-  "left":{
-    set:function(left){ this._left = left},
+  "x":{
+    set:function(x){ this._x = x},
     get:function(){
-      if(undefined == this._left)
+      if(undefined == this._x)
       {
-        this._left = this.left_per_owner
+        this._x = this.x_per_owner
         switch(this.type)
         {
         case modulation:
-          this._left += Anim.prefs.modulation_x
+          this._x += Anim.prefs.modulation_x
           break
         case part:
-          this._left += Anim.prefs.part_x
+          this._x += Anim.prefs.part_x
         case measure:
-          this._left -= 30
+          this._x -= 30
           break
         default:
         }
       }
-      return this._left
+      return this._x
     }
   },
   /**
-    * Retourne le vrai top du texte dans le cas où un offset_y a été défini
+    * Retourne le vrai y du texte dans le cas où un offset_y a été défini
     * Agit différemment suivant le type (cf. la définition de la propriété offset_y)
-    * @property {Number} real_top
+    * @property {Number} real_y
     */
-  "real_top":{
+  "real_y":{
     get:function(){
-      return this.top + function(owner, itxt, voffset){
+      return this.y + function(owner, itxt, voffset){
         switch(owner.class)
         {
         case 'staff': 
@@ -542,11 +517,11 @@ Object.defineProperties(Txt.prototype,{
           // if(Anim.prefs.staff_text_up) return - (h + itxt.height_calc)
           // else return owner.height + h
         case 'chord':
-          return (owner.top_obj - 30 - voffset) - itxt.top
+          return (owner.top_obj - 30 - voffset) - itxt.y
         }
         
         
-        if( voffset ) return itxt.top
+        if( voffset ) return itxt.y
         switch(itxt.type){
         case chord:
           return - voffset
@@ -557,40 +532,40 @@ Object.defineProperties(Txt.prototype,{
     }
   },
   /**
-    * Retourne le vrai décalage left du texte par rapport à l'objet en
+    * Retourne le vrai décalage x du texte par rapport à l'objet en
     * fonction de son type
-    * @property {Number} real_left
+    * @property {Number} real_x
     */
-  "real_left":{
+  "real_x":{
     get:function()
     {
-      var left  = this.left
+      var x  = this.x
       var w_box = this.obj.width()
-      // dlog("-> real left")
+      // dlog("-> real x")
       // dlog({
       //   'this': this.id+":"+this.type,
-      //   'left': this.left,
-      //   'owner left': this.owner.left,
+      //   'x': this.x,
+      //   'owner x': this.owner.x,
       //   'owner center x':this.owner.center_x,
       //   'width box' : w_box
       // })
       switch(this.type)
       {
       case harmony:
-        this._real_left = this.owner.center_x - (w_box / 2)
+        this._real_x = this.owner.center_x - (w_box / 2)
         break
       case cadence:
         // Pour un texte d'harmonie, le bord droit doit être aligné au possesseur,
         // à peine plus à droite.
-        this._real_left = left - w_box + 4
+        this._real_x = x - w_box + 4
         break
       case chord:
-        this._real_left = this.owner.center_x - (w_box / 2)
+        this._real_x = this.owner.center_x - (w_box / 2)
         break
       default:
-        this._real_left = left - 10
+        this._real_x = x - 10
       }
-      return this._real_left + (this.offset_x || 0)
+      return this._real_x + (this.offset_x || 0)
     }
   },
   /**
@@ -617,7 +592,7 @@ Object.defineProperties(Txt.prototype,{
         // Pour une partie, on essaie d'aller jusqu'en bas de la portée,
         // sauf si this.height est défini
         if(this.height) return this.height
-        var h = this.real_staff.bottom - this.real_top
+        var h = this.real_staff.bottom - this.real_y
         return h
       default: return null
       }

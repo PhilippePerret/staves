@@ -25,6 +25,7 @@ window.UNVERSAL_METHODS = {
   build:function()
   {
     Anim.Dom.add(this)
+    return this
   },
   /**
     * Affiche l'objet DOM de l'élément

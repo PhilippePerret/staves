@@ -153,7 +153,7 @@ window.Anim.Dom.Doublage = {
   },
   temporize:function()
   {
-    stack('Anim.Dom.Doublage.temporize')
+    // stack('Anim.Dom.Doublage.temporize')
     if(this.timer_doublage) clearTimeout(this.timer_doublage)
     if(mot = this.dbl_mots.shift())
     {
@@ -176,7 +176,6 @@ window.Anim.Dom.Doublage = {
     else
     {
       // Fin du doublage 
-      dlog("Anim.Dom.Doublage.temporize : Fin du doublage (et poursuivre)")
       this.on = false
       if(this.temporize.poursuivre) this.temporize.poursuivre()
     }

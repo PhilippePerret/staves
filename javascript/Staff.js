@@ -260,6 +260,12 @@ $.extend(Staff.prototype, {
   {
     Anim.staves.splice(this.indice - 1, 1)
     
+    // Détruire les textes de la portée
+    if(this.texte)
+    {
+      L(this.texte).each(function(inst_texte){inst_texte.remove(params)})
+    }
+    
     // Détruire portée et clés
     params = define_wait_and_duree( params, this, 'show')
     params.complete_each  = 'remove'
@@ -355,6 +361,18 @@ $.extend(Staff.prototype, {
 })
 
 Object.defineProperties(Staff.prototype,{
+  /**
+    * Pour utilisation par les autres méthodes, le top
+    * @proprety {Number} y
+    */
+  "y":{get:function(){return this.top}},
+  
+  /**
+    * Pour utilisation par les autres méthodes, le left
+    * @proprety {Number} x
+    */
+  "x":{get:function(){return this.left}},
+  
   /**
     * Hauteur de la portée
     * @property {Number} height
