@@ -226,41 +226,29 @@ window.OBJECT_STAFF_NOTES = {
      Méthodes d'instance
    --------------------------------------------------------------------- */
 $.extend(Staff.prototype, METHODES_TEXTE)
+$.extend(Staff.prototype, UNVERSAL_METHODS)
 $.extend(Staff.prototype, {
-  
+
   /**
-    * Construit la portée
-    * @method build 
-    * @param {Object} params  Paramètres supplémentaire
-    */
-  build:function()
-  {
-    Anim.Dom.add(this)
-  },
-  /**
-    * Affiche les objets de la portée
+    * Affichage des éléments
     * @method show
-    * @param {Number} duree La durée de temps de l'apparition
-    * @param {Object} params  Les paramètres optionnels
+    * @params {Object} params   Paramètres éventuels (ou durée) — wait, duree
     */
-  show:function(duree, params)
+  show:function(params)
   {
-    params = define_wait(params, this)
-    params.duree = duree || Anim.delai_for('show')
+    params = define_wait_and_duree(params, this, 'show')
     Anim.Dom.anime(this.objets, {opacity:1}, params)
   },
-    
   /**
-    * Masque la portée (sans la détruire)
+    * Masquage de la portée
     * @method hide
+    * @params {Object} params   Paramètres éventuels (ou durée) — wait, duree
     */
-  hide:function(duree, params)
+  hide:function(params)
   {
-    params = define_wait(params, this)
-    params.duree = duree || Anim.delai_for('show')
-    Anim.Dom.anime([this.img_staff, this.img_cle], {opacity:0}, params)
+    params = define_wait_and_duree(params, this, 'show')
+    Anim.Dom.anime(this.objets, {opacity:0}, params)
   },
-
   /**
     * Destruction de la portée (et retrait de la liste des portées) et
     * de tout ce qu'elle porte sans exception.
@@ -271,10 +259,11 @@ $.extend(Staff.prototype, {
   remove:function(params)
   {
     Anim.staves.splice(this.indice - 1, 1)
-    params = define_wait(params, this)
-    params.duree          = 0.2
+    
+    // Détruire portée et clés
+    params = define_wait_and_duree( params, this, 'show')
     params.complete_each  = 'remove'
-    Anim.Dom.anime( {opacity:0}, params)
+    Anim.Dom.anime(this.objets, {opacity:0}, params)
     
     // On doit détruire toutes les notes, avec leurs textes
     var liste_notes = $.extend({}, this.notes.list)
@@ -284,7 +273,8 @@ $.extend(Staff.prototype, {
       })
     })
     L(this.suplines).each(function(sid){$('img#'+sid).remove()})
-  },  
+  },
+  
   /**
     * Positionne la portée, la clé et la métrique (if any)
     * @method positionne

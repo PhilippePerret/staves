@@ -11,6 +11,44 @@
   * @static
   */
 window.UNVERSAL_METHODS = {
+  
+  /**
+    * Construit l'objet
+    * Pour pouvoir fonctionner, l'objet, quel que soit son type, doit posséder les
+    * propriété `code_html` qui définit le code HTML de l'objet, `obj` qui retourne
+    * le set jQuery de l'objet principal et la méthode `positionne` qui positionne
+    * l'objet et son contenu en fonction des paramètres transmis à l'instanciation.
+    *
+    * @method build 
+    * @param {Object} params  Paramètres supplémentaire
+    */
+  build:function()
+  {
+    Anim.Dom.add(this)
+  },
+  /**
+    * Affiche l'objet DOM de l'élément
+    * @method show
+    * @param  {Object} params  Les paramètres optionnels (ou la durée {Number})
+    * @return {Any} L'instance de l'élément, pour chainage éventuel
+    */
+  show:function(params)
+  {
+    Anim.Dom.show(this, params)
+    return this
+  },
+    
+  /**
+    * Masque la portée (sans la détruire)
+    * @method hide
+    * @param  {Object} params  Les paramètres optionnels (ou la durée {Number})
+    * @return {Any} L'instance de l'élément, pour chainage éventuel
+    */
+  hide:function(params)
+  {
+    Anim.Dom.hide(this, params)
+    return this
+  },
   /**
     * Construit des flèches partant de l'objet
     * Notes

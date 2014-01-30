@@ -148,6 +148,7 @@ Anim.Dom = {
     */
   show:function(instance, params)
   {
+    if('number'==typeof params) params = {duree:params}
     this.hide_or_show(instance, params, true)
   },
   /**
@@ -170,6 +171,7 @@ Anim.Dom = {
     */
   hide:function(instance, params)
   {
+    if('number'==typeof params) params = {duree:params}
     this.hide_or_show(instance, params, false)
   },
   /**

@@ -3,6 +3,24 @@
   */
 
 /**
+  * Méthode qui définit dans les paramètres +params+ la propriété `wait` et
+  * la propriété `duree` si elles ne sont pas définies
+  *
+  * @method define_wait_and_duree
+  * @for window
+  * @param  {Object|Undefined}  params    Les paramètres éventuellement déjà définis
+  * @param  {Object}            instance  L'instance de l'élément qui appelle la fonction
+  * @param  {String}            trans_id  L'identifiant de délai (dans Anim.transition)
+  * @return {Object}  Les paramètres renseignés
+  *
+  */
+window.define_wait_and_duree = function(params, instance, trans_id)
+{
+  params = define_wait(params, instance)
+  if(undefined === params.duree) params.duree = Anim.delai_for( trans_id )
+  return params
+}
+/**
   * Méthode qui ajoute la propriété `wait` aux paramètres +param+ si nécessaire.
   *
   * La méthode est nécessaire car le paramètre `wait`, qui va déterminer à quel moment

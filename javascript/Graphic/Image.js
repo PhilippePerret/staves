@@ -384,35 +384,14 @@ $.extend(Img,{
 
  --------------------------------------------------------------------- */
 
+/* Extension avec les méthodes universelles */
+$.extend(Img.prototype, UNVERSAL_METHODS)
+
 /* 
     === Methodes à utiliser dans le code === 
  */
 
-$.extend(Img.prototype,{
-  
-  /**
-    * Affiche l'image
-    * @method show
-    * @params {Object} params Paramètres optionnels  (cf. Anim.Dom.hide_or_show)
-    * @return {Img} L'instance, pour chainage
-    */
-  show:function(params)
-  {
-    Anim.Dom.show(this, params)
-    return this
-  },
-  /**
-    * Masque l'image
-    * @method hide
-    * @param {Object} params  Paramètres optionnels (cf. Anim.Dom.hide_or_show)
-    * @return {Img} L'instance, pour chainage
-    */
-  hide:function(params)
-  {
-    Anim.Dom.hide(this, params)
-    return this
-  },
-  
+$.extend(Img.prototype,{ 
   /**
     * Pour détruire complètement l'image
     * @method remove
@@ -422,7 +401,7 @@ $.extend(Img.prototype,{
     */
   remove:function(params)
   {
-    this.hide($.extend(params, {complete_each:function(){this.remove()}}))
+    this.hide($.extend(params, {complete_each:'remove'}))
   },
   /**
     * Pour exécuter un travelling dans l'image

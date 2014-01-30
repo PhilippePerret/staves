@@ -30,7 +30,7 @@ $.extend(ObjetClass.prototype, {
     * Noter que la méthode n'est appelée que par certains objets. Pour la plupart,
     * les objets surclassent cette méthode avec leur propre méthode.
     * @method show
-    * @param  {Object|Undefined} params Les paramètres optionnels
+    * @param  {Object|Undefined} params Les paramètres optionnels (ou la durée)
     *   @param  {Number} params.duree   La durée pour apparaitre (en millisecondes)
     *                                   Default: Anim.transition.show
     */
@@ -45,7 +45,7 @@ $.extend(ObjetClass.prototype, {
     * les objets surclassent cette méthode avec leur propre méthode.
     *
     * @method hide
-    * @param {Object}   params    Les paramètres optionnels
+    * @param {Object}   params    Les paramètres optionnels (ou la durée)
     *   @param  {Number}  params.duree    La durée pour disparaitre
     *                                     Default: Anim.transition.show
     */
