@@ -1876,8 +1876,10 @@ En revanche, si on utilise&nbsp;:
 ###Table des matières
 
 * [Ajouter une image](#insertion_image)
+* [Modifier la taille de l'image](#modify_taille_image)
 * [Modifier la position de l'image](#modify_position_image)
 * [Déplacer l'image](#move_image)
+* [Faire un zoom dans l'image](#zoom_image)
 * [Modifier le cadrage de l'image](#modify_cadrage_image)
 * [Bordure de couleur ou flou autour de l'image](#bordure_flou_image)
 * [Modifier la source de l'image](#modify_source_image)
@@ -1897,17 +1899,22 @@ Par exemple&nbsp;:
 Les paramètres peuvent être les suivants&nbsp;:
 
     monImg=IMAGE({
-      url     : <chemin vers image> ATTRIBUT OBLIGATOIRE
-      x       : <position horizontale dans l'animation>
-      y       : <position verticale dans l'animation>
-      width   : <taille de l'image|auto>      ATTRIBUT OBLIGATOIRE 
-      height  : <hauteur de l'image|auto>     ATTRIBUT OBLIGATOIRE
-      // Propriétés spéciales pour le cadrage, lorsque l'on ne veut pas
-      // utiliser toute l'image, mais seulement une portion de l'image
-      cadre_width     : <largeur de la portion à prendre dans l'image>
-      cadre_height    : <hauteur de la portion à prendre dans l'image>
-      inner_x  : <décalage horizontal de la portion d'image>
-      inner_y  : <décalage vertical de la portion d'image
+      url           : {String} <chemin vers image> ATTRIBUT OBLIGATOIRE
+      x             : {Number} <position horizontale dans l'animation>
+      y             : {Number} <position verticale dans l'animation>
+      width         : {Number} <taille de l'image|auto>
+      height        : {Number} <hauteur de l'image|auto>
+      zoom          : {Number} Le pourcentage de zoom (surclasse width et height)
+      // Propriétés pour le fond
+      padding       : {Number} La marge autour de l'image (bordure)
+      bg_color      : {String} La couleur de fond de l'image et de la bordure
+      bg_opacity    : {Float}  Opacité de la marge (0 -> 1)
+      bg_image      : {Boolean} Si false, le fond de l'image n'est pas opaque.
+      // Propriétés pour le cadrage
+      cadre_width   : {Number} <largeur de la portion à prendre dans l'image>
+      cadre_height  : {Number} <hauteur de la portion à prendre dans l'image>
+      inner_x       : {Number} <décalage horizontal de la portion d'image>
+      inner_y       : {Number} <décalage vertical de la portion d'image
     })
 
 * *Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).*
@@ -1917,6 +1924,15 @@ Les paramètres peuvent être les suivants&nbsp;:
 Pour des informations concernant le “recadrage de l'image”, cf. [Modifier le cadrage de l'image](#modify_cadrage_image).
 
 Noter que l'image est aussitôt construite est insérée dans l'animation avec les paramètres fournis, sauf si `build:false` est ajouté aux paramètres définissant l'image (cf. [Ne pas construire l'image](#dont_build_image)).
+
+<a name="modify_taille_image"></a>
+###Modifier la taille de l'image
+
+Pour modifier la taille de l'image, on peut jouer sur les paramètres `width` et `height` ou le paramètre `zoom`.
+
+Lorsque seule une des deux valeurs `width` ou `height` est fournie, la seconde est calculée en fonction de la taille originale de l'image pour n'obtenir aucune déformation.
+
+Lorsque `zoom` est fourni, c'est une valeur proportionnelle qui détermine le grossissement ou la dimunie de l'image. La valeur `1` met l'image à sa taille normale, la valeur `2` doublera la taille de l'image tandis que `0.5` l'affichera deux fois plus petite.
 
 <a name="modify_position_image"></a>
 ###Modifier la position de l'image
@@ -1959,6 +1975,25 @@ On détermine le temps (durée) de déplacement de l'image à l'aide de la propr
 
     monImage.move({for_x:10, for_y:100, duree:1})
 
+
+<a name="zoom_image"></a>
+###Zoom dans l'image
+
+On peut faire un zoom dans l'image à l'aide de la méthode `zoom`&nbsp;:
+
+    monImage = IMAGE({... définition ...})
+    ...
+    monImage.zoom(<paramètres du zoom>)
+    # => Zoom dans l'image
+    
+Pour le zoom le plus simple, un argument unique, de type nombre, va indiquer le taux de grossissement ou de diminution de l'image (par rapport à la taille initiale). La valeur `1` fait revenir l'image à sa taille initiale, la valeur `2` double la taille de l'image, la valeur `0.5` diminue de moitié la taille de l'image. 
+
+Avec cet argument unique, le grossissement se fait avec un centre au centre de l'image.
+
+Par exemple&nbsp;:
+
+    monImage.zoom(3)
+    # => Grossis 3 fois la taille originale de l'image
 
 <a name="modify_cadrage_image"></a>
 ###Modifier le cadrage de l'image
@@ -2005,6 +2040,8 @@ Cette méthode attend des paramètres qui vont définir le travelling. Ces param
   
       width   : {Number} La largeur du nouveau cadre (optionnel)
       height  : {Number} La hauteur du nouveau cadre (optionnel)
+      zoom    : {Number} Peut remplacer `width` et `height` (pourcentage)
+      
       duree : {Number} La durée du travelling en secondes (2 par défaut).
     })
 

@@ -68,6 +68,15 @@ window.Img = function(params)
     */
   this.height = null
   
+  /**
+    * Zoom (focale) sur l'image. Cette propriété, si elle est définie,
+    * remplace `width` et `height`. `1` préserve la taille de l'image.
+    * Noter le trait plat, ajouté à la propriété `zoom` si elle est fournie, 
+    * qui permet d'utiliser la méthode `zoom` sur l'image dans le code.
+    * @property {Number} _zoom
+    */
+  this._zoom = null
+    
   /** Largeur du cadrage de l'image
     * @property {Number} cadre_width
     * @default largeur de l'image
@@ -130,12 +139,19 @@ window.Img = function(params)
   
   
   var me = this
-  L(params || {}).each(function(k,v){me[k] = v})
+  L(params || {}).each(function(k,v){
+    if(k == 'zoom') k = '_zoom'
+    me[k] = v
+  })
   
   if( !this.abs )
   { /* Instanciation d'une image non "absolue" */
     Img.add(this)
-    if(!this.width  || this.width  == auto || !this.height || this.height == auto)
+    if( this._zoom )
+    {
+      this.calc_width_and_height_from_zoom()
+    }
+    else if(!this.width  || this.width  == auto || !this.height || this.height == auto)
     {
       this.calc_width_and_height()
     }
@@ -423,21 +439,67 @@ $.extend(Img.prototype,{
     if(undefined != params.y) dtrav.top  = "-"+params.y+'px'
     // On redimensionne le cadre si nécessaire
     var dcadre = {}
-    if(undefined != params.width)   dcadre.width  = params.width  + 'px'
-    if(undefined != params.height)  dcadre.height = params.height + 'px'
+    var new_dim = width_height_zoom_from(params)
+    if(params.width  || params.zoom)  dcadre.width  = new_dim.width  + 'px'
+    if(params.height || params.zoom)  dcadre.height = new_dim.height + 'px'
     if(dcadre != {}) this.obj.animate(dcadre)
 
     // On procède au travelling
-    this.image.animate(dtrav, params.duree, params.complete)
+    Anim.Dom.anime([this.image], dtrav, params)
 
     // On passe les nouvelles valeurs
-    if(params.x)      this.inner_x = params.x
-    if(params.y)      this.inner_y = params.y
+    if(params.x)      this.inner_x        = params.x
+    if(params.y)      this.inner_y        = params.y
     if(params.width)  this.cadre_width    = params.width
     if(params.height) this.cadre_height   = params.height
     return this
   },
   
+  /**
+    * Fait un zoom dans l'image
+    * Un zoom correspond à modifier la taille de l'image (IMG) en la repositionnant
+    * dans son div.
+    * @method zoom
+    * @param {Object} params    Les paramètres du zoom
+    *                           OU La taille du zoom
+    *   @param {Number} params.zoom   Le grossissement OU
+    *   @param {Number} params.width  La largeur d'arrivée (si zoom n'est pas fourni)
+    *   @param {Number} params.height La hauteur d'arrivée (si zoom n'est pas fourni)
+    *   @param {Number} params.x      Le nouveau inner_x (sinon le même)
+    *   @param {Number} params.y      Le nouveau inner_y (sinon le même)
+    *   @param {Number} params.duree  La durée que doit prendre le zoom
+    *   @param {Boolean|Wait} params.wait   Le paramètre d'attente
+    */
+  zoom:function(params)
+  {
+    if('number' == typeof params)
+    {
+      params = {zoom:params}
+    }
+    // Si cadre_width et cadre_height ne sont pas définis, il faut les fixer
+    // TODO Il faudrait tenir compte du padding
+    if(undefined == this.cadre_width)   this.cadre_width  = parseInt(this.width)
+    if(undefined == this.cadre_height)  this.cadre_height = parseInt(this.height)
+    
+    // Il faut déterminer la taille d'arrivée
+    var dims = this.width_height_zoom_from( params )
+    // La différence de dimension par rapport à la dimension courante
+    // Il faudrait déplacer l'image de la moitié de ces valeurs
+    var diff_x = (dims.width  - this.width  ) / 2
+    var diff_y = (dims.height - this.height ) / 2
+    this.inner_x = undefined === params.x ? this.inner_x - diff_x : params.x
+    this.inner_y = undefined === params.y ? this.inner_y - diff_y : params.y
+    this.width  = dims.width
+    this.height = dims.height
+    this._zoom  = dims.zoom
+    data_css = {
+      width   : this.width   + 'px',
+      height  : this.height  + 'px',
+      top     : this.inner_y + 'px',
+      left    : this.inner_x + 'px'
+    }
+    Anim.Dom.anime([this.image], data_css, params)
+  },
   /**
     * Méthode pour déplacer l'image
     * @method move
@@ -529,6 +591,67 @@ $.extend(Img.prototype,{
 })
 /* === Protected Methods === */
 $.extend(Img.prototype,{
+  /**
+    * Retourne la largeur (width) et la hauteur (height) en fonction des valeurs
+    * fournies en paramètres.
+    * Noter que la méthode ne fait QUE retourner les valeurs, elle ne les met pas
+    * en paramètre.
+    * @method width_height_zoom_from
+    * @param {Object} params  Paramètres permettant de calculer la largeur/hauteur
+    *   @param {Number|Undefined} params.width    La largeur éventuellement fournie
+    *   @param {Number|Undefined} params.height   La hauteur éventuellement fournie
+    *   @param {Float|Undefined}  params.zoom     Le zoom éventuellement fourni
+    * @return {Object} Un object contenant {width:largeur, height:hauteur, zoom: zoom correspondant}
+    */
+  width_height_zoom_from:function(params)
+  {
+    // dlog("-> get_width_and_height")
+    var abs_image = Img.abs_list[this.abs_id],
+        width,
+        height,
+        zoom ;
+        
+    if(params.zoom)
+    {
+      width  = parseInt(abs_image.width  * params.zoom)
+      height = parseInt(abs_image.height * params.zoom)
+      zoom   = params.zoom
+    }
+    else
+    {
+      if(!params.width && !params.height)
+      {
+        width  = abs_image.width
+        height = abs_image.height
+        zoom   = 1
+      }
+      else if (!params.height) // largeur fournie => calcul hauteur
+      {
+        width  = params.width
+        zoom   = width / abs_image.width
+        height = parseInt(abs_image.height * zoom)
+      }
+      else // Hauteur fournie => calcul largeur
+      {
+        height = params.height
+        zoom   = height / abs_image.height
+        width  = parseInt(abs_image.width * zoom)
+      }
+    }
+    
+    // dlog("<- get_width_and_height ({width:"+width+", height:"+height+", zoom:"+zoom+"})")
+    return {width:width, height:height, zoom:zoom}
+  },
+   /**
+    * Calcule le weight et le height de l'image en fonction du `zoom` fourni
+    * @method calc_width_and_height_from_zoom
+    */
+  calc_width_and_height_from_zoom:function()
+  {
+    var dims = this.width_height_zoom_from( {zoom:this._zoom} )
+    this.width  = dims.width
+    this.height = dims.height
+  },
   /**
     * Lorsque qu'une des deux valeurs width ou height n'est pas fournie au cours
     * de l'animation, on la calcule avec cette méthode.
@@ -650,18 +773,19 @@ $.extend(Img.prototype,{
     if(top ) img_data.top  = top  + 'px'
     this.image.css(img_data)
     
-    dlog("Data CSS pour le DIV:");dlog(div_data)
-    dlog("Data CSS pour le fond:");dlog(bg_data)
-    dlog("Data CSS pour l'image:");dlog(img_data)
-    dlog("Données de l'instance :");
-    dlog({
-      width: this.width, height:this.height,
-      padding:padding,
-      x:this.x, y:this.y, z:this.z,
-      bg_color:this.bg_color, bg_opacity:this.bg_opacity,
-      opacity:this.opacity,
-      inner_x:this.inner_x, inner_y:this.inner_y
-    })
+    // // Débug
+    // dlog("Data CSS pour le DIV:");dlog(div_data)
+    // dlog("Data CSS pour le fond:");dlog(bg_data)
+    // dlog("Data CSS pour l'image:");dlog(img_data)
+    // dlog("Données de l'instance :");
+    // dlog({
+    //   width: this.width, height:this.height,
+    //   padding:padding,
+    //   x:this.x, y:this.y, z:this.z,
+    //   bg_color:this.bg_color, bg_opacity:this.bg_opacity,
+    //   opacity:this.opacity,
+    //   inner_x:this.inner_x, inner_y:this.inner_y
+    // })
     
     return this
   },

@@ -2,16 +2,54 @@
 # Écrire le code ici
 
 DEFAULT('decompte', 0)
+DEFAULT('caption', true)
+
+reperes = IMAGE({url:'asset/img/Tests/reperes.png', x:330, y:300, bg_color:red})
+
+# ==============================================
+# =        TEST DU ZOOM
+# ==============================================
+titre = TBOX("Test du zoom", {type:titre, x:10, y:10})
+
+# --- Zoom simple (argument nombre) ---
+CAPTION("Je vais effectuer un zoom simple : ")
+WAIT(2)
+reperes.zoom(5)
+WAIT(1)
+CAPTION("L'image doit être centrée sur le point.")
+WAIT(2)
+
+# --- Dézoom simple ---
+CAPTION("Je vais effectuer le dézooom simple : zoom(1)")
+WAIT(2)
+reperes.zoom(1)
+WAIT(1)
+CAPTION("L'image doit être revenue à sa taille initiale.")
+WAIT(2)
+
+
+titre.remove()
+# ==============================================
+# =        TEST DU ZOOM
+# ==============================================
+titre = TBOX("Test du travelling", {type:titre, x:10, y:10})
+
 
 # La partition
-partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, z:11, width:725})
+#partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, z:11, width:725})
 
 # --- Exergue de la première mesure ---
-exergue = IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:295, y:108, width:975, height:673, inner_x:58, inner_y:14, cadre_width:208, cadre_height:107, bg_color:background_color, bg_opacity:0.8, padding:40, z:12, bg_image:false})
+#exergue = IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:295, y:108, zoom:1.5, inner_x:69, inner_y:15, cadre_width:251, cadre_height:104, bg_color:background_color, bg_opacity:0.8, padding:40, z:12, bg_image:true})
 
 # Le fond
 #bgd = BACKGROUND('black', {gradient:'#444', z:10})
 
 #partition.show()
 
-exergue.move({for_x:100, for_y:50, duree:10})
+#exergue.move({for_x:100, for_y:50, duree:10})
+
+#WAIT(2)
+
+#exergue.zoom({zoom:2, duree:0, wait:true})
+
+#exergue.zoom({x:133, y:26, width:1188})
