@@ -1994,6 +1994,21 @@ Par exemple&nbsp;:
 
     monImage.zoom(3)
     # => Grossis 3 fois la taille originale de l'image
+    
+Pour exécuter un zoom plus complexe, on doit définir la largeur de portion d'image à voir au final, ainsi que le positionnement de l'image à l'aide des paramètres&nbsp;:
+
+    width     Largeur d'image (en taille réelle)
+    inner_x   Décalage horizontal par rapport au 0 de l'image
+    inner_y   Décalage vertical par rapport au 0 de l'image
+
+Par exemple&nbsp;:
+
+    monImage.zoom({width:100, inner_x:10, inner_y:10})
+
+Pour obtenir très facilement ces valeurs, il suffit d'éditer l'image en double-cliquant dessus (après avoir jouer l'animation jusqu'à la faire apparaitre), puis de grossir ou diminuer l'image à l'aide des boutons “+” et “-” (et les touches modificatrices), et de déplacer le cadre rouge (sans le redimensionner puisqu'il représente la taille actuelle du cadre) jusqu'à obtenir l'effet voulu.
+
+Cliquer ensuite sur “code” et copier-coller les valeurs du champ “Données pour ZOOM”.
+
 
 <a name="modify_cadrage_image"></a>
 ###Modifier le cadrage de l'image
