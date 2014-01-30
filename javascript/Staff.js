@@ -261,10 +261,7 @@ $.extend(Staff.prototype, {
     Anim.staves.splice(this.indice - 1, 1)
     
     // Détruire les textes de la portée
-    if(this.texte)
-    {
-      L(this.texte).each(function(inst_texte){inst_texte.remove(params)})
-    }
+    this.remove_textes()
     
     // Détruire portée et clés
     params = define_wait_and_duree( params, this, 'show')

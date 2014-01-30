@@ -240,7 +240,7 @@ $.extend(Txt.prototype,{
     // width particulier)
     if(this.width) this.obj.css({width:this.width+'px'})
     var dpos  = {}, my = this ;
-    L({'left':'x', 'right':'y', 'height':'height'}).each(function(key_css, key){
+    L({'left':'x', 'top':'y', 'height':'height'}).each(function(key_css, key){
       var val = my['real_'+key]
       if(val != null) dpos[key_css] = val + 'px'
     })
@@ -510,7 +510,7 @@ Object.defineProperties(Txt.prototype,{
           // Ce retour 0 est parfait pour les parties (texte de type 'part'), ne
           // pas modifier sans savoir vraiment ce que je fais…
           // Ne pas oublier de tenir compte du fait que la valeur renvoyée par
-          // cette fonction est AJOUTÉE À THIS.TOP
+          // cette fonction est AJOUTÉE À THIS.Y
           return 0
           // C'était le calcul avant, mais ça renvoyait n'importe quoi.
           // var h = Anim.prefs.staff_top_text + voffset
@@ -585,7 +585,6 @@ Object.defineProperties(Txt.prototype,{
     */
   "real_height":{
     get:function(){
-      dlog("-> real_height")
       switch(this.type)
       {
       case part:

@@ -54,21 +54,20 @@ $.extend(ObjetClass.prototype, {
     Anim.Dom.hide(this, params)
   },
   /**
-    * Destruction de l'objet DOM de l'objet
+    * Destruction de l'objet DOM de l'élément
     * Notes
     * -----
     *   * Pour être utilisé, l'objet doit obligatoirement posséder une propriété
-    *     `obj` qui retourne son objet DOM
+    *     `obj` qui retourne son objet DOM (set jQuery)
     *
     * @method remove
     * @async
-    * @param  {Object} params   Les paramètres optionnels
-    *   @param  {Function} params.complete    La méthode pour suivre
+    * @param  {Object} params   Les paramètres optionnels (complete, duree, wait, etc.)
     *
     */
   remove:function(params)
   {
-    return this.operation([this.obj], 'remove', define_complete(params))
+    Anim.Dom.anime([this.obj], {opacity:0}, $.extend(params, {complete_each:'remove'}))
   },
   
 
@@ -275,6 +274,12 @@ Object.defineProperties(ObjetClass.prototype,{
     }
   },
   /**
+    * Alias de 'top' pour les calculs
+    * @property {Number} y
+    */
+  "y":{get:function(){return this.top}},
+
+  /**
     * Offset horizontal de l'objet
     * @property {Number} left
     * @default Anim.current_x
@@ -289,6 +294,12 @@ Object.defineProperties(ObjetClass.prototype,{
       if(this.obj) this.obj.css('left', left)
     }
   },
+  /**
+    * Alias de 'left' pour les calculs
+    * @property {Number} x
+    */
+  "x":{get:function(){return this.left}},
+
   /**
     * Le milieu vertical de l'objet
     * @property {Number} center_y

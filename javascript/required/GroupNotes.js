@@ -31,16 +31,17 @@ window.OBJET_TRAITEMENT = {
     NEXT_STEP()
     return this // chainage
   },
-  update:function(){return this.traite('update')},
-  show:function(params){return this.traite('show', Anim.delai_for('show'))},
-  hide:function(params){return this.traite('hide', Anim.delai_for('show'))},
-  fantomize:function(){return this.traite('fantomize')},
-  defantomize:function(){return this.traite('defantomize')},
-  colorize:function(color){return this.traite('colorize', color)},
-  surround:function(params){return this.traite('surround', params)},
-  unsurround:function(params){return this.traite('unsurround', params)},
-  arrow:function(id, params){return this.traite('arrow', id, params)},
-  unarrow:function(id,params){return this.traite('unarrow', id, params)}
+  arrow       : function(id, params){return this.traite('arrow', id, params)},
+  colorize    : function(color){return this.traite('colorize', color)},
+  defantomize : function(){return this.traite('defantomize')},
+  fantomize   : function(){return this.traite('fantomize')},
+  hide        : function(params){return this.traite('hide', Anim.delai_for('show'))},
+  remove      : function(params){return this.traite('remove', params)},
+  show        : function(params){return this.traite('show', Anim.delai_for('show'))},
+  surround    : function(params){return this.traite('surround', params)},
+  unarrow     : function(id,params){return this.traite('unarrow', id, params)},
+  unsurround  : function(params){return this.traite('unsurround', params)},
+  update      : function(){return this.traite('update')}
 }
 
 /**
@@ -50,7 +51,12 @@ window.OBJET_TRAITEMENT = {
   * @property {Object} METHODES_GROUPNOTES
   * @for window
   */
-window.METHODES_GROUPNOTES = {
+window.METHODES_GROUPNOTES = {}
+
+/* On lui adjoint les méthodes universelles */
+$.extend(METHODES_GROUPNOTES, UNVERSAL_METHODS)
+
+$.extend(METHODES_GROUPNOTES,{  
   /**
     * Construction des notes (du motif ou de la gamme), soit en mode normal, soit
     * en mode temporisé si `speed` est défini.
@@ -114,11 +120,15 @@ window.METHODES_GROUPNOTES = {
   },
   
   /**
-    * Destruction de l'accord (destruction de chaque note)
+    * Destruction des notes (destruction de chaque note)
     * @method build
     */
-  remove:function()
+  remove:function(params)
   {
+    params = define_wait(params, this)
+    this.remove_textes()
     this.each_note(function(note){note.remove()})
+    if(undefined == params.wait) params.wait = 0
+    traite_wait(params)
   }
-}
+})

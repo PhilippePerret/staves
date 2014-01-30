@@ -167,6 +167,17 @@ Object.defineProperties(Motif.prototype, {
     }
   },
   /**
+    * Alias de 'left' pour les calculs
+    * @property {Number} x
+    */
+  "x":{get:function(){return this.left}},
+  /**
+    * Alias de 'top' pour les calculs
+    * @property {Number} y
+    */
+  "y":{get:function(){return this.top}},
+  
+  /**
     * Le milieu horizontal de l'objet. Il correspond au centre de ses notes
     * Si le motif s'étale sur plusieurs portées, c'est la largeur de la portée
     * qui est utilisée

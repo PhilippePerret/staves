@@ -209,8 +209,10 @@ $.extend(Note.prototype,{
   remove:function(params)
   {
     if(undefined == params) params = {}
+    
+    // Détruire les textes associés à la note (si demandé)
+    if(params.texts) this.remove_textes()
     var objs = this.objets
-    if (params.texts && this.texte) L(this.texte).each(function(ktxt, instance_txt){ objs.push(instance_txt.obj)})
     this.operation(objs, 'remove')
     if(!params.dont_unstaff) this.staff.notes.remove(this)
     this.surrounded = false
@@ -826,6 +828,11 @@ Clé de SOL
 
 Object.defineProperties(Note.prototype,{
   /**
+    * Alias de 'left' pour autres objets
+    * @property {Number} y
+    */
+  "x":{get:function(){return this.left}},
+  /**
     * Retourne la position top de la note 
     * Notes
     * -----
@@ -842,6 +849,12 @@ Object.defineProperties(Note.prototype,{
       return this._top
     }
   },
+  /**
+    * Alias de 'top' pour autres objets
+    * @property {Number} y
+    */
+  "y":{get:function(){return this.top}},
+  
   /**
     * Retourne le "centre vertical" de la note. Pour une note, ça correspond à
     * son `top`, mais la propriété doit être définie pour l'association d'objets

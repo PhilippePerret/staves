@@ -17,12 +17,13 @@ mot2.part(dev)
 
 mot2.part(expo, {offset_x:200})
 
-CAPTION("Les parties doivent disparaitre avec la portée.")
+CAPTION("Les parties doivent disparaitre avec la portée (sauf dev qui a été surclassé).")
 
 STAFF(1).remove()
 
 WAIT(1)
 
+mot2.remove()
 # Se souvenir que l'indice portée tient toujours compte du nombre
 # de portées courantes.
 STAFF(1).remove()

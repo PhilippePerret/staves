@@ -99,6 +99,17 @@ window.UNVERSAL_METHODS = {
       this.arrows.length -= 1
       if(this.arrows.length == 0) delete this.arrows
     } 
+  },
+  
+  
+  /**
+    * Détruit tous les textes si l'élément possède la propriété `texte`
+    * @method remove_textes
+    */
+  remove_textes:function()
+  {
+    if(!this.texte) return
+    L(this.texte).each(function(k, instance){ instance.remove() })
   }
   
 }
