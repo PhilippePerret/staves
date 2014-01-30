@@ -36,8 +36,8 @@ window.ImageTool = {
   set_data_image:function()
   {
     this.data_image = {
-      inner_x  : this.current.inner_x, // recadrage horizontal
-      inner_y  : this.current.inner_y, // recadrage vertical
+      inner_x         : this.current.inner_x, // recadrage horizontal
+      inner_y         : this.current.inner_y, // recadrage vertical
       cadre_width     : this.current.cadre_width,
       cadre_height    : this.current.cadre_height,
       src             : this.current.url,
@@ -112,6 +112,7 @@ window.ImageTool = {
             '}'
     this.box_feedback.val(code)
     
+    // Code pour le travelling
     code = [];
     if(this.current.inner_x != this.data_image.inner_x)
       code.push('x:' +this.data_image.inner_x);
@@ -124,7 +125,35 @@ window.ImageTool = {
     code = '{'+code.join(', ')+'}'
     this.box_feedback_alt.val(code)
     
-    code = []
+    // Code pour le zoom
+    /*
+     *  Pour le zoom, le calcul est un peu plus compliqué : il faut voir, par
+     *  rapport à la dimension de l'image actuelle, à quoi correspond width. Car
+     *  dans les paramètres pour le zoom, `width` (comme `heigh`) doivent représenter
+     *  une mesure par rapport à l'image réelle.
+     *  
+     */
+    code = [];
+    // Rapport entre l'image réelle et son grossissement actuel.
+    
+    // La taille réelle de l'image (absolu)
+    var abs_width_image = this.current.abs_image.width
+    // La taille de l'image dans l'édition courante
+    var cur_width_image = this.data_image.width
+    // Ce qui produit un rapport de :
+    // (le rapport sera 2 si l'image est grossie deux fois)
+    var rapport = cur_width_image / abs_width_image
+    // On peut maintenant obtenir le vrai width par rapport à l'image
+    var width  = parseInt(this.data_image.cadre_width / rapport)
+    // Et le vrai height
+    var height = parseInt(this.data_image.cadre_height / rapport)
+    
+    if(this.current.inner_x != this.data_image.inner_x)
+      code.push('inner_x:' +this.data_image.inner_x);
+    if(this.current.inner_y != this.data_image.inner_y)
+      code.push('inner_y:' +this.data_image.inner_y) ;
+    code.push('width:'+width);
+    // code.push('height:'+height); // On n'a pas besoin du height
     var code_zoom = '{'+code.join(', ')+'}'
     this.box_feedback_zoom.val(code_zoom)
   },
@@ -141,6 +170,16 @@ window.ImageTool = {
     this.data_image.inner_y = pos.top  - 10 // car image placée à 10px
     this.data_image.cadre_width   = this.box_cadre.width()
     this.data_image.cadre_height  = this.box_cadre.height()
+  },
+  /**
+    * Remet l'image à sa taille originale
+    * @method taille_originale
+    */
+  taille_originale:function(evt)
+  {
+    this.data_image.width  = this.current.abs_image.width
+    this.data_image.height = this.current.abs_image.height
+    this.set_image_properties()
   },
   /**
     * Diminuer proportionnellement la taille de l'image
@@ -302,12 +341,13 @@ Object.defineProperties(ImageTool,{
                 '<fieldset><legend>Taille image</legend>' +
                   '<input type="button" value=" + " onclick="$.proxy(ImageTool.image_bigger, ImageTool, event)()" />'+
                   '<input type="button" value=" - " onclick="$.proxy(ImageTool.image_smaller, ImageTool, event)()" />'+
+                  '<input type="button" value="originale" onclick="$.proxy(ImageTool.taille_originale, ImageTool, event)()" />'+
                 '</fieldset>'+
                 '<div class="tiny">Code à copier-coller dans les paramètres de l\'image</div>'+
                 '<textarea id="imgtool_feedback" onfocus="this.select()"></textarea>'+
                 '<div class="tiny">Paramètres pour travelling</div>'+
                 '<textarea id="imgtool_feedback_alt" onfocus="this.select()"></textarea>'+
-                '<div class="tiny">Paramètres pour ZOOM</div>'+
+                '<div class="tiny">Paramètres pour ZOOM<br /><i>Note : pour le zoom, ne pas modifier les dimensions du cadre rouge, qui correspond à la taille de l\'image actuelle à l\'écran.</i></div>'+
                 '<textarea id="imgtool_feedback_zoom" onfocus="this.select()"></textarea>'+
                 '<div class="right">'+
                   '<input type="button" value="-> Code" onclick="$.proxy(ImageTool.params_image, ImageTool)()" />'+

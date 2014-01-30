@@ -11,8 +11,31 @@ reperes = IMAGE({url:'asset/img/Tests/reperes.png', x:330, y:300, bg_color:red})
 # ==============================================
 titre = TBOX("Test du zoom", {type:titre, x:10, y:10})
 
+# --- Zoom en définissant width et x ---
+CAPTION("Je vais effectuer un zoom avec width et x")
+WAIT(2)
+reperes.zoom({inner_x:44, inner_y:44, width:22})
+CAPTION("Je dois avoir zoomé sur le carré en haut à gauche")
+WAIT(2)
+
+CAPTION("Je vais dézoomer complètement")
+WAIT(2)
+reperes.zoom({inner_x:0, inner_y:0, width:200})
+WAIT(2)
+
+CAPTION("Zoom sur le deuxième carré")
+WAIT(2)
+reperes.zoom({inner_x:355, inner_y:176, width:22})
+CAPTION("Le carré doit être au centre horizontal et presque sur toute la hauteur.")
+WAIT(4)
+
+CAPTION("Je dézoome complètement avec zoom(1)")
+WAIT(2)
+reperes.zoom(1)
+WAIT(2)
+
 # --- Zoom simple (argument nombre) ---
-CAPTION("Je vais effectuer un zoom simple : ")
+CAPTION("Je vais effectuer un zoom simplement avec un nombre (zoom)")
 WAIT(2)
 reperes.zoom(5)
 WAIT(1)
@@ -29,11 +52,19 @@ WAIT(2)
 
 
 titre.remove()
+reperes.remove()
 # ==============================================
-# =        TEST DU ZOOM
+# =        TEST DU TRAVELLING
 # ==============================================
 titre = TBOX("Test du travelling", {type:titre, x:10, y:10})
 
+
+reperes = IMAGE({url:'asset/img/Tests/reperes.png', x:330, y:300, bg_color:red})
+
+CAPTION("Travelling complexe dans l'image.")
+WAIT(2)
+reperes.travelling({x:355, y:163, width:65, height:58})
+WAIT(2)
 
 # La partition
 #partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, z:11, width:725})

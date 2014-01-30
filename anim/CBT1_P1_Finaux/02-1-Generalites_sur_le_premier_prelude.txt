@@ -31,16 +31,20 @@ partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
 
 #CAPTION("On va donc essayer dans un premier temps de chercher tout ce qui caractérise la pièce dans son ensemble.", {wait:true})
 
-CAPTION("Ici, les choses sont simples : En dehors de ses deux dernières mesures et de la mesure 23, ce prélude est intégralement constitué…", {wait:true})
+CAPTION("Ici, les choses sont simples : En dehors de ses deux dernières mesures et de la mesure 23…", {wait:true})
 
 # --- Exergue de la première mesure ---
-exergue = IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:150, y:100, width:975, height:673, inner_x:58, inner_y:14, cadre_width:208, cadre_height:107, bg_color:background_color, bg_opacity:0.8, padding:40, z:12})
+exergue = IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:150, y:100, width:975, height:673, inner_x:58, inner_y:14, cadre_width:208, cadre_height:107, bg_color:background_color, bg_opacity:0.8, padding:40, z:12, hidden:true})
 
-CAPTION("… d'un motif d'arpèges ascendants, motif joué deux fois à l'identique dans chaque mesure.", {wait:true})
+# Faire apparaitre l'exergue des premières mesures
+exergue.show({duree:5, wait:false})
+
+CAPTION("…, ce prélude est intégralement constitué d'un motif d'arpèges ascendants, motif joué deux fois à l'identique dans chaque mesure.", {wait:true})
 
 
 CAPTION("On est donc d'emblée dans une pièce de style “exercice”. Avec une même difficulté qui se répète à loisir sur chaque mesure.", {wait:true})
 
+exergue.remove()
 
 CAPTION("D'emblée, donc, Bach affirme la portée pédagogique des monuments du clavier que sont ses Clavecins Bien Tempérés.", {wait:true})
 

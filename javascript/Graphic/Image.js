@@ -439,7 +439,7 @@ $.extend(Img.prototype,{
     if(undefined != params.y) dtrav.top  = "-"+params.y+'px'
     // On redimensionne le cadre si nécessaire
     var dcadre = {}
-    var new_dim = width_height_zoom_from(params)
+    var new_dim = this.width_height_zoom_from(params)
     if(params.width  || params.zoom)  dcadre.width  = new_dim.width  + 'px'
     if(params.height || params.zoom)  dcadre.height = new_dim.height + 'px'
     if(dcadre != {}) this.obj.animate(dcadre)
@@ -472,32 +472,78 @@ $.extend(Img.prototype,{
     */
   zoom:function(params)
   {
-    if('number' == typeof params)
-    {
-      params = {zoom:params}
-    }
     // Si cadre_width et cadre_height ne sont pas définis, il faut les fixer
     // TODO Il faudrait tenir compte du padding
     if(undefined == this.cadre_width)   this.cadre_width  = parseInt(this.width)
     if(undefined == this.cadre_height)  this.cadre_height = parseInt(this.height)
     
-    // Il faut déterminer la taille d'arrivée
-    var dims = this.width_height_zoom_from( params )
-    // La différence de dimension par rapport à la dimension courante
-    // Il faudrait déplacer l'image de la moitié de ces valeurs
-    var diff_x = (dims.width  - this.width  ) / 2
-    var diff_y = (dims.height - this.height ) / 2
-    this.inner_x = undefined === params.x ? this.inner_x - diff_x : params.x
-    this.inner_y = undefined === params.y ? this.inner_y - diff_y : params.y
-    this.width  = dims.width
-    this.height = dims.height
-    this._zoom  = dims.zoom
+    /*
+     *  Si unique paramètre nombre, c'est la valeur de zoom à donner, de façon
+     *  absolu, sans déplacement. On repart des valeurs initiales quel que soit
+     *  l'état actuel
+     *  
+     */
+    if('number' == typeof params)
+    {
+      this._zoom    = params
+      this.width    = this.abs_image.width  * this._zoom
+      this.height   = this.abs_image.height * this._zoom
+      this.inner_x  = - ((this.width  - this.abs_image.width ) / 2)
+      this.inner_y  = - ((this.height - this.abs_image.height) / 2)
+    }
+    /*
+     *  Si params.width est déterminé, c'est la largeur d'image qu'il faut prendre
+     *  Cette largeur prendra la dimension de la largeur actuelle de l'image (un zoom,
+     *  par définition, ne modifie pas le cadre de l'image, qui occupera donc toujours
+     *  la même surface)
+     *  Donc on doit pouvoir calculer le nouveau vrai width de l'image par rapport à
+     *  ce params.width.
+     *  Imaginons que le cadre actuel fasse 200px, que l'image fasse 200px et qu'aucun
+     *  zoom ne soit appliqué. Donc on voit l'image en entier.
+     *  Maintenant, on détermine que params.width = 50 et x = 0. Ça signifie qu'on va
+     *  prendre les 50 premiers pixels de l'image et grossir l'image pour que ces 50
+     *  pixels occupent les 200px du cadre actuel. On va donc grossir l'image par 4,
+     *  sans la changer de place (inner_x restera à 0)
+     */
+    else if(undefined !== params.width || undefined !== params.height)
+    {
+      // params.width doit correspondre à this.cadre_width
+      if( undefined !== params.width) coef = this.cadre_width  / params.width
+      else                            coef = this.cadre_height / params.height
+      // On doit multiplier la taille de l'image par ce coefficiant pour qu'elle
+      // occupe la place voulue
+      this.width  = this.abs_image.width  * coef
+      this.height = this.abs_image.height * coef
+      this._zoom  = coef // ???
+      if(undefined !== params.inner_x) this.inner_x = - params.inner_x
+      if(undefined !== params.inner_y) this.inner_y = - params.inner_y
+    }
+    else
+    {
+      /*
+       *  Quand ni width ni height ne sont définis dans les paramètres.
+       *  Il faut donc juste grossir ou diminuer l'image.
+       */
+      // Il faut déterminer la taille d'arrivée
+      var dims = this.width_height_zoom_from( params )
+      // La différence de dimension par rapport à la dimension courante
+      // Il faudrait déplacer l'image de la moitié de ces valeurs
+      var diff_x = (dims.width  - this.width  ) / 2
+      var diff_y = (dims.height - this.height ) / 2
+      this.inner_x = undefined === params.x ? this.inner_x - diff_x : params.inner_x
+      this.inner_y = undefined === params.y ? this.inner_y - diff_y : params.inner_y
+      this.width  = dims.width
+      this.height = dims.height
+      this._zoom  = dims.zoom
+    }
+
     data_css = {
       width   : this.width   + 'px',
       height  : this.height  + 'px',
       top     : this.inner_y + 'px',
       left    : this.inner_x + 'px'
     }
+    dlog("data_css pour le zoom :");dlog(data_css)
     Anim.Dom.anime([this.image], data_css, params)
   },
   /**
