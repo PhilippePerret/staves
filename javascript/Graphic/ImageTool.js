@@ -30,6 +30,7 @@ window.ImageTool = {
   /**
     * Méthode qui définit les données de base de l'image
     * La méthode renseigne la propriété `this.data_image`
+    * Elle calcule aussi le rapport de l'image (hauteur par largeur)
     * @method set_data_image
     */
   set_data_image:function()
@@ -39,7 +40,8 @@ window.ImageTool = {
       inner_y  : this.current.inner_y, // recadrage vertical
       cadre_width     : this.current.cadre_width,
       cadre_height    : this.current.cadre_height,
-      src             : this.current.url
+      src             : this.current.url,
+      rapport         : parseFloat(this.current.abs_image.rapport)
     }
   },
   /**
@@ -79,6 +81,7 @@ window.ImageTool = {
     this.get_taille_image()
     this.box_feedback.val('')
     this.box_feedback_alt.val('')
+    this.box_feedback_zoom.val('')
   },
   
   end_edit:function()
@@ -120,6 +123,10 @@ window.ImageTool = {
       code.push('height:'+this.data_image.cadre_height);
     code = '{'+code.join(', ')+'}'
     this.box_feedback_alt.val(code)
+    
+    code = []
+    var code_zoom = '{'+code.join(', ')+'}'
+    this.box_feedback_zoom.val(code_zoom)
   },
   /**
     * Méthode qui calcule le recadrage de l'image en fonction de la position
@@ -136,29 +143,54 @@ window.ImageTool = {
     this.data_image.cadre_height  = this.box_cadre.height()
   },
   /**
-    * Diminuer la taille de l'image
+    * Diminuer proportionnellement la taille de l'image
     * @method image_smaller
     * @param {Event} evt Evènement (pour savoir si des modifiers sont pressés)
     */
   image_smaller:function(evt)
   {
-    var inc = 10
+    // Valeur de l'incrément en fonction des modifiers pressés
+    var inc = this.increment_per_modifiers(evt)
     this.data_image.width  -= inc
-    this.data_image.height -= inc
+    this.data_image.height = this.data_image.width * this.data_image.rapport
     this.set_image_properties()
   },
   /**
-    * Augmenter la taille de l'image
+    * Augmenter proportionnellement la taille de l'image
     * @method image_bigger
     * @param {Event} evt Evènement (pour savoir si des modifiers sont pressés)
     */
   image_bigger:function(evt)
   {
-    var inc = 10
+    // Valeur de l'incrément en fonction des modifiers pressés
+    var inc = this.increment_per_modifiers(evt)
     this.data_image.width  += inc
-    this.data_image.height += inc
+    this.data_image.height = this.data_image.width * this.data_image.rapport
     this.set_image_properties()
   },
+  
+  /**
+    * Retourne la valeur de l'incrément en fonction des modifiers pressés.
+    *   CMD divise par 2
+    *   ALT divise par 2 (donc si CMD + ALT => division par 4)
+    *   CTRL => inc = 1
+    *   MAJ multiplie par 10
+    *       Donc CMD + MAJ => inc = 50, CMD + ALT + MAJ => inc = 25
+    * @method increment_per_modifiers
+    * @param {Event} evt L'évènement envoyé
+    * @return {Number} La valeur toujours positive de l'incrément
+    */
+  increment_per_modifiers:function(evt)
+  {
+    var inc = 10
+    if (evt.ctrlKey)   inc = 1
+    if (evt.shiftKey)  inc = inc * 10
+    if (evt.metaKey)   inc = parseInt(inc / 2)
+    if (evt.altKey)    inc = parseInt(inc / 2)
+    if( inc <= 0 ) inc = 1
+    return inc
+  },
+  
   /**
     * Définit les propriétés du cadrage (sa position et sa taille)  
     * @method set_cadre_properties
@@ -225,16 +257,17 @@ Object.defineProperties(ImageTool,{
     * Objet DOM du textarea pour placer le code à copier-coller
     * @property {jQuerySet} box_feedback
     */
-  "box_feedback":{
-    get:function(){return $('textarea#imgtool_feedback')}
-  },
+  "box_feedback":{get:function(){return $('textarea#imgtool_feedback')}},
   /**
     * Objet DOM du textarea pour placer les paramètres travelling
     * @property {jQuerySet} box_feedback_alt
     */
-  "box_feedback_alt":{
-    get:function(){return $('textarea#imgtool_feedback_alt')}
-  },
+  "box_feedback_alt":{get:function(){return $('textarea#imgtool_feedback_alt')}},
+  /**
+    * DOM Object du textarea pour placer les paramètres zoom
+    * @property {jQuerySet} box_feedback_zoom
+    */
+  "box_feedback_zoom":{get:function(){return $('textarea#imgtool_feedback_zoom')}},
   
   /**
     * Code HTML pour l'image
@@ -274,6 +307,8 @@ Object.defineProperties(ImageTool,{
                 '<textarea id="imgtool_feedback" onfocus="this.select()"></textarea>'+
                 '<div class="tiny">Paramètres pour travelling</div>'+
                 '<textarea id="imgtool_feedback_alt" onfocus="this.select()"></textarea>'+
+                '<div class="tiny">Paramètres pour ZOOM</div>'+
+                '<textarea id="imgtool_feedback_zoom" onfocus="this.select()"></textarea>'+
                 '<div class="right">'+
                   '<input type="button" value="-> Code" onclick="$.proxy(ImageTool.params_image, ImageTool)()" />'+
                   '<input type="button" value="OK" onclick="$.proxy(ImageTool.end_edit, ImageTool)()" />'+

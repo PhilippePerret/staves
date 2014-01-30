@@ -603,10 +603,11 @@ $.extend(Img.prototype,{
     *   @param {Float|Undefined}  params.zoom     Le zoom éventuellement fourni
     * @return {Object} Un object contenant {width:largeur, height:hauteur, zoom: zoom correspondant}
     */
+  
   width_height_zoom_from:function(params)
   {
     // dlog("-> get_width_and_height")
-    var abs_image = Img.abs_list[this.abs_id],
+    var abs_image = this.abs_image,
         width,
         height,
         zoom ;
@@ -834,6 +835,19 @@ Object.defineProperties(Img.prototype,{
     }
   },
   /**
+    * Instance de l'image absolue de référence de l'image courante
+    * @property {Img} abs_image
+    */
+  "abs_image":{
+    get:function(){
+      if(undefined == this._abs_image)
+      {
+        this._abs_image = Img.abs_list[this.abs_id]
+      }
+      return this._abs_image
+    }
+  },
+  /**
     * URL de l'image (locale ou distante)
     * @property {String} url
     */
@@ -886,6 +900,30 @@ Object.defineProperties(Img.prototype,{
   "abs_code_html":{
     get:function(){
       return '<img id="'+this.abs_id+'" src="'+this.url+'" style="position:absolute;top:-4000px;left:-4000px;"/>'
+    }
+  },
+  /** Rapport de l'image (au sens audiovisuel du terme, ie la largeur/hauteur)
+    * La propriété ne devrait être utilisée qu'avec l'image absolue. Pour une image
+    * quelconque, cette valeur peut être récupérée par :
+    *   rapport = imgquelconque.abs_image.rapport
+    * 
+    * Calcul avec ce rapport 
+    * ----------------------
+    *   On peut obtenir la hauteur d'après la largeur avec :
+    *     hauteur = largeur * rapport
+    *   On peut obtenir la largeur d'après la hauteur avec :
+    *     largeur = parseFloat( hauteur / rapport )
+    *
+    *
+    * @property {Float} rapport
+    */
+  "rapport":{
+    get:function(){
+      if(undefined == this._rapport)
+      {
+        this._rapport = parseFloat(this.height / this.width)
+      }
+      return this._rapport
     }
   },
   /**
