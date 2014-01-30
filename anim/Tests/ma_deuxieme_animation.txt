@@ -1,9 +1,0 @@
-# Je crée une portée
-NEW_STAFF(SOL)
-ba5=NOTE(a5)
-na4=NOTE(a4)
-ndo4=NOTE(c4)
-NEW_STAFF(FA)
-notela=NOTE(ad3)
-WAIT(2)
-CLEAR(true)
