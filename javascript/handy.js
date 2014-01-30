@@ -70,15 +70,17 @@ window.parametize = function(attr, value)
 
 /** Message de suivi en console
   * @method dlog
-  * @param {Object|String} foo  Ce qu'il faut placer en console.
+  * @param {Object|String}  foo       Ce qu'il faut placer en console.
+  * @param {Boolean}        is_error  Si true, c'est un message d'erreur qui est produit (false par défaut)
   * @return {String} le message, mais seulement si foo n'est pas un objet.
   */
-window.dlog = function(foo)
+window.dlog = function(foo, is_error)
 {
   if('object'==typeof foo) console.dir(foo)
   else
   {
-    console.log(foo)
+    if(is_error) console.error(foo)
+    else console.log(foo)
     return foo // pour l'utiliser dans le code par exemple
   } 
 }
