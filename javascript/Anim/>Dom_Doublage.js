@@ -179,6 +179,16 @@ window.Anim.Dom.Doublage = {
       this.on = false
       if(this.temporize.poursuivre) this.temporize.poursuivre()
     }
+  },
+  /**
+    * Méthode appelée quand la commande WAIT_CAPTION a été rencontrée, déclenchant
+    * l'attente de la fin du caption en cours. L'attente doit être débloquée.
+    * @method end_waiting_for_caption
+    */
+  end_waiting_for_caption:function()
+  {
+    Anim.waiting_for_caption = false
+    NEXT_STEP(0)
   }
 
 }

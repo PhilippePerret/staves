@@ -16,6 +16,14 @@
   */
 window.MODE_FLASH = false
 
+/**
+  * Pour imposer une attente sans passer par aucun objet
+  * Tant que la valeur est true, impossible de passer à l'étape suivante
+  * @property {Boolean} WAITING
+  * @default false
+  */
+window.WAITING = false
+
 /* --------------------------------------------------------------------- */
 /**
   * Objet Anim pour jouer l'animation

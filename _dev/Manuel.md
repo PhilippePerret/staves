@@ -2315,8 +2315,10 @@ Les boites (box) permettent de dessiner des boites et des cadres (de forme, de c
 
 ###Table des matières
 
-* [Création d'une boite](#create_a_box)
-* [Création d'un cadre](#create_a_cadre)
+* [Créer une boite](#create_a_box)
+* [Tous les types de boite](#types_de_box)
+* [Créer un cadre](#create_a_cadre)
+* [Créer un segment "U"](#create_a_box_segment)
 
 <a name="create_a_box"></a>
 ###Créer une boite
@@ -2326,6 +2328,18 @@ On crée une boite à l'aide de la commande&nbsp;:
     BOX(<parameters>)
   
 `BOX` “hérite” des [méthodes et des propriétés universelles de boites](#box_methods_and_properties), donc peut être manipulé et défini avec ces méthodes et propriétés.
+
+<a name="types_de_box"></a>
+###Types de boites
+
+<dl>
+  <dt>type:plain</dt>
+  <dd>Pour une boite pleine, qui recouvrira une portion de l'animation.</dd>
+  <dt>type:cadre</dt>
+  <dd>Pour dessiner un cadre dans l'animation. cf. <a href="#create_a_cadre">Créer un cadre</a>.</dd>
+  <dt>type:segment</dt>
+  <dd>Pour dessiner une forme de segment, c'est-à-dire une sorte de "U". cf. <a href="#create_a_box_segment">Créer un segment</a>.</dd>
+</dl>
 
 <a name="create_a_cadre"></a>
 ###Créer un cadre
@@ -2348,6 +2362,32 @@ Par exemple&nbsp;:
     cadreBleu = BOX({type:cadre, color:blue})
 
 Pour les autres méthodes et propriétés cf. [Méthodes et des propriétés universelles de boites](#box_methods_and_properties).
+
+<a name="create_a_box_segment"></a>
+###Créer un segment "U"
+
+Un “segment en U” est une forme qui ressemble à&nbsp;:
+
+                          _             _____             ____
+    |__________| (up)    |  (right)    |     | (down)         | (left)
+                         |_                               ____|
+
+C'est grâce au paramètre `dir` qu'on détermine l'orientation du “U”&nbsp;:
+
+    seg = BOX({type:segment, dir:down})
+
+Par défaut, un segment se présente avec les “fourches” vers le haut, comme un “U”, donc `dir:up` correspond à ne rien mettre du tout. 
+
+On peut décider de l'épaisser des branches à l'aide de `border` (nombre de pixels). Par défaut, l'épaisseur et de 1 pixel.
+
+Noter que le paramètre pour régler la longueur des fourches varie en fonction de l'orientation. Pour un "U" vers le haut ou vers le bas, c'est la hauteur du segment qui importe, donc le paramètre `height`&nbsp;:
+
+    seg = BOX({type:segment, dir:down, height:20 /* fourches de 20 pixels */})
+
+Pour un "U" à droite ou à gauche, c'est le paramètre `width` qui déterminera les longueurs de fourche.
+
+Pour les autres méthodes et propriétés cf. [Méthodes et des propriétés universelles de boites](#box_methods_and_properties).
+
 
 ---------------------------------------------------------------------
 

@@ -117,7 +117,8 @@ Anim.Step = {
     */
   auto_next:function(timeout)
   {
-    stack('-> Anim.Step.auto_next', {timeout:timeout})
+    // stack('-> Anim.Step.auto_next', {timeout:timeout})
+    if(Anim.waiting_for_caption == true) return
     if(Anim.Dom.Doublage.on && Anim.Dom.Doublage.waiting == true)
     {
       console.warn("Entrée dans Anim.Step.auto_next alors qu'un doublage est encore en cours. Je renonce.\n"+
@@ -147,7 +148,7 @@ Anim.Step = {
         (('number' == typeof timeout) ? timeout : Anim.delai_for('step')) * 1000
       )
     }
-    stack('<- Anim.Step.auto_next')
+    // stack('<- Anim.Step.auto_next')
   }
 }
 Object.defineProperties(Anim.Step,{

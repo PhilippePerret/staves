@@ -5,9 +5,13 @@
 const auto    = 'auto'
 
 // Alignement
+const center  = 'center'
+
+// Direction
+const up      = 'up'
+const down    = 'down'
 const left    = 'left'
 const right   = 'right'
-const center  = 'center'
 
 // Styles des textes (class CSS TBox)
 const grand_titre = 'grand_titre'
@@ -20,6 +24,8 @@ const copyright   = 'copyright'
 // Styles des boites
 const plain       = 'plain'
 const cadre       = 'cadre'
+const segment     = 'segment'
+
 
 // Couleurs
 const black   = 'black'

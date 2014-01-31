@@ -31,11 +31,11 @@ window.BACKGROUND = function(color, params)
   }
   params.class = 'background'
   params.type  = 'plain'
-  if(undefined == params.z) params.z = 0
-  if(undefined == params.x) params.x = 0
-  if(undefined == params.y) params.y = 0
-  if(undefined == params.width)       params.width      = 0 + Anim.Dom.width
-  if(undefined == params.height)      params.height     = 0 + Anim.Dom.height
+  if(undefined == params.z)       params.z = 0
+  if(undefined == params.x)       params.x = 0
+  if(undefined == params.y)       params.y = 0
+  if(undefined == params.width)   params.width      = 0 + Anim.Dom.width
+  if(undefined == params.height)  params.height     = 0 + Anim.Dom.height
   var bgd = BOX(params)
   /*
    *  Si la couleur de background correspond à une valeur connue, on modifie
@@ -66,11 +66,20 @@ window.Box = function(params)
   
   /**
     * Type de la boite
-    * Les types sont 'plain' boite pleine, 'cadre' un cadre
+    * Les types sont 'plain' boite pleine, 'cadre' un cadre, 'segment' un segment
+    * en "U"
     * @property {String} type
     * @default 'plain'
     */
   this.type = 'plain'
+  
+  /**
+    * Pour une box de type segment ("U"), la direction vers laquelle pointent les
+    * branche. Par défaut, le haut ('up').
+    * @property {String} dir
+    * @default ""
+    */
+  this.dir = null
   
   /**
     * Position horizontale par défaut d'une boite
@@ -107,11 +116,32 @@ window.Box = function(params)
   // === Dispatch des paramètres ===
   this.dispatch(params)
 
+  /*
+   *  Valeurs par défaut pour un type 'segment' : 
+   *    - 'dir' à 'up'
+   *    - Dimension fourche à 10
+   *  
+   */
+  if(this.type == 'segment')
+  {
+    if(!this.dir) this.dir = "up"
+    
+    if((this.dir == up || this.dir == down) && !this.height)        this.height = 10
+    else if((this.dir == left || this.dir == right) && !this.width) this.width  = 10
+  } 
+  
   /**
-    * La largeur du bord, pour une box de type 'cadre'
+    * La largeur du bord, pour une box de type différente de 'plain'
     * @property {Number} border
     */
-  this.border = this.border || (this.type == 'plain' ? 0 : 3)
+  this.border = this.border ||  function(type) {
+                                  switch(type)
+                                  {
+                                  case 'plain'    : return 0
+                                  case 'cadre'    : return 3
+                                  case 'segment'  : return 1
+                                  }
+                                }(this.type)
   
   /**
     * Position du calque par défaut

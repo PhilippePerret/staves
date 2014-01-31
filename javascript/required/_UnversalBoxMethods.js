@@ -206,7 +206,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     // dlog("-> "+this.id+".build")
     params = define_wait({}, this)
     Anim.Dom.add(this, params)
-    this.obj.draggable({stop:this.coordonnees})
+    this.obj.draggable({stop:$.proxy(this.coordonnees, this)})
     traite_wait(params)
     // dlog("<- "+this.id+".build")
     return this
@@ -234,14 +234,20 @@ $.extend(UNVERSAL_BOX_METHODS, {
       'height'  : (this.val_or_default('height'))  + 'px',
       'z-index' : (this.val_or_default('z'))
     }
-    if(this.type == 'cadre') data.border = this.border + 'px solid '+ this.color;
-    
+    if(this.type == 'cadre' || this.type == 'segment'){ 
+      var bord = this.border + 'px solid ' + this.color
+      if( this.dir != up)     data['border-top']    = bord
+      if( this.dir != down)   data['border-bottom'] = bord
+      if( this.dir != left)   data['border-left']   = bord
+      if( this.dir != right)  data['border-right']  = bord
+    }
     this.obj.css(data)
+
     if(this.gradient)
     {
       this.set_css('background', "linear-gradient( to right, "+this.background+", "+this.gradient+")")
     }
-    else if (this.type != 'cadre')
+    else if (this.type == 'plain')
     {
       this.set_css('background-color', this.background || this.background_default)
     }

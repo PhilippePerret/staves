@@ -363,10 +363,13 @@ METHODES_ANIM_OBJETS = {
       {
         // Si un doublage est toujours en cours d'écriture, on ne fait simplement
         // rien du tout. C'est la fin du doublage qui lancera l'étape suivante.
+        // Mais comme d'autre processus peuvent appeler auto_next, on met un
+        // Anim.waiting_for_caption qui les bloquera.
         // Dans le cas contraire, on lance l'étape suivante.
         if(Anim.Dom.Doublage.on)
         {
-          Anim.Dom.Doublage.temporize.poursuivre = NEXT_STEP
+          Anim.waiting_for_caption = true
+          Anim.Dom.Doublage.temporize.poursuivre = $.proxy(Anim.Dom.Doublage.end_waiting_for_caption, Anim.Dom.Doublage)
         } 
         else NEXT_STEP(0)
       }
