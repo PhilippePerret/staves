@@ -183,21 +183,26 @@ $.extend(Note.prototype,{
     * Ré-affiche une note masquée par `hide`
     * @method show
     * @async
-    * @param  {Object|Undefined} params Les paramètres optionnels
+    * @param  {Object|Undefined} params Les paramètres optionnels (dont duree et wait)
     * @return {Note} this, pour le chainage
     */
   show:function(params)
   {
-    return this.operation(this.objets, 'show', params)
+    Anim.Dom.anime(this.objets, {opacity:1}, params)
+    return this
+    // return this.operation(this.objets, 'show', params)
   },
   /**
     * Masque la note
     * @method hide
+    * @param  {Object|Undefined} params Les paramètres optionnels (dont duree et wait)
     * @return {Note} this, pour le chainage
     */
-  hide:function()
+  hide:function(params)
   {
-    return this.operation(this.objets, 'hide')
+    Anim.Dom.anime(this.objets, {opacity:0}, params)
+    return this
+    // return this.operation(this.objets, 'hide')
   },
   /**
     * Destruction de la note de l'animation
