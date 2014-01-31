@@ -153,6 +153,19 @@ Object.defineProperties(Chord.prototype, {
   },
   
   /**
+    * Le left de l'accord
+    * Correspond à son center_x
+    * @property {Number} top
+    */
+  "left":{
+    get:function(){return this.center_x}
+  },
+  /**
+    * Alias de `left` pour les autres objets
+    * @property {Number} x
+    */
+  "x":{get:function(){return this.left}},
+  /**
     * Le top de l'accord (MAIS pour l'instant, c'est le centre de l'accord
     * utiliser 'top_obj' pour obtenir le vrai top)
     * @property {Number}
@@ -161,13 +174,11 @@ Object.defineProperties(Chord.prototype, {
     get:function(){return this.center_y},
   },
   /**
-    * Le left de l'accord
-    * Correspond à son center_x
-    * @property {Number} top
+    * Alias de `top` pour les autres objets
+    * @property {Number} y
     */
-  "left":{
-    get:function(){return this.center_x}
-  },
+  "y":{get:function(){return this.top}},
+
   /**
     * Largeur de l'accord (correspond à la largeur d'une note)
     * @property {Number} width

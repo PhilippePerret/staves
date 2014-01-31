@@ -190,7 +190,6 @@ $.extend(Note.prototype,{
   {
     Anim.Dom.anime(this.objets, {opacity:1}, params)
     return this
-    // return this.operation(this.objets, 'show', params)
   },
   /**
     * Masque la note
@@ -202,7 +201,6 @@ $.extend(Note.prototype,{
   {
     Anim.Dom.anime(this.objets, {opacity:0}, params)
     return this
-    // return this.operation(this.objets, 'hide')
   },
   /**
     * Destruction de la note de l'animation

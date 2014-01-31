@@ -557,7 +557,7 @@ Object.defineProperties(Txt.prototype,{
       case cadence:
         // Pour un texte d'harmonie, le bord droit doit être aligné au possesseur,
         // à peine plus à droite.
-        this._real_x = x - w_box + 4
+        this._real_x = x - w_box// + 4
         break
       case chord:
         this._real_x = this.owner.center_x - (w_box / 2)

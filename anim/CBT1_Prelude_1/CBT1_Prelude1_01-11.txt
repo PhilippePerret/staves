@@ -6,10 +6,8 @@ SUITE('CBT1_Prelude1_12-19')
 
 # --- Valeurs par défault ---
 DEFAULT('next', 75)
-DEFAULT('staff_top', 120)
-DEFAULT('staff_offset', 120)
-DEFAULT('offset_modulation_y', 5)
-DEFAULT('chord', 35)
+DEFAULT('staff_top', 100)
+DEFAULT('staff_offset', 140)
 
 DEFAULT('decompte', 0)
 
