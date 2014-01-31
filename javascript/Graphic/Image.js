@@ -421,9 +421,9 @@ $.extend(Img.prototype,{
   {
     if(undefined == params) return F.error("Il faut définir les paramètres du travelling !")
     params = define_complete( params )
-    if(undefined != params.for_x)     params.x = this.inner_x + params.for_x
-    if(undefined != params.for_y)     params.y = this.inner_y + params.for_y
-    if(undefined == params.duree)   params.duree = 2
+    if(undefined != params.for_x) params.x = this.inner_x + params.for_x
+    if(undefined != params.for_y) params.y = this.inner_y + params.for_y
+    if(undefined == params.duree) params.duree = 2
     if(!params.x && !params.y && !params.width && !params.height) return F.error("Il faut définir le mouvement du travelling !")
     var dtrav = {}
     if(undefined != params.x) dtrav.left = "-"+params.x+'px'

@@ -244,7 +244,7 @@ $.extend(Txt.prototype,{
       var val = my['real_'+key]
       if(val != null) dpos[key_css] = val + 'px'
     })
-    dlog("Données CSS de position du texte :");dlog(dpos)
+    // dlog("Données CSS de position du texte :");dlog(dpos)
     this.obj.css(dpos)
     this.positionne_texte_before()
     this.positionne_texte_after()

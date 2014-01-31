@@ -58,6 +58,12 @@ Anim.Dom = {
     params = define_complete(params)
     
     /*
+     *  Définition de la durée que doit prendre l'animation, en fonction
+     *  des paramètres envoyés (ou durée par défaut) et de l'accélération
+     *  courante.
+     */
+    params.duree = this.real_duree( params )
+    /*
      *  On boucle sur tous les objets fournis en argument pour les animer
      *  Noter que souvent il n'y en a qu'un seul.
      *
@@ -71,7 +77,7 @@ Anim.Dom = {
         animate(
           data_css,
           {
-            duration : (params.duree || Anim.delai_for('transform')) * 1000,
+            duration : params.duree,
             complete : function()
             {
               /*
@@ -100,7 +106,19 @@ Anim.Dom = {
      */
     traite_wait( params )
   },
-  
+  /**
+    * Retourne la durée réelle du processus en fonction des paramètres et du
+    * coefficiant de vitesse appliqué.
+    * @method real_duree
+    * @param {Object} params Les paramètres transmis à this.anime. Noter que params.duree, si elle est définie, est en secondes.
+    * @return {Number} Le nombre de millisecondes que prendra l'animation
+    */
+  real_duree:function(params)
+  {
+    var duree = params.duree ;
+    if(undefined == duree) duree = 1 * Anim.transition.transform
+    return duree * Anim.prefs.speed_coef * 1000
+  },
   /**
     * Efface en douceur le contenu de l'animation
     * (pour un lien fluide entre des animations qui se suivent — ou reset en cours d'animation)

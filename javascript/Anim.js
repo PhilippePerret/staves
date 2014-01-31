@@ -27,12 +27,6 @@ if(undefined == window.Anim) window.Anim = {}
 $.extend(window.Anim,{
   
   /**
-    * Coefficiant de vitesse (déterminé par le slider)
-    * De -100 à 100
-    * @property {Float} coef_speed
-    */
-  coef_speed: 1,
-  /**
     * Propriété mise à true lorsque l'animation est en cours d'enregistrement
     * @property {Boolean} recording
     * @default false
@@ -140,8 +134,7 @@ $.extend(window.Anim,{
     * Vitesses normales
     * Notes
     * -----
-    *   * Ces valeurs pourront être modifiées par le `coef_speed` déterminé
-    *     par le slider
+    *   * Ces valeurs seront affectées par `Anim.prefs.speed_coef`
     * @property {Object} transition_reg
     */
   transition_reg:{
@@ -274,8 +267,19 @@ $.extend(window.Anim,{
       */
     part_y            :46,
     /**
+      * Coefficiant de vitesse final, calculé à partir du slider du controller
+      * et de la définition éventuelle de la préférence `speed` (ci-dessous).
+      * Cette valeur sert de multiplicateur de durée, donc plus elle est élevée,
+      * plus la durée est longue. Seules les valeurs positives inférieures à 1
+      * provoque une accélération. 
+      * @property {Number} speed_coef
+      * @default 1
+      */
+    speed_coef        :1,
+    /**
       * Coefficiant vitesse
       * @property {Number} speed 
+      * @default 1
       */
     speed             :1,
     /** Taille des notes (et altérations)
@@ -376,6 +380,7 @@ $.extend(window.Anim,{
     part_x          :null,
     harmony         :null,
     chord           :null,
+    speed_coef      :null,
     speed           :null,
     delai_after_show:null,
     note_size       :null,
@@ -427,7 +432,11 @@ $.extend(window.Anim,{
       // Contrôle de certaines valeurs
       try
       {
-        if(pref == 'speed' && value == 0) throw "Le coefficiant de vitesse (speed) ne peut pas être 0…"
+        if(pref == 'speed')
+        {
+          if(value == 0) throw "Le coefficiant de vitesse (speed) ne peut pas être 0…"
+          this.calc_speed_coef()
+        } 
       } catch(err) { return F.error(err) }
       
       // -- Correction de certaines valeur --
@@ -486,14 +495,29 @@ $.extend(window.Anim,{
   
   /**
     * Retourne la vitesse de transition de clé +key+ (dans Anim.transition)
-    * pondéré par le coefficiant de vitesse (Anim.prefs.speed)
+    * pondéré par le coefficiant de vitesse (Anim.prefs.speed), sauf si 
+    * +pondered+ est false
     * @method delai_for
-    * @param {String} key   La clé définissant le type de transition
-    * @return {Number} la valeur correspondante
+    * @param {String}   key   La clé définissant le type de transition
+    * @return {Number} la valeur de transition correspondante, en secondes
     */
-  delai_for:function(key)
+  delai_for:function(key, not_pondered)
   {
-    return this.transition[key] * this.prefs.speed
+    return this.transition[key] * this.prefs.speed_coef
+  },
+  
+  /**
+    * Calcule le nouveau coefficiant de vitesse (Anim.prefs.speed_coef)
+    * Noter que ce coefficiant dépent de 1/ la préférence Anim.prefs.speed et 2/
+    * la position du slider du contrôleur.
+    */
+  calc_speed_coef:function()
+  {
+    // La position du slider dans le contrôleur
+    var new_coef = $('div#vitesse_animation').slider('value')
+    new_coef = new_coef == 11 ? 1.0 : parseFloat((11 / new_coef) / 2)
+    Anim.prefs.speed_coef = Anim.prefs.speed * new_coef
+    // dlog("Anim.prefs.speed_coef mis à "+Anim.prefs.speed_coef)
   },
   /**
     * Attends +laps+ secondes avant de passer à l'étape suivante

@@ -170,7 +170,7 @@ window.Anim.Dom.Doublage = {
       $(jid_div_doublage).append('<span id="spanmot'+this.dbl_imot+'" class="spanmot_'+this.dbl_indx+'" style="display:none;">'+mot+'</span> ')
       $(jid_div_doublage +' > span#spanmot'+this.dbl_imot).show(400)
       
-      var duree = parseInt(Math.ceil(mot.length / 3) * 200  * Anim.coef_speed, 10)
+      var duree = parseInt(Math.ceil(mot.length / 3) * 200 * Anim.prefs.speed_coef, 10)
       this.timer_doublage = setTimeout($.proxy(Anim.Dom.Doublage.temporize, Anim.Dom.Doublage), duree)
     }
     else
