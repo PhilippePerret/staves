@@ -249,18 +249,18 @@ $.extend(window.Anim,{
       * Décalage de la marque d'accord par rapport à la portée.
       * @property {Number} chord 
       */
-    chord             :50, 
+    chord             :46, 
     /**
       * Décalage horizontal de la marque de modulation par rapport à l'objet
       * qui la porte (souvent, un accord ou une note)
       * @property {Number} modulation_y
       */
-    modulation_x      :-13,
+    modulation_x      :-8,
     /**
       * Décalage vertical de la marque de modulation par rapport à la portée
       * @property {Number} modulation_y
       */
-    modulation_y      :26,
+    modulation_y      :50,
     /**
       * Décalage horizontal de la marque de modulation par rapport à l'objet
       * porteur.
