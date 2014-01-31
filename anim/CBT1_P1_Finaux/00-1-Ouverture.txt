@@ -7,7 +7,7 @@
 # Ouverture.
 #
 
-SUITE('./01-1-A_quoi_sert_lanalyse')
+#### SUITE('./01-1-A_quoi_sert_lanalyse')
 
 # --- Valeurs par défault ---
 DEFAULT('next', 75)
@@ -20,7 +20,7 @@ DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 
 # La partition
-partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725, hidden:true})
+partition=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:78, y:6, width:725, hidden:true})
 
 # Le fond
 bgd = BACKGROUND('black', {gradient:'#444'})

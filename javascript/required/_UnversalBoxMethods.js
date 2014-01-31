@@ -66,9 +66,9 @@ $.extend(UNVERSAL_BOX_METHODS,{
     */
   show:function(params)
   {
-    dlog("-> " + this.id + ".show")
+    // dlog("-> " + this.id + ".show")
     this.show_or_hide(params, true)
-    dlog("<- " + this.id + ".show")
+    // dlog("<- " + this.id + ".show")
   },
   
   /**
@@ -83,12 +83,12 @@ $.extend(UNVERSAL_BOX_METHODS,{
 
   /**
     * Destruction de l'objet DOM de l'objet courant
-    * Note : c'est une méthode qui enchaine tout de suite la méthode suivante.
     * @method remove
+    * @param {Object} params Paramètres optionnels (dont wait, duree, complete)
     */
-  remove:function(){
-    this.obj.remove()
-    NEXT_STEP(0)
+  remove:function(params){
+    params = define_wait_and_duree( params, 'show' )
+    Anim.Dom.anime([this.obj], {opacity:0}, $.extend(params, {complete_each:'remove'}))
   },
   
   /**
@@ -156,7 +156,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   animate:function(data, params)
   {
-    dlog("-> "+this.id+".animate")
+    // dlog("-> "+this.id+".animate")
     // dlog("Params reçus par BUMP.animate:");dlog(params)
     params = define_wait(params, this)
     Anim.Dom.anime([this.obj], data, params)    
@@ -171,9 +171,8 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   show_or_hide:function(params, for_showing)
   {
-    params = define_wait( params, this )
+    params = define_wait_and_duree( params, this, 'show' )
     params = define_complete( params )
-    params.duree = this.duree_set_or_default(params, 'show')
     this.animate({opacity:for_showing ? (this.opacity || 1) : 0}, params)
     this.hidden = false == for_showing
   },
@@ -204,12 +203,12 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   build:function()
   {
-    dlog("-> "+this.id+".build")
+    // dlog("-> "+this.id+".build")
     params = define_wait({}, this)
     Anim.Dom.add(this, params)
     this.obj.draggable({stop:this.coordonnees})
     traite_wait(params)
-    dlog("<- "+this.id+".build")
+    // dlog("<- "+this.id+".build")
     return this
   },
     
@@ -227,7 +226,7 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   positionne:function(params)
   {
-    dlog("-> "+this.id+".positionne")
+    // dlog("-> "+this.id+".positionne")
     var data = {
       'left'    : (this.val_or_default('x'))       + 'px',
       'top'     : (this.val_or_default('y'))       + 'px',

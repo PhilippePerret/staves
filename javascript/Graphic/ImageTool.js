@@ -267,6 +267,7 @@ window.ImageTool = {
     this.set_cadre_properties()
     $('div#in_recadrage').bind('mousedown',function(){$('div#recadrage').draggable()})
     $('div#in_recadrage').bind('mouseup',function(){$('div#recadrage').draggable("destroy")})
+    $('div#imgtool_gabarit > div.buttons').draggable({containment:'parent'})
   }
 }
 Object.defineProperties(ImageTool,{

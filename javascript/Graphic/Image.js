@@ -534,7 +534,7 @@ $.extend(Img.prototype,{
       top     : this.inner_y + 'px',
       left    : this.inner_x + 'px'
     }
-    dlog("data_css pour le zoom :");dlog(data_css)
+    // dlog("data_css pour le zoom :");dlog(data_css)
     Anim.Dom.anime([this.image], data_css, params)
   },
   /**
@@ -699,17 +699,14 @@ $.extend(Img.prototype,{
   {
     // L'image absolue de référence
     var abs_image = Img.abs_list[this.abs_id]
+    // Le rapport image
+    var rapport   = abs_image.rapport
     
-    // Lorsqu'il faut calculer la hauteur d'après la largeur fournie
-    if(this.width && this.width != auto)
-    { // => la largeur (width) est définie
-      this.height = (this.width / abs_image.width) * abs_image.height
-    }
-    // Lorsqu'il faut calculer la largeur d'après la hauteur fournie
-    else if(this.height && this.height != auto)
-    { // => la hauteur (height) est définie
-      this.width = (this.height / abs_image.height) * abs_image.width
-    }
+    // Hauteur d'après largeur fournie
+    if(this.width && this.width != auto)        this.height = this.width * rapport
+    // Largeur d'après hauteur fournie
+    else 
+    if(this.height && this.height != auto) this.width  = this.height / rapport
     else
     { // => les deux valeurs sont à auto, ou non définies
       this.width  = abs_image.width
@@ -773,7 +770,7 @@ $.extend(Img.prototype,{
     var div_data = {
       left    : this.x+'px',
       top     : this.y+'px',
-      width   : ((this.cadre_width  || this.width) + (2 * padding)) +'px',
+      width   : ((this.cadre_width  || this.width)  + (2 * padding)) +'px',
       height  : ((this.cadre_height || this.height) + (2 * padding)) +'px'
     }
     if(undefined !== this.z) div_data['z-index'] = this.z
@@ -787,7 +784,7 @@ $.extend(Img.prototype,{
     
     // Le DIV contenant l'image (c'est lui qui permet de rogner l'image)
     var cont_data = {
-      width  : (this.cadre_width  || this.width) +'px', 
+      width  : (this.cadre_width  || this.width)  +'px', 
       height : (this.cadre_height || this.height) +'px',
       top    : padding + 'px',
       left   : padding + 'px'

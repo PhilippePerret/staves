@@ -12,7 +12,7 @@ DEFAULT('caption_timer', true)
 SUITE('./02-1-Generalites_sur_le_premier_prelude')
 
 # La partition
-partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
+partition=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:78, y:6, width:725})
 bgd = BACKGROUND({opacity:0})
 
 WAIT(2)
@@ -22,7 +22,6 @@ CAPTION("Mais avant de commencer, il me semble important de se poser cette quest
 bgd.fade()
 CAPTION("“À quoi sert l'analyse musicale ?”")
 
-#partition.hide({duree:2, wait:false})
 
 question = TBOX("À quoi sert l'analyse musicale ?", {x:10, y:90, duree:3, wait:false, width:500})
 

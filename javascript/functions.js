@@ -32,8 +32,24 @@ window.define_params = function(params, extension)
   */
 window.define_wait_and_duree = function(params, instance, trans_id)
 {
-  params = define_wait(params, instance)
-  if(undefined === params.duree) params.duree = Anim.delai_for( trans_id )
+  params = define_wait (params, instance)
+  params = define_duree(params, trans_id)
+  return params
+}
+/**
+  * Méthode qui définit la propriété `duree` dans les paramètres, si elle
+  * n'est pas définie, en prenant l'identifiant duree `trans_id`, clé dans
+  * Anim.transition
+  * @method define_duree
+  * @for    window
+  * @param {Object|Undefined} params    Les paramètres éventuellement existants
+  * @param {String} trans_id    Identifiant de durée
+  * @return {Object} L'objet params avec éventuellement la durée ajoutée.
+  */
+window.define_duree = function(params, trans_id)
+{
+  if(undefined == params) params = {}
+  if(undefined == params.duree) params.duree = Anim.delai_for( trans_id )
   return params
 }
 /**
