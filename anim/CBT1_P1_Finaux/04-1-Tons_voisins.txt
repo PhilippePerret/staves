@@ -1,0 +1,134 @@
+# === Analyse du Prélude 1 CBT1 ===
+# 
+# Parenthèse sur l'harmonie
+# -------------------------
+# Dans cette partie on aborde la question des tonalités (survolé) et
+# des tons voisins pour se préparer au travail d'analyse sur le prélude
+#
+# Cette première partie présente les tons voisins par le biais des notes
+# altérées de la gamme de référence.
+#
+
+DEFAULT('decompte',0)
+DEFAULT('staff_top')
+DEFAULT('caption_timer', true)
+DEFAULT('next', 200)
+#SPEED(20)
+
+# SUITE('./Tons_voisins_02')
+
+partition = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:78, y:6, width:725})
+
+CAPTION("Pour être vraiment à l'aise avec l'analyse, et en tirer profit, je pense que le plus gros effort à fournir consiste à connaitre parfaitement les tonalités, ainsi que les notions relatives aux tonalités, comme par exemple les cycles des quintes.", {wait:true})
+
+CAPTION("Qu'est-ce que j'entends par “connaitre parfaitement les tonalités ?”. Ça signifie 1. Avoir parfaitement en tête l'armure de toutes les tonalité, 2. Connaitre ou retrouver très rapidement les tons voisins de chaque tonalité. 3. Connaitre les accords de dominante de chaque tonalité.", {wait:true})
+
+CAPTION("4. Posséder quelques notions d'harmonie et principalement ces deux règles de base très simple : la sensible monte à la tonique, la septième de l'accord de dominante descend.", {wait:true})
+
+CAPTION("C'est un travail de mémoire aussi bien que de logique qui demande beaucoup d'investissement au départ. Mais plus on le fait, plus l'effort investi est payant.", {wait:true})
+
+CAPTION("Noter que j'aborde dans d'autres screencasts la façon de travailler ces notions en travaillant intelligemment des exercices sur son instrument.", {wait:true})
+
+CAPTION("D'autre part, Pour toutes ces notions, il y a la mémoire, mais il y a également tout un tas de répères mnémotechniques faciles à mettre en œuvre.", {wait:true})
+
+CAPTION("Abordons-les brièvement en revenant à notre premier prélude.", {wait:true})
+
+WAIT(2)
+
+CAPTION("Dès qu'on aborde une pièce quand on débute en analyse, une chose à faire avant même d'aborder les généralités dont on vient de parler consiste à prendre une feuille et se rafraichir la mémoire concernant la tonalité courante.", {wait:true})
+
+CAPTION("On n'a plus à le faire lorsque on en a pris l'habitude, car tout revient instantannément et sans effort par la suite, et se consolide par l'habitude de le faire chaque fois qu'on joue ou déchiffre de la musique.", {wait:true})
+
+CAPTION("Se rafraichir la mémoire, ça consiste notamment à déterminer les tons voisins de la tonalité dans laquelle se trouve le morceau qu'on veut analyser.", {wait:true})
+
+CAPTION("Pourquoi les tons voisins ?… Tout simplement parce que jusque que… disons la musique contemporaine… c'est vers ces tons voisins que se font la plupart du temps les changements de tonalités, et ils sont constitutifs du travail sur la forme comme sur le fond.", {wait:true})
+
+CAPTION("D'autre part, ce sont souvent ces changements de tonalité, ou ces emprunts à d'autres tonalités, qui posent problème au cours des premières analyses.", {wait:true})
+
+partition.hide()
+
+# === QU'EST-CE QU'UN TON VOISIN ? ===
+
+CAPTION("Qu'est-ce qu'on appelle un “ton voisin” ?… ")
+
+question = TBOX("Qu'est-ce que des “Tons voisins” ?", {x:132,y:90, width:600, align:left})
+
+WAIT_CAPTION
+
+CAPTION("C'est extrêmement simple : deux tons voisins, ce sont deux tonalités — donc deux ensembles de notes — qui ne différent que par une seule de leurs notes, qui n'ont qu'une seule note de différence.", {wait:true})
+
+reponse = TBOX("Ce sont 2 tonalités qui ne différent que d'une seule note.", {x:132,y:196, width:600, align:left})
+
+CAPTION("Ça n'est pas plus compliqué que ça. Ils sont voisins parce que pour passer de l'un à l'autre, dans les deux sens, il suffit de ne modifier qu'une seule note.", {wait:true})
+
+CAPTION("Pour les tons principaux, cette note qui diffère répond au cycle des quintes. Mais ce n'est pas par ce biais qu'on va l'aborder. Si vous voulez des informations sur le cycle des quintes, voyez le screencast que je lui consacre.")
+
+question.remove({duree:5, wait:false})
+reponse.remove({duree:5, wait:false})
+
+CLEAR(true)
+
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+
+ACTIVE_STAFF(1)
+
+WAIT_CAPTION
+
+CAPTION("Ici, nous allons l'aborder en parlant de “notes pivots”. Ces notes “pivots“ sont les notes qu'il suffit d'altérer pour passer d'une tonalité à une autre, d'un ton à un de ses tons voisins.", {wait:true})
+
+CAPTION("Pour une tonalité majeure, et pour la tonalité de DO Majeur du prélude qui nous occupe… ")
+
+# --- Gamme de DO ---
+
+SET_CURSOR(220)
+gammedo = SCALE('c', {staff:2, speed:4, offset:40, for:7})
+
+STAFF(2).write("DO Majeur", {x:266})
+
+CAPTION("ces notes “pivots“ sont le degré 4 — donc la 4e note de la gamme —, le degré 5 — donc la 5e note — ou le degré 7 — donc la sensible de cette tonalité. C'est toujours la 4e, la 5e ou la 7e note qui est altérée dans une tonalité majeure pour passer ou tout au moins pour produire le ton voisin.")
+
+WAIT(2)
+gammedo.note(4).surround()
+WAIT(1)
+gammedo.note(5).surround()
+WAIT(1)
+gammedo.note(7).surround()
+
+WAIT_CAPTION
+
+CAPTION("Les notes pivots sont donc la 4e, la 5e et la 7e. Magie des mathématiques, ça correspond aux notes les plus importantes d'une gamme, après la tonique, bien entendu.", {wait:true})
+
+CAPTION("Si je monte le 5e degré, le degré le plus important après la tonique…", {wait:true})
+
+# --- Gamme de LA mineur ---
+
+CAPTION("j'obtiens le ton voisin du relatif.")
+gammedo.note(5).arrow('vers lam', {angle:-90, width:60})
+SET_CURSOR(140)
+SCALE('a', {type:'min_h', staff:1, offset:40, octave:3, speed:4})
+STAFF(1).write("LA mineur (relatif mineur)", {x:180})
+WAIT_CAPTION
+
+# -- Gamme de SOL Majeur --
+
+CAPTION("Si je réhausse le quatrième degré, …", {wait:true})
+CAPTION("le FA ici, j'obtiens la tonalité de la dominante. Ici, SOL Majeur")
+gammedo.note(4).arrow('vers sol', {angle:90, width:60})
+SET_CURSOR(100)
+gsol = SCALE('g', {staff:3, offset:40, octave:3, speed:4})
+STAFF(3).write("SOL Majeur (Dominante)", {x:140})
+WAIT_CAPTION
+
+
+# --- Gamme de FA Majeur ---
+
+CAPTION("Et enfin, si je baisse le 7e degré, la sensible …", {wait:true})
+CAPTION("… j'obtiens le dernier ton voisin, la tonalité de la sous-dominante, donc FA Majeur pour DO Majeur.")
+gammedo.note(7).arrow('vers fa', {angle:90, width:140})
+SET_CURSOR(340)
+SCALE('f', {staff:4, offset:40})
+STAFF(4).write("FA Majeur (sous-dominante)", {x:380})
+WAIT_CAPTION

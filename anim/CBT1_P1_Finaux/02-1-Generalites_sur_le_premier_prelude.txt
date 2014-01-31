@@ -9,10 +9,10 @@
 # descendante.
 #
 
-#### SUITE('./Tons voisins 01')
+SUITE('./04-1-Tons_voisins')
 
 # --- Valeurs par défault ---
-DEFAULT('next', 75)
+
 DEFAULT('harmony', 65)
 DEFAULT('staff_top', 120)
 DEFAULT('staff_offset', 120)
@@ -48,18 +48,74 @@ CAPTION("Dès la toute première pièce, donc, Bach affirme la portée pédagogi
 exergue.remove({duree:5, wait:false})
 partition.hide()
 
-# --- Complexité du motif ---
+DEFAULT('next', 30)
 
-CAPTION("On peut noter, sans rentrer dans le détail, l'aspect simple est complexe de la rythmique de ce motif.", {wait:true})
+# ===================================================
+# === COMPLEXITÉ DU MOTIF RYTHMIQUE
+# ===================================================
 
-CAPTION("Il est constitué d'une asymétrie, avec 5 notes contre 3. Les 5 premières notes du premier arpège et les '", {wait:true})
+CAPTION("On peut rentrer un peu dans le détail du rythme du motif puisqu'on n'y reviendra pas par la suite. ", {wait:true})
 
+CAPTION("Ce qu'on peut noter, c'est l'aspect simple et complexe à la fois de la rythmique de ce motif.")
+
+NEW_STAFF(SOL, {y:200, x:150, width:600})
+SET_CURSOR(240)
+mot = MOTIF('c4 e4 g4 c5 e5 g4 c5 e5')
+
+WAIT_CAPTION
+
+CAPTION("Il est constitué d'une répétition à l'identique d'un même arpège complet à la main droite :", {wait:true})
+
+seg1 = BOX({type: segment, x:299, y:253, width:79, color:green})
+seg2 = BOX({type: segment, x:387, y:253, width:79, color:green})
+
+CAPTION("mais cette répétition se construit sur une asymétrie de 5 notes contre 3…", {wait:true})
+
+seg3 = BOX({type:segment, dir:down, x:236, y:172, width:140, color:blue})
+seg4 = BOX({type:segment, dir:down, x:387, y:172, width:79, color:blue})
+
+CAPTION("… et un balancement à la blanche articulé sur une note basse et une note haute…", {wait:true})
+
+SET_CURSOR(480)
+mot2 = MOTIF('c4 e4 g4 c5 e5 g4 c5 e5')
+
+mot.note([1, 5]).surround({color:red})
+mot2.note([1, 5]).surround({color:red})
+
+CAPTION(" comme la grosse caisse et la caisse claire d'un morceau de variété…", {wait:true})
+
+CAPTION("… les autres notes de l'arpège jouant le charleston… et formant à l'intérieur du motif une autre impression ascendante…", {wait:true})
+
+CAPTION(" avec la première partie MI, SOL DO… ")
+
+seg5 = BOX({type:segment, dir:down, x:265, y:187, width:79, color:red})
+
+WAIT_CAPTION
+
+CAPTION("… qui devient SOL, DO, MI sur le deuxième temps")
+
+seg6 = BOX({type:segment, dir:down, x:387, y:187, width:79, color:red})
+
+WAIT_CAPTION
+
+WAIT(2)
+
+CAPTION("Tout ça participe évidememnt à produire, sur une apparence de simplicité, un rythme sans monotonie.", {wait:true})
+
+CAPTION("Faut-il préciser que Bach, en ayant l'inspiration de ce morceau, n'a pas forcément mener tout ce travail de réflexion. L'analyse ne consiste pas à marcher dans les pas du compositeur, nul ne le pourrait, à commencer par lui-même d'ailleurs…", {wait:true})
+
+CAPTION("… non, l'analyse consiste à essayer de comprendre l'œuvre elle-même, peu importe comment elle a été produite, par la logique ou par pure inspiration.", {wait:true})
+
+CLEAR(true)
+
+# ===================================================
 # --- La mélodie descendante du prélude ---
+# ===================================================
 
 CAPTION("Par rapport à ces arpèges ascendants, il est intéressant de noter comment ils s'opposent au parcours descendant de la mélodie.")
 
-
-NEW_STAFF(SOL, {top:129})
+DEFAULT('next', 75)
+NEW_STAFF(SOL)
 melodie = MOTIF('e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 c4 a3 f3 f5 d5 b4 f4 e4', {offset_x:34, speed:4})
 
 WAIT_CAPTION
@@ -76,7 +132,7 @@ CAPTION(" — donc un ambitus de sixte redoublée, du LA 5 au DO 4.", {wait:true
 
 # --- Mark de la CODA ---
 SET_CURSOR(470)
-STAFF(2).part(coda, {x:470})
+STAFF(2).part(coda, {x:477})
 
 CAPTION("Noter que je ne tiens pas compte ici de la coda, d'un caractère mélodique contrasté. On remarque entre parenthèses qu'elle est une subtile synthèse de ce que nous venons de voir : elle hérite des arpèges de l'harmonie et elle hérite du caractère mélodique descendant de la mélodie.",{wait:true})
 
@@ -84,8 +140,10 @@ STAFF(2).remove()
 STAFF(1).remove()
 partition.show()
 
-# --- Conclusion ---
+# ===================================================
+# === CONCLUSION ===
+# ===================================================
 
-CAPTION("Moralité, des arpèges qui montent, s'opposant à une mélodie qui descend… L'utilisation d'un motif répétitif — l'arpège — mais sur un parcours mélodique ample… L'utilisation d'un motif rythmique plus riche qu'il n'y parait, ça fait déjà quelques belles petites choses pour une pièce si simple en apparence !")
+CAPTION("Moralité, des arpèges qui montent, s'opposant à une mélodie qui descend… L'utilisation d'un motif répétitif — l'arpège — mais sur un parcours mélodique ample… L'utilisation d'une rythmie plus riche qu'elle n'y parait, ça fait déjà quelques belles petites choses pour une pièce si simple en apparence, non ?")
 
 WAIT_CAPTION

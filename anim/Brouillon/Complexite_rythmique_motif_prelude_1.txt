@@ -9,12 +9,13 @@ DEFAULT('next', 30)
 
 # --- Complexité du motif ---
 
+CAPTION("On peut rentrer un peu dans le détail du rythme du motif puisqu'on n'y reviendra pas par la suite. ", {wait:true})
+
+CAPTION("Ce qu'on peut noter, c'est l'aspect simple et complexe à la fois de la rythmique de ce motif.")
+
 NEW_STAFF(SOL, {y:200, x:150, width:600})
-
-CAPTION("On peut noter, sans rentrer dans le détail, l'aspect simple et complexe de la rythmique de ce motif.")
-
 SET_CURSOR(240)
-mot = MOTIF('c4 e4 g4 c5 e5 g4 c5 e5 c4 e4 g4 c5 e5 g4 c5 e5')
+mot = MOTIF('c4 e4 g4 c5 e5 g4 c5 e5')
 
 WAIT_CAPTION
 
@@ -30,19 +31,23 @@ seg4 = BOX({type:segment, dir:down, x:387, y:172, width:79, color:blue})
 
 CAPTION("… et un balancement à la blanche articulé sur une note basse et une note haute…", {wait:true})
 
-mot.note([1, 5, 9, 13]).surround({color:red})
+SET_CURSOR(480)
+mot2 = MOTIF('c4 e4 g4 c5 e5 g4 c5 e5')
+
+mot.note([1, 5]).surround({color:red})
+mot2.note([1, 5]).surround({color:red})
 
 CAPTION(" comme la grosse caisse et la caisse claire d'un morceau de variété…", {wait:true})
 
-CAPTION("les autres notes de l'arpège jouant le charleston… et formant à l'intérieur du motif une autre impression ascendante…", {wait:true})
+CAPTION("… les autres notes de l'arpège jouant le charleston… et formant à l'intérieur du motif une autre impression ascendante…", {wait:true})
 
-CAPTION(" avec la première partie MI, SOL DO… ", {wait:false})
+CAPTION(" avec la première partie MI, SOL DO… ")
 
 seg5 = BOX({type:segment, dir:down, x:265, y:187, width:79, color:red})
 
 WAIT_CAPTION
 
-CAPTION("… qui devient SOL, DO, MI sur le deuxième temps", {wait:false})
+CAPTION("… qui devient SOL, DO, MI sur le deuxième temps")
 
 seg6 = BOX({type:segment, dir:down, x:387, y:187, width:79, color:red})
 

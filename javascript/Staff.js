@@ -134,7 +134,7 @@ $.extend(Staff,{
     if(Anim.staves.length == 0) return null
     var lstaff ;
     L(Anim.staves).each(function(staff){
-      if(staff.top > lstaff.top) lstaff = staff
+      if( !lstaff || (staff.top > lstaff.top) ) lstaff = staff
     })
     return lstaff
   },

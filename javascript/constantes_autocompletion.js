@@ -16,6 +16,9 @@
   # @final
   */
 window.DATA_AUTOCOMPLETION = {
+  '---' : {replace:"---------------------------------------------------", boffset:0, length:0},
+  '***' : {replace:"***************************************************", boffset:0, length:0},
+  '===' : {replace:"===================================================", boffset:0, length:0},
   'act' : {replace:"ACTIVE_STAFF(X)",         boffset:2,  length:1  },
   'aic' : {fourth:'w'},
   'apw' : {fourth:'c'},
@@ -29,6 +32,7 @@ window.DATA_AUTOCOMPLETION = {
   'def' : {replace:"DEFAULT('PROP', VALUE)",  boffset:13, length:4  },
   'exe' : {replace:"EXEC('CODE')",            boffset:6,  length:4  },
   'fan' : {replace:"fantomize()",             boffset:0,  length:0  },
+  'ima' : {replace:"IMAGE({url:'URL'})",      boffset:6,  length:3  },
   'mot' : {replace:"MOTIF('c4 d4 e4')",       boffset:10, length:8  },
   'nex' : {replace:"NEXT()",                  boffset:0             },
   'new' : {replace:"NEW_STAFF(SOL)",          boffset:4,  length:3  },

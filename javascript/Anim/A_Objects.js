@@ -182,7 +182,7 @@ FONCTIONS_ANIM_OBJETS = {
       if('number' == typeof params.top) params.top = [params.top]
       Staff.erase_suplines(params.staff, params.xoffset, 'top', params.top)
     }
-    NEXT_STEP()
+    NEXT_STEP(0)
   },
   /**
     * Nettoie l'animation. Si `with_staves` est true, on efface aussi les

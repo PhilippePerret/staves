@@ -20,11 +20,19 @@ window.UNVERSAL_METHODS = {
     * l'objet et son contenu en fonction des paramètres transmis à l'instanciation.
     *
     * @method build 
-    * @param {Object} params  Paramètres supplémentaire
+    * @param {Object} params  Paramètres supplémentaires
     */
   build:function()
   {
     Anim.Dom.add(this)
+    if(this.obj)
+    {
+      this.obj.draggable({
+        containment:'parent',
+        start:$.proxy(UI.Tools.on_start_dragging_of, UI.Tools, this),
+        stop:$.proxy(UI.Tools.coordonnees_of, UI.Tools, this)
+      })
+    }
     return this
   },
   /**

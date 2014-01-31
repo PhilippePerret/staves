@@ -37,11 +37,21 @@ $.extend(window.Console,{
   preambule:[],
   
   /**
+    * On utilise cette propriété pour pouvoir sélectionner des choses dans la console
+    * sans déclencher le mécanisme du focus qui l'ouvre.
+    * Lorsque la propriété est TRUE, la méthode on_focus s'en retourne sans rien faire
+    * @property {Boolean} focus_disabled
+    * @default false
+    */
+  focus_disabled:false,
+  
+  /**
     * Ouvre la console (l'étend)
     * @method open
     */
   open:function()
   {
+    if(Anim.on && !Anim.pause_on) return
     this.section.animate({right:"8px"})
   },
   /**
@@ -184,7 +194,7 @@ $.extend(window.Console,{
     */
   onfocus:function()
   {
-    if(Anim.on) return true
+    if(this.focus_disabled || (Anim.on && !Anim.pause_on)) return true
     this.open()
     IN_CONSOLE = true
   },
@@ -194,7 +204,7 @@ $.extend(window.Console,{
     */
   onblur:function(evt)
   {
-    if(Anim.on) return true
+    if(Anim.on && !Anim.pause_on) return true
     this.range()
     IN_CONSOLE = false
     $('input#nothing')[0].blur()
@@ -288,8 +298,10 @@ $.extend(window.Console,{
     */
   select:function(params)
   {
+    if(params.disable_focus) this.focus_disabled = true
     Selection.select(this.console, {start:params.start, end:params.end})
     if(params.blur) this.console[0].blur()
+    if(params.disable_focus) this.focus_disabled = false
   },
   
   /**
@@ -455,7 +467,7 @@ Object.defineProperties(window.Console,{
       if(start == -1) start = 0
       var end   = this.raw.indexOf("\n#!END")
       if(end == -1) end = this.raw.length - 1
-      this.select({start:start+1, end:end})
+      this.select({start:start+1, end:end, disable_focus:true})
       delete this._steps_selection  // pour forcer le recalcul
       return this.steps_selection
     }
@@ -475,7 +487,7 @@ Object.defineProperties(window.Console,{
       var dsel    = this.get_selection()
       var before  = this.raw.substring(0, dsel.start)
       var start   = before.lastIndexOf("\n")
-      this.select({start:start+1, end:this.raw.length})
+      this.select({start:start+1, end:this.raw.length, disable_focus:true})
       delete this._steps_selection  // pour forcer le recalcul
       return this.steps_selection
     }

@@ -131,6 +131,10 @@ Anim.Dom = {
   clear:function(complete, params)
   {
     dlog("-> Effacement de l'animation")
+
+    // Remet la position du curseur au départ
+    Anim.current_x = parseInt(Anim.prefs.x_start,10)
+
     if(undefined == complete) complete = NEXT_STEP
     if(undefined == params) params = {}
     if(params.all)
@@ -150,14 +154,13 @@ Anim.Dom = {
     }
     $(selector).animate(
       {opacity:0},
-      {always:function(){
-        -- nombre_elements
-        if(nombre_elements == 0)
-        {
-          $(selector).remove();
-          complete()
+      {
+        complete:function(){this.remove()},
+        always  :function(){
+          -- nombre_elements
+          if(nombre_elements == 0) complete()
         }
-      }})
+      })
   },
   /**
     * Affiche un objet quelconque de l'animation

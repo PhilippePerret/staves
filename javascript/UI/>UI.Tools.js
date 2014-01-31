@@ -210,6 +210,42 @@ window.UI.Tools = {
             '</div>'
   },
   /* ---------------------------------------------------------------------
+   *  Outils divers
+   *  
+   */
+  /**
+    * Méthode appelée quand on commence à déplacer un élément de l'animation
+    * (pour le moment, seulement ceux qui passent par les méthodes universelles — build —
+    * mais il faudra généraliser le processus).
+    * @method on_start_dragging_of
+    * @param  {Object} instance L'instance de l'élément déplacé
+    */
+  on_start_dragging_of:function(instance)
+  {
+    var pos = instance.obj.position()
+    this.coordonnees_of.pos_init = {top: pos.top, left:pos.left}
+  },
+  /**
+    * Méthode qui doit être appelée par tout élément de l'animation à la fin
+    * de son déplacement quand il a été rendu draggable.
+    * Normalement, on renvoie simplement les positions de son `instance.obj`
+    * @method coordonnees_of
+    * @param  {Object} instance L'instance de l'élément déplacé ({Txt}, {Box}, etc.)
+    */
+  coordonnees_of:function(instance)
+  {
+    var pos = instance.obj.position(),
+        pos_init = this.coordonnees_of.pos_init,
+        mess ;
+    mess = "INIT: x:"+pos_init.left+"/y:"+pos_init.top ;
+    mess += " ||| FIN: x:"+pos.left+"/y:"+pos.top ;
+    dif_x = pos.left - pos_init.left
+    dif_y = pos.top  - pos_init.top
+    mess += " ||| DIFF: x:" + (dif_x > 0 ? '+':'') + dif_x + '/y:' + (dif_y > 0?'+':'') + dif_y;
+    UI.feedback(mess)
+  },
+  
+  /* ---------------------------------------------------------------------
    *  PARTIE DE UI.Tools GÉRANT L'OUTIL “COORDONNÉES”
    *  (pour obtenir les coordonnées à l'écran)
    */

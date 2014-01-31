@@ -1,0 +1,28 @@
+DEFAULT('decompte', 0)
+DEFAULT('caption_timer', true)
+
+# ===================================================
+# --- La mélodie descendante du prélude ---
+# ===================================================
+
+CAPTION("Par rapport à ces arpèges ascendants, il est intéressant de noter comment ils s'opposent au parcours descendant de la mélodie.")
+
+DEFAULT('next', 75)
+NEW_STAFF(SOL)
+melodie = MOTIF('e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 c4 a3 f3 f5 d5 b4 f4 e4', {offset_x:34, speed:4})
+
+WAIT_CAPTION
+
+CAPTION("En effet, si nous ne prenons que les notes extrêmes de ce prélude , ici entourées en bleu… ", {wait:true})
+
+melodie.note([1,32,41]).surround({color:blue, wait:false})
+
+CAPTION("…, nous notons le parcours clairement descendant de la mélodie qui part du mi5 pour aller jusqu'au mi4, donc une octave… pour un ambitus — c'est-à-dire l'intervalle entre la note la plus haute et la note la plus basse, ici entourées en vert", {wait:true})
+
+melodie.note([5,20]).surround({color:green, wait:false})
+
+CAPTION(" — donc un ambitus de sixte redoublée, du LA 5 au DO 4.", {wait:true})
+
+# --- Mark de la CODA ---
+SET_CURSOR(470)
+STAFF(2).part(coda, {x:477})
