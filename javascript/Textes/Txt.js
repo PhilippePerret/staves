@@ -244,6 +244,7 @@ $.extend(Txt.prototype,{
       var val = my['real_'+key]
       if(val != null) dpos[key_css] = val + 'px'
     })
+    dlog("Données CSS de position du texte :");dlog(dpos)
     this.obj.css(dpos)
     this.positionne_texte_before()
     this.positionne_texte_after()
@@ -394,7 +395,24 @@ Object.defineProperties(Txt.prototype,{
     get:function(){
       if(undefined == this._y)
       {
-        var y = this.real_staff.y
+        var y
+        /*
+         *  En fonction du type du texte, on doit prendre soit le haut de la
+         *  portée porteuse, soit le bas (par défaut, le haut)
+         */
+        switch(this.type)
+        {
+        case harmony:
+        case cadence:
+          y = this.real_staff.bottom
+          break
+        default:
+          y = this.real_staff.top
+        }
+        /*
+         *  On ajoute le décalage en fonction du type du texte
+         *  
+         */
         switch(this.type)
         {
         case harmony:
@@ -419,6 +437,23 @@ Object.defineProperties(Txt.prototype,{
         this._y = y
       }
       return this._y
+    }
+  },
+  /**
+    * Retourne le vrai y du texte dans le cas où un offset_y a été défini
+    * Agit différemment suivant le type (cf. la définition de la propriété offset_y)
+    *
+    * @property {Number} real_y
+    */
+  "real_y":{
+    get:function(){
+      switch(this.type){
+      case harmony :
+      case cadence :
+        return this.y + this.offset_y
+      default:
+        return this.y - this.offset_y
+      }
     }
   },
   /**
@@ -494,41 +529,6 @@ Object.defineProperties(Txt.prototype,{
         }
       }
       return this._x
-    }
-  },
-  /**
-    * Retourne le vrai y du texte dans le cas où un offset_y a été défini
-    * Agit différemment suivant le type (cf. la définition de la propriété offset_y)
-    * @property {Number} real_y
-    */
-  "real_y":{
-    get:function(){
-      return this.y + function(owner, itxt, voffset){
-        switch(owner.class)
-        {
-        case 'staff': 
-          // Ce retour 0 est parfait pour les parties (texte de type 'part'), ne
-          // pas modifier sans savoir vraiment ce que je fais…
-          // Ne pas oublier de tenir compte du fait que la valeur renvoyée par
-          // cette fonction est AJOUTÉE À THIS.Y
-          return 0
-          // C'était le calcul avant, mais ça renvoyait n'importe quoi.
-          // var h = Anim.prefs.staff_top_text + voffset
-          // if(Anim.prefs.staff_text_up) return - (h + itxt.height_calc)
-          // else return owner.height + h
-        case 'chord':
-          return (owner.top_obj - 30 - voffset) - itxt.y
-        }
-        
-        
-        if( voffset ) return itxt.y
-        switch(itxt.type){
-        case chord:
-          return - voffset
-        default:
-          return voffset
-        }
-      }(this.owner, this, this.offset_y)
     }
   },
   /**

@@ -218,11 +218,11 @@ $.extend(window.Anim,{
       */
     next              :40,  
     /**
-      * Décalage de la marque d'harmonie ou de cadence par rapport à
+      * Décalage vertical de la marque d'harmonie ou de cadence par rapport à
       * la portée.
       * @property {Number} harmony 
       */
-    harmony           :70, 
+    harmony           :20, 
     /**
       * Portée qui doit porter l'harmonie. Pour faire porter l'harmonie
       * par une portée particulière, quelle que soit la portée active
