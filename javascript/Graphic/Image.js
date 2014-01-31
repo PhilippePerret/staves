@@ -703,7 +703,7 @@ $.extend(Img.prototype,{
     var rapport   = abs_image.rapport
     
     // Hauteur d'après largeur fournie
-    if(this.width && this.width != auto)        this.height = this.width * rapport
+    if(this.width && this.width != auto)   this.height = this.width * rapport
     // Largeur d'après hauteur fournie
     else 
     if(this.height && this.height != auto) this.width  = this.height / rapport
@@ -764,14 +764,36 @@ $.extend(Img.prototype,{
     */
   positionne:function()
   {
+    var height  = (this.cadre_height || this.height)
+    if( isNaN(height) && !this.positionne.bad_height )
+    {
+      this.positionne.bad_height = true
+      delete this.height
+      this.calc_width_and_height()
+      return this.positionne()
+    } 
+    else if(this.positionne.bad_height)
+    {
+      F.error("[Img.positionne] Problème avec le calcul de Height. Voilà les infos :")
+      dlog({
+        cadre_height: this.cadre_height,
+        height : this.height,
+        'height calculé': height,
+        width  : this.width,
+        'abs image': this.abs_image,
+      })
+      return
+    }
+    delete this.positionne.bad_height
     var padding = this.padding ? this.padding : 0
+    var width   = (this.cadre_width  || this.width)
     
     // Div contenant l'image
     var div_data = {
       left    : this.x+'px',
       top     : this.y+'px',
-      width   : ((this.cadre_width  || this.width)  + (2 * padding)) +'px',
-      height  : ((this.cadre_height || this.height) + (2 * padding)) +'px'
+      width   : (width  + (2 * padding)) +'px',
+      height  : (height + (2 * padding)) +'px'
     }
     if(undefined !== this.z) div_data['z-index'] = this.z
     this.obj.css(div_data)
@@ -784,8 +806,8 @@ $.extend(Img.prototype,{
     
     // Le DIV contenant l'image (c'est lui qui permet de rogner l'image)
     var cont_data = {
-      width  : (this.cadre_width  || this.width)  +'px', 
-      height : (this.cadre_height || this.height) +'px',
+      width  : width   + 'px', 
+      height : height  + 'px',
       top    : padding + 'px',
       left   : padding + 'px'
     }

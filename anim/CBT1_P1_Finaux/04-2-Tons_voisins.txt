@@ -1,0 +1,105 @@
+# === Analyse du Prélude 1 CBT1 ===
+# 
+# Cette deuxième partie récapitule les ton voisins en montrant les
+# accords.
+#
+
+DEFAULT('decompte',0)
+DEFAULT('staff_top')
+DEFAULT('caption_timer', true)
+DEFAULT('next', 200)
+#SPEED(20)
+
+#SUITE('CBT1_Prelude1_01-11')
+
+# Définition des pas utilisés pour les accords
+# 1
+NEXT(100)
+# 2
+NEXT()
+# 3
+NEXT()
+
+CAPTION("Résumons ce que nous venons de voir sur les tons proches. ", {wait:true})
+
+CAPTION("En se rappelant que c'est une gymnastique à développer jusqu'à ce qu'il n'y ait presque plus à réfléchir.")
+
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+NEW_STAFF(SOL)
+
+WAIT_CAPTION
+
+CAPTION("Pour une tonalité de DO Majeur…")
+
+SET_CURSOR(2)
+accdo = CHORD('c4 e4 g4 c5', {staff:2})
+
+WAIT_CAPTION
+
+# --- SOL ---
+
+CAPTION("J'obtiens le premier ton voisin, le ton de la dominante, SOL Majeur, en ajoutant un dièse, le Fa dièse.")
+SET_CURSOR(450)
+NOTE('2:fd4')
+accdo.arrow('vers sol',{color:blue, width:80, offset_x:40, offset_y:-4})
+SET_CURSOR(3)
+accsol = CHORD('g4 b4 d5 g5', {staff:2})
+accsol.write("Ton de la Dominante (V)", {offset_x:-63, offset_y:20})
+
+WAIT_CAPTION
+
+WAIT(1)
+
+# --- FA ---
+
+CAPTION("J'obtiens le ton voisin de la sous-dominante…", {wait:true})
+CAPTION("… en descendant la sensible de SI à SI bémol.")
+SET_CURSOR(358)
+NOTE('2:bb4')
+accdo.arrow('vers fa',{color:blue, angle:180, width:80, offset_x:-40, offset_y:-4})
+SET_CURSOR(1)
+accfa = CHORD('f4 a4 c5 f5', {staff:2})
+accfa.write("Ton de la Sous-Dominante (IV)", {offset_x:-80, offset_y:20})
+
+WAIT_CAPTION
+
+WAIT(1)
+
+# --- LA mineur ---
+
+CAPTION("J'obtiens le ton voisin du relatif mineur …", {wait:true})
+CAPTION("… en ré-haussant le 5e degré.")
+SET_CURSOR(368)
+NOTE('1:gd4')
+accdo.arrow('vers lam',{color:blue, angle:-90, width:40})
+SET_CURSOR(2)
+acclam = CHORD('a4 c5 e5 a5', {staff:1})
+acclam.write("Ton du relatif", {offset_x:-30, offset_y:20})
+
+WAIT_CAPTION
+
+# --- Ré mineur ---
+
+CAPTION("On peut avoir en tête aussi la tonalité du deuxième degré — ré mineur ici — qui est une modulation assez fréquente, puisque c'est un ton semi-voisin :")
+
+accdo.arrow('vers rem',{color:blue, angle:90, width:40})
+accrem = CHORD('d4 f4 a4', {staff:3})
+accrem.write("Ton du second degré (II)", {offset_y:-80, offset_x:-60})
+
+WAIT_CAPTION
+
+CAPTION("… : en altérant une seule note, le do ici,…", {wait:true})
+CAPTION(" … on obtient la gamme harmonique ascendante de Ré mineur")
+NEW_STAFF(SOL)
+SET_CURSOR(1)
+NEXT(70)
+MOTIF('d e f g a b cd5 d', {staff:4, offset_x:30})
+
+WAIT_CAPTION
+
+CAPTION("Noter que cette tonalité de Rém, du IIe degré donc, est aussi le relatif mineur de FA Majeur, donc le relatif mineur de la sous-dominante de DO.", {wait:true})
+
+CAPTION("Déjà perdu avec cette dernière affirmation ?… Pas de panique, ça viendra en son temps. N'hésitez jamais, cependant, au cours de ces screencasts, à le mettre en pause dès que ça va trop vite pour prendre le temps de vérifier une information ou une affirmation de ce type.", {wait:true})
+
+CAPTION("Ne rien laisser passer, c'est la base d'une bonne compréhension.", {wait:true})

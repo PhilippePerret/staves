@@ -22,9 +22,11 @@ DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 
 # La partition
-partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
+partition = IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
+partition.positionne()
+partition.show()
 
-CAPTION("Revenons à présent ce + que fameux prélude de Bach.", {wait:true})
+CAPTION("Revenons à présent à ce + que fameux prélude de Bach.", {wait:true})
 #WAIT(1)
 
 CAPTION("Toute bonne analyse, qu'elle soit musicale ou non, procède du général au particulier. La première chose à faire quand on aborde une pièce, encore plus lorsqu'elle est courte comme celle-ci, c'est de s'en faire d'abord une idée générale.", {wait:true})

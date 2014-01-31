@@ -27,7 +27,7 @@ question = TBOX("À quoi sert l'analyse musicale ?", {x:10, y:90, duree:3, wait:
 
 WAIT_CAPTION
 
-CAPTION("Après tout, la beauté de la musique se passe très bien de toute forme analyse, elle s'entend…", {wait:true})
+CAPTION("Après tout, la beauté de la musique se passe très bien de toute forme d'analyse, elle s'entend…", {wait:true})
 
 CAPTION("C'est vrai. Si ce n'est peut-être qu'au plaisir auditif instantanné, l'analyse peut révéler des beautés qui ne sautent pas forcément aux oreilles, tout simplement parce que le compositeur, lorsqu'il crée, crée bien plus que de la musique.", {wait:true})
 
