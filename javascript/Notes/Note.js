@@ -207,13 +207,11 @@ $.extend(Note.prototype,{
     *   @param {Boolean}  params.dont_unstaff   Si true, on ne retire pas la note de la portée (utile à la destruction de la portée pour éviter les boucles infinies)
     */
   remove:function(params)
-  {
-    if(undefined == params) params = {}
-    
+  {    
     // Détruire les textes associés à la note (si demandé)
+    if(undefined == params) params = {}
     if(params.texts) this.remove_textes()
-    var objs = this.objets
-    this.operation(objs, 'remove')
+    Anim.Dom.anime(this.objets, {opacity:0}, $.extend(params, {complete_each:'remove'}))
     if(!params.dont_unstaff) this.staff.notes.remove(this)
     this.surrounded = false
   },

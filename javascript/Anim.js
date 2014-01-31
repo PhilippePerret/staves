@@ -244,7 +244,7 @@ $.extend(window.Anim,{
       * Position verticale du numéro de mesure
       * @property {Number} num_measure_y
       */
-    num_measure_y     :-8,
+    num_measure_y     :22, //-8,
     /**
       * Décalage de la marque d'accord par rapport à la portée.
       * @property {Number} chord 

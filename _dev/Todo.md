@@ -1,5 +1,5 @@
 * Poursuivre l'analyse du Prélude 1
-
+  > Il risque d'arriver de nouveaux problèmes, mais tenir bon :-)
 
 * Normalement, on doit pouvoir mettre des flèches sur :
   - Les parties (les textes en général)

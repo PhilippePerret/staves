@@ -3,6 +3,22 @@
   */
 
 /**
+  * Méthode qui défini les paramètres +params+ en ajoutant l'objet donné en
+  * deuxième argument.
+  * @method define_params
+  * @for    window
+  * @param {Undefined|Object} params
+  * @param {Object}           extension   Ce qu'il faut ajouter à params
+  * @return {Object} +params+ étendu avec +extension+
+  */
+window.define_params = function(params, extension)
+{
+  if(undefined == params)     params = {}
+  if(undefined != extension)  $.extend(params, extension)
+  return params
+}
+
+/**
   * Méthode qui définit dans les paramètres +params+ la propriété `wait` et
   * la propriété `duree` si elles ne sont pas définies
   *
