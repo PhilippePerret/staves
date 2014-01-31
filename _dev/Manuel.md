@@ -956,10 +956,19 @@ Pour créer une portée, utiliser le pas&nbsp;:
 … et `<params>` peut contenir :
   
     NEW_STAFF(<cle>, {
-      offset : decalage supplementaire par rapport à précédente (pixels)
+      (*)   offset    : decalage vertical par rapport à précédente (pixels),
+            y         : la position verticale précise (au lieu de `offset`)
+            x         : la position horizontale précise (bord gauche par défaut)
+            width     : la largeur de la portée (tout l'écran par défaut)
+      (**)  metrique  : la métrique à utiliser
+      (***) armure    : l'armure à placer (tonalité)
     })
   
-*Noter que par défaut, il y aura toujours un décalage entre deux portées créées, ce `offset` ne fait qu'aggrandir l'espacement (s'il est positif) ou le rétrécir (s'il est négatif)*
+(*) *Noter que par défaut, il y aura toujours un décalage entre deux portées créées, ce `offset` ne fait qu'aggrandir l'espacement (s'il est positif) ou le rétrécir (s'il est négatif)*
+
+(**) *Une valeur de type "4/4" ou "3/8" etc.*
+
+(***) *La tonalité, par exemple "A", "Bb" ou "C#".*
 
 Par exemple&nbsp;:
   
@@ -1353,10 +1362,11 @@ Toutes les valeurs par défaut se règlent à l'aide de la commande `DEFAULT`.
     DEFAULT('tbox_font_family', "<police à utiliser>")
     DEFAULT('tbox_font_size', <nombre de point de la taille de police>)
     DEFAULT('tbox_padding', <nombre de pixel de marge intérieure>)
-    DEFAULT('tbox_background', "<background par défaut>")
+    DEFAULT('text_color', '<couleur par défaut du texte>')
+    DEFAULT('tbox_background', "<couleur de background par défaut>")
     DEFAULT('tbox_border', "<bord par défaut des boites de texte>")
   
-<a name="set_style_tbox">
+<a name="set_style_tbox"></a>
 ####Définir le style de la boite de texte
 
 ...

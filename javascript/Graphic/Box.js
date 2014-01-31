@@ -37,7 +37,13 @@ window.BACKGROUND = function(color, params)
   if(undefined == params.width)       params.width      = 0 + Anim.Dom.width
   if(undefined == params.height)      params.height     = 0 + Anim.Dom.height
   var bgd = BOX(params)
-  Anim.prefs.text_color = COLOR_TEXT_PER_BACKGROUND[bgd.background] || 'black'
+  /*
+   *  Si la couleur de background correspond à une valeur connue, on modifie
+   *  la couleur par défaut du texte.
+   */
+  ctext = COLOR_TEXT_PER_BACKGROUND[bgd.background]
+  if(undefined != ctext) Anim.prefs.text_color = ctext
+  
   return bgd
 }
 /**

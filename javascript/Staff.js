@@ -24,6 +24,7 @@ window.Staff = function(params)
     * @default 0
     */
   this.left = 20
+  
   /**
     * Indice (1-start) de la portée dans l'animation
     * Notes
@@ -31,6 +32,12 @@ window.Staff = function(params)
     * @property {Number} indice
     */
   this.indice = null
+  
+  /**
+    * Largeur de la portée
+    * @property {Number} width
+    */
+  this.width = null
   
   /**
     * Liste des identifiants de lignes supplémentaires
@@ -51,7 +58,9 @@ window.Staff = function(params)
   var me = this
   L(params || {}).each(function(k,v){me[k]=v})
   
-  this.id = "staff"+this.cle+this.top+(new Date()).getTime()
+  if(undefined != params.x) this.left = params.x // ne pas faire pareil avec y !!!
+  
+  this.id = "staff"+this.cle+this.top+this.left+(new Date()).getTime()
   
 }
 /* ---------------------------------------------------------------------
@@ -70,17 +79,23 @@ $.extend(Staff,{
     * @method create
     * @param  {String} cle La clé de la portée (obligatoire)
     * @param  {Object} params Les paramètres éventuels
-    *   @param  {String} params.metrique La métrique optionnelle
+    *   @param  {String} params.metrique  La métrique optionnelle
+    *   @param  {String} params.armure    L'armure
     *   @param  {Number} params.offset    Le décalage par rapport à la dernière portée
+    *   @param  {Number} params.y         La position verticale précise
+    *   @param  {Number} params.x         La position horizontale précise
+    *   @param  {Number} params.width     La largeur précise
     */
   create:function(cle, params)
   {
-    if(undefined == params) params = {}
-    var staff = new Staff({cle:cle, top:this.top_next_staff(params)})
+    params = $.extend(params || {}, {cle:cle, top:this.top_next_staff(params)})
+    var staff = new Staff(params)
     staff.build()
     Anim.staves.push(staff)
     staff.indice = Anim.staves.length // ! 1-start
+    
     // Cette portée est-elle utilisée dans un réglage des préférences
+    // réglé avec DEFAULT('staff_harmony', <indice>) (ou staff_chords)
     L(['staff_harmony', 'staff_chords']).each(function(key){
       if(('number' == typeof Anim.prefs[key]) && Anim.prefs[key] == staff.indice)
       {
@@ -91,18 +106,38 @@ $.extend(Staff,{
   },
   
   /**
-    * Retourne le top de la prochaine portée
+    * Retourne le top de la prochaine portée. Sauf si la hauteur est donnée explicitement,
+    * avec le paramètres +params.y+, la hauteur est calculée par rapport à la portée
+    * la plus basse, en ajoutant l'écartement par défaut, auquel est ajouté l'éventuel
+    * +params.offset+
+    *
     * @method top_next_staff
     * @param  {Object} params           Paramètres optionnels
     *   @param  {Number} params.offset  Le décalage éventuel par rapport à la position naturelle
+    *   @param  {Number} params.y       OU La position verticale exacte.
     */
   top_next_staff:function(params)
   {
-    var top = Anim.prefs.staff_top + (Anim.prefs.staff_offset * Anim.staves.length)
-    if(params && params.offset) top += params.offset
-    return top
+    if(undefined !== params.y) return params.y
+    var lower_staff = this.get_lower_staff()
+    if( ! lower_staff ) return Anim.prefs.staff_top
+    else return lower_staff.top + Anim.prefs.staff_offset + (params.offset ? params.offset : 0)
   },
   
+  /**
+    * Retourne la portée la plus basse.
+    * @method lower_staff
+    * @return {Staff} la portée
+    */
+  get_lower_staff:function()
+  {
+    if(Anim.staves.length == 0) return null
+    var lstaff ;
+    L(Anim.staves).each(function(staff){
+      if(staff.top > lstaff.top) lstaff = staff
+    })
+    return lstaff
+  },
   /**
     * Retourne le meilleur octave pour la gamme
     * @method best_octave_scale
@@ -285,9 +320,12 @@ $.extend(Staff.prototype, {
     */
   positionne:function()
   {
-    this.img_staff.css({top: this.top+"px", left: this.left+"px"})
+    this.img_staff.css({
+      top   : this.top  + 'px', 
+      left  : this.left + 'px',
+      width : (this.width ? this.width + 'px' : '100%')
+    })
     var dec_top = this.cle == SOL ? -19 : -1
-    // this.img_cle.css({top:(this.top + dec_top)+"px", left:(this.left+6)+"px"})
     this.img_cle.css({top:dec_top+"px"})
     //+9.6 pour clé de FA, -7 pour clé de Sol
   },
@@ -475,7 +513,7 @@ Object.defineProperties(Staff.prototype,{
       c +=  this.html_img_cle +
             this.html_img_metrique +
             this.html_img_armure
-      return '<div id="'+this.id+'" style="top:'+this.top+'px;" class="staff">'+c+'</div>'
+      return '<div id="'+this.id+'" style="top:'+this.top+'px;opacity:0;" class="staff">'+c+'</div>'
     }
   },
   /**

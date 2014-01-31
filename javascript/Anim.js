@@ -318,7 +318,8 @@ $.extend(window.Anim,{
     caption_timer     :false,
     /**
       * Couleur par défaut des texte
-      * Noter que la valeur est modifiée quand on définit un BACKGROUND
+      * Noter que la valeur est modifiée quand on définit un BACKGROUND sur
+      * certaines valeurs
       * @property {String} text_color
       */
     text_color        : 'black',

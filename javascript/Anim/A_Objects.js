@@ -114,16 +114,17 @@ FONCTIONS_ANIM_OBJETS = {
   },
   /**
     * Affiche une nouvelle portée et la met en portée courante
-    * @method SHOW_STAFF
+    * @method NEW_STAFF
     * @param {String|Constante} cle   La clé de la portée
-    * @param {Object} params  Paramètres optionnels 
-    *   @param {String} metrique  La métrique éventuelle
+    * @param {Object} params  Paramètres optionnels (donc wait et durée)
+    *                         Cf. la méthode Staff.create
     * @return {Staff} La nouvelle portée
     */
   NEW_STAFF:function(cle, params)
   {
-    Anim.current_staff = Staff.create(cle, params || {})
-    NEXT_STEP(0)
+    params = define_wait_and_duree(params, {}, 'show')
+    Anim.current_staff = Staff.create(cle, params)
+    traite_wait( params )
     return Anim.current_staff
   },
   

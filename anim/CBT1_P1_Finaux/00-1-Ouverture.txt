@@ -7,7 +7,7 @@
 # Ouverture.
 #
 
-#### SUITE('./01-1-A_quoi_sert_lanalyse')
+SUITE('./01-1-A_quoi_sert_lanalyse')
 
 # --- Valeurs par défault ---
 DEFAULT('next', 75)
@@ -18,19 +18,21 @@ DEFAULT('offset_modulation_y', 5)
 DEFAULT('chord', 35)
 DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
+DEFAULT('text_color', white)
 
 # La partition
 partition=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:78, y:6, width:725, hidden:true})
 
 # Le fond
-bgd = BACKGROUND('black', {gradient:'#444'})
+bgd = BACKGROUND('#111', {gradient:'#222'})
+
 
 CAPTION("Suite aux précédents screencasts qui présentent les gammes et les accords, nous allons aborder un premier travail d'analyse. Pour cette première analyse, c'est …")
 
 WAIT(1)
 
 titrescreencast = TBOX("Initiation<br />à<br />l'analyse musicale", grand_titre)
-copyright = TBOX("©phil-icare-2013", copyright)
+copyright = TBOX("©phil-icare-2014", copyright)
 
 WAIT_CAPTION
 
@@ -59,11 +61,13 @@ WAIT(2)
 # --- Faire disparaitre le fond et les titres pour laisser voir 
 # --- la partition du premier prélude
 # ---
-partition.show({duree:4})
+partition.show()
 bgd.fade({wait:false, duree:5})
+
+
 titre.fade({wait:false})
 bach.fade({wait:false})
-ligne_or.fade({wait:false})
+ligne_or.fade()
 
 WAIT(4)
 

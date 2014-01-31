@@ -27,33 +27,39 @@ question = TBOX("À quoi sert l'analyse musicale ?", {x:10, y:90, duree:3, wait:
 
 WAIT_CAPTION
 
-CAPTION("Après tout, la beauté d'une pièce se passe très bien de toute analyse, elle s'entend…", {wait:true})
+CAPTION("Après tout, la beauté de la musique se passe très bien de toute forme analyse, elle s'entend…", {wait:true})
 
-CAPTION("C'est vrai. Si ce n'est peut-être qu'au plaisir auditif, l'analyse peut révéler des choses qui ne sautent pas forcément aux oreilles. Et puis il y a aussi le plaisir de comprendre un peu mieux “Comment ça marche” bien sûr.", {wait:true})
+CAPTION("C'est vrai. Si ce n'est peut-être qu'au plaisir auditif instantanné, l'analyse peut révéler des beautés qui ne sautent pas forcément aux oreilles, tout simplement parce que le compositeur, lorsqu'il crée, crée bien plus que de la musique.", {wait:true})
 
-CAPTION("Mais plus encore, ce qui me semble essentiel pour le musicien, ou celui qui veut le devenir, ce sont les deux buts très concrets que visent l'analyse.", {wait:true})
+CAPTION("Et puis il y a aussi, évidemment, le simple plaisir intellectuel qui découle du fait de mieux comprendre “Comment ça marche”.", {wait:true})
+
+WAIT(2)
+
+CAPTION("Mais personnellement, ce qui me semble rendre l'analyse incontournable pour le musicien, ou celui qui veut le devenir, tient en deux buts très concrets.", {wait:true})
 
 CAPTION("Le premier but, c'est que l'analyse, en apportant une compréhension plus profonde du morceau, …", {wait:true})
 
-CAPTION(", permet de mieux l'interpréter …")
+CAPTION(", permet de mieux interpréter ce morceau …")
 
 point1 = TBOX("• Elle permet de mieux interpréter.", {x:100, y:160, width:700, align:left})
 
 WAIT_CAPTION
 
-CAPTION("… et même d'adopter des partis-pris de jeu qui se fondent sur cette compréhension plus profonde de ce qu'a cherché à faire le compositeur.", {wait:true})
+CAPTION("… et d'être capable, en respectant au plus près la pensée du compositeur, d'adopter des partis-pris de jeu qui se fondent sur cette compréhension plus profonde.", {wait:true})
 
-CAPTION("Le second but que peut viser l'analyse, et ça n'est pas le moindre de ses intérêts, c'est…", {wait:true})
+CAPTION("Le second but, et ça n'est pas le moindre des intérêts de l'analyse, est purement pragmatique. Elle permet… ", {wait:true})
 
-CAPTION("… de permettre d'apprendre un morceau beaucoup plus vite, et de mieux le retenir, et plus longtemps.")
+CAPTION("… d'apprendre un morceau beaucoup plus vite, et le retenir plus vite et plus longtemps.")
 
 point2 = TBOX("• Elle permet d'apprendre plus vite et de mieux retenir.", {x:100, y:200, width:700, align:left})
 
 WAIT_CAPTION
 
-CAPTION("Pourquoi ? Tout simplement parce qu'au lieu d'apprendre un peu bêtement des suites de notes, l'analyse permet d'apprendre non pas ces notes, mais leur rôle, leur fonction, leur nécessité. Elle offre au musicien des évidences — et il y en a beaucoup en musique — qui allègent considérablement ce qu'il faut retenir d'une pièce pour pouvoir la jouer.", {wait:true})
+CAPTION("Pourquoi ? Tout simplement parce qu'au lieu d'apprendre un peu bêtement des suites de notes, l'analyse permet d'apprendre non pas ces notes, mais leur rôle, leur fonction, leur nécessité.", {wait:true})
 
-CAPTION("CEPENDANT, il vaut mieux être informé de quelque chose que n'imaginent pas ceux qui se lancent dans l'analyse plein d'enthousiasme et de foi. Et qui les conduit souvent et très rapidement au découragement.")
+CAPTION("Elle révèle au musicien des évidences — et il y en a beaucoup en musique — qui allègent considérablement ce qu'il faut retenir réellement d'une pièce pour s'en souvenir et la jouer.", {wait:true})
+
+CAPTION("CEPENDANT, ne nous leurrons pas comme beaucoup de gens qui se lancent dans l'analyse plein d'enthousiasme et de foi : ")
 
 question.fade({wait:false})
 point1.fade({wait:false})
@@ -62,13 +68,13 @@ bgd.fade()
 
 WAIT_CAPTION
 
-CAPTION("Cette chose, c'est qu'avant de voir sa capacité à analyser porter vraiment les fruits dont je viens de parler, il faudra beaucoup de temps… et beaucoup d'efforts.", {wait:true})
+CAPTION("Avant de profiter des bienfaits dont je viens de parler, il faudra beaucoup de temps, et beaucoup d'efforts.", {wait:true})
 
 question.remove()
 point1.remove()
 point2.remove()
 bgd.remove()
 
-CAPTION("C'est seulement au bout d'un temps certain qu'on peut tirer vraiment profit de l'analyse musicale. Il faut être patient, aussi patient qu'on peut l'être pour son instrument.", {wait:true})
+CAPTION("Là aussi il faut être patient, aussi patient qu'on peut l'être avec son instrument. Mais franchement, le jeu en vaut la chandelle.", {wait:true})
 
 WAIT(4)

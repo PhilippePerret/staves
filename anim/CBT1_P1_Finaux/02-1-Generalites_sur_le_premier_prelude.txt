@@ -9,7 +9,7 @@
 # descendante.
 #
 
-#SUITE('./Tons voisins 01')
+#### SUITE('./Tons voisins 01')
 
 # --- Valeurs par défault ---
 DEFAULT('next', 75)
@@ -24,14 +24,14 @@ DEFAULT('caption_timer', true)
 # La partition
 partition=IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:78, y:6, width:725})
 
-#CAPTION("Revenons à ce + que fameux prélude de Bach.", {wait:true})
+CAPTION("Revenons à présent ce + que fameux prélude de Bach.", {wait:true})
 #WAIT(1)
 
-#CAPTION("Toute bonne analyse procède du général au particulier. La première chose à faire quand on aborde une œuvre, encore plus lorsqu'elle est courte comme celle-ci, c'est de s'en faire une idée générale.", {wait:true})
+CAPTION("Toute bonne analyse, qu'elle soit musicale ou non, procède du général au particulier. La première chose à faire quand on aborde une pièce, encore plus lorsqu'elle est courte comme celle-ci, c'est de s'en faire d'abord une idée générale.", {wait:true})
 
-#CAPTION("On va donc essayer dans un premier temps de chercher tout ce qui caractérise la pièce dans son ensemble.", {wait:true})
+CAPTION("On va donc essayer dans un premier temps de chercher ce qui peut caractériser ce prélude.", {wait:true})
 
-CAPTION("Ici, les choses sont simples : En dehors de ses deux dernières mesures et de la mesure 23…", {wait:true})
+CAPTION("Ici, les choses sont relativement simples et sautent immédiatement aux yeux : En dehors de ses deux dernières mesures et de la mesure 23…", {wait:true})
 
 # --- Exergue de la première mesure ---
 exergue = IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:150, y:100, width:975, height:673, inner_x:58, inner_y:14, cadre_width:208, cadre_height:107, bg_color:background_color, bg_opacity:0.8, padding:40, z:12, hidden:true})
@@ -39,31 +39,36 @@ exergue = IMAGE({url:'asset/img/CBT1_Prelude_01.png', x:150, y:100, width:975, h
 # Faire apparaitre l'exergue des premières mesures
 exergue.show({duree:5, wait:false})
 
-CAPTION("…, ce prélude est intégralement constitué d'un motif d'arpèges ascendants, motif joué deux fois à l'identique dans chaque mesure.", {wait:true})
-
+CAPTION("…, ce prélude est intégralement constitué d'un motif d'arpèges ascendants, motif répété à l'identique dans chaque mesure.", {wait:true})
 
 CAPTION("On est donc d'emblée dans une pièce de style “exercice”. Avec une même difficulté qui se répète à loisir sur chaque mesure.", {wait:true})
 
+CAPTION("Dès la toute première pièce, donc, Bach affirme la portée pédagogique des monuments du clavier que sont ses Clavecins Bien Tempérés.", {wait:true})
+
 exergue.remove({duree:5, wait:false})
-
-CAPTION("D'emblée, donc, Bach affirme la portée pédagogique des monuments du clavier que sont ses Clavecins Bien Tempérés.", {wait:true})
-
 partition.hide()
+
+# --- Complexité du motif ---
+
+CAPTION("On peut noter, sans rentrer dans le détail, l'aspect simple est complexe de la rythmique de ce motif.", {wait:true})
+
+CAPTION("Il est constitué d'une asymétrie, avec 5 notes contre 3. Les 5 premières notes du premier arpège et les '", {wait:true})
+
+# --- La mélodie descendante du prélude ---
 
 CAPTION("Par rapport à ces arpèges ascendants, il est intéressant de noter comment ils s'opposent au parcours descendant de la mélodie.")
 
-# --- La mélodie du prélude ---
 
 NEW_STAFF(SOL, {top:129})
 melodie = MOTIF('e5 f5 f5 e5 a5 d5 g5 c5 c5 c5 b4 cd5 d5 b4 cz5 f4 f4 f4 e4 c4 e4 eb4 d4 d4 e4 f4 f4 fd4 g4 fz4 f4 e4 f4 c4 a3 f3 f5 d5 b4 f4 e4', {offset_x:34, speed:4})
 
 WAIT_CAPTION
 
-CAPTION("En effet, si nous ne prenons que les notes extrêmes de ce prélude… ", {wait:true})
+CAPTION("En effet, si nous ne prenons que les notes extrêmes de ce prélude , ici entourées en bleu… ", {wait:true})
 
 melodie.note([1,32,41]).surround({color:blue, wait:false})
 
-CAPTION("… , ici entourées en bleu, nous notons le parcours clairement descendant de la mélodie qui part du mi5 pour aller jusqu'au mi4, donc une octave… pour un ambitus — c'est-à-dire l'intervalle entre la note la plus haute et la note la plus basse, ici entourées en vert", {wait:true})
+CAPTION("…, nous notons le parcours clairement descendant de la mélodie qui part du mi5 pour aller jusqu'au mi4, donc une octave… pour un ambitus — c'est-à-dire l'intervalle entre la note la plus haute et la note la plus basse, ici entourées en vert", {wait:true})
 
 melodie.note([5,20]).surround({color:green, wait:false})
 
@@ -79,7 +84,8 @@ STAFF(2).remove()
 STAFF(1).remove()
 partition.show()
 
+# --- Conclusion ---
 
-CAPTION("Moralité, des arpèges qui montent, s'opposant à une mélodie qui descend… Et puis l'utilisation d'un motif répétitif — l'arpège — mais sur un ambitus large, ça fait déjà quelques beaux contrastes pour une pièce si simple en apparence !")
+CAPTION("Moralité, des arpèges qui montent, s'opposant à une mélodie qui descend… L'utilisation d'un motif répétitif — l'arpège — mais sur un parcours mélodique ample… L'utilisation d'un motif rythmique plus riche qu'il n'y parait, ça fait déjà quelques belles petites choses pour une pièce si simple en apparence !")
 
 WAIT_CAPTION
