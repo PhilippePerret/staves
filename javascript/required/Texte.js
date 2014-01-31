@@ -39,8 +39,7 @@ window.METHODES_TEXTE = {
   write:function(texte, params)
   {
     // dlog("-> <Note>.write("+texte+")")
-    if(undefined == params) params = {}
-    params.texte  = texte
+    params = define_params(params, {texte:texte})
     if(undefined == params.type) params.type = 'regular'
     if(params.type_cadence)
     {
@@ -60,8 +59,7 @@ window.METHODES_TEXTE = {
     */
   measure:function(numero, params)
   {
-    if(undefined == params) params = {}
-    params.type = measure
+    params = define_params(params, {type:measure})
     this.write(numero, params)
     return this
   },
