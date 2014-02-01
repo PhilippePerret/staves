@@ -997,6 +997,7 @@ SET_CURSOR('offset', -2)
 <li><a href="#entourer_une_note">Entourer une note (exergue plus forte)</a></li>
 <li><a href="#forcer_recalage_note">Forcer le recalage d'une note</a></li>
 <li><a href="#note_remove">Détruire d'une note</a></li>
+<li><a href="#reference_note_objet_pluri_notes">Référence aux notes d'un objet pluri-notes</a></li>
 </ul>
 
 
@@ -1264,6 +1265,7 @@ nodo.update()
 
 <ul>
 <li><a href="#creer_un_motif">Créer un motif</a></li>
+<li><a href="#manipuler_notes_motif">Manipuler les notes du motif</a></li>
 <li><a href="#parametres_motif">Liste des paramètres optionnels</a></li>
 <li><a href="#set_hoffset_notes_motif">Régler la distance entre les notes</a></li>
 <li><a href="#regler_vitesse_affichage_motif">Modifier la vitesse d'affichage du motif</a></li>
@@ -1278,9 +1280,33 @@ nodo.update()
 
 <p>Par exemple&nbsp;:</p>
 
-<p>unMotif = MOTIF('c4 c c d e d c5 e d d c')</p>
+<pre><code>unMotif = MOTIF('c4 c c d e d c5 e d d c')
+</code></pre>
 
 <p><em>Noter que dans un motif, l'octave n'a besoin d'être stipulé avec la note que s'il est différent de l'octave de la note précédente. Par défaut (si aucune note ne possède de définition d'octave), c'est l'octave 4 qui est choisi.</em></p>
+
+<p>Noter qu'il est tout à fait possible de déterminer des positionnements sur des portées différentes, en préfixant les notes de la portée où elles doivent être écrites. Par exemple&nbsp;:</p>
+
+<pre><code>unMotifSurDeuxPortees = MOTIF('c4 2:c c')
+</code></pre>
+
+<p>Si la portée active est la 3e portée, la première et la dernière note seront affichées sur cette portée, tandis que la deuxième note sera affichée sur la 2e (<code>2:</code>).</p>
+
+<p><a name="manipuler_notes_motif"></a></p>
+
+<h3>Manipuler les notes du motif</h3>
+
+<p>On peut faire référence et manipuler les notes d'un motif à l'aide de la méthode <code>note</code>.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monMotif.note(5).remove()
+# =&gt; Détruit la 5e notes du motif
+</code></pre>
+
+<p>Comme <code>remove</code> ci-dessus, toutes les méthodes applicables aux notes seules sont applicables à une note d'un groupe de notes.</p>
+
+<p>Pour connaitre les différents moyens de faire référence aux notes, cf. <a href="#reference_note_objet_pluri_notes">Référence aux notes d'un objet pluri-notes</a></p>
 
 <p><a name="parametres_motif"></a></p>
 
@@ -1366,10 +1392,8 @@ nodo.update()
 
 <p>Comme tous les types d'objets possédant plusieurs notes (Accords, Gammes, Motifs), on fait appel aux différentes notes à l'aide de la méthode <code>note</code> appelée sur l'objet :</p>
 
-<pre><code>&lt;nom accord&gt;.note(&lt;indice note&gt;)
+<pre><code>&lt;nom accord&gt;.note(&lt;indice note(s)&gt;)
 </code></pre>
-
-<p>… où <code>&lt;indice note&gt;</code> est l'indice 1-start (1 = première note fournie).</p>
 
 <p>Par exemple&nbsp;:</p>
 
@@ -1377,6 +1401,8 @@ nodo.update()
 accDom.note(1).move('c4')
 // Prends la première note (c3) et la déplace en c4.
 </code></pre>
+
+<p>Voir la valeur que peut prendre <code>&lt;indice note(s)&gt;</code> dans <a href="#reference_note_objet_pluri_notes">Référence aux notes d'un objet pluri-notes</a>.</p>
 
 <h4>Opération sur plusieurs notes</h4>
 
@@ -1447,6 +1473,45 @@ maNote.write("Une seconde !")
 <p>Pour détruire l'accord, utiliser&nbsp;:</p>
 
 <pre><code>&lt;nom variable accord&gt;.remove()
+</code></pre>
+
+<p><a name="reference_note_objet_pluri_notes"></a></p>
+
+<h2>Référence aux notes d'un objet pluri-notes</h2>
+
+<p>Un objet “pluri-notes” est un objet de l'animation qui possède et manipule plusieurs notes. C'est le cas par exemple des <a href="#les_chords">accords</a>, des <a href="#les_gammes">gammes</a> ou les <a href="#les_motifs">motifs</a>.</p>
+
+<p>Tous ces objets possèdent une méthode <code>note</code> qui permet de récupérer et de manipuler une ou plusieurs des notes de l'objet. Par exemple&nbsp;:</p>
+
+<pre><code>monAccord = CHORD('c4 e4 g4')
+monAccord.note(2)
+# =&gt; Retourne la deuxième note, le MI 4
+# (noter que cette étape de l'animation ne fera rien puisqu'on ne dit pas
+#  ce qu'il faut faire avec cette note)
+</code></pre>
+
+<p>Les valeurs possibles de l'argument passé à la méthode <code>note</code> peuvent être&nbsp;:</p>
+
+<dl>
+  <dt>Un indice unique</dt>
+  <dd>C'est alors l'indice de la note dans l'objet, la première note ayant l'indice 1</dd>
+  <dt>Une liste d'indices</dt>
+  <dd>Une liste des indices de notes à manipuler. Syntaxe&nbsp;: [`<indice note>`, `<indice note>` etc].</dd>
+  <dt>Un rang de notes</dt>
+  <dd>Un range de notes où l'on définit la première et la dernière des notes à prendre. Syntaxe : `<indice première>..<indice dernière>`.</dd>
+</dl>
+
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monMotif = MOTIF('c4 d e f g a')
+
+monMotif.note(5).surround()
+# =&gt; Entoure la 5e note, donc le SOL 4
+monMotif.note([1,3,5]).colorize(blue)
+# =&gt; Met en bleu les notes 1 (DO 4), 3 (MI 4) et 5 (SOL 4)
+monMotif.note('2..4').fantomize()
+# =&gt; "Fantomise" les notes 2 à 4, donc du RÉ 4 au FA 4
 </code></pre>
 
 <hr />
@@ -1839,7 +1904,7 @@ STAFF(1).remove()
 <pre><code>maGamme.note(&lt;indice note&gt;)
 </code></pre>
 
-<p>Cet <code>indice</code> est “1-start”, c'est-à-dire que la première note porte l'indice 1, la seconde note porte l'indice 2, etc.</p>
+<p>Pour connaitre les différents moyens de faire référence aux notes, cf. <a href="#reference_note_objet_pluri_notes">Référence aux notes d'un objet pluri-notes</a></p>
 
 <p>Par exemple, si je veux poser un texte sur la deuxième note&nbsp;:</p>
 
@@ -2305,12 +2370,15 @@ maNote.write("C'est un LA 4")
 
 <h3>Créer des sous-titres</h3>
 
-<p><em><a href="#commande_caption">La commande <code>CAPTION</code></a>
-</em><a href="#use_caption_as_soustitres">Utilisation de sous-titre au lieu de doublage</a>
-<em><a href="#caption_omit">Désactiver les doublages en cours d'élaboration de l'animation</a>
-</em><a href="#affichage_temporised_doublage">Affichage temporisé du doublage</a>
-<em><a href="#desactiver_temporize">Désactiver le doublage temporisé</a>]
-</em><a href="#effacer_caption">Effacer le sous-titre ou le doublage</a></p>
+<ul>
+<li><a href="#commande_caption">La commande <code>CAPTION</code></a></li>
+<li><a href="#use_caption_as_soustitres">Utilisation de sous-titre au lieu de doublage</a></li>
+<li><a href="#caption_omit">Désactiver les doublages en cours d'élaboration de l'animation</a></li>
+<li><a href="#affichage_temporised_doublage">Affichage temporisé du doublage</a></li>
+<li><a href="#desactiver_temporize">Désactiver le doublage temporisé</a>]</li>
+<li><a href="#effacer_caption">Effacer le sous-titre ou le doublage</a></li>
+</ul>
+
 
 <p><a name="commande_caption"></a></p>
 

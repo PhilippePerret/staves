@@ -118,6 +118,23 @@ window.UNVERSAL_METHODS = {
   {
     if(!this.texte) return
     L(this.texte).each(function(k, instance){ instance.remove() })
+  },
+  
+  /**
+    * Dispatche les données +params+ dans l'objet, à l'instantiation
+    * Noter que dans beaucoup de cas, dispatcher les paramètres signifie 
+    * également définir l'objet à l'affichage, puisque la plupart des propriétés
+    * sont complexes et règlent l'objet quand on les modifie.
+    *
+    * @method dispatch
+    * @param {Object} params    Paramètres de l'objet.
+    */
+  dispatch:function(params)
+  {
+    if(undefined == params) return
+    var my = this
+    L(params).each(function(k,v){ my[k] = v })
   }
+  
   
 }
