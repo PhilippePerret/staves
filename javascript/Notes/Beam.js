@@ -35,6 +35,13 @@ window.Beam = function(notes, params)
   this.y = null
   
   /**
+    * Valeur éventuelle à ajouter à la hauteur de la beam
+    * @property {Number} offset_y
+    * @default 0
+    */
+  this.offset_y = 0
+  
+  /**
     * Position left de la ligature
     * @property {Number} x
     */
@@ -136,20 +143,77 @@ $.extend(Beam.prototype, {
   },
   /**
     * Construit la hampe de chaque note (si nécessaire) et la règle
-    *
+    * et ajoute les barres supplémentaires en fonction du rythme
     * @method regle_each_note
     */
   regle_each_note:function()
   {
-    var my      = this, 
-        is_down = this.down,
-        data    = { dir: this.dir } ;
+    var my        = this, 
+        is_down   = this.down,
+        data      = { dir: this.dir },
+        inote     = 0,
+        note,
+        nb_notes  = this.notes.length,
+        inc_sousbeam  = 6 * (is_down ? -1 : 1), // espacement entre les beams
+        dec_x_sous_beam = is_down ? 0 : 14,
+        duree_courante,
+        hauteur_courante,
+        sousbeam_width,
+        jusqua_next
+        ;
         
     if( !is_down ) data.y = this.y
-    L(this.notes).each(function(note){
-      if (is_down) data.height = (my.y - note.y) - 4
+    for(; inote < nb_notes; ++inote)
+    {
+      note = this.notes[inote]
+      next = this.notes[inote + 1]
+      if (is_down) data.height = (this.y - note.y) - 4
       note.stem(data)
-    })
+      if( note.duration > 8 )
+      {
+        // Il faut traiter les sous-ligatures (pour 16, 32, 64)
+        dur_note = parseInt(note.duration)
+        if(next) dur_next = parseInt(next.duration)
+        hauteur_courante = parseInt(this.y)
+        for(var i=4; i<8; ++i)
+        {
+          duree_courante = Math.pow(2, i)
+          if(dur_note >= duree_courante)
+          {
+            // Il faut lui ajouter une sous-beam
+            jusqua_next = next && (dur_next >= duree_courante)
+            if( jusqua_next )
+            {
+              // La beam peut aller jusqu'à la note suivante
+              sousbeam_width = next.x - note.x + 1
+              if(undefined == next.sous_beam_traited) next.sous_beam_traited = {}
+              next.sous_beam_traited[duree_courante] = true
+            }
+            else
+            {
+              // La beam doit rester seulement sur la note courante
+              // Sauf si la beam a été placée avec la note précédente
+              if(note.sous_beam_traited && note.sous_beam_traited[duree_courante]) continue
+              sousbeam_width = 14
+            }
+            
+            hauteur_courante += inc_sousbeam
+            left_sous_beam    = (dec_x_sous_beam + note.x)
+            if( !next )
+            {
+              // Pour la dernière note à traiter, si on arrive jusqu'ici, c'est que
+              // sa beam n'a pas été traitée avec la note précédente. Il faut la faire
+              // aller vers la gauche plutôt que vers la droite.
+              left_sous_beam -= sousbeam_width
+            }
+            $('section#animation').append(
+              '<div class="beam" style="left:'+left_sous_beam+'px;top:'+hauteur_courante+'px;width:'+sousbeam_width+'px;"></div>'
+            )
+          }
+        }
+        
+      }
+    }
   },
   
   /**
@@ -162,6 +226,8 @@ $.extend(Beam.prototype, {
   calc_positions:function()
   {
     var my        = this,
+        multi_pos = this.up ? 1 : -1,
+        multi_neg = this.up ? -1 : 1
         max_far   = this.up ? 1000 : 0,
         max_left  = 4000,
         max_right = 0 ;
@@ -171,7 +237,16 @@ $.extend(Beam.prototype, {
       if(note.x < max_left)   max_left  = parseInt(note.x)
       if(note.x > max_right)  max_right = parseInt(note.x)
     })
-    this.y     = max_far + (this.up ? - 34 : 34)
+    this.y     = max_far + ((34 + this.offset_y) * multi_neg)
+    // La ligature n'est-elle pas trop près de la portée ou à l'intérieur ?
+    var limite_staff = (this.notes[0].staff[this.up ? 'top' : 'bottom']) + (8 * multi_neg)
+  
+    var trop_pres_de_staff = this.up ? this.y > limite_staff : this.y < limite_staff
+    if( trop_pres_de_staff )
+    {
+      this.y = limite_staff + (2 * multi_neg)
+    }
+    
     this.x     = max_left + (this.up ? 14 : 0)
     this.width = max_right - max_left + 1
   }
