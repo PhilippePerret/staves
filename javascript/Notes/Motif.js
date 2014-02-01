@@ -108,10 +108,11 @@ $.extend(Motif.prototype,{
   {
     var me = this,
         data,
-        hoffset   = this.left || Anim.current_x,
-        the_staff = this.staff,
-        lanote, cur_rang = 0,
-        last_octave = 4 ;
+        hoffset           = this.left || Anim.current_x,
+        the_staff         = this.staff,
+        lanote, cur_rang  = 0,
+        last_octave       = 4,
+        last_duration     = null;
         
     L(strnotes.split(' ')).each(function(strnote){
       ++cur_rang // se souvenir que les notes commencent à 1, car le premier
@@ -122,18 +123,29 @@ $.extend(Motif.prototype,{
         staff       :the_staff, 
         left        :hoffset
       }
+
       // Si la note ne définit pas d'octave, il faut prendre l'octave précédent
-      // Pour le moment, le motif tient compte d'une portée qui serait précisée
-      // en amorce de note ("2:..."), d'une altération ou non, et du signe moins
-      // devant l'octave.
-      if( null === strnote.match(/^([0-9]\:)?..?\-?([0-9])/) ) data.octave = last_octave
+      dnote = Note.parse(strnote)
+      
+      if( null === dnote.octave   ) data.octave   = last_octave
+      else last_octave   = parseInt(dnote.octave)
+      if( null === dnote.duration ) data.duration = last_duration
+      else last_duration = parseInt(dnote.duration)
+
+      // === Création de l'instance Note ===
       lanote = NOTE(strnote, data)
-      last_octave = lanote.octave
+      
       if(lanote.alteration)
       {
         lanote.left = lanote.left + 18
         hoffset += 18
-      } 
+      }
+      
+      // ---------------------------------------------------------------------
+      // TODO : Pour le hoffset, il faudrait tenir compte aussi de la durée si 
+      //        elle est définie.
+      // ---------------------------------------------------------------------
+      
       me.notes.push(lanote)
       hoffset += me.offset_x || Anim.prefs.next
       if(hoffset > Anim.Dom.left_max)

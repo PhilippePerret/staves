@@ -1,5 +1,5 @@
 #
-# --- Brouillon pour la complexité du motif rythmique
+# Brouillon pour essai de marque de rythme
 #
 #
 
@@ -7,58 +7,9 @@ DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 DEFAULT('next', 30)
 
-# --- Complexité du motif ---
-
-CAPTION("On peut rentrer un peu dans le détail du rythme du motif puisqu'on n'y reviendra pas par la suite. ", {wait:true})
-
-CAPTION("Ce qu'on peut noter, c'est l'aspect simple et complexe à la fois de la rythmique de ce motif.")
-
 NEW_STAFF(SOL, {y:200, x:150, width:600})
 SET_CURSOR(240)
-mot = MOTIF('c4 e4 g4 c5 e5 g4 c5 e5')
+mot = MOTIF('c4=4 e4 g4 c5 e5 g4 c5 e5')
 
-WAIT_CAPTION
+mot.note('1..8').beam({dir:up})
 
-CAPTION("Il est constitué d'une répétition à l'identique d'un même arpège complet à la main droite :", {wait:true})
-
-seg1 = BOX({type: segment, x:299, y:253, width:79, color:green})
-seg2 = BOX({type: segment, x:387, y:253, width:79, color:green})
-
-CAPTION("mais cette répétition se construit sur une asymétrie de 5 notes contre 3…", {wait:true})
-
-seg3 = BOX({type:segment, dir:down, x:236, y:172, width:140, color:blue})
-seg4 = BOX({type:segment, dir:down, x:387, y:172, width:79, color:blue})
-
-CAPTION("… et un balancement à la blanche articulé sur une note basse et une note haute…", {wait:true})
-
-SET_CURSOR(480)
-mot2 = MOTIF('c4 e4 g4 c5 e5 g4 c5 e5')
-
-mot.note([1, 5]).surround({color:red})
-mot2.note([1, 5]).surround({color:red})
-
-CAPTION(" comme la grosse caisse et la caisse claire d'un morceau de variété…", {wait:true})
-
-CAPTION("… les autres notes de l'arpège jouant le charleston… et formant à l'intérieur du motif une autre impression ascendante…", {wait:true})
-
-CAPTION(" avec la première partie MI, SOL DO… ")
-
-seg5 = BOX({type:segment, dir:down, x:265, y:187, width:79, color:red})
-
-WAIT_CAPTION
-
-CAPTION("… qui devient SOL, DO, MI sur le deuxième temps")
-
-seg6 = BOX({type:segment, dir:down, x:387, y:187, width:79, color:red})
-
-WAIT_CAPTION
-
-WAIT(2)
-
-CAPTION("Tout ça participe évidememnt à produire, sur une apparence de simplicité, un rythme sans monotonie.", {wait:true})
-
-CAPTION("Faut-il préciser que Bach, en ayant l'inspiration de ce morceau, n'a pas forcément mener tout ce travail de réflexion. L'analyse ne consiste pas à marcher dans les pas du compositeur, nul ne le pourrait, à commencer par lui-même d'ailleurs…", {wait:true})
-
-CAPTION("… non, l'analyse consiste à essayer de comprendre l'œuvre elle-même, peu importe comment elle a été produite, par la logique ou par pure inspiration.", {wait:true})
-
-# --- La mélodie descendante du prélude ---

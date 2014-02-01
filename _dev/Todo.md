@@ -1,11 +1,13 @@
-* Screensize:
-  > Dire à l'utilisateur d'ajouter DEFAULT('screensize', '480p') quand il choisit
-    cette valeur.
-  > Prendre en compte Anim.options.screensize dans le UI.onresize_window
-  > En mode 720p, disposer les éléments autrement (le doublage plus long, en
-    masquant le contrôleur)
-  > Sélection du menu au chargement de l'application (UI.Tools.select("screensize::"+Anim.options.screensize))
-  > Dans set_prefs, ne pas traiter screensize dans les prefs mais dans les options
+* Ligature
+  - Comment définir qu'il faut une ligature ?
+    En sachant que je ne peux/veux pas utiliser le système de Lilypond avec des
+    parenthèses, mais définir explicitement.
+    En fait, le mieux serait d'avoir une commande BEAM qui recevrait les notes
+    BEAM([notes], params)
+    Il faudrait aussi utiliser
+    motif.note([1,2,3]).beam()
+    ou 
+    motif.note(...).lie()
 
 
 * Poursuivre l'analyse du Prélude 1

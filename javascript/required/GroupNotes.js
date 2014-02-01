@@ -28,7 +28,7 @@ window.OBJET_TRAITEMENT = {
     L(this.list).each(function(indice){
       my.notes[indice][method](param1, param2)
     })
-    NEXT_STEP()
+    NEXT_STEP(0)
     return this // chainage
   },
   arrow       : function(id, params){return this.traite('arrow', id, params)},
@@ -41,7 +41,24 @@ window.OBJET_TRAITEMENT = {
   surround    : function(params){return this.traite('surround', params)},
   unarrow     : function(id,params){return this.traite('unarrow', id, params)},
   unsurround  : function(params){return this.traite('unsurround', params)},
-  update      : function(){return this.traite('update')}
+  update      : function(){return this.traite('update')},
+  stem        : function(params){return this.traite('stem', params)},
+  hampe       : function(params){return this.traite('stem', params)},
+  
+  /**
+    * Méthode propre permettant de ligaturer les notes d'un motif ou d'une gamme
+    * @method beam
+    * @param  {Object} params Les paramètres éventuels
+    */
+  beam:function(params)
+  {
+    var my = this,
+        arr_notes = [] ;
+    L(this.list).each(function(indice){
+      arr_notes.push(my.notes[indice])
+    })
+    Beam.beam(arr_notes, params)
+  }
 }
 
 /**
@@ -75,26 +92,52 @@ $.extend(METHODES_GROUPNOTES,{
   },
   
   /**
-    * Retourne la note d'indice (1-start) +indice+
+    * Retourne la note d'indice (1-start) +indice+ ou l'ensemble de notes spécifié
     * @method note
-    * @param  {Number} indice Indice 1-start de la note à retourner
-    * @return {Note} L'instance de la note désirée
+    * @param  {Number|String} indice  Indice 1-start de la note à retourner, ou [notes] ou '<la note>' ou '<première>..<dernière>'
+    * @return {Note|Array} L'instance de la note désirée ou la liste de notes
     */
   note:function(indice)
   {
     if('number' == typeof indice) return this.notes[indice]
     else if('string' == typeof indice)
-    { // Il faut trouver la note
-      
+    { // C'est un range OU Il faut trouver la note
+      if(indice.indexOf('..') < 0)
+      { 
+        // => une note précise stipulée (soit seulement son nom, soit son nom + altération + octave)
+        
+      }
+      else
+      { 
+        // => Un range de notes
+        indice = indice.split('..')
+        var first = parseInt(indice[0])
+        var last  = parseInt(indice[1])
+        if(isNaN(first) || isNaN(last)) throw "Il faut fournir des nombres, pour un range de notes ! ('<indice première>..<indice dernière>')"
+        if(first > last) throw "L'indice de la première note doit être inférieur à l'indice de la dernière, dans un range…"
+        indice = []
+        while(first <= last) indice.push(first++)
+        return this.objet_traitement_liste_notes( indice )
+      }
     }
     else if('object' == typeof indice)
     {
-      var obj_traitement = $.extend(true,{}, OBJET_TRAITEMENT)
-      obj_traitement.list   = indice
-      obj_traitement.owner  = this
-      obj_traitement.notes  = this.notes
-      return obj_traitement
+      return this.objet_traitement_liste_notes( indice )
     }
+  },
+  /**
+    * Retourne un “Objet de traitement de notes” qui permettra de traiter chaque
+    * note dont les indices sont spécifiés dans la liste +arr+
+    * @method objet_traitement_liste_notes
+    * @param {Array} arr  Liste des indices des notes à traiter
+    */
+  objet_traitement_liste_notes:function(arr)
+  {
+    var obj_traitement    = $.extend(true, {}, OBJET_TRAITEMENT)
+    obj_traitement.list   = arr
+    obj_traitement.owner  = this
+    obj_traitement.notes  = this.notes
+    return obj_traitement
   },
   
   /**

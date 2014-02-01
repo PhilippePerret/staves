@@ -3,3 +3,14 @@ img.note {
   height    : 14.3px;
   z-index   : 10;
 }
+
+
+/*
+  * Pour les hampes
+  *
+  */
+div.stem {
+  position      : absolute ;
+  width         : 10px ;
+  border-left   : 2px solid black;
+}

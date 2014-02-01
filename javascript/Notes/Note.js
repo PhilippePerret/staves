@@ -35,6 +35,17 @@ window.Note = function(note, params)
   this.alteration = null
   
   /**
+    * La durée de la note.
+    * Noter que cette valeur peut être confusionnante puisqu'il ne s'agit pas de la
+    * durée en réalité, mais d'un coefficiant diviseur d'une mesure à 4 noires.
+    * Ainsi, 1 = ronde, 1.5 = rond pointée, 2 = blanche, 3 = blanche pointée, 4 = noire,
+    * 6 = noire pointée, etc.
+    * @property {Float} duration
+    * @default NULL
+    */
+  this.duration   = null
+  
+  /**
     * Position horizontale de la note
     * Noter que c'est une propriété complexe (héritée de ObjectClass), définie 
     * ici seulement pour la clarté.
@@ -58,6 +69,13 @@ window.Note = function(note, params)
     * @default false
     */
   this.surrounded = false
+  
+  /**
+    * Les hampes de la note (peut contenir les clé 'up' et 'down')
+    * @property {Object} _stems
+    * @default null
+    */
+  this._stems = null
   
   ObjetClass.call(this, params)
 
@@ -95,7 +113,7 @@ $.extend(Note, {
     * @static
     * @final
     */
-  REGEXP_NOTE : new RegExp("^([0-9]{1,2}\:)?([a-g])(b|d|x|z|t)?(\-?[0-8])?$"),
+  REGEXP_NOTE : new RegExp("^([0-9]{1,2}\:)?([a-g])(b|d|x|z|t)?(\-?[0-8])?(?:\=([1-8]{1,2}))?$"),
   /**
     * Parse la note string +notestr+ et retourne un objet contenant ses données
     * @method parse
@@ -112,10 +130,11 @@ $.extend(Note, {
     founds = notestr.trim().match(this.REGEXP_NOTE)
     if(!founds) return null
     return {
-      staff   : founds[1] ? parseInt(founds[1],10) : null,
-      note    : founds[2],
-      alter   : founds[3],
-      octave  : founds[4] ? parseInt(founds[4],10) : null
+      staff     : founds[1] ? parseInt(founds[1]) : null,
+      note      : founds[2],
+      alter     : founds[3],
+      octave    : founds[4] ? parseInt(founds[4]) : null,
+      duration  : founds[5] ? parseInt(founds[5]) : null
     }
   },
   /**
@@ -312,6 +331,45 @@ $.extend(Note.prototype,{
   },
   
   /**
+    * Alias pour `stem`
+    * @method hampe
+    * @param {Object} params    Cf. `stem`
+    */
+  hampe:function(params){return this.stem(params)},
+  /**
+    * Méthode dessinant la hampe de la note en fonction de sa durée
+    * La méthode crée une instance {Stem} pour la note, mémorisée dans sa propriété
+    * {Object} stem qui peut contenir deux hampes : stem['up'] et stem['down'] dont les
+    * valeurs sont l'instance Stem de la hampe
+    * @method stem
+    * @param  {Object}  params    Paramètres éventuels ou la direction de la hampe
+    *   @param  {String} params.dir   la direction de la hampe (up ou down) — mais pas forcément celle affichée, car elle peut changer en fonction des ligatures.
+    *
+    * @return {Stem} L'instance de la hampe créée ou existante
+    */
+  stem:function(params)
+  {
+    if(undefined == params) params = {}
+    else if('string' == typeof params) params = {dir:params}
+    
+    if(undefined == params.dir) params.dir = Stem.stemp_dir_default_of_note( this )
+    
+    if( this._stems != null ){
+      if( undefined != this._stems[params.dir] )
+      {
+        // Une hampe déjà définie. On la retourne simplement car c'est après que
+        // la méthode traitera la hampe (chainage)
+        return this._stems[params.dir]
+      }
+    }
+    
+    // Sinon, il faut créer l'instance hampe
+    if(!this._stems) this._stems = {}
+    this._stems[params.dir] = new Stem(this, params)
+    this._stems[params.dir].build(params)
+    return this._stems[params.dir]
+  },
+  /**
     * Entoure la note
     * Notes
     * -----
@@ -436,13 +494,14 @@ $.extend(Note.prototype,{
     *   - Calcul le top de la note    this.top
     *   - Définit l'octave            this.octave
     *   – Définit l'altération        this.alteration     ou undefined
+    *   - Définir la durée rythmique  this.duration       ou null
     *
     *   - Si c'est un changement de hauteur, et que la note possédait une
     *     altération, modifie l'altération (le src de l'image).
     *
     * @method analyse_note
     * @param {String} note_str  Un string de la forme :
-    *                           "[<portée>:]<note 1 lettre><altération><octave>"
+    *                           "[<portée>:]<note 1 lettre><altération><octave>-<duration>"
     *                           <portée>      : indice portée 1-start
     *                           <alteration>  : "b", "d", "x", "t" ou ""
     *                           <octave>      : 0 à 9 avec ou sans "-" devant
@@ -465,6 +524,9 @@ $.extend(Note.prototype,{
 
     // === Définition de la note === //
     this.note = data_note.note
+    
+    // === Définition de la durée de la note === //
+    if(data_note.duration) this.duration = data_note.duration
     
     // === Définition de l'altération (if any, et mémorisation de l'altération courante si nécessaire) ===//
     this.old_alteration = undefined
@@ -968,7 +1030,8 @@ Object.defineProperties(Note.prototype,{
     }
   },
   /**
-    * Indice de la note dans NOTES (0-start, donc 0 pour Do, 1 pour ré, etc.)
+    * Indice absolu de la note dans NOTES (0-start, donc 0 pour Do, 1 pour ré, etc.)
+    * Do:0, Ré:1, Mi:2, Fa:3, Sol:4, La:5, Si:6
     * @property {Number} indice
     */
   "indice":{
