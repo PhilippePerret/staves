@@ -5,10 +5,10 @@
 /**
   * @class Beam
   * @constructor
-  * @param {Stem}   stem    L'instance de la hampe qui porte la ligature
+  * @param {Stem}   notes   Les instances de notes ligaturées par cette ligature
   * @param {Object} params  Autres paramètres
   */
-window.Beam = function(stem, params)
+window.Beam = function(notes, params)
 {
   /**
     * L'identifiant unique de la ligature
@@ -17,10 +17,11 @@ window.Beam = function(stem, params)
   this.id = "beam"+(++Beam.last_id)
   
   /**
-    * L'instance de la hampe qui porte la ligature
-    * @property {Stem} stem
+    * Liste des notes de la ligature
+    *
+    * @property {Array de Note} notes
     */
-  this.stem = stem
+  this.notes = notes
   
   /**
     * Position top de la ligature
@@ -33,8 +34,28 @@ window.Beam = function(stem, params)
     */
   this.y = null
   
+  /**
+    * Position left de la ligature
+    * @property {Number} x
+    */
+  this.x = null
   
+  /**
+    * Largeur de la ligature
+    * @property {Number} width
+    */
+  this.width = null
+  
+  /**
+    * Couleur de la ligature
+    * @property {String} color
+    * @default 'black'
+    */
+  this.color = 'black'
+  
+  // On dispatche les paramètres tranmis
   this.dispatch(params)
+  
 }
 
 /* ---------------------------------------------------------------------
@@ -50,8 +71,10 @@ $.extend(Beam, {
   last_id:0,
 
 
-  /**
+  /** = Main =
+    *
     * Procède à la ligature des notes +notes+
+    *
     * @method beam
     * @param {Array}  notes     La liste des instances de notes
     * @param {Object} params    Les paramètres éventuels
@@ -59,7 +82,9 @@ $.extend(Beam, {
   beam:function(notes, params)
   {
     var nb_notes = notes.length
-    F.show("Je vais ligaturer de "+notes[0].note_str+" à la note "+notes[nb_notes-1].note_str)
+    var beam = new Beam(notes, params)
+    beam.build(params)
+    
   }
 })
 
@@ -96,22 +121,89 @@ $.extend(Beam.prototype, {
     */
   positionne:function()
   {
-    var n     = this.stem,
-        to_up = this.dir == up,
-        left  = n.x + ( to_up ? 12+1 : 0 ),
-        top   = n.y + ( to_up ? 4 - this.height : 6) ;
-        
-    this.obj.css({
-      top     :top+'px', 
-      left    :left+'px', 
-      height  :this.height+'px',
+    var pos   = this.calc_positions() ;
+    var data_css = {
+      top     :this.y       + 'px', 
+      left    :this.x       + 'px', 
+      width   :this.width   + 'px',
       'border-color':this.color
+    }
+    dlog("data css:");dlog(data_css)
+    this.obj.css(data_css)
+    
+    this.regle_each_note()
+    // TODO : Il faut faire monter toutes les notes jusqu'à la ligature
+  },
+  /**
+    * Construit la hampe de chaque note (si nécessaire) et la règle
+    *
+    * @method regle_each_note
+    */
+  regle_each_note:function()
+  {
+    var my      = this, 
+        is_down = this.down,
+        data    = { dir: this.dir } ;
+        
+    if( !is_down ) data.y = this.y
+    L(this.notes).each(function(note){
+      if (is_down) data.height = (my.y - note.y) - 4
+      note.stem(data)
     })
+  },
+  
+  /**
+    * Calcul des données de la ligature en fonction des notes
+    * Définit this.x, this.y et this.width
+    *
+    * @method calc_positions
+    *
+    */
+  calc_positions:function()
+  {
+    var my        = this,
+        max_far   = this.up ? 1000 : 0,
+        max_left  = 4000,
+        max_right = 0 ;
+    L(this.notes).each(function(note){
+      if     (my.up   && note.y < max_far) max_far = parseInt(note.y)
+      else if(my.down && note.y > max_far) max_far = parseInt(note.y)
+      if(note.x < max_left)   max_left  = parseInt(note.x)
+      if(note.x > max_right)  max_right = parseInt(note.x)
+    })
+    this.y     = max_far + (this.up ? - 34 : 34)
+    this.x     = max_left + (this.up ? 14 : 0)
+    this.width = max_right - max_left + 1
   }
   
 })
 
 Object.defineProperties(Beam.prototype,{
+  /**
+    * Retourne TRUE si la ligature est supérieure
+    * Notes
+    * -----
+    *   * Pour le moment, on opte pour la moyenne des sens des hampes des notes.
+    *
+    * @property {Boolean} up
+    */
+  "up":{
+    get:function(){
+      if(undefined == this._up)
+      {
+        var dispo = 0 ;
+        L(this.notes).each(function(note){dispo += note.default_stem_dir == up ? 1 : -1})
+        this._up = dispo >= 0
+      }
+      return this._up
+    }
+  },
+  /**
+    * Retourne TRUE si la ligature est inférieure
+    * @property {Boolean} down
+    */
+  "down":{get:function(){return false == this.up}},
+
   /**
     * Objet DOM (set jQuery) de la ligature
     * @property {jQuerySet} obj

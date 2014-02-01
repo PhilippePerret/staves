@@ -143,22 +143,45 @@ $.extend(Stem.prototype, {
     */
   positionne:function()
   {
-    var n     = this.note,
-        to_up = this.dir == up,
-        left  = n.x + ( to_up ? 12+1 : 0 ),
-        top   = n.y + ( to_up ? 4 - this.height : 6) ;
-        
+    this.x  = this.note.x + ( this.up ? 12+1 : 0 ) ;
+    this.calc_top_and_height()
     this.obj.css({
-      top     :top+'px', 
-      left    :left+'px', 
-      height  :this.height+'px',
+      top     : this.y      +'px', 
+      left    : this.x      +'px', 
+      height  : this.height +'px',
       'border-color':this.color
     })
+  },
+  /**
+    * Calcule la position top et la hauteur. Si this.y n'est pas défini (par le beam),
+    * alors on prend la hauteur de la note, à laquelle on ajoute une valeur pour atteindre
+    * la hauteur par défaut. Sinon, il faut ajuster les valeurs pour que la hampe rejoigne
+    * la beam et la note
+    *
+    * @method calc_top_and_height
+    */
+  calc_top_and_height:function()
+  {
+    if( ! this.y )
+    {
+      this.y = this.note.y + ( this.up ? 4 - this.height : 6)
+    }
+    else
+    {
+      this.height = (this.note.y - this.y * (this.up ? 1 : -1)) + (this.up ? 4 : 6) ;
+    }
   }
   
 })
 
 Object.defineProperties(Stem.prototype,{
+  /**
+    * True si la hampe est dirigée vers le haut
+    * @property {Boolean} up
+    */
+  "up":{
+    get:function(){ return this.dir == up }
+  },
   /**
     * Objet DOM (set jQuery) de la hampe
     * @property {jQuerySet} obj

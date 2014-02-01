@@ -9,7 +9,8 @@ DEFAULT('next', 30)
 
 NEW_STAFF(SOL, {y:200, x:150, width:600})
 SET_CURSOR(240)
-mot = MOTIF('c4=4 e4 g4 c5 e5 g4 c5 e5')
+mot = MOTIF('c4=16 e4 g4 c5 e5 g4 c5 e5')
 
-mot.note('1..8').beam({dir:up})
+mot.note('1..4').beam()
+mot.note('5..8').beam()
 

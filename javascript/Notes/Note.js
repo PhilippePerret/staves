@@ -1004,6 +1004,17 @@ Object.defineProperties(Note.prototype,{
     }
   },
   /**
+    * Retourne le sens par défaut de la hampe de la note en fonction de sa portée
+    * et de sa hauteur. Soit 'up' (constante up) soit 'down' (constante down)
+    * @property {String} default_stem_dir
+    */
+  "default_stem_dir":{
+    get:function(){
+      if(undefined == this._default_stem_dir) this._default_stem_dir = Stem.stemp_dir_default_of_note(this)
+      return this._default_stem_dir
+    }
+  },
+  /**
     * Note conjointe au-dessus de la note
     * La valeur est "<note><octave>"
     * Notes : Il serait aussi possible de retourner la valeur midi

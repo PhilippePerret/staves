@@ -14,3 +14,14 @@ div.stem {
   width         : 10px ;
   border-left   : 2px solid black;
 }
+
+
+/*
+  * Pour les ligatures
+  *
+  */
+div.beam {
+  position      : absolute;
+  height        : 5px;
+  border-top    : 3px solid black;
+}
