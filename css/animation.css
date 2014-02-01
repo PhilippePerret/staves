@@ -27,7 +27,7 @@ div#doublage, div#caption > span#caption_text {
   padding           : 4px 16px;
 }
 div#doublage {
-  left      : 20px;
+  left      : 80px;
   height    : 100px;
   bottom    : 11px !important;
   width     : 860px;
