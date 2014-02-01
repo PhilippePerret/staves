@@ -340,6 +340,7 @@ sup {
 
 <ul>
 <li><a href="#intro_animation">Introduction</a></li>
+<li><a href="#definir_cadre_animation">Définir le cadre de l'animation</a></li>
 <li><a href="#code_composition">Composer le code de l'animation</a>
 
 <ul>
@@ -404,6 +405,33 @@ sup {
 <li>etc.</li>
 </ul>
 
+
+<p><a name="definir_cadre_animation"></a></p>
+
+<h3>Définir le cadre de l'animation</h3>
+
+<p>Par défaut, le cadre réservé à l'animation est en mode <code>adapt</code>, c'est-à-dire qu'il se règle en fonction de la taille de la fenêtre. Plus la fenêtre est large et plus le cadre est large lui aussi, en respectant une proportion de 16/9 (utilisée notamment par les projections YouTube ou Viméo).</p>
+
+<p>Mais dans le menu “Options”, on peut choisir une taille fixe en activant les items “Dimension 480p” et “Dimension 720p” qui correspondent aux deux formats traditionnels d'affichage sur le web (les valeurs <code>480</code> et <code>720</code> correspondent à la hauteur du cadre de l'image).</p>
+
+<p>Ces deux formats peuvent être choisis par défaut pour une animation particulière en utilisant la commande&nbsp;:</p>
+
+<p>DEFAULT('screensize', '<480p ou 720p>')</p>
+
+<h4>Définition précise de la taille</h4>
+
+<p>Comme mentionné plus haut, en mode <code>adapt</code> (“Dimension adaptée à l'écran”), la taille du cadre est calculé par rapport à la taille de la fenêtre courante dans laquelle est chargée l'application.</p>
+
+<p>Mais ce qu'il faut comprendre, c'est que les éléments de l'animation, eux, sont en valeur absolues, ce qui signifie que lorsqu'ils sont placés et dimensionnés, leur dimension et leur placement ne changent pas avec le redimensionnement de la fenêtre (hors zoom du navigateur, évidemment).</p>
+
+<p>Donc, lorsqu'on travaille une animation très précisément, et qu'on veut ensuite l'enregistrer en conservant les mêmes positionnements, il est impératif d'enregistrer dans le code de l'animation la dimension actuelle du cadre dans lequel l'animation a été composée.</p>
+
+<p>Grâce au menu “Options > Geler taille du cadre”, on peut obtenir le code à placer en début d'animation pour retrouver toujours cette taille, quel que soit la taille de la fenêtre. Ce code ressemble à&nbsp;:</p>
+
+<pre><code>DEFAULT('screensize', &lt;{Number} Hauteur du cadre&gt;)
+</code></pre>
+
+<p>… où <code>&lt;hauteur du cadre&gt;</code> est la hauteur à donner au cadre, en sachant que la largeur sera calculée pour respecter le format de 16/9e.</p>
 
 <p><a name="code_composition"></a></p>
 
@@ -1453,11 +1481,20 @@ maNote.write("Une seconde !")
 <p>… et <code>&lt;params&gt;</code> peut contenir :</p>
 
 <pre><code>NEW_STAFF(&lt;cle&gt;, {
-  offset : decalage supplementaire par rapport à précédente (pixels)
+  (*)   offset    : decalage vertical par rapport à précédente (pixels),
+        y         : la position verticale précise (au lieu de `offset`)
+        x         : la position horizontale précise (bord gauche par défaut)
+        width     : la largeur de la portée (tout l'écran par défaut)
+  (**)  metrique  : la métrique à utiliser
+  (***) armure    : l'armure à placer (tonalité)
 })
 </code></pre>
 
-<p><em>Noter que par défaut, il y aura toujours un décalage entre deux portées créées, ce <code>offset</code> ne fait qu'aggrandir l'espacement (s'il est positif) ou le rétrécir (s'il est négatif)</em></p>
+<p>(<em>) </em>Noter que par défaut, il y aura toujours un décalage entre deux portées créées, ce <code>offset</code> ne fait qu'aggrandir l'espacement (s'il est positif) ou le rétrécir (s'il est négatif)*</p>
+
+<p>(<em><em>) </em>Une valeur de type "4/4" ou "3/8" etc.</em></p>
+
+<p>(<em><em>*) </em>La tonalité, par exemple "A", "Bb" ou "C#".</em></p>
 
 <p>Par exemple&nbsp;:</p>
 
@@ -1935,11 +1972,12 @@ boite3 = TBOX("Un troisième", {duree:2})
 <pre><code>DEFAULT('tbox_font_family', "&lt;police à utiliser&gt;")
 DEFAULT('tbox_font_size', &lt;nombre de point de la taille de police&gt;)
 DEFAULT('tbox_padding', &lt;nombre de pixel de marge intérieure&gt;)
-DEFAULT('tbox_background', "&lt;background par défaut&gt;")
+DEFAULT('text_color', '&lt;couleur par défaut du texte&gt;')
+DEFAULT('tbox_background', "&lt;couleur de background par défaut&gt;")
 DEFAULT('tbox_border', "&lt;bord par défaut des boites de texte&gt;")
 </code></pre>
 
-<p><a name="set_style_tbox"></p>
+<p><a name="set_style_tbox"></a></p>
 
 <h4>Définir le style de la boite de texte</h4>
 
@@ -2544,9 +2582,12 @@ maNote.texte['regular'].hide()
 
 <ul>
 <li><a href="#insertion_image">Ajouter une image</a></li>
+<li><a href="#modify_taille_image">Modifier la taille de l'image</a></li>
 <li><a href="#modify_position_image">Modifier la position de l'image</a></li>
 <li><a href="#move_image">Déplacer l'image</a></li>
+<li><a href="#zoom_image">Faire un zoom dans l'image</a></li>
 <li><a href="#modify_cadrage_image">Modifier le cadrage de l'image</a></li>
+<li><a href="#bordure_flou_image">Bordure de couleur ou flou autour de l'image</a></li>
 <li><a href="#modify_source_image">Modifier la source de l'image</a></li>
 <li><a href="#dont_build_image">Ne pas construire l'image lors de l'instanciation</a></li>
 </ul>
@@ -2569,27 +2610,44 @@ maNote.texte['regular'].hide()
 <p>Les paramètres peuvent être les suivants&nbsp;:</p>
 
 <pre><code>monImg=IMAGE({
-  url     : &lt;chemin vers image&gt; ATTRIBUT OBLIGATOIRE
-  x       : &lt;position horizontale dans l'animation&gt;
-  y       : &lt;position verticale dans l'animation&gt;
-  width   : &lt;taille de l'image|auto&gt;      ATTRIBUT OBLIGATOIRE 
-  height  : &lt;hauteur de l'image|auto&gt;     ATTRIBUT OBLIGATOIRE
-  // Propriétés spéciales pour le cadrage, lorsque l'on ne veut pas
-  // utiliser toute l'image, mais seulement une portion de l'image
-  cadre_width     : &lt;largeur de la portion à prendre dans l'image&gt;
-  cadre_height    : &lt;hauteur de la portion à prendre dans l'image&gt;
-  inner_x  : &lt;décalage horizontal de la portion d'image&gt;
-  inner_y  : &lt;décalage vertical de la portion d'image
+  url           : {String} &lt;chemin vers image&gt; ATTRIBUT OBLIGATOIRE
+  x             : {Number} &lt;position horizontale dans l'animation&gt;
+  y             : {Number} &lt;position verticale dans l'animation&gt;
+  width         : {Number} &lt;taille de l'image|auto&gt;
+  height        : {Number} &lt;hauteur de l'image|auto&gt;
+  zoom          : {Number} Le pourcentage de zoom (surclasse width et height)
+  // Propriétés pour le fond
+  padding       : {Number} La marge autour de l'image (bordure)
+  bg_color      : {String} La couleur de fond de l'image et de la bordure
+  bg_opacity    : {Float}  Opacité de la marge (0 -&gt; 1)
+  bg_image      : {Boolean} Si false, le fond de l'image n'est pas opaque.
+  // Propriétés pour le cadrage
+  cadre_width   : {Number} &lt;largeur de la portion à prendre dans l'image&gt;
+  cadre_height  : {Number} &lt;hauteur de la portion à prendre dans l'image&gt;
+  inner_x       : {Number} &lt;décalage horizontal de la portion d'image&gt;
+  inner_y       : {Number} &lt;décalage vertical de la portion d'image
 })
 </code></pre>
 
-<p><em>Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).</em></p>
+<ul>
+<li><p><em>Note&nbsp;: Toutes les mesures s'expriment en pixels (mais sans 'px', juste le nombre de pixels).</em></p></li>
+<li><p>Noter que si <code>width</code> et <code>height</code> ne sont pas fournis, c'est la taille original de l'image qui sera prise en référence). Si une seule des deux valeurs est fournie, l'autre sera calculée en conséquence par rapport à la dimension originale (sans déformation).</p></li>
+</ul>
 
-<p>Noter que le <code>width</code> et le <code>height</code> sont obligatoires (c'est à moitié vrai, puisque s'ils ne sont pas fournis, c'est la taille de l'image qui est prise en référence). Leur valeur peut être <code>auto</code> et dans ce cas elle est calculée automatiquement par rapport à la valeur qui est fournie.</p>
 
 <p>Pour des informations concernant le “recadrage de l'image”, cf. <a href="#modify_cadrage_image">Modifier le cadrage de l'image</a>.</p>
 
 <p>Noter que l'image est aussitôt construite est insérée dans l'animation avec les paramètres fournis, sauf si <code>build:false</code> est ajouté aux paramètres définissant l'image (cf. <a href="#dont_build_image">Ne pas construire l'image</a>).</p>
+
+<p><a name="modify_taille_image"></a></p>
+
+<h3>Modifier la taille de l'image</h3>
+
+<p>Pour modifier la taille de l'image, on peut jouer sur les paramètres <code>width</code> et <code>height</code> ou le paramètre <code>zoom</code>.</p>
+
+<p>Lorsque seule une des deux valeurs <code>width</code> ou <code>height</code> est fournie, la seconde est calculée en fonction de la taille originale de l'image pour n'obtenir aucune déformation.</p>
+
+<p>Lorsque <code>zoom</code> est fourni, c'est une valeur proportionnelle qui détermine le grossissement ou la dimunie de l'image. La valeur <code>1</code> met l'image à sa taille normale, la valeur <code>2</code> doublera la taille de l'image tandis que <code>0.5</code> l'affichera deux fois plus petite.</p>
 
 <p><a name="modify_position_image"></a></p>
 
@@ -2643,6 +2701,44 @@ monImage.move({paramètres du déplacement})
 <pre><code>monImage.move({for_x:10, for_y:100, duree:1})
 </code></pre>
 
+<p><a name="zoom_image"></a></p>
+
+<h3>Zoom dans l'image</h3>
+
+<p>On peut faire un zoom dans l'image à l'aide de la méthode <code>zoom</code>&nbsp;:</p>
+
+<pre><code>monImage = IMAGE({... définition ...})
+...
+monImage.zoom(&lt;paramètres du zoom&gt;)
+# =&gt; Zoom dans l'image
+</code></pre>
+
+<p>Pour le zoom le plus simple, un argument unique, de type nombre, va indiquer le taux de grossissement ou de diminution de l'image (par rapport à la taille initiale). La valeur <code>1</code> fait revenir l'image à sa taille initiale, la valeur <code>2</code> double la taille de l'image, la valeur <code>0.5</code> diminue de moitié la taille de l'image.</p>
+
+<p>Avec cet argument unique, le grossissement se fait avec un centre au centre de l'image.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monImage.zoom(3)
+# =&gt; Grossis 3 fois la taille originale de l'image
+</code></pre>
+
+<p>Pour exécuter un zoom plus complexe, on doit définir la largeur de portion d'image à voir au final, ainsi que le positionnement de l'image à l'aide des paramètres&nbsp;:</p>
+
+<pre><code>width     Largeur d'image (en taille réelle)
+inner_x   Décalage horizontal par rapport au 0 de l'image
+inner_y   Décalage vertical par rapport au 0 de l'image
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>monImage.zoom({width:100, inner_x:10, inner_y:10})
+</code></pre>
+
+<p>Pour obtenir très facilement ces valeurs, il suffit d'éditer l'image en double-cliquant dessus (après avoir jouer l'animation jusqu'à la faire apparaitre), puis de grossir ou diminuer l'image à l'aide des boutons “+” et “-” (et les touches modificatrices), et de déplacer le cadre rouge (sans le redimensionner puisqu'il représente la taille actuelle du cadre) jusqu'à obtenir l'effet voulu.</p>
+
+<p>Cliquer ensuite sur “code” et copier-coller les valeurs du champ “Données pour ZOOM”.</p>
+
 <p><a name="modify_cadrage_image"></a></p>
 
 <h3>Modifier le cadrage de l'image</h3>
@@ -2694,6 +2790,8 @@ monImage.travelling({&lt;parametres du travelling&gt;})
 
   width   : {Number} La largeur du nouveau cadre (optionnel)
   height  : {Number} La hauteur du nouveau cadre (optionnel)
+  zoom    : {Number} Peut remplacer `width` et `height` (pourcentage)
+
   duree : {Number} La durée du travelling en secondes (2 par défaut).
 })
 </code></pre>
@@ -2707,6 +2805,31 @@ monImage.travelling({&lt;parametres du travelling&gt;})
 <li>De copier-coller le code donné dans le cadre “Paramètres travelling”.</li>
 </ul>
 
+
+<p><a name="bordure_flou_image"></a></p>
+
+<h3>Bordure de couleur et flou autour de l'image</h3>
+
+<p>On peut définir une border de couleur et une opacité de cette bordure pour créer un effet de flou (transparence) autour de l'image.</p>
+
+<p>Pour cela, on joue sur les paramètres&nbsp;:</p>
+
+<pre><code>padding         Nombre de pixels de la bordure
+bg_color        La couleur de la bordure
+bg_opacity      L'opacité de cette bordure
+</code></pre>
+
+<p>Par exemple, pour créer une transparence blanche bien visible autour de l'image&nbsp;:</p>
+
+<pre><code>monImage = IMAGE({url:'path/de/mon/image.png', padding:40, bg_color:40, bg_opacity:0.7})
+</code></pre>
+
+<p>Noter que par défaut, le fond de l'image sera lui aussi de la couleur <code>bg_color</code>, mais complètement opaque.</p>
+
+<p>Pour empêcher ce comportement, ajouter le paramètre&nbsp;:</p>
+
+<pre><code>bg_image:false
+</code></pre>
 
 <p><a name="modify_source_image"></a></p>
 
@@ -2963,8 +3086,10 @@ maNote.arrow().remove() &lt;--
 <h3>Table des matières</h3>
 
 <ul>
-<li><a href="#create_a_box">Création d'une boite</a></li>
-<li><a href="#create_a_cadre">Création d'un cadre</a></li>
+<li><a href="#create_a_box">Créer une boite</a></li>
+<li><a href="#types_de_box">Tous les types de boite</a></li>
+<li><a href="#create_a_cadre">Créer un cadre</a></li>
+<li><a href="#create_a_box_segment">Créer un segment "U"</a></li>
 </ul>
 
 
@@ -2978,6 +3103,20 @@ maNote.arrow().remove() &lt;--
 </code></pre>
 
 <p><code>BOX</code> “hérite” des <a href="#box_methods_and_properties">méthodes et des propriétés universelles de boites</a>, donc peut être manipulé et défini avec ces méthodes et propriétés.</p>
+
+<p><a name="types_de_box"></a></p>
+
+<h3>Types de boites</h3>
+
+<dl>
+  <dt>type:plain</dt>
+  <dd>Pour une boite pleine, qui recouvrira une portion de l'animation.</dd>
+  <dt>type:cadre</dt>
+  <dd>Pour dessiner un cadre dans l'animation. cf. <a href="#create_a_cadre">Créer un cadre</a>.</dd>
+  <dt>type:segment</dt>
+  <dd>Pour dessiner une forme de segment, c'est-à-dire une sorte de "U". cf. <a href="#create_a_box_segment">Créer un segment</a>.</dd>
+</dl>
+
 
 <p><a name="create_a_cadre"></a></p>
 
@@ -3002,6 +3141,35 @@ maNote.arrow().remove() &lt;--
 
 <pre><code>cadreBleu = BOX({type:cadre, color:blue})
 </code></pre>
+
+<p>Pour les autres méthodes et propriétés cf. <a href="#box_methods_and_properties">Méthodes et des propriétés universelles de boites</a>.</p>
+
+<p><a name="create_a_box_segment"></a></p>
+
+<h3>Créer un segment "U"</h3>
+
+<p>Un “segment en U” est une forme qui ressemble à&nbsp;:</p>
+
+<pre><code>                      _             _____             ____
+|__________| (up)    |  (right)    |     | (down)         | (left)
+                     |_                               ____|
+</code></pre>
+
+<p>C'est grâce au paramètre <code>dir</code> qu'on détermine l'orientation du “U”&nbsp;:</p>
+
+<pre><code>seg = BOX({type:segment, dir:down})
+</code></pre>
+
+<p>Par défaut, un segment se présente avec les “fourches” vers le haut, comme un “U”, donc <code>dir:up</code> correspond à ne rien mettre du tout.</p>
+
+<p>On peut décider de l'épaisser des branches à l'aide de <code>border</code> (nombre de pixels). Par défaut, l'épaisseur et de 1 pixel.</p>
+
+<p>Noter que le paramètre pour régler la longueur des fourches varie en fonction de l'orientation. Pour un "U" vers le haut ou vers le bas, c'est la hauteur du segment qui importe, donc le paramètre <code>height</code>&nbsp;:</p>
+
+<pre><code>seg = BOX({type:segment, dir:down, height:20 /* fourches de 20 pixels */})
+</code></pre>
+
+<p>Pour un "U" à droite ou à gauche, c'est le paramètre <code>width</code> qui déterminera les longueurs de fourche.</p>
 
 <p>Pour les autres méthodes et propriétés cf. <a href="#box_methods_and_properties">Méthodes et des propriétés universelles de boites</a>.</p>
 
@@ -3710,11 +3878,14 @@ EXEC('now()')
 <p>Pour modifier sa couleur, on peut utiliser ces constantes couleur (les valeurs françaises sont des valeurs valides aussi)&nbsp;:</p>
 
 <pre><code>black   noir
+white   blanc
 red     rouge
 blue    bleu
 green   vert
 grey    gris
 orange
+
+background_color    La couleur de fond de l'animation (blanc cassé)
 </code></pre>
 </body>
 </html>

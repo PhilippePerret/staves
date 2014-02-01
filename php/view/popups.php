@@ -42,7 +42,7 @@
     <li data-item="caption_omit">Omettre les doublages</li>
     <li class="separateur"></li>
     <li class="items_title">Dimension du cadre de l'animation</li>
-    <li data-item="set_screensize">Fixer taille du cadre</li>
+    <li data-item="set_screensize">Geler taille du cadre</li>
     <li data-item="screensize::adapt">Adaptée à l'écran</li>
     <li data-item="screensize::480p">Dimension 480p</li>
     <li data-item="screensize::720p">Dimension 720p</li>

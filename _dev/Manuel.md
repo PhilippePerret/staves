@@ -100,7 +100,7 @@ Mais ce qu'il faut comprendre, c'est que les éléments de l'animation, eux, son
 
 Donc, lorsqu'on travaille une animation très précisément, et qu'on veut ensuite l'enregistrer en conservant les mêmes positionnements, il est impératif d'enregistrer dans le code de l'animation la dimension actuelle du cadre dans lequel l'animation a été composée.
 
-Grâce au menu “Options > Fixer taille du cadre”, on peut obtenir le code à placer en début d'animation pour retrouver toujours cette taille, quel que soit la taille de la fenêtre. Ce code ressemble à&nbsp;:
+Grâce au menu “Options > Geler taille du cadre”, on peut obtenir le code à placer en début d'animation pour retrouver toujours cette taille, quel que soit la taille de la fenêtre. Ce code ressemble à&nbsp;:
 
     DEFAULT('screensize', <{Number} Hauteur du cadre>)
   
