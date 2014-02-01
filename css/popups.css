@@ -38,7 +38,7 @@ section#app_popups ul.app_popup li.selected {
 section#app_popups ul.app_popup li.selected:hover {
   color : black !important;
 }
-section#app_popups ul.app_popup li:not(.separateur) {
+section#app_popups ul.app_popup li:not(.separateur):not(.items_title) {
   cursor  :pointer;
 }
 /*Le premier Item (nom du menu)*/
@@ -59,7 +59,7 @@ section#app_popups ul.app_popup li:not(.first) {
 section#app_popups ul.app_popup li.last {
   border-bottom  : 1px solid #DDD;
 }
-section#app_popups ul.app_popup li:not(.first):not(.separateur):not(.last):not(.disabled):hover {
+section#app_popups ul.app_popup li:not(.first):not(.separateur):not(.items_title):not(.last):not(.disabled):hover {
   background-color  :#40609F;
   color             :white;
 }
@@ -74,4 +74,10 @@ ul.app_popup:hover li{ display: block;}*/
 
 section#app_popups > ul > li.separateur {
   height        :12px;
+}
+
+section#app_popups > ul > li.items_title {
+  font-style    : italic;
+  font-weight   : bold;
+  color         : #777;
 }
