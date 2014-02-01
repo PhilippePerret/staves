@@ -240,7 +240,7 @@ $.extend(UI,{
     Console.section.css({height: Console.height+'px', width:Console.width_opened+'px'})
     Console.console.css({
       height: (Console.height - 40)+'px',
-      'font-size': data_screen.font_size
+      'font-size': (data_screen.font_size || '12.6pt')
     })
     Console.range()
 

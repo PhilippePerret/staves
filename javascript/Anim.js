@@ -443,10 +443,30 @@ $.extend(window.Anim,{
        *  
        */
       this.options[pref] = value
+      
+      /*
+       *  Définition de la dimension de l'écran
+       *  Il peut y avoir deux sortes de valeurs :
+       *    - les valeurs par défaut : '480p', '720p', 'adapt'
+       *    - une valeur de hauteur fixe (si {Number})
+       *  
+       */
       if(pref == 'screensize')
       {
-        UI.Popups.select("screensize::"+value)
-        UI.onresize_window()
+        if('number' == typeof value)
+        {
+          UI.DATA_SCREEN[value] = {
+            height : value,
+            width  : parseInt(value * 16 / 9)
+          }
+          // On ne demande le redimensionnement que si le cadre actuel ne correspond pas
+          if($('section#animation').height() != value ) UI.onresize_window()
+        }
+        else
+        {
+          UI.Popups.select("screensize::"+value)
+          UI.onresize_window()
+        }
       }
     }
     else {

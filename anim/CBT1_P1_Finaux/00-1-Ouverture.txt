@@ -7,9 +7,8 @@
 # Ouverture.
 #
 
-SUITE('./01-1-A_quoi_sert_lanalyse')
-
 # --- Valeurs par défault ---
+DEFAULT('screensize', 610)
 DEFAULT('next', 75)
 DEFAULT('harmony', 65)
 DEFAULT('staff_top', 120)
@@ -19,6 +18,9 @@ DEFAULT('chord', 35)
 DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 DEFAULT('text_color', white)
+
+# L'animation pour suivre
+SUITE('./01-1-A_quoi_sert_lanalyse')
 
 # La partition
 partition = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y:60, hidden:true})

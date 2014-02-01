@@ -79,6 +79,20 @@ window.UI.Popups = {
       item.html((Anim.options.caption_omit?"Jouer":"Omettre")+" les doublages")
     },
     /**
+      * Méthode appelée pour fixer la taille actuelle du cadre comme taille pour
+      * l'animation courante.
+      * @method set_screensize
+      * @param {jQuerySet}  item  Le menu appelant cette méthode
+      */
+    set_screensize:function(item)
+    {
+      var height = $('section#animation').height(),
+          code   = "DEFAULT('screensize', "+height+")" ;
+      
+      F.show("Code à copier-coller dans le code de l'animation :"+
+      '<input type="text" value="'+code+'" onfocus="this.select()" style="width:200px;"/>')
+    },
+    /**
       * Définit la taille de l'animation
       * @method screensize
       * @param {jQuerySet}  item  Le menu affilité (il y en a 3 qui peuvent appeler cette méthode)

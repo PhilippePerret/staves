@@ -28,6 +28,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 ###Table des matières
 
 * [Introduction](#intro_animation)
+* [Définir le cadre de l'animation](#definir_cadre_animation)
 * [Composer le code de l'animation](#code_composition)
   * [Se déplacer sur la portée](#move_on_staff)
   * [Faire une pause](#pause_animation)
@@ -79,6 +80,31 @@ Ces pas peuvent&nbsp;:
 * Supprimer une note&nbsp;;
 * Mettre une note en exergue (entourée d'un cercle de couleur)&nbsp;;
 * etc.
+
+<a name="definir_cadre_animation"></a>
+###Définir le cadre de l'animation
+
+Par défaut, le cadre réservé à l'animation est en mode `adapt`, c'est-à-dire qu'il se règle en fonction de la taille de la fenêtre. Plus la fenêtre est large et plus le cadre est large lui aussi, en respectant une proportion de 16/9 (utilisée notamment par les projections YouTube ou Viméo).
+
+Mais dans le menu “Options”, on peut choisir une taille fixe en activant les items “Dimension 480p” et “Dimension 720p” qui correspondent aux deux formats traditionnels d'affichage sur le web (les valeurs `480` et `720` correspondent à la hauteur du cadre de l'image).
+
+Ces deux formats peuvent être choisis par défaut pour une animation particulière en utilisant la commande&nbsp;:
+
+DEFAULT('screensize', '<480p ou 720p>')
+  
+####Définition précise de la taille
+
+Comme mentionné plus haut, en mode `adapt` (“Dimension adaptée à l'écran”), la taille du cadre est calculé par rapport à la taille de la fenêtre courante dans laquelle est chargée l'application.
+
+Mais ce qu'il faut comprendre, c'est que les éléments de l'animation, eux, sont en valeur absolues, ce qui signifie que lorsqu'ils sont placés et dimensionnés, leur dimension et leur placement ne changent pas avec le redimensionnement de la fenêtre (hors zoom du navigateur, évidemment). 
+
+Donc, lorsqu'on travaille une animation très précisément, et qu'on veut ensuite l'enregistrer en conservant les mêmes positionnements, il est impératif d'enregistrer dans le code de l'animation la dimension actuelle du cadre dans lequel l'animation a été composée.
+
+Grâce au menu “Options > Fixer taille du cadre”, on peut obtenir le code à placer en début d'animation pour retrouver toujours cette taille, quel que soit la taille de la fenêtre. Ce code ressemble à&nbsp;:
+
+    DEFAULT('screensize', <{Number} Hauteur du cadre>)
+  
+… où `<hauteur du cadre>` est la hauteur à donner au cadre, en sachant que la largeur sera calculée pour respecter le format de 16/9e.
 
 <a name="code_composition"></a>
 ###Composer le code de l'animation
