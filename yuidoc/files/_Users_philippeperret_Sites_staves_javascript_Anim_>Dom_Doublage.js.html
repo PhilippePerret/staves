@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -339,7 +341,7 @@ window.Anim.Dom.Doublage = {
     if(undefined == params) params = {}
     else if (&#x27;boolean&#x27; == typeof params) params = {caption:params}
     else if (params.doublage == true) params.caption = !params.doublage
-    this.waiting = params.wait === true
+    this.waiting = Anim.prefs.caption_timer &amp;&amp; params.wait === true
     var is_caption  = params.caption == true || Anim.prefs.caption == true
     var is_doublage = !is_caption
     var obj = $(is_caption ? &#x27;span#caption_text&#x27; : &#x27;div#doublage&#x27;)
@@ -373,7 +375,7 @@ window.Anim.Dom.Doublage = {
     // de suite à l&#x27;étape suivante.
     if(!params.wait || Anim.prefs.caption_timer == false)
     {
-      NEXT_STEP(0)
+      NEXT_STEP(params.wait || 0)
     } 
   },
   /**
@@ -419,7 +421,7 @@ window.Anim.Dom.Doublage = {
   },
   temporize:function()
   {
-    stack(&#x27;Anim.Dom.Doublage.temporize&#x27;)
+    // stack(&#x27;Anim.Dom.Doublage.temporize&#x27;)
     if(this.timer_doublage) clearTimeout(this.timer_doublage)
     if(mot = this.dbl_mots.shift())
     {
@@ -436,16 +438,25 @@ window.Anim.Dom.Doublage = {
       $(jid_div_doublage).append(&#x27;&lt;span id=&quot;spanmot&#x27;+this.dbl_imot+&#x27;&quot; class=&quot;spanmot_&#x27;+this.dbl_indx+&#x27;&quot; style=&quot;display:none;&quot;&gt;&#x27;+mot+&#x27;&lt;/span&gt; &#x27;)
       $(jid_div_doublage +&#x27; &gt; span#spanmot&#x27;+this.dbl_imot).show(400)
       
-      var duree = parseInt(Math.ceil(mot.length / 3) * 200  * Anim.coef_speed, 10)
+      var duree = parseInt(Math.ceil(mot.length / 3) * 200 * Anim.prefs.speed_coef, 10)
       this.timer_doublage = setTimeout($.proxy(Anim.Dom.Doublage.temporize, Anim.Dom.Doublage), duree)
     }
     else
     {
       // Fin du doublage 
-      dlog(&quot;Anim.Dom.Doublage.temporize : Fin du doublage (et poursuivre)&quot;)
       this.on = false
       if(this.temporize.poursuivre) this.temporize.poursuivre()
     }
+  },
+  /**
+    * Méthode appelée quand la commande WAIT_CAPTION a été rencontrée, déclenchant
+    * l&#x27;attente de la fin du caption en cours. L&#x27;attente doit être débloquée.
+    * @method end_waiting_for_caption
+    */
+  end_waiting_for_caption:function()
+  {
+    Anim.waiting_for_caption = false
+    NEXT_STEP(0)
   }
 
 }

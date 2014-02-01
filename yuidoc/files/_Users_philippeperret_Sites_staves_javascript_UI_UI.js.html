@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -274,6 +276,101 @@ Gestion des évènements</a></li>
   */
 if(undefined == window.UI) window.UI = {}
 $.extend(UI,{
+  /** Méthode qui analyse une propriété et une valeur et renvoie la bonne
+    * propriété et la bonne valeur.
+    * Cette méthode doit fonctionner pour tout type d&#x27;objet qui héritent des
+    * propriétés universelles de boites, et elle a été inaugurée pour la gestion
+    * de la méthode &#x60;set&#x60;.
+    * Par exemple, pour changer la couleur du cadre d&#x27;une boite, on utilise :
+    *   monCadre.set(&#x27;color&#x27;, blue)
+    * … et cette méthode doit retourner que ce n&#x27;est pas la propriété &#x60;color&#x60; qui
+    * doit être changée (ce qui ne changerait rien puisque la couleur du border est
+    * défini explicitement dans un objet cadre) mais la propriété &#x60;border-color&#x60;.
+    * Autre exemple : toutes les valeurs numériques, à part &#x60;z-index&#x60; et &#x60;opacity&#x60;,
+    * sont transformées en mesures pixels.
+    *
+    * @method real_value_per_prop
+    * @param {Object} obj     L&#x27;objet porteur (l&#x27;instance)
+    * @param {Object} hash    Object contenant les paires propriété/valeur.
+    * @return {Object} Le nouveau hash des paires propriété/valeur avec les bonnes propriétés et les bonnes valeurs
+    */
+  real_value_per_prop:function(obj, hash)
+  {
+    // Le nouveau hash qui sera renvoyé
+    var rhash = {}
+    
+    L(hash).each(function(prop, value){
+
+      /* On met toujours la valeur fournie à l&#x27;objet, telle que donnée */
+      obj[prop] = value
+      
+      // === CHANGEMENT DE LA PROPRIÉTÉ (ET VALEUR INITIALE) ===
+      switch(prop)
+      {
+      case &#x27;x&#x27;:
+        prop = &#x27;left&#x27;
+        break
+      case &#x27;offset_x&#x27;:
+      case &#x27;for_x&#x27;   :
+        prop  = &#x27;left&#x27;
+        value = (obj.x || obj.x_default) + value
+        break
+      case &#x27;y&#x27;:
+        prop = &#x27;top&#x27;
+        break
+      case &#x27;offset_y&#x27;:
+      case &#x27;for_y&#x27;   :
+        prop  = &#x27;top&#x27;
+        value = (obj.y || obj.y_default) + value
+        break
+      case &#x27;z&#x27;:
+        prop = &#x27;z-index&#x27;
+        break
+      case &#x27;offset_w&#x27;:
+        prop  = &#x27;width&#x27;
+        value = (obj.width || obj.width_default) + value
+        break
+      case &#x27;offset_h&#x27;:
+        prop  = &#x27;height&#x27;
+        value = (obj.height || obj.height_default) + value
+        break
+      default:
+        if(obj.class == &#x27;box&#x27; &amp;&amp; obj.type == &#x27;cadre&#x27;)
+        {
+          switch(prop)
+          {
+          case &#x27;color&#x27;:
+            prop = &#x27;border-color&#x27;
+            break
+          }
+        }
+      }
+      
+      /* === ON PEUT METTRE LA PROPRIÉTÉ DANS LE HASH === */
+      rhash[prop] = value
+      
+      // === EN FONCTION DU TYPEOF DE LA VALEUR ===
+      switch(typeof value)
+      {
+      case &#x27;number&#x27;:
+        switch(prop)
+        {
+        case &#x27;z-index&#x27;:
+        case &#x27;opacity&#x27;:
+          break
+        default:
+          value = value + &#x27;px&#x27;
+        }
+        break
+      }
+
+      /* === ON PEUT METTRE LA VALEUR DANS LE HASH === */
+      rhash[prop] = value
+    })
+    
+    return rhash
+  },
+  
   /**
     * Écrit un message de feedback
     * @method feedback
@@ -354,6 +451,17 @@ $.extend(UI,{
     return parseInt(valeur, 10)
   },
   /**
+    * Données pour l&#x27;écran (en fonction de Anim.options.screensize)
+    * @class DATA_SCREEN
+    * @static
+    * @final
+    */
+  DATA_SCREEN:{
+    &#x27;720p&#x27;  : {width: 1280, height:720,   font_size:&#x27;1.3em&#x27;},
+    &#x27;adapt&#x27; : {width: null, height:null,  font_size:&#x27;12.6pt&#x27;},
+    &#x27;480p&#x27;  : {width: 854,  height:480,   font_size:&#x27;12.6pt&#x27;}
+  },
+  /**
     * Redimensionne les éléments dans la fenêtre
     * Notes
     *   * La méthode est appelée au chargement de l&#x27;application
@@ -367,10 +475,21 @@ $.extend(UI,{
         e = d.documentElement,
         g = d.getElementsByTagName(&#x27;body&#x27;)[0],
         x = w.innerWidth || e.clientWidth || g.clientWidth,
-        y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+        y = w.innerHeight|| e.clientHeight|| g.clientHeight,
+        screensize, data_screen, anim_width, anim_height ;
   
-    anim_width      = parseInt(x * 70/100)
-    anim_height     = parseInt(y * 78/100)
+  
+    // anim_width      = parseInt(x * 70/100)
+    // anim_height     = parseInt(y * 78/100)
+    screensize  = Anim.options.screensize
+    data_screen = this.DATA_SCREEN[screensize]
+    if(screensize == &#x27;adapt&#x27;)
+    {
+      data_screen.width   = parseInt(x * 70/100)
+      data_screen.height  = data_screen.width * 9 / 16
+    }
+    anim_width  = parseInt(data_screen.width)
+    anim_height = parseInt(data_screen.height)
     
     var oanim     = $(&#x27;section#animation&#x27;)
     var pos_anim  = oanim.position()
@@ -384,10 +503,13 @@ $.extend(UI,{
     // Dimensions pour la console
     console_width         = x - anim_width - 40
     Console.width_ranged  = console_width
-    Console.width_opened  = parseInt(console_width + 400, 10)
+    Console.width_opened  = anim_width
     Console.height        = anim_height + 16
     Console.section.css({height: Console.height+&#x27;px&#x27;, width:Console.width_opened+&#x27;px&#x27;})
-    Console.console.css({height: (Console.height - 40)+&#x27;px&#x27;})
+    Console.console.css({
+      height: (Console.height - 40)+&#x27;px&#x27;,
+      &#x27;font-size&#x27;: (data_screen.font_size || &#x27;12.6pt&#x27;)
+    })
     Console.range()
 
     // La position des sous-titres
@@ -477,7 +599,7 @@ $.extend(UI,{
   * @method onresize
   * @for window
   */
-window.onresize = UI.onresize_window
+window.onresize = $.proxy(UI.onresize_window,UI)
 
 
     </pre>

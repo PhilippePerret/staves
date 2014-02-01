@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -523,6 +525,9 @@ $.extend(Anim,{
   set_interface:function()
   {
     // dlog(&quot;-&gt; set_interface [on=&quot;+this.on+&quot;/pause_on=&quot;+this.pause_on+&quot;]&quot;)
+    
+    UI.feedback(&quot;&quot;)
+    
     this.stop_button.css(&#x27;visibility&#x27;, this.on ? &#x27;visible&#x27;:&#x27;hidden&#x27;)
     this.pause_button[this.on &amp;&amp; !this.pause_on &amp;&amp; !this.Step.mode_pas_a_pas ?&#x27;show&#x27;:&#x27;hide&#x27;]()
     this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?&#x27;show&#x27;:&#x27;hide&#x27;]()
@@ -591,13 +596,7 @@ $.extend(Anim,{
     */
   on_change_vitesse:function()
   {
-    var new_coef = $(&#x27;div#vitesse_animation&#x27;).slider(&#x27;value&#x27;)
-    this.coef_speed = parseFloat(11 / new_coef)
-    for(var prop in this.TRANSITIONS)
-    {
-      this.transition_reg[prop] = parseInt(this.TRANSITIONS[prop] * this.coef_speed)
-    }
-    this.transition = this.transition_reg
+    this.calc_speed_coef()
   }
   
 })

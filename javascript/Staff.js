@@ -398,13 +398,13 @@ $.extend(Staff.prototype, {
 Object.defineProperties(Staff.prototype,{
   /**
     * Pour utilisation par les autres méthodes, le top
-    * @proprety {Number} y
+    * @property {Number} y
     */
   "y":{get:function(){return this.top}},
   
   /**
     * Pour utilisation par les autres méthodes, le left
-    * @proprety {Number} x
+    * @property {Number} x
     */
   "x":{get:function(){return this.left}},
   

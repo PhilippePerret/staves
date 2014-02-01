@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -376,21 +378,29 @@ $.extend(Pas.prototype,{
       eval(&#x27;Anim.Objects.&#x27;+this.trimed) 
     }
     catch(err){ 
-      dlog(&quot;[&lt;Pas&gt;.exec] # Erreur : &quot;+err+&quot; survenue (noter que cela aura pour conséquence directe de passer à l&#x27;étape suivante).&quot;)
-      this.on_error(err, retry = true) 
+      return this.on_error(err, retry = true) 
     }
+    this.flush_tries_exec()
+    if(this.flashed) MODE_FLASH = false
+    return true
+  },
+  /**
+    * Détruit le timer des essais d&#x27;exécution (if any)
+    * @method flush_tries_exec
+    */
+  flush_tries_exec:function()
+  {
     // S&#x27;il y a eu plusieurs essais
     if(this.timer_tries_exec)
     {
       clearTimeout(this.timer_tries_exec)
       delete this.tries_exec
     }
-    if(this.flashed) MODE_FLASH = false
-    return true
   },
   /**
     * Méthode appelée en cas d&#x27;erreur, principalement lors de l&#x27;exécution de
-    * l&#x27;étape
+    * l&#x27;étape. On essaie trois fois de rejouer l&#x27;étape avant de produire l&#x27;erreur
+    *
     * @method on_error
     * @param  {String|Object} error  L&#x27;erreur rencontrée
     * @param  {Boolean}       retry   Si true, on tente de ré-exécuter l&#x27;étape
@@ -399,31 +409,21 @@ $.extend(Pas.prototype,{
   {
     var errMess
     
-    if(MODE_FLASH)
+    if(this.tries_exec &amp;&amp; this.tries_exec &gt; 2)
     {
-      if(this.tries_exec &amp;&amp; this.tries_exec &gt; 2)
-      {
-        errMess = &quot;# ERROR:&quot;+error+&quot;. J&#x27;ai essayé de jouer 3 fois le code &#x60;this.Objects.&quot;+this.code+&quot;&#x60; (étape #&quot;+this.id+&quot;) en vain. Je poursuis, sans bien être sûr du résultat produit…&quot;
-        F.error(errMess)
-        dlog(&quot;#ERROR# &quot;+ errMess)
-      }
-      else
-      {
-        if(undefined == this.tries_exec) this.tries_exec = 0
-        ++ this.tries_exec
-        if(this.timer_tries_exec) clearTimeout(this.timer_tries_exec)
-        this.timer_tries_exec = setTimeout($.proxy(this.exec, this), 500)
-        return
-      }
+      errMess = error + &quot;\nJ&#x27;ai essayé de jouer 3 fois le code &#x60;this.Objects.&quot;+this.code+&quot;&#x60; (étape #&quot;+this.id+&quot;) en vain. J&#x27;essaie de poursuivre…&quot;
+      dlog(&quot;#Pas.exec ERROR# &quot;+ errMess, true)
+      this.errors.push(error)
+      NEXT_STEP(0)
     }
-    else // mode non flash (normal)
+    else
     {
-      errMess = &quot;# Erreur: &quot;+error+ &quot; survenue avec le code &#x60;this.Objects.&quot;+this.code+&quot;&#x60; (#&quot;+this.id+&quot;). Mais j&#x27;essaie de poursuivre.&quot;
-      F.error(errMess)
-      dlog(&quot;#ERROR# &quot;+errMess)
+      if(undefined == this.tries_exec) this.tries_exec = 0
+      ++ this.tries_exec
+      if(this.timer_tries_exec) clearTimeout(this.timer_tries_exec)
+      this.timer_tries_exec = setTimeout($.proxy(this.exec, this), 100)
+      return
     }
-    this.errors.push(error)
-    NEXT_STEP()
   },
   /**
     * Sélectionne l&#x27;étape dans le code

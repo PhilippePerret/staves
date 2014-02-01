@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -380,16 +382,17 @@ FONCTIONS_ANIM_OBJETS = {
   },
   /**
     * Affiche une nouvelle portée et la met en portée courante
-    * @method SHOW_STAFF
+    * @method NEW_STAFF
     * @param {String|Constante} cle   La clé de la portée
-    * @param {Object} params  Paramètres optionnels 
-    *   @param {String} metrique  La métrique éventuelle
+    * @param {Object} params  Paramètres optionnels (donc wait et durée)
+    *                         Cf. la méthode Staff.create
     * @return {Staff} La nouvelle portée
     */
   NEW_STAFF:function(cle, params)
   {
-    Anim.current_staff = Staff.create(cle, params || {})
-    NEXT_STEP(0)
+    params = define_wait_and_duree(params, {}, &#x27;show&#x27;)
+    Anim.current_staff = Staff.create(cle, params)
+    traite_wait( params )
     return Anim.current_staff
   },
   
@@ -447,7 +450,7 @@ FONCTIONS_ANIM_OBJETS = {
       if(&#x27;number&#x27; == typeof params.top) params.top = [params.top]
       Staff.erase_suplines(params.staff, params.xoffset, &#x27;top&#x27;, params.top)
     }
-    NEXT_STEP()
+    NEXT_STEP(0)
   },
   /**
     * Nettoie l&#x27;animation. Si &#x60;with_staves&#x60; est true, on efface aussi les
@@ -628,10 +631,13 @@ METHODES_ANIM_OBJETS = {
       {
         // Si un doublage est toujours en cours d&#x27;écriture, on ne fait simplement
         // rien du tout. C&#x27;est la fin du doublage qui lancera l&#x27;étape suivante.
+        // Mais comme d&#x27;autre processus peuvent appeler auto_next, on met un
+        // Anim.waiting_for_caption qui les bloquera.
         // Dans le cas contraire, on lance l&#x27;étape suivante.
         if(Anim.Dom.Doublage.on)
         {
-          Anim.Dom.Doublage.temporize.poursuivre = NEXT_STEP
+          Anim.waiting_for_caption = true
+          Anim.Dom.Doublage.temporize.poursuivre = $.proxy(Anim.Dom.Doublage.end_waiting_for_caption, Anim.Dom.Doublage)
         } 
         else NEXT_STEP(0)
       }

@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -344,6 +346,46 @@ window.UI.Popups = {
       Anim.options.caption_omit = !Anim.options.caption_omit
       item.html((Anim.options.caption_omit?&quot;Jouer&quot;:&quot;Omettre&quot;)+&quot; les doublages&quot;)
     },
+    /**
+      * Méthode appelée pour fixer la taille actuelle du cadre comme taille pour
+      * l&#x27;animation courante.
+      * @method set_screensize
+      * @param {jQuerySet}  item  Le menu appelant cette méthode
+      */
+    set_screensize:function(item)
+    {
+      var height = $(&#x27;section#animation&#x27;).height(),
+          code   = &quot;DEFAULT(&#x27;screensize&#x27;, &quot;+height+&quot;)&quot; ;
+      
+      F.show(&quot;Code à copier-coller dans le code de l&#x27;animation :&quot;+
+      &#x27;&lt;input type=&quot;text&quot; value=&quot;&#x27;+code+&#x27;&quot; onfocus=&quot;this.select()&quot; style=&quot;width:200px;&quot;/&gt;&#x27;)
+    },
+    /**
+      * Définit la taille de l&#x27;animation
+      * @method screensize
+      * @param {jQuerySet}  item  Le menu affilité (il y en a 3 qui peuvent appeler cette méthode)
+      * @param {String}     size  La taille choisie (&#x27;adapt&#x27;, &#x27;480p&#x27; ou &#x27;720p&#x27;)
+      */
+    screensize:function(item, size)
+    {
+      UI.Popups.deselect(&quot;screensize::&quot;+Anim.options.screensize)
+      Anim.set_pref(&#x27;screensize&#x27;, size, next_step = false)
+      if(size != &#x27;adapt&#x27;)
+      {
+        F.show(&quot;Pour que cette animation soit affichée en &quot;+size+&quot;, il faut ajouter :\n\t\tDEFAULT(&#x27;screensize&#x27;, &#x27;&quot;+size+&quot;&#x27;)\n… en début de code.&quot;)
+      }
+    },
+    /**
+      * Méthode option pour masquer ou non les éléments en cours d&#x27;animation
+      * OBSOLÈTE
+      * @method keep
+      * @param {jQuerySet} item Le menu affilié
+      */
+    fullscreen:function(item)
+    {
+      Anim.options.fullscreen = !Anim.options.fullscreen
+      item.html((Anim.options.fullscreen?&quot;Pas de plein écran&quot;:&quot;Anim en plein écran&quot;))
+    },
     
     /* ---------------------------------------------------------------------
      *  Menu &quot;Outils&quot;
@@ -375,23 +417,13 @@ window.UI.Popups = {
     /**
       * Méthode qui affiche ou masque la grille
       * @method grid
-      * @param {jQuerySet} Le menu affilié
+      * @param {jQuerySet} item Le menu affilié
       */
     grid:function(item)
     {
       Anim.options.grid = !Anim.options.grid
       $(&#x27;div#grid&#x27;)[Anim.options.grid?&#x27;show&#x27;:&#x27;hide&#x27;]()
       item.html(Anim.options.grid?&quot;Masquer la grille&quot;:&quot;Afficher la grille&quot;)
-    },
-    /**
-      * Méthode option pour masquer ou non les éléments en cours d&#x27;animation
-      * @method keep
-      * @param {jQuerySet} Le menu affilié
-      */
-    fullscreen:function(item)
-    {
-      Anim.options.fullscreen = !Anim.options.fullscreen
-      item.html((Anim.options.fullscreen?&quot;Pas de plein écran&quot;:&quot;Anim en plein écran&quot;))
     },
     /**
       * Menu &quot;Cadrage image&quot; actionné

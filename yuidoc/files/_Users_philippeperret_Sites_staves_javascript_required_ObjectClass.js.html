@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -296,7 +298,7 @@ $.extend(ObjetClass.prototype, {
     * Noter que la méthode n&#x27;est appelée que par certains objets. Pour la plupart,
     * les objets surclassent cette méthode avec leur propre méthode.
     * @method show
-    * @param  {Object|Undefined} params Les paramètres optionnels
+    * @param  {Object|Undefined} params Les paramètres optionnels (ou la durée)
     *   @param  {Number} params.duree   La durée pour apparaitre (en millisecondes)
     *                                   Default: Anim.transition.show
     */
@@ -311,7 +313,7 @@ $.extend(ObjetClass.prototype, {
     * les objets surclassent cette méthode avec leur propre méthode.
     *
     * @method hide
-    * @param {Object}   params    Les paramètres optionnels
+    * @param {Object}   params    Les paramètres optionnels (ou la durée)
     *   @param  {Number}  params.duree    La durée pour disparaitre
     *                                     Default: Anim.transition.show
     */
@@ -320,21 +322,20 @@ $.extend(ObjetClass.prototype, {
     Anim.Dom.hide(this, params)
   },
   /**
-    * Destruction de l&#x27;objet DOM de l&#x27;objet
+    * Destruction de l&#x27;objet DOM de l&#x27;élément
     * Notes
     * -----
     *   * Pour être utilisé, l&#x27;objet doit obligatoirement posséder une propriété
-    *     &#x60;obj&#x60; qui retourne son objet DOM
+    *     &#x60;obj&#x60; qui retourne son objet DOM (set jQuery)
     *
     * @method remove
     * @async
-    * @param  {Object} params   Les paramètres optionnels
-    *   @param  {Function} params.complete    La méthode pour suivre
+    * @param  {Object} params   Les paramètres optionnels (complete, duree, wait, etc.)
     *
     */
   remove:function(params)
   {
-    return this.operation([this.obj], &#x27;remove&#x27;, define_complete(params))
+    Anim.Dom.anime([this.obj], {opacity:0}, $.extend(params, {complete_each:&#x27;remove&#x27;}))
   },
   
 
@@ -541,6 +542,12 @@ Object.defineProperties(ObjetClass.prototype,{
     }
   },
   /**
+    * Alias de &#x27;top&#x27; pour les calculs
+    * @property {Number} y
+    */
+  &quot;y&quot;:{get:function(){return this.top}},
+
+  /**
     * Offset horizontal de l&#x27;objet
     * @property {Number} left
     * @default Anim.current_x
@@ -555,6 +562,12 @@ Object.defineProperties(ObjetClass.prototype,{
       if(this.obj) this.obj.css(&#x27;left&#x27;, left)
     }
   },
+  /**
+    * Alias de &#x27;left&#x27; pour les calculs
+    * @property {Number} x
+    */
+  &quot;x&quot;:{get:function(){return this.left}},
+
   /**
     * Le milieu vertical de l&#x27;objet
     * @property {Number} center_y

@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -475,6 +477,42 @@ window.UI.Tools = {
               &#x27;&lt;/div&gt;&#x27; +
             &#x27;&lt;/div&gt;&#x27;
   },
+  /* ---------------------------------------------------------------------
+   *  Outils divers
+   *  
+   */
+  /**
+    * Méthode appelée quand on commence à déplacer un élément de l&#x27;animation
+    * (pour le moment, seulement ceux qui passent par les méthodes universelles — build —
+    * mais il faudra généraliser le processus).
+    * @method on_start_dragging_of
+    * @param  {Object} instance L&#x27;instance de l&#x27;élément déplacé
+    */
+  on_start_dragging_of:function(instance)
+  {
+    var pos = instance.obj.position()
+    this.coordonnees_of.pos_init = {top: pos.top, left:pos.left}
+  },
+  /**
+    * Méthode qui doit être appelée par tout élément de l&#x27;animation à la fin
+    * de son déplacement quand il a été rendu draggable.
+    * Normalement, on renvoie simplement les positions de son &#x60;instance.obj&#x60;
+    * @method coordonnees_of
+    * @param  {Object} instance L&#x27;instance de l&#x27;élément déplacé ({Txt}, {Box}, etc.)
+    */
+  coordonnees_of:function(instance)
+  {
+    var pos = instance.obj.position(),
+        pos_init = this.coordonnees_of.pos_init,
+        mess ;
+    mess = &quot;INIT: x:&quot;+pos_init.left+&quot;/y:&quot;+pos_init.top ;
+    mess += &quot; ||| FIN: x:&quot;+pos.left+&quot;/y:&quot;+pos.top ;
+    dif_x = pos.left - pos_init.left
+    dif_y = pos.top  - pos_init.top
+    mess += &quot; ||| DIFF: x:&quot; + (dif_x &gt; 0 ? &#x27;+&#x27;:&#x27;&#x27;) + dif_x + &#x27;/y:&#x27; + (dif_y &gt; 0?&#x27;+&#x27;:&#x27;&#x27;) + dif_y;
+    UI.feedback(mess)
+  },
+  
   /* ---------------------------------------------------------------------
    *  PARTIE DE UI.Tools GÉRANT L&#x27;OUTIL “COORDONNÉES”
    *  (pour obtenir les coordonnées à l&#x27;écran)

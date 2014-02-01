@@ -564,6 +564,7 @@ $.extend(window.Anim,{
     * Calcule le nouveau coefficiant de vitesse (Anim.prefs.speed_coef)
     * Noter que ce coefficiant dépent de 1/ la préférence Anim.prefs.speed et 2/
     * la position du slider du contrôleur.
+    * @method calc_speed_coef
     */
   calc_speed_coef:function()
   {

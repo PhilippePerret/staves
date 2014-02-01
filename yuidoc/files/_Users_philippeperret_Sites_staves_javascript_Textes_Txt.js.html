@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -345,7 +347,7 @@ window.Txt = function(owner, params)
     */
   this.offset_y = 0
   /**
-    * Décalage horizontal par rapport à la position courante (left)
+    * Décalage horizontal par rapport à la position courante (x)
     * Une valeur positive pousse vers la droite, une valeur négative vers la gauche
     * @property {Number} offset_x
     * @default 0
@@ -472,71 +474,25 @@ $.extend(Txt, {
   }
 })
 
+/* ---------------------------------------------------------------------
+ *
+ *  MÉTHODES ET PROPRIÉTÉS D&#x27;INSTANCE
+ *  
+ */
+
+/* Héritage des méthodes universelles */
+$.extend(Txt.prototype, UNVERSAL_METHODS)
+
 $.extend(Txt.prototype,{
-  
-  /**
-    * Écrit le texte (en fait, construit son élément et le positionne)
-    * @method build
-    */
-  build:function()
-  {
-    // dlog(&quot;-&gt; &lt;Txt&gt;.build (&quot;+this.texte_main+&quot;)&quot;)
-    Anim.Dom.add(this)
-    return this
-  },
-  /**
-    * Masque le texte (sans le détruire)
-    * Note
-    * ----
-    * @method hide
-    * @param  {Object} params Paramètres optionnels, et notamment :
-    *   @param {Function} params.complete La méthode poursuivre, si elle doit être
-    *                                     différente de NEXT_STEP
-    */
-  hide:function(params)
-  {
-    if(undefined == params) params = {}
-    if(undefined == params.complete) params.complete = NEXT_STEP
-    if(MODE_FLASH){
-      this.obj.css(&#x27;opacity&#x27;, 0) 
-      params.complete()
-    }
-    else 
-    {
-      this.obj.animate(
-        {opacity:0},
-        Anim.delai_for(&#x27;show&#x27;),
-        params.complete
-      )
-    }
-  },
-  /**
-    * (Ré-)affiche le texte
-    * @method show
-    */
-  show:function(params)
-  {
-    // dlog(&quot;-&gt; &lt;Txt&gt;.show(&quot;+params+&quot;)&quot;)
-    if(MODE_FLASH)
-    {
-      this.obj[0].style.opacity = 1
-      NEXT_STEP()
-    }
-    else
-    {
-      if(undefined == params) params = {}
-      Anim.Dom.show(this.obj, $.extend(params, {complete:NEXT_STEP} ))
-    } 
-  },
   
   /**
     * Positionne l&#x27;élément (en fonction de son possesseur)
     * Notes
     *   * Le texte est placé à différents endroit de la portée en fonction
     *     du type de texte.
-    *   * Le left doit être recalculé, une fois qu&#x27;on connait la taille du texte,
+    *   * Le x doit être recalculé, une fois qu&#x27;on connait la taille du texte,
     *     pour être calé correctement contre le possesseur.
-    *   * Le top doit lui aussi être recalculé en fonction de offset_y
+    *   * Le y doit lui aussi être recalculé en fonction de offset_y
     *   * Le code contient des boites div &#x60;txtbefore&#x60; et &#x60;txtafter&#x60; qui,
     *     si elles ne sont pas vides, doivent être positionnées correctement.
     *
@@ -546,16 +502,17 @@ $.extend(Txt.prototype,{
   positionne:function()
   {
     // NOTE : j&#x27;ai placé le traitement de la largeur avant le calcul de
-    // real_left, car real_left se sert de la taille du texte, mais ça
+    // real_x, car real_x se sert de la taille du texte, mais ça
     // risque de poser un problème pour le placement de certains éléments
     // comme les cadences (qui sont pour le moment les seuls à définir un
     // width particulier)
     if(this.width) this.obj.css({width:this.width+&#x27;px&#x27;})
     var dpos  = {}, my = this ;
-    L([&#x27;left&#x27;, &#x27;top&#x27;, &#x27;height&#x27;]).each(function(key){
+    L({&#x27;left&#x27;:&#x27;x&#x27;, &#x27;top&#x27;:&#x27;y&#x27;, &#x27;height&#x27;:&#x27;height&#x27;}).each(function(key_css, key){
       var val = my[&#x27;real_&#x27;+key]
-      if(val != null) dpos[key] = val + &#x27;px&#x27;
+      if(val != null) dpos[key_css] = val + &#x27;px&#x27;
     })
+    // dlog(&quot;Données CSS de position du texte :&quot;);dlog(dpos)
     this.obj.css(dpos)
     this.positionne_texte_before()
     this.positionne_texte_after()
@@ -589,8 +546,8 @@ $.extend(Txt.prototype,{
   reset:function()
   {
     delete this._texte
-    delete this._top
-    delete this._left
+    delete this._y
+    delete this._x
     delete this._width
   },
   /**
@@ -688,10 +645,10 @@ Object.defineProperties(Txt.prototype,{
     * Retourne le TOP DU TEXTE
     * Notes
     * -----
-    *   * Ce top dépend de pas mal de choses et notamment du type du texte (finger,
+    *   * Ce y dépend de pas mal de choses et notamment du type du texte (finger,
     *     harmony, etc.)
     *   * Il peut être également influencé par les décalages des préférences
-    *   * Ce top est dépendant en tout premier lieu de la portée sous laquelle on
+    *   * Ce y est dépendant en tout premier lieu de la portée sous laquelle on
     *     doit le placer. Par ordre de priorité, on trouve la recherche de cette
     *     portée par :
     *       - la propriété &#x60;staff&#x60; définie explicitement
@@ -699,38 +656,72 @@ Object.defineProperties(Txt.prototype,{
     *       - sinon la portée du propriétaire du texte
     *       - sinon la portée active courante
     *
-    * @property {Number} top
+    * @property {Number} y
     */
-  &quot;top&quot;:{
-    set:function(top){this._top = top},
+  &quot;y&quot;:{
+    set:function(y){this._y = y},
     get:function(){
-      if(undefined == this._top)
+      if(undefined == this._y)
       {
-        var top = this.real_staff.top
+        var y
+        /*
+         *  En fonction du type du texte, on doit prendre soit le haut de la
+         *  portée porteuse, soit le bas (par défaut, le haut)
+         */
         switch(this.type)
         {
         case harmony:
         case cadence:
-          top += Anim.prefs.harmony + Anim.prefs.offset_harmony
-          break
-        case chord: // WARNING : le type de texte, pas un accord portant le texte
-          top -= Anim.prefs.chord + Anim.prefs.offset_chord
-          break
-        case modulation:
-          top -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y
-          break
-        case part:
-          top -= Anim.prefs.part_y + Anim.prefs.offset_part_y + this.offset_y
-          break
-        case measure:
-          top -= Anim.prefs.num_measure_y + Anim.prefs.offset_num_measure_y
+          y = this.real_staff.bottom
           break
         default:
-          top = Math.min(top, this.owner.top) - 20
+          y = this.real_staff.top
         }
-        this._top = top
+        /*
+         *  On ajoute le décalage en fonction du type du texte
+         *  
+         */
+        switch(this.type)
+        {
+        case harmony:
+        case cadence:
+          y += Anim.prefs.harmony + Anim.prefs.offset_harmony
+          break
+        case chord: // WARNING : le type de texte, pas un accord portant le texte
+          y -= Anim.prefs.chord + Anim.prefs.offset_chord
+          break
+        case modulation:
+          y -= Anim.prefs.modulation_y + Anim.prefs.offset_modulation_y
+          break
+        case part:
+          y -= Anim.prefs.part_y + Anim.prefs.offset_part_y + this.offset_y
+          break
+        case measure:
+          y -= Anim.prefs.num_measure_y + Anim.prefs.offset_num_measure_y
+          break
+        default:
+          y = Math.min(y, this.owner.y) - 20
+        }
+        this._y = y
       }
-      return this._top
+      return this._y
+    }
+  },
+  /**
+    * Retourne le vrai y du texte dans le cas où un offset_y a été défini
+    * Agit différemment suivant le type (cf. la définition de la propriété offset_y)
+    *
+    * @property {Number} real_y
+    */
+  &quot;real_y&quot;:{
+    get:function(){
+      switch(this.type){
+      case harmony :
+      case cadence :
+        return this.y + this.offset_y
+      default:
+        return this.y - this.offset_y
+      }
     }
   },
   /**
@@ -754,7 +745,7 @@ Object.defineProperties(Txt.prototype,{
     }
   },
   /**
-    * left en fonction du owner (utilisé par &quot;left&quot;)
+    * x en fonction du owner (utilisé par &quot;x&quot;)
     * @property {Number} x_per_owner
     */
   &quot;x_per_owner&quot;:{
@@ -764,9 +755,9 @@ Object.defineProperties(Txt.prototype,{
         switch(owner.class)
         {
         case &#x27;staff&#x27;:
-          return (this.left || (Anim.current_x + 18)) - (UI.exact_width_of(me.obj) / 2)
+          return (Anim.current_x + 18) - ( UI.exact_width_of(me.obj) / 2 )
         default:
-          return owner.left
+          return owner.x
         }
       }(this.owner, this)
       return this._x_per_owner
@@ -780,104 +771,69 @@ Object.defineProperties(Txt.prototype,{
     *     pouvoir placer son bord droit au bout du possesseur.
     *     Mais cela ne peut être fait qu&#x27;une fois qu&#x27;on connait la taille du
     *     texte, donc c&#x27;est la méthode &#x60;positionne&#x60; qui s&#x27;en charge. c&#x27;est quand
-    *     elle appelle this.left qu&#x27;on le calcule.
+    *     elle appelle this.x qu&#x27;on le calcule.
     *   * Ce n&#x27;est pas ici que doit être pris en compte la valeur de &#x60;offset_x&#x60;,
-    *     cf. &#x60;real_left&#x60;
+    *     cf. &#x60;real_x&#x60;
     *
-    * @property {Number} left
+    * @property {Number} x
     */
-  &quot;left&quot;:{
-    set:function(left){ this._left = left},
+  &quot;x&quot;:{
+    set:function(x){ this._x = x},
     get:function(){
-      if(undefined == this._left)
+      if(undefined == this._x)
       {
-        this._left = this.x_per_owner
+        this._x = this.x_per_owner
         switch(this.type)
         {
         case modulation:
-          this._left += Anim.prefs.modulation_x
+          this._x += Anim.prefs.modulation_x
           break
         case part:
-          this._left += Anim.prefs.part_x
+          this._x += Anim.prefs.part_x
         case measure:
-          this._left -= 30
+          this._x -= 30
           break
         default:
         }
       }
-      return this._left
+      return this._x
     }
   },
   /**
-    * Retourne le vrai top du texte dans le cas où un offset_y a été défini
-    * Agit différemment suivant le type (cf. la définition de la propriété offset_y)
-    * @property {Number} real_top
-    */
-  &quot;real_top&quot;:{
-    get:function(){
-      return this.top + function(owner, itxt, voffset){
-        switch(owner.class)
-        {
-        case &#x27;staff&#x27;: 
-          // Ce retour 0 est parfait pour les parties (texte de type &#x27;part&#x27;), ne
-          // pas modifier sans savoir vraiment ce que je fais…
-          // Ne pas oublier de tenir compte du fait que la valeur renvoyée par
-          // cette fonction est AJOUTÉE À THIS.TOP
-          return 0
-          // C&#x27;était le calcul avant, mais ça renvoyait n&#x27;importe quoi.
-          // var h = Anim.prefs.staff_top_text + voffset
-          // if(Anim.prefs.staff_text_up) return - (h + itxt.height_calc)
-          // else return owner.height + h
-        case &#x27;chord&#x27;:
-          return (owner.top_obj - 30 - voffset) - itxt.top
-        }
-        
-        
-        if( voffset ) return itxt.top
-        switch(itxt.type){
-        case chord:
-          return - voffset
-        default:
-          return voffset
-        }
-      }(this.owner, this, this.offset_y)
-    }
-  },
-  /**
-    * Retourne le vrai décalage left du texte par rapport à l&#x27;objet en
+    * Retourne le vrai décalage x du texte par rapport à l&#x27;objet en
     * fonction de son type
-    * @property {Number} real_left
+    * @property {Number} real_x
     */
-  &quot;real_left&quot;:{
+  &quot;real_x&quot;:{
     get:function()
     {
-      var left  = this.left
+      var x  = this.x
       var w_box = this.obj.width()
-      // dlog(&quot;-&gt; real left&quot;)
+      // dlog(&quot;-&gt; real x&quot;)
       // dlog({
       //   &#x27;this&#x27;: this.id+&quot;:&quot;+this.type,
-      //   &#x27;left&#x27;: this.left,
-      //   &#x27;owner left&#x27;: this.owner.left,
+      //   &#x27;x&#x27;: this.x,
+      //   &#x27;owner x&#x27;: this.owner.x,
       //   &#x27;owner center x&#x27;:this.owner.center_x,
       //   &#x27;width box&#x27; : w_box
       // })
       switch(this.type)
       {
       case harmony:
-        this._real_left = this.owner.center_x - (w_box / 2)
+        this._real_x = this.owner.center_x - (w_box / 2)
         break
       case cadence:
         // Pour un texte d&#x27;harmonie, le bord droit doit être aligné au possesseur,
         // à peine plus à droite.
-        this._real_left = left - w_box + 4
+        this._real_x = x - w_box// + 4
         break
       case chord:
-        this._real_left = this.owner.center_x - (w_box / 2)
+        this._real_x = this.owner.center_x - (w_box / 2)
         break
       default:
-        this._real_left = left - 10
+        this._real_x = x - 10
       }
-      return this._real_left + (this.offset_x || 0)
+      return this._real_x + (this.offset_x || 0)
     }
   },
   /**
@@ -897,14 +853,13 @@ Object.defineProperties(Txt.prototype,{
     */
   &quot;real_height&quot;:{
     get:function(){
-      dlog(&quot;-&gt; real_height&quot;)
       switch(this.type)
       {
       case part:
         // Pour une partie, on essaie d&#x27;aller jusqu&#x27;en bas de la portée,
         // sauf si this.height est défini
         if(this.height) return this.height
-        var h = this.real_staff.bottom - this.real_top
+        var h = this.real_staff.bottom - this.real_y
         return h
       default: return null
       }

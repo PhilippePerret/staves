@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -282,6 +284,14 @@ Gestion des évènements</a></li>
   */
 window.MODE_FLASH = false
 
+/**
+  * Pour imposer une attente sans passer par aucun objet
+  * Tant que la valeur est true, impossible de passer à l&#x27;étape suivante
+  * @property {Boolean} WAITING
+  * @default false
+  */
+window.WAITING = false
+
 /* --------------------------------------------------------------------- */
 /**
   * Objet Anim pour jouer l&#x27;animation
@@ -292,12 +302,6 @@ window.MODE_FLASH = false
 if(undefined == window.Anim) window.Anim = {}
 $.extend(window.Anim,{
   
-  /**
-    * Coefficiant de vitesse (déterminé par le slider)
-    * De -100 à 100
-    * @property {Float} coef_speed
-    */
-  coef_speed: 1,
   /**
     * Propriété mise à true lorsque l&#x27;animation est en cours d&#x27;enregistrement
     * @property {Boolean} recording
@@ -331,6 +335,12 @@ $.extend(window.Anim,{
     * @static
     */
   options:{
+    /**
+      * Taille de l&#x27;écran
+      * @property {String} screensize
+      * @default &#x27;adapt&#x27;
+      */
+    screensize        :&#x27;adapt&#x27;,
     /**
       * Quand True, joue l&#x27;animation en plein écran
       * @property {Boolean} fullscreen
@@ -406,8 +416,7 @@ $.extend(window.Anim,{
     * Vitesses normales
     * Notes
     * -----
-    *   * Ces valeurs pourront être modifiées par le &#x60;coef_speed&#x60; déterminé
-    *     par le slider
+    *   * Ces valeurs seront affectées par &#x60;Anim.prefs.speed_coef&#x60;
     * @property {Object} transition_reg
     */
   transition_reg:{
@@ -484,11 +493,11 @@ $.extend(window.Anim,{
       */
     next              :40,  
     /**
-      * Décalage de la marque d&#x27;harmonie ou de cadence par rapport à
+      * Décalage vertical de la marque d&#x27;harmonie ou de cadence par rapport à
       * la portée.
       * @property {Number} harmony 
       */
-    harmony           :70, 
+    harmony           :20, 
     /**
       * Portée qui doit porter l&#x27;harmonie. Pour faire porter l&#x27;harmonie
       * par une portée particulière, quelle que soit la portée active
@@ -510,23 +519,23 @@ $.extend(window.Anim,{
       * Position verticale du numéro de mesure
       * @property {Number} num_measure_y
       */
-    num_measure_y     :-8,
+    num_measure_y     :22, //-8,
     /**
       * Décalage de la marque d&#x27;accord par rapport à la portée.
       * @property {Number} chord 
       */
-    chord             :40, 
+    chord             :46, 
     /**
       * Décalage horizontal de la marque de modulation par rapport à l&#x27;objet
       * qui la porte (souvent, un accord ou une note)
       * @property {Number} modulation_y
       */
-    modulation_x      :-13,
+    modulation_x      :-8,
     /**
       * Décalage vertical de la marque de modulation par rapport à la portée
       * @property {Number} modulation_y
       */
-    modulation_y      :26,
+    modulation_y      :50,
     /**
       * Décalage horizontal de la marque de modulation par rapport à l&#x27;objet
       * porteur.
@@ -540,8 +549,19 @@ $.extend(window.Anim,{
       */
     part_y            :46,
     /**
+      * Coefficiant de vitesse final, calculé à partir du slider du controller
+      * et de la définition éventuelle de la préférence &#x60;speed&#x60; (ci-dessous).
+      * Cette valeur sert de multiplicateur de durée, donc plus elle est élevée,
+      * plus la durée est longue. Seules les valeurs positives inférieures à 1
+      * provoque une accélération. 
+      * @property {Number} speed_coef
+      * @default 1
+      */
+    speed_coef        :1,
+    /**
       * Coefficiant vitesse
       * @property {Number} speed 
+      * @default 1
       */
     speed             :1,
     /** Taille des notes (et altérations)
@@ -580,7 +600,8 @@ $.extend(window.Anim,{
     caption_timer     :false,
     /**
       * Couleur par défaut des texte
-      * Noter que la valeur est modifiée quand on définit un BACKGROUND
+      * Noter que la valeur est modifiée quand on définit un BACKGROUND sur
+      * certaines valeurs
       * @property {String} text_color
       */
     text_color        : &#x27;black&#x27;,
@@ -642,6 +663,7 @@ $.extend(window.Anim,{
     part_x          :null,
     harmony         :null,
     chord           :null,
+    speed_coef      :null,
     speed           :null,
     delai_after_show:null,
     note_size       :null,
@@ -682,35 +704,78 @@ $.extend(window.Anim,{
     */
   set_pref:function(pref, value, next_step)
   {
-    if(pref == &#x27;x_start&#x27;){ this.current_x = value }
-    if(pref.substring(0,7)==&#x27;offset_&#x27;)
+    if(undefined === this.prefs[pref] &amp;&amp; undefined !== this.options[pref])
     {
-      if(undefined == value) this.prefs[pref] = 0
-      else this.prefs[pref] += value
-    } 
-    else {
-      if(undefined == value) value = this.prefs_default[pref]
-      // Contrôle de certaines valeurs
-      try
-      {
-        if(pref == &#x27;speed&#x27; &amp;&amp; value == 0) throw &quot;Le coefficiant de vitesse (speed) ne peut pas être 0…&quot;
-      } catch(err) { return F.error(err) }
+      /*
+       *  Une option (Anim.options)
+       *  
+       */
+      this.options[pref] = value
       
-      // -- Correction de certaines valeur --
-      // On remplace l&#x27;indice portée par l&#x27;instance portée si nécessaire
-      // et surtout si la portée existe. Si elle n&#x27;existe pas encore, on
-      // guettera le moment où elle sera créée.
-      if(pref == &#x27;staff_harmony&#x27; &amp;&amp; &#x27;number&#x27; == typeof value)
+      /*
+       *  Définition de la dimension de l&#x27;écran
+       *  Il peut y avoir deux sortes de valeurs :
+       *    - les valeurs par défaut : &#x27;480p&#x27;, &#x27;720p&#x27;, &#x27;adapt&#x27;
+       *    - une valeur de hauteur fixe (si {Number})
+       *  
+       */
+      if(pref == &#x27;screensize&#x27;)
       {
-        if(undefined != this.staves[value - 1]) value = this.staves[value - 1]
-        // Sinon, elle reste un nombre
+        if(&#x27;number&#x27; == typeof value)
+        {
+          UI.DATA_SCREEN[value] = {
+            height : value,
+            width  : parseInt(value * 16 / 9)
+          }
+          // On ne demande le redimensionnement que si le cadre actuel ne correspond pas
+          if($(&#x27;section#animation&#x27;).height() != value ) UI.onresize_window()
+        }
+        else
+        {
+          UI.Popups.select(&quot;screensize::&quot;+value)
+          UI.onresize_window()
+        }
       }
-      
-      /* == On règle la valeur == */
-      this.prefs[pref] = value
-      if(undefined != this.prefs[&#x27;offset_&#x27;+pref]) this.prefs[&#x27;offset_&#x27;+pref]  = 0
     }
-    this.Infos.show_pref(pref, value)
+    else {
+      /*
+       *  Une préférence (Anim.pref)
+       *  
+       */
+      if(pref == &#x27;x_start&#x27;){ this.current_x = value }
+      if(pref.substring(0,7)==&#x27;offset_&#x27;)
+      {
+        if(undefined == value) this.prefs[pref] = 0
+        else this.prefs[pref] += value
+      } 
+      else {
+        if(undefined == value) value = this.prefs_default[pref]
+        // Contrôle de certaines valeurs
+        try
+        {
+          if(pref == &#x27;speed&#x27;)
+          {
+            if(value == 0) throw &quot;Le coefficiant de vitesse (speed) ne peut pas être 0…&quot;
+            this.calc_speed_coef()
+          } 
+        } catch(err) { return F.error(err) }
+      
+        // -- Correction de certaines valeur --
+        // On remplace l&#x27;indice portée par l&#x27;instance portée si nécessaire
+        // et surtout si la portée existe. Si elle n&#x27;existe pas encore, on
+        // guettera le moment où elle sera créée.
+        if(pref == &#x27;staff_harmony&#x27; &amp;&amp; &#x27;number&#x27; == typeof value)
+        {
+          if(undefined != this.staves[value - 1]) value = this.staves[value - 1]
+          // Sinon, elle reste un nombre
+        }
+      
+        /* == On règle la valeur == */
+        this.prefs[pref] = value
+        if(undefined != this.prefs[&#x27;offset_&#x27;+pref]) this.prefs[&#x27;offset_&#x27;+pref]  = 0
+      }
+      this.Infos.show_pref(pref, value)
+    }
     if(undefined == next_step || next_step == true) NEXT_STEP(0)
   },
   /**
@@ -752,14 +817,30 @@ $.extend(window.Anim,{
   
   /**
     * Retourne la vitesse de transition de clé +key+ (dans Anim.transition)
-    * pondéré par le coefficiant de vitesse (Anim.prefs.speed)
+    * pondéré par le coefficiant de vitesse (Anim.prefs.speed), sauf si 
+    * +pondered+ est false
     * @method delai_for
-    * @param {String} key   La clé définissant le type de transition
-    * @return {Number} la valeur correspondante
+    * @param {String}   key   La clé définissant le type de transition
+    * @return {Number} la valeur de transition correspondante, en secondes
     */
-  delai_for:function(key)
+  delai_for:function(key, not_pondered)
   {
-    return this.transition[key] * this.prefs.speed
+    return this.transition[key] * this.prefs.speed_coef
+  },
+  
+  /**
+    * Calcule le nouveau coefficiant de vitesse (Anim.prefs.speed_coef)
+    * Noter que ce coefficiant dépent de 1/ la préférence Anim.prefs.speed et 2/
+    * la position du slider du contrôleur.
+    * @method calc_speed_coef
+    */
+  calc_speed_coef:function()
+  {
+    // La position du slider dans le contrôleur
+    var new_coef = $(&#x27;div#vitesse_animation&#x27;).slider(&#x27;value&#x27;)
+    new_coef = new_coef == 11 ? 1.0 : parseFloat((11 / new_coef) / 2)
+    Anim.prefs.speed_coef = Anim.prefs.speed * new_coef
+    // dlog(&quot;Anim.prefs.speed_coef mis à &quot;+Anim.prefs.speed_coef)
   },
   /**
     * Attends +laps+ secondes avant de passer à l&#x27;étape suivante

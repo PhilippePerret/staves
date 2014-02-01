@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -290,6 +292,7 @@ window.Staff = function(params)
     * @default 0
     */
   this.left = 20
+  
   /**
     * Indice (1-start) de la portée dans l&#x27;animation
     * Notes
@@ -297,6 +300,12 @@ window.Staff = function(params)
     * @property {Number} indice
     */
   this.indice = null
+  
+  /**
+    * Largeur de la portée
+    * @property {Number} width
+    */
+  this.width = null
   
   /**
     * Liste des identifiants de lignes supplémentaires
@@ -317,7 +326,9 @@ window.Staff = function(params)
   var me = this
   L(params || {}).each(function(k,v){me[k]=v})
   
-  this.id = &quot;staff&quot;+this.cle+this.top+(new Date()).getTime()
+  if(undefined != params.x) this.left = params.x // ne pas faire pareil avec y !!!
+  
+  this.id = &quot;staff&quot;+this.cle+this.top+this.left+(new Date()).getTime()
   
 }
 /* ---------------------------------------------------------------------
@@ -336,17 +347,23 @@ $.extend(Staff,{
     * @method create
     * @param  {String} cle La clé de la portée (obligatoire)
     * @param  {Object} params Les paramètres éventuels
-    *   @param  {String} params.metrique La métrique optionnelle
+    *   @param  {String} params.metrique  La métrique optionnelle
+    *   @param  {String} params.armure    L&#x27;armure
     *   @param  {Number} params.offset    Le décalage par rapport à la dernière portée
+    *   @param  {Number} params.y         La position verticale précise
+    *   @param  {Number} params.x         La position horizontale précise
+    *   @param  {Number} params.width     La largeur précise
     */
   create:function(cle, params)
   {
-    if(undefined == params) params = {}
-    var staff = new Staff({cle:cle, top:this.top_next_staff(params)})
+    params = $.extend(params || {}, {cle:cle, top:this.top_next_staff(params)})
+    var staff = new Staff(params)
     staff.build()
     Anim.staves.push(staff)
     staff.indice = Anim.staves.length // ! 1-start
+    
     // Cette portée est-elle utilisée dans un réglage des préférences
+    // réglé avec DEFAULT(&#x27;staff_harmony&#x27;, &lt;indice&gt;) (ou staff_chords)
     L([&#x27;staff_harmony&#x27;, &#x27;staff_chords&#x27;]).each(function(key){
       if((&#x27;number&#x27; == typeof Anim.prefs[key]) &amp;&amp; Anim.prefs[key] == staff.indice)
       {
@@ -357,18 +374,38 @@ $.extend(Staff,{
   },
   
   /**
-    * Retourne le top de la prochaine portée
+    * Retourne le top de la prochaine portée. Sauf si la hauteur est donnée explicitement,
+    * avec le paramètres +params.y+, la hauteur est calculée par rapport à la portée
+    * la plus basse, en ajoutant l&#x27;écartement par défaut, auquel est ajouté l&#x27;éventuel
+    * +params.offset+
+    *
     * @method top_next_staff
     * @param  {Object} params           Paramètres optionnels
     *   @param  {Number} params.offset  Le décalage éventuel par rapport à la position naturelle
+    *   @param  {Number} params.y       OU La position verticale exacte.
     */
   top_next_staff:function(params)
   {
-    var top = Anim.prefs.staff_top + (Anim.prefs.staff_offset * Anim.staves.length)
-    if(params &amp;&amp; params.offset) top += params.offset
-    return top
+    if(undefined !== params.y) return params.y
+    var lower_staff = this.get_lower_staff()
+    if( ! lower_staff ) return Anim.prefs.staff_top
+    else return lower_staff.top + Anim.prefs.staff_offset + (params.offset ? params.offset : 0)
   },
   
+  /**
+    * Retourne la portée la plus basse.
+    * @method lower_staff
+    * @return {Staff} la portée
+    */
+  get_lower_staff:function()
+  {
+    if(Anim.staves.length == 0) return null
+    var lstaff ;
+    L(Anim.staves).each(function(staff){
+      if( !lstaff || (staff.top &gt; lstaff.top) ) lstaff = staff
+    })
+    return lstaff
+  },
   /**
     * Retourne le meilleur octave pour la gamme
     * @method best_octave_scale
@@ -492,41 +529,29 @@ window.OBJECT_STAFF_NOTES = {
      Méthodes d&#x27;instance
    --------------------------------------------------------------------- */
 $.extend(Staff.prototype, METHODES_TEXTE)
+$.extend(Staff.prototype, UNVERSAL_METHODS)
 $.extend(Staff.prototype, {
-  
+
   /**
-    * Construit la portée
-    * @method build 
-    * @param {Object} params  Paramètres supplémentaire
-    */
-  build:function()
-  {
-    Anim.Dom.add(this)
-  },
-  /**
-    * Affiche les objets de la portée
+    * Affichage des éléments
     * @method show
-    * @param {Number} duree La durée de temps de l&#x27;apparition
-    * @param {Object} params  Les paramètres optionnels
+    * @params {Object} params   Paramètres éventuels (ou durée) — wait, duree
     */
-  show:function(duree, params)
+  show:function(params)
   {
-    params = define_wait(params, this)
-    params.duree = duree || Anim.delai_for(&#x27;show&#x27;)
+    params = define_wait_and_duree(params, this, &#x27;show&#x27;)
     Anim.Dom.anime(this.objets, {opacity:1}, params)
   },
-    
   /**
-    * Masque la portée (sans la détruire)
+    * Masquage de la portée
     * @method hide
+    * @params {Object} params   Paramètres éventuels (ou durée) — wait, duree
     */
-  hide:function(duree, params)
+  hide:function(params)
   {
-    params = define_wait(params, this)
-    params.duree = duree || Anim.delai_for(&#x27;show&#x27;)
-    Anim.Dom.anime([this.img_staff, this.img_cle], {opacity:0}, params)
+    params = define_wait_and_duree(params, this, &#x27;show&#x27;)
+    Anim.Dom.anime(this.objets, {opacity:0}, params)
   },
-
   /**
     * Destruction de la portée (et retrait de la liste des portées) et
     * de tout ce qu&#x27;elle porte sans exception.
@@ -537,10 +562,14 @@ $.extend(Staff.prototype, {
   remove:function(params)
   {
     Anim.staves.splice(this.indice - 1, 1)
-    params = define_wait(params, this)
-    params.duree          = 0.2
+    
+    // Détruire les textes de la portée
+    this.remove_textes()
+    
+    // Détruire portée et clés
+    params = define_wait_and_duree( params, this, &#x27;show&#x27;)
     params.complete_each  = &#x27;remove&#x27;
-    Anim.Dom.anime( {opacity:0}, params)
+    Anim.Dom.anime(this.objets, {opacity:0}, params)
     
     // On doit détruire toutes les notes, avec leurs textes
     var liste_notes = $.extend({}, this.notes.list)
@@ -550,7 +579,8 @@ $.extend(Staff.prototype, {
       })
     })
     L(this.suplines).each(function(sid){$(&#x27;img#&#x27;+sid).remove()})
-  },  
+  },
+  
   /**
     * Positionne la portée, la clé et la métrique (if any)
     * @method positionne
@@ -558,9 +588,12 @@ $.extend(Staff.prototype, {
     */
   positionne:function()
   {
-    this.img_staff.css({top: this.top+&quot;px&quot;, left: this.left+&quot;px&quot;})
+    this.img_staff.css({
+      top   : this.top  + &#x27;px&#x27;, 
+      left  : this.left + &#x27;px&#x27;,
+      width : (this.width ? this.width + &#x27;px&#x27; : &#x27;100%&#x27;)
+    })
     var dec_top = this.cle == SOL ? -19 : -1
-    // this.img_cle.css({top:(this.top + dec_top)+&quot;px&quot;, left:(this.left+6)+&quot;px&quot;})
     this.img_cle.css({top:dec_top+&quot;px&quot;})
     //+9.6 pour clé de FA, -7 pour clé de Sol
   },
@@ -631,6 +664,18 @@ $.extend(Staff.prototype, {
 })
 
 Object.defineProperties(Staff.prototype,{
+  /**
+    * Pour utilisation par les autres méthodes, le top
+    * @property {Number} y
+    */
+  &quot;y&quot;:{get:function(){return this.top}},
+  
+  /**
+    * Pour utilisation par les autres méthodes, le left
+    * @property {Number} x
+    */
+  &quot;x&quot;:{get:function(){return this.left}},
+  
   /**
     * Hauteur de la portée
     * @property {Number} height
@@ -736,7 +781,7 @@ Object.defineProperties(Staff.prototype,{
       c +=  this.html_img_cle +
             this.html_img_metrique +
             this.html_img_armure
-      return &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; style=&quot;top:&#x27;+this.top+&#x27;px;&quot; class=&quot;staff&quot;&gt;&#x27;+c+&#x27;&lt;/div&gt;&#x27;
+      return &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;&quot; style=&quot;top:&#x27;+this.top+&#x27;px;opacity:0;&quot; class=&quot;staff&quot;&gt;&#x27;+c+&#x27;&lt;/div&gt;&#x27;
     }
   },
   /**

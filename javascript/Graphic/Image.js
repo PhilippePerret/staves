@@ -134,6 +134,8 @@ window.Img = function(params)
   /** Padding autour de l'image
     * Utile seulement lorsqu'un fond est utilisé, qui doit déborder
     * de l'image
+    * @property {Number} padding
+    * @default 0
     */
   this.padding = 0
   

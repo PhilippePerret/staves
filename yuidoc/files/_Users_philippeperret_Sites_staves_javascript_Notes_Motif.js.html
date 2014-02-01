@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -432,6 +434,17 @@ Object.defineProperties(Motif.prototype, {
       return this._staff || Anim.current_staff
     }
   },
+  /**
+    * Alias de &#x27;left&#x27; pour les calculs
+    * @property {Number} x
+    */
+  &quot;x&quot;:{get:function(){return this.left}},
+  /**
+    * Alias de &#x27;top&#x27; pour les calculs
+    * @property {Number} y
+    */
+  &quot;y&quot;:{get:function(){return this.top}},
+  
   /**
     * Le milieu horizontal de l&#x27;objet. Il correspond au centre de ses notes
     * Si le motif s&#x27;étale sur plusieurs portées, c&#x27;est la largeur de la portée

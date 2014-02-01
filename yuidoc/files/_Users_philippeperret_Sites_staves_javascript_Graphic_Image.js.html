@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -276,6 +278,7 @@ Gestion des évènements</a></li>
 window.IMAGE = function(params)
 {
   var image = new Img(params)
+  image.build()
   return image
 }
 
@@ -314,6 +317,7 @@ window.Img = function(params)
     * @property {Number} x
     */
   this.x = null
+
   /**
     * Position verticale de l&#x27;image
     * @property {Number} y
@@ -325,28 +329,41 @@ window.Img = function(params)
     * @property {Number} width
     */
   this.width = null
+
   /**
     * Hauteur de l&#x27;image (ie du div la contenant)
     * @property {Number} height
     */
   this.height = null
   
+  /**
+    * Zoom (focale) sur l&#x27;image. Cette propriété, si elle est définie,
+    * remplace &#x60;width&#x60; et &#x60;height&#x60;. &#x60;1&#x60; préserve la taille de l&#x27;image.
+    * Noter le trait plat, ajouté à la propriété &#x60;zoom&#x60; si elle est fournie, 
+    * qui permet d&#x27;utiliser la méthode &#x60;zoom&#x60; sur l&#x27;image dans le code.
+    * @property {Number} _zoom
+    */
+  this._zoom = null
+    
   /** Largeur du cadrage de l&#x27;image
     * @property {Number} cadre_width
     * @default largeur de l&#x27;image
     */
   this.cadre_width = null
+
   /** Hauteur du cadrage de l&#x27;image
     * @property {Number} cadre_height
     * @default Hauteur de l&#x27;image
     */
   this.cadre_height = null
+
   /** Décalage horizontal du cadrage dans l&#x27;image
     * Par exemple, si &#x60;100&#x60;, on affiche l&#x27;image à partir du pixel horizontal 100
     * @property {Number} inner_x
     * @default 0
     */
   this.inner_x = 0
+
   /** Décalage vertical du cadrage dans l&#x27;image
     * @property {Number} inner_y
     * @default 0
@@ -360,17 +377,54 @@ window.Img = function(params)
     */
   this.hidden = false
   
+  /**
+    * Couleur du fond derrière l&#x27;image
+    * @property {String} bg_color
+    */
+  this.bg_color   = &#x27;tranparent&#x27;
+  
+  /**
+    * Opacité du fond derrière l&#x27;image
+    * @property {Float} bg_opacity
+    */
+  this.bg_opacity = 1
+  
+  /**
+    * Détermine si le fond de l&#x27;image doit être opaque
+    * quand une bordure est utilisé. Lorsqu&#x27;une bordure blanche est utilisée,
+    * par exemple, avec une opacité de 0.3, le fond de l&#x27;image est lui aussi blanc
+    * mais complètement opaque. Sauf si cette propriété est mis à false.
+    * @property {Boolean} bg_image
+    * @default true
+    */
+  this.bg_image = true
+  
+  /** Padding autour de l&#x27;image
+    * Utile seulement lorsqu&#x27;un fond est utilisé, qui doit déborder
+    * de l&#x27;image
+    * @property {Number} padding
+    * @default 0
+    */
+  this.padding = 0
+  
+  
   var me = this
-  L(params || {}).each(function(k,v){me[k] = v})
+  L(params || {}).each(function(k,v){
+    if(k == &#x27;zoom&#x27;) k = &#x27;_zoom&#x27;
+    me[k] = v
+  })
   
   if( !this.abs )
   { /* Instanciation d&#x27;une image non &quot;absolue&quot; */
     Img.add(this)
-    if(!this.width  || this.width  == auto || !this.height || this.height == auto)
+    if( this._zoom )
+    {
+      this.calc_width_and_height_from_zoom()
+    }
+    else if(!this.width  || this.width  == auto || !this.height || this.height == auto)
     {
       this.calc_width_and_height()
     }
-    this.build()
   }
   else
   { // =&gt; Pour une image &quot;absolue&quot;
@@ -445,7 +499,7 @@ $.extend(Img,{
     * -----
     *   * La méthode est utilisée au moment de la transformation du code en instances
     *     {Pas}. À la fin de cette transformation, on fait un tour des images et on
-    *     attend qu&#x27;elles sont toutes chargées.
+    *     attend qu&#x27;elles soient toutes chargées.
     *   * La méthode tient compte du fait que l&#x27;image a déjà pu être pré-loadée
     * @method preload_image
     * @protected
@@ -600,33 +654,24 @@ $.extend(Img,{
 
  --------------------------------------------------------------------- */
 
+/* Extension avec les méthodes universelles */
+$.extend(Img.prototype, UNVERSAL_METHODS)
+
 /* 
     === Methodes à utiliser dans le code === 
  */
 
-$.extend(Img.prototype,{
-  
+$.extend(Img.prototype,{ 
   /**
-    * Affiche l&#x27;image
-    * @method show
-    * @params {Object} params Paramètres optionnels  (cf. Anim.Dom.hide_or_show)
-    * @return {Img} L&#x27;instance, pour chainage
+    * Pour détruire complètement l&#x27;image
+    * @method remove
+    * @param {Object} params    Paramètres optionnels
+    *   @param {Boolean|Number}   params.wait   Le paramètre d&#x27;attente
+    *   @param {Float}            params.duree  La durée d&#x27;évanouissement
     */
-  show:function(params)
+  remove:function(params)
   {
-    Anim.Dom.show(this, params)
-    return this
-  },
-  /**
-    * Masque l&#x27;image
-    * @method hide
-    * @param {Object} params  Paramètres optionnels (cf. Anim.Dom.hide_or_show)
-    * @return {Img} L&#x27;instance, pour chainage
-    */
-  hide:function(params)
-  {
-    Anim.Dom.hide(this, params)
-    return this
+    this.hide($.extend(params, {complete_each:&#x27;remove&#x27;}))
   },
   /**
     * Pour exécuter un travelling dans l&#x27;image
@@ -646,28 +691,122 @@ $.extend(Img.prototype,{
   {
     if(undefined == params) return F.error(&quot;Il faut définir les paramètres du travelling !&quot;)
     params = define_complete( params )
-    if(undefined != params.for_x)     params.x = this.inner_x + params.for_x
-    if(undefined != params.for_y)     params.y = this.inner_y + params.for_y
-    if(undefined == params.duree)   params.duree = 2
+    if(undefined != params.for_x) params.x = this.inner_x + params.for_x
+    if(undefined != params.for_y) params.y = this.inner_y + params.for_y
+    if(undefined == params.duree) params.duree = 2
     if(!params.x &amp;&amp; !params.y &amp;&amp; !params.width &amp;&amp; !params.height) return F.error(&quot;Il faut définir le mouvement du travelling !&quot;)
     var dtrav = {}
     if(undefined != params.x) dtrav.left = &quot;-&quot;+params.x+&#x27;px&#x27;
     if(undefined != params.y) dtrav.top  = &quot;-&quot;+params.y+&#x27;px&#x27;
     // On redimensionne le cadre si nécessaire
     var dcadre = {}
-    if(undefined != params.width)   dcadre.width  = params.width  + &#x27;px&#x27;
-    if(undefined != params.height)  dcadre.height = params.height + &#x27;px&#x27;
+    var new_dim = this.width_height_zoom_from(params)
+    if(params.width  || params.zoom)  dcadre.width  = new_dim.width  + &#x27;px&#x27;
+    if(params.height || params.zoom)  dcadre.height = new_dim.height + &#x27;px&#x27;
     if(dcadre != {}) this.obj.animate(dcadre)
+
     // On procède au travelling
-    this.image.animate(dtrav, params.duree, params.complete)
+    Anim.Dom.anime([this.image], dtrav, params)
+
     // On passe les nouvelles valeurs
-    if(params.x)      this.inner_x = params.x
-    if(params.y)      this.inner_y = params.y
+    if(params.x)      this.inner_x        = params.x
+    if(params.y)      this.inner_y        = params.y
     if(params.width)  this.cadre_width    = params.width
     if(params.height) this.cadre_height   = params.height
     return this
   },
   
+  /**
+    * Fait un zoom dans l&#x27;image
+    * Un zoom correspond à modifier la taille de l&#x27;image (IMG) en la repositionnant
+    * dans son div.
+    * @method zoom
+    * @param {Object} params    Les paramètres du zoom
+    *                           OU La taille du zoom
+    *   @param {Number} params.zoom   Le grossissement OU
+    *   @param {Number} params.width  La largeur d&#x27;arrivée (si zoom n&#x27;est pas fourni)
+    *   @param {Number} params.height La hauteur d&#x27;arrivée (si zoom n&#x27;est pas fourni)
+    *   @param {Number} params.x      Le nouveau inner_x (sinon le même)
+    *   @param {Number} params.y      Le nouveau inner_y (sinon le même)
+    *   @param {Number} params.duree  La durée que doit prendre le zoom
+    *   @param {Boolean|Wait} params.wait   Le paramètre d&#x27;attente
+    */
+  zoom:function(params)
+  {
+    // Si cadre_width et cadre_height ne sont pas définis, il faut les fixer
+    // TODO Il faudrait tenir compte du padding
+    if(undefined == this.cadre_width)   this.cadre_width  = parseInt(this.width)
+    if(undefined == this.cadre_height)  this.cadre_height = parseInt(this.height)
+    
+    /*
+     *  Si unique paramètre nombre, c&#x27;est la valeur de zoom à donner, de façon
+     *  absolu, sans déplacement. On repart des valeurs initiales quel que soit
+     *  l&#x27;état actuel
+     *  
+     */
+    if(&#x27;number&#x27; == typeof params)
+    {
+      this._zoom    = params
+      this.width    = this.abs_image.width  * this._zoom
+      this.height   = this.abs_image.height * this._zoom
+      this.inner_x  = - ((this.width  - this.abs_image.width ) / 2)
+      this.inner_y  = - ((this.height - this.abs_image.height) / 2)
+    }
+    /*
+     *  Si params.width est déterminé, c&#x27;est la largeur d&#x27;image qu&#x27;il faut prendre
+     *  Cette largeur prendra la dimension de la largeur actuelle de l&#x27;image (un zoom,
+     *  par définition, ne modifie pas le cadre de l&#x27;image, qui occupera donc toujours
+     *  la même surface)
+     *  Donc on doit pouvoir calculer le nouveau vrai width de l&#x27;image par rapport à
+     *  ce params.width.
+     *  Imaginons que le cadre actuel fasse 200px, que l&#x27;image fasse 200px et qu&#x27;aucun
+     *  zoom ne soit appliqué. Donc on voit l&#x27;image en entier.
+     *  Maintenant, on détermine que params.width = 50 et x = 0. Ça signifie qu&#x27;on va
+     *  prendre les 50 premiers pixels de l&#x27;image et grossir l&#x27;image pour que ces 50
+     *  pixels occupent les 200px du cadre actuel. On va donc grossir l&#x27;image par 4,
+     *  sans la changer de place (inner_x restera à 0)
+     */
+    else if(undefined !== params.width || undefined !== params.height)
+    {
+      // params.width doit correspondre à this.cadre_width
+      if( undefined !== params.width) coef = this.cadre_width  / params.width
+      else                            coef = this.cadre_height / params.height
+      // On doit multiplier la taille de l&#x27;image par ce coefficiant pour qu&#x27;elle
+      // occupe la place voulue
+      this.width  = this.abs_image.width  * coef
+      this.height = this.abs_image.height * coef
+      this._zoom  = coef // ???
+      if(undefined !== params.inner_x) this.inner_x = - params.inner_x
+      if(undefined !== params.inner_y) this.inner_y = - params.inner_y
+    }
+    else
+    {
+      /*
+       *  Quand ni width ni height ne sont définis dans les paramètres.
+       *  Il faut donc juste grossir ou diminuer l&#x27;image.
+       */
+      // Il faut déterminer la taille d&#x27;arrivée
+      var dims = this.width_height_zoom_from( params )
+      // La différence de dimension par rapport à la dimension courante
+      // Il faudrait déplacer l&#x27;image de la moitié de ces valeurs
+      var diff_x = (dims.width  - this.width  ) / 2
+      var diff_y = (dims.height - this.height ) / 2
+      this.inner_x = undefined === params.x ? this.inner_x - diff_x : params.inner_x
+      this.inner_y = undefined === params.y ? this.inner_y - diff_y : params.inner_y
+      this.width  = dims.width
+      this.height = dims.height
+      this._zoom  = dims.zoom
+    }
+
+    data_css = {
+      width   : this.width   + &#x27;px&#x27;,
+      height  : this.height  + &#x27;px&#x27;,
+      top     : this.inner_y + &#x27;px&#x27;,
+      left    : this.inner_x + &#x27;px&#x27;
+    }
+    // dlog(&quot;data_css pour le zoom :&quot;);dlog(data_css)
+    Anim.Dom.anime([this.image], data_css, params)
+  },
   /**
     * Méthode pour déplacer l&#x27;image
     * @method move
@@ -695,6 +834,52 @@ $.extend(Img.prototype,{
   },
   
   /**
+    * Permet de redéfinir une valeur de l&#x27;objet
+    * @method set
+    * @param {String} prop    La propriété de la box — ou un objet définissant plusieurs propriétés
+    * @param {Any}    value   La valeur à donner à la propriété
+    * @param {Object} params  Les paramètres éventuels.
+    *   @param  {Number}  params.duree   La durée que doit prendre la transformation (en secondes)
+    *   @param  {Boolean} params.wait    Si False, on passe tout de suite à la suite.
+    */
+  set:function(prop, value, params)
+  {
+    var data ;
+    if(undefined == params &amp;&amp; &#x27;object&#x27; == typeof value)
+    {
+      data    = prop
+      params  = value
+    }
+    else
+    {
+      data = parametize(prop, value)
+    }
+
+    // On corrige les propriétés et les valeurs
+    data = UI.real_value_per_prop( this, data )
+    
+    var my = this,
+        data_div        = {}
+        data_background = {},
+        data_image      = {}
+    L(data).each(function(prop, value){
+      switch(prop)
+      {
+      case &#x27;src&#x27;:
+        return my.src(value)
+      case &#x27;bg_color&#x27;:
+        return data_background[&#x27;background-color&#x27;] = value
+      case &#x27;bg_opacity&#x27;:
+        return data_background[&#x27;opacity&#x27;] = value
+      case &#x27;opacity&#x27;:
+        return data_div[&#x27;opacity&#x27;] = value
+      }
+    })
+    
+    return this
+    
+  },
+  /**
     * Méthode pour changer la source de l&#x27;image
     * @method src
     * @return {Img} L&#x27;instance, pour chainage
@@ -714,6 +899,68 @@ $.extend(Img.prototype,{
 /* === Protected Methods === */
 $.extend(Img.prototype,{
   /**
+    * Retourne la largeur (width) et la hauteur (height) en fonction des valeurs
+    * fournies en paramètres.
+    * Noter que la méthode ne fait QUE retourner les valeurs, elle ne les met pas
+    * en paramètre.
+    * @method width_height_zoom_from
+    * @param {Object} params  Paramètres permettant de calculer la largeur/hauteur
+    *   @param {Number|Undefined} params.width    La largeur éventuellement fournie
+    *   @param {Number|Undefined} params.height   La hauteur éventuellement fournie
+    *   @param {Float|Undefined}  params.zoom     Le zoom éventuellement fourni
+    * @return {Object} Un object contenant {width:largeur, height:hauteur, zoom: zoom correspondant}
+    */
+  
+  width_height_zoom_from:function(params)
+  {
+    // dlog(&quot;-&gt; get_width_and_height&quot;)
+    var abs_image = this.abs_image,
+        width,
+        height,
+        zoom ;
+        
+    if(params.zoom)
+    {
+      width  = parseInt(abs_image.width  * params.zoom)
+      height = parseInt(abs_image.height * params.zoom)
+      zoom   = params.zoom
+    }
+    else
+    {
+      if(!params.width &amp;&amp; !params.height)
+      {
+        width  = abs_image.width
+        height = abs_image.height
+        zoom   = 1
+      }
+      else if (!params.height) // largeur fournie =&gt; calcul hauteur
+      {
+        width  = params.width
+        zoom   = width / abs_image.width
+        height = parseInt(abs_image.height * zoom)
+      }
+      else // Hauteur fournie =&gt; calcul largeur
+      {
+        height = params.height
+        zoom   = height / abs_image.height
+        width  = parseInt(abs_image.width * zoom)
+      }
+    }
+    
+    // dlog(&quot;&lt;- get_width_and_height ({width:&quot;+width+&quot;, height:&quot;+height+&quot;, zoom:&quot;+zoom+&quot;})&quot;)
+    return {width:width, height:height, zoom:zoom}
+  },
+   /**
+    * Calcule le weight et le height de l&#x27;image en fonction du &#x60;zoom&#x60; fourni
+    * @method calc_width_and_height_from_zoom
+    */
+  calc_width_and_height_from_zoom:function()
+  {
+    var dims = this.width_height_zoom_from( {zoom:this._zoom} )
+    this.width  = dims.width
+    this.height = dims.height
+  },
+  /**
     * Lorsque qu&#x27;une des deux valeurs width ou height n&#x27;est pas fournie au cours
     * de l&#x27;animation, on la calcule avec cette méthode.
     * @method calc_width_and_height
@@ -722,17 +969,14 @@ $.extend(Img.prototype,{
   {
     // L&#x27;image absolue de référence
     var abs_image = Img.abs_list[this.abs_id]
+    // Le rapport image
+    var rapport   = abs_image.rapport
     
-    // Lorsqu&#x27;il faut calculer la hauteur d&#x27;après la largeur fournie
-    if(this.width &amp;&amp; this.width != auto)
-    { // =&gt; la largeur (width) est définie
-      this.height = (this.width / abs_image.width) * abs_image.height
-    }
-    // Lorsqu&#x27;il faut calculer la largeur d&#x27;après la hauteur fournie
-    else if(this.height &amp;&amp; this.height != auto)
-    { // =&gt; la hauteur (height) est définie
-      this.width = (this.height / abs_image.height) * abs_image.width
-    }
+    // Hauteur d&#x27;après largeur fournie
+    if(this.width &amp;&amp; this.width != auto)   this.height = this.width * rapport
+    // Largeur d&#x27;après hauteur fournie
+    else 
+    if(this.height &amp;&amp; this.height != auto) this.width  = this.height / rapport
     else
     { // =&gt; les deux valeurs sont à auto, ou non définies
       this.width  = abs_image.width
@@ -790,22 +1034,85 @@ $.extend(Img.prototype,{
     */
   positionne:function()
   {
+    var height  = (this.cadre_height || this.height)
+    if( isNaN(height) &amp;&amp; !this.positionne.bad_height )
+    {
+      this.positionne.bad_height = true
+      delete this.height
+      this.calc_width_and_height()
+      return this.positionne()
+    } 
+    else if(this.positionne.bad_height)
+    {
+      F.error(&quot;[Img.positionne] Problème avec le calcul de Height. Voilà les infos :&quot;)
+      dlog({
+        cadre_height: this.cadre_height,
+        height : this.height,
+        &#x27;height calculé&#x27;: height,
+        width  : this.width,
+        &#x27;abs image&#x27;: this.abs_image,
+      })
+      return
+    }
+    delete this.positionne.bad_height
+    var padding = this.padding ? this.padding : 0
+    var width   = (this.cadre_width  || this.width)
+    
     // Div contenant l&#x27;image
-    var data = {
+    var div_data = {
       left    : this.x+&#x27;px&#x27;,
       top     : this.y+&#x27;px&#x27;,
-      width   : (this.cadre_width  || this.width)+&#x27;px&#x27;,
-      height  : (this.cadre_height || this.height)+&#x27;px&#x27;
+      width   : (width  + (2 * padding)) +&#x27;px&#x27;,
+      height  : (height + (2 * padding)) +&#x27;px&#x27;
     }
-    this.obj.css(data)
+    if(undefined !== this.z) div_data[&#x27;z-index&#x27;] = this.z
+    this.obj.css(div_data)
+    
+    // Le fond derrière l&#x27;image
+    var bg_data = {}
+    bg_data[&#x27;background-color&#x27;] = this.bg_color ? this.bg_color : &#x27;transparent&#x27;
+    if(undefined !== this.bg_opacity) bg_data[&#x27;opacity&#x27;] = this.bg_opacity
+    this.obj_background.css(bg_data)
+    
+    // Le DIV contenant l&#x27;image (c&#x27;est lui qui permet de rogner l&#x27;image)
+    var cont_data = {
+      width  : width   + &#x27;px&#x27;, 
+      height : height  + &#x27;px&#x27;,
+      top    : padding + &#x27;px&#x27;,
+      left   : padding + &#x27;px&#x27;
+    }
+    this.obj_conteneur.css( cont_data )
+    
     // Image
-    data = {
-      width : this.width +&#x27;px&#x27;, 
-      height: this.height+&#x27;px&#x27;
+    var img_data = {
+      width : this.width  +&#x27;px&#x27;, 
+      height: this.height +&#x27;px&#x27;
     }
-    if(this.inner_x) data.left = &#x27;-&#x27;+this.inner_x+&#x27;px&#x27;
-    if(this.inner_y) data.top  = &#x27;-&#x27;+this.inner_y+&#x27;px&#x27;
-    this.image.css(data)
+    if(this.bg_color &amp;&amp; this.bg_image)
+    {
+      img_data[&#x27;background-color&#x27;]  = this.bg_color
+      img_data[&#x27;opacity&#x27;]           = 1
+    }
+    var left = 0, top = 0 ;
+    if(this.inner_x) left = - this.inner_x
+    if(this.inner_y) top  = - this.inner_y
+    if(left) img_data.left = left + &#x27;px&#x27;
+    if(top ) img_data.top  = top  + &#x27;px&#x27;
+    this.image.css(img_data)
+    
+    // // Débug
+    // dlog(&quot;Data CSS pour le DIV:&quot;);dlog(div_data)
+    // dlog(&quot;Data CSS pour le fond:&quot;);dlog(bg_data)
+    // dlog(&quot;Data CSS pour l&#x27;image:&quot;);dlog(img_data)
+    // dlog(&quot;Données de l&#x27;instance :&quot;);
+    // dlog({
+    //   width: this.width, height:this.height,
+    //   padding:padding,
+    //   x:this.x, y:this.y, z:this.z,
+    //   bg_color:this.bg_color, bg_opacity:this.bg_opacity,
+    //   opacity:this.opacity,
+    //   inner_x:this.inner_x, inner_y:this.inner_y
+    // })
     
     return this
   },
@@ -854,6 +1161,19 @@ Object.defineProperties(Img.prototype,{
     }
   },
   /**
+    * Instance de l&#x27;image absolue de référence de l&#x27;image courante
+    * @property {Img} abs_image
+    */
+  &quot;abs_image&quot;:{
+    get:function(){
+      if(undefined == this._abs_image)
+      {
+        this._abs_image = Img.abs_list[this.abs_id]
+      }
+      return this._abs_image
+    }
+  },
+  /**
     * URL de l&#x27;image (locale ou distante)
     * @property {String} url
     */
@@ -877,6 +1197,22 @@ Object.defineProperties(Img.prototype,{
     */
   &quot;obj&quot;:{get:function(){return $(&#x27;div#&#x27;+this.dom_id)}},
   /**
+    * DOM Object de l&#x27;image (balise img)
+    * @property {jQuerySet} image
+    */
+  &quot;image&quot;:{get:function(){return $(&#x27;img#&#x27;+this.id)}},
+  /** 
+    * DOM Object du Div qui contient l&#x27;image et la rogne
+    * @property {jQuerySet} obj_conteneur
+    */
+  &quot;obj_conteneur&quot;:{get:function(){return $(&#x27;div#&#x27;+this.id+&#x27;-conteneur&#x27;)}},
+  /**
+    * DOM Object du fond derrière l&#x27;image
+    * @property {jQuerySet} obj_background
+    */
+  &quot;obj_background&quot;:{get:function(){return $(&#x27;div#&#x27;+this.id+&#x27;-background&#x27;)}},
+  
+  /**
     * Objet DOM de l&#x27;image absolue
     * @property {jQuerySet} abs_obj
     */
@@ -884,18 +1220,36 @@ Object.defineProperties(Img.prototype,{
     get:function(){return $(&#x27;img#&#x27;+this.abs_id)}
   },
   /**
-    * DOM Object de l&#x27;image (balise img)
-    * @property {jQuerySet} image
-    */
-  &quot;image&quot;:{get:function(){return $(&#x27;img#&#x27;+this.id)}},
-  
-  /**
     * Code HTML pour l&#x27;image absolue
     * @property {HTMLString} abs_code_html
     */
   &quot;abs_code_html&quot;:{
     get:function(){
       return &#x27;&lt;img id=&quot;&#x27;+this.abs_id+&#x27;&quot; src=&quot;&#x27;+this.url+&#x27;&quot; style=&quot;position:absolute;top:-4000px;left:-4000px;&quot;/&gt;&#x27;
+    }
+  },
+  /** Rapport de l&#x27;image (au sens audiovisuel du terme, ie la largeur/hauteur)
+    * La propriété ne devrait être utilisée qu&#x27;avec l&#x27;image absolue. Pour une image
+    * quelconque, cette valeur peut être récupérée par :
+    *   rapport = imgquelconque.abs_image.rapport
+    * 
+    * Calcul avec ce rapport 
+    * ----------------------
+    *   On peut obtenir la hauteur d&#x27;après la largeur avec :
+    *     hauteur = largeur * rapport
+    *   On peut obtenir la largeur d&#x27;après la hauteur avec :
+    *     largeur = parseFloat( hauteur / rapport )
+    *
+    *
+    * @property {Float} rapport
+    */
+  &quot;rapport&quot;:{
+    get:function(){
+      if(undefined == this._rapport)
+      {
+        this._rapport = parseFloat(this.height / this.width)
+      }
+      return this._rapport
     }
   },
   /**
@@ -909,7 +1263,10 @@ Object.defineProperties(Img.prototype,{
       
       
       return  &#x27;&lt;div id=&quot;&#x27;+this.dom_id+&#x27;&quot; class=&quot;divimage&quot; style=&quot;&#x27;+stylediv.join(&#x27;;&#x27;)+&#x27;&quot;&gt;&#x27;+
-                &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;image&quot; src=&quot;&#x27;+this.url+&#x27;&quot; style=&quot;&#x27;+styleimg.join(&#x27;;&#x27;)+&#x27;&quot; /&gt;&#x27;+
+                &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;-background&quot; class=&quot;bg_image&quot;&gt;&lt;/div&gt;&#x27; +
+                &#x27;&lt;div id=&quot;&#x27;+this.id+&#x27;-conteneur&quot; class=&quot;image_conteneur&quot;&gt;&#x27;+
+                  &#x27;&lt;img id=&quot;&#x27;+this.id+&#x27;&quot; class=&quot;image&quot; src=&quot;&#x27;+this.url+&#x27;&quot; style=&quot;&#x27;+styleimg.join(&#x27;;&#x27;)+&#x27;&quot; /&gt;&#x27;+
+                &#x27;&lt;/div&gt;&#x27;+
               &#x27;&lt;/div&gt;&#x27;
     }
   }

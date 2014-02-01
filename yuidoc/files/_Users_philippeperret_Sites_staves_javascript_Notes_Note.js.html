@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -449,21 +451,24 @@ $.extend(Note.prototype,{
     * Ré-affiche une note masquée par &#x60;hide&#x60;
     * @method show
     * @async
-    * @param  {Object|Undefined} params Les paramètres optionnels
+    * @param  {Object|Undefined} params Les paramètres optionnels (dont duree et wait)
     * @return {Note} this, pour le chainage
     */
   show:function(params)
   {
-    return this.operation(this.objets, &#x27;show&#x27;, params)
+    Anim.Dom.anime(this.objets, {opacity:1}, params)
+    return this
   },
   /**
     * Masque la note
     * @method hide
+    * @param  {Object|Undefined} params Les paramètres optionnels (dont duree et wait)
     * @return {Note} this, pour le chainage
     */
-  hide:function()
+  hide:function(params)
   {
-    return this.operation(this.objets, &#x27;hide&#x27;)
+    Anim.Dom.anime(this.objets, {opacity:0}, params)
+    return this
   },
   /**
     * Destruction de la note de l&#x27;animation
@@ -473,11 +478,11 @@ $.extend(Note.prototype,{
     *   @param {Boolean}  params.dont_unstaff   Si true, on ne retire pas la note de la portée (utile à la destruction de la portée pour éviter les boucles infinies)
     */
   remove:function(params)
-  {
+  {    
+    // Détruire les textes associés à la note (si demandé)
     if(undefined == params) params = {}
-    var objs = this.objets
-    if (params.texts &amp;&amp; this.texte) L(this.texte).each(function(ktxt, instance_txt){ objs.push(instance_txt.obj)})
-    this.operation(objs, &#x27;remove&#x27;)
+    if(params.texts) this.remove_textes()
+    Anim.Dom.anime(this.objets, {opacity:0}, $.extend(params, {complete_each:&#x27;remove&#x27;}))
     if(!params.dont_unstaff) this.staff.notes.remove(this)
     this.surrounded = false
   },
@@ -779,9 +784,9 @@ $.extend(Note.prototype,{
   /**
     * Appelée en fin de l&#x27;opération &#x27;move&#x27; ci-dessus, juste avant 
     * le passage à l&#x27;étape suivante.
-    * @method on_complete_moveTo
+    * @method on_complete_move
     */
-  on_complete_moveTo:function()
+  on_complete_move:function()
   {
     this.suplines_if_necessary()
     if(this.staff_changed)
@@ -1092,6 +1097,11 @@ Clé de SOL
 
 Object.defineProperties(Note.prototype,{
   /**
+    * Alias de &#x27;left&#x27; pour autres objets
+    * @property {Number} y
+    */
+  &quot;x&quot;:{get:function(){return this.left}},
+  /**
     * Retourne la position top de la note 
     * Notes
     * -----
@@ -1108,6 +1118,12 @@ Object.defineProperties(Note.prototype,{
       return this._top
     }
   },
+  /**
+    * Alias de &#x27;top&#x27; pour autres objets
+    * @property {Number} y
+    */
+  &quot;y&quot;:{get:function(){return this.top}},
+  
   /**
     * Retourne le &quot;centre vertical&quot; de la note. Pour une note, ça correspond à
     * son &#x60;top&#x60;, mais la propriété doit être définie pour l&#x27;association d&#x27;objets

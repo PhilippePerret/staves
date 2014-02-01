@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -277,14 +279,14 @@ Gestion des évènements</a></li>
 if(undefined == window.Console) Console = {}
 $.extend(window.Console,{
   /**
-    * Width de la console en mode d&#x27;arrêt
-    * Note : Définie par UI.on_resize
+    * Width de la console quand elle est ouverte
+    * Note : Définie par UI.onresize_window
     * @property {Number} width_opened
     */
   width_opened: null,
   /**
-    * Width de la console en mode de jeu
-    * Note : Définie par UI.on_resize
+    * Width de la console quand elle est fermée
+    * Note : Définie par UI.onresize_window
     * @property {Number} width_ranged
     */
   width_ranged: null,
@@ -303,11 +305,21 @@ $.extend(window.Console,{
   preambule:[],
   
   /**
+    * On utilise cette propriété pour pouvoir sélectionner des choses dans la console
+    * sans déclencher le mécanisme du focus qui l&#x27;ouvre.
+    * Lorsque la propriété est TRUE, la méthode on_focus s&#x27;en retourne sans rien faire
+    * @property {Boolean} focus_disabled
+    * @default false
+    */
+  focus_disabled:false,
+  
+  /**
     * Ouvre la console (l&#x27;étend)
     * @method open
     */
   open:function()
   {
+    if(Anim.on &amp;&amp; !Anim.pause_on) return
     this.section.animate({right:&quot;8px&quot;})
   },
   /**
@@ -316,7 +328,7 @@ $.extend(window.Console,{
     */
   range:function()
   {
-    this.section.animate({right:&quot;-&quot;+400+&quot;px&quot;})
+    this.section.animate({right:&quot;-&quot;+(this.width_opened - this.width_ranged)+&quot;px&quot;})
   },
   /**
     * Méthode qui s&#x27;occupe de l&#x27;autocompletion. Par exemple, lorsque l&#x27;on tape
@@ -450,7 +462,7 @@ $.extend(window.Console,{
     */
   onfocus:function()
   {
-    if(Anim.on) return true
+    if(this.focus_disabled || (Anim.on &amp;&amp; !Anim.pause_on)) return true
     this.open()
     IN_CONSOLE = true
   },
@@ -460,7 +472,7 @@ $.extend(window.Console,{
     */
   onblur:function(evt)
   {
-    if(Anim.on) return true
+    if(Anim.on &amp;&amp; !Anim.pause_on) return true
     this.range()
     IN_CONSOLE = false
     $(&#x27;input#nothing&#x27;)[0].blur()
@@ -554,8 +566,10 @@ $.extend(window.Console,{
     */
   select:function(params)
   {
+    if(params.disable_focus) this.focus_disabled = true
     Selection.select(this.console, {start:params.start, end:params.end})
     if(params.blur) this.console[0].blur()
+    if(params.disable_focus) this.focus_disabled = false
   },
   
   /**
@@ -721,7 +735,7 @@ Object.defineProperties(window.Console,{
       if(start == -1) start = 0
       var end   = this.raw.indexOf(&quot;\n#!END&quot;)
       if(end == -1) end = this.raw.length - 1
-      this.select({start:start+1, end:end})
+      this.select({start:start+1, end:end, disable_focus:true})
       delete this._steps_selection  // pour forcer le recalcul
       return this.steps_selection
     }
@@ -741,7 +755,7 @@ Object.defineProperties(window.Console,{
       var dsel    = this.get_selection()
       var before  = this.raw.substring(0, dsel.start)
       var start   = before.lastIndexOf(&quot;\n&quot;)
-      this.select({start:start+1, end:this.raw.length})
+      this.select({start:start+1, end:this.raw.length, disable_focus:true})
       delete this._steps_selection  // pour forcer le recalcul
       return this.steps_selection
     }

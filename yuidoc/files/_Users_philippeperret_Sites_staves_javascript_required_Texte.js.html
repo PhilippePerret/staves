@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -305,8 +307,7 @@ window.METHODES_TEXTE = {
   write:function(texte, params)
   {
     // dlog(&quot;-&gt; &lt;Note&gt;.write(&quot;+texte+&quot;)&quot;)
-    if(undefined == params) params = {}
-    params.texte  = texte
+    params = define_params(params, {texte:texte})
     if(undefined == params.type) params.type = &#x27;regular&#x27;
     if(params.type_cadence)
     {
@@ -326,8 +327,7 @@ window.METHODES_TEXTE = {
     */
   measure:function(numero, params)
   {
-    if(undefined == params) params = {}
-    params.type = measure
+    params = define_params(params, {type:measure})
     this.write(numero, params)
     return this
   },

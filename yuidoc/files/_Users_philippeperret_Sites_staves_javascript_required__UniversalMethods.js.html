@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>/Users/philippeperret/Sites/staves/javascript/required/UniversalMethods.js</title>
+    <title>/Users/philippeperret/Sites/staves/javascript/required/_UniversalMethods.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -70,6 +70,8 @@
                 <li><a href="../classes/Courbe.html">Courbe</a></li>
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
+            
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
             
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
@@ -260,7 +262,7 @@ Gestion des évènements</a></li>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/required/UniversalMethods.js</h1>
+                        <h1 class="file-heading">File: /Users/philippeperret/Sites/staves/javascript/required/_UniversalMethods.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -277,6 +279,53 @@ Gestion des évènements</a></li>
   * @static
   */
 window.UNVERSAL_METHODS = {
+  
+  /**
+    * Construit l&#x27;objet
+    * Pour pouvoir fonctionner, l&#x27;objet, quel que soit son type, doit posséder les
+    * propriété &#x60;code_html&#x60; qui définit le code HTML de l&#x27;objet, &#x60;obj&#x60; qui retourne
+    * le set jQuery de l&#x27;objet principal et la méthode &#x60;positionne&#x60; qui positionne
+    * l&#x27;objet et son contenu en fonction des paramètres transmis à l&#x27;instanciation.
+    *
+    * @method build 
+    * @param {Object} params  Paramètres supplémentaires
+    */
+  build:function()
+  {
+    Anim.Dom.add(this)
+    if(this.obj)
+    {
+      this.obj.draggable({
+        containment:&#x27;parent&#x27;,
+        start:$.proxy(UI.Tools.on_start_dragging_of, UI.Tools, this),
+        stop:$.proxy(UI.Tools.coordonnees_of, UI.Tools, this)
+      })
+    }
+    return this
+  },
+  /**
+    * Affiche l&#x27;objet DOM de l&#x27;élément
+    * @method show
+    * @param  {Object} params  Les paramètres optionnels (ou la durée {Number})
+    * @return {Any} L&#x27;instance de l&#x27;élément, pour chainage éventuel
+    */
+  show:function(params)
+  {
+    Anim.Dom.show(this, params)
+    return this
+  },
+    
+  /**
+    * Masque la portée (sans la détruire)
+    * @method hide
+    * @param  {Object} params  Les paramètres optionnels (ou la durée {Number})
+    * @return {Any} L&#x27;instance de l&#x27;élément, pour chainage éventuel
+    */
+  hide:function(params)
+  {
+    Anim.Dom.hide(this, params)
+    return this
+  },
   /**
     * Construit des flèches partant de l&#x27;objet
     * Notes
@@ -326,6 +375,17 @@ window.UNVERSAL_METHODS = {
       this.arrows.length -= 1
       if(this.arrows.length == 0) delete this.arrows
     } 
+  },
+  
+  
+  /**
+    * Détruit tous les textes si l&#x27;élément possède la propriété &#x60;texte&#x60;
+    * @method remove_textes
+    */
+  remove_textes:function()
+  {
+    if(!this.texte) return
+    L(this.texte).each(function(k, instance){ instance.remove() })
   }
   
 }

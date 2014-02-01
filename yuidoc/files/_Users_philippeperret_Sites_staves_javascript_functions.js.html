@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -268,6 +270,56 @@ Gestion des évènements</a></li>
   * @module Functions.js
   */
 
+/**
+  * Méthode qui défini les paramètres +params+ en ajoutant l&#x27;objet donné en
+  * deuxième argument.
+  * @method define_params
+  * @for    window
+  * @param {Undefined|Object} params
+  * @param {Object}           extension   Ce qu&#x27;il faut ajouter à params
+  * @return {Object} +params+ étendu avec +extension+
+  */
+window.define_params = function(params, extension)
+{
+  if(undefined == params)     params = {}
+  if(undefined != extension)  $.extend(params, extension)
+  return params
+}
+
+/**
+  * Méthode qui définit dans les paramètres +params+ la propriété &#x60;wait&#x60; et
+  * la propriété &#x60;duree&#x60; si elles ne sont pas définies
+  *
+  * @method define_wait_and_duree
+  * @for window
+  * @param  {Object|Undefined}  params    Les paramètres éventuellement déjà définis
+  * @param  {Object}            instance  L&#x27;instance de l&#x27;élément qui appelle la fonction
+  * @param  {String}            trans_id  L&#x27;identifiant de délai (dans Anim.transition)
+  * @return {Object}  Les paramètres renseignés
+  *
+  */
+window.define_wait_and_duree = function(params, instance, trans_id)
+{
+  params = define_wait (params, instance)
+  params = define_duree(params, trans_id)
+  return params
+}
+/**
+  * Méthode qui définit la propriété &#x60;duree&#x60; dans les paramètres, si elle
+  * n&#x27;est pas définie, en prenant l&#x27;identifiant duree &#x60;trans_id&#x60;, clé dans
+  * Anim.transition
+  * @method define_duree
+  * @for    window
+  * @param {Object|Undefined} params    Les paramètres éventuellement existants
+  * @param {String} trans_id    Identifiant de durée
+  * @return {Object} L&#x27;objet params avec éventuellement la durée ajoutée.
+  */
+window.define_duree = function(params, trans_id)
+{
+  if(undefined == params) params = {}
+  if(undefined == params.duree) params.duree = Anim.delai_for( trans_id )
+  return params
+}
 /**
   * Méthode qui ajoute la propriété &#x60;wait&#x60; aux paramètres +param+ si nécessaire.
   *

@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -336,15 +338,17 @@ window.parametize = function(attr, value)
 
 /** Message de suivi en console
   * @method dlog
-  * @param {Object|String} foo  Ce qu&#x27;il faut placer en console.
+  * @param {Object|String}  foo       Ce qu&#x27;il faut placer en console.
+  * @param {Boolean}        is_error  Si true, c&#x27;est un message d&#x27;erreur qui est produit (false par défaut)
   * @return {String} le message, mais seulement si foo n&#x27;est pas un objet.
   */
-window.dlog = function(foo)
+window.dlog = function(foo, is_error)
 {
   if(&#x27;object&#x27;==typeof foo) console.dir(foo)
   else
   {
-    console.log(foo)
+    if(is_error) console.error(foo)
+    else console.log(foo)
     return foo // pour l&#x27;utiliser dans le code par exemple
   } 
 }

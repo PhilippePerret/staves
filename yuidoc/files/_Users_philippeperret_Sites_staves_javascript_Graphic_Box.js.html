@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -297,13 +299,19 @@ window.BACKGROUND = function(color, params)
   }
   params.class = &#x27;background&#x27;
   params.type  = &#x27;plain&#x27;
-  if(undefined == params.z) params.z = 0
-  if(undefined == params.x) params.x = 0
-  if(undefined == params.y) params.y = 0
-  if(undefined == params.width)       params.width      = 0 + Anim.Dom.width
-  if(undefined == params.height)      params.height     = 0 + Anim.Dom.height
+  if(undefined == params.z)       params.z = 0
+  if(undefined == params.x)       params.x = 0
+  if(undefined == params.y)       params.y = 0
+  if(undefined == params.width)   params.width      = 0 + Anim.Dom.width
+  if(undefined == params.height)  params.height     = 0 + Anim.Dom.height
   var bgd = BOX(params)
-  Anim.prefs.text_color = COLOR_TEXT_PER_BACKGROUND[bgd.background] || &#x27;black&#x27;
+  /*
+   *  Si la couleur de background correspond à une valeur connue, on modifie
+   *  la couleur par défaut du texte.
+   */
+  ctext = COLOR_TEXT_PER_BACKGROUND[bgd.background]
+  if(undefined != ctext) Anim.prefs.text_color = ctext
+  
   return bgd
 }
 /**
@@ -326,11 +334,20 @@ window.Box = function(params)
   
   /**
     * Type de la boite
-    * Les types sont &#x27;plain&#x27; boite pleine, &#x27;cadre&#x27; un cadre
+    * Les types sont &#x27;plain&#x27; boite pleine, &#x27;cadre&#x27; un cadre, &#x27;segment&#x27; un segment
+    * en &quot;U&quot;
     * @property {String} type
     * @default &#x27;plain&#x27;
     */
   this.type = &#x27;plain&#x27;
+  
+  /**
+    * Pour une box de type segment (&quot;U&quot;), la direction vers laquelle pointent les
+    * branche. Par défaut, le haut (&#x27;up&#x27;).
+    * @property {String} dir
+    * @default &quot;&quot;
+    */
+  this.dir = null
   
   /**
     * Position horizontale par défaut d&#x27;une boite
@@ -367,11 +384,32 @@ window.Box = function(params)
   // === Dispatch des paramètres ===
   this.dispatch(params)
 
+  /*
+   *  Valeurs par défaut pour un type &#x27;segment&#x27; : 
+   *    - &#x27;dir&#x27; à &#x27;up&#x27;
+   *    - Dimension fourche à 10
+   *  
+   */
+  if(this.type == &#x27;segment&#x27;)
+  {
+    if(!this.dir) this.dir = &quot;up&quot;
+    
+    if((this.dir == up || this.dir == down) &amp;&amp; !this.height)        this.height = 10
+    else if((this.dir == left || this.dir == right) &amp;&amp; !this.width) this.width  = 10
+  } 
+  
   /**
-    * La largeur du bord, pour une box de type &#x27;cadre&#x27;
+    * La largeur du bord, pour une box de type différente de &#x27;plain&#x27;
     * @property {Number} border
     */
-  this.border = this.border || (this.type == &#x27;plain&#x27; ? 0 : 3)
+  this.border = this.border ||  function(type) {
+                                  switch(type)
+                                  {
+                                  case &#x27;plain&#x27;    : return 0
+                                  case &#x27;cadre&#x27;    : return 3
+                                  case &#x27;segment&#x27;  : return 1
+                                  }
+                                }(this.type)
   
   /**
     * Position du calque par défaut

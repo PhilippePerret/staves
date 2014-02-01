@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/DATA_AUTOCOMPLETION.html">DATA_AUTOCOMPLETION</a></li>
             
+                <li><a href="../classes/DATA_SCREEN.html">DATA_SCREEN</a></li>
+            
                 <li><a href="../classes/Debug.html">Debug</a></li>
             
                 <li><a href="../classes/Doublage.html">Doublage</a></li>
@@ -324,6 +326,12 @@ Anim.Dom = {
     params = define_complete(params)
     
     /*
+     *  Définition de la durée que doit prendre l&#x27;animation, en fonction
+     *  des paramètres envoyés (ou durée par défaut) et de l&#x27;accélération
+     *  courante.
+     */
+    params.duree = this.real_duree( params )
+    /*
      *  On boucle sur tous les objets fournis en argument pour les animer
      *  Noter que souvent il n&#x27;y en a qu&#x27;un seul.
      *
@@ -337,7 +345,7 @@ Anim.Dom = {
         animate(
           data_css,
           {
-            duration : (params.duree || Anim.delai_for(&#x27;transform&#x27;)) * 1000,
+            duration : params.duree,
             complete : function()
             {
               /*
@@ -366,7 +374,19 @@ Anim.Dom = {
      */
     traite_wait( params )
   },
-  
+  /**
+    * Retourne la durée réelle du processus en fonction des paramètres et du
+    * coefficiant de vitesse appliqué.
+    * @method real_duree
+    * @param {Object} params Les paramètres transmis à this.anime. Noter que params.duree, si elle est définie, est en secondes.
+    * @return {Number} Le nombre de millisecondes que prendra l&#x27;animation
+    */
+  real_duree:function(params)
+  {
+    var duree = params.duree ;
+    if(undefined == duree) duree = 1 * Anim.transition.transform
+    return duree * Anim.prefs.speed_coef * 1000
+  },
   /**
     * Efface en douceur le contenu de l&#x27;animation
     * (pour un lien fluide entre des animations qui se suivent — ou reset en cours d&#x27;animation)
@@ -379,6 +399,10 @@ Anim.Dom = {
   clear:function(complete, params)
   {
     dlog(&quot;-&gt; Effacement de l&#x27;animation&quot;)
+
+    // Remet la position du curseur au départ
+    Anim.current_x = parseInt(Anim.prefs.x_start,10)
+
     if(undefined == complete) complete = NEXT_STEP
     if(undefined == params) params = {}
     if(params.all)
@@ -398,14 +422,13 @@ Anim.Dom = {
     }
     $(selector).animate(
       {opacity:0},
-      {always:function(){
-        -- nombre_elements
-        if(nombre_elements == 0)
-        {
-          $(selector).remove();
-          complete()
+      {
+        complete:function(){this.remove()},
+        always  :function(){
+          -- nombre_elements
+          if(nombre_elements == 0) complete()
         }
-      }})
+      })
   },
   /**
     * Affiche un objet quelconque de l&#x27;animation
@@ -414,6 +437,7 @@ Anim.Dom = {
     */
   show:function(instance, params)
   {
+    if(&#x27;number&#x27;==typeof params) params = {duree:params}
     this.hide_or_show(instance, params, true)
   },
   /**
@@ -436,6 +460,7 @@ Anim.Dom = {
     */
   hide:function(instance, params)
   {
+    if(&#x27;number&#x27;==typeof params) params = {duree:params}
     this.hide_or_show(instance, params, false)
   },
   /**
@@ -476,7 +501,7 @@ Anim.Dom = {
     */
   add:function(instance, params)
   {
-    dlog(&quot;-&gt; Anim.Dom.add&quot;)
+    // dlog(&quot;-&gt; Anim.Dom.add&quot;)
     var real_instance = &#x27;string&#x27; != typeof instance ;
     
     params = define_complete(params)
@@ -490,7 +515,7 @@ Anim.Dom = {
       if(instance.opacity != 0 &amp;&amp; !instance.hidden) instance.show(params)
       else if(&#x27;function&#x27; == typeof params.complete) params.complete()
     }
-    dlog(&quot;&lt;- Anim.Dom.add&quot;)
+    // dlog(&quot;&lt;- Anim.Dom.add&quot;)
   },
   /**
     * Méthode d&#x27;aide qui affiche un point de repère aux coordonnées x/y, puis

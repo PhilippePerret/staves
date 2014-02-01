@@ -16,6 +16,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Console",
         "Courbe",
         "DATA_AUTOCOMPLETION",
+        "DATA_SCREEN",
         "Debug",
         "Doublage",
         "ImageTool",
