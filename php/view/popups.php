@@ -41,7 +41,9 @@
     <li class="separateur"></li>
     <li data-item="caption_omit">Omettre les doublages</li>
     <li class="separateur"></li>
-    <li data-item="fullscreen">Anim en plein écran</li>
+    <li data-item="screensize::adapt">Dimension adaptée à l'écran</li>
+    <li data-item="screensize::480p">Dimension 480p</li>
+    <li data-item="screensize::720p">Dimension 720p</li>
     <li class="last"></li>
   </ul>
   

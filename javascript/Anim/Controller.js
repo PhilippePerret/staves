@@ -257,6 +257,9 @@ $.extend(Anim,{
   set_interface:function()
   {
     // dlog("-> set_interface [on="+this.on+"/pause_on="+this.pause_on+"]")
+    
+    UI.feedback("")
+    
     this.stop_button.css('visibility', this.on ? 'visible':'hidden')
     this.pause_button[this.on && !this.pause_on && !this.Step.mode_pas_a_pas ?'show':'hide']()
     this.start_button[!this.on || this.pause_on || this.Step.mode_pas_a_pas ?'show':'hide']()

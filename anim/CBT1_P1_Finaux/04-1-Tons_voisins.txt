@@ -17,7 +17,7 @@ DEFAULT('next', 200)
 
 SUITE('./04-2-Tons_voisins')
 
-partition = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:78, y:6, width:725})
+partition = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y:60})
 
 CAPTION("Pour être vraiment à l'aise avec l'analyse, et en tirer profit, je pense que le plus gros effort à fournir consiste à connaitre parfaitement les tonalités, ainsi que les notions relatives aux tonalités, comme par exemple les cycles des quintes.", {wait:true})
 

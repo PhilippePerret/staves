@@ -11,14 +11,14 @@
 if(undefined == window.Console) Console = {}
 $.extend(window.Console,{
   /**
-    * Width de la console en mode d'arrêt
-    * Note : Définie par UI.on_resize
+    * Width de la console quand elle est ouverte
+    * Note : Définie par UI.onresize_window
     * @property {Number} width_opened
     */
   width_opened: null,
   /**
-    * Width de la console en mode de jeu
-    * Note : Définie par UI.on_resize
+    * Width de la console quand elle est fermée
+    * Note : Définie par UI.onresize_window
     * @property {Number} width_ranged
     */
   width_ranged: null,
@@ -60,7 +60,7 @@ $.extend(window.Console,{
     */
   range:function()
   {
-    this.section.animate({right:"-"+400+"px"})
+    this.section.animate({right:"-"+(this.width_opened - this.width_ranged)+"px"})
   },
   /**
     * Méthode qui s'occupe de l'autocompletion. Par exemple, lorsque l'on tape

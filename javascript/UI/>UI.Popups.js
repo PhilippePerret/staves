@@ -78,6 +78,32 @@ window.UI.Popups = {
       Anim.options.caption_omit = !Anim.options.caption_omit
       item.html((Anim.options.caption_omit?"Jouer":"Omettre")+" les doublages")
     },
+    /**
+      * Définit la taille de l'animation
+      * @method screensize
+      * @param {jQuerySet}  item  Le menu affilité (il y en a 3 qui peuvent appeler cette méthode)
+      * @param {String}     size  La taille choisie ('adapt', '480p' ou '720p')
+      */
+    screensize:function(item, size)
+    {
+      UI.Popups.deselect("screensize::"+Anim.options.screensize)
+      Anim.set_pref('screensize', size, next_step = false)
+      if(size != 'adapt')
+      {
+        F.show("Pour que cette animation soit affichée en "+size+", il faut ajouter :\n\t\tDEFAULT('screensize', '"+size+"')\n… en début de code.")
+      }
+    },
+    /**
+      * Méthode option pour masquer ou non les éléments en cours d'animation
+      * OBSOLÈTE
+      * @method keep
+      * @param {jQuerySet} item Le menu affilié
+      */
+    fullscreen:function(item)
+    {
+      Anim.options.fullscreen = !Anim.options.fullscreen
+      item.html((Anim.options.fullscreen?"Pas de plein écran":"Anim en plein écran"))
+    },
     
     /* ---------------------------------------------------------------------
      *  Menu "Outils"
@@ -109,23 +135,13 @@ window.UI.Popups = {
     /**
       * Méthode qui affiche ou masque la grille
       * @method grid
-      * @param {jQuerySet} Le menu affilié
+      * @param {jQuerySet} item Le menu affilié
       */
     grid:function(item)
     {
       Anim.options.grid = !Anim.options.grid
       $('div#grid')[Anim.options.grid?'show':'hide']()
       item.html(Anim.options.grid?"Masquer la grille":"Afficher la grille")
-    },
-    /**
-      * Méthode option pour masquer ou non les éléments en cours d'animation
-      * @method keep
-      * @param {jQuerySet} Le menu affilié
-      */
-    fullscreen:function(item)
-    {
-      Anim.options.fullscreen = !Anim.options.fullscreen
-      item.html((Anim.options.fullscreen?"Pas de plein écran":"Anim en plein écran"))
     },
     /**
       * Menu "Cadrage image" actionné

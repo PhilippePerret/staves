@@ -28,11 +28,11 @@ div#doublage, div#caption > span#caption_text {
 }
 div#doublage {
   left      : 20px;
-  height    : 4em;
-  bottom    : 4px !important;
+  height    : 100px;
+  bottom    : 11px !important;
   width     : 860px;
   color     : yellow;
-  font-size : 13.3pt;
+  font-size : 15.6pt;
   background-color:black;
 }
 /* Les DIV contenant chaque doublage */

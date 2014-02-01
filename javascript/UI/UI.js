@@ -183,6 +183,17 @@ $.extend(UI,{
     return parseInt(valeur, 10)
   },
   /**
+    * Données pour l'écran (en fonction de Anim.options.screensize)
+    * @class DATA_SCREEN
+    * @static
+    * @final
+    */
+  DATA_SCREEN:{
+    '720p'  : {width: 1280, height:720,   font_size:'1.3em'},
+    'adapt' : {width: null, height:null,  font_size:'12.6pt'},
+    '480p'  : {width: 854,  height:480,   font_size:'12.6pt'}
+  },
+  /**
     * Redimensionne les éléments dans la fenêtre
     * Notes
     *   * La méthode est appelée au chargement de l'application
@@ -196,10 +207,21 @@ $.extend(UI,{
         e = d.documentElement,
         g = d.getElementsByTagName('body')[0],
         x = w.innerWidth || e.clientWidth || g.clientWidth,
-        y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+        y = w.innerHeight|| e.clientHeight|| g.clientHeight,
+        screensize, data_screen, anim_width, anim_height ;
   
-    anim_width      = parseInt(x * 70/100)
-    anim_height     = parseInt(y * 78/100)
+  
+    // anim_width      = parseInt(x * 70/100)
+    // anim_height     = parseInt(y * 78/100)
+    screensize  = Anim.options.screensize
+    data_screen = this.DATA_SCREEN[screensize]
+    if(screensize == 'adapt')
+    {
+      data_screen.width   = parseInt(x * 70/100)
+      data_screen.height  = data_screen.width * 9 / 16
+    }
+    anim_width  = parseInt(data_screen.width)
+    anim_height = parseInt(data_screen.height)
     
     var oanim     = $('section#animation')
     var pos_anim  = oanim.position()
@@ -213,10 +235,13 @@ $.extend(UI,{
     // Dimensions pour la console
     console_width         = x - anim_width - 40
     Console.width_ranged  = console_width
-    Console.width_opened  = parseInt(console_width + 400, 10)
+    Console.width_opened  = anim_width
     Console.height        = anim_height + 16
     Console.section.css({height: Console.height+'px', width:Console.width_opened+'px'})
-    Console.console.css({height: (Console.height - 40)+'px'})
+    Console.console.css({
+      height: (Console.height - 40)+'px',
+      'font-size': data_screen.font_size
+    })
     Console.range()
 
     // La position des sous-titres
@@ -306,5 +331,5 @@ $.extend(UI,{
   * @method onresize
   * @for window
   */
-window.onresize = UI.onresize_window
+window.onresize = $.proxy(UI.onresize_window,UI)
 

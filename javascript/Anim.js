@@ -68,6 +68,12 @@ $.extend(window.Anim,{
     */
   options:{
     /**
+      * Taille de l'écran
+      * @property {String} screensize
+      * @default 'adapt'
+      */
+    screensize        :'adapt',
+    /**
       * Quand True, joue l'animation en plein écran
       * @property {Boolean} fullscreen
       */
@@ -430,39 +436,58 @@ $.extend(window.Anim,{
     */
   set_pref:function(pref, value, next_step)
   {
-    if(pref == 'x_start'){ this.current_x = value }
-    if(pref.substring(0,7)=='offset_')
+    if(undefined === this.prefs[pref] && undefined !== this.options[pref])
     {
-      if(undefined == value) this.prefs[pref] = 0
-      else this.prefs[pref] += value
-    } 
-    else {
-      if(undefined == value) value = this.prefs_default[pref]
-      // Contrôle de certaines valeurs
-      try
+      /*
+       *  Une option (Anim.options)
+       *  
+       */
+      this.options[pref] = value
+      if(pref == 'screensize')
       {
-        if(pref == 'speed')
-        {
-          if(value == 0) throw "Le coefficiant de vitesse (speed) ne peut pas être 0…"
-          this.calc_speed_coef()
-        } 
-      } catch(err) { return F.error(err) }
-      
-      // -- Correction de certaines valeur --
-      // On remplace l'indice portée par l'instance portée si nécessaire
-      // et surtout si la portée existe. Si elle n'existe pas encore, on
-      // guettera le moment où elle sera créée.
-      if(pref == 'staff_harmony' && 'number' == typeof value)
-      {
-        if(undefined != this.staves[value - 1]) value = this.staves[value - 1]
-        // Sinon, elle reste un nombre
+        UI.Popups.select("screensize::"+value)
+        UI.onresize_window()
       }
-      
-      /* == On règle la valeur == */
-      this.prefs[pref] = value
-      if(undefined != this.prefs['offset_'+pref]) this.prefs['offset_'+pref]  = 0
     }
-    this.Infos.show_pref(pref, value)
+    else {
+      /*
+       *  Une préférence (Anim.pref)
+       *  
+       */
+      if(pref == 'x_start'){ this.current_x = value }
+      if(pref.substring(0,7)=='offset_')
+      {
+        if(undefined == value) this.prefs[pref] = 0
+        else this.prefs[pref] += value
+      } 
+      else {
+        if(undefined == value) value = this.prefs_default[pref]
+        // Contrôle de certaines valeurs
+        try
+        {
+          if(pref == 'speed')
+          {
+            if(value == 0) throw "Le coefficiant de vitesse (speed) ne peut pas être 0…"
+            this.calc_speed_coef()
+          } 
+        } catch(err) { return F.error(err) }
+      
+        // -- Correction de certaines valeur --
+        // On remplace l'indice portée par l'instance portée si nécessaire
+        // et surtout si la portée existe. Si elle n'existe pas encore, on
+        // guettera le moment où elle sera créée.
+        if(pref == 'staff_harmony' && 'number' == typeof value)
+        {
+          if(undefined != this.staves[value - 1]) value = this.staves[value - 1]
+          // Sinon, elle reste un nombre
+        }
+      
+        /* == On règle la valeur == */
+        this.prefs[pref] = value
+        if(undefined != this.prefs['offset_'+pref]) this.prefs['offset_'+pref]  = 0
+      }
+      this.Infos.show_pref(pref, value)
+    }
     if(undefined == next_step || next_step == true) NEXT_STEP(0)
   },
   /**

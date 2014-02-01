@@ -229,7 +229,7 @@ $.extend(Img,{
     * -----
     *   * La méthode est utilisée au moment de la transformation du code en instances
     *     {Pas}. À la fin de cette transformation, on fait un tour des images et on
-    *     attend qu'elles sont toutes chargées.
+    *     attend qu'elles soient toutes chargées.
     *   * La méthode tient compte du fait que l'image a déjà pu être pré-loadée
     * @method preload_image
     * @protected
