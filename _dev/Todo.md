@@ -1,17 +1,14 @@
 * Ligature
-  - Comment définir qu'il faut une ligature ?
-    En sachant que je ne peux/veux pas utiliser le système de Lilypond avec des
-    parenthèses, mais définir explicitement.
-    En fait, le mieux serait d'avoir une commande BEAM qui recevrait les notes
-    BEAM([notes], params)
-    Il faudrait aussi utiliser
-    motif.note([1,2,3]).beam()
-    ou 
-    motif.note(...).lie()
+  - Essayer de rationnaliser encore plus la construction des beams supplémentaires
+  # Corriger le bug au démarrage, avec les stems qui restent dans l'animation
+  - Les stems et beams doivent être associées aux notes pour pouvoir être supprimées
+    avec elles.
+  - Traitement des notes pointées
+  - Documenter tout ça.
 
 
 * Poursuivre l'analyse du Prélude 1
-  # Corriger définitivement le bug 202 (qui commence à me courir...)
+
 
 * Normalement, on doit pouvoir mettre des flèches sur :
   - Les parties (les textes en général)
@@ -24,4 +21,4 @@
   480p: 854x480
 
 
-* Utilisé la pièce de schuber en Eb et le prélude de Bach en Rém (CBT 2) pour montrer les développements possibles du I II V I (Bach Dm : I V I II V I / Schubert : I V I V II V I)
+* Utiliser la pièce de schuber en Eb et le prélude de Bach en Rém (CBT 2) pour montrer les développements possibles du I II V I (Bach Dm : I V I II V I / Schubert : I V I V II V I)

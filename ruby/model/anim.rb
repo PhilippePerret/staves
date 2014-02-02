@@ -16,6 +16,48 @@ class Anim
       end
     end
     
+    # Ajoute l'animation +anim+ à la liste des animations récentes (si elle ne
+    # s'y trouve pas déjà)
+    # @param  {Anim} anim   L'instance de l'animation.
+    def add_recent_anim anim
+      anim_path = File.join(anim.folder, anim.name)
+      @recent_anims = recent_anims.merge(anim_path => {:path => anim_path, :name => anim.name, :folder => anim.folder, :time => Time.now.to_i})
+      if @recent_anims.count > 10
+        # On retire l'animation la plus ancienne
+        older = { :time => Time.now.to_i }
+        @recent_anims.each do |path, danim|
+          older = danim if danim[:time] < older[:time]
+        end
+        @recent_anims = @recent_anims.reject{|path, danim| danim[:path] == older[:path]}
+      end
+      save_recent_anim
+    end
+    
+    # Enregistre la liste des animations récentes
+    # 
+    def save_recent_anim
+      File.unlink path_recent_anims if File.exists? path_recent_anims
+      File.open(path_recent_anims, 'wb'){|f| f.write( Marshal.dump(@recent_anims))}
+    end
+    
+    # Retourne la table des animations récentes
+    # 
+    def recent_anims
+      @recent_anims ||= begin
+        if File.exists? path_recent_anims
+          Marshal.load(File.read(path_recent_anims))
+        else
+          {}
+        end
+      end
+    end
+    
+    # Path du fichier des animations récentes
+    # 
+    def path_recent_anims
+      @path_recent_anims ||= File.join('.', 'anim', 'RECENT_ANIMS.msh')
+    end
+    
     # Construit un dossier (ou une hiérarchie de dossier) dans le dossier
     # des animations si un dossier n'est pas trouvé. Ce check est fait à
     # chaque enregistrement d'animation lorsque le path n'existe pas.

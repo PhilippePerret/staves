@@ -13,7 +13,8 @@ li.disabled {
 li.disabled:hover {
   cursor      :inherit !important;
 }
-section#app_popups ul.app_popup {
+section#app_popups ul.app_popup,
+section#app_popups ul.app_sous_popup {
 /*  position          : absolute;
   top               : 0;*/
   list-style        : none;
@@ -27,10 +28,13 @@ section#app_popups ul.app_popup {
   overflow          : hidden;
   background-color  : white;
 }
+section#app_popups ul.app_popup {
+
+}
 section#app_popups ul.app_popup li {
 /*  padding :1px 12px 4px;*/
-  padding-top:1px;
-  margin  :0;
+  padding-top :1px;
+  margin      :0;
 }
 section#app_popups ul.app_popup li.selected {
   background-color : #cfc !important;
@@ -80,4 +84,33 @@ section#app_popups > ul > li.items_title {
   font-style    : italic;
   font-weight   : bold;
   color         : #777;
+}
+
+/**
+  * Les sous-popups (par exemple "Ouvrir récent >")
+  */
+section#app_popups ul.app_sous_popup {
+  position    : absolute;
+  top         : 0px;
+  left        : 268px;
+  height      : auto;
+  border-left : 1px solid #ccc;
+}
+/* Un item qui ouvre un sous-popup */
+section#app_popups li.items {
+  display   : block;
+  position  : relative;
+}
+section#app_popups li.items > ul.app_sous_popup{
+  display:none;
+}
+ul.app_popup li.items:hover > ul.app_sous_popup {
+  display:block !important;
+}
+section#app_popups li.items > ul.app_sous_popup li {
+  width   : 250px;
+  color   : black;
+}
+section#app_popups li.items > ul.app_sous_popup#recent_anims li {
+ width    : 450px !important; 
 }

@@ -11,6 +11,8 @@ else
   anim = Anim::new (param :name), (param :folder)
   if anim.exists?
     RETOUR_AJAX[:raw_code]    = anim.raw_code
+    # On mémorise cette animation dans la liste des animations récentes
+    Anim::add_recent_anim anim
     # Est-ce l'animation par défaut ?
     hdefaut = Anim::default_animation
     RETOUR_AJAX[:is_default_anim] =

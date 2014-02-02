@@ -40,6 +40,15 @@ window.UI.Popups = {
     open:function(item){
       Anim.want_open()
     },
+    /**
+      * Méthode qui répond au menu "Ouvrir récent", quand on clique sur un
+      * titre d'animation.
+      */
+    openrecent:function(item, path)
+    {
+      var danim = Anim.File.recent_anims[path]
+      Anim.File.load( danim.name, danim.folder )
+    },
     save:function(item){
       Anim.File.save()
     },
@@ -273,6 +282,68 @@ window.UI.Popups = {
     if('string' == typeof menu) menu = this.section.find('li[data-item="'+menu+'"]')
     menu.removeClass('selected')
   },
+  
+  /**
+    * Ajoute une animation dans le menu des animations récemment ouvertes
+    * Ou toutes les animations récentes au chargement de l'application.
+    * @method add_recent_anim
+    * @param {String} name    Le nom de l'animation
+    * @param {String} folder  Le dossier de l'animtion
+    */
+  add_recent_anim:function(name, folder)
+  {
+    var anims = {} ;
+    if('string' == typeof name)
+    {
+      // Au chargement d'une nouvelle animation (ou pas)
+      var path = folder + "/" + name
+      if(Anim.File.recent_anims && undefined != Anim.File.recent_anims[path]) return
+      if(undefined == Anim.File.recent_anims) Anim.File.recent_anims = {}
+      Anim.File.recent_anims[path] = {name:name, folder:folder}
+      // Ajouter au menu (ci-dessous)
+      this.add_popup_recent_anims(path, name, folder)
+    }
+    else
+    {
+      // Au chargement de l'application
+      Anim.File.recent_anims = name
+      this.peuple_recent_anims()
+    }
+  },
+  /**
+    * Ajoute l'animation au menu des animations récentes
+    * @method add_popup_recent_anims
+    * @param {String} path    Le path
+    * @param {String} name    Le nom de l'animation
+    * @param {String} folder  Le dossier de l'animation
+    */
+  add_popup_recent_anims:function(path, name, folder)
+  {
+    var title = name.replace(/_/g, ' ')
+    if(folder != "") title += " -- <span class=\"small\">"+folder+"</span>" ;
+    $('ul#recent_anims').prepend('<li data-item="'+path+'">' + title +'</li>')
+  },
+  /**
+    * Peuple le menu des animations récentes au chargement de l'application
+    * Notes
+    *   * Les animations sont classées de la plus récente à la plus ancienne
+    *     grâce à la propriété :time des données de l'animation.
+    *
+    * @method peuple_recent_anims
+    */
+  peuple_recent_anims:function()
+  {
+    // Classer les animations par le temps (la plus vieille en premier puisque
+    // le peuplement se fait en ajoutant le menu au-dessus)
+    var arr = []
+    L(Anim.File.recent_anims).each(function(path, danim){ arr.push(danim )})
+    arr.sort(function(a1, a2){ return a1.time - a2.time })
+    dlog("Animation triées de la plus vieille à la plus récente :");dlog(arr)
+    
+    var my = this
+    L(arr).each(function(danim){ my.add_popup_recent_anims(danim.path, danim.name, danim.folder) })
+  },
+  
   /**
     * Préparation des popups à l'ouverture de l'application
     * @method prepare

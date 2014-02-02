@@ -19,6 +19,14 @@ window.Anim.File = {
     * @default ""
     */
   folder: "",
+  
+  /**
+    * Table contenant les animations récemment ouvertes
+    * @class recent_anims
+    * @static
+    */
+  recent_anims:{},
+  
   /**
     * Méthode définissant le nom de l'animation (du champ save_as) et
     * l'enregistrant
@@ -120,7 +128,7 @@ window.Anim.File = {
     */
   reload:function()
   {
-    this.load(this.name)
+    this.load(this.name, this.folder)
   },
   /**
     * Charge l'animation de nom +name+
@@ -137,7 +145,14 @@ window.Anim.File = {
   {
     if(undefined == rajax)
     {
-      if(name == null) name = $('select#animations').val()
+      if( name == null ) name = $('select#animations').val()
+      else if (undefined === folder)
+      {
+        danim = this.name_and_folder_from_path( name )
+        name    = danim.name
+        folder  = danim.folder
+      }
+      dlog("Je vais ouvrir "+folder+"/"+name)
       Ajax.send({script:"animation/load", name:name, folder:folder}, $.proxy(this.load, this, name, folder))
     }
     else
@@ -153,10 +168,12 @@ window.Anim.File = {
         Anim.set_anim(name, folder, rajax.raw_code)
         this.modified = false
         UI.Popups.unableIf('def_anim', rajax.is_default_anim)
+        UI.Popups.add_recent_anim( name, folder )
         if('function' == typeof this.load.poursuivre) this.load.poursuivre()
       }
       else F.error(rajax.message)
     }
+    
   },
   
   /**
@@ -177,11 +194,15 @@ window.Anim.File = {
     {
       if(rajax.ok)
       {
+        // Liste des animations et dossier du dossier racine
         UI.peuple_liste_animations(rajax.list, folder)
+        // Animations récemment ouvertes
+        UI.Popups.add_recent_anim( rajax.recent_anims )
         // Y a-t-il une animation par défaut
         if(rajax.default_animation)
         {
-          Anim.set_anim(rajax.default_animation.name, rajax.default_animation.folder, rajax.raw_code)
+          var defanim = rajax.default_animation
+          Anim.set_anim(defanim.name, defanim.folder, rajax.raw_code)
           UI.Popups.unableIf('def_anim', true)
           this.modified = false
         }
@@ -189,6 +210,20 @@ window.Anim.File = {
       }
       else F.error(rajax.message)
     }
+  },
+  
+  /**
+    * Retourne le nom (name) et le dossier (folder) du path +path+
+    * @method name_and_folder_from_path
+    * @param {String} path  Le path contenant le nom et le dossier de l'animation
+    * @return {Object} définissant `name` et `folder`.
+    */
+  name_and_folder_from_path:function(path)
+  {
+    path    = path.split('/')
+    name    = path.pop()
+    folder  = path.join('/')
+    return {name:name, folder:folder}
   }
   
 }

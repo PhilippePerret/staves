@@ -169,6 +169,10 @@ $.extend(Beam.prototype, {
       next = this.notes[inote + 1]
       if (is_down) data.height = (this.y - note.y) - 4
       note.stem(data)
+      /*
+       *  Traitement des ligatures pour rythme > croche
+       *  
+       */
       if( note.duration > 8 )
       {
         // Il faut traiter les sous-ligatures (pour 16, 32, 64)

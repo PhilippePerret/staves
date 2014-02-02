@@ -22,6 +22,10 @@
     <li class="first">Fichier</li>
     <li class="separateur"></li>
     <li data-item="open"><span class="fright">⌘O</span>Ouvrir…</li>
+    <li class="items"><span class="fright">></span>Ouvrir récent
+      <ul id="recent_anims" class="app_sous_popup">
+      </ul>
+    </li>
     <li data-item="new"><span class="fright">⌘N</span>Nouvelle animation</li>
     <li data-item="reload"><span class="fright">⌘R</span>Recharger l'animation</li>
     <li class="separateur"></li>
