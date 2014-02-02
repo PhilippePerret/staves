@@ -5,6 +5,7 @@
 SUITE('CBT1_Prelude1_12-19')
 
 # --- Valeurs par défault ---
+DEFAULT('screensize', 610)
 DEFAULT('next', 75)
 DEFAULT('staff_top', 100)
 DEFAULT('staff_offset', 140)

@@ -3,7 +3,7 @@
 # Cette deuxième partie récapitule les ton voisins en montrant les
 # accords.
 #
-
+DEFAULT('screensize', 610)
 DEFAULT('decompte',0)
 DEFAULT('staff_top')
 DEFAULT('caption_timer', true)

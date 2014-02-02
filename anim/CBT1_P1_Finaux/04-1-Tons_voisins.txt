@@ -8,7 +8,7 @@
 # Cette première partie présente les tons voisins par le biais des notes
 # altérées de la gamme de référence.
 #
-
+DEFAULT('screensize', 610)
 DEFAULT('decompte',0)
 DEFAULT('staff_top')
 DEFAULT('caption_timer', true)

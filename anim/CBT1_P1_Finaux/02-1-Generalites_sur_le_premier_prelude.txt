@@ -13,6 +13,7 @@ SUITE('./04-1-Tons_voisins')
 
 # --- Valeurs par défault ---
 
+DEFAULT('screensize', 610)
 DEFAULT('harmony', 65)
 DEFAULT('staff_top', 120)
 DEFAULT('staff_offset', 120)

@@ -320,8 +320,10 @@ window.UI.Popups = {
   add_popup_recent_anims:function(path, name, folder)
   {
     var title = name.replace(/_/g, ' ')
+    var li_id = 'recent' + path.replace(/[\/ ]/g, '_')
     if(folder != "") title += " -- <span class=\"small\">"+folder+"</span>" ;
-    $('ul#recent_anims').prepend('<li data-item="'+path+'">' + title +'</li>')
+    $('ul#recent_anims').prepend('<li id="'+li_id+'" data-item="openrecent::'+path+'">' + title +'</li>')
+    $('section#app_popups ul#recent_anims li#'+li_id).bind('click', function(){ UI.Popups.onchoose($(this))})
   },
   /**
     * Peuple le menu des animations récentes au chargement de l'application
@@ -338,8 +340,6 @@ window.UI.Popups = {
     var arr = []
     L(Anim.File.recent_anims).each(function(path, danim){ arr.push(danim )})
     arr.sort(function(a1, a2){ return a1.time - a2.time })
-    dlog("Animation triées de la plus vieille à la plus récente :");dlog(arr)
-    
     var my = this
     L(arr).each(function(danim){ my.add_popup_recent_anims(danim.path, danim.name, danim.folder) })
   },

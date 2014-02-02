@@ -5,7 +5,7 @@
 # ---
 # --- À quoi sert l'analyse ?
 # ---
-
+DEFAULT('screensize', 610)
 DEFAULT('decompte', 0)
 DEFAULT('caption_timer', true)
 
