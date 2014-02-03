@@ -57,9 +57,7 @@ window.Staff = function(params)
   // On dispatche les valeurs transmises
   var me = this
   L(params || {}).each(function(k,v){me[k]=v})
-  
-  if(undefined != params.x) this.left = params.x // ne pas faire pareil avec y !!!
-  
+    
   this.id = "staff"+this.cle+this.top+this.left+(new Date()).getTime()
   
 }
@@ -69,10 +67,10 @@ window.Staff = function(params)
 $.extend(Staff,{
   /**
     * Crée une nouvelle portée de clé +cle+ et de métrique +metrique+ sous
-    * la dernière portée affichée (et l'enregistre dans this.staves)
+    * la dernière portée affichée ou à la hauteur spécifiée (et l'enregistre dans this.staves)
     * Notes
     *   * Cette méthode ne met pas la portée en portée courante, c'est la méthode
-    *     appelante qui doit s'en charger.
+    *     appelante qui doit s'en charger ou le code de l'animation.
     *   * Si la portée (son indice) est utilisée dans une préférence (par exemple
     *     la préférence qui détermine sur quelle portée se marqueront les harmonies)
     *     alors l'indice sera remplacé par la Staff.
@@ -114,14 +112,18 @@ $.extend(Staff,{
     * @method top_next_staff
     * @param  {Object} params           Paramètres optionnels
     *   @param  {Number} params.offset  Le décalage éventuel par rapport à la position naturelle
-    *   @param  {Number} params.y       OU La position verticale exacte.
     */
   top_next_staff:function(params)
   {
-    if(undefined !== params.y) return params.y
-    var lower_staff = this.get_lower_staff()
-    if( ! lower_staff ) return Anim.prefs.staff_top
-    else return lower_staff.top + Anim.prefs.staff_offset + (params.offset ? params.offset : 0)
+    var lower_staff, top ;
+    if( undefined == params.y )
+    {
+      lower_staff = this.get_lower_staff()
+      return lower_staff ?
+              lower_staff.top + Anim.prefs.staff_offset + (params.offset ? params.offset : 0)
+              : Anim.prefs.staff_top
+    }
+    else return params.y
   },
   
   /**
@@ -154,9 +156,9 @@ $.extend(Staff,{
       if(inote >= 2/* mi */) return 2
       else return 3
     case UT3  :
-      return 2 // TODO à mieux régler
+      return 2
     case UT4  :
-      return 2 // TODO à mieux régler
+      return 2
     }
   },
   
@@ -325,9 +327,11 @@ $.extend(Staff.prototype, {
       left  : this.left + 'px',
       width : (this.width ? this.width + 'px' : '100%')
     })
-    var dec_top = this.cle == SOL ? -19 : -1
-    this.img_cle.css({top:dec_top+"px"})
-    //+9.6 pour clé de FA, -7 pour clé de Sol
+    // Positionnement de la clé
+    this.img_cle.css({ top:this.top_cle + 'px' })
+    // Positionnement de la métrique
+    this.img_metrique.css({left: this.left_metrique + 'px'})
+    // Positionnement de l'armure
   },
   
   /**
@@ -397,16 +401,22 @@ $.extend(Staff.prototype, {
 
 Object.defineProperties(Staff.prototype,{
   /**
-    * Pour utilisation par les autres méthodes, le top
+    * Alias de `top` Pour utilisation par les autres méthodes, le top
     * @property {Number} y
     */
-  "y":{get:function(){return this.top}},
+  "y":{
+    set:function(y){this.top = y},
+    get:function(){return this.top}
+  },
   
   /**
-    * Pour utilisation par les autres méthodes, le left
+    * Alias de `top` Pour utilisation par les autres méthodes, le left
     * @property {Number} x
     */
-  "x":{get:function(){return this.left}},
+  "x":{
+    set:function(x){this.left = x},
+    get:function(){return this.left}
+  },
   
   /**
     * Hauteur de la portée
@@ -436,9 +446,9 @@ Object.defineProperties(Staff.prototype,{
         switch(this.cle)
         {
         case SOL  : this._zero = this.top + 35; break;
-        case FA   : this._zero = this.top -38; break;
-        case UT3  : this._zero = this.top + 50; break;// pas encore implémenté
-        case UT4  : this._zero = this.top + 44; break; // pas encore implémenté
+        case FA   : this._zero = this.top - 38; break;
+        case UT3  : this._zero = this.top + 50; break;
+        case UT4  : this._zero = this.top + 44; break;
         }
       }
       return this._zero
@@ -456,6 +466,53 @@ Object.defineProperties(Staff.prototype,{
       if(this.img_metrique.length) objs.push(this.img_metrique)
       this.nombre_objets = objs.length
       return objs
+    }
+  },
+  /**
+    * Position top de l'image de la clé en fonction de la clé
+    * @property {Number} top_cle
+    */
+  "top_cle":{
+    get:function(){
+      switch(this.cle)
+      {
+      case SOL : return -19   ;
+      case FA  : return -1    ;
+      case FA3 : return 10.5  ;
+      case UT3 : return -1    ;
+      case UT4 : return -13   ;
+      }
+    }
+  },
+
+  /**
+    * Position left de l'image (DIV) de la métrique
+    * @property {Number} left_metrique
+    */
+  "left_metrique":{
+    get:function(){
+      var lm = 62 - parseInt((this.width_metrique - 15) / 2)
+      if(this.armure ) lm += this.width_armure + 4
+      return lm
+    }
+  },
+  /**
+    * Retourne la largeur de la métrique
+    * @property {Number} width_metrique
+    */
+  "width_metrique":{
+    get:function(){
+      return UI.exact_width_of(this.img_metrique)
+    }
+  },
+  
+  "width_armure":{
+    get:function(){
+      if(this.armure)
+      {
+        
+      }
+      return this._width_armure || 0
     }
   },
   /**
@@ -511,8 +568,9 @@ Object.defineProperties(Staff.prototype,{
         // top += 12
       }
       c +=  this.html_img_cle +
-            this.html_img_metrique +
-            this.html_img_armure
+            this.html_img_armure +
+            this.html_img_metrique
+            
       return '<div id="'+this.id+'" style="top:'+this.top+'px;opacity:0;" class="staff">'+c+'</div>'
     }
   },
@@ -522,7 +580,18 @@ Object.defineProperties(Staff.prototype,{
     */
   "html_img_cle":{
     get:function(){
-      return '<img id="'+this.dom_id_cle+'" class="cle" src="img/cle/'+this.cle+'.png" />'
+      return '<img id="'+this.dom_id_cle+'" class="cle" src="img/cle/'+this.img_png_cle+'.png" />'
+    }
+  },
+  /**
+    * Nom (affixe) de l'image PNG de la clé en fonction de la clé
+    * @property {String} img_png_cle
+    */
+  "img_png_cle":{
+    get:function(){
+      if(this.cle.substring(0,2)=='ut') return 'ut'
+      else if(this.cle == FA3)          return 'fa'
+      else                              return this.cle
     }
   },
   /**
@@ -536,8 +605,7 @@ Object.defineProperties(Staff.prototype,{
   "html_img_metrique":{
     get:function(){
       if(!this.metrique) return ""
-      var c = ""
-      return '<div id="'+this.dom_id_metrique+'" class="metrique">'+c+'</div>'
+      return '<div id="'+this.dom_id_metrique+'" class="metrique">'+this.metrique.replace(/\//,'<br>')+'</div>'
     }
   },
   /**
@@ -545,14 +613,56 @@ Object.defineProperties(Staff.prototype,{
     * Notes
     * -----
     *   * C'est un DIV principal contenant les éléments
+    *   * La propriété armure contient une note anglaise avec éventuellement l'altération.
+    *     Par exemple "cd" pour "DO dièse"
     *
     * @property {String} html_img_armure
     */
   "html_img_armure":{
     get:function(){
       if(!this.armure) return ""
-      var c = ""
-      return '<div id="'+this.dom_id_armure+'" class="armure">'+c+'</div>'
+      // On cherche dans le cycle des quintes de la tonalité
+      var dtune = DATA_TUNES[this.armure]
+      if(undefined == dtune) return F.error("Impossible de trouver les données de la tonalité `"+this.armure+"`. Existe-t-elle vraiment ?…")
+      var cycle = dtune.cycle == 'dieses' ? CYCLE_DIESES : CYCLE_BEMOLS,
+          alt   = dtune.cycle == 'dieses' ? 'diese' : 'bemol',
+          off_x = alt == 'diese' ? 12 : 10,  // décalage horizontal entre chaque altération
+          off_y_cle = this.offset_y_armure_per_cle, // décalage vertical en fonction de la clé
+          i     = 0, 
+          dalt, 
+          style = "",
+          arm   = "",
+          cur_x = 58 ;
+          
+      for(; i < 7; ++i)
+      {
+        dalt = cycle[i]
+        // On construit l'altération
+        style = "top:"+(dalt.y + off_y_cle)+'px;left:'+cur_x+'px;'
+        arm += '<img src="./img/note/'+alt+'-black.png" class="alteration" style="'+style+'" />'
+        if(dalt.tune == this.armure) break
+        cur_x += off_x
+      }
+      dlog("Armure : "+arm)
+      return '<div id="'+this.dom_id_armure+'" class="armure">'+arm+'</div>'
+    }
+  },
+  /**
+    * Décalage vertical de l'armure en fonction de la clé de la portée (toutes les valeurs de 
+    * hauteur dans les données des cycles des quintes sont fixées par rapport à la clé de sol)
+    * @property {Number} offset_y_armure_per_cle
+    */
+  "offset_y_armure_per_cle":{
+    get:function()
+    {
+      switch(this.cle)
+      {
+      case FA   : return 12 ;
+      case FA3  : return 24 ;
+      case SOL  : return 0  ;
+      case UT3  : return 6  ;
+      case UT4  : return -6 ;
+      }
     }
   }
   

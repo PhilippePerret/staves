@@ -6,6 +6,16 @@
   - Traitement des notes pointées
   - Documenter tout ça.
 
+ARMURES
+  Comment les traiter&nbsp;?
+  Il faut que "a", par exemple, retourne :
+  - 3 dièses
+  Il faut donc le cycle des dièses
+  CYCLE_DIESES : [
+  null,
+    {hname: 'fa', y:<hauteur sur portée>, x:<decalage>},
+    {hname: 'do', y:...}
+  ]
 
 * Poursuivre l'analyse du Prélude 1
 

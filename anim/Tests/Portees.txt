@@ -1,40 +1,113 @@
 # Tests sur les portées
-DEFAULT(\'caption\', true)
-DEFAULT(\'decompte\',0)
-DEFAULT(\'next\', 100)
-DEFAULT(\'staff_top\', 200)
+DEFAULT('caption', true)
+DEFAULT('decompte',0)
+DEFAULT('next', 100)
+DEFAULT('staff_top', 50)
+
+# --- Test des armures ---
+CAPTION("Une armure de FA")
+NEW_STAFF(SOL, {armure:'f'})
+WAIT(1)
+
+CAPTION("L'armure complète en dièses (DO#)")
+NEW_STAFF(SOL, {armure:'cd'})
+WAIT(1)
+
+CAPTION("Armure complète en bémols (DO bémol)")
+NEW_STAFF(FA, {armure:'cb'})
+WAIT(1)
+
+WAIT(3)
+CLEAR(true)
+
+CAPTION("Armure de LA en clé de sol")
+NEW_STAFF(SOL, {armure:'a'})
+WAIT(1)
+
+CAPTION("Armure de LA en clé de fa")
+NEW_STAFF(FA, {armure:'a'})
+WAIT(1)
+
+CAPTION("Armure de LA en clé de FA 3")
+NEW_STAFF(FA3, {armure:'a'})
+WAIT(1)
+
+CAPTION("Armure de LA en clé d'UT 3")
+NEW_STAFF(UT3, {armure:'a'})
+WAIT(1)
+
+CAPTION("Armure de LA en clé d'UT 4")
+NEW_STAFF(UT4, {armure:'a'})
+WAIT(4)
+
+CLEAR(true)
+
+# --- Test métrique ---
+
+CAPTION("Une portée avec métrique 4/4")
+NEW_STAFF(SOL, {metrique:"4/4"})
+WAIT(1)
+
+CAPTION("Clé de FA avec métrique 8/16")
+NEW_STAFF(FA, {metrique:"8/16"})
+WAIT(1)
+
+
+WAIT(4)
+CLEAR(true)
+
+# --- Test des clés ---
+CAPTION("Portée avec clé de sol")
+NEW_STAFF(SOL)
+WAIT(1)
+
+CAPTION("Portée avec clé de Fa")
+NEW_STAFF(FA)
+WAIT(1)
+
+CAPTION("Portée avec clé d'UT 3")
+NEW_STAFF(UT3)
+WAIT(1)
+
+CAPTION("Portée avec clé d'UT 4")
+NEW_STAFF(UT4)
+
+WAIT(2)
+CLEAR(true)
+
+# --- Test de la suppression des éléments ---
 
 NEW_STAFF(SOL)
 
-CAPTION(\"À la suppression de la portée, les notes doivent disparaitre.\")
-MOTIF(\'c4 e4 g4\')
+CAPTION("À la suppression de la portée, les notes doivent disparaitre.")
+MOTIF('c4 e4 g4')
 WAIT(1)
 STAFF(1).remove() 
 
 WAIT(2)
 
-CAPTION(\"À la suppression de la portée, les lignes supplémentaires doivent disparaitre.\")
+CAPTION("À la suppression de la portée, les lignes supplémentaires doivent disparaitre.")
 NEW_STAFF(FA)
-MOTIF(\'c3 e4 a3 f4 g4 e3 c3\')
+MOTIF('c3 e4 a3 f4 g4 e3 c3')
 WAIT(1)
 STAFF(1).remove()
 
 WAIT(2)
-CAPTION(\"À la suppression de la portée, les textes des notes doivent disparaitre\")
+CAPTION("À la suppression de la portée, les textes des notes doivent disparaitre")
 
 NEW_STAFF(SOL)
 la = NOTE(a4)
 la.part(dev)
 NEXT()
 si = NOTE(b4)
-si.write(\"Un texte régulier\")
+si.write("Un texte régulier")
 NEXT()
 udo = NOTE(c5)
-udo.harmony(\'II\')
+udo.harmony('II')
 NEXT()
 re = NOTE(d5)
-re.modulation(\'G Maj\')
+re.modulation('G Maj')
 
 WAIT(1)
 STAFF(1).remove()
-CAPTION(\"Tous les textes doivent avoir disparu.\")
+CAPTION("Tous les textes doivent avoir disparu.")

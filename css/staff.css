@@ -1,7 +1,8 @@
 div.staff, img.cle, img.note, img.alteration, img.silence, img.barre,
-div.text, img.circle, div.arrow, div.divimage {
+div.text, img.circle, div.arrow, div.divimage,
+div.metrique, div.armure {
   position    : absolute;
-  opacity     : 0;
+/*  opacity     : 0;*/
 }
 img.supline {
   position    : absolute;
@@ -25,4 +26,14 @@ img.supline {
   width   : 20px;
   height  : 2px;
   z-index : 0;
+}
+
+/* Métrique */
+div.staff div.metrique {
+  font-family     : 'message-box';
+  line-height     : 18pt;
+  font-size       : 22.1pt;
+  font-weight     : bold;
+  top             : 3px;
+  text-align      : center;
 }

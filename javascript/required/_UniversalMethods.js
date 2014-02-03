@@ -13,16 +13,19 @@
 window.UNVERSAL_METHODS = {
   
   /**
-    * Construit l'objet
-    * Pour pouvoir fonctionner, l'objet, quel que soit son type, doit posséder les
-    * propriété `code_html` qui définit le code HTML de l'objet, `obj` qui retourne
-    * le set jQuery de l'objet principal et la méthode `positionne` qui positionne
-    * l'objet et son contenu en fonction des paramètres transmis à l'instanciation.
+    * Construit l'objet de tout élément qui hérite des méthodes universelles (dont potentiellement
+    * tous les éléments de l'animation).
+    *
+    * Pour pouvoir fonctionner, l'objet, quel que soit son type, doit posséder :
+    *   - La propriété `code_html` qui définit le code HTML de l'objet, 
+    *   - La propriété `obj` qui retourne le set jQuery de l'objet principal
+    *   - la méthode `positionne` qui positionne l'objet et son contenu en fonction 
+    *     des paramètres transmis à l'instanciation.
     *
     * @method build 
     * @param {Object} params  Paramètres supplémentaires
     */
-  build:function()
+  build:function(params)
   {
     Anim.Dom.add(this)
     if(this.obj)

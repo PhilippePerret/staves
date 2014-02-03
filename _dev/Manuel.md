@@ -46,6 +46,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Activer/désactiver le Mode “Flash”](#mode_flash)
 * [Définir le décompte de départ](#set_decompte)
 * [Sauvegarde automatique](#autosave_code)
+* [Ouvrir une animation récemment ouverte](#open_recent_anim)
 * [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
 * [Définir l'animation courante comme animation par défaut](#set_anim_courante_as_default)
 
@@ -374,6 +375,13 @@ DEFAULT('decomte', <nombre de secondes>)
 ###Sauvegarde automatique
 
 En activant le menu “Options > Activer Auto-Save”, tous les modifications apportées au code seront automatiquement enregistrées.
+
+<a name="open_recent_anim"></a>
+###Ouvrir une animation récemment ouverte
+
+Le menu “Fichier > Ouvrir animation récente >” permet de rapidement retrouver une animation récemment ouverte ou créée.
+
+Ce menu contient jusqu'à 10 animations récentes.
 
 <a name="reiniti_preferences"></a>
 ###Ré-initialiser toutes les valeurs de préférence

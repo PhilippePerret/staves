@@ -136,7 +136,7 @@ Anim.Dom = {
     Anim.current_x = parseInt(Anim.prefs.x_start,10)
 
     if(undefined == complete) complete = NEXT_STEP
-    if(undefined == params) params = {}
+    if(undefined == params)   params = {}
     if(params.all)
     {
       params.staves = true

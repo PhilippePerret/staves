@@ -22,7 +22,7 @@
     <li class="first">Fichier</li>
     <li class="separateur"></li>
     <li data-item="open"><span class="fright">⌘O</span>Ouvrir…</li>
-    <li class="items"><span class="fright">></span>Ouvrir récent
+    <li class="items"><span class="fright">></span>Ouvrir animation récente
       <ul id="recent_anims" class="app_sous_popup">
       </ul>
     </li>
