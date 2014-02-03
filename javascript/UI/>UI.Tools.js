@@ -247,7 +247,7 @@ window.UI.Tools = {
   
   /* ---------------------------------------------------------------------
    *  PARTIE DE UI.Tools GÉRANT L'OUTIL “COORDONNÉES”
-   *  (pour obtenir les coordonnées à l'écran)
+   *  (pour obtenir les coordonnées à l'écran à l'aide d'un rectangle rouge)
    */
   /**
     * Activation de l'outil coordonnées
@@ -302,6 +302,10 @@ window.UI.Tools = {
     $('div#coord_fuite_top').css('top', values.top+'px')
     $('div#coord_fuite_bottom').css('top', values.bottom+'px')
     
+    UI.feedback(
+      'x:'+values.left+'/y:'+values.top+'/width:'+values.width+'/height:'+values.height+
+      '&nbsp;&nbsp;&nbsp;bottom:'+values.bottom+'/right:'+values.right
+    )
   },
   /**
     * Construction du cadre si nécessaire, le place dans la fenêtre et
