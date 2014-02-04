@@ -628,6 +628,7 @@ Object.defineProperties(Staff.prototype,{
           alt   = dtune.cycle == 'dieses' ? 'diese' : 'bemol',
           off_x = alt == 'diese' ? 12 : 10,  // décalage horizontal entre chaque altération
           off_y_cle = this.offset_y_armure_per_cle, // décalage vertical en fonction de la clé
+          off_y,
           i     = 0, 
           dalt, 
           style = "",
@@ -637,8 +638,13 @@ Object.defineProperties(Staff.prototype,{
       for(; i < 7; ++i)
       {
         dalt = cycle[i]
+        // Par rapport à la position de l'altération, il y a quelques exceptions. Elles sont 
+        // renseignées dans les données cycles avec en clé le nom de la clé.
+        // alt_y = dalt[this.cle] || dalt.y // ça ne suffit pas car certains valeur sont 0
+        off_y = undefined === dalt[this.cle] ? dalt.y : dalt[this.cle] ;
+        dlog("off_y (cle="+this.cle+"/i="+i+") : "+off_y)
         // On construit l'altération
-        style = "top:"+(dalt.y + off_y_cle)+'px;left:'+cur_x+'px;'
+        style = "top:"+(off_y + off_y_cle)+'px;left:'+cur_x+'px;'
         arm += '<img src="./img/note/'+alt+'-black.png" class="alteration" style="'+style+'" />'
         if(dalt.tune == this.armure) break
         cur_x += off_x

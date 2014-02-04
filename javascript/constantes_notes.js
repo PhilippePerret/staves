@@ -115,11 +115,11 @@ window.DATA_SCALES = {
   * @final
   */
 window.CYCLE_DIESES = [
-  {hname: 'fa',   y:-12, tune:'g',   nombre:1  },
-  {hname: 'do',   y:7,   tune:'d',   nombre:2  },
-  {hname: 'sol',  y:-16, tune:'a',   nombre:3  },
-  {hname: 're',   y:0,   tune:'e',   nombre:4  },
-  {hname: 'la',   y:19,  tune:'b',   nombre:5  },
+  {hname: 'fa',   y:-12, tune:'g',   nombre:1, 'ut4':30   },
+  {hname: 'do',   y:7,   tune:'d',   nombre:2    },
+  {hname: 'sol',  y:-16, tune:'a',   nombre:3, 'ut4':24   },
+  {hname: 're',   y:0,   tune:'e',   nombre:4             },
+  {hname: 'la',   y:19,  tune:'b',   nombre:5, 'ut4':18, 'fa3':-24 },
   {hname: 'mi',   y:-8,  tune:'fd',  nombre:6  },
   {hname: 'si',   y:12,  tune:'cd',  nombre:7  }
 ]
@@ -132,13 +132,13 @@ window.CYCLE_DIESES = [
   * @final
   */
 window.CYCLE_BEMOLS = [
-  {hname: 'si',   y:6,   tune:'f',   nombre:1  },
+  {hname: 'si',   y:6,   tune:'f',   nombre:1}, //, 'fa3':-36
   {hname: 'mi',   y:-12, tune:'bb',  nombre:2  },
-  {hname: 'la',   y:11,  tune:'eb',  nombre:3  },
+  {hname: 'la',   y:11,  tune:'eb',  nombre:3, 'fa3':-29 },
   {hname: 're',   y:-6,  tune:'ab',  nombre:4  },
-  {hname: 'sol',  y:18,  tune:'db',  nombre:5  },
+  {hname: 'sol',  y:18,  tune:'db',  nombre:5, 'fa3':-24  },
   {hname: 'do',   y:-1,  tune:'gb',  nombre:6  },
-  {hname: 'fa',   y:24,  tune:'cb',  nombre:7  }
+  {hname: 'fa',   y:24,  tune:'cb',  nombre:7, 'fa3':-18}
 ]
 
 /**

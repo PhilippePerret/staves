@@ -5,6 +5,24 @@ DEFAULT('next', 100)
 DEFAULT('staff_top', 50)
 
 # --- Test des armures ---
+NEW_STAFF(SOL,{armure:'cd'})
+NEW_STAFF(FA, {armure:'cd'})
+NEW_STAFF(FA3, {armure:'cd'})
+NEW_STAFF(UT3, {armure:'cd'})
+NEW_STAFF(UT4, {armure:'cd'})
+
+WAIT(4)
+CLEAR(true)
+
+NEW_STAFF(SOL,{armure:'cb'})
+NEW_STAFF(FA, {armure:'cb'})
+NEW_STAFF(FA3, {armure:'cb'})
+NEW_STAFF(UT3, {armure:'cb'})
+NEW_STAFF(UT4, {armure:'cb'})
+
+WAIT(4)
+CLEAR(true)
+
 CAPTION("Une armure de FA")
 NEW_STAFF(SOL, {armure:'f'})
 WAIT(1)
