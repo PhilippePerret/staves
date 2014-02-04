@@ -1033,6 +1033,8 @@ Par exemple&nbsp;:
 
 * [Créer une portée](#create_staff)
 * [Activer une portée](#active_staff)
+* [Définir l'armure de la portée](#define_armure_staff)
+* [Définir la métrique de la portée](#define_metrique_staff)
 * [Récupérer une portée](#recuperer_staff)
 * [Supprimer les lignes supplémentaires](#remove_suplines)
 * [Placer un texte sur la portée](#ecrire_texte_portee)
@@ -1060,9 +1062,9 @@ Pour créer une portée, utiliser le pas&nbsp;:
   
 (*) *Noter que par défaut, il y aura toujours un décalage entre deux portées créées, ce `offset` ne fait qu'aggrandir l'espacement (s'il est positif) ou le rétrécir (s'il est négatif)*
 
-(**) *Une valeur de type "4/4" ou "3/8" etc.*
+(**) *Une valeur de type "4/4" ou "3/8" etc. Cf. [Définir la métrique de la portée](#define_metrique_staff)*
 
-(***) *La tonalité, par exemple "A", "Bb" ou "C#".*
+(***) *La tonalité, par exemple "A", "Bb" ou "C#". Cf. [Définir l'armure de la portée](#define_armure_staff)*
 
 Par exemple&nbsp;:
   
@@ -1083,6 +1085,28 @@ Activer une portée signifie que tous les pas suivants la viseront. Par exemple,
     
     ACTIVE_STAFF(1)
     
+    
+<a name="define_armure_staff"></a>
+###Définir l'armure de la portée
+
+On définit l'armure de la portée avec le paramètre `armure` qu'on renseigne avec le nom de la tonalité exprimée au format de l'application, c'est-à-dire une lettre minuscule pour la note (de "a" à "g"), la lettre "b" pour "bémol" ou "d" pour "dièse".
+
+Par exemple, pour une armure de FA# majeur avec une clé d'UT3&nbsp;:
+
+    NEW_STAFF(UT3, {armure:'fd'})
+
+Noter que l'animation en fonctionne pas comme un logiciel de PAO&nbsp;: il faut indiquer cette armure pour chaque portée sur laquelle on veut voir l'armure en question.
+
+<a name="define_metrique_staff"></a>
+###Définir la métrique de la portée
+
+On définit la métrique avec le paramètre `metrique` qu'on renseigne avec les deux nombres qui composent la métrique séparés par une balance. 
+
+Par exemple pour une mesure en 6/8&nbsp;:
+
+    NEW_STAFF(SOL, {metrique:"6/8"})
+
+
 <a name="recuperer_staff"></a>
 ###Récupérer une portée
 

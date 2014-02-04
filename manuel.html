@@ -362,6 +362,7 @@ sup {
 <li><a href="#mode_flash">Activer/désactiver le Mode “Flash”</a></li>
 <li><a href="#set_decompte">Définir le décompte de départ</a></li>
 <li><a href="#autosave_code">Sauvegarde automatique</a></li>
+<li><a href="#open_recent_anim">Ouvrir une animation récemment ouverte</a></li>
 <li><a href="#reiniti_preferences">Ré-initialiser toutes les valeurs de préférences</a></li>
 <li><a href="#set_anim_courante_as_default">Définir l'animation courante comme animation par défaut</a></li>
 </ul>
@@ -757,6 +758,14 @@ STOP_MODE_FLASH
 <h3>Sauvegarde automatique</h3>
 
 <p>En activant le menu “Options > Activer Auto-Save”, tous les modifications apportées au code seront automatiquement enregistrées.</p>
+
+<p><a name="open_recent_anim"></a></p>
+
+<h3>Ouvrir une animation récemment ouverte</h3>
+
+<p>Le menu “Fichier > Ouvrir animation récente >” permet de rapidement retrouver une animation récemment ouverte ou créée.</p>
+
+<p>Ce menu contient jusqu'à 10 animations récentes.</p>
 
 <p><a name="reiniti_preferences"></a></p>
 
@@ -1525,6 +1534,8 @@ monMotif.note('2..4').fantomize()
 <ul>
 <li><a href="#create_staff">Créer une portée</a></li>
 <li><a href="#active_staff">Activer une portée</a></li>
+<li><a href="#define_armure_staff">Définir l'armure de la portée</a></li>
+<li><a href="#define_metrique_staff">Définir la métrique de la portée</a></li>
 <li><a href="#recuperer_staff">Récupérer une portée</a></li>
 <li><a href="#remove_suplines">Supprimer les lignes supplémentaires</a></li>
 <li><a href="#ecrire_texte_portee">Placer un texte sur la portée</a></li>
@@ -1557,9 +1568,9 @@ monMotif.note('2..4').fantomize()
 
 <p>(<em>) </em>Noter que par défaut, il y aura toujours un décalage entre deux portées créées, ce <code>offset</code> ne fait qu'aggrandir l'espacement (s'il est positif) ou le rétrécir (s'il est négatif)*</p>
 
-<p>(<em><em>) </em>Une valeur de type "4/4" ou "3/8" etc.</em></p>
+<p>(<em><em>) </em>Une valeur de type "4/4" ou "3/8" etc. Cf. <a href="#define_metrique_staff">Définir la métrique de la portée</a></em></p>
 
-<p>(<em><em>*) </em>La tonalité, par exemple "A", "Bb" ou "C#".</em></p>
+<p>(<em><em>*) </em>La tonalité, par exemple "A", "Bb" ou "C#". Cf. <a href="#define_armure_staff">Définir l'armure de la portée</a></em></p>
 
 <p>Par exemple&nbsp;:</p>
 
@@ -1582,6 +1593,30 @@ monMotif.note('2..4').fantomize()
 <p>… où <code>&lt;indice de la portee&gt;</code> est son rang dans l'affichage, en partant de 1 et du haut. Donc la portée la plus en haut s'active par&nbsp;:</p>
 
 <pre><code>ACTIVE_STAFF(1)
+</code></pre>
+
+<p><a name="define_armure_staff"></a></p>
+
+<h3>Définir l'armure de la portée</h3>
+
+<p>On définit l'armure de la portée avec le paramètre <code>armure</code> qu'on renseigne avec le nom de la tonalité exprimée au format de l'application, c'est-à-dire une lettre minuscule pour la note (de "a" à "g"), la lettre "b" pour "bémol" ou "d" pour "dièse".</p>
+
+<p>Par exemple, pour une armure de FA# majeur avec une clé d'UT3&nbsp;:</p>
+
+<pre><code>NEW_STAFF(UT3, {armure:'fd'})
+</code></pre>
+
+<p>Noter que l'animation en fonctionne pas comme un logiciel de PAO&nbsp;: il faut indiquer cette armure pour chaque portée sur laquelle on veut voir l'armure en question.</p>
+
+<p><a name="define_metrique_staff"></a></p>
+
+<h3>Définir la métrique de la portée</h3>
+
+<p>On définit la métrique avec le paramètre <code>metrique</code> qu'on renseigne avec les deux nombres qui composent la métrique séparés par une balance.</p>
+
+<p>Par exemple pour une mesure en 6/8&nbsp;:</p>
+
+<pre><code>NEW_STAFF(SOL, {metrique:"6/8"})
 </code></pre>
 
 <p><a name="recuperer_staff"></a></p>
