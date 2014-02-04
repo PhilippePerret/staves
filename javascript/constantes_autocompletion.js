@@ -32,6 +32,8 @@ window.DATA_AUTOCOMPLETION = {
   'def' : {replace:"DEFAULT('PROP', VALUE)",  boffset:13, length:4  },
   'exe' : {replace:"EXEC('CODE')",            boffset:6,  length:4  },
   'fan' : {replace:"fantomize()",             boffset:0,  length:0  },
+  'fla' : {replace:"FLASH",                   boffset:0,  length:0  },
+  'las' : {fourth:'f'},
   'ima' : {replace:"IMAGE({url:'URL'})",      boffset:6,  length:3  },
   'mot' : {replace:"MOTIF('c4 d4 e4')",       boffset:10, length:8  },
   'nex' : {replace:"NEXT()",                  boffset:0             },
@@ -52,6 +54,7 @@ window.DATA_AUTOCOMPLETION = {
  *          le paramètre `fourth` définissant la première lettre
  */
 $.extend(window.DATA_AUTOCOMPLETION, {
-  'capw': {replace:'CAPTION("", {wait:true})', boffset:15             },
-  'waic': {replace:'WAIT_CAPTION',             boffset:0              }
+  'capw': {replace:'CAPTION("", {wait:true})',  boffset:15              },
+  'flas': {replace:'STOP_FLASH',                boffset:0               },
+  'waic': {replace:'WAIT_CAPTION',              boffset:0               }
 })

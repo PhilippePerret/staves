@@ -12,15 +12,16 @@ DEFAULT('staff_offset', 140)
 DEFAULT('caption_timer', true)
 DEFAULT('decompte', 0)
 
+FLASH
+
 # La partition complète
 partition_complete = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y:60})
 
+CAPTION("Fort de ce rafraichissement tonal, nous allons pouvoir passer maintenant à un gros morceau de l'analyse musicale, l'analyse harmonique.", {wait:true})
 
-###CAPTION("Fort de ce rafraichissement tonal, nous allons pouvoir passer maintenant à un gros morceau de l'analyse musicale, l'analyse harmonique.", {wait:true})
+CAPTION("Cette analyse harmonique consiste à analyser tous les accords de la pièce, à déterminer leur fonction harmonique, à repérer toute forme de modulation et, très important, à mettre en exergue les cadences et leur type.", {wait:true})
 
-###CAPTION("Cette analyse harmonique consiste à analyser tous les accords de la pièce, à déterminer leur fonction harmonique, à repérer toute forme de modulation et, très important, à mettre en exergue les cadences et leur type.", {wait:true})
-
-###CAPTION("Pour cette initiation, on va procéder relativement lentement, et en détaillant, mais n'hésitez pas, encore une fois, à mettre la vidéo sur pause ou à revenir en arriève pour bien comprendre un passage qui serait aller trop vite.")
+CAPTION("Pour cette initiation, on va procéder relativement lentement, et en détaillant, mais n'hésitez pas, encore une fois, à mettre la vidéo sur pause ou à revenir en arriève pour bien comprendre un passage qui serait aller trop vite.")
 
 # --- Les portées ---
 partition_complete.hide({duree:5})
@@ -31,9 +32,12 @@ partition=IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/longueur-01-14.png', y:2
 
 WAIT_CAPTION
 
-###CAPTION("Si j'ai choisi cette pièce de Bach, c'est pour deux raisons principales. D'abord, elle est assez connue, et ensuite, son analyse harmonique est très simple, notamment parce qu'il n'y a qu'un seul accord par mesure, ce qui est somme toute assez rare.", {wait:true})
+CAPTION("Si j'ai choisi cette pièce de Bach, c'est pour deux raisons principales. D'abord, elle est assez connue, et ensuite, son analyse harmonique est très simple, notamment parce qu'il n'y a qu'un seul accord par mesure, ce qui est somme toute assez rare.", {wait:true})
 
 # --- Premier accord DO ---
+
+STOP_FLASH
+
 ACTIVE_STAFF(1)
 CAPTION("Commençons donc par l'accord de la première mesure.", {wait:true})
 CAPTION("Dans un premier temps, je rassemble simplement ses notes en les superposant.")
@@ -141,7 +145,7 @@ sol1.note(2).show()
 WAIT_CAPTION
 
 # --- Mesure 4 : Do ---
-#!START
+
 CAPTION("La quatrième mesure présente le même accord que la première mesure. Je vais un peu plus vite en besogne.")
 NEXT()
 STAFF(1).measure('4')
@@ -154,22 +158,33 @@ CAPTION("C'est donc l'accord du premier degré, l'accord de tonique, et j'obtien
 do2.cadence('I', {width:200, type:imparfaite})
 WAIT_CAPTION
 
+
 # --- Parenthèse cadence ---
+
 CAPTION("La cadence est à la musique ce que la ponctuation est à la phrase. Elle structure le récit, elle a une importance capitale dans la perception qu'on a du discours de l'œuvre, à l'insu de l'auditeur lorsqu'il n'a pas l'oreille entraînée.", {wait:true})
 
 CAPTION("Il existe plusieurs types de cadences, peu nombreuses, mais ici nous n'allons aborder que la cadence parfaite et la cadence imparfaite.", {wait:true})
 
-CAPTION("Entre nous, ce sont vraiment des noms mal choisis et un peu désincarnés, froids. Une cadence imparfaite est tout aussi parfaite que la cadence dite parfaite. Pour me convaincre du contraire, il faudrait me montrer en quoi une virgule est plus parfaite qu'un point…", {wait:true})
+CAPTION("Entre nous, ce sont vraiment des noms mal choisis et un peu désincarnés, froids. Une cadence imparfaite est tout aussi parfaite que la cadence dite parfaite. Pour convaincre du contraire, il faudrait montrer en quoi une virgule est plus parfaite qu'un point…", {wait:true})
 
-CAPTION("Peu importe. Ce qu'il est important de retenir, capital même, c'est qu'une cadence parfaite ou imparfaite, c'est l'enchaînement de l'accord du Ve degré et de l'accord du premier degré. C'est l'enchainement de l'accord de Dominante — ici le SOL — et de l'accord de tonique — ici le DO.", {wait:true})
+CAPTION("Peu importe. Ce qu'il est important de retenir, capital même, c'est qu'une cadence parfaite ou imparfaite, c'est l'enchaînement de l'accord du Ve degré et de l'accord du premier degré.", {wait:true})
 
-CAPTION("Cette cadence est dite parfaite dans un seul cas : lorsque les deux accords se présentent dans leur état fondamental. C'est véritablement un point. Dans tous les autres cas, l'enchaînement V I est dit imparfait, c'est une virgule harmonique.", {wait:true})
+STOP_FLASH
+
+texte_cadence = TBOX("Une cadence parfaite/imparfaite est l'enchainement : V I", {x:130, y:442, width:800})
+
+CAPTION("C'est l'enchainement de l'accord de Dominante — ici le SOL — et de l'accord de tonique — ici le DO.", {wait:true})
+
+CAPTION("Cette cadence est dite parfaite dans un seul cas : lorsque les deux accords se présentent dans leur état fondamental. C'est véritablement un point harmonique. Dans tous les autres cas, l'enchaînement V I est dit imparfait, c'est une virgule harmonique.", {wait:true})
 
 CAPTION("Ici, vous voyez que l'accord de tonique, le I, est à l'état fondamental, mais l'accord de dominante se présente sous son premier renversement. La cadence est imparfaite.", {wait:true})
 
-wait(1)
+WAIT(1)
+texte_cadence.hide({duree:5, wait:false})
 
 CAPTION("Vous notez que j'ai tiré le trait de cette cadence jusque sous l'accord du 2e degré. C'est tout simplement parce que l'enchaînement II V I est une extension hyper-classique de la cadence simple. On l'appelle une CADENCE ITALIENNE.", {wait:true})
+
+texte_cadence.set("Cadence italienne : enchaînement II V I").show()
 
 CAPTION("Retenez surtout l'enchaînement II V I. Et notez que c'est un enchainement qui n'est pas exclusif à la musique classique, on le retrouve partout, partout, partout, que ce soit dans le rock, dans le jazz, dans la variété, dans musique traditionnelle tonale, partout.", {wait:true})
 

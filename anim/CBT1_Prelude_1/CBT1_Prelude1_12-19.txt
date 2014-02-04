@@ -6,9 +6,9 @@ SUITE('CBT1_Prelude1_20-25')
 
 # --- Valeurs par défault ---
 DEFAULT('decompte', 0)
-DEFAULT(\'next\', 80)
-DEFAULT(\'harmony\', 50)
-DEFAULT(\'staff_top\', 120)
+DEFAULT('next', 80)
+DEFAULT('harmony', 8)
+DEFAULT('staff_top', 120)
 DEFAULT('offset_modulation_y', 15)
 DEFAULT('chord', 35)
 DEFAULT('staff_harmony', 2)
@@ -21,11 +21,11 @@ ACTIVE_STAFF(1)
 # --- Mesure 12 : C#7dim ---
 acc = CHORD('2:g3 2:bb3 e4 g4 cd5')
 WAIT(2)
-MODE_FLASH
+
 acc.note([1,2,5]).fantomize()
 provsib = NOTE('bb4')
 provdo  = NOTE('cd4')
-STOP_MODE_FLASH
+
 WAIT(1)
 acc.chord('C#7dim')
 WAIT(1)
@@ -33,38 +33,37 @@ acc.modulation('Rém [IIe de C]')
 WAIT(1)
 acc.harmony('VII7dim**')
 WAIT(1)
-MODE_FLASH
+
 provsib.remove()
 provdo.remove()
 STAFF(1).remove_supline({bottom:1})
 acc.note([1,2,5]).defantomize().update()
-STOP_MODE_FLASH
+
 
 # # --- Mesure 13 : Dm ---
 NEXT()
 acc = CHORD('2:f3 2:a3 d4 a4 d5')
 WAIT(2)
-FLASH
+
 acc.note([1,2,5]).fantomize()
 prov = NOTE(f4)
-STOP_FLASH
+
 WAIT(2)
 acc.chord('Dm')
 WAIT(1)
 acc.cadence('I',{type:imparfaite, width:112})
-FLASH
+
 prov.remove()
 acc.note([1,2,5]).defantomize()
-STOP_FLASH
 
 
 # --- Mesure 14 : B7dim ---
 NEXT()
 acc = CHORD('2:f3 2:ab3 d4 f4 b4')
-FLASH
+
 acc.note([1,2,5]).fantomize()
 prov = NOTE(b3)
-STOP_FLASH
+
 WAIT(1)
 acc.chord("B7dim")
 WAIT(1)
@@ -72,11 +71,11 @@ acc.modulation("C(m)")
 WAIT(1)
 acc.harmony('VII7dim**')
 WAIT(2)
-FLASH
+
 acc.note([1,2,5]).defantomize()
 prov.remove()
 STAFF(1).remove_supline({bottom:1})
-STOP_FLASH
+
 
 # --- Mesure 15 : C ---
 NEXT()
@@ -88,12 +87,10 @@ acc.chord('C')
 WAIT(1)
 acc.cadence('I', {type:imparfaite, width:112})
 WAIT(1)
-FLASH
+
 prov.remove()
 acc.note([1,2,5]).defantomize()
-STOP_FLASH
 
-#!START
 
 # --- Mesure 16 : Fa7M ---
 NEXT()
@@ -119,4 +116,3 @@ acc.cadence('I', {type:parfaite, width:180})
 WAIT(1)
 STAFF(1).write("= mesure 1 octave bassa",{type:'cadre italic petit', offset_y:20, width:70})
 
-#!END

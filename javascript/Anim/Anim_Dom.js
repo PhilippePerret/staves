@@ -55,7 +55,7 @@ Anim.Dom = {
      *  ou au temps déterminer par params.wait
      *  Quand params.complete n'est pas défini en argument, c'est NEXT_STEP
      */
-    params = define_complete(params)
+    params = define_complete( params )
     
     /*
      *  Définition de la durée que doit prendre l'animation, en fonction
@@ -71,32 +71,49 @@ Anim.Dom = {
      *  éviter tout problème, on s'assure ici de ne prendre que le premier.
      *
      */
-    for(; iobjet < nombre_objets; ++iobjet)
+    
+    if( MODE_FLASH )
     {
-      objets[iobjet].eq(0).
-        animate(
-          data_css,
-          {
-            duration : params.duree,
-            complete : function()
+      dlog("= MODE FLASH dans Anim.Dom.anime pour traiter l'opération demandée")
+      var obj
+      for(; iobjet < nombre_objets; ++iobjet)
+      {
+        obj = objets[iobjet].eq(0)
+        obj.css(data_css)
+        if(params.complete_each) obj[params.complete_each]()
+      }
+      if('function' == typeof params.complete) return params.complete()
+    }
+    else 
+    {
+      // Dans le cas où le anim doit être joué normalement
+      for(; iobjet < nombre_objets; ++iobjet)
+      {
+        objets[iobjet].eq(0).
+          animate(
+            data_css,
             {
-              /*
-               *  Si une méthode (simple) a été définie dans `complete_each`, on
-               *  l'exécute sur l'objet.
-               */
-              if('string' == typeof params.complete_each) this[params.complete_each]()
-            },
-            always   : function()
-            {
-              ++ nombre_objets_traited
-              if(nombre_objets_traited == nombre_objets)
+              duration : params.duree,
+              complete : function()
               {
-                // Fin de l'animation de tous les objets à traiter
-                if('function' == typeof params.complete) params.complete()
+                /*
+                 *  Si une méthode (simple) a été définie dans `complete_each`, on
+                 *  l'exécute sur l'objet.
+                 */
+                if('string' == typeof params.complete_each) this[params.complete_each]()
+              },
+              always   : function()
+              {
+                ++ nombre_objets_traited
+                if(nombre_objets_traited == nombre_objets)
+                {
+                  // Fin de l'animation de tous les objets à traiter
+                  if('function' == typeof params.complete) params.complete()
+                }
               }
             }
-          }
-        )
+          )
+      }
     }
     
     /* 
@@ -192,7 +209,7 @@ Anim.Dom = {
     */
   hide:function(instance, params)
   {
-    if('number'==typeof params) params = {duree:params}
+    if('number'==typeof params) params = { duree:params }
     this.hide_or_show(instance, params, false)
   },
   /**
@@ -207,6 +224,7 @@ Anim.Dom = {
     */
   hide_or_show:function(instance, params, to_show)
   {
+    dlog("-> Anim.hide_or_show(instance="+instance.id+")")
     var obj = instance.obj
     if(undefined == obj || obj.length == 0) return F.error("[Anim.Dom.hide_or_show] Aucun objet à traiter…")
     params = define_wait(params, instance)

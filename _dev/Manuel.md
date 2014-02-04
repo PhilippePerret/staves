@@ -28,6 +28,7 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 ###Table des matières
 
 * [Introduction](#intro_animation)
+* [Définir l'animation courante comme animation par défaut](#set_anim_courante_as_default)
 * [Définir le cadre de l'animation](#definir_cadre_animation)
 * [Composer le code de l'animation](#code_composition)
   * [Se déplacer sur la portée](#move_on_staff)
@@ -36,6 +37,8 @@ Cette application permet de faire des animations musicales (écrites), à des fi
   * [Resetter l'animation](#reset_animation)
   * ["Nettoyer" l'animation (tout effacer)](#clean_animation)
   * [Commentaires dans le code](#code_comments)
+  * [Mettre un point d'arrêt avant la fin](#command_stop)
+  * [Jouer rapidement ce qui précède le passage travaillé](#jouer_before_avec_mode_flash)
 * [Le paramètre spécial d'attente (`wait`)](#parametre_special_wait)
 * [Le paramètre spécial de durée (`duree`)](#parametre_special_duree)
 * [Vitesse de l'animation](#vitesse_animation)
@@ -48,7 +51,6 @@ Cette application permet de faire des animations musicales (écrites), à des fi
 * [Sauvegarde automatique](#autosave_code)
 * [Ouvrir une animation récemment ouverte](#open_recent_anim)
 * [Ré-initialiser toutes les valeurs de préférences](#reiniti_preferences)
-* [Définir l'animation courante comme animation par défaut](#set_anim_courante_as_default)
 
 ###Réinitialiser les préférences
 
@@ -184,6 +186,26 @@ Le pas à utiliser est :
     
     CLEAR(true) // efface aussi les portées
     
+    
+<a name="command_stop"></a>
+###Mettre un point d'arrêt avant la fin
+
+Il peut être intéressant parfois de mettre un point d'arrêt à l'intérieur du code de l'animation, qui l'interrompra comme le bouton “Stop” (par exemple pour modifier les coordonnées d'un élément de l'animation).
+
+Pour ce faire, il suffit d'utiliser la commande&nbsp;:
+
+    STOP
+
+… à l'endroit où l'animation doit s'interrompre.
+
+
+<a name="jouer_before_avec_mode_flash"></a>
+###Jouer rapidement jusqu'au passage travaillé
+
+Lorsqu'on travaille un passage, il peut être intéressant de jouer rapidement l'animation jusqu'à ce passage (surtout lorsque des animations lentes sont utilisées).
+
+Pour ce faire, on utilise le [mode Flash](#mode_flash).
+
 <a name="parametre_special_wait"></a>
 ###Le paramètre spécial d'attente (`wait`)
 

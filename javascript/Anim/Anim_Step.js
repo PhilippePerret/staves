@@ -115,9 +115,11 @@ Anim.Step = {
     * @param  {Undefined|Number} timeout Le temps d'attente avant de passer à la suite.
     *                             Si indéfini, c'est le temps par défaut (Anim.transition.step), si 0, on passe tout de suite à l'étape suivante. Si c'est un nombre, c'est le nombre de secondes.
     */
+  auto_next_count:0,
   auto_next:function(timeout)
   {
     // stack('-> Anim.Step.auto_next', {timeout:timeout})
+    dlog("-> auto_next (count:"+(++this.auto_next_count)+" / Pas.count:"+Pas.count+")")
     if(Anim.waiting_for_caption == true) return
     if(Anim.Dom.Doublage.on && Anim.Dom.Doublage.waiting == true)
     {

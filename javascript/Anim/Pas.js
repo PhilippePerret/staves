@@ -81,7 +81,13 @@ $.extend(Pas,{
     * Dernier identifiant d'étape affecté
     * @property {Number} last_id
     */
-  last_id: 0
+  last_id: 0,
+  /**
+    * Indice 1-start du pas courant (pour débuggage)
+    * Note : Seuls sont compter les pas qui s'exécute (donc pas les commentaires, les lignes vides, etc.)
+    * @property {Number} pas_count
+    */
+  count:0
 })
 
 
@@ -90,7 +96,6 @@ $.extend(Pas,{
  *  
  */
 $.extend(Pas.prototype,{
-  
   /**
     * == Main ==
     *
@@ -106,6 +111,7 @@ $.extend(Pas.prototype,{
     try
     { 
       dlog("Pas.exec("+this.trimed+")")
+      ++ Pas.count
       // Anim.Step.set_exec_on()
       eval('Anim.Objects.'+this.trimed) 
     }

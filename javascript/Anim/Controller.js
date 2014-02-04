@@ -93,6 +93,8 @@ $.extend(Anim,{
   {
     this.on       = true
     this.pause_on = false
+    this.Step.auto_next_count = 0 // débuggage
+    Pas.count                 = 0 // débuggage
     this.set_interface()
     UI.Regle.hide()
     var delai_before = (this.isSuite) ? 0 : this.prefs.decompte

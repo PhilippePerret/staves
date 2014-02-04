@@ -1,3 +1,15 @@
+TBOX
+  Je suis en train de travailler la méthode set
+  - préparer des tests
+  - documenter (ne pas oublier les propriétés 'offset_x', 'offset_y', 'offset_width' et 'offset_height')
+  - ajouter le traitement des paramètres wait et duree
+    MAIS : il faudrait faire peut-être une distinction entre l'utilisation avec positionne à la
+    construction de la TBox (pas de animate) et l'utilisation avec la méthode `set` qui utilise
+    Anim.Dom.anime (faire bien l'essai dans les tests)
+
+MODE FLASH
+L'affiner au maximum pour aller très vite jusqu'à l'endroit à jouer.
+
 * Ligature
   - Essayer de rationnaliser encore plus la construction des beams supplémentaires
   # Corriger le bug au démarrage, avec les stems qui restent dans l'animation

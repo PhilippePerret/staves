@@ -80,7 +80,10 @@ FONCTIONS_ANIM_OBJETS = {
     * autre, ils se mettent simplement dans des DIV qui leur sont réservés
     * @method CAPTION
     */
-  CAPTION:function(texte, params){Anim.Dom.Doublage.show(texte, params)},
+  CAPTION:function(texte, params){
+    if( MODE_FLASH ) return NEXT_STEP(0)
+    Anim.Dom.Doublage.show(texte, params)
+  },
 
   CHORD:function(notes, params){return CHORD(notes, params)},
   /** Commande pour construire une flèche sans la placer dans une variable
@@ -105,7 +108,7 @@ FONCTIONS_ANIM_OBJETS = {
     */
   WAIT:function(laps)
   {
-    if(MODE_FLASH) return Anim.Step.auto_next()
+    if( MODE_FLASH ) return Anim.Step.auto_next()
     else Anim.Step.auto_next( laps * Anim.delai_for('wait') )
   },
   WRITE:function(texte)
@@ -294,6 +297,16 @@ FONCTIONS_ANIM_OBJETS = {
 
 METHODES_ANIM_OBJETS = {
   /**
+    * Commande pour interrompre l'animation à un point donné
+    * @method STOP
+    */
+  "STOP":{
+    get:function(){
+      Anim.stop(forcer = true)
+      F.show("Interruption forcée à l'aide de la commande `STOP`.")
+    }
+  },
+  /**
     * Pseudo-méthode pour passer en mode flash
     * @method MODE_FLASH
     */
@@ -354,9 +367,10 @@ METHODES_ANIM_OBJETS = {
     */
   "WAIT_CAPTION":{
     get:function(){
+      if( MODE_FLASH ) return NEXT_STEP(0)
       if(Anim.prefs.caption_timer == false)
       {
-        if(!MODE_FLASH) F.error("WAIT_CAPTION doit être utilisé dans le contexte de doublage énoncés (`DEFAULT('caption_timer', true)`).\nJe passe à l'étape suivante sans attendre.")
+        F.error("WAIT_CAPTION doit être utilisé dans le contexte de doublage énoncés (`DEFAULT('caption_timer', true)`).\nJe passe à l'étape suivante sans attendre.")
         NEXT_STEP(0)
       }
       else

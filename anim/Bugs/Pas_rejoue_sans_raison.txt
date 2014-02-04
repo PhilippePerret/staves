@@ -1,0 +1,33 @@
+# Bug #222
+# Pas rejoué sans raison
+
+# SUITE('CBT1_Prelude1_12-19')
+
+# --- Valeurs par défault ---
+DEFAULT('screensize', 610)
+DEFAULT('next', 75)
+DEFAULT('staff_top', 100)
+DEFAULT('staff_offset', 140)
+DEFAULT('caption_timer', true)
+DEFAULT('decompte', 0)
+
+FLASH
+
+# La partition complète
+partition_complete = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y:60})
+
+CAPTION("Fort de ce rafraichissement tonal, nous allons pouvoir passer maintenant à un gros morceau de l'analyse musicale, l'analyse harmonique.", {wait:true})
+
+CAPTION("Cette analyse harmonique consiste à analyser tous les accords de la pièce, à déterminer leur fonction harmonique, à repérer toute forme de modulation et, très important, à mettre en exergue les cadences et leur type.", {wait:true})
+
+CAPTION("Pour cette initiation, on va procéder relativement lentement, et en détaillant, mais n'hésitez pas, encore une fois, à mettre la vidéo sur pause ou à revenir en arriève pour bien comprendre un passage qui serait aller trop vite.")
+
+# --- Les portées ---
+partition_complete.hide({duree:5})
+
+STOP
+
+STOP_FLASH
+
+NEW_STAFF(SOL)
+NEW_STAFF(FA)

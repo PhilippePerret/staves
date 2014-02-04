@@ -170,39 +170,44 @@ $.extend(TBox.prototype,{
   },
   
   /**
-    * Positionne la boite de texte (mais fait + que ça, en la dimensionnant et
-    * en réglant toutes les propriétés css définies — taille de police, etc.)
-    * @method positionne
+    * Méthode qui modifie à la volée les données de la TBox
+    * La méthode est propre aux TBox (surclasse la méthode universelle) car le traitement des
+    * différents paramètres est spécial, une TBox contenant plusieurs éléments très différents (entre
+    * la boite contenant le texte, la boite définissant le fond et la boite contenant l'ensemble des
+    * éléments)
+    *
+    * @method set
+    * @param {Object|String} params   Les paramètres optionnels ou simplement le texte à changer.
     */
-  positionne:function()
+  set:function(params)
   {
-    var data = {
-      'color'         : this.color || Anim.prefs.text_color,
-      width           : as_pixels(this.width),
-      'text-align'    : this.align
-    }
-    if(this.font_size)    data['font-size']   = with_unite(this.font_size, 'pt')
-    if(this.font_family)  data['font-family'] = this.font_family
-    this.obj_texte.css(data)
-    if(this.style && !this.obj_texte.hasClass(this.style)) this.obj_texte.addClass(this.style)
+    var param_list, i ;
+    if('string'==typeof params) params = {texte:params}
+    params = define_wait_and_duree(params, this, 'show')
     
-    data = {
-      width         : as_pixels(this.width),
-      left          : as_pixels(this.x),
-      height        : as_pixels(this.height, false),
-      top           : as_pixels(this.y, false),
-      bottom        : as_pixels(this.bottom, false),
-      padding       : as_pixels(this.padding),
-      'z-index'     : this.val_or_default('z')
+    // Les paramètres modificateurs du texte
+    param_list = ['texte', 'color', 'width', 'align', 'font_size', 'font_family', 'style']
+    if(object_has_key(params, param_list)) this.set_texte()
+    
+    // Les paramètres modificateurs du fond
+    param_list = ['background', 'opacity']
+    if(object_has_key(params, param_list)) this.set_background()
+    
+    // Les paramètres modificateurs de la boite générale
+    param_list = ['x', 'y', 'width', 'height', 'offset_x', 'offset_y', 'offset_width', 'offset_height', 'padding', 'z']
+    if(object_has_key(params, param_list))
+    {
+      var my = this
+      L(['x', 'y', 'width', 'height']).each(function(k){
+        if(undefined !== params['offset_'+k]) my[k] += params['offset_'+k]
+      })
+      this.set_tbox()
     }
-    this.obj.css(data)
-    this.obj_background.css({
-      'background-color'  : this.background,
-      'opacity'           : this.opacity
-      // 'border'      : this.border
-    })
-    this.obj.css({height: as_pixels(this.height, false), width:as_pixels(this.width)})
+    
+    return this // pour le chainage 
   }
+  
+  
 })
 
 /* ---------------------------------------------------------------------
@@ -230,16 +235,68 @@ $.extend(TBox.prototype,{
   },
   
   /**
-    * Définit le background sous le texte. La méthode est utilisée par la
-    * définission de la propriété UniversalBoxMethods `background`
+    * Positionne la boite de texte (mais fait + que ça, en la dimensionnant et
+    * en réglant toutes les propriétés css définies — taille de police, etc.)
+    * @method positionne
+    */
+  positionne:function()
+  {
+    this.set_texte()
+    this.set_background()
+    this.set_tbox()
+  },
+  
+  /**
+    * Règle la TBox, c'est-à-dire le conteneur général
+    * @method set_tbox
+    */
+  set_tbox:function(params)
+  {
+    data = {
+      width         : as_pixels(this.width),
+      left          : as_pixels(this.x),
+      height        : as_pixels(this.height, false),
+      top           : as_pixels(this.y, false),
+      bottom        : as_pixels(this.bottom, false),
+      padding       : as_pixels(this.padding),
+      'z-index'     : this.val_or_default('z')
+    }
+    this.obj.css(data)
+    this.obj.css({height: as_pixels(this.height, false), width:as_pixels(this.width)})
+  },
+  
+  /**
+    * Définit le texte (obj_texte) de la TBox
+    * @method set_texte
+    */
+  set_texte:function()
+  {
+    var data = {
+      'color'         : this.color || Anim.prefs.text_color,
+      'width'         : as_pixels(this.width),
+      'text-align'    : this.align
+    }
+    if(this.font_size)    data['font-size']   = with_unite(this.font_size, 'pt')
+    if(this.font_family)  data['font-family'] = this.font_family
+    this.obj_texte.html(this.texte)
+    this.obj_texte.css(data)
+    if(this.style && !this.obj_texte.hasClass(this.style)) this.obj_texte.addClass(this.style)
+    
+  },
+  /**
+    * Définit le background sous le texte. La méthode est utilisée par `positionne` mais aussi
+    * par la définission de la propriété UniversalBoxMethods `background`
     * Par défaut, la couleur de fond est la même que la couleur de police (oui,
     * étonnant, mais c'est parce que l'opacité est en action)
     * @method set_background
     */
   set_background:function(couleur)
   {
-    this.obj_background.css('background-color', this._background || Anim.prefs.text_color)
-  },
+    this.obj_background.css({
+      'background-color'  : this._background || Anim.prefs.text_color,
+      'opacity'           : this.opacity
+    })
+  }
 })
 
 /* ---------------------------------------------------------------------
@@ -367,7 +424,7 @@ Object.defineProperties(TBox.prototype,{
  */
 Object.defineProperties(TBox.prototype,{
   /**
-    * Objet DOM contenant le texte
+    * Objet DOM contenant le texte et seulement le texte
     * @property {jQuerySet} obj_texte
     */
   "obj_texte":{get:function(){return $('div#'+this.id+'-text')}},

@@ -2,6 +2,27 @@
   * @module handy.js
   */
 
+/**
+  * Méthode qui retourne TRUE si les paramètres +params+ contiennent une des clés contenues
+  * dans +keys+
+  * @method object_has_key
+  * @for window
+  * @param {Object}   objet   L'objet qu'il faut tester
+  * @param {Array}    keys    La liste des clés
+  * @param {Boolean}  all     Si true, toutes les clés doivent être trouvées (false par défaut)
+  * @return TRUE si la clé (ou toutes les clés) a été trouvée. False otherwise.
+  */
+window.object_has_key = function(objet, keys, all)
+{
+  var i, len, key ;
+  for(i = 0, len = keys.length; i<len; ++i)
+  {
+    key = keys[i]
+    if(all && undefined === objet[key]) return false
+    else if(!all && undefined !== objet[key])   return true
+  }
+  return all ? true : false
+}
 /** Prends une valeur de longueur de l'animation (width, height, x, y, etc.)
   * et, si elle est exprimée en pourcentage, la convertit en pixels par rapport
   * à la taille de l'animation courante.

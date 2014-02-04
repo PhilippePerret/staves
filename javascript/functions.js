@@ -100,7 +100,7 @@ window.traite_wait = function(params)
 {
   // dlog("-> traite_wait(params:");dlog(params)
   if(undefined === params.wait) return
-  if(params.wait === false)
+  if(params.wait === false || MODE_FLASH)
   {
     NEXT_STEP(0)
   }
