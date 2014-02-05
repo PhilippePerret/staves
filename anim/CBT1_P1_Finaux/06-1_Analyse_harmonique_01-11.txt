@@ -47,7 +47,6 @@ WAIT_CAPTION
 CAPTION("Ensuite, je vais tenter d'arriver à un empilage de tierces qui me permettra de déterminer l'accord.",{wait:true})
 CAPTION("Comme nous l'avons vu dans les premiers screencasts, un accord est en effet constitué de tierces superposées dans son état fondamental, et c'est cet état fondamental qui permet d'en déterminer la nature et le nom.", {wait:true})
 CAPTION("Je vais donc déplacer les notes et supprimer les doublons, jusqu'à obtenir cet empilage de tierces. Ça n'est pas toujours simple au début, ça devient un jeu d'enfant avec l'habitude.")
-WAIT(2)
 STAFF(2).remove_supline({top:2})
 do1.note(5).remove()
 do1.note(1).move('1:c4', {duree:4})

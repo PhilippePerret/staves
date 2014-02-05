@@ -54,13 +54,8 @@ Anim.Dom = {
      *  Définition de la méthode params.complete à appeler en fin d'animation
      *  ou au temps déterminer par params.wait
      *  Quand params.complete n'est pas défini en argument, c'est NEXT_STEP
-     * La définition par défaut de complete est maintenant obsolète avec l'utilisation
-     * de la surveillance du processus. Il n'y a que lorsque complete est explicitement fourni
-     * qu'on s'en occupe
      */
-    // params = define_complete( params )
-    
-    if(undefined == params) params = {}
+    params = define_complete( params )
     
     /*
      *  Définition de la durée que doit prendre l'animation, en fonction

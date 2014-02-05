@@ -76,16 +76,9 @@ window.UNVERSAL_METHODS = {
     */
   arrow:function(aid, params)
   {
-    if('object' == typeof aid)
-    {
-      params  = $.extend(true, {}, aid)
-      aid     = 1
-    }
-    else if(undefined == aid)
-    {
-      aid     = 1
-      params  = {}
-    }
+    var d = this.args_for_arrow(aid, params)
+    var aid = d.index
+    params  = d.params
     if(undefined == this.arrows) this.arrows = {length:0}
     if(undefined == this.arrows[aid])
     {
@@ -102,18 +95,47 @@ window.UNVERSAL_METHODS = {
   /**
     * Méthode pour supprimer la flèche
     * @method unarrow
+    * @param {Number} index   Indice de la flèche à supprimer
+    * @param {Object} params  Paramètres optionnels (dont wait et complete)
     */
-  unarrow:function(index)
+  unarrow:function(index, params)
   {
+    var d = this.args_for_arrow(index, params)
+    var index = d.index
+    params    = d.params
     if(undefined != this.arrows[index])
     {
-      this.arrows[index].remove()
+      Anim.Dom.anime([this.arrows[index].obj], {opacity:0}, $.extend(params || {}, {complete_each:'remove'}))
       delete this.arrows[index]
       this.arrows.length -= 1
       if(this.arrows.length == 0) delete this.arrows
-    } 
+    }
+    else NEXT_STEP(0)
   },
-  
+  /**
+    * Récupère et analyse les arguments envoyés à arrow et unarrow et retourne le bon index
+    * et les bons paramètres.
+    * Ce traitement est nécessaire car on peut appeler la méthode avec des paramètres sans index,
+    * ou avec rien du tout.
+    * @method args_for_arrow
+    * @param {Undefined|Object|Number} index Tout est là, qu'est-ce que c'est ?
+    * @param {Undefined|Object} params  Les paramètres ?
+    * @return {Object} définissant `index` et `params`
+    */
+  args_for_arrow:function(index, params)
+  {
+    if('object' == typeof index)
+    {
+      params  = $.extend(true, {}, index)
+      index   = 1
+    }
+    else if(undefined == index)
+    {
+      index   = 1
+      params  = {}
+    }
+    return {index: index, params:params}
+  },
   
   /**
     * Détruit tous les textes si l'élément possède la propriété `texte`
