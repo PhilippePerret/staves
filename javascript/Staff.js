@@ -60,6 +60,9 @@ window.Staff = function(params)
     
   this.id = "staff"+this.cle+this.top+this.left+(new Date()).getTime()
   
+  Anim.staves.push(this)
+  this.indice = Anim.staves.length // ! 1-start
+  
 }
 /* ---------------------------------------------------------------------
     Méthodes de classe
@@ -86,11 +89,20 @@ $.extend(Staff,{
     */
   create:function(cle, params)
   {
+    
     params = $.extend(params || {}, {cle:cle, top:this.top_next_staff(params)})
+    var data_build = {}
+    
+    // if(params.wait === false)
+    // {
+    //   data_build.wait = false
+    // }
+    // else
+    // {
+    //   Process.close( params.wait || 0.2 )
+    // }
+    
     var staff = new Staff(params)
-    staff.build()
-    Anim.staves.push(staff)
-    staff.indice = Anim.staves.length // ! 1-start
     
     // Cette portée est-elle utilisée dans un réglage des préférences
     // réglé avec DEFAULT('staff_harmony', <indice>) (ou staff_chords)
@@ -100,6 +112,9 @@ $.extend(Staff,{
         Anim.prefs[key] = staff
       } 
     })
+    
+    staff.build( {wait: params.wait || 0.1} )
+    
     return staff
   },
   

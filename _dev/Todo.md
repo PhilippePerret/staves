@@ -7,8 +7,59 @@ TBOX
     construction de la TBox (pas de animate) et l'utilisation avec la méthode `set` qui utilise
     Anim.Dom.anime (faire bien l'essai dans les tests)
 
+
+UTILISATION D'UNE CLASSE PROCESSUS
+Cette classe 'Process' sera attachée au pas à l'aide d'une propriété `process`
+Elle permettrait de savoir si le processus est en cours.
+Chaque pas, avant d'être joué, devrait attendre que le pas précédent soit joué, sauf quand la propriété `wait` a été mise à false ou à une valeur de durée.
+  - Note&nbsp;: quand `wait` a été mis à un temps, on pourrait enregistrer ce temps dans le processus,
+  de façon absolue, ce qui indiquerait à l'étape suivante quand elle peut jouer.
+
+Principes
+---------
+Les principes sont les suivants&nbsp;:
+Il existe ces formes d'attente :
+  1.  L'étape suivante doit attendre que l'étape précédente soit exécutée pour
+      être elle-même exécutée. C'est le cas par défaut.
+  2.  L'étape suivante ne doit pas attendre que l'étape suivante soit exécutée
+      C'est le cas lorsque wait:false est utilisée dans les paramètres
+  3.  L'étape suivante doit être exécutée sans attendre l'étape précédente, mais après
+      un certain délai. Ce délai est spécifié par wait:<nombre de secondes>
+        
+* Les instances Process de chaque pas enregistre leur état, leurs erreurs, peut-être aussi leur
+  temps pour avoir toutes les informations nécessaires.
+  
+* La classe Process gendarme le jeu des étapes en ouvrant ou fermant la barrière aux étapes.
+  On interroge la propriété Process.free. Si elle est true, c'est que l'étape peut être jouée,
+  sinon elle se met en attente.
+  Cette propriété est complexe et interroge différente chose, et le temps si un wait a été
+  déterminé.
+  Cet
+
+
 MODE FLASH
 L'affiner au maximum pour aller très vite jusqu'à l'endroit à jouer.
+Mais pour le faire, cf. RÉFLEXION SUR NEXT_STEP
+
+RÉFLEXION SUR NEXT_STEP
+Le problème de NEXT_STEP (qui est aussi une de ses qualités, c'est qu'il permet de déclencher une autre étape avant une étape courante soit achevé. Cela entraine des erreurs, par exemple l'erreur de base&nbsp;:
+
+    maVar = <commande>()
+    maVar.show()
+    
+Si dans `<commande>` se trouve l'appel à l'étape suivante (ce qui est pratiquement toujours le cas), alors le retour de la commande ne sera pas encore donné — donc `maVar` ne sera pas encore défini — lorsque l'étape suivante `maVar.show` sera invoquée. Ce qui provoque fatalement une erreur.
+  
+Pour palier ce problème, certaines commandes doivent impérativement renvoyer leur résultat avant d'invoquer la suite. Mais comme la suite doit forcément être appelé avant le renvoi de la valeur (qui est forcément la dernière chose faite par la commande), il faudrait un système comme celui-ci :
+
+    # Définition de la commande
+    #
+    .... du code ....
+    wait(0.1)
+    return <la valeur>
+    
+De cette manière, la valeur sera retournée avant que ne soit invoqué l'étape suivante.
+
+
 
 * Ligature
   - Essayer de rationnaliser encore plus la construction des beams supplémentaires

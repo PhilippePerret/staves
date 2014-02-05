@@ -15,7 +15,7 @@ DEFAULT('caption_timer', true)
 DEFAULT('next', 200)
 #SPEED(20)
 
-SUITE('./04-2-Tons_voisins')
+#### SUITE('./04-2-Tons_voisins')
 
 partition = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y:60})
 

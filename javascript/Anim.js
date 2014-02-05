@@ -615,6 +615,8 @@ $.extend(window.Anim,{
     dlog("-> Anim.reset")
     var my = this
     
+    MODE_FLASH    = false
+
     Flash.clean()
     this.Step.list  = null
     // Destruction des (instances) objets de l'animation et ré-initialisation

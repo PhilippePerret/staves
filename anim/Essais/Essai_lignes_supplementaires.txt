@@ -1,11 +1,12 @@
 # ESSAIS LIGNES SUP
 
-SUITE('Essai_modulation')
+DEFAULT('decompte', 0)
 
-SPEED(20)
+SPEED(10)
+
 NEW_STAFF(SOL)
 n=NOTE(c4)
-n.move(\'a5\')
+n.move('a5')
 STAFF(1).remove_supline({bottom:1})
 NEXT()
 n=NOTE(b3)

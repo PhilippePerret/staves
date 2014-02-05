@@ -27,7 +27,8 @@ window.UNVERSAL_METHODS = {
     */
   build:function(params)
   {
-    Anim.Dom.add(this)
+    dlog("-> build (UniversalMethods)")
+    Anim.Dom.add(this, params)
     if(this.obj)
     {
       this.obj.draggable({
@@ -36,6 +37,7 @@ window.UNVERSAL_METHODS = {
         stop:$.proxy(UI.Tools.coordonnees_of, UI.Tools, this)
       })
     }
+    dlog("<- build (UniversalMethods)")
     return this
   },
   /**

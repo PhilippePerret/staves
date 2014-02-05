@@ -100,13 +100,17 @@ window.traite_wait = function(params)
 {
   // dlog("-> traite_wait(params:");dlog(params)
   if(undefined === params.wait) return
-  if(params.wait === false || MODE_FLASH)
+  if(params.wait === false)
   {
     NEXT_STEP(0)
   }
   else if('number' == typeof params.wait)
   {
     NEXT_STEP(params.wait)
+  }
+  else if(MODE_FLASH)
+  {
+    NEXT_STEP(0.1)
   }
   else
   {

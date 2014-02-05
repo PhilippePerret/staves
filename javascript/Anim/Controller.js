@@ -36,7 +36,9 @@ $.extend(Anim,{
       UI.chronometre.restart
     }
     else
-    { // === DÉMARRAGE DE L'ANIMATION ===
+    { 
+      // === DÉMARRAGE DE L'ANIMATION ===
+      
       this.reset()
       this.Step.list = function(playtype){
         switch(playtype)

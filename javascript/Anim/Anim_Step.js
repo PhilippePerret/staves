@@ -140,6 +140,10 @@ Anim.Step = {
     var no_timeout = (timeout === 0) ;
     if(MODE_FLASH || no_timeout || Anim.transition.step == 0)
     {
+      // // S'il reste des étapes dans le stack du process, on doit les jouer
+      // if(Process.stack) Process.open()
+      // else 
+      
       this.next()
     }
     else

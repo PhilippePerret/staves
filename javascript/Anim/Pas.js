@@ -49,10 +49,17 @@ window.Pas = function(params)
   
   /**
     * Liste {Array} des erreurs produites au cours de l'exécution du code
+    * OBSOLÈTE : À METTRE DANS LE PROCESS
     * @property {Array} errors
     * @default []
     */
   this.errors = []
+  
+  /**
+    * Processus attaché à l'étape
+    * @property {Process} process
+    */
+  this.process = null
   
   /**
     * Propriété qui détermine si l'étape doit être “flashée” (exécutée le plus
@@ -101,18 +108,29 @@ $.extend(Pas.prototype,{
     *
     * Exécute l'étape
     * @method exec
+    * @return True si le pas a été lancé, false dans le cas contraire, mais a priori ça ne sert
+    * à rien.
     */
   exec:function()
   {
     Console.show_code_line(this.code)
     if(this.is_comment || this.is_empty)              return false
     if(Anim.options.caption_omit && this.is_caption)  return false
+    // if(false == Process.free)
+    // { 
+    //   Process.add_stack( this )
+    //   return false
+    // }
     if(this.flashed) MODE_FLASH = true
     try
     { 
       dlog("Pas.exec("+this.trimed+")")
+      // if(this.process == null) 
+      // {
+      //   this.process = Process.new( this )
+      //   ++ Pas.count
+      // }
       ++ Pas.count
-      // Anim.Step.set_exec_on()
       eval('Anim.Objects.'+this.trimed) 
     }
     catch(err){ 
@@ -159,6 +177,7 @@ $.extend(Pas.prototype,{
       if(undefined == this.tries_exec) this.tries_exec = 0
       ++ this.tries_exec
       if(this.timer_tries_exec) clearTimeout(this.timer_tries_exec)
+      dlog("Erreur rencontrée avec le dernier pas : "+error+". Je le rejoue dans 1 10e de secondes.")
       this.timer_tries_exec = setTimeout($.proxy(this.exec, this), 100)
       return
     }

@@ -324,10 +324,10 @@ $.extend(Note.prototype,{
     objs = [this.obj]
     var was_surrounded = true && this.surrounded
     if(this.surrounded) this.unsurround()
-    method = $.proxy(this.operation, this, objs, 'move', {top: this.top, complete:params.complete})
+    method = $.proxy(Anim.Dom.anime, Anim.Dom, objs, {top: this.top}, {complete:$.proxy(this.on_complete_move, this)})
     if(!params.no_exergue) this.exergue({complete:method})
     else method()
-    if(was_surrounded) this.surround()
+    if( was_surrounded ) this.surround()
   },
   
   /**
@@ -421,7 +421,8 @@ $.extend(Note.prototype,{
     */
   exergue:function(params)
   {
-    if(undefined == params)             params          = {}
+    if(undefined == params) params = {}
+    if(MODE_FLASH) return (params.complete || NEXT_STEP )()
     else if ('string' == typeof params) params          = {color:params}
     if(undefined == params.color)       params.color    = blue
     if(undefined == params.complete)    params.complete = NEXT_STEP
@@ -443,7 +444,8 @@ $.extend(Note.prototype,{
     */
   unexergue:function(params)
   {
-    if(undefined == params)           params = {}
+    if(undefined == params) params = {}
+    if(MODE_FLASH) return (params.complete || NEXT_STEP )()
     if(undefined == params.complete)  params.complete = NEXT_STEP
     delete this.color
     this.obj[0].src = this.src
@@ -542,6 +544,7 @@ $.extend(Note.prototype,{
     }
     
     // === Définition de l'octave ===//
+    
     // Il peut ne pas exister dans la note mais avoir été défini explicitement
     // dans les paramètres comme dans le cas d'un motif
     if(data_note.octave) this.octave = data_note.octave
@@ -592,12 +595,14 @@ $.extend(Note.prototype,{
     // soit pas remplacé par NEXT_STEP
     this.unexergue({complete:$.proxy(this.update_affichage, this)})    
     if(upper = this.staff.notes.hasConjointeUpper(this)) upper.update_affichage()
+    NEXT_STEP(0)
   },
   /**
     * Détruit l'alteration
     * Notes
     *   * La méthode est appelée lorsqu'il y a changement de hauteur de la
-    *     note, et qu'elle perd son altération
+    *     note, et qu'elle perd son altération (au cours de l'analyse de la nouvelle note à
+    *     donner à la note)
     *
     * @method remove_alteration
     */
@@ -610,57 +615,22 @@ $.extend(Note.prototype,{
       me.obj_alt.remove()
       })
   },
-  /**
-    * Méthode qui "complete" vraiment l'affichage et passe à l'étape
-    * suivante. Elle sort la note de son exergue si nécessaire.
-    * Notes
-    * -----
-    *   * Noter que la méthode ne doit être appelée directement que lorsqu'on
-    *     est sûr que tous les éléments sont traités ou affichés (cf. on_complete).
-    *     La méthode `move` peut le faire par exemple.
-    *
-    * @method complete
-    */
-  complete:function()
-  {
-    this.suplines_if_necessary()
-    this.unexergue() // poursuivra avec NEXT_STEP
-  },
-  /**
-    * Méthode à appeler à la fin de toute animation
-    * 
-    * @method on_complete
-    * @param {String} type_obj  Le type de l'objet qui appelle la méthode
-    *                           Peut-être 'note', 'alteration'
-    */
-  on_complete:function(type_obj)
-  {
-    if(this.is_complete_with(type_obj)) this.complete()
-  },
-  /**
-    * Return true si tous les objets de la note sont affichés
-    * @method is_complete_with
-    * @param  {String} type_obj Le type de l'objet (cf. `on_complete`)
-    * @return {Boolean} True si tous les éléments sont affichés
-    */
-  is_complete_with:function(type_obj)
-  {
-    if(undefined == this.tbl_complete) this.tbl_complete = {note:false, alteration:false}
-    this.tbl_complete[type_obj] = true
-    for(var tobj in this.tbl_complete) if(false == this.tbl_complete[tobj]) return false
-    delete this.tbl_complete
-    return true
-  },
-  /**
-    * Méthode appelée après l'opération 'remove' ci-dessus, juste avant qu'on
-    * ne passe à l'étape suivante.
-    * @method on_complete_remove
-    */
-  on_complete_remove:function()
-  {
-    this.obj.remove()
-    if(this.alteration) this.obj_alt.remove()
-  },
+  // /**
+  //   * Méthode qui "complete" vraiment l'affichage et passe à l'étape
+  //   * suivante. Elle sort la note de son exergue si nécessaire.
+  //   * Notes
+  //   * -----
+  //   *   * Noter que la méthode ne doit être appelée directement que lorsqu'on
+  //   *     est sûr que tous les éléments sont traités ou affichés (cf. on_complete).
+  //   *     La méthode `move` peut le faire par exemple.
+  //   *
+  //   * @method complete
+  //   */
+  // complete:function()
+  // {
+  //   this.suplines_if_necessary()
+  //   this.unexergue() // poursuivra avec NEXT_STEP
+  // },
   
   /**
     * Construit la note

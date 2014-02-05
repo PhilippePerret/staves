@@ -81,7 +81,7 @@ $.extend(METHODES_GROUPNOTES,{
     */
   build:function()
   {
-    if(undefined != this.speed)
+    if(undefined != this.speed && !MODE_FLASH)
     {
       Note.building_temporized(this.notes, this.speed, {complete:NEXT_STEP})
     }

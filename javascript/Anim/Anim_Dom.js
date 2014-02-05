@@ -54,8 +54,13 @@ Anim.Dom = {
      *  Définition de la méthode params.complete à appeler en fin d'animation
      *  ou au temps déterminer par params.wait
      *  Quand params.complete n'est pas défini en argument, c'est NEXT_STEP
+     * La définition par défaut de complete est maintenant obsolète avec l'utilisation
+     * de la surveillance du processus. Il n'y a que lorsque complete est explicitement fourni
+     * qu'on s'en occupe
      */
-    params = define_complete( params )
+    // params = define_complete( params )
+    
+    if(undefined == params) params = {}
     
     /*
      *  Définition de la durée que doit prendre l'animation, en fonction
@@ -63,6 +68,7 @@ Anim.Dom = {
      *  courante.
      */
     params.duree = this.real_duree( params )
+    
     /*
      *  On boucle sur tous les objets fournis en argument pour les animer
      *  Noter que souvent il n'y en a qu'un seul.
@@ -82,7 +88,7 @@ Anim.Dom = {
         obj.css(data_css)
         if(params.complete_each) obj[params.complete_each]()
       }
-      if('function' == typeof params.complete) return params.complete()
+      this.end_anime(params)
     }
     else 
     {
@@ -105,11 +111,7 @@ Anim.Dom = {
               always   : function()
               {
                 ++ nombre_objets_traited
-                if(nombre_objets_traited == nombre_objets)
-                {
-                  // Fin de l'animation de tous les objets à traiter
-                  if('function' == typeof params.complete) params.complete()
-                }
+                if(nombre_objets_traited == nombre_objets) Anim.Dom.end_anime(params)
               }
             }
           )
@@ -122,6 +124,16 @@ Anim.Dom = {
      *  soit on ne fait rien.
      */
     traite_wait( params )
+  },
+  /**
+    * La fin vraiment finale de anime ci-dessus. Appelé soit tout de suite en MODE FLASH, soit
+    * après l'opération sur tous les éléments en monde normal.
+    * @method end_anime
+    */
+  end_anime:function(params)
+  {
+    // Fin de l'animation de tous les objets à traiter
+    if('function' == typeof params.complete) params.complete()
   },
   /**
     * Retourne la durée réelle du processus en fonction des paramètres et du

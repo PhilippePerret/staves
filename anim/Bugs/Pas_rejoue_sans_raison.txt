@@ -1,7 +1,6 @@
 # Bug #222
-# Pas rejoué sans raison
+# Un Pas rejoué sans raison
 
-# SUITE('CBT1_Prelude1_12-19')
 
 # --- Valeurs par défault ---
 DEFAULT('screensize', 610)
@@ -25,9 +24,11 @@ CAPTION("Pour cette initiation, on va procéder relativement lentement, et en d�
 # --- Les portées ---
 partition_complete.hide({duree:5})
 
-STOP
-
-STOP_FLASH
 
 NEW_STAFF(SOL)
 NEW_STAFF(FA)
+
+
+STOP
+
+STOP_FLASH
