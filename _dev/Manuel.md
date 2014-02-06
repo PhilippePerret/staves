@@ -268,9 +268,13 @@ Pour remettre la vitesse à la vitesse normale&nbsp;:
 <a name="run_animation"></a>
 ###Jouer l'animation
 
-Pour jouer l'animation, cliquer simplement sur le bouton “Play” ou sur la barre espace.
+Pour jouer l'animation, cliquer simplement sur le bouton “Play” ou presser la Barre Espace.
 
 Si un autre choix que l'animation entière avait été fait, sélectionner l'item «&nbsp;Jouer tout&nbsp;» dans le menu «&nbsp;Animation&nbsp;» ou presser le raccourci clavier CMD+0.
+
+Pour faire une pause au cours de l'animation, cliquer à nouveau sur le même bouton “Play” ou presser la touche “P”. Pour redémarrer après la pause, represser la touche “P” ou le bouton “Play”.
+
+Pour arrêter l'animation, cliquer sur le bouton Stop ou presser à nouveau la Barre Espace.
 
 <a name="run_only_selection"></a>
 ###Jouer une portion de l'animation

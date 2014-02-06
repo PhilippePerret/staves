@@ -2,9 +2,10 @@
 # premier prélude du CBT 1
 # Mesures 12 - 19
 
-SUITE('CBT1_Prelude1_20-25')
+# SUITE('CBT1_Prelude1_20-25')
 
 # --- Valeurs par défault ---
+DEFAULT('screensize', 610)
 DEFAULT('decompte', 0)
 DEFAULT('next', 80)
 DEFAULT('harmony', 8)
@@ -12,6 +13,16 @@ DEFAULT('staff_top', 120)
 DEFAULT('offset_modulation_y', 15)
 DEFAULT('chord', 35)
 DEFAULT('staff_harmony', 2)
+
+# La partition complète
+partition_complete = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y:60, hidden:true})
+
+# --- La partition dans la longueur
+partition=IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/longueur-12-19.png', y:305, x:73, inner_x:0, inner_y:0, cadre_width:267, cadre_height:96})
+
+# -- Pour marquer le texte de la cadence
+texte_cadence = TBOX("Une cadence parfaite/imparfaite est l'enchainement : V I", {x:130, y:442, width:800})
+
 
 # --- Les portées ---
 NEW_STAFF(SOL)

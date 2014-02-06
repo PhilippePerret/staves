@@ -8,6 +8,7 @@ window.IN_CONSOLE    = false
 
 window.KEYPRESS_HORS_CONSOLE = function(evt)
 {
+  var no_modifiers = !evt.metaKey && !evt.altKey && !evt.ctrlKey
   // Mettre en route ou arrêter l'animation avec la barre espace
   // (seulement si l'on ne se trouve pas dans un champ d'édition)
   if(!IN_TEXT_FIELD)
@@ -17,6 +18,15 @@ window.KEYPRESS_HORS_CONSOLE = function(evt)
       Anim.on ? Anim.stop(forcer = true) : Anim.start()
       return stop_event(evt)
     }
+    else if( evt.charCode == Key_p && no_modifiers )
+    {
+      if(Anim.on)
+      {
+        if(Anim.pause_on) Anim.restart()
+        else              Anim.pause()
+        return stop_event(evt)
+      } 
+    }
   }
   else
   {
@@ -24,7 +34,7 @@ window.KEYPRESS_HORS_CONSOLE = function(evt)
     if(IN_CONSOLE && Console.autocompletion(evt)) return stop_event(evt)
   }
   
-  if(!evt.metaKey && !evt.altKey && !evt.ctrlKey)
+  if(no_modifiers)
   {
     return true
   } 

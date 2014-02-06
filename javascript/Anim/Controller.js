@@ -27,13 +27,14 @@ $.extend(Anim,{
   start:function(params){
     dlog("-> Anim.start (in Controller.js)")
     if(this.on && this.Step.mode_pas_a_pas)
-    { // En cours de jeu en mode pas à pas
+    { 
+      // En cours de jeu en mode pas à pas
       this.Step.next()
     }
     else if(this.pause_on)
-    { // => redémarrage après pause
-      this.play()
-      UI.chronometre.restart
+    { 
+      // => redémarrage après pause
+      return this.restart()
     }
     else
     { 
@@ -138,6 +139,16 @@ $.extend(Anim,{
     UI.chronometre.pause
     this.pause_on = true
     this.set_interface()
+  },
+  /**
+    * Re-démarre après une pause
+    * @method restart
+    */
+  restart:function()
+  {
+    UI.chronometre.restart
+    this.pause_on = false
+    this.Step.next()
   },
   /**
     * Stoppe l'animation, parce qu'on est au bout ou parce que 
