@@ -19,6 +19,7 @@ div.tbox div.tbox_background {
   height    : calc(100%);
   opacity   : 0.05;
   background-color  : black;
+  z-index   : -1; /* Pour que le texte soit toujours visible au-dessus de ce background */
 }
 
 /*

@@ -181,28 +181,52 @@ $.extend(TBox.prototype,{
     */
   set:function(params)
   {
-    var param_list, i ;
-    if('string'==typeof params) params = {texte:params}
+    var param_list, i, params_set, last_params_set ;
+    if('string' == typeof params) params = {texte:params}
     params = define_wait_and_duree(params, this, 'show')
     
+    params_set = {
+      duree     : params.duree
+      // Noter que dans `set_texte` et dans `set_background`, complete appelle la méthode
+      // `set_tbox` (pour régler son height). Ce qui revient à faire ici :
+      // complete  : $.proxy(this.set_tbox, this)
+    }
+    // Les données pour le dernier appel qui permettra de passer à l'étape suivante
+    last_params_set = {
+      duree     : params.duree,
+      wait      : params.wait,
+      complete  : params.complete
+    }
+    delete params.wait
+    delete params.duree
+    delete params.complete
+    
+    // On dispatche les autres paramètres, qui doivent correspondre à des propriétés 
+    // de la TBox
+    this.dispatch(params)
+    var my = this
+    L(['x', 'y', 'width', 'height']).each(function(k){
+      if(undefined !== params['offset_'+k]) my[k] += params['offset_'+k]
+    })
+    
     // Les paramètres modificateurs du texte
-    param_list = ['texte', 'color', 'width', 'align', 'font_size', 'font_family', 'style']
-    if(object_has_key(params, param_list)) this.set_texte()
+    param_list = ['texte', 'color', 'width', 'offset_width', 'offset_height', 'align', 'font_size', 'font_family', 'style']
+    if(object_has_key(params, param_list)) this.set_texte(params_set)
     
     // Les paramètres modificateurs du fond
     param_list = ['background', 'opacity']
-    if(object_has_key(params, param_list)) this.set_background()
+    if(object_has_key(params, param_list)) this.set_background(params_set)
     
     // Les paramètres modificateurs de la boite générale
-    param_list = ['x', 'y', 'width', 'height', 'offset_x', 'offset_y', 'offset_width', 'offset_height', 'padding', 'z']
-    if(object_has_key(params, param_list))
-    {
-      var my = this
-      L(['x', 'y', 'width', 'height']).each(function(k){
-        if(undefined !== params['offset_'+k]) my[k] += params['offset_'+k]
-      })
-      this.set_tbox()
-    }
+    // @note : elle doit être traitée en dernier puisque ses dimensions sont calculées en fonction
+    // du texte et de son style. Et elle est appelée systématiquement puisque les paramètres du
+    // texte (font-size, font-family, etc.) peuvent modifier l'aspect général. D'autre part, c'est
+    // aussi elle qui gère le passage à l'étape suivante.
+
+    // param_list = ['x', 'y', 'width', 'height', 'offset_x', 'offset_y', 'offset_width', 'offset_height', 'padding', 'z']
+    // if(object_has_key(params, param_list))
+
+    this.set_tbox(last_params_set)
     
     return this // pour le chainage 
   }
@@ -216,72 +240,71 @@ $.extend(TBox.prototype,{
  */
 $.extend(TBox.prototype,{
   /**
-    * Construction de la boite de texte
-    * @method build
-    */
-  build:function()
-  {
-    var params = {}
-    if(this.wait === false) params.complete = false
-    Anim.Dom.add(this, params)
-    this.obj.draggable({
-      stop:$.proxy(this.coordonnees, this)
-    })
-    if(this.wait === false)
-    {
-      delete this.wait
-      NEXT_STEP(0)
-    }
-  },
-  
-  /**
     * Positionne la boite de texte (mais fait + que ça, en la dimensionnant et
     * en réglant toutes les propriétés css définies — taille de police, etc.)
     * @method positionne
     */
   positionne:function()
   {
+    this.first_set_tbox()
     this.set_texte()
     this.set_background()
-    this.set_tbox()
+
+    // Il est inutile d'appeler `set_tbox` car la méthode est appelée après chaque transformation
+    // entraînée par `set_texte` et `set_background`.
+    // this.set_tbox()
   },
   
+  /**
+    * Les premier réglage de la TBox
+    * @method first_set_tbox
+    */
+  first_set_tbox:function()
+  {
+    var data_css = {
+      width         : as_pixels(this.width),
+      left          : as_pixels(this.x),
+      top           : as_pixels(this.y, false),
+      bottom        : as_pixels(this.bottom, false),
+      padding       : as_pixels(this.padding)
+    }
+    this.obj.css(data_css)
+  },
   /**
     * Règle la TBox, c'est-à-dire le conteneur général
     * @method set_tbox
     */
   set_tbox:function(params)
   {
-    data = {
+    var data_css = {
+      height        : as_pixels(this.height, false),
+      'z-index'     : this.val_or_default('z'),
       width         : as_pixels(this.width),
       left          : as_pixels(this.x),
-      height        : as_pixels(this.height, false),
       top           : as_pixels(this.y, false),
       bottom        : as_pixels(this.bottom, false),
-      padding       : as_pixels(this.padding),
-      'z-index'     : this.val_or_default('z')
+      padding       : as_pixels(this.padding)
     }
-    this.obj.css(data)
-    this.obj.css({height: as_pixels(this.height, false), width:as_pixels(this.width)})
+    Anim.Dom.anime([this.obj], data_css, params)
   },
   
   /**
     * Définit le texte (obj_texte) de la TBox
     * @method set_texte
     */
-  set_texte:function()
+  set_texte:function(params)
   {
-    var data = {
+    var data_css = {
       'color'         : this.color || Anim.prefs.text_color,
       'width'         : as_pixels(this.width),
       'text-align'    : this.align
     }
-    if(this.font_size)    data['font-size']   = with_unite(this.font_size, 'pt')
-    if(this.font_family)  data['font-family'] = this.font_family
-    this.obj_texte.html(this.texte)
-    this.obj_texte.css(data)
-    if(this.style && !this.obj_texte.hasClass(this.style)) this.obj_texte.addClass(this.style)
+    if(this.font_size)    data_css['font-size']   = with_unite(this.font_size, 'pt')
+    if(this.font_family)  data_css['font-family'] = this.font_family
     
+    this.obj_texte.html(this.texte)
+    if(this.style && !this.obj_texte.hasClass(this.style)) this.obj_texte.addClass(this.style)
+    Anim.Dom.anime([this.obj_texte], data_css, $.extend(params, {complete:$.proxy(this.set_tbox, this)}))
   },
   /**
     * Définit le background sous le texte. La méthode est utilisée par `positionne` mais aussi
@@ -290,12 +313,14 @@ $.extend(TBox.prototype,{
     * étonnant, mais c'est parce que l'opacité est en action)
     * @method set_background
     */
-  set_background:function(couleur)
+  set_background:function(couleur, params)
   {
-    this.obj_background.css({
+    
+    var data_css = {
       'background-color'  : this._background || Anim.prefs.text_color,
       'opacity'           : this.opacity
-    })
+    }
+    Anim.Dom.anime([this.obj_background], data_css, $.extend(params, {complete:$.proxy(this.set_tbox, this)}))
   }
 })
 
@@ -354,7 +379,6 @@ Object.defineProperties(TBox.prototype,{
   "x":{
     set:function(w){
       this._x = w
-      if(w != null) this.set_css('left', w)
     },
     get:function(){
       if(undefined === this._x)
@@ -373,7 +397,6 @@ Object.defineProperties(TBox.prototype,{
   "y":{
     set:function(w){
       this._y = w
-      if(w != null) this.set_css('top', w)
     },
     get:function(){
       if(undefined === this._y)
@@ -392,7 +415,6 @@ Object.defineProperties(TBox.prototype,{
   "width":{
     set:function(w){
       this._width = w
-      if(this.obj) this.obj.css({width:w+'px'})
     },
     get:function(){
       if(undefined == this._width)
@@ -409,7 +431,6 @@ Object.defineProperties(TBox.prototype,{
   "height":{
     set:function(w){
       this._height = w
-      if(this.obj) this.obj.css({height:w+'px'})
     },
     get:function(){
       if(undefined == this.obj_texte) return null

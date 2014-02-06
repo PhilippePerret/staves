@@ -1,10 +1,23 @@
 # === TEST DES TBOX ===
 
 DEFAULT('decompte', 0)
+DEFAULT('caption', true)
 
 CAPTION("Une boite tout à fait simple. Elle doit être placée au centre, avec toutes les valeurs par défaut.")
 
 maboite = TBOX("Un premier texte dans une boite")
 #maboite.show()
 
-autre = TBOX("Un autre texte pour voir la transparence", {background:'blue', opacity:0.2})
+autre = TBOX("Un autre texte pour voir la transparence", {y:10, background:'blue', opacity:0.2})
+
+CAPTION("Changement du texte avec set")
+WAIT(1)
+maboite.set("Un nouveau texte dans la boite")
+
+CAPTION("Allongement de la boite avec replacement sur une durée de 3 secondes.")
+WAIT(1)
+maboite.set({offset_width:200, offset_x:-100, duree:3})
+
+CAPTION("Changement de fond (opaque) et de couleur pour la boite du haut")
+WAIT(1)
+autre.set({background:black, opacity:1, color:white})

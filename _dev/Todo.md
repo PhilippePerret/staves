@@ -7,36 +7,6 @@ TBOX
     construction de la TBox (pas de animate) et l'utilisation avec la méthode `set` qui utilise
     Anim.Dom.anime (faire bien l'essai dans les tests)
 
-
-UTILISATION D'UNE CLASSE PROCESSUS
-Cette classe 'Process' sera attachée au pas à l'aide d'une propriété `process`
-Elle permettrait de savoir si le processus est en cours.
-Chaque pas, avant d'être joué, devrait attendre que le pas précédent soit joué, sauf quand la propriété `wait` a été mise à false ou à une valeur de durée.
-  - Note&nbsp;: quand `wait` a été mis à un temps, on pourrait enregistrer ce temps dans le processus,
-  de façon absolue, ce qui indiquerait à l'étape suivante quand elle peut jouer.
-
-Principes
----------
-Les principes sont les suivants&nbsp;:
-Il existe ces formes d'attente :
-  1.  L'étape suivante doit attendre que l'étape précédente soit exécutée pour
-      être elle-même exécutée. C'est le cas par défaut.
-  2.  L'étape suivante ne doit pas attendre que l'étape suivante soit exécutée
-      C'est le cas lorsque wait:false est utilisée dans les paramètres
-  3.  L'étape suivante doit être exécutée sans attendre l'étape précédente, mais après
-      un certain délai. Ce délai est spécifié par wait:<nombre de secondes>
-        
-* Les instances Process de chaque pas enregistre leur état, leurs erreurs, peut-être aussi leur
-  temps pour avoir toutes les informations nécessaires.
-  
-* La classe Process gendarme le jeu des étapes en ouvrant ou fermant la barrière aux étapes.
-  On interroge la propriété Process.free. Si elle est true, c'est que l'étape peut être jouée,
-  sinon elle se met en attente.
-  Cette propriété est complexe et interroge différente chose, et le temps si un wait a été
-  déterminé.
-  Cet
-
-
 MODE FLASH
 L'affiner au maximum pour aller très vite jusqu'à l'endroit à jouer.
 Mais pour le faire, cf. RÉFLEXION SUR NEXT_STEP
