@@ -12,7 +12,6 @@ DEFAULT('staff_offset', 140)
 DEFAULT('caption_timer', true)
 DEFAULT('decompte', 0)
 
-FLASH
 
 # La partition complète
 partition_complete = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y:60})
@@ -21,7 +20,7 @@ CAPTION("Fort de ce rafraichissement tonal, nous allons pouvoir passer maintenan
 
 CAPTION("Cette analyse harmonique consiste à analyser tous les accords de la pièce, à déterminer leur fonction harmonique, à repérer toute forme de modulation et, très important, à mettre en exergue les cadences et leur type.", {wait:true})
 
-CAPTION("Pour cette initiation, on va procéder relativement lentement, et en détaillant, mais n'hésitez pas, encore une fois, à mettre la vidéo sur pause ou à revenir en arriève pour bien comprendre un passage qui serait aller trop vite.")
+CAPTION("Pour cette initiation, on va procéder relativement lentement, et en détaillant, mais n'hésitez pas, encore une fois, à mettre la vidéo en pause ou à revenir en arriève pour bien comprendre un passage qui serait aller trop vite.")
 
 # --- Les portées ---
 partition_complete.hide({duree:5})
@@ -92,26 +91,20 @@ CAPTION("À titre de rappel, quand on indique 7, il s'agit toujours d'une septi�
 CAPTION("Cet accord est l'accord du deuxième degré de la tonalité de DO, puisque RÉ est la deuxième note de la gamme de DO.", {wait:true})
 CAPTION("Je le marque donc II en chiffre romain suivi de 7 pour la septième, et j'ajoute au-dessus 3 points qui indique que cet accord est dans son état de troisième renversement.")
 rem1.harmony('II7***')
-WAIT_CAPTION
-
-# --- Petite parenthèse sur les points ---
-CAPTION("J'utilise ici la terminologie préconisée par Jacques Chailley, beaucoup plus claire et parlante que la notation harmonique par chiffrage qu'on utilise en cours d'harmonie, par exemple.", {wait:true})
-CAPTION("C'est le troisième renversement, donc trois points, puisque dans la mesure nous trouvons la quatrième note de l'accord, le DO, à la basse. Un accord se trouve dans son état fondamental, lorsque la fondamentale est à la basse, comme pour le DO Majeur de la première mesure… ", {wait:true})
-CAPTION("… Il se présente sous son premier renversement lorsque c'est la tierce, la deuxième note de l'accord, qui est la note la plus grave, sous son deuxième renversement lorsque c'est la quinte, donc la troisième note de l'accord qui est la note la plus grave, etc.", {wait:true})
-CAPTION("Donc s'il n'y a pas de point, l'accord est dans son état fondamental, sinon il se présente sous un de ses renversements.")
-# --- Fin petite parenthèse sur les points ---
-
-STOP_FLASH
-
 # On le remet en position
-WAIT(1)
 rem1.note(5).move('f5')
 rem1.note(1).move('c4')
 rem1.note(4).show()
-
-FLASH
-
 WAIT_CAPTION
+
+# --- Petite parenthèse sur les points ---
+
+
+CAPTION("J'utilise ici la terminologie préconisée par Jacques Chailley, beaucoup plus claire et parlante que la notation harmonique par chiffrage qu'on utilise en cours d'harmonie, par exemple.", {wait:true})
+CAPTION("C'est le troisième renversement, donc trois points, puisque dans la mesure nous trouvons la quatrième note de l'accord, le DO, à la basse. Un accord se trouve dans son état fondamental, lorsque la fondamentale est à la basse, comme pour le DO Majeur de la première mesure… ", {wait:true})
+CAPTION("… Il se présente sous son premier renversement lorsque c'est la tierce, la deuxième note de l'accord, qui est la note la plus grave, sous son deuxième renversement lorsque c'est la quinte, donc la troisième note de l'accord qui est la note la plus grave, etc.", {wait:true})
+CAPTION("Donc s'il n'y a pas de point, l'accord est dans son état fondamental, sinon il se présente sous un de ses renversements.", {wait:true})
+# --- Fin petite parenthèse sur les points ---
 
 # --- Mesure 3 : Sol7• ---
 NEXT()
@@ -212,7 +205,6 @@ CAPTION("Fondamentalement, la musique populaire va affirmer les accords, affirme
 
 CAPTION("On peut le voir sous un autre angle également. On peut dire que la musique savante fonctionne beaucoup plus à l'économie de mouvement. Regardez le passage que nous venons de voir : regardez comment les notes adoptent toujours la politique du moindre effort.", {wait:true})
 
-STOP_FLASH
 
 CAPTION("Elles ne s'aventurent jamais plus loin que leur note conjointe, ce qui serait impossible à la basse avec des accords à l'état fondamental.", {wait:true})
 
@@ -353,33 +345,48 @@ NOTE('d5')
 WAIT_CAPTION
 
 CAPTION("Noter que cette Dominante de Dominante, c'est l'accord du 2e degré de la tonalité de référence — ici RÉ est le 2e degré de la tonalité de DO — qui est altéré pour le transformer en accord de 7e de dominante.")
-texte_cadence.set("IIe degré altéré en accord de 7e de Dom. => Modulation vers V.").show()
+texte_cadence.set("IIe degré altéré en accord de 7e de Dom. => Modulation vers V").show()
 WAIT_CAPTION
 
 CAPTION("Tous ces termes sont un peu confusionnant…", {wait:true})
-CAPTION("J'attire votre attention sur cette ambiguité de langage : lorsque l'on parle d'accord de 7e de Dominante, on parle de la structure d'un accord. On veut dire que c'est un accord <u>majeur</u>, possédant une septième mineure.", {wait:true})
-CAPTION("Il se trouve que c'est l'accord qu'on trouve sur le 5e degré d'une tonalité, d'où son nom.", {wait:true})
-CAPTION("Mais lorsqu'on parle d'“accord de dominante”, on parle de la <u>fonction</u> de l'accord. Quand je dis “accord de dominante” il peut très bien ne pas être un accord de structure “7e de dominante”, il peut très, par exemple, ne pas avoir de 7e.", {wait:true})
-CAPTION("Je ne sais pas si c'est plus clair, mais gardez en tête qu'il peut y avoir ambiguité à ce niveau dans mes explications.", {wait:true})
 
-CAPTION("Poursuivons… Avec la mesure 7, nous avons confirmation de notre modulation vers SOL, vers le ton de la dominante. En effet l'accord sur lequel nous arrivons est un SOL majeur.")
+texte_cadence.hide({duree:4})
+
+CAPTION("J'attire votre attention sur cette ambiguité de langage : lorsque l'on parle d'accord de 7e de Dominante, on parle de la structure d'un accord. On veut dire que c'est un accord <u>majeur</u>, possédant une <u>septième mineure</u>.", {wait:true})
+
+CAPTION("Il se trouve que c'est l'accord qu'on trouve sur le 5e degré d'une tonalité, d'où son nom.", {wait:true})
+
+CAPTION("Mais lorsqu'on parle d'“accord de dominante”, on parle de la <u>fonction</u> de l'accord. Quand je dis “accord de dominante” il peut très bien ne pas être un accord de structure “7e de dominante”, il peut très bien, par exemple, ne pas avoir de 7e.", {wait:true})
+
+
+WAIT(1)
+
+CAPTION("Je ne sais pas si c'est plus clair, mais gardez en tête qu'il peut y avoir parfois ambiguité à ce niveau.", {wait:true})
+
+WAIT(2)
+
+
 # --- Mesure 7 : G ---
+CAPTION("Poursuivons… Avec la mesure 7, nous avons confirmation de notre modulation vers SOL, vers le ton de la dominante. En effet l'accord sur lequel nous arrivons est un SOL majeur.")
+
 NEXT()
 STAFF(1).measure('7')
 partition.travelling({x:1053})
 acc = CHORD('2:b3 2:d4 g4 d5 g5')
-acc.note(2).hide()
 acc.note(1).move('1:b4')
+acc.note(2).move('1:d4')
+acc.note(2).hide()
 STAFF(2).remove_supline({top:1})
 acc.note(5).hide()
 acc.chord('G')
 WAIT_CAPTION
+
 WAIT(1)
 
 CAPTION("Nous obtenons donc, avec ce degré I de la nouvelle tonalité dans laquelle nous nous trouvons — SOL — une nouvelle cadence. Elle est imparfaite puisque ce I n'est pas dans son état fondamental.")
 acc.cadence('I', {width:100, type:imparfaite})
 acc.note(5).show()
-acc.note(1).move('b3')
+acc.note(1).move('1:b3')
 acc.note(2).show()
 WAIT_CAPTION
 
@@ -398,11 +405,17 @@ acc.note(2).move('1:c4')
 STAFF(2).remove_supline({top:1})
 WAIT_CAPTION
 
-CAPTION("Nous obtenons donc un accord de DO 7e majeure. Noter en effet que la 7e, ici, est majeure, le SI est à seulement un demi-ton du DO.")
+CAPTION("Nous obtenons donc un accord de DO 7e majeure.")
 acc.chord('C7M')
 WAIT_CAPTION
 
-CAPTION("Par rapport à notre tonalité de SOL, c'est un IV degré, sous son troisième renversement puisque c'est la septième qui est la note la plus grave de l'accord.")
+CAPTION("Il ne faut pas confondre la dénomination “DO Majeur 7e” avec la dénomination “DO 7e Majeur”. Ici, le terme “Majeur” concerne la 7e. L'accord, lui, est effectivement majeur, mais c'est induit sans qu'on le précise.", {wait:true})
+
+CAPTION("Noter en effet que la 7e, ici, est majeure, le SI est à seulement un demi-ton du DO.", {wait:true})
+
+CAPTION("Il s'agit donc d'un accord de DO Majeur à 7e majeure.", {wait:true})
+
+CAPTION("Par rapport à notre tonalité de SOL, c'est un IV degré. Il est dans son état de troisième renversement puisque c'est la septième qui est la note la plus grave.")
 acc.harmony('IV7M***')
 WAIT(1)
 acc.note(1).move(b3)
@@ -430,7 +443,7 @@ CAPTION("Ici, dans notre tonalité de SOL, ce LA mineur est un second degré.")
 acc.harmony('II7*')
 WAIT_CAPTION
 
-CAPTION("Lorsque vous aurez développé des réflexes d'analyse, dès que vous rencontrerez un accord du second degré, surtout 7e, vous pensez immédiatement à la cadence italienne II V I.", {wait:true})
+CAPTION("Lorsque vous avez développé des réflexes d'analyse, dès que vous rencontrez un accord mineur 7e, vous pensez au premier accord d'une cadence italienne II V I. Nous allons le vérifier immédiatement avec les deux accords suivants.", {wait:true})
 
 # --- Mesure 10 : D7 ---
 NEXT()
@@ -442,12 +455,16 @@ acc.note(1).remove()
 acc.note(2).move('1:a4')
 WAIT(1)
 acc.chord('D7')
-WAIT(1)
+
+CAPTION("À nouveau il s'agit d'une Dom. de Dom. Le RE 7e qui est la dominante de la dominante de DO, SOL.", {wait:true})
+
+CAPTION("Il est dans son état fondamental, nous le notons. V 7.")
 acc.harmony('V7')
+WAIT_CAPTION
 
 # --- Mesure 11 : G ---
-# NOTER ICI QUE C'EST LE MÊME 
-# QUE L'ACCORD I AU DÉPART
+CAPTION("La mesure 11, quant à elle, présente à nouveau l'accord de SOL qui confirme la tonalité de SOL majeur, donc un ton voisin de la tonalité de DO, celui de la dominante.")
+
 NEXT()
 STAFF(1).measure('11')
 partition.travelling({x:1684})
@@ -457,9 +474,20 @@ acc.note(4).hide()
 acc.note(1).move('1:g3')
 acc.note(2).move('1:b3')
 acc.chord('G')
-WAIT(2)
+WAIT_CAPTION
+
+CAPTION("Ce qui nous conduit à notre toute première cadence parfaite, notre tout premier point final harmonique. Je dirais plutôt un point-virgule, puisque la musique ne connait pas véritablement d'arrêt ici.")
 acc.cadence('I', {width:200, type_cadence:parfaite})
 acc.note(5).show()
 acc.note(4).show()
-WAIT(4)
-CAPTION("On vient d'atteindre un “bout”, avec cette conclusion à la dominante.")
+WAIT_CAPTION
+
+CAPTION("Donc pas d'arrêt de la musique, mais pourtant un point nettement affirmé avec l'enchainement V I, dans le ton de la dominante, de deux accords dans leur état fondamental.", {wait:true})
+
+CAPTION("On trouve le même effet en ponctuation de phrase. Un point n'est pas toujours conclusif, n'est pas toujours la fin d'un paragraphe ou d'une idée, il peut relever simplement de la structure de la phrase.", {wait:true})
+
+CAPTION("Notez aussi, entre parenthèses, que ce SOL, dans cet état, est la reproduction exact du premier accord de DO.", {wait:true})
+
+WAIT(1)
+
+CAPTION("Avec cette cadence parfaite dans le ton de la dominante, on vient en tout cas d'atteindre sans équivoque un “bout” de la pièce, en tout cas un tournant.", {wait:true})

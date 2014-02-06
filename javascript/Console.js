@@ -369,7 +369,7 @@ $.extend(window.Console,{
     */
   clear_commandes_flash:function()
   {
-    this.set(this.raw_trimed.replace(/\n(FLASH|MODE_FLASH|STOP_FLASH|STOP_MODE_FLASH) ?\n/g, "\n"))
+    this.set(this.raw_trimed.replace(/\n+(FLASH|MODE_FLASH|STOP_FLASH|STOP_MODE_FLASH)\n+/g, "\n\n"))
     this.onchange_code()
   }
 })
