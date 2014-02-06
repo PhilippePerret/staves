@@ -778,7 +778,7 @@ Object.defineProperties(Img.prototype,{
   {
     get:function(){
       var styleimg = [], stylediv = [] ;
-      
+      if(this.hidden) stylediv.push("opacity:0")
       
       return  '<div id="'+this.dom_id+'" class="divimage" style="'+stylediv.join(';')+'">'+
                 '<div id="'+this.id+'-background" class="bg_image"></div>' +

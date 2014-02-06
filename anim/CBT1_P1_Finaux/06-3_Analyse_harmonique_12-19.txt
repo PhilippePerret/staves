@@ -1,0 +1,287 @@
+# Animation pour analyse du
+# premier prélude du CBT 1
+# Mesures 12 - 19
+
+# SUITE('CBT1_Prelude1_20-25')
+
+# --- Valeurs par défault ---
+DEFAULT('screensize', 610)
+DEFAULT('decompte', 0)
+DEFAULT('next', 80)
+DEFAULT('harmony', 8)
+DEFAULT('staff_top', 120)
+DEFAULT('offset_modulation_y', 15)
+DEFAULT('chord', 35)
+DEFAULT('staff_harmony', 2)
+DEFAULT('caption_timer', true)
+
+# La partition complète
+partition_complete = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y:60, hidden:true})
+
+# --- La partition dans la longueur
+extrait=IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/longueur-12-19.png', y:370, x:73, inner_x:8, inner_y:0, cadre_width:303, cadre_height:136, hidden:true})
+
+
+# --- Les portées ---
+extrait.show({duree:2, wait:false})
+NEW_STAFF(SOL)
+NEW_STAFF(FA)
+ACTIVE_STAFF(1)
+
+# --- Mesure 12 : C#7dim ---
+CAPTION("Analysons maintenant la mesure 12 qui suit ce point harmonique.", {wait:true})
+acc = CHORD('2:g3 2:bb3 e4 g4 cd5')
+
+CAPTION("On se trouve en présence d'un accord un peu plus complexe, le plus complexe en tout cas qu'on ait rencontré jusqu'à présent.", {wait:true})
+
+CAPTION("Comme pour les autres, nous allons rechercher l'empilage correct de tierces. Notez que pour obtenir cet empilage, on se fiche totalement des altérations. Seules les notes importent.", {wait:true})
+
+CAPTION("Le Si bémol, donc le Si va se trouver certainement au-dessus de MI-SOL…")
+acc.note(2).fantomize()
+provsib = NOTE('bb4')
+WAIT_CAPTION
+
+WAIT(2)
+
+CAPTION("Le DO # se trouverait idéalement placé sous le MI…")
+acc.note(5).fantomize()
+provdo  = NOTE('cd4')
+WAIT_CAPTION
+
+WAIT(2)
+CAPTION("Il nous reste juste à supprimer le doublon du SOL…")
+acc.note(1).fantomize()
+WAIT_CAPTION
+
+CAPTION("Et nous obtenons donc DO# MI SOL SI bémol.", {wait:true})
+
+CAPTION("DO#-MI forment une tierce mineure. DO#-SOL forment une quinte diminuée et DO#-SIbémol forment une septième mineur. ", {wait:true})
+
+CAPTION("Tierce mineur, quinte diminuée et septième dimunée, si vous avez suivi les autres screencasts, vous savez que cet accord est un aocord dit “de septième diminuée” très reconnaissable puisqu'il est le seul accord constitué d'un empilage de tierces qui sont toutes mineures.", {wait:true})
+
+provdo.exergue()
+acc.note(3).exergue()
+CAPTION("DO#-MI est une tierce mineure.", {wait:true})
+provdo.unexergue()
+
+WAIT(1)
+
+acc.note(4).exergue()
+CAPTION("MI-SOL est une tierce mineure.", {wait:true})
+acc.note(3).unexergue()
+
+WAIT(1)
+provsib.exergue()
+CAPTION("SOL-SIbémol est une tierce mineure.", {wait:true})
+acc.note(4).unexergue()
+provsib.unexergue()
+
+CAPTION("Puisque c'est le DO# qui porte cet accord, qui en est la fondamentale, c'est un accord de DO# 7e diminuée.", {wait:true})
+acc.chord('C#7dim')
+CAPTION("7° = 7e diminuée", true)
+
+CAPTION("Retenez bien cet accord de septième diminuée, il est extrêmement fréquent et pratiquement toujours employé de la même façon, en qualité de septième degré de sa tonalité.", {wait:true})
+
+# -- TEXTE QUELCONQUE --
+texte = TBOX("L'accord de 7e diminuée est presque toujours employé comme 7e degré de sa tonalité.", {x:130, y:442, width:800})
+WAIT_CAPTION
+
+CAPTION("C'est un accord qui appartient à l'harmonie d'une tonalité mineure, mais nous allons voir qu'il est employé tout autant pour moduler ou faire un emprunt à une tonalité majeure.", {wait:true})
+
+
+CAPTION("Sa fondamentale — ici le DO# — est la sensible de la tonalité, donc un demi-ton sous la tonalité.")
+
+
+# --- TEXTE ---
+texte.set("La fondamentale de l'accord de 7e diminuée est la sensible de la tonalité.")
+
+WAIT_CAPTION
+
+CAPTION("Ce qui signifie, ici, que la tonalité vers laquelle on module est une tonalité de RÉ.", {wait:true})
+
+CAPTION("Mineure ou majeure ?… Tout nous laisse à penser que ce sera RÉ mineur, puisque deux raisons vont dans ce sens : d'abord l'accord de 7e diminuée appartient au monde mineur, mais surtout, RÉ mineur est un accord de la tonalité de DO majeur, pas RÉ majeur.", {wait:true})
+
+texte.hide({duree:5, wait:false})
+
+# On efface le sous-titre
+CAPTION("", true)
+
+
+CAPTION("Évidemment, dans la vraie vie, on jette un coup d'œil à l'accord suivant pour le savoir…")
+extrait.travelling({x:245})
+WAIT_CAPTION
+CAPTION("FA bécarre LA RÉ LA RÉ, c'est effectivement vers RÉ mineur que nous allons.")
+acc.modulation('Rém [IIe de C]', {offset_x:-10})
+WAIT_CAPTION
+
+texte.hide()
+
+CAPTION("Et cet accord de 7e diminuée est donc un VIIe degré, comme je l'ai dit, de la tonalité de RÉ mineur.", {wait:true})
+acc.harmony('VII7dim**')
+
+CAPTION("Comme nous l'avons vu, la mesure suivante confirme bien que nous passons en RÉ mineur.")
+provsib.remove({wait:false})
+provdo.remove({wait:false})
+STAFF(1).remove_supline({bottom:1, wait:false})
+acc.note([1,2,5]).defantomize({wait:false}).update()
+
+
+# # --- Mesure 13 : Dm ---
+NEXT()
+acc = CHORD('2:f3 2:a3 d4 a4 d5')
+acc.note([1,2,5]).fantomize()
+prov = NOTE(f4)
+WAIT_CAPTION
+acc.chord('Dm')
+CAPTION("Et c'est le premier degré de la nouvelle tonalité de RÉ mineur.", {wait:true})
+acc.cadence('I',{type:imparfaite, width:112})
+
+WAIT(2)
+
+CAPTION("Je le marque comme une cadence imparfaite, mais stricto sensus, ça n'est pas une cadence, puisque le degré VII ici se substitue au degré V. Néanmoins, on peut voir aussi ce VII comme un renversement du V sans fondamental, ce qu'il est, harmoniquement parlant.", {wait:true})
+
+CAPTION("Rappelez-vous quand même qu'il est impropre ici de parler de cadence.", {wait:true})
+
+CAPTION("Autre chose, vous vous souvenez sans doute que j'avais parlé de ce RÉ mineur comme un ton pseudo voisin. On le retrouve ici.", {wait:true})
+
+CAPTION("En fait, au lieu d'une modulation, on pourrait voir aussi simplement le C# 7e diminuée comme un simple accord riche en tension qui nous tire de la tonalité dans laquelle nous nous trouvions, SOL, pour nous ramener en DO, en commençant par son IIe degré.")
+prov.remove()
+acc.note([1,2,5]).defantomize()
+WAIT_CAPTION
+
+CAPTION("On parle donc plutôt, ici, d'un <u>emprunt</u> à la tonalité de RÉ mineur, un emprunt à la tonalité du second degré. On en aura confirmation avec la suite qui va quitter immédiatement cette tonalité passagère.", {wait:true})
+
+
+# --- Mesure 14 : B7dim ---
+extrait.travelling({x:494, wait:false})
+CAPTION("Analysons la mesure 14", {wait:true})
+CAPTION("Je procède au même exercice…")
+NEXT()
+acc = CHORD('2:f3 2:ab3 d4 f4 b4')
+acc.note([1,2,5]).fantomize()
+provsi = NOTE(b3)
+provlab = NOTE('ab4')
+WAIT_CAPTION
+
+CAPTION("… jusqu'à obtenir l'accord SI RE FA LAb. Nous voilà nouveau en présence d'un accord de 7e diminuée, reconnaissable à son empilage de tierces mineures.", {wait:true})
+
+CAPTION("Ici, c'est donc un SI 7e diminuée.", {wait:true})
+acc.chord("B7dim")
+
+CAPTION("Vous vous souvenez que cet accord est situé sur le 7e degré de la tonalité, et donc que sa fondamentale est la sensible.", {wait:true})
+
+CAPTION("Si le SI est la sensible, nous repassons donc en DO, majeur ou mineur. Certainement majeur, notre tonalité principale.", {wait:true})
+acc.modulation("C(m)")
+CAPTION("Et cet accord de SI 7e diminuée est un 7e degré de la tonalité de DO.", {wait:true})
+acc.harmony('VII7dim**')
+CAPTION("Bien entendu, c'est un 7e degré altéré, puisque LA bémol n'appartient pas à la tonalité de DO Majeur.", {wait:true})
+
+CAPTION("Et nous avons confirmation dès la mesure suivante que nous repassons bien en DO majeur, avec un parfait accord de DO majeur.")
+extrait.travelling({x:763, wait:false})
+
+acc.note([1,2,5]).defantomize({wait:false})
+provsi.remove({wait:false})
+provlab.remove({wait:false})
+STAFF(1).remove_supline({bottom:1})
+
+# --- Mesure 15 : C ---
+
+NEXT()
+acc = CHORD('2:e3 2:g3 c4 g4 c4')
+acc.note([1,2,5]).fantomize()
+prov = NOTE(e4)
+
+acc.chord('C')
+
+WAIT_CAPTION
+
+CAPTION("C'est donc un premier degré ici.", {wait:true})
+acc.cadence('I', {type:imparfaite, width:112})
+
+CAPTION("Et je marque ici tout aussi improprement que tout à l'heure une cadence imparfaite dans cette tonalité de DO majeur.", {wait:true})
+prov.remove()
+acc.note([1,2,5]).defantomize()
+
+WAIT(3)
+
+CAPTION("Faisons un petit break pour noter ce passage. Après la cadence parfaite en SOL, vue tout à l'heure, nous sommes entrés en quatre mesures dans une zone très perturbée, modulante, sur la base d'accord de 7e diminuée.", {wait:true})
+
+CAPTION("Cela donne vraiment soit l'idée d'un pont — qui doit conduire d'un thème à un autre — soit d'un développement après l'exposition d'un thème. Ici, nous n'en aurons que l'idée.", {wait:true})
+
+# --- Mesure 16 : Fa7M ---
+extrait.travelling({x:972, wait:false})
+CAPTION("La mesure 16. Elle présente un accord FA LA DO MI. Donc un accord de FA 7e Majeure.")
+NEXT()
+acc = CHORD('2:e3 2:f3 a3 c4 f4')
+acc.note([1, 5]).fantomize()
+prov = NOTE('e4')
+WAIT_CAPTION
+
+CAPTION("Attention à nouveau : le terme <u>Majeure</u> concerne la 7e.", {wait:true})
+CAPTION("Et cet accord est un IV degré de DO, la sous-dominante…", {wait:true})
+acc.harmony('IV7e***')
+CAPTION("… dans un état de 3e renversement.", {wait:true})
+
+WAIT(3)
+
+# --- Mesure 17 : Dm7 (fin 1ere page) ---
+extrait.travelling({x:1210, wait:false})
+CAPTION("La mesure 17 présente un accord RÉ FA LA DO, donc un accord mineur 7 du IIe degré de la tonalité de DO.")
+NEXT()
+acc = CHORD('2:d3 2:f3 a3 c4 f4')
+acc.chord('Dm7')
+acc.harmony('II')
+WAIT_CAPTION
+
+CAPTION("Accord mineur 7, va-t-on rencontrer une nouvelle cadence italienne ?", {wait:true})
+CAPTION("Noter entre parenthèse que dans cette italienne, on peut remplacer le II par un IV, ou inversement.", {wait:true})
+
+# --- Mesure 18 : G7 (1ere mes. 2e page) ---
+extrait.travelling({x:1455, wait:false})
+CAPTION("Ça semble bien parti pour être une italienne, puisque nous rencontrons à la mesure 18 l'accord de 7e de dominante de DO, SOL 7 ! Son 5e degré.")
+NEXT()
+acc = CHORD('2:g2 2:d3 g3 b3 f4')
+acc.chord('G7')
+acc.harmony('V')
+WAIT_CAPTION
+
+
+# --- Mesure : 19 : C ---
+extrait.travelling({x:1684, wait:false})
+CAPTION("Et confirmation de la cadence italienne, nous finissons cette partie sur un accord de tonique, DO Majeur.")
+NEXT()
+acc = CHORD('2:c3 2:e3 g3 c4 e4')
+acc.chord('C')
+WAIT_CAPTION
+
+CAPTION("Notez que cette cadence est parfaite puisque l'accord de dominante — le SOL — et l'accord de tonique — le DO — sont dans leur état fondamental.")
+acc.cadence('I', {type:parfaite, width:180})
+WAIT_CAPTION
+
+WAIT(2)
+
+CAPTION("Petite précision encore : l'état fondamental de l'accord ne signifie absolument pas que l'accord empile ses tierces avec rigueur.", {wait:true})
+CAPTION("L'état fondamental, c'est simplement un état de l'accord où la note la plus grave est la fondamentale, c'est tout. Les autres notes peuvent être dans l'ordre qu'on veut, peu importe.", {wait:true})
+
+CAPTION("On ne range l'accord en empilant ses tierces <u>que</u> pour l'analyser. Rien à voir avec les renversements de l'accord dans la musique.", {wait:true})
+
+CAPTION("Vous noterez que cet accord est exactement le même accord que le tout premier, mais cette fois une octave en dessous…", {wait:true})
+STAFF(1).write("= mesure 1 octave bassa",{type:'cadre italic petit', offset_x:4, offset_y:60, width:70})
+
+CAPTION("C'est donc un point particulièrement important que nous trouvons ici. Une cadence parfaite dans le ton de la tonique, c'est un point harmonique fort, qui sonne bien souvent la fin d'une partie.", {wait:true})
+WAIT(2)
+
+CAPTION("Et l'on voit donc se dessiner la construction subtile de ce prélude jusque-là :", {wait:true})
+CAPTION("Une première partie qui conduit jusqu'à une cadence parfaite en SOL, ton de la dominante — je le rappelle : sur l'accord de SOL présenté <u>exactement</u> comme l'accord de DO.", {wait:true})
+CAPTION("Puis une seconde partie qui conduit à une cadence parfaite en DO, ton de la tonique, sur l'accord présenté <u>exactement</u> de la même manière, une octave plus bas.", {wait:true})
+
+CAPTION("Si ce n'est pas de la construction magnifiquement subtile, je ne sais pas ce que c'est… Essayez de faire pareil à la maison, vous comprendrez ce que je veux dire (ha ha).", {wait:true})
+
+CAPTION("Notez en passant que ce jeu entre ton de la tonique et ton de la dominante est extrêmement fréquent et structurant.", {wait:true})
+CAPTION("Dans une sonate, forme classique par excellence, le premier thème est exposé dans le ton de la tonique, tandis que le second thème est exposé dans celui de la dominante (en tout cas en majeur).", {wait:true})
+
+CAPTION("Moralité, avec cette cadence parfaite dans le ton de la tonique après un cadence parfaite dans le ton de la dominante, cette mesure 19 marque un point capital de la pièce.", {wait:true})
+
+WAIT(2)
+
+CAPTION("Vous en avez assez ?… Mais… On n'a pas encore terminé, là, allez ! Un peu de courage, on a déjà fait plus de la moitié du chemin ! Et pour la suite, ça descend tout du long !", {wait:true})
