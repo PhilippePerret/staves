@@ -60,6 +60,8 @@
     <li data-item="coordonnees">Activer coordonnées</li>
     <li data-item="cadrage">Cadrage image…</li>
     <li class="separateur"></li>
+    <li data-item="clearflash">Nettoyer toutes les commandes FLASH</li>
+    <li class="separateur"></li>
     <li data-item="infos">Afficher les mesures courantes</li>
     <li data-item="autocompletion">Afficher les données complétion</li>
     <li class="separateur"></li>

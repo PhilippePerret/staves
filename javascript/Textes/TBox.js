@@ -167,6 +167,23 @@ $.extend(TBox.prototype,{
     params.duree = this.duree_set_or_default(params, 'show')
     this.animate({opacity:1}, params)
     this.hidden = false
+    return this
+  },
+  
+  /**
+    * Masque la TBox
+    * Surclasse la méthode universelle pour les mêmes raisons que `show` ci-dessus
+    * @method hide
+    * @param {Object} params  Paramètres optionnels
+    * @return {TBox} Cette boite (pour chainage)
+    */
+  hide:function(params)
+  {
+    if(undefined == params) params = {}
+    params.duree = this.duree_set_or_default(params, 'show')
+    this.animate({opacity:0}, params)
+    this.hidden = true
+    return this
   },
   
   /**

@@ -5,8 +5,8 @@ DEFAULT('caption', true)
 
 CAPTION("Une boite tout à fait simple. Elle doit être placée au centre, avec toutes les valeurs par défaut.")
 
-maboite = TBOX("Un premier texte dans une boite")
-#maboite.show()
+maboite = TBOX("Un premier texte dans une boite apparaissant lentement", {hidden:true})
+maboite.show({duree:4})
 
 autre = TBOX("Un autre texte pour voir la transparence", {y:10, background:'blue', opacity:0.2})
 
@@ -21,3 +21,8 @@ maboite.set({offset_width:200, offset_x:-100, duree:3})
 CAPTION("Changement de fond (opaque) et de couleur pour la boite du haut")
 WAIT(1)
 autre.set({background:black, opacity:1, color:white})
+
+CAPTION("Déplacement avec move en 3 secondes")
+autre.move({x:10, duree:3})
+
+CAPTION("FIN DES TESTS")

@@ -129,7 +129,7 @@ window.UI.Popups = {
     },
     
     /* ---------------------------------------------------------------------
-     *  Menu "Outils"
+     *  MENU OUTILS
      *  
      */
     autocomplete_on:false,
@@ -138,6 +138,36 @@ window.UI.Popups = {
       this.autocomplete_on = !this.autocomplete_on
       UI.Tools[(this.autocomplete_on?'show':'hide')+'_autocompletion']()
       item.html((this.autocomplete_on ? "Masquer":"Afficher") + " les données complétion")
+    },
+    /**
+      * Nettoyer les commandes flash du code
+      * @method clearflash
+      * @param {jQuerySet} item     Le menu qui appelle cette méthode
+      * @param {Undefined|Boolean}  True quand la confirmation est donnée
+      */
+    clearflash:function(item, confirmed)
+    {
+      if(!confirmed)
+      {
+        // Faire la demande de confirmation
+        Edit.show({
+          width: 500,
+          title: "Nettoyage des commandes FLASH dans le code",
+          fields:{
+            explication: "<div>Cette méthode retire toutes les commandes FLASH, STOP_FLASH, MODE_FLASH et STOP_MODE_FLASH du code actuel.</div>"
+          },
+          buttons:{
+            ok:{name:"Nettoyer", onclick:$.proxy(UI.Popups.Methods.clearflash, UI.Popups.Methods, item, true)},
+            cancel:{name:"Renoncer"}
+          }
+        })
+      }
+      else
+      {
+        // Nettoyer le code
+        Console.clear_commandes_flash()
+        F.show("Le code a été nettoyé, il peut être enregistré.")
+      }
     },
     /**
       * Afficher le manuel

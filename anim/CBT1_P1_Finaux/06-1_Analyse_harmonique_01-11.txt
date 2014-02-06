@@ -28,15 +28,13 @@ partition_complete.hide({duree:5})
 NEW_STAFF(SOL)
 NEW_STAFF(FA)
 # La partition qui permet de suivre les mesures
-partition=IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/longueur-01-14.png', y:279, x:73, inner_x:0, inner_y:0, cadre_width:267, cadre_height:96})
+partition=IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/longueur-01-14.png', y:305, x:73, inner_x:0, inner_y:0, cadre_width:267, cadre_height:96})
 
 WAIT_CAPTION
 
 CAPTION("Si j'ai choisi cette pièce de Bach, c'est pour deux raisons principales. D'abord, elle est assez connue, et ensuite, son analyse harmonique est très simple, notamment parce qu'il n'y a qu'un seul accord par mesure, ce qui est somme toute assez rare.", {wait:true})
 
 # --- Premier accord DO ---
-
-STOP_FLASH
 
 ACTIVE_STAFF(1)
 CAPTION("Commençons donc par l'accord de la première mesure.", {wait:true})
@@ -48,10 +46,9 @@ CAPTION("Ensuite, je vais tenter d'arriver à un empilage de tierces qui me perm
 CAPTION("Comme nous l'avons vu dans les premiers screencasts, un accord est en effet constitué de tierces superposées dans son état fondamental, et c'est cet état fondamental qui permet d'en déterminer la nature et le nom.", {wait:true})
 CAPTION("Je vais donc déplacer les notes et supprimer les doublons, jusqu'à obtenir cet empilage de tierces. Ça n'est pas toujours simple au début, ça devient un jeu d'enfant avec l'habitude.")
 STAFF(2).remove_supline({top:2})
-do1.note(5).remove()
+do1.note([4,5]).hide()
 do1.note(1).move('1:c4', {duree:4})
 STAFF(2).remove_supline({top:1})
-do1.note(4).remove()
 WAIT_CAPTION
 
 CAPTION("Ici, j'obtiens donc les notes DO MI SOL, donc un accord de DO, puisque la note la plus basse est un DO. La quinte DO-SOL est juste. Et la tierce DO-MI est majeure, deux tons,…", {wait:true})
@@ -68,8 +65,7 @@ CAPTION("Un accord de tonique pour commencer le morceau, rien de bien original, 
 
 # On remet l'accord en position
 WAIT(1)
-CHORD('c5 e5')
-
+do1.note([4,5]).show()
 
 # --- Mesure 2 : accord Dm7 ---
 WAIT_CAPTION
@@ -79,7 +75,7 @@ NEXT()
 STAFF(1).measure('2')
 partition.travelling({x:245})
 rem1=CHORD('2:c4 d4 a4 d5 f5')
-rem1.note(4).remove()
+rem1.note(4).hide()
 rem1.note(5).move('f4')
 rem1.note(1).move('1:c5')
 STAFF(2).remove_supline({top:1})
@@ -105,11 +101,15 @@ CAPTION("… Il se présente sous son premier renversement lorsque c'est la tier
 CAPTION("Donc s'il n'y a pas de point, l'accord est dans son état fondamental, sinon il se présente sous un de ses renversements.")
 # --- Fin petite parenthèse sur les points ---
 
+STOP_FLASH
+
 # On le remet en position
 WAIT(1)
 rem1.note(5).move('f5')
 rem1.note(1).move('c4')
-NOTE('d5')
+rem1.note(4).show()
+
+FLASH
 
 WAIT_CAPTION
 
@@ -168,8 +168,6 @@ CAPTION("Entre nous, ce sont vraiment des noms mal choisis et un peu désincarn�
 
 CAPTION("Peu importe. Ce qu'il est important de retenir, capital même, c'est qu'une cadence parfaite ou imparfaite, c'est l'enchaînement de l'accord du Ve degré et de l'accord du premier degré.", {wait:true})
 
-STOP_FLASH
-
 texte_cadence = TBOX("Une cadence parfaite/imparfaite est l'enchainement : V I", {x:130, y:442, width:800})
 
 CAPTION("C'est l'enchainement de l'accord de Dominante — ici le SOL — et de l'accord de tonique — ici le DO.", {wait:true})
@@ -189,17 +187,32 @@ CAPTION("Retenez surtout l'enchaînement II V I. Et notez que c'est un enchainem
 
 CAPTION("Si vous voulez vraiment vous familiariser avec les tonalités, travaillez cet enchainement II V I dans tous les tons sur votre instrument (un ton par jour, c'est mieux au début) jusqu'à être capable de le faire sans hésitation.", {wait:true})
 
+
 # --- Parenthèse sur LES RENVERSEMENTS  ---
+
+texte_cadence.hide({duree:5, wait:false})
 
 CAPTION("Nous venons donc d'analyser l'harmonisation du premier membre de phrase de ce prélude.", {wait:true})
 
-CAPTION("Je voudrais souligner le fait que les renversements que nous avons rencontrés connaissent un usage intensif dans la musique classique, c'est quelque chose qui la distingue vraiment de la musique qu'on appelle populaire. Dans la musique populaire, les accords sont le plus souvent — ce qui ne veut pas dire tout le temps —, utilisés dans leur état fondamental.", {wait:true})
+CAPTION("Je voudrais souligner le fait que les renversements que nous avons rencontrés connaissent un usage intensif dans la musique classique, c'est quelque chose qui la distingue vraiment de la musique qu'on appelle populaire.", {wait:true})
 
-CAPTION("Contrairement à ce qu'on imagine habituellement, la différence entre musique dite populaire et musique dite classique ne se situe pas au niveau du nombre d'accords employés, on retrouve les mêmes partout, en tout cas les mêmes enchainements des mêmes accords. Non, c'est dans l'usage des renversements qu'on peut faire un net distingo.", {wait:true})
+CAPTION("Dans la musique populaire, les accords sont le plus souvent — ce qui ne veut pas dire tout le temps —, utilisés dans leur état fondamental.", {wait:true})
 
-CAPTION("Fondamentalement, la musique populaire va affirmer les accords, affirmer l'harmonie, la rendre très claire quand la musique dite savante s'ingénie à la rendre imperceptible.", {wait:true})
+CAPTION("Contrairement à ce qu'on imagine souvent, la différence entre musique dite populaire et musique dite savante ne se situe pas au niveau du nombre d'accords employés comme on l'entend trop souvent dire.", {wait:true})
 
-CAPTION("On peut le voir sous un autre angle également. On peut dire que la musique savante est beaucouop plus fainéante, elle fonctionne à l'économie. Regardez le passage que nous venons de voir : regardez comment les notes adoptent toujours la politique du moindre effort.")
+CAPTION("La musique classique multiplie les accords en utilisant plus facilement les modulations, la musique populaire les multiplie en utilisant une plus grande variété de couleurs harmoniques et une plus grande variété d'enchainements d'accord.", {wait:true})
+
+CAPTION("La musique populaire est même d'un certain point de vue plus riche harmoniquement que la musique classique, puisqu'elle ne se limite pas, comme la musique classique, à une extrapolation de l'enchainement Tonique - Dominante - Tonique.", {wait:true})
+
+CAPTION("Dans la musique populaire, la supprématie divine ou régalienne de l'accord de tonique est beaucoup moins forte, et elle hérite encore beaucoup, surtout en mineur, de l'influence modale.", {wait:true})
+
+CAPTION("Non, c'est dans l'usage des renversements qu'on peut faire un net distingo entre les deux types de musique.", {wait:true})
+
+CAPTION("Fondamentalement, la musique populaire va affirmer les accords, affirmer l'harmonie, la rendre très claire quand la musique dite savante s'ingénie à rendre l'harmonie imperceptible, par le biais des renversements qui créent un liant beaucoup plus fort.", {wait:true})
+
+CAPTION("On peut le voir sous un autre angle également. On peut dire que la musique savante fonctionne beaucoup plus à l'économie de mouvement. Regardez le passage que nous venons de voir : regardez comment les notes adoptent toujours la politique du moindre effort.", {wait:true})
+
+STOP_FLASH
 
 CAPTION("Elles ne s'aventurent jamais plus loin que leur note conjointe, ce qui serait impossible à la basse avec des accords à l'état fondamental.", {wait:true})
 
@@ -209,53 +222,71 @@ rem1.note(5).exergue()
 sol1.note(5).exergue()
 do2.note(5).exergue()
 WAIT_CAPTION
+
+WAIT(3)
 do1.note(5).unexergue()
 rem1.note(5).unexergue()
+sol1.note(5).unexergue()
+do2.note(5).unexergue()
+
 CAPTION("Le DO monte au RE, reste au RÉ, redescend au DO")
 do1.note(4).exergue()
-sol1.note(5).unexergue()
 rem1.note(4).exergue()
-do2.note(5).unexergue()
 sol1.note(4).exergue()
 do2.note(4).exergue()
+WAIT_CAPTION
 
+WAIT(3)
 do1.note(4).unexergue()
 rem1.note(4).unexergue()
-WAIT_CAPTION
+sol1.note(4).unexergue()
+do2.note(4).unexergue()
+
 
 CAPTION("Le SOL monte au LA, redescend au SOL et reste au SOL.")
 do1.note(3).exergue()
-sol1.note(4).unexergue()
 rem1.note(3).exergue()
-do2.note(4).unexergue()
 sol1.note(3).exergue()
-do2.note(3).exergue
+do2.note(3).exergue()
+WAIT_CAPTION
 
+WAIT(3)
 do1.note(3).unexergue()
 rem1.note(3).unexergue()
-WAIT_CAPTION
+sol1.note(3).unexergue()
+do2.note(3).unexergue()
 
 CAPTION("Le MI descend au RE, reste au RÉ puis revient au dos.")
 do1.note(2).exergue()
-sol1.note(3).unexergue()
 rem1.note(2).exergue()
-do2.note(3).unexergue()
 sol1.note(2).exergue()
-do2.note(2).exergue
+do2.note(2).exergue()
+WAIT_CAPTION
 
+WAIT(3)
 do1.note(2).unexergue()
 rem1.note(2).unexergue()
-WAIT_CAPTION
+sol1.note(2).unexergue()
+do2.note(2).unexergue()
+
 
 CAPTION("Et enfin, la note basse, qui crée vraiment une spécifité : le DO reste au DO, descend au SI puis remonte au DO.")
 do1.note(1).exergue()
-sol1.note(2).unexergue()
 rem1.note(1).exergue()
-do2.note(2).unexergue()
 sol1.note(1).exergue()
-do2.note(1).exergue
+do2.note(1).exergue()
+WAIT_CAPTION
 
-CAPTION("Si j'ai tellement insisté sur ce minimum syndical effectué par les notes dans la musique classique, ou toute forme de musique raffinée qui travaille partout le relief, c'est que ce principe est une aide formidable pour mémoriser ou retrouver à la volée une œuvre qu'on aurait oublié.", {wait:true})
+WAIT(3)
+CAPTION("Si j'ai tellement insisté sur ce minimum syndical effectué par les notes dans la musique classique, ou toute forme de musique raffinée qui travaille partout le relief, c'est que ce principe est une aide formidable pour mémoriser ou retrouver à la volée une œuvre qu'on aurait oublié.")
+
+# On retire de l'exergue les dernières notes (basses)
+do1.note(1).unexergue()
+rem1.note(1).unexergue()
+sol1.note(1).unexergue()
+do2.note(1).unexergue()
+
+WAIT_CAPTION
 
 CAPTION("Ici, il suffit de se souvenir que la position de départ est un accord de DO plein, complet, de la fondamentale à la tierce redoublée — DO MI SOL DO MI —…", {wait:true})
 CAPTION("… que l'enchainement est un enchainement archi-classique I II V I — donc j'ai juste à me souvenir qu'il n'y a rien de spécial à retenir… et tout le reste coule de source, ces quatre mesures coulent de source.", {wait:true})
@@ -309,32 +340,54 @@ res.note(3).exergue(red)
 WAIT_CAPTION
 CAPTION("Une altération du FA, qui devient FA#…", {wait:true})
 
+CAPTION("Si vous avez en tête notre travail sur les tons proches alors vous vous souvenez que ce FA#, altération du 4e degré, inaugure l'appel au ton de la dominante. Du SOL, donc, en DO Majeur.", {wait:true})
 
+CAPTION("Et justement notre RÉ 7 est l'accord de dominante de SOL. C'est ce qu'on appelle une “Dominante de domante”. Le 5e degré d'un 5e degré.", {wait:true})
+
+CAPTION("Ici, donc, nous modulons vers la dominante de DO, SOL, par sa propre dominante : RÉ 7e.")
 res.modulation('Sol [Dom.]')
 res.harmony('V*')
 res.note(3).unexergue()
-WAIT(1)
 res.note(1).move('c4')
 NOTE('d5')
+WAIT_CAPTION
 
+CAPTION("Noter que cette Dominante de Dominante, c'est l'accord du 2e degré de la tonalité de référence — ici RÉ est le 2e degré de la tonalité de DO — qui est altéré pour le transformer en accord de 7e de dominante.")
+texte_cadence.set("IIe degré altéré en accord de 7e de Dom. => Modulation vers V.").show()
+WAIT_CAPTION
+
+CAPTION("Tous ces termes sont un peu confusionnant…", {wait:true})
+CAPTION("J'attire votre attention sur cette ambiguité de langage : lorsque l'on parle d'accord de 7e de Dominante, on parle de la structure d'un accord. On veut dire que c'est un accord <u>majeur</u>, possédant une septième mineure.", {wait:true})
+CAPTION("Il se trouve que c'est l'accord qu'on trouve sur le 5e degré d'une tonalité, d'où son nom.", {wait:true})
+CAPTION("Mais lorsqu'on parle d'“accord de dominante”, on parle de la <u>fonction</u> de l'accord. Quand je dis “accord de dominante” il peut très bien ne pas être un accord de structure “7e de dominante”, il peut très, par exemple, ne pas avoir de 7e.", {wait:true})
+CAPTION("Je ne sais pas si c'est plus clair, mais gardez en tête qu'il peut y avoir ambiguité à ce niveau dans mes explications.", {wait:true})
+
+CAPTION("Poursuivons… Avec la mesure 7, nous avons confirmation de notre modulation vers SOL, vers le ton de la dominante. En effet l'accord sur lequel nous arrivons est un SOL majeur.")
 # --- Mesure 7 : G ---
 NEXT()
 STAFF(1).measure('7')
 partition.travelling({x:1053})
 acc = CHORD('2:b3 2:d4 g4 d5 g5')
-acc.note(2).remove()
+acc.note(2).hide()
 acc.note(1).move('1:b4')
 STAFF(2).remove_supline({top:1})
 acc.note(5).hide()
-WAIT(1)
 acc.chord('G')
+WAIT_CAPTION
 WAIT(1)
+
+CAPTION("Nous obtenons donc, avec ce degré I de la nouvelle tonalité dans laquelle nous nous trouvons — SOL — une nouvelle cadence. Elle est imparfaite puisque ce I n'est pas dans son état fondamental.")
 acc.cadence('I', {width:100, type:imparfaite})
 acc.note(5).show()
 acc.note(1).move('b3')
-NOTE('d4')
+acc.note(2).show()
+WAIT_CAPTION
+
+WAIT(2)
+
 
 # --- Mesure 8 : C7M ---
+CAPTION("Abordons la 8e mesure de la même façon…")
 NEXT()
 STAFF(1).measure('8')
 partition.move({x:596}).travelling({x:1209})
@@ -343,16 +396,22 @@ acc.note(5).hide()
 acc.note(1).move('1:b4')
 acc.note(2).move('1:c4')
 STAFF(2).remove_supline({top:1})
-WAIT(1)
+WAIT_CAPTION
+
+CAPTION("Nous obtenons donc un accord de DO 7e majeure. Noter en effet que la 7e, ici, est majeure, le SI est à seulement un demi-ton du DO.")
 acc.chord('C7M')
-WAIT(1)
+WAIT_CAPTION
+
+CAPTION("Par rapport à notre tonalité de SOL, c'est un IV degré, sous son troisième renversement puisque c'est la septième qui est la note la plus grave de l'accord.")
 acc.harmony('IV7M***')
 WAIT(1)
 acc.note(1).move(b3)
 WAIT(1)
 acc.note(5).show()
+WAIT_CAPTION
 
 # --- Mesure 9 : Am7 ---
+CAPTION("Mesure 9, nous trouvons l'accord LA DO MI SOL, donc un accord de LA mineur avec une septième mineure. Attention de ne pas le prendre pour un accord de 7e de dominante. Un accord de 7e de dominante est <u>toujours</u> majeur.")
 NEXT()
 STAFF(1).measure('9')
 partition.travelling({x:1366})
@@ -365,8 +424,13 @@ acc.note(5).show()
 acc.note(1).move('1:a3')
 acc.note(2).move('1:c4')
 STAFF(2).remove_suplines({top:[1,2]})
-WAIT(1)
+WAIT_CAPTION
+
+CAPTION("Ici, dans notre tonalité de SOL, ce LA mineur est un second degré.")
 acc.harmony('II7*')
+WAIT_CAPTION
+
+CAPTION("Lorsque vous aurez développé des réflexes d'analyse, dès que vous rencontrerez un accord du second degré, surtout 7e, vous pensez immédiatement à la cadence italienne II V I.", {wait:true})
 
 # --- Mesure 10 : D7 ---
 NEXT()

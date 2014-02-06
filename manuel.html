@@ -340,6 +340,7 @@ sup {
 
 <ul>
 <li><a href="#intro_animation">Introduction</a></li>
+<li><a href="#set_anim_courante_as_default">Définir l'animation courante comme animation par défaut</a></li>
 <li><a href="#definir_cadre_animation">Définir le cadre de l'animation</a></li>
 <li><a href="#code_composition">Composer le code de l'animation</a>
 
@@ -350,6 +351,8 @@ sup {
 <li><a href="#reset_animation">Resetter l'animation</a></li>
 <li><a href="#clean_animation">"Nettoyer" l'animation (tout effacer)</a></li>
 <li><a href="#code_comments">Commentaires dans le code</a></li>
+<li><a href="#command_stop">Mettre un point d'arrêt avant la fin</a></li>
+<li><a href="#jouer_before_avec_mode_flash">Jouer rapidement ce qui précède le passage travaillé</a></li>
 </ul>
 </li>
 <li><a href="#parametre_special_wait">Le paramètre spécial d'attente (<code>wait</code>)</a></li>
@@ -364,7 +367,6 @@ sup {
 <li><a href="#autosave_code">Sauvegarde automatique</a></li>
 <li><a href="#open_recent_anim">Ouvrir une animation récemment ouverte</a></li>
 <li><a href="#reiniti_preferences">Ré-initialiser toutes les valeurs de préférences</a></li>
-<li><a href="#set_anim_courante_as_default">Définir l'animation courante comme animation par défaut</a></li>
 </ul>
 
 
@@ -526,6 +528,27 @@ monAccord('c3 eb3 g3')
 
 <pre><code>CLEAR(true) // efface aussi les portées
 </code></pre>
+
+<p><a name="command_stop"></a></p>
+
+<h3>Mettre un point d'arrêt avant la fin</h3>
+
+<p>Il peut être intéressant parfois de mettre un point d'arrêt à l'intérieur du code de l'animation, qui l'interrompra comme le bouton “Stop” (par exemple pour modifier les coordonnées d'un élément de l'animation).</p>
+
+<p>Pour ce faire, il suffit d'utiliser la commande&nbsp;:</p>
+
+<pre><code>STOP
+</code></pre>
+
+<p>… à l'endroit où l'animation doit s'interrompre.</p>
+
+<p><a name="jouer_before_avec_mode_flash"></a></p>
+
+<h3>Jouer rapidement jusqu'au passage travaillé</h3>
+
+<p>Lorsqu'on travaille un passage, il peut être intéressant de jouer rapidement l'animation jusqu'à ce passage (surtout lorsque des animations lentes sont utilisées).</p>
+
+<p>Pour ce faire, on utilise le <a href="#mode_flash">mode Flash</a>.</p>
 
 <p><a name="parametre_special_wait"></a></p>
 
@@ -730,16 +753,20 @@ monTexte.move({x:10, y:10, duree:15})
 
 <p>Dans ce cas, on met le code à passer entre&nbsp;:</p>
 
-<pre><code>MODE_FLASH
-..............
-...  code  ...
-...   à    ...
-... passer ...
-..............
-STOP_MODE_FLASH
+<pre><code>FLASH
+................
+...  code    ...
+... à jouer  ...
+... en flash ...
+................
+STOP_FLASH
 </code></pre>
 
-<p><em>Noter que le résultat ne sera pas du tout le même que si l'on commentait les lignes de code à passer, puisque l'animation ne se trouverait peut-être pas dans le même état.</em></p>
+<p>NB&nbsp;: On peut utiliser l'autocomplétion <code>fla[TABULATION]</code> pour placer la commande <code>FLASH</code> et l'autocomplétion <code>flas[TABULATION]</code> pour placer la commande <code>STOP_FLASH</code>.</p>
+
+<p>On peut bien évidemment passer plusieurs passages en mode flash. Chaque partie entre <code>FLASH</code> et <code>STOP_FLASH</code> sera accélérée.</p>
+
+<p>Note&nbsp;: Si les commandes se multiplient trop dans le code au point de s'y perdre, on peut utiliser l'outil “Outils > Nettoyer les commandes FLASH” qui permet de supprimer toutes ces commandes du code de l'animation.</p>
 
 <p><a name="set_decompte"></a></p>
 
@@ -2049,19 +2076,13 @@ maNote.write("Une seconde !")
 <pre><code>txt.show()
 </code></pre>
 
-<p>Un autre paramètre intéressant à la création est le paramètre <code>wait</code>. S'il est faux (false) cela permet de passer à l'étape suivante sans attendre la fin de l'apparition de la boite. Cela permet des effets pour l'apparition quasi-simultanée de plusieurs boites ou animations diverses.</p>
+<p>Ou de faire apparaitre le texte lentement&nbsp;:</p>
 
-<p>Par exemple&nbsp;:</p>
-
-<pre><code>boite1 = TBOX("Un premier texte", {wait:false, duree:4})
-# La boite1 apparaitra en 4 secondes, mais on passe à la suite avant
-# la fin de son apparition
-boite2 = TBOX("Un autre texte", {wait:false, duree:3})
-# La boite2 apparaitra en 3 secondes mais on passe à la suite immédiatement
-boite3 = TBOX("Un troisième", {duree:2})
-# La boite3 apparaitra en 2 secondes, mais on attendra la fin de son apparition
-# pour passer à la suite.
+<pre><code>txt = TBOX("Mon texte apparait lentement", {hidden:true}).show({duree:4})
+# =&gt; Le texte apparait en 4 secondes
 </code></pre>
+
+<p>Un autre paramètre intéressant à la création est le paramètre <code>wait</code> (cf. <a href="#parametre_special_wait">Le paramètre spécial <code>wait</code></a>). Voir aussi <a href="#parametre_special_duree">le paramètre spécial <code>duree</code></a>.</p>
 
 <p><a name="set_prefs_tboxes"></a></p>
 
@@ -2092,23 +2113,53 @@ DEFAULT('tbox_border', "&lt;bord par défaut des boites de texte&gt;")
 
 <p>Si la boite est déjà créée :</p>
 
-<p>tbox1.background(<couleur>)</p>
+<pre><code>tbox1.set({background:&lt;couleur&gt;})
+</code></pre>
 
 <p>On peut jouer aussi sur l'opacité avec le paramètre <code>opacity</code>. Une opacité de 1 rendra complètement opaque le fond (aucune transparence), une opacité de 0.xx où <code>xx</code> est un nombre créera la transparence maximale.</p>
 
-<pre><code>tbox1 = TBOX("mon texte", {opacity:&lt;nombre&gt;})
+<pre><code>tbox1 = TBOX("mon texte", {opacity:&lt;nombre de 0 à 1&gt;})
 </code></pre>
 
 <p>Si la boite est déjà créée&nbsp;:</p>
 
-<pre><code>tbox1.background(&lt;null ou la couleur voulue&gt;, &lt;nombre opacité&gt;)
+<pre><code>tbox1.set({opacity:&lt;nombre de 0 à 1&gt;})
 </code></pre>
 
 <p><a name="set_dimensions_tbox"></a></p>
 
 <h4>Définir les dimensions de la boite de texte</h4>
 
-<p>...</p>
+<p>On définit les dimensions de la TBox à l'aide des paramètres <code>width</code> et <code>height</code>. Noter que par défaut la hauteur s'adaptera au texte contenu, mais pas la largeur, qui occupera la moitié de la largeur de l'écran.</p>
+
+<pre><code>boiteDimensionnee = TBOX("Une boite dimensionnée", {width:600, height:200})
+# Une boite de texte qui fera 600 par 200 pixels.
+</code></pre>
+
+<p><strong>Redéfinir les dimensions en cours d'animation</strong></p>
+
+<p>C'est la méthode <code>set</code> qui permet de modifier tous les paramètres de la TBox, à commencer par les dimensions.</p>
+
+<p>On peut redéfinir ces dimensions de deux manières&nbsp;: de façon absolue ou de façon relative.</p>
+
+<p>On redéfinit les dimensions de façon absolue avec les paramètres <code>width</code> et <code>height</code>&nbsp;:</p>
+
+<pre><code>maBoite.set({width:&lt;nouvelle largeur&gt;, height:&lt;nouvelle hauteur&gt;})
+</code></pre>
+
+<p>On redéfinit les dimensions de façon relative avec les paramètres <code>offset_width</code> et <code>offset_heigth</code>&nbsp;:</p>
+
+<pre><code>&lt;tbox&gt;.set({
+  offset_width  : &lt;différence avec largeur courante&gt;,
+  offset_height : &lt;différence avec hauteur courante&gt;
+})
+</code></pre>
+
+<p>Par exemple&nbsp;:</p>
+
+<pre><code>maboite.set({offset_width:20, offset_height:-11})
+# =&gt; La boite sera allongée de 20 pixels et la hauteur sera raccourcie de 11 pixels
+</code></pre>
 
 <p><a name="tbox_text_alignement"></a></p>
 
@@ -2149,9 +2200,36 @@ copyright         La marque du copyright
 
 <p><a name="animate_tbox"></a></p>
 
-<h4>Animer les boites de texte</h4>
+<h3>Animer les boites de texte</h3>
 
-<p>...</p>
+<p>On peut animer les boites de texte avec la méthode <code>set</code> qui peut en redéfinir tous les paramètres.</p>
+
+<p>Par exemple, si la boite possède un fond opaque noir (background:black, opacity:1) et qu'on veut le changer en fond rouge d'opacité 0.5, on utilise&nbsp;:</p>
+
+<pre><code># -- Définition/création de la boite --
+maBoite = TBOX("Ma boite", {background:black, opacity:1})
+...
+...
+maBoite.set({background:red, opacity:0.5})
+# Anime la boite en modifiant la couleur de fond (en vrai fondu) et son opacité
+</code></pre>
+
+<h4>Déplacer les boites de texte</h4>
+
+<p>On peut utiliser la [méthode universelle <code>move</code>] pour déplacer les boites, mais on peut également utiliser là aussi la méthode <code>set</code>&nbsp;:</p>
+
+<p>Déplacement vers des coordonnées absolues&nbsp;:</p>
+
+<pre><code>maBox.set({x:&lt;valeur horizontale&gt;, y:&lt;valeur verticale&gt;, duree:&lt;en x secondes&gt;})
+</code></pre>
+
+<p>… ou en coordonnées relatives&nbsp;:</p>
+
+<pre><code>maBox.set({
+  offset_x    : &lt;nombre de pixels de déplacement horizontal&gt;,
+  offset_y    : &lt;nombre de pixels de déplacement vertical&gt;
+})
+</code></pre>
 
 <hr />
 

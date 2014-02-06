@@ -372,15 +372,19 @@ Pour stopper le mode flash et revenir à la vitesse normale
 
 Dans ce cas, on met le code à passer entre&nbsp;:
 
-    MODE_FLASH
-    ..............
-    ...  code  ...
-    ...   à    ...
-    ... passer ...
-    ..............
-    STOP_MODE_FLASH
+    FLASH
+    ................
+    ...  code    ...
+    ... à jouer  ...
+    ... en flash ...
+    ................
+    STOP_FLASH
 
-*Noter que le résultat ne sera pas du tout le même que si l'on commentait les lignes de code à passer, puisque l'animation ne se trouverait peut-être pas dans le même état.*
+NB&nbsp;: On peut utiliser l'autocomplétion `fla[TABULATION]` pour placer la commande `FLASH` et l'autocomplétion `flas[TABULATION]` pour placer la commande `STOP_FLASH`.
+
+On peut bien évidemment passer plusieurs passages en mode flash. Chaque partie entre `FLASH` et `STOP_FLASH` sera accélérée.
+
+Note&nbsp;: Si les commandes se multiplient trop dans le code au point de s'y perdre, on peut utiliser l'outil “Outils > Nettoyer les commandes FLASH” qui permet de supprimer toutes ces commandes du code de l'animation.
 
 <a name="set_decompte"></a>
 ###Régler le décompte
@@ -1481,18 +1485,12 @@ Cela permet par exemple de créer tous les textes au début du code de l'animati
 
     txt.show()
     
-Un autre paramètre intéressant à la création est le paramètre `wait`. S'il est faux (false) cela permet de passer à l'étape suivante sans attendre la fin de l'apparition de la boite. Cela permet des effets pour l'apparition quasi-simultanée de plusieurs boites ou animations diverses. 
+Ou de faire apparaitre le texte lentement&nbsp;:
 
-Par exemple&nbsp;:
-
-    boite1 = TBOX("Un premier texte", {wait:false, duree:4})
-    # La boite1 apparaitra en 4 secondes, mais on passe à la suite avant
-    # la fin de son apparition
-    boite2 = TBOX("Un autre texte", {wait:false, duree:3})
-    # La boite2 apparaitra en 3 secondes mais on passe à la suite immédiatement
-    boite3 = TBOX("Un troisième", {duree:2})
-    # La boite3 apparaitra en 2 secondes, mais on attendra la fin de son apparition
-    # pour passer à la suite.
+    txt = TBOX("Mon texte apparait lentement", {hidden:true}).show({duree:4})
+    # => Le texte apparait en 4 secondes
+    
+Un autre paramètre intéressant à la création est le paramètre `wait` (cf. [Le paramètre spécial `wait`](#parametre_special_wait)). Voir aussi [le paramètre spécial `duree`](#parametre_special_duree).
 
 <a name="set_prefs_tboxes"></a>
 ####Définir les valeurs par défaut des boites de texte
@@ -1518,20 +1516,46 @@ Pour définir la couleur de fond translucide (noire par défaut), on utilise le 
 
 Si la boite est déjà créée :
 
-tbox1.background(<couleur>)
+    tbox1.set({background:<couleur>})
   
 On peut jouer aussi sur l'opacité avec le paramètre `opacity`. Une opacité de 1 rendra complètement opaque le fond (aucune transparence), une opacité de 0.xx où `xx` est un nombre créera la transparence maximale.
 
-    tbox1 = TBOX("mon texte", {opacity:<nombre>})
+    tbox1 = TBOX("mon texte", {opacity:<nombre de 0 à 1>})
     
 Si la boite est déjà créée&nbsp;:
     
-    tbox1.background(<null ou la couleur voulue>, <nombre opacité>)
+    tbox1.set({opacity:<nombre de 0 à 1>})
     
 <a name="set_dimensions_tbox"></a>
 ####Définir les dimensions de la boite de texte
 
-...
+On définit les dimensions de la TBox à l'aide des paramètres `width` et `height`. Noter que par défaut la hauteur s'adaptera au texte contenu, mais pas la largeur, qui occupera la moitié de la largeur de l'écran.
+
+    boiteDimensionnee = TBOX("Une boite dimensionnée", {width:600, height:200})
+    # Une boite de texte qui fera 600 par 200 pixels.
+
+**Redéfinir les dimensions en cours d'animation**
+
+C'est la méthode `set` qui permet de modifier tous les paramètres de la TBox, à commencer par les dimensions.
+
+On peut redéfinir ces dimensions de deux manières&nbsp;: de façon absolue ou de façon relative.
+
+On redéfinit les dimensions de façon absolue avec les paramètres `width` et `height`&nbsp;:
+
+    maBoite.set({width:<nouvelle largeur>, height:<nouvelle hauteur>})
+  
+On redéfinit les dimensions de façon relative avec les paramètres `offset_width` et `offset_heigth`&nbsp;:
+
+    <tbox>.set({
+      offset_width  : <différence avec largeur courante>,
+      offset_height : <différence avec hauteur courante>
+    })
+
+Par exemple&nbsp;:
+
+    maboite.set({offset_width:20, offset_height:-11})
+    # => La boite sera allongée de 20 pixels et la hauteur sera raccourcie de 11 pixels
+
 
 <a name="tbox_text_alignement"></a>
 ####Définir l'alignement du texte dans la boite
@@ -1565,9 +1589,37 @@ Ou&nbsp;:
     copyright         La marque du copyright
     
 <a name="animate_tbox"></a>
-####Animer les boites de texte
+###Animer les boites de texte
 
-...
+On peut animer les boites de texte avec la méthode `set` qui peut en redéfinir tous les paramètres.
+
+Par exemple, si la boite possède un fond opaque noir (background:black, opacity:1) et qu'on veut le changer en fond rouge d'opacité 0.5, on utilise&nbsp;:
+
+    # -- Définition/création de la boite --
+    maBoite = TBOX("Ma boite", {background:black, opacity:1})
+    ...
+    ...
+    maBoite.set({background:red, opacity:0.5})
+    # Anime la boite en modifiant la couleur de fond (en vrai fondu) et son opacité
+
+
+####Déplacer les boites de texte
+
+On peut utiliser la [méthode universelle `move`] pour déplacer les boites, mais on peut également utiliser là aussi la méthode `set`&nbsp;:
+
+Déplacement vers des coordonnées absolues&nbsp;:
+
+    maBox.set({x:<valeur horizontale>, y:<valeur verticale>, duree:<en x secondes>})
+    
+… ou en coordonnées relatives&nbsp;:
+
+    maBox.set({
+      offset_x    : <nombre de pixels de déplacement horizontal>,
+      offset_y    : <nombre de pixels de déplacement vertical>
+    })
+
+
+
 
 ---------------------------------------------------------------------
 

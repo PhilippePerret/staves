@@ -195,7 +195,7 @@ $.extend(Img.prototype,{
     * Pour exécuter un travelling dans l'image
     * @method travelling
     * @param {Object} params    Paramètres (doit exister)
-    *   @param {Number} params.duree    La durée du travelling (optionnel)
+    *   @param {Number} params.duree      La durée du travelling (optionnel)
     *   @param {Number} params.x          La position horizontale de fin du cadrage
     *   @param {Number} params.y          Position verticale de fin du cadrage
     *   @param {Number} params.width      La nouvelle largeur de cadre
@@ -221,7 +221,7 @@ $.extend(Img.prototype,{
     var new_dim = this.width_height_zoom_from(params)
     if(params.width  || params.zoom)  dcadre.width  = new_dim.width  + 'px'
     if(params.height || params.zoom)  dcadre.height = new_dim.height + 'px'
-    if(dcadre != {}) this.obj.animate(dcadre)
+    if(dcadre != {}) Anim.Dom.anime([this.obj], dcadre, {complete:false, wait:false})
 
     // On procède au travelling
     Anim.Dom.anime([this.image], dtrav, params)

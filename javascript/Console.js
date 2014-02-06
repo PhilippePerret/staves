@@ -361,6 +361,16 @@ $.extend(window.Console,{
       params.array.push( step )
     })
     return params.array
+  },
+  
+  /**
+    * Méthode qui retire toutes les commandes FLASH du code
+    * @method clear_commandes_flash
+    */
+  clear_commandes_flash:function()
+  {
+    this.set(this.raw_trimed.replace(/\n(FLASH|MODE_FLASH|STOP_FLASH|STOP_MODE_FLASH) ?\n/g, "\n"))
+    this.onchange_code()
   }
 })
 
