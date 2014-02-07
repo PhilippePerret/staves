@@ -105,8 +105,8 @@ $.extend(UNVERSAL_BOX_METHODS,{
     params = define_complete(params)
     var ouverture = this.obj.css('opacity') == "0"
     var new_opac  = ouverture ? (this.opacity || 1) : 0
-    this.animate({opacity:new_opac},{
-      duration:this.duree_set_or_default(params, 'fade'),
+    this.obj.animate({opacity:new_opac},{
+      duration:this.duree_set_or_default(params, 'fade') * 1000,
       complete:params.complete
     })
     if(params.wait === false) NEXT_STEP(0)
@@ -132,9 +132,10 @@ $.extend(UNVERSAL_BOX_METHODS,{
     else if (undefined != params.x) data.left = params.x
     if(undefined != params.for_y)   data.top = this.y + params.for_y
     else if (undefined != params.y) data.top = params.y ;
-    params.duree = this.duree_set_or_default(params, 'move')
-    if(undefined != params.wait && params.wait === false) this.wait = false
-    this.animate(data, params)
+    params.duree = this.duree_set_or_default(params, 'fade')
+    Anim.Dom.anime([this.obj], data, params)
+    if(undefined != data.left) this.x = data.left
+    if(undefined != data.top)  this.y = data.top
   }
 })
 

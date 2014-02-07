@@ -29,7 +29,7 @@ CAPTION("C'est un travail de mémoire aussi bien que de logique qui demande beau
 
 CAPTION("Noter que j'aborde dans d'autres screencasts la façon de travailler ces notions en travaillant intelligemment des exercices sur son instrument.", {wait:true})
 
-CAPTION("D'autre part, Pour toutes ces notions, il y a la mémoire, mais il y a également tout un tas de répères mnémotechniques faciles à mettre en œuvre.", {wait:true})
+CAPTION("D'autre part, Pour toutes ces notions, il y a la mémoire, mais il y a également tout un tas de répères mnémotechniques qui facilitent bien les choses.", {wait:true})
 
 CAPTION("Abordons-les brièvement en revenant à notre premier prélude.", {wait:true})
 
@@ -88,7 +88,7 @@ gammedo = SCALE('c', {staff:2, speed:4, offset:40, for:7})
 
 STAFF(2).write("DO Majeur", {x:266})
 
-CAPTION("ces notes “pivots“ sont le degré 4 — donc la 4e note de la gamme —, le degré 5 — donc la 5e note — ou le degré 7 — donc la sensible de cette tonalité. C'est toujours la 4e, la 5e ou la 7e note qui est altérée dans une tonalité majeure pour passer ou tout au moins pour produire le ton voisin.")
+CAPTION("ces notes “pivots“ sont le degré 4 — donc la 4e note de la gamme —, le degré 5 — donc la 5e note — ou le degré 7 — donc la sensible de cette tonalité. C'est toujours la 4e, la 5e et la 7e note qui est altérée dans une tonalité majeure pour passer ou tout au moins pour produire le ton voisin.")
 
 WAIT(2)
 gammedo.note(4).surround()

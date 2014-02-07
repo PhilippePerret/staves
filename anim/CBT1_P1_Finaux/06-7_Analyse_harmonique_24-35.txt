@@ -1,15 +1,19 @@
 # Animation pour analyse du
 # premier prélude du CBT 1
-# Mesures 26 - 
+# Mesures 26 - 35
 
 # --- Valeurs par défault ---
+DEFAULT('screensize', 610)
 DEFAULT('decompte', 0)
-DEFAULT(\'next\', 75.5)
-DEFAULT(\'harmony\', 70)
-DEFAULT(\'staff_top\', 120)
+DEFAULT('next', 75.5)
+DEFAULT('harmony', 70)
+DEFAULT('staff_top', 120)
 DEFAULT('offset_modulation_y', 15)
 DEFAULT('chord', 35)
 DEFAULT('staff_harmony', 2)
+
+# --- La partition dans la longueur
+extrait=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/longueur-20-35.png', y:370, x:73, inner_x:8, inner_y:0, cadre_width:303, cadre_height:136, hidden:true})
 
 # --- Les portées ---
 NEW_STAFF(SOL)

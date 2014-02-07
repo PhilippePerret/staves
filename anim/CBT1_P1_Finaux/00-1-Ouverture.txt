@@ -20,7 +20,7 @@ DEFAULT('caption_timer', true)
 DEFAULT('text_color', white)
 
 # L'animation pour suivre
-SUITE('./01-1-A_quoi_sert_lanalyse')
+### SUITE('./01-1-A_quoi_sert_lanalyse')
 
 # La partition complète
 partition = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y:60, hidden:true})
@@ -46,19 +46,18 @@ CAPTION("… le premier prélude du livre 1 du clavecin bien tempéré de Bach q
 titrescreencast.remove()
 copyright.remove()
 
-titre = TBOX("Premier prélude du Premier cahier du Clavecin bien tempéré", {x:198-100, y: 132-50, background:red, opacity:0.33, duree:2, wait:false})
+titre = TBOX("Premier prélude du Premier cahier du Clavecin bien tempéré", {x:198-100, y: 132-50, width:"30%", background:red, opacity:0.33, duree:2, wait:false})
 
-bach  = TBOX("Jean-Sébastien Bach", {x:386+100, y:247+50, background:blue, opacity:0.125, duree:2, wait:false})
+bach  = TBOX("Jean-Sébastien Bach", {x:386+100, y:247+50, width:"30%", background:blue, opacity:0.125, duree:2, wait:false})
 
-WAIT(0.2)
-
-titre.move({x:198, y: 132, wait:false, duree:2.5})
-
+titre.move({x:198, y: 132, duree:2.5})
 bach.move({x:386, y:247, duree:3})
+
+WAIT(5)
 
 ligne_or = BOX({width:565, background:'#FFCF3C', height:5, x:232, y:106, duree:2})
 
-WAIT(2)
+WAIT(5)
 
 # --- Faire disparaitre le fond et les titres pour laisser voir 
 # --- la partition du premier prélude
@@ -71,6 +70,6 @@ titre.fade({wait:false})
 bach.fade({wait:false})
 ligne_or.fade()
 
-WAIT(4)
+WAIT(20)
 
 

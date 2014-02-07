@@ -90,7 +90,7 @@ accrem.write("Ton du second degré (II)", {offset_y:-80, offset_x:-60})
 WAIT_CAPTION
 
 CAPTION("… : en altérant une seule note, le do ici,…", {wait:true})
-CAPTION(" … on obtient la gamme harmonique ascendante de Ré mineur")
+CAPTION(" … on obtient la gamme mineure mélodique ascendante de Ré mineur")
 NEW_STAFF(SOL)
 SET_CURSOR(1)
 NEXT(70)
@@ -100,6 +100,6 @@ WAIT_CAPTION
 
 CAPTION("Noter que cette tonalité de Rém, du IIe degré donc, est aussi le relatif mineur de FA Majeur, donc le relatif mineur de la sous-dominante de DO.", {wait:true})
 
-CAPTION("Déjà perdu avec cette dernière affirmation ?… Pas de panique, ça viendra en son temps. N'hésitez jamais, cependant, au cours de ces screencasts, à le mettre en pause dès que ça va trop vite pour prendre le temps de vérifier une information ou une affirmation de ce type.", {wait:true})
+CAPTION("Déjà perdu avec cette dernière affirmation ?… Pas de panique, ça viendra avec le temps. N'hésitez jamais, cependant, au cours de ces screencasts, à les mettre en pause dès que ça va un peu trop vite, pour prendre le temps de vérifier une information ou une affirmation de ce type.", {wait:true})
 
-CAPTION("Ne rien laisser passer, c'est la base d'une bonne compréhension.", {wait:true})
+CAPTION("Ne rien laisser passer, c'est la base d'une parfaite compréhension.", {wait:true})

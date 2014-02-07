@@ -27,13 +27,13 @@ partition_complete.hide({duree:5})
 NEW_STAFF(SOL)
 NEW_STAFF(FA)
 # La partition qui permet de suivre les mesures
-partition=IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/longueur-01-14.png', y:305, x:73, inner_x:0, inner_y:0, cadre_width:267, cadre_height:96})
+partition=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/longueur-01-11.png', x:73, y:305, width:2940, height:141, inner_x:0, inner_y:0, cadre_width:400, cadre_height:142})
 
 WAIT_CAPTION
 
 CAPTION("Si j'ai choisi cette pièce de Bach, c'est pour deux raisons principales. D'abord, elle est assez connue, et ensuite, son analyse harmonique est très simple, notamment parce qu'il n'y a qu'un seul accord par mesure, ce qui est somme toute assez rare.", {wait:true})
 
-# --- Premier accord DO ---
+# --- Mesure 1 : DO ---
 
 ACTIVE_STAFF(1)
 CAPTION("Commençons donc par l'accord de la première mesure.", {wait:true})
@@ -66,13 +66,16 @@ CAPTION("Un accord de tonique pour commencer le morceau, rien de bien original, 
 WAIT(1)
 do1.note([4,5]).show()
 
+
 # --- Mesure 2 : accord Dm7 ---
+
+
 WAIT_CAPTION
 CAPTION("Passons maintenant à la deuxième mesure.", {wait:true})
 CAPTION("Comme pour l'accord de DO, je cherche l'empilage de tierces et je supprime les doublons pour y voir plus clair.")
 NEXT()
 STAFF(1).measure('2')
-partition.travelling({x:245})
+partition.travelling({x:365})
 rem1=CHORD('2:c4 d4 a4 d5 f5')
 rem1.note(4).hide()
 rem1.note(5).move('f4')
@@ -106,11 +109,13 @@ CAPTION("… Il se présente sous son premier renversement lorsque c'est la tier
 CAPTION("Donc s'il n'y a pas de point, l'accord est dans son état fondamental, sinon il se présente sous un de ses renversements.", {wait:true})
 # --- Fin petite parenthèse sur les points ---
 
+
 # --- Mesure 3 : Sol7• ---
+
 NEXT()
 CAPTION("Passons à la troisième mesure.")
 STAFF(1).measure('3')
-partition.travelling({x:435})
+partition.travelling({x:654})
 sol1 = CHORD('2:b3 d4 g4 d5 f5')
 WAIT_CAPTION
 CAPTION("J'établis l'empilage des tierces.")
@@ -141,7 +146,7 @@ WAIT_CAPTION
 CAPTION("La quatrième mesure présente le même accord que la première mesure. Je vais un peu plus vite en besogne.")
 NEXT()
 STAFF(1).measure('4')
-partition.move({x:322}).travelling({x:584})
+partition.travelling({x:895}).move({x:322})
 do2=CHORD('2:c4 e4 g4 c5 e5')
 do2.note(1).move('1:c4')
 STAFF(2).remove_supline({top:[1,2]})
@@ -248,7 +253,7 @@ rem1.note(3).unexergue()
 sol1.note(3).unexergue()
 do2.note(3).unexergue()
 
-CAPTION("Le MI descend au RE, reste au RÉ puis revient au dos.")
+CAPTION("Le MI descend au RE, reste au RÉ puis revient au MI.")
 do1.note(2).exergue()
 rem1.note(2).exergue()
 sol1.note(2).exergue()
@@ -285,10 +290,11 @@ CAPTION("… que l'enchainement est un enchainement archi-classique I II V I —
 CAPTION("Résultat des courses : un coup d'œil à la partition de 4 secondes pas plus, et je connais déjà l'introduction. Durée du souvenir : à vie je pense.", {wait:true})
 
 # --- Mesure 5 : LAm ---
+
 CAPTION("Passons maintenant à la cinquième mesure. Comme pour les autres, je vais chercher la superposition des tierces et supprimer les doublons.")
 NEXT()
 STAFF(1).measure('5')
-partition.travelling({x:739})
+partition.travelling({x:1135})
 lam = CHORD('2:c4 2:e4 a4 e5 a5')
 lam.note(2).remove()
 lam.note(1).move('1:c5')
@@ -312,10 +318,12 @@ CHORD('e4 a5')
 
 
 # --- Mesure 6 : D7 ---
+
 CAPTION("Prêts pour la sixième mesure ?… J'effectue le même travail que précédemment.")
+CAPTION("", true)
 NEXT()
 STAFF(1).measure('6')
-partition.travelling({x:891})
+partition.travelling({x:1381})
 res = CHORD('2:c4 2:d4 fd4 a4 d5')
 WAIT(2)
 res.note(5).remove()
@@ -369,11 +377,12 @@ WAIT(2)
 
 
 # --- Mesure 7 : G ---
+
 CAPTION("Poursuivons… Avec la mesure 7, nous avons confirmation de notre modulation vers SOL, vers le ton de la dominante. En effet l'accord sur lequel nous arrivons est un SOL majeur.")
 
 NEXT()
 STAFF(1).measure('7')
-partition.travelling({x:1053})
+partition.travelling({x:1616})
 acc = CHORD('2:b3 2:d4 g4 d5 g5')
 acc.note(1).move('1:b4')
 acc.note(2).move('1:d4')
@@ -398,10 +407,12 @@ WAIT(2)
 
 
 # --- Mesure 8 : C7M ---
+
+
 CAPTION("Abordons la 8e mesure de la même façon…")
 NEXT()
 STAFF(1).measure('8')
-partition.move({x:596}).travelling({x:1209})
+partition.travelling({x:1863}).move({x:596})
 acc = CHORD('2:b3 2:c4 e4 g4 c5')
 acc.note(5).hide()
 acc.note(1).move('1:b4')
@@ -427,11 +438,14 @@ WAIT(1)
 acc.note(5).show()
 WAIT_CAPTION
 
+
 # --- Mesure 9 : Am7 ---
+
+
 CAPTION("Mesure 9, nous trouvons l'accord LA DO MI SOL, donc un accord de LA mineur avec une septième mineure. Attention de ne pas le prendre pour un accord de 7e de dominante. Un accord de 7e de dominante est <u>toujours</u> majeur.")
 NEXT()
 STAFF(1).measure('9')
-partition.travelling({x:1366})
+partition.travelling({x:2116})
 acc = CHORD('2:a3 2:c4 e4 g4 c5')
 acc.note(5).hide()
 WAIT(1)
@@ -449,10 +463,13 @@ WAIT_CAPTION
 
 CAPTION("Lorsque vous avez développé des réflexes d'analyse, dès que vous rencontrez un accord mineur 7e, vous pensez au premier accord d'une cadence italienne II V I. Nous allons le vérifier immédiatement avec les deux accords suivants.", {wait:true})
 
+
 # --- Mesure 10 : D7 ---
+
+
 NEXT()
 STAFF(1).measure('10')
-partition.travelling({x:1536})
+partition.travelling({x:2344})
 acc = CHORD('2:d3 2:a3 d4 fd4 c5')
 WAIT(1)
 acc.note(1).remove()
@@ -466,12 +483,15 @@ CAPTION("Il est dans son état fondamental, nous le notons. V 7.")
 acc.harmony('V7')
 WAIT_CAPTION
 
+
 # --- Mesure 11 : G ---
+
+
 CAPTION("La mesure 11, quant à elle, présente à nouveau l'accord de SOL qui confirme qu'on se trouve encore dans la tonalité du ton voisin SOL majeur, ton de la dominante de DO.")
 
 NEXT()
 STAFF(1).measure('11')
-partition.travelling({x:1684})
+partition.travelling({x:2620})
 acc = CHORD('2:g3 2:b3 d4 g4 b4')
 acc.note(5).hide()
 acc.note(4).hide()

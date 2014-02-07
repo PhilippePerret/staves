@@ -39,13 +39,16 @@ div.tbox div.tbox_content {
 div.tbox_content.grand_titre {
   font-variant  : small-caps !important;
   font-size     : 24pt !important;
+  text-align    : center;
 }
 div.tbox_content.chapitre {
   font-variant  : small-caps !important;
   font-size     : 20pt !important;
+  text-align    : center;
 }
 div.tbox_content.titre {
   font-variant  : small-caps !important;
+  text-align    : center;
 }
 
 div.tbox_content.small {

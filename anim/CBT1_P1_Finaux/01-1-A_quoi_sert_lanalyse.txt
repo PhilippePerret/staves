@@ -29,9 +29,16 @@ WAIT_CAPTION
 
 CAPTION("Après tout, la beauté de la musique se passe très bien de toute forme d'analyse, elle s'entend…", {wait:true})
 
-CAPTION("C'est vrai. Si ce n'est peut-être qu'au plaisir auditif instantanné, l'analyse peut révéler des beautés qui ne sautent pas forcément aux oreilles, tout simplement parce que le compositeur, lorsqu'il crée, crée bien plus que de la musique.", {wait:true})
+CAPTION("C'est vrai. Si ce n'est peut-être qu'au plaisir auditif instantanné, l'analyse peut révéler des beautés qui ne sautent pas forcément aux oreilles…", {wait:true})
+
+point1 = TBOX("• À mettre au jour certaintes beautés cachées.", {x:100, y:160, width:700, align:left})
+
+
+CAPTION("… tout simplement parce que le compositeur, lorsqu'il crée, crée bien plus que de la musique.", {wait:true})
 
 CAPTION("Et puis il y a aussi, évidemment, le simple plaisir intellectuel qui découle du fait de mieux comprendre “Comment ça marche”.", {wait:true})
+
+point2 = TBOX("• À mieux comprendre “comment ça marche”.", {x:100, y:210, width:700, align:left})
 
 WAIT(2)
 
@@ -41,7 +48,7 @@ CAPTION("Le premier but, c'est que l'analyse, en apportant une compréhension pl
 
 CAPTION(", permet de mieux interpréter ce morceau …")
 
-point1 = TBOX("• Elle permet de mieux interpréter.", {x:100, y:160, width:700, align:left})
+point3 = TBOX("• À mieux interpréter.", {x:100, y:260, width:700, align:left})
 
 WAIT_CAPTION
 
@@ -51,7 +58,7 @@ CAPTION("Le second but, et ça n'est pas le moindre des intérêts de l'analyse,
 
 CAPTION("… d'apprendre un morceau beaucoup plus vite, et le retenir plus vite et plus longtemps.")
 
-point2 = TBOX("• Elle permet d'apprendre plus vite et de mieux retenir.", {x:100, y:200, width:700, align:left})
+point4 = TBOX("• À apprendre plus vite et à retenir plus longtemps.", {x:100, y:310, width:700, align:left})
 
 WAIT_CAPTION
 
@@ -64,6 +71,8 @@ CAPTION("CEPENDANT, ne nous leurrons pas comme beaucoup de gens qui se lancent d
 question.fade({wait:false})
 point1.fade({wait:false})
 point2.fade({wait:false})
+point3.fade({wait:false})
+point4.fade({wait:false})
 bgd.fade()
 
 WAIT_CAPTION

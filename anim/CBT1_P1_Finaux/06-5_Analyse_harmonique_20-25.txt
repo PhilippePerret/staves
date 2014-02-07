@@ -1,0 +1,185 @@
+# Animation pour analyse du
+# premier prélude du CBT 1
+# Mesures 20 - 25
+
+
+# --- Valeurs par défault ---
+DEFAULT('screensize', 610)
+DEFAULT('decompte', 0)
+DEFAULT('next', 80)
+DEFAULT('harmony', 34)
+DEFAULT('staff_top', 120)
+DEFAULT('offset_modulation_y', 15)
+DEFAULT('chord', 35)
+DEFAULT('staff_harmony', 2)
+DEFAULT('caption_timer', true)
+
+# --- La partition dans la longueur
+extrait=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/longueur-20-35.png', x:73, y:370, width:3884, height:161, inner_x:9, inner_y:17, cadre_width:303, cadre_height:136, hidden:true})
+
+
+# --- Les portées ---
+extrait.show({duree:2, wait:false})
+NEW_STAFF(SOL)
+NEW_STAFF(FA)
+ACTIVE_STAFF(1)
+
+# --- Mesure 20 : C7 ---
+
+CAPTION("Poursuivons avec la mesure 20 et l'analyse de l'accord tel que nous l'avons fait jusqu'à présent.")
+STAFF(1).measure('20')
+SET_CURSOR(130)
+acc = CHORD('2:c3 2:g3 bb3 c4 e4')
+WAIT_CAPTION
+
+WAIT(2)
+CAPTION("Je cherche l'empilage parfait de tierces et je supprimer tous les doublons.")
+acc.note(4).fantomize()
+acc.note(5).move('2:e3')
+acc.note(3).move('2:bb3')
+STAFF(1).remove_supline({bottom:1})
+WAIT_CAPTION
+
+CAPTION("Et j'obtiens l'accord DO MI SOL SI bémol, donc un accord de 7e de dominante.", {wait:true})
+acc.chord('C7')
+CAPTION("C = Do / 7 = 7e mineure<br>Accord Majeur + 7e mineure = Accord de dominante", true)
+WAIT(2)
+
+CAPTION("Que vient-il de se passer ? À peine conclus la partie que nous venons de voir, l'accord de tonique se transforme en accord de dominante.", {wait:true})
+
+CAPTION("Et vous le saurez bientôt de façon réflexe, quand un accord de tonique se transforme en accord de dominante, nous modulons dans le ton voisin de la sous-dominante, donc ici en FA majeur, IV degré de DO.", {wait:true})
+acc.modulation("Fa[IV de C]", {offset_x:-10})
+acc.harmony("[(ex-I)]V7")
+
+CAPTION("C'est très spécial, l'effet ici… Ce façon de dominantiser (sic) l'accord de tonique, c'est typique de la CODA, en général. Ici, c'est comme si Bach affirmait que son morceau était terminé, et que la suite — 15 mesures quand même — n'est qu'une longue conclusion.")
+acc.note(5).move('1:e4')
+acc.note(3).move('1:bb3')
+acc.note(4).defantomize()
+WAIT_CAPTION
+
+CAPTION("Plusieurs éléments peuvent le confirmer, comme nous le verrons, et notamment l'usage d'une longue pédale de Ve degré en DO.", {wait:true})
+
+CAPTION("Mais il reste plus raisonnable de marquer simplement ici que nous rentrons certainement dans une phase de développement.", {wait:true})
+acc.part("Développement", {x:117, y:65})
+
+# Effacer le sous-titre
+CAPTION("", true)
+
+WAIT(4)
+
+# --- Mesure 21 : F7M
+CAPTION("La mesure suivante présente comme on pouvait s'y attendre un accord de FA Majeur, tonique de la nouvelle tonalité.")
+NEXT()
+STAFF(1).measure('21')
+extrait.travelling({x:240})
+acc = CHORD('2:f2 2:f3 a3 c4 e4')
+WAIT_CAPTION
+
+CAPTION("Ce FA produit une cadence parfaite, qui plus est sur un accord de 7e Majeure, ce qui renforce encore, je trouve, cette impression bizarre de Coda.")
+
+acc.chord('F7M')
+acc.cadence('I', {type:parfaite, width:100})
+
+WAIT(3)
+# --- Mesure 22 : F#7° ---
+CAPTION("La 22e mesure va voir l'altération de cet accord de FA.")
+NEXT()
+STAFF(1).measure('22', {offset_x:-4})
+extrait.travelling({x:481})
+WAIT_CAPTION
+
+CAPTION("Mettons-le en forme d'empilage pour y voir plus clair.", {wait:true})
+acc = CHORD('2:fd2 2:c3 a3 c4 eb4')
+acc.note(1).move('fd3')
+acc.note(2).move('c4')
+acc.note(3).move('2:a3')
+acc.note(4).fantomize()
+acc.note(5).move('2:eb4')
+STAFF(1).remove_supline({bottom:[1,2]})
+
+CAPTION("FA dièse LA DO MI bémol… Nous voilà à nouveau en présence d'un accord de 7e diminuée, avec tous des tierces <u>mineures</u> empilées.", {wait:true})
+acc.chord('F#7dim')
+
+CAPTION("Et rappelez-vous : dans l'accord de 7e diminuée, la fondamentale est la sensible. Donc nous modulons vers SOL, le ton de la tonique.", {wait:true})
+acc.modulation('G [V de C]')
+CAPTION("… avec son septième degré.")
+acc.harmony('VII7dim')
+acc.note(1).move('2:fd2')
+acc.note(2).move('2:c3')
+acc.note(3).move('1:a3')
+acc.note(4).fantomize()
+acc.note(5).move('1:eb4')
+STAFF(2).remove_supline({top:1})
+
+WAIT_CAPTION
+
+WAIT(2)
+
+# --- Mesure 23 : Si7dim ---
+
+NEXT()
+STAFF(1).measure('23', {offset_x:-4})
+extrait.travelling({x:720})
+
+CAPTION("Mais cette fois, cette 7e diminuée ne va pas se résoudre. Au lieu de se résoudre sur un accord de SOL, ou autre accord de la tonalité de SOL, cette 7e va être détournée en présentant un autre accord à forte tension.", {wait:true})
+
+acc = CHORD('2:ab2 2:f3 b3 d4')
+WAIT(2)
+acc.note(1).move('1:ab4')
+acc.note(2).move('1:f4')
+
+CAPTION("SI RÉ FA LA bémol, un accord de 7e diminuée à nouveau, que nous avons déjà rencontré, et qui fait un appel à la tonalité de la tonique, DO.")
+acc.chord('B7dim')
+acc.modulation('C')
+acc.harmony('VII7dim')
+WAIT_CAPTION
+
+acc.note(1).move('2:ab2')
+acc.note(2).move('2:f3')
+
+CAPTION("Décidément, ça remue beaucoup par ici, après le grand calme des premières mesures.", {wait:true})
+CAPTION("Et cette agitation est encore plus forte et plus marquée ici, où Bach sort pour la première fois de son système en arpège pour présenter un motif avec notes conjointes : SI DO RÉ SI DO RÉ.", {wait:true})
+
+
+# --- Mesure 24 : G7 ---
+CAPTION("Cette agitation vient se poser sur un accord de 7e de dominante en DO Majeur à la mesure suivante, dans son état fondamental.")
+NEXT()
+STAFF(1).measure('24', {offset_x:-4})
+extrait.travelling({x:951})
+acc = CHORD('2:g2 2:f3 g3 b3 d4')
+WAIT_CAPTION
+
+CAPTION("Noter ici comment l'accord de 7e diminuée précédent ne se résoud pas sur la tonique, mais sur l'accord de Dominante. En effet, la 7e de l'accord de 7e diminuée — ici le LA bémol — descend tout naturellement vers la fondamentale de l'accord de dominante — le SOL.", {wait:true})
+
+acc.note([1,2]).fantomize()
+prov = NOTE('f4')
+
+CAPTION("Nous obtenons bien, ici, l'accord de 7e de dominante SOL SI RÉ FA.", {wait:true})
+acc.chord('G7')
+acc.harmony('V')
+acc.note([1,2]).defantomize()
+prov.remove()
+
+
+# --- Mesure 25 : C (6/4) ---
+CAPTION("L'accord de dominante se résoud dans la mesure suivante sur l'accord de tonique, DO Majeur, sous son deuxième renversement, pour former donc une cadence imparfaite.")
+
+NEXT()
+STAFF(1).measure('25', {offset_x:-4})
+extrait.travelling({x:1192})
+acc = CHORD('2:g2 2:e3 g3 c4 e4')
+WAIT(1)
+acc.note([1,2,3]).fantomize()
+prov = NOTE('g4')
+WAIT(1)
+acc.chord('C')
+acc.harmony('I**')
+WAIT(2)
+acc.note([1,2,3]).defantomize()
+prov.remove()
+
+CAPTION("Ce deuxième renversement de l'accord de tonique, on ne le trouve en général que vers la fin d'une pièce, ou la fin d'un chapitre.", {wait:true})
+
+CAPTION("D'autre part, si vous avez la partition sous les yeux, vous noterez qu'à partir d'ici est posée une pédale de SOL — c'est-à-dire une basse SOL qui tient sans discontinuer —, pédale du 5e degré donc, qui ne changera que pour se résoudre, juste avant la CODA, sur la tonique.", {wait:true})
+
+CAPTION("Tout laisse à penser, donc, que nous quittons le développement pour rentrer de plain pied dans la conclusion de la pièce.", {wait:true})

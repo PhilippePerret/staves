@@ -248,7 +248,6 @@ $.extend(Note.prototype,{
   update:function()
   {
     this.update_affichage()
-    NEXT_STEP(0)
     return this
   },
   /**
@@ -615,23 +614,7 @@ $.extend(Note.prototype,{
       me.obj_alt.remove()
       })
   },
-  // /**
-  //   * Méthode qui "complete" vraiment l'affichage et passe à l'étape
-  //   * suivante. Elle sort la note de son exergue si nécessaire.
-  //   * Notes
-  //   * -----
-  //   *   * Noter que la méthode ne doit être appelée directement que lorsqu'on
-  //   *     est sûr que tous les éléments sont traités ou affichés (cf. on_complete).
-  //   *     La méthode `move` peut le faire par exemple.
-  //   *
-  //   * @method complete
-  //   */
-  // complete:function()
-  // {
-  //   this.suplines_if_necessary()
-  //   this.unexergue() // poursuivra avec NEXT_STEP
-  // },
-  
+
   /**
     * Construit la note
     * @method build
@@ -702,6 +685,17 @@ $.extend(Note.prototype,{
   {
     this.obj.animate({left:this.real_left+'px'}, 250)
     if(this.alteration) this.positionne_alteration()
+  },
+  
+  /**
+    * Le positionnement par note conjointe n'étant pas encore efficient à 100%, cette méthode
+    * permet de forcer le repositionnement de la note à sa place.
+    * @method force_position
+    * @param {Object} params    Paramètres optionnels, dont wait, complete et duree
+    */
+  force_position:function(params)
+  {
+    Anim.Dom.anime([this.obj], {left:this.left+'px'}, params)
   },
   /**
     * Position l'altération

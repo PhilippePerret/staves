@@ -106,7 +106,7 @@ window.TBox = function(texte, params)
     L(TBox.STYLE_TO_PROPS[this.style]).each(function(prop, value){
       if(undefined == my['_'+prop])
       {
-        dlog("[TBox] Propriété "+prop+" mis à "+value+ " pour "+this.id)
+        // dlog("[TBox] Propriété "+prop+" mis à "+value+ " pour "+this.id)
         my[prop] = value
       }
     })
@@ -139,7 +139,7 @@ $.extend(TBox,{
     'titre'       : {width:'60%'},
     'small'       : {},
     'tiny'        : {},
-    'copyright'   : {y:null, bottom:0, padding:10, width:'60%', x:'20%'}
+    'copyright'   : {y:null, bottom:0, padding:10, width:'30%', x:'65%', align:'right'}
   }
 
 })
@@ -222,7 +222,7 @@ $.extend(TBox.prototype,{
     // de la TBox
     this.dispatch(params)
     var my = this
-    L(['x', 'y', 'width', 'height']).each(function(k){
+    L(['x', 'y', 'bottom', 'width', 'height']).each(function(k){
       if(undefined !== params['offset_'+k]) my[k] += params['offset_'+k]
     })
     
@@ -281,10 +281,11 @@ $.extend(TBox.prototype,{
     var data_css = {
       width         : as_pixels(this.width),
       left          : as_pixels(this.x),
-      top           : as_pixels(this.y, false),
-      bottom        : as_pixels(this.bottom, false),
       padding       : as_pixels(this.padding)
     }
+    // La hauteur peut être définie soit par `y` soit par `bottom`
+    data_css = this.add_position_verticale( data_css )
+    
     this.obj.css(data_css)
   },
   /**
@@ -298,13 +299,24 @@ $.extend(TBox.prototype,{
       'z-index'     : this.val_or_default('z'),
       width         : as_pixels(this.width),
       left          : as_pixels(this.x),
-      top           : as_pixels(this.y, false),
-      bottom        : as_pixels(this.bottom, false),
       padding       : as_pixels(this.padding)
     }
+    data_css = this.add_position_verticale( data_css )
     Anim.Dom.anime([this.obj], data_css, params)
   },
-  
+  /**
+    * Méthode qui ajoute aux données css +data_css+ la position verticale, soit par le bottom
+    * soit par `y`.
+    * @method add_position_verticale
+    * @param {Object} data_css    Object contenant ou des propriétés css déjà définies
+    */
+  add_position_verticale:function(data_css)
+  {
+    if(undefined == data_css) data_css = {}
+    if(undefined != this.bottom)  data_css.bottom = as_pixels(this.bottom, false)
+    else                          data_css.top    = as_pixels(this.y, false)
+    return data_css
+  },
   /**
     * Définit le texte (obj_texte) de la TBox
     * @method set_texte
@@ -313,14 +325,14 @@ $.extend(TBox.prototype,{
   {
     var data_css = {
       'color'         : this.color || Anim.prefs.text_color,
-      'width'         : as_pixels(this.width),
-      'text-align'    : this.align
+      'width'         : as_pixels(this.width)
     }
     if(this.font_size)    data_css['font-size']   = with_unite(this.font_size, 'pt')
     if(this.font_family)  data_css['font-family'] = this.font_family
     
     this.obj_texte.html(this.texte)
     if(this.style && !this.obj_texte.hasClass(this.style)) this.obj_texte.addClass(this.style)
+    this.obj_texte.css('text-align', this.align)
     Anim.Dom.anime([this.obj_texte], data_css, $.extend(params, {complete:$.proxy(this.set_tbox, this)}))
   },
   /**
@@ -436,7 +448,7 @@ Object.defineProperties(TBox.prototype,{
     get:function(){
       if(undefined == this._width)
       { // On définit une valeur par défaut
-        this._width = parseInt(Anim.Dom.width / 3, 10)
+        this._width = parseInt(Anim.Dom.width / 2, 10)
       }
       return this._width
     }
