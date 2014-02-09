@@ -13,10 +13,6 @@ DEFAULT('chord', 35)
 DEFAULT('staff_harmony', 2)
 DEFAULT('caption_timer', true)
 
-
-FLASH
-
-
 # --- La partition dans la longueur
 extrait=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/longueur-20-35.png', x:220, y:370, width:3884, height:161, inner_x:1691, inner_y:15, cadre_width:303, cadre_height:136, hidden:true})
 
@@ -53,7 +49,6 @@ SET_CURSOR(260)
 acc = CHORD('2:g2 2:d3 g3 c4 f4')
 WAIT(2)
 acc.note(3).hide()
-STAFF(1).remove_suplines({bottom:2})
 acc.note(5).move('2:f3')
 WAIT_CAPTION
 
@@ -115,14 +110,18 @@ accsol = CHORD('2:g2 2:d3 g3 b4 f4')
 accsol.note(5).move('2:f3')
 accsol.note(3).hide()
 accsol.note(4).move('2:b2')
-STAFF(1).remove_suplines({bottom:[1,2]})
 
 CAPTION("Bingo ! Nous avons dans la mesure suivante le même accord, mais cette fois avec notre SI, la tierce, la note manquante.", {wait:true})
 
 CAPTION("Un parfait accord de Dominante, 5e degré de notre tonalité principale.")
 accsol.chord('G7')
 accsol.harmony('V7')
+accsol.note(3).show()
+accsol.note(4).move('1:b4')
+accsol.note(5).move('1:f4')
 WAIT_CAPTION
+
+# On revient à l'accord G sus
 
 extrait.travelling({x:1690})
 docad.note(4).unexergue({wait:false})
@@ -138,16 +137,18 @@ CAPTION("Cet accord, lorsque l'on a fait un peu d'analyse, on le connait très b
 CAPTION("C'est le retard de la tierce de l'accord de dominante. Ici le retard de la tierce de SOL 7e, SI.", {wait:true})
 
 CAPTION("Analysé verticalement, c'est un accord où la tierce de l'accord — ici le SI — est remplacé provisoirement par la quarte de l'accord — ici le DO. On appelle cet accord un accord « SUS 4 ».")
-ledo.move('2:c3')
 WAIT_CAPTION
 
 CAPTION("On peut le désigner seulement SUS puisque implicitement il s'agit par défaut de la tierce et la quarte.")
 
+# On remet l'accord G sus en position
+acc.note(4).move('2:c3')
+acc.note(3).move('g4').move('g3').show()
+acc.note(5).move('1:f4')
+
 acc.chord('Gsus7')
 acc.harmony('Vsus7')
 WAIT_CAPTION
-acc.note(3).show()
-acc.note(5).move('1:f4')
 
 
 # --- Mesure 27 : G7 ---
@@ -168,7 +169,7 @@ CAPTION("Je vous le dis, ça sent le souffre… La fin est proche…", {wait:tru
 # --- Mesure 28 : F#7dim/sol ---
 
 CAPTION("Voyons notre mesure 28…")
-x_fad7dim = NEXT()
+NEXT({var:'x_fad7dim'})
 extrait.travelling({x:2161})
 STAFF(1).measure('28')
 fadim = CHORD('2:g2 2:eb3 a3 c4 fd4')
@@ -191,14 +192,11 @@ fadim.chord('F#7dim')
 WAIT_CAPTION
 
 CAPTION("Accord qui serait un VIIe degré de la tonalité de SOL. De SOL majeur vraisemblablement, c'est à-dire le ton de la dominante.")
-fadim.harmony('VII7°')
 fadim.modulation('SOL[V de DO]')
 
-CAPTION("Que faire du SOL ?", {wait:true})
+CAPTION("Mais que faire du SOL ?", {wait:true})
 CAPTION("Bien entendu, on pourrait le placer au-dessus du MI bémol, puisqu'il se trouve justement à une tierce de ce MI…", {wait:true})
 fadim.note(1).move('1:g5')
-
-STOP_FLASH
 
 CAPTION("Ce qui nous donnerait un accord de 9e diminuée.", {wait:true})
 CAPTION("9 = 7 + 2 = Septième + Seconde de l'accord", true)
@@ -212,7 +210,7 @@ CAPTION("", true)
 CAPTION("J'ai parlé de pédale tout à l'heure, et c'est justement de pédale dont il s'agit ici.", {wait:true})
 CAPTION("Ce qu'on appelle une “pédale”, un terme hérité de l'orgue et de son pédalier, c'est une note grave qui s'étire sur plusieurs mesures.", {wait:true})
 
-CAPTION("Le principe de l'utilisation d'une pédale en musique classique est simple : la seule règle a respecter est 1/ que la note pédale — ici le SOL — appartienne à l'accord qui démarre cette pédale…", {wait:true})
+CAPTION("Le principe de l'utilisation d'une pédale en musique classique est simple : la seule règle à respecter est 1/ que la note pédale — ici le SOL — appartienne à l'accord qui démarre cette pédale…", {wait:true})
 CAPTION("… et 2/ que cette note pédale appartienne à l'accord qui conclut cette pédale, c'est-à-dire au dernier accord sous lequel se trouve la pédale.", {wait:true})
 
 CAPTION("Entre les deux, on peut avoir n'importe quel accord, vraiment n'importe lequel.", {wait:true})
@@ -231,19 +229,20 @@ boxpedale.set({width:360, duree:2})
 CAPTION("Plaçons rapidement les accords suivant sans les analyser pour nous convaincre qu'il s'agit bien d'une pédale, qui en respecte les règles d'harmonie.", {wait:true})
 
 # --- Affichage des mesures suivantes ---
+
 # DO Majeur 4/6 sur pédale SOL
 extrait.move({x:460}).travelling({x:2396})
 WAIT(1)
-NEXT()
+NEXT({var:'x_do46'})
 STAFF(1).measure('29')
-do46 = CHORD('2:g2 2:e3 g3 c4 g4')
+do46 = CHORD('2:g2 2:ez3 g3 c4 g4')
 
 WAIT(1)
 
 # SOL sus 7
 extrait.travelling({x:2648})
 WAIT(1)
-NEXT()
+NEXT({var:'x_solsus7'})
 STAFF(1).measure('30')
 solsus7 = CHORD('2:g2 2:d3 g3 c4 f4')
 
@@ -251,15 +250,15 @@ WAIT(1)
 
 # SOL 7
 extrait.travelling({x:2875})
-NEXT()
+NEXT({var:'x_sol7'})
 WAIT(1)
 STAFF(1).measure('31')
-solsus7 = CHORD('2:g2 2:d3 g3 b3 f4')
+soldom = CHORD('2:g2 2:d3 g3 b3 f4')
 
 # DO basse DO
 extrait.travelling({x:3124, y:11, height:147})
 WAIT(1)
-NEXT()
+NEXT({var:'x_docad', x:40})
 STAFF(1).measure('32')
 docad = CHORD('2:c2 2:c3 g3 bb3 e4')
 
@@ -267,54 +266,109 @@ CAPTION("Avec ce dernier accord, nous pouvons déterminer la durée de la pédal
 CAPTION("Elle s'étire jusqu'au dernier accord qui l'utilise.", {wait:true})
 boxpedale.set({width:590})
 
-# ---------------------------------------------------
-# ---------------------------------------------------
+CAPTION("Et ce dernier accord, que nous commençons à bien connaitre puisque c'est l'accord de Dominante SOL SI RÉ FA contient bien la note pédale. SOL", {wait:true})
 
+WAIT(1)
+CAPTION("Moralité, nous pouvons analyser notre accord en question comme un accord de FA # 7e diminuée sur une pédale de SOL.", {wait:true})
+
+SET_CURSOR(x_fad7dim)
+fadim.texte['chord'].remove()
 fadim.chord('F#7dim<br />/sol', {offset_y:16})
-WAIT(1)
-
-WAIT(1)
+CAPTION("Et au niveau de l'harmonie, nous pouvons simplement indiquer VII 7e diminuée.", {wait:true})
 acc.harmony('VII7dim')
-
-# --- Mesure 29 : C** ---
-NEXT()
-acc = CHORD('2:g2 2:ez3 g3 c4 g4')
-WAIT(1)
-acc.chord('C')
-acc.harmony('I**')
+fadim.note(3).move('a3')
+fadim.note(4).move('c4')
+fadim.note(2).move('2:eb3')
 
 
-# --- Mesure 30 : Gsus7 ---
+boxpedale.remove({wait:false, duree:3})
 
-NEXT()
-STAFF(1).write("(répétion de mesures 26, 27)")
-acc = CHORD('2:g2 2:d3 g3 c4 f4')
+# --- Mesure 29 : DO 4/6 ---
+
+CAPTION("L'accord de la mesure suivante est un accord que nous appelons un accord de quarte et sixte. Un accord de tonique de surcroit, puisqu'on retrouve les notes DO MI SOL.", {wait:true})
+
+CAPTION("À l'audition, nous comprenons très bien ce qui se passe : nous revenons en DO Majeur, et l'accord de 7e diminuée précédent n'était là que pour créer une tension plus forte vers cet accord de quarte et sixte.", {wait:true})
+
+do46.modulation('DO')
+
+CAPTION("On appelle cet accord un accord de quarte et sixte non pas parce qu'il contiendrait sa quarte et sa sixte, mais parce que ce renversement de l'accord, le deuxième…", {wait:true})
+do46.harmony('I**')
+
+CAPTION("… se forme à l'aide d'une quarte — ici SOL-DO ", {wait:true})
+do46.note(4).move('2:c3')
+do46.note(4).exergue()
+do46.note(1).exergue()
+
 WAIT(2)
-acc.chord('Gsus7')
-acc.harmony('Vsus7')
-WAIT(1)
 
-# --- Mesure 31 : G7 ---
+CAPTION("… et une sixte — ici SOL-MI.", {wait:true})
 
+do46.note(4).unexergue()
+do46.note(1).exergue()
+do46.note(2).exergue()
+
+CAPTION("C'est un accord de tonique fortement conclusif et lorsqu'on a l'habitude de l'écriture ou de l'analyse, on connait la suite par cœur : une dominante à l'état fondamtale, et une cadence parfaite sur la tonique.", {wait:true})
+do46.note(4).move('1:c4')
+do46.note(1).unexergue()
+do46.note(2).unexergue()
+
+CAPTION("Le FA # 7e diminuée de notre mesure 28 ne fait donc qu'un simple emprunt à la tonalité de la dominante, et même un simple <u>appel</u> puisqu'on ne trouve même pas de SOL, ça n'est pas une modulation.", {wait:true})
+
+CAPTION("À titre de répère, même si c'est l'oreille qui décide vraiment ce genre de chose, on peut véritablement parler de modulation lorsque le passage dans la nouvelle tonalité est assez long…", {wait:true})
+CAPTION("… et mieux : s'il possède une cadence. Une vraie cadence V I.", {wait:true})
+
+CAPTION("Un emprunt, lui, va se contenter d'un court passage, sans cadence, mais présentant quand même, en général, l'accord de tonique.", {wait:true})
+
+CAPTION("Un <u>appel</u>, lui, va se contenter de créer la tension — comme ici avec le FA # 7e diminuée — mais ne va même pas prendre la peine de se résoudre sur l'accord de tonique qu'appelle cette tension — pas de SOL ici après l'accord de 7e diminuée.", {wait:true})
+
+
+# --- Mesures 30 + 31 : SOLsus + SOL ---
+
+CAPTION("Les deux accords suivants, mesures 30 et 31, nous les connaissons déjà.", {wait:true})
+boxdeux = BOX({type:cadre, color:blue, x:532, y:130, width:152, height:172})
+
+CAPTION("Ce sont strictement les mêmes que les accords des mesures 26 et 27.", {wait:true})
+boxun = BOX({type:cadre, color:blue, x:236, y:130, width:152, height:172})
+
+CAPTION("SOL RÉ SOL DO FA - accord sus 4 de dominante", {wait:true})
+solsus7.chord('Gsus7', {offset_x:6})
+solsus7.harmony('Vsus7')
+
+CAPTION("SOL RÉ SOL SI FA — Accord de 7e de dominante", {wait:true})
+soldom.chord('G7')
+soldom.harmony('V7')
+
+# Faire disparaitre les boites cadres
+boxun.remove({duree:4, wait:false})
+boxdeux.remove({duree:4, wait:false})
+
+CAPTION("Les deux sont à l'état fondamental, sur la pédale de SOL.", {wait:true})
+
+
+# --- Mesure 32 : C FIN ---
+
+SET_CURSOR(x_soldom)
 NEXT()
-acc = CHORD('2:g2 2:d3 g3 b4 f4')
-WAIT(1)
-acc.chord('G7')
-acc.harmony('V7')
+extrait.travelling({x:3124, y:11, height:147})
 
-# --- Mesure 32 : C ---
+CAPTION("Et nous arrivons à la cadence parfaite mesure 32, en DO Majeur, avec cette basse de DO bien profonde, la note la plus grave que nous ayons eue depuis le début du prélude.", {wait:true})
 
-NEXT()
-STAFF(1).write("1ère fois octave de do + si bas (+ possibilité de s'arrêter un peu sur Do pour marquer la cadence)")
-acc = CHORD('2:c2 2:c3 g3 bb3 e4')
-WAIT(4)
-acc.chord('C[C7]')
-acc.cadence('I', {type:parfaite, width:200})
-acc.modulation('Fa[IV]', {offset_x:30})
-STAFF(1).write("Modulation au IVe degré typique de coda (cf. aussi développement)")
+CAPTION("Noter entre parenthèses l'ambitus particulièrement large de cette basse, qui part d'un DO 4, donc le DO sous la portée en clé de SOL, pour se conclure ici sur le DO 2, donc deux octaves plus bas.", {wait:true})
 
-# --- Mesure 33 : F / Dm7 ---
-NEXT()
+CAPTION("Mais Bach ne s'attarde pas sur cette cadence, il a à peine terminé le morceau qu'il prend un virage serré, avec ce SI bémol, vers le ton de la sous-dominante.", {wait:true})
+CAPTION("Un grand classique en matière de CODA", {wait:true})
+CAPTION("On pose l'accord de tonique, on le transforme en accord de 7e de dominante — ici en ajoutant le SI bémol — et on s'engouffre dans le ton de la sous-dominante.")
+docad.chord('C[C7]')
+docad.cadence('I', {type:parfaite, width:200})
+docad.modulation('Fa[IV de DO]', {offset_x:4})
+WAIT_CAPTION
+
+CAPTION("Nous entrons donc dans la CODA dont nous avons déjà parlé.", {wait:true})
+docad.part('CODA')
+
+# --- Mesure 33 : F / Dm7 --- #
+
+extrait.travelling({x:3351})
 acc = CHORD('2:c2 2:c3 2:f3 2:a3 c4 f4')
 WAIT(1)
 acc.note([1,2,6]).fantomize()
@@ -326,6 +380,7 @@ WAIT(1)
 acc.note([1,2,6]).defantomize()
 
 NEXT()
+extrait.travelling({x:3351})
 acc = CHORD('2:c2 2:c3 2:d3 2:f3 2:a3 c4')
 WAIT(1)
 acc.note([1,2]).fantomize()
@@ -337,6 +392,7 @@ acc.note([1,2]).defantomize()
 
 # --- Mesure 34 : G7 ---
 NEXT()
+extrait.travelling({x:3584})
 acc = CHORD('2:c2 2:b2 g4 b4 d5 f5')
 WAIT(1)
 acc.note([1,2]).fantomize()
@@ -353,5 +409,3 @@ WAIT(1)
 acc.chord('C')
 WAIT(1)
 acc.cadence('C', {type:parfaite, width:200})
-
-

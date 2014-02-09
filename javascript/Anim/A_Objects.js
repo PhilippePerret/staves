@@ -14,6 +14,7 @@ window.objet = function(refobjet)
   return eval('Anim.Objects.'+refobjet)
 }
 
+
 if(undefined == window.Anim) window.Anim = {}
 /**
   * Les objets qui vont être créés par les lignes de code de l'animation,
@@ -137,6 +138,8 @@ FONCTIONS_ANIM_OBJETS = {
     * Notes
     *   * Redéfinit la valeur de Anim.current_x
     *   * Passe à l'étape suivante
+    *   * Noter qu'il existe une fonction de même nom, pour l'usage avec placement
+    *     du nouveau x dans une variable
     * @method NEXT
     * @param  {Number|Object} param  Cf. la méthode `Anim.Cursor.next()`   
     * @return {Number} La position X actuelle, résultant du NEXT

@@ -469,13 +469,17 @@ Par exemple, pour déplacer le curseur de position de 100px vers la gauche (donc
     NEXT(-100)
     // => les notes suivantes s'écriront 100px plus à gauche
 
-Noter qu'il est aussi possible de récupérer la valeur `x` résultat de ce NEXT, pour un usage immédiat ou un usage futur.
+Noter qu'il est aussi possible de récupérer la valeur `x` résultat de ce NEXT, pour un usage immédiat ou un usage futur en passant la propriété `var` dans l'argument envoyé à la méthode.
 
-    xcourant = NEXT()
+    NEXT({var:'nom_de_la_variable'})
+
+Si on doit aussi envoyé un décalage horizontal, on définit la propriété `x`&nbsp;:
+
+    NEXT({var:'nom de la variable', x:<décalage horizontal>})
 
 Imaginons par exemple que nous voulions écrire un accord, puis plusieurs accords ensuite en nous déplaçant, pour ensuite revenir à la position du premier accord pour écrire un texte ou autre. On peut faire&nbsp;:
 
-    xacc1 = NEXT()
+    NEXT({var:'xacc1'})
     acc1 = CHORD('c5 e g')
     NEXT()
     acc2 = CHORD('c5 f a')
@@ -2057,7 +2061,7 @@ Par exemple, imaginons deux portées, avec comme portée active la portée 1, c'
 <a name="supprimer_texte_objet"></a>
 ####Supprimer un texte d'objet
 
-Pour supprimer le texte de l'objet, c'est-à-dire de le faire disparaitre de l'affichage, utiliser la méthode `hide` (cacher) ou `remove` du texte de l'objet&nbsp;:
+Pour supprimer le texte de l'objet, c'est-à-dire de le faire disparaitre de l'affichage, utiliser la méthode `hide` (cache le texte sans le détruire) ou `remove` (détruit l'objet DOM du texte) de l'objet&nbsp;:
 
     <note>.texte[<type>].hide() / remove()
 

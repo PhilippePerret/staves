@@ -14,15 +14,32 @@ window.Anim.Cursor = {
     * Définir la prochaine position d'inscription relativement à la position
     * courante.
     * Cette méthode répond à la commande NEXT
+    * Si l'argument est un objet qui défini `var` (String) c'est le nom de la variable window
+    * qui conservera la valeur de la nouvelle position courante.
+    *
     * @method next
-    * @param  {Number} offset Décalage par rapport à la position courante.
+    * @param  {Number|Object} params Décalage par rapport à la position courante ou objet contenant `x` et optionnellement `var`
+    *   @param  {Number} params.x   Le décalage horizontal par rapport à la position courante
+    *   @param  {String} params.var Le nom de la variable dans laquelle mettre la nouvelle position.
     * @return {Number} La position actuelle
     */
-  next:function(offset)
+  next:function(param)
   {
-    if(undefined == offset) offset = parseInt(Anim.prefs.next + Anim.prefs.offset_next,10)
-    var position_courante = Anim.current_x + offset
+    var default_offset = parseInt(Anim.prefs.next + Anim.prefs.offset_next)
+    if(undefined == param)
+    {
+      param = {}
+      param.x = default_offset
+    } 
+    else if ('number' == typeof param)
+    {
+      param = { x:param }
+    }
+    else if( undefined == param.x) param.x = default_offset
+    
+    var position_courante = Anim.current_x + param.x
     this.set( position_courante )
+    if(undefined != param.var) window[param.var] = position_courante
     return position_courante
   },
   /**
