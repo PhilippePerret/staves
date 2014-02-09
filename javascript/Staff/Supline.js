@@ -44,16 +44,16 @@ $.extend(Supline,{
     if(undefined  == params) return F.error("Il faut donner les paramètres pour la suppression des lignes supplémentaires !")
     if(undefined  == params.staff)  params.staff = Anim.current_staff.indice
     if(undefined !== params.left)   params.x = params.left
-    if(undefined  == params.x)      params.xoffset = Anim.current_x
+    if(undefined  == params.x)      params.x = Anim.current_x
     if(params.bottom)
     {
       if('number' == typeof params.bottom) params.bottom = [params.bottom]
-      Staff.erase_suplines(params.staff, params.x, 'bot', params.bottom, params.duree)
+      this.erase_suplines(params.staff, params.x, 'bot', params.bottom, params.duree)
     }
     if(params.top)
     {
       if('number' == typeof params.top) params.top = [params.top]
-      Staff.erase_suplines(params.staff, params.x, 'top', params.top, params.duree)
+      this.erase_suplines(params.staff, params.x, 'top', params.top, params.duree)
     }
     NEXT_STEP(0)
   },

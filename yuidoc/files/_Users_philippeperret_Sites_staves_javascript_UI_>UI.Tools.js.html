@@ -565,10 +565,10 @@ window.UI.Tools = {
     L([&#x27;left&#x27;, &#x27;right&#x27;, &#x27;top&#x27;, &#x27;bottom&#x27;, &#x27;wxh&#x27;]).each(function(key){
       $(&#x27;div#coord_&#x27;+key).html(values[key])
     })
-    $(&#x27;div#coord_fuite_left&#x27;).css(&#x27;left&#x27;, values.left+&#x27;px&#x27;)
-    $(&#x27;div#coord_fuite_right&#x27;).css(&#x27;left&#x27;, values.right+&#x27;px&#x27;)
-    $(&#x27;div#coord_fuite_top&#x27;).css(&#x27;top&#x27;, values.top+&#x27;px&#x27;)
-    $(&#x27;div#coord_fuite_bottom&#x27;).css(&#x27;top&#x27;, values.bottom+&#x27;px&#x27;)
+    $(&#x27;div#coord_fuite_L&#x27;).css(&#x27;left&#x27;, values.left+&#x27;px&#x27;)
+    $(&#x27;div#coord_fuite_R&#x27;).css(&#x27;left&#x27;, values.right+&#x27;px&#x27;)
+    $(&#x27;div#coord_fuite_T&#x27;).css(&#x27;top&#x27;, values.top+&#x27;px&#x27;)
+    $(&#x27;div#coord_fuite_B&#x27;).css(&#x27;top&#x27;, values.bottom+&#x27;px&#x27;)
     
   },
   /**
@@ -594,10 +594,10 @@ window.UI.Tools = {
     $(&#x27;div#coord_inner_cadre&#x27;).bind(&#x27;click&#x27;, $.proxy(UI.Tools.coordonnees_on_change, UI.Tools, &#x27;click&#x27;))
     // Les quatres lignes de fuite
     $(&#x27;section#animation&#x27;).append(
-      &#x27;&lt;div id=&quot;coord_fuite_left&quot;&gt;&lt;/div&gt;&#x27;   +
-      &#x27;&lt;div id=&quot;coord_fuite_right&quot;&gt;&lt;/div&gt;&#x27;  +
-      &#x27;&lt;div id=&quot;coord_fuite_top&quot;&gt;&lt;/div&gt;&#x27;    +
-      &#x27;&lt;div id=&quot;coord_fuite_bottom&quot;&gt;&lt;/div&gt;&#x27;
+      &#x27;&lt;div id=&quot;coord_fuite_L&quot;&gt;&lt;/div&gt;&#x27;   +
+      &#x27;&lt;div id=&quot;coord_fuite_R&quot;&gt;&lt;/div&gt;&#x27;  +
+      &#x27;&lt;div id=&quot;coord_fuite_T&quot;&gt;&lt;/div&gt;&#x27;    +
+      &#x27;&lt;div id=&quot;coord_fuite_B&quot;&gt;&lt;/div&gt;&#x27;
     )
   }
   /* FIN DES MÉTHODES GÉRANT L&#x27;OUTIL “COORDONNÉES”

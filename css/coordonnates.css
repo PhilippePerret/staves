@@ -13,8 +13,8 @@ div#coord_main_cadre div#coord_wxh {
   opacity :1 !important;
 }
 div#coord_main_cadre {
-  border    : 2px solid red;
-  resize    : both;
+/*  border    : 2px solid red;*/
+/*  resize    : both;*/
   overflow  : hidden;
   width     : 200px;
   height    : 100px;
@@ -23,12 +23,41 @@ div#coord_main_cadre {
   z-index   : 5000;
 }
 
+div#coord_main_cadre > div#coord_bord_R, 
+div#coord_main_cadre > div#coord_bord_L,
+div#coord_main_cadre > div#coord_bord_B,  
+div#coord_main_cadre > div#coord_bord_T {
+  position : absolute;
+  background-color : red;
+}
+div#coord_main_cadre > div#coord_bord_R, 
+div#coord_main_cadre > div#coord_bord_L {
+  width   :3px;
+  height  :calc(100%);
+  top     :0;
+  cursor  :ew-resize;
+}
+div#coord_main_cadre > div#coord_bord_R { right:0; }
+div#coord_main_cadre > div#coord_bord_L { left :0; }
+
+div#coord_main_cadre > div#coord_bord_B,  
+div#coord_main_cadre > div#coord_bord_T {
+  height  :4px;
+  width   :calc(100%);
+  left    :0;
+  cursor  :ns-resize;
+}
+div#coord_main_cadre > div#coord_bord_B { bottom:0;}
+div#coord_main_cadre > div#coord_bord_T { top   :0;}
+
 /* Le cadre intérieur qui déclenche le déplacement */
 div#coord_main_cadre div#coord_inner_cadre {
-  top     : 20px;
-  bottom  : 20px;
-  left    : 20px;
-  right   : 20px;
+  top     : 4px;
+  bottom  : 4px;
+  left    : 4px;
+  right   : 4px;
+  z-index : 5001;
+/*  background-color: #CFC;*/
 /*  border  : 1px dashed green;*/
 }
 
@@ -69,23 +98,23 @@ div#coord_main_cadre div#coord_wxh {
 }
 
 /* Les lignes de fuite */
-section#animation div#coord_fuite_left,
-section#animation div#coord_fuite_right,
-section#animation div#coord_fuite_top,
-section#animation div#coord_fuite_bottom {
+section#animation div#coord_fuite_L,
+section#animation div#coord_fuite_R,
+section#animation div#coord_fuite_T,
+section#animation div#coord_fuite_B {
   position          :absolute;
   background-color  :#DDF;
 }
-section#animation div#coord_fuite_left,
-section#animation div#coord_fuite_right {
+section#animation div#coord_fuite_L,
+section#animation div#coord_fuite_R {
   height : calc(100%);
   width  : 1px;
 }
-section#animation div#coord_fuite_left {
+section#animation div#coord_fuite_L {
   left     :10em;
 }
-section#animation div#coord_fuite_top,
-section#animation div#coord_fuite_bottom {
+section#animation div#coord_fuite_T,
+section#animation div#coord_fuite_B {
   width  :calc(100%);
   height :1px;
 }

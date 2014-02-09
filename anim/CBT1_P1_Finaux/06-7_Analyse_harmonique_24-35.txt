@@ -25,6 +25,7 @@ ACTIVE_STAFF(1)
 # ---------------------------------------------------
 # Je remets les dernières mesures précédentes
 
+CAPTION("Je remets les deux dernières mesures que nous venons de voir.")
 STAFF(1).measure('24')
 acc = CHORD('2:g2 2:f3 g3 b3 d4')
 acc.chord('G7')
@@ -35,6 +36,8 @@ STAFF(1).measure('25')
 docad = CHORD('2:g2 2:e3 g3 c4 e4')
 docad.chord('C')
 docad.cadence('I**', {type:parfaite, width:100})
+
+WAIT_CAPTION
 
 # --- Mesure 26 : Gsus7 ---
 
@@ -47,6 +50,7 @@ SET_CURSOR(260)
 acc = CHORD('2:g2 2:d3 g3 c4 f4')
 WAIT(2)
 acc.note(3).hide()
+STAFF(1).remove_suplines({bottom:2})
 acc.note(5).move('2:f3')
 WAIT_CAPTION
 
@@ -55,7 +59,7 @@ missingsi = NOTE('2:b2', {color:red})
 CAPTION("Placer le DO sous le SOL ?…")
 ledo = objet('acc.note(4)')
 ledo.move('2:c2')
-STAFF(1).remove_suplines({bottom:[1,2]})
+STAFF(1).remove_suplines({bottom:1})
 WAIT_CAPTION
 
 CAPTION("Ça nous ferait une autre note manquante le MI…", {wait:true})
@@ -78,11 +82,11 @@ STAFF(2).remove_suplines({bottom:[1,2]})
 WAIT_CAPTION
 
 CAPTION("Ça me parait bien loin du SOL de basse, quand même… Et il manquerait à nouveau deux notes, le SI et le LA, pour former à nouveau un accord de 6 notes différentes…", {wait:true})
-missingla = NOTE('2:a3')
+missingla = NOTE('2:a3', {color:red})
 
 CAPTION("Je n'ai pas trouvé la simplicité de ce qui se passe ici.", {wait:true})
 CAPTION("Réfléchissons autrement… Et commençons pas supprimer ce DO pour y voir plus clair.")
-ledo.fantomize()
+ledo.move('1:c4').fantomize()
 missingla.remove({duree:2, wait:false})
 
 WAIT_CAPTION
@@ -96,10 +100,11 @@ CAPTION("Et si, donc… ce DO remplaçait simplement ce SI manquant ? Et si c'�
 
 CAPTION("Nous avons effectivement ce DO dans l'accord précédent.", {wait:true})
 docad.note(4).exergue({color:green})
+boxretard = BOX({type:cadre, x:166, y:170, width:116, height:20, color:blue, opacity:0.5})
 
 CAPTION("Jetons un coup d'œil à l'accord qui vient ensuite.", {wait:true})
 extrait.travelling({x:1919})
-
+boxretard.remove({duree:4, wait:false})
 
 NEXT()
 STAFF(1).measure('27')

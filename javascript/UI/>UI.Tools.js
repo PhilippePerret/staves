@@ -278,34 +278,95 @@ window.UI.Tools = {
     this.cadre_coordonnees.hide()
     L(['left', 'right', 'top', 'bottom']).each(function(key){$('div#coord_fuite_'+key).hide()})
   },
+  coordonnees_get_taille_cadre:function()
+  {
+    var pos = this.cadre_coordonnees.position()
+    var values = {
+      'T'  : pos.top,
+      'L'  : pos.left,
+      'W'  : UI.css2number(this.cadre_coordonnees.width()),
+      'H'  : UI.css2number(this.cadre_coordonnees.height())
+    }
+    values.R = values.L + values.W
+    values.B = values.T + values.H
+    return values
+  },
   /**
     * Méthode appelée quand on change le cadre de coordonnées
     * @method coordonnees_on_resize
     */
   coordonnees_on_change:function()
   {
-    var pos = this.cadre_coordonnees.position()
-    var values = {
-      'top'     : pos.top,
-      'left'    : pos.left,
-      'width'   : UI.css2number(this.cadre_coordonnees.width()),
-      'height'  : UI.css2number(this.cadre_coordonnees.height())
-    }
-    values.bottom = values.top  + values.height
-    values.wxh    = values.width + ' x ' + values.height
-    values.right  = values.left + values.width
-    L(['left', 'right', 'top', 'bottom', 'wxh']).each(function(key){
-      $('div#coord_'+key).html(values[key])
+    var values = this.coordonnees_get_taille_cadre()
+    values.wxh    = values.W + ' x ' + values.H
+    L({'L':'left', 'R':'right', 'T':'top', 'B':'bottom', 'wxh':'wxh'}).each(function(key, key_css){
+      $('div#coord_'+key_css).html(values[key])
     })
-    $('div#coord_fuite_left').css('left', values.left+'px')
-    $('div#coord_fuite_right').css('left', values.right+'px')
-    $('div#coord_fuite_top').css('top', values.top+'px')
-    $('div#coord_fuite_bottom').css('top', values.bottom+'px')
+    $('div#coord_fuite_L').css('left', values.L+'px')
+    $('div#coord_fuite_R').css('left', values.R+'px')
+    $('div#coord_fuite_T').css('top',  values.T+'px')
+    $('div#coord_fuite_B').css('top',  values.B+'px')
     
     UI.feedback(
-      'x:'+values.left+'/y:'+values.top+'/width:'+values.width+'/height:'+values.height+
-      '&nbsp;&nbsp;&nbsp;bottom:'+values.bottom+'/right:'+values.right
+      'x:'+values.L+'/y:'+values.T+'/width:'+values.W+'/height:'+values.H+
+      '&nbsp;&nbsp;&nbsp;bottom:'+values.B+'/right:'+values.R
     )
+  },
+  start_resize_R:function(evt){this.start_resize('R', evt)},
+  start_resize_L:function(evt){this.start_resize('L', evt)},
+  start_resize_T:function(evt){this.start_resize('T', evt)},
+  start_resize_B:function(evt){this.start_resize('B', evt)},
+  start_resize:function(bord, evt)
+  {
+    var init_values = this.coordonnees_get_taille_cadre()
+
+    this.coord_resize_init_value  = init_values[bord]
+    this.coord_resize_init_x      = evt.clientX
+    this.coord_resize_init_y      = evt.clientY
+    this.coord_resize_bord        = bord
+    this.coord_resize_prop        = {'L':'left', 'R':'width', 'T':'top', 'B':'height'}[bord]
+    this.coord_resize_prop_fuite  = {'L':'left', 'R':'left', 'T':'top', 'B':'top'}[bord]
+    this.coord_resize_prop_long   = {'L':'width', 'T':'height'}[bord]
+    this.coord_resize_bords       = {'L':'LR', 'R':'LR', 'T':'TB', 'B':'TB'}[bord]
+    this.coord_resize_init_long   = {'LR':init_values.W, 'TB': init_values.H}[this.coord_resize_bords]
+    
+    $('section#animation').bind('mousemove', $.proxy(this['on_move_'+this.coord_resize_bords], this))
+    $('section#animation').bind('mouseup',   $.proxy(this.stop_resize, this, bord) )
+  },
+  on_move_LR:function(evt)
+  {
+    this.change_taille_cadre(evt.clientX - this.coord_resize_init_x)
+    return stop_event(evt)
+  },
+  on_move_TB:function(evt)
+  {
+    this.change_taille_cadre(evt.clientY - this.coord_resize_init_y)
+    return stop_event(evt)
+  },
+  change_taille_cadre:function(dif)
+  {
+    var add_R_B         = 0,
+        data            = {},
+        new_value       = (this.coord_resize_init_value + dif),
+        new_value_long  = (this.coord_resize_init_long  - dif)
+        
+    data[this.coord_resize_prop] = new_value+'px' ;
+    if(this.coord_resize_prop_long)
+    {
+      data[this.coord_resize_prop_long] = new_value_long + 'px'
+    } 
+    else
+    {
+      new_value += this.coord_resize_init_long
+    }
+    this.cadre_coordonnees.css(data)
+    $('div#coord_fuite_'+this.coord_resize_bord).css(this.coord_resize_prop_fuite, new_value+'px')
+    dlog("bord:"+this.coord_resize_bord+"/ prop fuite:"+this.coord_resize_prop_fuite+" / value:"+new_value)
+  },
+  stop_resize:function(bord)
+  {
+    $('section#animation').unbind('mousemove',  $.proxy(this['on_move_'+this.coord_resize_bords], this))
+    $('section#animation').unbind('mouseup',    $.proxy(this.stop_resize, this))
   },
   /**
     * Construction du cadre si nécessaire, le place dans la fenêtre et
@@ -315,7 +376,12 @@ window.UI.Tools = {
     */
   coordonnees_build_cadre:function()
   {
-    var cadre = '<div id="coord_main_cadre" onresize="$.proxy(UI.Tools.coordonnees_on_change, UI.Tools, \'resize\', event)()">'+
+    // var cadre = '<div id="coord_main_cadre" onresize="$.proxy(UI.Tools.coordonnees_on_change, UI.Tools, \'resize\', event)()">'+
+    var cadre = '<div id="coord_main_cadre">'+
+              '<div id="coord_bord_R"></div>'+
+              '<div id="coord_bord_L"></div>'+
+              '<div id="coord_bord_T"></div>'+
+              '<div id="coord_bord_B"></div>'+
               '<div id="coord_inner_cadre"></div>'+
               '<div id="coord_left">---</div>'+
               '<div id="coord_right">---</div>'+
@@ -325,15 +391,19 @@ window.UI.Tools = {
             '</div>'
     $('section#animation').append(cadre)
     this.cadre_coordonnees.draggable({stop:$.proxy(UI.Tools.coordonnees_on_change, UI.Tools, 'move')})
+    this.cadre_coordonnees.bind('mouseup', $.proxy(UI.Tools.coordonnees_on_change, UI.Tools, 'click'))
+    $('div#coord_main_cadre > div#coord_bord_R').bind('mousedown', $.proxy(this.start_resize_R, this))
+    $('div#coord_main_cadre > div#coord_bord_L').bind('mousedown', $.proxy(this.start_resize_L, this))
+    $('div#coord_main_cadre > div#coord_bord_T').bind('mousedown', $.proxy(this.start_resize_T, this))
+    $('div#coord_main_cadre > div#coord_bord_B').bind('mousedown', $.proxy(this.start_resize_B, this))
     $('div#coord_inner_cadre').bind('mousedown', function(){$('div#coord_main_cadre').draggable('enable')})
     $('div#coord_inner_cadre').bind('mouseup', function(){$('div#coord_main_cadre').draggable('disable')})
-    $('div#coord_inner_cadre').bind('click', $.proxy(UI.Tools.coordonnees_on_change, UI.Tools, 'click'))
     // Les quatres lignes de fuite
     $('section#animation').append(
-      '<div id="coord_fuite_left"></div>'   +
-      '<div id="coord_fuite_right"></div>'  +
-      '<div id="coord_fuite_top"></div>'    +
-      '<div id="coord_fuite_bottom"></div>'
+      '<div id="coord_fuite_L"></div>'  +
+      '<div id="coord_fuite_R"></div>'  +
+      '<div id="coord_fuite_T"></div>'  +
+      '<div id="coord_fuite_B"></div>'
     )
   }
   /* FIN DES MÉTHODES GÉRANT L'OUTIL “COORDONNÉES”
