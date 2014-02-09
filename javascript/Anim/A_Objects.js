@@ -139,8 +139,9 @@ FONCTIONS_ANIM_OBJETS = {
     *   * Passe à l'étape suivante
     * @method NEXT
     * @param  {Number|Object} param  Cf. la méthode `Anim.Cursor.next()`   
+    * @return {Number} La position X actuelle, résultant du NEXT
     */
-  NEXT:function(param){Anim.Cursor.next(param)},
+  NEXT:function(param){return Anim.Cursor.next(param)},
   /**
     * Place le curseur à une position précise
     * Notes

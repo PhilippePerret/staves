@@ -14,6 +14,9 @@ DEFAULT('staff_harmony', 2)
 DEFAULT('caption_timer', true)
 
 
+FLASH
+
+
 # --- La partition dans la longueur
 extrait=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/longueur-20-35.png', x:220, y:370, width:3884, height:161, inner_x:1691, inner_y:15, cadre_width:303, cadre_height:136, hidden:true})
 
@@ -64,9 +67,9 @@ WAIT_CAPTION
 
 CAPTION("Ça nous ferait une autre note manquante le MI…", {wait:true})
 missingmi = NOTE('2:e2', {color:red})
-CAPTION(" Possible d'avoir une note manquante, c'est fréquent, mais là, deux… Et un accord DO MI SOL SI RE FA… 6 notes… Ça me semble bien compliqué…", {wait:true})
+CAPTION(" Possible d'avoir une note manquante, c'est fréquent, mais là, deux… Et surtout un accord de 6 notes différentes : DO MI SOL SI RE FA… Ça me semble bien compliqué…", {wait:true})
 
-CAPTION("Rappelez-vous un point capital de l'analyse : l'analyse n'est pas là pour montrer à quel point c'est compliqué. Non, une bonne analyse est là pour montrer au contraire à quel point c'est simple.", {wait:true})
+CAPTION("J'en profite pour souligner un point capital de l'analyse, et qu'on ne répète jamais assez : l'analyse n'est pas là pour montrer à quel point c'est compliqué. Non, une bonne analyse est là pour montrer au contraire à quel point les choses sont simples.", {wait:true})
 
 CAPTION("Je dirais qu'il faut toujours chercher la simplexité, dans l'analyse. Des choses simples, mais qui vont produire de la complexité. Dès que vous arrivez à des raisonnements compliqués, dites-vous que vous êtes en train de faire fausse route.", {wait:true})
 
@@ -112,6 +115,7 @@ accsol = CHORD('2:g2 2:d3 g3 b4 f4')
 accsol.note(5).move('2:f3')
 accsol.note(3).hide()
 accsol.note(4).move('2:b2')
+STAFF(1).remove_suplines({bottom:[1,2]})
 
 CAPTION("Bingo ! Nous avons dans la mesure suivante le même accord, mais cette fois avec notre SI, la tierce, la note manquante.", {wait:true})
 
@@ -126,7 +130,7 @@ missingsi.remove({duree:2, wait:false})
 
 CAPTION("Donc, notre note DO est bien ce que nous pensions : un retard, une note héritée de l'accord précédent, et qui ne rejoindra la note véritable de l'accord courant que dans la mesure suivante.", {wait:true})
 
-ledo.defantomize().move('c3')
+ledo.defantomize().move('2:c3')
 STAFF(2).remove_suplines({top:1, y:260})
 
 CAPTION("Cet accord, lorsque l'on a fait un peu d'analyse, on le connait très bien, c'est un accord utilisé à outrance en musique, dans toute forme de musique. Il a un effet très sensible, très prenant.", {wait:true})
@@ -164,24 +168,111 @@ CAPTION("Je vous le dis, ça sent le souffre… La fin est proche…", {wait:tru
 # --- Mesure 28 : F#7dim/sol ---
 
 CAPTION("Voyons notre mesure 28…")
-NEXT()
-extrait.travelling({x:})
+x_fad7dim = NEXT()
+extrait.travelling({x:2161})
 STAFF(1).measure('28')
-acc = CHORD('2:g2 2:eb3 a3 c4 fd4')
+fadim = CHORD('2:g2 2:eb3 a3 c4 fd4')
 WAIT_CAPTION
 
-CAPTION("Pas facile… C'est la première fois que nous rencontrons 5 notes différentes pour constituer un accord.", {wait:true})
+CAPTION("C'est la première fois que nous rencontrons explicitement 5 notes différentes pour constituer un accord.", {wait:true})
+
+CAPTION("Essayons de le ranger. Le LA se trouverait bien, au-dessus du FA #.", {wait:true})
+fadim.note(3).move('a4')
+CAPTION("Le DO se trouverait bien, au-dessus de ce LA", {wait:true})
+fadim.note(4).move('c5')
+CAPTION("Et le MI bémol serait idéalement placé au-dessus de ce DO", {wait:true})
+fadim.note(2).move('1:eb5')
+
+WAIT(1)
+
+CAPTION("On obtient avec ces quatre notes, qui sont toutes à une tierce mineure l'une de l'autre, un nouvel accord de 7e diminuée.", {wait:true})
+CAPTION("Un accord FA# 7 diminuée")
+fadim.chord('F#7dim')
+WAIT_CAPTION
+
+CAPTION("Accord qui serait un VIIe degré de la tonalité de SOL. De SOL majeur vraisemblablement, c'est à-dire le ton de la dominante.")
+fadim.harmony('VII7°')
+fadim.modulation('SOL[V de DO]')
+
+CAPTION("Que faire du SOL ?", {wait:true})
+CAPTION("Bien entendu, on pourrait le placer au-dessus du MI bémol, puisqu'il se trouve justement à une tierce de ce MI…", {wait:true})
+fadim.note(1).move('1:g5')
+
+STOP_FLASH
+
+CAPTION("Ce qui nous donnerait un accord de 9e diminuée.", {wait:true})
+CAPTION("9 = 7 + 2 = Septième + Seconde de l'accord", true)
+
+WAIT(2)
+
+CAPTION("Ça fonctionne, mais il y a plus simple encore.", {wait:true})
+
+CAPTION("", true)
+
+CAPTION("J'ai parlé de pédale tout à l'heure, et c'est justement de pédale dont il s'agit ici.", {wait:true})
+CAPTION("Ce qu'on appelle une “pédale”, un terme hérité de l'orgue et de son pédalier, c'est une note grave qui s'étire sur plusieurs mesures.", {wait:true})
+
+CAPTION("Le principe de l'utilisation d'une pédale en musique classique est simple : la seule règle a respecter est 1/ que la note pédale — ici le SOL — appartienne à l'accord qui démarre cette pédale…", {wait:true})
+CAPTION("… et 2/ que cette note pédale appartienne à l'accord qui conclut cette pédale, c'est-à-dire au dernier accord sous lequel se trouve la pédale.", {wait:true})
+
+CAPTION("Entre les deux, on peut avoir n'importe quel accord, vraiment n'importe lequel.", {wait:true})
+
+CAPTION("Regardons ce que nous avons ici", {wait:true})
+
+fadim.note(1).move('2:g2')
+
+CAPTION("Notre pédale de SOL commence bien sur un accord qui contient cette note, puisque c'est notre SOL majeur", {wait:true})
+boxpedale = BOX({type:cadre, color:green, x:85, y:257, height:22, width:68})
+
+CAPTION("Et cette pédale dure au moins jusqu'à l'accord que nous sommes en train d'analyser.", {wait:true})
+
+boxpedale.set({width:360, duree:2})
+
+CAPTION("Plaçons rapidement les accords suivant sans les analyser pour nous convaincre qu'il s'agit bien d'une pédale, qui en respecte les règles d'harmonie.", {wait:true})
+
+# --- Affichage des mesures suivantes ---
+# DO Majeur 4/6 sur pédale SOL
+extrait.move({x:460}).travelling({x:2396})
+WAIT(1)
+NEXT()
+STAFF(1).measure('29')
+do46 = CHORD('2:g2 2:e3 g3 c4 g4')
+
+WAIT(1)
+
+# SOL sus 7
+extrait.travelling({x:2648})
+WAIT(1)
+NEXT()
+STAFF(1).measure('30')
+solsus7 = CHORD('2:g2 2:d3 g3 c4 f4')
+
+WAIT(1)
+
+# SOL 7
+extrait.travelling({x:2875})
+NEXT()
+WAIT(1)
+STAFF(1).measure('31')
+solsus7 = CHORD('2:g2 2:d3 g3 b3 f4')
+
+# DO basse DO
+extrait.travelling({x:3124, y:11, height:147})
+WAIT(1)
+NEXT()
+STAFF(1).measure('32')
+docad = CHORD('2:c2 2:c3 g3 bb3 e4')
+
+CAPTION("Avec ce dernier accord, nous pouvons déterminer la durée de la pédale.", {wait:true})
+CAPTION("Elle s'étire jusqu'au dernier accord qui l'utilise.", {wait:true})
+boxpedale.set({width:590})
 
 # ---------------------------------------------------
-# J'EN SUIS LÀ
 # ---------------------------------------------------
 
-acc.note(2).fantomize()
-prov = NOTE('eb4')
+fadim.chord('F#7dim<br />/sol', {offset_y:16})
 WAIT(1)
-acc.chord('F#7dim/sol')
-WAIT(1)
-acc.modulation('G[V de C]')
+
 WAIT(1)
 acc.harmony('VII7dim')
 

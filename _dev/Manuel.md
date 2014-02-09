@@ -469,6 +469,23 @@ Par exemple, pour déplacer le curseur de position de 100px vers la gauche (donc
     NEXT(-100)
     // => les notes suivantes s'écriront 100px plus à gauche
 
+Noter qu'il est aussi possible de récupérer la valeur `x` résultat de ce NEXT, pour un usage immédiat ou un usage futur.
+
+    xcourant = NEXT()
+
+Imaginons par exemple que nous voulions écrire un accord, puis plusieurs accords ensuite en nous déplaçant, pour ensuite revenir à la position du premier accord pour écrire un texte ou autre. On peut faire&nbsp;:
+
+    xacc1 = NEXT()
+    acc1 = CHORD('c5 e g')
+    NEXT()
+    acc2 = CHORD('c5 f a')
+    NEXT()
+    acc3 = CHORD('d5 g b')
+    SET_CURSOR(xacc1)
+    # => Nous ramène à la position du premier accord
+    
+
+
 <a name="move_cursor_to_a_pas"></a>
 ###Déplacer le curseur sur un pas
 

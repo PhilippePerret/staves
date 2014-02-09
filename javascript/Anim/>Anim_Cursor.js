@@ -16,11 +16,14 @@ window.Anim.Cursor = {
     * Cette méthode répond à la commande NEXT
     * @method next
     * @param  {Number} offset Décalage par rapport à la position courante.
+    * @return {Number} La position actuelle
     */
   next:function(offset)
   {
     if(undefined == offset) offset = parseInt(Anim.prefs.next + Anim.prefs.offset_next,10)
-    this.set(Anim.current_x + offset)
+    var position_courante = Anim.current_x + offset
+    this.set( position_courante )
+    return position_courante
   },
   /**
     * Définir la prochaine position d'inscription de façon absolue par une valeur
