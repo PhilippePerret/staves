@@ -175,23 +175,8 @@ $.extend(Staff,{
     case UT4  :
       return 2
     }
-  },
-  
-  /**
-    * Efface des lignes supplémentaires
-    * @method erase_suplines
-    * @param  {Number} istaff   Indice de la portée
-    * @param  {Number} xoffset  Décalage horizontal où se trouve la ligne
-    * @param  {String} endroit  'bot' ou 'top' pour bottom ou top
-    * @param  {Array}  indices  Indices 1-start des lignes supplémentaires à supprimer
-    */
-  erase_suplines:function(istaff, xoffset, endroit, indices)
-  {
-    L(indices).each(function(indice_supline){
-      var id = "supline-"+istaff+xoffset+"-"+(indice_supline - 1)+endroit
-      $('img#'+id).fadeOut(Anim.delai_for('show'))
-    })
   }
+  
 })
 /* ---------------------------------------------------------------------
     Méthodes pour la propriété-object `notes` de la portée (qui contient
@@ -402,12 +387,8 @@ $.extend(Staff.prototype, {
     *   @param {Array|Number} params.top    Ligne(s) à supprimer au-dessus
     *   @param {Array|Number} params.bottom Ligne(s) à supprimer en dessous
     */
-  remove_suplines:function(params)
-  {
-    params.staff = this.indice
-    Anim.Objects.REMOVE_SUPLINE(params)
-  },
-  /** Alias pour remove_suplines
+  remove_suplines:function(params){ Supline.erase($.extend(params, {staff: this.indice})) },
+  /** Alias de remove_suplines
     * @method remove_supline
     */
   remove_supline:function(params){return this.remove_suplines(params)}

@@ -163,30 +163,9 @@ FONCTIONS_ANIM_OBJETS = {
   /**
     * Suppression des lignes supplémentaires
     * @method REMOVE_SUPLINE
-    * @param  {Object}  params  Les paramètres pour supprimer
-    *   @param  {Number}  params.staff    L'indice-portée de la portée dont il faut supprimer des lignes
-    *                                     Par défaut, c'est la portée active.
-    *   @param  {Number|Array}  params.bottom   La ou les lignes à supprimer en bas
-    *   @param  {Number|Array}  params.top      La ou les lignes à supprimer en haut
-    *   @param  {Number}        params.xoffset  Position horiztonale de la ligne (Anim.current_x par défaut)
+    * @param  {Object}  params  Cf. la méthode Supline.erase
     */
-  REMOVE_SUPLINE:function(params)
-  {
-    if(undefined == params) return F.error("Il faut donner les paramètres pour la suppression des lignes supplémentaires !")
-    if(undefined == params.staff)   params.staff = Anim.current_staff.indice
-    if(undefined == params.xoffset) params.xoffset = Anim.current_x
-    if(params.bottom)
-    {
-      if('number' == typeof params.bottom) params.bottom = [params.bottom]
-      Staff.erase_suplines(params.staff, params.xoffset, 'bot', params.bottom)
-    }
-    if(params.top)
-    {
-      if('number' == typeof params.top) params.top = [params.top]
-      Staff.erase_suplines(params.staff, params.xoffset, 'top', params.top)
-    }
-    NEXT_STEP(0)
-  },
+  REMOVE_SUPLINE:function(params){ return Supline.erase(params) },
   /**
     * Nettoie l'animation. Si `with_staves` est true, on efface aussi les
     * portée
