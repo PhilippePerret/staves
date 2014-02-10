@@ -18,6 +18,10 @@ window.KEYPRESS_HORS_CONSOLE = function(evt)
       Anim.on ? Anim.stop(forcer = true) : Anim.start()
       return stop_event(evt)
     }
+    else if (evt.charCode == K_TAB)
+    {
+      Console.console.focus()
+    }
     else if( evt.charCode == Key_p && no_modifiers )
     {
       if(Anim.on)

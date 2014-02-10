@@ -52,6 +52,10 @@ acc.note(3).hide()
 acc.note(5).move('2:f3')
 WAIT_CAPTION
 
+# ---------------------------------------------------
+# Problème du placement du DO dans l'accord SOL sus
+# ---------------------------------------------------
+
 CAPTION("Aïe… Où vais-je donc placer le DO ? La note qui nous manque, entre les autres notes rangées, et qui finaliserait bien l'accord, c'est un SI.", {wait:true})
 missingsi = NOTE('2:b2', {color:red})
 CAPTION("Placer le DO sous le SOL ?…")
@@ -121,7 +125,9 @@ accsol.note(4).move('1:b4')
 accsol.note(5).move('1:f4')
 WAIT_CAPTION
 
-# On revient à l'accord G sus
+# ---------------------------------------------------
+# Conclusion du problème sur l'accord SOL sus
+# ---------------------------------------------------
 
 extrait.travelling({x:1690})
 docad.note(4).unexergue({wait:false})
@@ -152,7 +158,8 @@ WAIT_CAPTION
 
 
 # --- Mesure 27 : G7 ---
-# (note : déjà analysé avant)
+
+# note : déjà analysé avant
 
 CAPTION("Nous avons déjà analysé l'accord de la mesure 27 qui suit.")
 extrait.travelling({x:1919})
@@ -174,6 +181,10 @@ extrait.travelling({x:2161})
 STAFF(1).measure('28')
 fadim = CHORD('2:g2 2:eb3 a3 c4 fd4')
 WAIT_CAPTION
+
+# ---------------------------------------------------
+# Problème de la pédale de SOL
+# ---------------------------------------------------
 
 CAPTION("C'est la première fois que nous rencontrons explicitement 5 notes différentes pour constituer un accord.", {wait:true})
 
