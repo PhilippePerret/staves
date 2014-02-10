@@ -30,6 +30,7 @@ div.text.measure {
 div.text.chord {
   font-family     : Verdana;
   font-size       : 12pt;
+  line-height     : 0.8em;
 }
 /* Style pour CHIFFRAGE D'HARMONIE et CADENCE */
 div.text.harmony, div.text.cadence, div.text.modulation {

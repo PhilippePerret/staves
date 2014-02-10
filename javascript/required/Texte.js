@@ -34,6 +34,10 @@ window.METHODES_TEXTE = {
     * @method write
     * @param  {String} texte Le texte à écrire
     * @param  {Object} params Les paramètres optionnels
+    *   @param  {Number}  params.x          La position horizontale absolue du texte
+    *   @param  {Number}  params.offset_x   Le décalage horizontale par rapport à la position par défaut
+    *   @param  {Number}  params.y          La position verticale absolue du texte
+    *   @param  {Number}  params.offset_y   Le décalage vertical par rapport à la position par défaut
     * @return {Object} L'instance du porteur (pour chainage)
     */
   write:function(texte, params)
@@ -55,11 +59,14 @@ window.METHODES_TEXTE = {
     * Raccourci-write pour écrire un numéro de mesure
     * @method measure
     * @param {Object} params Paramètres optionnels
+    *   @param  {Number}  params.x    Le décalage horizontal par rapport à la position par défaut (sera transformé en `offset_x`)
+    *   @param  {Number}  params.y    Idem, mais pour le décalage vertical
     * @return {Object} L'instance du porteur (pour chainage)
     */
   measure:function(numero, params)
   {
     params = define_params(params, {type:measure})
+    params = change_x_y_to_offsets_in_params( params )
     this.write(numero, params)
     return this
   },
@@ -75,12 +82,15 @@ window.METHODES_TEXTE = {
     * @param  {String} texte  Le texte à écrire
     * @param  {Object} params   Paramètres optionnels
     *   @param  {Number}  params.staff      La portée sous laquelle il faut placer l'harmonie
+    *   @param  {Number}  params.offset_x   Décalage horizontal par rapport à position par défaut
+    *   @param  {Number}  params.x          Idem que `offset_x` (sera détruit et remplacé)
     *   @param  {Number}  params.offset_y   Décalage avec la position normale par rapport à la portée
+    *   @param  {Number}  params.y          Même chose (sera détruit et remplacé)
     * @return {Object} L'instance du porteur (pour chainage)
     */
   harmony:function(texte, params)
   {
-    if(undefined == params) params = {}
+    params = change_x_y_to_offsets_in_params( params )
     params.type = harmony
     this.write(texte, params)
     
@@ -95,7 +105,7 @@ window.METHODES_TEXTE = {
     */
   cadence:function(texte, params)
   {
-    if(undefined == params) params = {}
+    params = change_x_y_to_offsets_in_params( params )
     if(params.type) params.sous_type = params.type
     params.type = cadence
     this.write(texte, params)
@@ -110,7 +120,7 @@ window.METHODES_TEXTE = {
     */
   modulation:function(texte, params)
   {
-    if(undefined == params) params = {}
+    params = change_x_y_to_offsets_in_params( params )
     params.type = modulation
     this.write(texte, params)
     return this
@@ -125,6 +135,7 @@ window.METHODES_TEXTE = {
   part:function(texte, params)
   {
     params = define_complete(params)
+    params = change_x_y_to_offsets_in_params( params )
     params.type = part
     this.write(texte, params)
     return this
@@ -139,7 +150,7 @@ window.METHODES_TEXTE = {
     */
   chord:function(accord, params)
   {
-    if(undefined == params) params = {}
+    params = change_x_y_to_offsets_in_params( params )
     params.type = chord
     this.write(accord, params)
     return this

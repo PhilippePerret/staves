@@ -3,6 +3,32 @@
   */
 
 /**
+  * Dans certaines méthodes, on utilise `x` à la place de `offset_x` et `y` à la place de
+  * `offset_y`. Cette méthode permet de corriger ça (note: ce n'est pas une erreur, c'est normal)
+  * en supprimant `x` et `y` dans les params
+  * @method change_x_y_to_offsets_in_params
+  * @for window
+  * @param  {Object} params Les paramètres éventuels
+  * @return {Object} Les nouveau paramètres corrigés ou un Hash vide.
+  *
+  */
+window.change_x_y_to_offsets_in_params = function(params)
+{
+  if(undefined == params) return {}
+  if(undefined !== params.x)
+  {
+    params.offset_x = parseInt(params.x)
+    delete params.x
+  }
+  if(undefined !== params.y)
+  {
+    params.offset_y = parseInt(params.y)
+    delete params.y
+  }
+  return params
+}
+
+/**
   * Méthode qui défini les paramètres +params+ en ajoutant l'objet donné en
   * deuxième argument.
   * @method define_params

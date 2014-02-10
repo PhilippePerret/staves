@@ -13,24 +13,36 @@ window.KEYPRESS_HORS_CONSOLE = function(evt)
   // (seulement si l'on ne se trouve pas dans un champ d'édition)
   if(!IN_TEXT_FIELD)
   {
-    if(evt.charCode == K_SPACE)
+    switch(evt.charCode)
     {
+    case K_SPACE :
+      /*
+       *  La touche ESPACE doit lancer l'animation ou l'arrêter
+       *  
+       */
       Anim.on ? Anim.stop(forcer = true) : Anim.start()
       return stop_event(evt)
-    }
-    else if (evt.charCode == K_TAB)
-    {
+    case K_TAB :
+      /*
+       *  La touche TABULATION doit focusser dans le code console
+       *  
+       */
       Console.console.focus()
-    }
-    else if( evt.charCode == Key_p && no_modifiers )
-    {
-      if(Anim.on)
-      {
+      return stop_event(evt)
+    case Key_p:
+      /*
+       *  La touche P doit mettre en pause ou sortir de la pause si
+       *  l'animation est en route.
+       *
+       */
+      if( no_modifiers && Anim.on ) {
         if(Anim.pause_on) Anim.restart()
         else              Anim.pause()
         return stop_event(evt)
-      } 
+      }
+      break
     }
+
   }
   else
   {
