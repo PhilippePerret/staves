@@ -480,7 +480,7 @@ CAPTION("Le premier accord FA LA DO est un accord de sous-dominante, mais c'est 
 CAPTION("Nous avons donc ici une cadence imparfaite dans le ton de la sous-dominante.")
 facoda.chord('F')
 facoda.cadence('I**', {type:imparfaite})
-
+WAIT_CAPTION
 
 # --- Mesure 33 : / Dm7 --- #
 
