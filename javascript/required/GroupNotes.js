@@ -73,6 +73,49 @@ window.METHODES_GROUPNOTES = {}
 /* On lui adjoint les méthodes universelles */
 $.extend(METHODES_GROUPNOTES, UNVERSAL_METHODS)
 
+/* ---------------------------------------------------------------------
+ *  MÉTHODES UTILISABLE SUR L'OBJET CHORD DANS LE CODE
+ *  
+ */
+$.extend(METHODES_GROUPNOTES,{
+  /**
+    * Destruction des notes (destruction de chaque note)
+    * @method build
+    */
+  remove:function(params)
+  {
+    params = define_wait(params, this, def_value = false)
+    this.remove_textes()
+    this.each_note(function(note){note.remove()})
+    traite_wait(params)
+  },
+  /**
+    * Méthode qui fantomize l'accord (donc fantômise toutes ses notes)
+    * @method fantomize
+    * @param {Object} params Paramètres optionnels
+    */
+  fantomize:function(params)
+  {
+    params = define_wait(params, this, def_value = false)
+    this.each_note(function(note){note.fantomize($.extend(params, {complete:false}))})
+    traite_wait(params)
+  },
+  /**
+    * Méthode qui dé-fantômise l'accord
+    * @method defantomize
+    * @param {Object} params  Paramètres optionnels
+    */
+  defantomize:function(params)
+  {
+    params = define_wait(params, this, def_value = false)
+    this.each_note(function(note){note.defantomize($.extend(params, {complete:false}))})
+    traite_wait(params)
+  }
+})
+/* ---------------------------------------------------------------------
+ *  MÉTHODE PROTECTED
+ *  
+ */
 $.extend(METHODES_GROUPNOTES,{  
   /**
     * Construction des notes (du motif ou de la gamme), soit en mode normal, soit

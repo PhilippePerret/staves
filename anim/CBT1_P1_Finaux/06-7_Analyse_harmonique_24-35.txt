@@ -183,7 +183,7 @@ fadim = CHORD('2:g2 2:eb3 a3 c4 fd4')
 WAIT_CAPTION
 
 # ---------------------------------------------------
-# Problème de la pédale de SOL
+# === Problème de la pédale de SOL
 # ---------------------------------------------------
 
 CAPTION("C'est la première fois que nous rencontrons explicitement 5 notes différentes pour constituer un accord.", {wait:true})
@@ -273,6 +273,10 @@ NEXT({var:'x_docad', x:40})
 STAFF(1).measure('32')
 docad = CHORD('2:c2 2:c3 g3 bb3 e4')
 
+# ---------------------------------------------------
+# === Détermination de la fin de la pédale
+# ---------------------------------------------------
+
 CAPTION("Avec ce dernier accord, nous pouvons déterminer la durée de la pédale.", {wait:true})
 CAPTION("Elle s'étire jusqu'au dernier accord qui l'utilise.", {wait:true})
 boxpedale.set({width:590})
@@ -293,6 +297,10 @@ fadim.note(2).move('2:eb3')
 
 
 boxpedale.remove({wait:false, duree:3})
+
+solsus7.fantomize()
+soldom.fantomize()
+docad.fantomize()
 
 # --- Mesure 29 : DO 4/6 ---
 
@@ -335,6 +343,9 @@ CAPTION("Un <u>appel</u>, lui, va se contenter de créer la tension — comme ic
 
 # --- Mesures 30 + 31 : SOLsus + SOL ---
 
+solsus7.defantomize()
+soldom.defantomize()
+
 CAPTION("Les deux accords suivants, mesures 30 et 31, nous les connaissons déjà.", {wait:true})
 boxdeux = BOX({type:cadre, color:blue, x:532, y:130, width:152, height:172})
 
@@ -358,6 +369,7 @@ CAPTION("Les deux sont à l'état fondamental, sur la pédale de SOL.", {wait:tr
 
 # --- Mesure 32 : C FIN ---
 
+docad.fantomize()
 SET_CURSOR(x_soldom)
 NEXT()
 extrait.travelling({x:3124, y:11, height:147})

@@ -64,18 +64,23 @@ window.define_duree = function(params, trans_id)
   *
   * @method define_wait
   * @for window
-  * @param {Undefined|Object} params    Les paramètres déjà définis ou non
-  * @param {Object} instance    L'instance appelant la méthode, de n'importe quelle classe.
+  * @param {Undefined|Object} params      Les paramètres déjà définis ou non
+  * @param {Object}           instance    L'instance appelant la méthode, de n'importe quelle classe.
+  * @param {Boolean|Number}   def_value   Optionnellement, la valeur par défaut à donner
   * @return {Object} Les paramètres avec éventuellement la propriété `wait` ajoutée.
   *
   */
-window.define_wait = function(params, instance)
+window.define_wait = function(params, instance, def_value)
 {
   if(undefined == params) params = {}
 
-  if(undefined !== instance.wait){
-    params.wait = instance.wait
-    delete instance.wait
+  if(undefined === params.wait){
+    if(undefined !== instance.wait)
+    {
+      params.wait = instance.wait
+      delete instance.wait
+    } 
+    else params.wait = def_value
   }
   
   return params

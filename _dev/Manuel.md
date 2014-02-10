@@ -934,6 +934,7 @@ Avec `<vitesse>` qui correspond à peu près au nombre de notes affichées par s
 * [Écrire l'harmonie](#write_harmony)
 * [Écrire une cadence](#write_cadence)
 * [Écrire une modulation](#chord_write_modulation)
+* [Fantomisation d'un accord](#chord_fantomize)
 * [Destruction d'un accord](#chord_remove)
 
 <a name="chord_creation"></a>
@@ -1031,6 +1032,17 @@ Une cadence est un texte. Cf. [Écrire une cadence](#text_cadence).
 
 Une marque de modulation est un texte. Cf. [Écrire une modulation](#text_modulation).
 
+<a name="chord_fantomize"></a>
+###Fantomisation d'un accord
+
+On peut fantômiser et défantômiser un accord avec les méthodes `fantomize` et `defantomize`&nbsp;:
+
+    <accord>.fantomize()
+    # => Transforme les notes de l'accord en fantôme de note
+    <accord>.defantomize()
+    # => Défantomise les notes de l'accord
+    
+  
 <a name="chord_remove"></a>
 ###Destruction d'un accord
 
