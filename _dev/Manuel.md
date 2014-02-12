@@ -2689,6 +2689,7 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
 * [Régler la position avant/arrière de l'objet](#bump_set_z)
 * [Régler la largeur de l'objet](#bump_set_width)
 * [Régler la hauteur de l'objet](#bump_set_height)
+* [Régler la rotation de l'objet](#bump_set_rotation)
 * [Régler la couleur de fond de l'objet](#bump_set_background)
 * [Régler la couleur alternative pour le dégradé](#bump_set_gradient)
 * [Régler l'opacité de l'objet (transparence)](#bump_set_opacity)
@@ -2714,11 +2715,17 @@ Tous les objets qui héritent de ces méthodes et propriétés peuvent les utili
       gradient    : {String} Couleur alternative pour le dégradé,
       opacity     : {Float}  Opacité,
       color       : {String} Couleur de la police ou du cadre,
+      rotation    : {Number} L'angle (en degrés) à donner à la boite
       # Pour la méthode `set`
+      x           : {Number} Position horizontale exacte
       offset_x    : {Number} Décalage horizontal
+      y           : {Number} Position verticale exacte
       offset_y    : {Number} Décalage vertical
+      width       : {Number} Largeur exacte
       offset_w    : {Number} Delta largeur (modification relative de la largeur)
+      height      : {Number} Hauteur exacte
       offset_h    : {Number} Delta hauteur (modification relative de la hauteur)
+      rotation    : {Number} Angle de rotation à donner
     })
 
 <a name="bump_all_methods"></a>
@@ -2809,6 +2816,16 @@ Par exemple :
 
 On peut obtenir cette valeur `height` à l'aide de l'[Outil “Coordonnées”](#outil_coordonnees).
 
+<a name="bump_set_rotation"></a>
+###Régler la rotation de l'objet
+
+On règle l'angle de rotation d'une boite à l'aide de la propriété `rotation`, qui définit l'angle à donner à la boite.
+
+Par exemple&nbsp;:
+
+    maBoite = BOX({x:100, y:50, width:50, height:50, rotation:-30})
+    # => Produit une boite inclinée de 30 degrés
+    
 <a name="bump_set_background"></a>
 ###Régler la couleur de fond de l'objet
 

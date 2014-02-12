@@ -136,25 +136,29 @@ CAPTION("Un développement qui va se déployer sur cette pédale de dominante, j
 boxpartie.set({x:254, width:284})
 WAIT_CAPTION
 
-CAPTION("Notez dans ce développement la parcours ascendant de la mélodie — presque par chromatisme — qui s'oppose au parcours général descendant, comme nous l'avons vu.")
+CAPTION("Notez dans ce développement le parcours ascendant de la mélodie — presque par chromatisme — qui s'oppose au parcours général descendant, comme nous l'avons vu.")
 boxmelodieDev = BOX({type:cadre, color:red, rotation:-4, y:386, x:222, height:20, width:212})
 WAIT_CAPTION
 
 CAPTION("Pour venir, sur la cadence parfaite dans le ton de la tonique, redonner une dernière fois le thème.", {wait:true})
 boxExpoFinal = BOX({type:cadre, color:green, x:446, y:380, width:124, height:20})
 
-CAPTION("Il semble décalé ici, mais c'est juste parce que j'ai découpé la mesure pour bien mettre en exergue la cadence, qui dans la pièce, est détournée dès la 5e croche.", {wait:true})
+CAPTION("Il semble décalé ici, mais c'est juste parce que j'ai découpé la mesure 32 pour bien mettre en exergue la cadence, qui dans la pièce, est détournée dès la 5e croche.", {wait:true})
 
-CAPTION("Et enfin, la CODA qui, comme je l'ai dit, semble faire la synthèse des arpèges ascendants et de la méodie descendante.", {wait:true})
-
+CAPTION("Et enfin, la CODA, sur une pédale de Tonique, qui semble faire, comme je l'ai déjà dit, la synthèse des arpèges ascendants et de la méodie descendante.")
 boxpartie.set({x:538, width:168})
+WAIT_CAPTION
 
 WAIT(2)
 
-CAPTION("Et nous en avons fini avec cette première analyse.", {wait:true})
-CAPTION("J'espère qu'elle vous aura donné l'envie d'en savoir plus et qu'elle vous donnera les stimuli nécessaires pour vous lancer.", {wait:true})
+CAPTION("Et nous en avons fini avec cette petite initiation à l'analyse musicale.", {wait:true})
+CAPTION("J'espère qu'elle vous aura intéressée et donné l'envie d'en savoir plus et qu'elle vous donnera les stimuli nécessaires pour vous lancer et aller plus loin encore.", {wait:true})
+
+CAPTION("Mine de rien, nous avons abordé de nombreuses notions ici, en tout cas, les principales que vous rencontrerez le plus souvent au fil des partitions.", {wait:true})
 
 WAIT(3)
 
-CAPTION("Si vous avez trouvé cet screencast intéressant, n'hésitez pas à l'aimer très très fort, et partagez-le avec toute personne qui pourrait être intéressée par son contenu. Un grand merci d'avance à vous !", {wait:true})
+CAPTION("Si vous avez trouvé cet screencast intéressant, n'hésitez pas à l'aimer très très fort, et n'hésitez pas à le partager avec toute personne qui pourrait être intéressée elle aussi. Un grand merci d'avance à vous !", {wait:true})
+
+CAPTION("Et bon courage pour la suite !!!", {wait:true})
 
