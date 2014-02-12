@@ -68,7 +68,6 @@ div.text.modulation div.mark_modulation {
   position          : absolute;
   top               : -18px;
   left              : -16px;
-  min-width         : 56px;
   border-bottom     : 2px solid;
   transform         : rotate(-38deg);
   transform-origin  : 0 0 0;

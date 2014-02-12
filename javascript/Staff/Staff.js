@@ -134,6 +134,7 @@ $.extend(Staff,{
     if( undefined == params.y )
     {
       lower_staff = this.get_lower_staff()
+      if(undefined !== params.offset_y) params.offset = params.offset_y
       return lower_staff ?
               lower_staff.top + Anim.prefs.staff_offset + (params.offset ? params.offset : 0)
               : Anim.prefs.staff_top

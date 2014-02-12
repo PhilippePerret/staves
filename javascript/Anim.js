@@ -282,6 +282,11 @@ $.extend(window.Anim,{
       */
     modulation_y      :50,
     /**
+      * Longueur du trait de la modulation
+      * @property {Number} modulation_width
+      */
+    modulation_width  :56,
+    /**
       * Décalage horizontal de la marque de modulation par rapport à l'objet
       * porteur.
       * @property {Number} part_x

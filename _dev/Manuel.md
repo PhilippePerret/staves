@@ -542,17 +542,13 @@ Cf. [Réglage de la position next](#prefs_set_next)
 <a name="move_cursor_to_depart"></a>
 ###Revenir au début des portées (RESET_CURSOR)
 
-Pour revenir au début des portées, on peut bien entendu utiliser la commande précédente avec un nombre négatif. Si l'on se trouve à la position 500, il suffit d'indiquer&nbsp;:
-
-    NEXT(-500)
-
-… pour se replacer au début.
-
-Mais une commande permet d'effecter ce retour plus simplement, sans connaitre la position courante&nbsp;:
+Pour repartir au début de la portée (en tenant compte des réglages par défaut, de l'armure et de la métrique)&nbsp;:
 
     RESET_CURSOR
 
-Cela remet automatiquement le curseur au début, donc à gauche, en tenant compte des altérations et métriques que peuvent contenir les portées.
+Bien sûr, on peut aussi utiliser la commande précédente avec un nombre négatif. Si l'on se trouve à la position 500, il suffit d'indiquer&nbsp;:
+
+    NEXT(-500)
 
 *Pour modifier cette position de début, utiliser la commande `DEFAULT('x_start', <nouvelle valeur>)` (cf. [Réglage de la position horizontale initiale (curseur)](#prefs_x_start)).*
 
@@ -1136,6 +1132,7 @@ Pour créer une portée, utiliser le pas&nbsp;:
   
     NEW_STAFF(<cle>, {
       (*)   offset    : decalage vertical par rapport à précédente (pixels),
+            offset_y  : identique à `offset`
             y         : la position verticale précise (au lieu de `offset`)
             x         : la position horizontale précise (bord gauche par défaut)
             width     : la largeur de la portée (tout l'écran par défaut)
@@ -3177,7 +3174,7 @@ On peut utiliser aussi la commande spéciale&nbsp;:
 Pour déterminer facilement la valeur, cf. [Astuces pour le réglage des positions](#prefs_tips_reglage).
 
 <a name="prefs_position_modulation"></a>
-###Position de la marque de modulation
+###Réglage de la marque de modulation
 
 Pour placer la marque de modulation, on peut utiliser pour la position verticale et la position horizontale une valeur absolue ou une valeur relative (relative aux positions actuelles).
 
@@ -3209,6 +3206,14 @@ Pour modifier la position relativement à la position courante&nbsp;:
     DEFAULT('offset_modulation_y', <décalage par rapport à la position courante>)
 
 Un nombre positif baissera la marque, un nombre négative la remontera.
+
+**Régler la longueur du trait oblique**
+
+    DEFAULT('modulation_width', <nombre de pixels>)
+
+Ou&nbsp;:
+
+    DEFAULT({modulation_width: <nombre de pixels>})
 
 <a name="prefs_note_size"></a>
 ###Réglage de la taille des notes

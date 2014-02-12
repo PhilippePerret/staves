@@ -247,6 +247,7 @@ $.extend(Txt.prototype,{
       var val = my['real_'+key]
       if(val != null) dpos[key_css] = val + 'px'
     })
+    
     // dlog("Données CSS de position du texte :");dlog(dpos)
     this.obj.css(dpos)
     this.positionne_texte_before()
@@ -310,7 +311,8 @@ $.extend(Txt.prototype,{
       break
     case modulation:
       Txt.traite_texte_type_harmony(this)
-      this.texte_main = '<div class="mark_modulation">'+(this.texte_main||"")+'</div>'
+      var sty = 'width:'+Anim.prefs.modulation_width+'px;'
+      this.texte_main = '<div class="mark_modulation" style="'+sty+'">'+(this.texte_main||"")+'</div>'
       break
     case part:
       Txt.traite_texte_type_harmony(this)
