@@ -17,7 +17,7 @@ window.UI.Popups = {
     */
   Methods:{
     /* ---------------------------------------------------------------------
-     *  Menu "Fichier"
+     *  MENU "FICHIER"
      *  
      */
     
@@ -66,7 +66,7 @@ window.UI.Popups = {
       Anim.set_current_as_default()
     },
     /* ---------------------------------------------------------------------
-     *  Menu "Options"
+     *  MENU "OPTIONS"
      *  
      */
     /**
@@ -168,6 +168,17 @@ window.UI.Popups = {
         Console.clear_commandes_flash()
         F.show("Le code a été nettoyé, il peut être enregistré.")
       }
+    },
+    /**
+      * Exporter le doublage ou les sous-titres
+      * @method exporter
+      * @param  {jQuerySet} item    L'item de menu
+      * @param  {String}    what    Ce qu'il faut exporter ("doublage" ou "soustitres")
+      */
+    exporter:function(item, what)
+    {
+      if(what == 'doublage')  Caption.export_doublage()
+      else                    Caption.export_sous_titres()
     },
     /**
       * Afficher le manuel

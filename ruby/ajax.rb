@@ -72,11 +72,7 @@ begin
   
   # Prendre les données envoyées
   Params::init(ARGV[0])
-  
-  # Si la collection est fournie, on la définit comme
-  # collection courante
-  Collection::choose(param :collection) unless (param :collection).nil?
-  
+    
   # Petite sécurité 
   if param :name
     raise "Pirate ! (#{(param :name).length})" if (param :name).length > 60

@@ -65,6 +65,9 @@
     <li data-item="infos">Afficher les mesures courantes</li>
     <li data-item="autocompletion">Afficher les données complétion</li>
     <li class="separateur"></li>
+    <li data-item="exporter::doublage">Exporter le doublage</li>
+    <li data-item="exporter::soustitres">Exporter les sous-titres</li>
+    <li class="separateur"></li>
     <li data-item="manual">Manuel d'utilisation</li>
     <li class="last"></li>
   </ul>

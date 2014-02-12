@@ -1471,7 +1471,8 @@ Pour ce faire, il faut impérativement utiliser&nbsp;:
 * [Définir les positions des textes](#set_position_texte)
 * [Supprimer un texte](#supprimer_texte)
   * [Supprimer le texte d'un objet](#supprimer_texte_objet)
-
+* [Exporter le texte de l'animation](#exporter_doublage)
+* [Exporter les sous-titres de l'animation](#exporter_sous_titres)
 
 <a name="intro_textes"></a>
 ###Introduction
@@ -2106,6 +2107,24 @@ En revanche, si on utilise&nbsp;:
     maNote.texte['regular'].remove()
 
 … alors l'objet sera vraiment détruit.
+
+
+<a name="exporter_doublage"></a>
+###Exporter le doublage d'une animation
+
+On peut exporter tout le doublage d'une animation dans un unique fichier grâce au menu «&nbsp;Outils > Exporter le doublage&nbsp;».
+
+Le texte est alors placé dans un fichier portant le même nom que l'animation, avec “-dbl” ajouté au nom.
+
+Noter que seuls les textes de doublage sous exporté, pas sous-titres. Pour exporter les sous-titres, cf. la section suivante.
+
+
+<a name="exporter_sous_titres">
+###Exporter les sous-titres de l'animation
+
+On peut exporter tous les sous-titres de l'animation dans un unique fichier grâce au menu «&nbsp;Outils > Exporter les sous-titres&nbsp;».
+
+Les sous-titres sont placés dans un fichier portant le même nom que l'animation, avec "-stt" ajouté au nom.
 
 ---------------------------------------------------------------------
 

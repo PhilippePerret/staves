@@ -160,6 +160,18 @@ class Anim
   def relpath_sans_ext
     @relpath ||= File.join(@folder, @name)
   end
+  
+  # Path du fichier contenant seulement les doublages
+  # 
+  def path_doublage
+    @path_doublage ||= File.join(self.class.folder, @folder, "#{name}-dbl.txt")
+  end
+  
+  # Path du fichier contenant seulement les sous-titres
+  # 
+  def path_sous_titres
+    @path_doublage ||= File.join(self.class.folder, @folder, "#{name}-stt.txt")
+  end
 
   def path
     @path ||= File.join(self.class.folder, @folder, "#{name}.txt")
