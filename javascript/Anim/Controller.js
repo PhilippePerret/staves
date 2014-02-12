@@ -38,6 +38,7 @@ $.extend(Anim,{
     }
     else
     { 
+      
       // === DÉMARRAGE DE L'ANIMATION ===
       
       this.reset()
@@ -51,10 +52,14 @@ $.extend(Anim,{
         case 'cursor'     : return Console.steps_from_cursor
         }
       }(this.play_type)
-      if(this.Step.list)
+      if( this.Step.list )
       {
         Img.get_taille_all_images.complete = $.proxy(this.post_start, this)
         Img.get_taille_all_images()
+      }
+      else
+      {
+        F.error("Je n'ai pu trouver aucune étape…")
       }
     } 
   },

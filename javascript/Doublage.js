@@ -12,18 +12,17 @@
 window.Caption = {
   
   /**
-    * Exporter les doublages dans un fichier
-    * En fait, tout se passe en ruby, c'est une simple requête qui est envoyée
-    * @method export_doublage
+    * Exporter les doublages ou les sous-titres
+    * @method export
     */
-  export_doublage:function(rajax)
+  export:function(type, rajax)
   {
     if(undefined == rajax)
     {
-      F.show("Création du fichier doublage. Merci de patienter…")
+      F.show("Création du fichier "+type+". Merci de patienter…")
       Ajax.send(
-        {script:'export/doublage', name:Anim.File.name, folder:Anim.File.folder},
-        $.proxy(this.export_doublage, this)
+        {script:'export/'+type, name:Anim.File.name, folder:Anim.File.folder},
+        $.proxy(this.export, this, type)
       )
     }
     else
@@ -32,18 +31,8 @@ window.Caption = {
       if(false == rajax.ok) F.error(rajax.message)
       else
       {
-        F.show("Le doublage a été exporté avec succès dans le fichier "+rajax.file)
+        F.show("Le "+type.replace(/_/, '-')+" a été exporté avec succès dans le fichier "+rajax.file)
       }
     }
-  },
-  /**
-    * Exporter les sous-titres dans un fichier
-    * La procédure est exécutée en ruby
-    * @method export_sous_titres
-    */
-  export_sous_titres:function()
-  {
-    F.show("L'export des sous-titres n'est pas encore implémenté.")
-  }
-  
+  }  
 }

@@ -177,8 +177,7 @@ window.UI.Popups = {
       */
     exporter:function(item, what)
     {
-      if(what == 'doublage')  Caption.export_doublage()
-      else                    Caption.export_sous_titres()
+      Caption.export(what)
     },
     /**
       * Afficher le manuel

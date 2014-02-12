@@ -562,7 +562,7 @@ $.extend(Img.prototype,{
     } 
     else if(this.positionne.bad_height)
     {
-      F.error("[Img.positionne] Problème avec le calcul de Height. Voilà les infos :")
+      console.error("[Img.positionne] Problème avec le calcul de Height. Voilà les infos :")
       dlog({
         cadre_height: this.cadre_height,
         height : this.height,

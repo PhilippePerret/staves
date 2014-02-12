@@ -35,6 +35,22 @@ $.extend(Img,{
     * @property {Object} images
     */
   list:{},
+  
+  /**
+    * Retourne l'instance de l'image absolue d'identifiant +id_abs+
+    * @method get_abs
+    * @param {String} id_abs
+    * @return {Img} L'instance de l'image
+    */
+  get_abs:function(id_abs){return this.abs_list[id_abs]},
+  /**
+    * Retourne l'instance de l'image (non absolue) d'identifiant +id+
+    * @method get
+    * @param {String} id Identifiant de l'image
+    * @return {Img} L'instance de l'image
+    */
+  get:function(id){return this.list[id]},
+  
   /**
     * Retourne l'identifiant pour l'url +url+
     * @method idAbsFromUrl
@@ -183,6 +199,8 @@ $.extend(Img,{
     else if(this.abs_timer) clearTimeout(this.abs_timer)
     
     var len = this.absids_images_not_traited.length
+    if(len == 0) return this.end_get_taille_all_images()
+
     var new_list = []
     for(var i=0; i<len; ++i)
     {
@@ -196,7 +214,31 @@ $.extend(Img,{
       }
     }
     if(new_list.length)
-    { // => Il reste des images dont on n'a pas la taille
+    {
+      /*
+        * Si on passe par ici, c'est qu'il reste des images dont on n'a pas la taille.
+        * Mais il est possible que l'image n'existe pas, et dans ce cas, on risque la boucle
+        * infinie. Donc on maintient deux variables qui vont permettre de checker les choses :
+        * - Une variable pour savoir le nombre de fois qu'on est passé ici avec le même nombre
+        *   d'image à checker
+        * - Une variable pour savoir le nombre d'images à checker
+        */
+      if( new_list.length == this.nombre_images_to_treat && this.loop_times_treat_image > 10 )
+      {
+        var list_path = L(new_list).collect(function(idabs){return Img.get_abs(idabs).url})
+        F.error("Impossible d'obtenir les dimensions de ces images (vérifier leur existence) :"+
+        (list_path.join('<br />')))
+        return this.end_get_taille_all_images()
+      }
+      else if( new_list.length == this.nombre_images_to_treat )
+      {
+        ++ this.loop_times_treat_image
+      } 
+      else
+      {
+        this.nombre_images_to_treat = new_list.length
+        this.loop_times_treat_image = 0
+      } 
       // => On rappelle cette méthode après un court instant
       this.absids_images_not_traited = new_list
       this.abs_timer = setTimeout($.proxy(this.get_taille_all_images, this), 200)
@@ -205,8 +247,15 @@ $.extend(Img,{
     {
       // C'est la fin, on a pu relever la taille de toutes les images
       this.remove_images_absolues()
-      if(this.get_taille_all_images.complete) this.get_taille_all_images.complete()
+      return this.end_get_taille_all_images()
     }
+  },
+  /**
+    * Méthode appelée pour finir la relève des tailles des images
+    */
+  end_get_taille_all_images:function()
+  {
+    if(this.get_taille_all_images.complete) this.get_taille_all_images.complete()
   },
   /**
     * Méthode qui détruit tous les objets DOM des images absolues après
