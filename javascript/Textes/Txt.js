@@ -527,7 +527,7 @@ Object.defineProperties(Txt.prototype,{
         case part:
           this._x += Anim.prefs.part_x
         case measure:
-          this._x -= 30
+          this._x -= Anim.prefs.num_measure_x + Anim.prefs.offset_num_measure_x
           break
         default:
         }

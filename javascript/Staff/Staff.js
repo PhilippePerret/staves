@@ -23,7 +23,7 @@ window.Staff = function(params)
     * @property {Number} left
     * @default 0
     */
-  this.left = 20
+  this.left = Anim.prefs.staff_left
   
   /**
     * Indice (1-start) de la portée dans l'animation

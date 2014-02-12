@@ -460,7 +460,7 @@ Par exemple&nbsp;:
     NEXT() 
     // => les notes suivantes s'écriront 40px plus à droite
 
-On peut également effectuer un déplacement précis en indiquant le nombre de pixels en argument.
+On peut également effectuer un déplacement d'un nombre de pixels précis en indiquant le nombre de pixels en argument.
 
     NEXT([<nombre pixels>])
 
@@ -468,6 +468,26 @@ Par exemple, pour déplacer le curseur de position de 100px vers la gauche (donc
 
     NEXT(-100)
     // => les notes suivantes s'écriront 100px plus à gauche
+  
+On peut enfin demander un décalage par rapport à la position `NEXT` “naturelle”&nbsp;:
+
+    NEXT({offset_x:<nombre de pixels>})
+
+Cela décalera la position suivante naturelle de `<nombre de pixels>` pixels. Par exemple, si le pas est de 50 pixels et que je me trouve à 100px :
+  
+    NEXT()
+    # => me placera à 100 + 50 = 150 px
+    ...
+    NEXT()
+    # => me placera à 150 + 50 = 200 px
+    ...
+    NEXT({offset_x:20})
+    # => me placera à 200 + 50 + 20 = 270
+    ...
+    NEXT()
+    # => me placera à 270 + 50 = 320 px
+  
+Les valeurs négatives sont bien sûr possibles.
 
 Noter qu'il est aussi possible de récupérer la valeur `x` résultat de ce NEXT, pour un usage immédiat ou un usage futur en passant la propriété `var` dans l'argument envoyé à la méthode.
 
@@ -3003,6 +3023,18 @@ Pour remettre la valeur par défaut&nbsp;:
     
 *Noter que si cette valeur est modifiée en cours d'animation (à la volée), cela affectera la position des portées suivantes.*
 
+**Pour régler la position horizontale par défaut** (décalage par rapport à la marge gauche)
+
+    DEFAULT('staff_left', <nombre pixels>)
+  
+Ou&nbsp;:
+
+    DEFAULT({staff_left: <nombre pixels>})
+
+Pour remettre la valeur par défaut&nbsp;:
+
+    DEFAULT('staff_left')
+  
 **Pour régler l'espace vertical entre les portées&nbsp;:**
 
     DEFAULT('staff_offset', <nombre de pixels>)

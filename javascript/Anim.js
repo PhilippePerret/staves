@@ -194,10 +194,16 @@ $.extend(window.Anim,{
       * @default 2
       */
     decompte          :2,
+    
+    /**
+      * Décalage horizontal des portées, par défaut
+      * @property {Number} staff_left
+      */
+    staff_left        :40,
     /** Décalage haut de la première portée affichée
       * @property {Number} staff_top 
       */
-    staff_top         :60,
+    staff_top         :20,
     /** Décalage entre portée
       * @property {Number} staff_offset 
       */
@@ -252,6 +258,13 @@ $.extend(window.Anim,{
       * @property {Number} num_measure_y
       */
     num_measure_y     :22, //-8,
+    /**
+      * Position horizontale du numéro de mesure (par rapport aux x des notes)
+      * Plus le nombre est grand, plus le numéro est placé à gauche (donc il est toujours considéré
+      * en négatif)
+      * @property {Number} num_measure_x
+      */
+    num_measure_x     :30,
     /**
       * Décalage de la marque d'accord par rapport à la portée.
       * @property {Number} chord 
@@ -381,6 +394,7 @@ $.extend(window.Anim,{
   prefs:{
     decompte        :null,
     staff_top       :null,
+    staff_left      :null,
     staff_offset    :null,
     staff_top_text  :null,
     staff_text_up   :null,
@@ -409,6 +423,7 @@ $.extend(window.Anim,{
     offset_modulation_x   :0,
     offset_part_y         :0,
     offset_part_x         :0,
+    offset_num_measure_x  :0,
     offset_num_measure_y  :0
   },
 

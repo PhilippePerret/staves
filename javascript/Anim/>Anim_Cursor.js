@@ -19,8 +19,9 @@ window.Anim.Cursor = {
     *
     * @method next
     * @param  {Number|Object} params Décalage par rapport à la position courante ou objet contenant `x` et optionnellement `var`
-    *   @param  {Number} params.x   Le décalage horizontal par rapport à la position courante
-    *   @param  {String} params.var Le nom de la variable dans laquelle mettre la nouvelle position.
+    *   @param  {Number} params.x           Le décalage horizontal par rapport à la position courante
+    *   @param {Number}  paramx.offset_x    OU le décalage par rapport à la position suivante naturelle
+    *   @param  {String} params.var         Le nom de la variable dans laquelle mettre la nouvelle position.
     * @return {Number} La position actuelle
     */
   next:function(param)
@@ -38,7 +39,12 @@ window.Anim.Cursor = {
     else if( undefined == param.x) param.x = default_offset
     
     var position_courante = Anim.current_x + param.x
+    
+    if(undefined != param.offset_x) position_courante += param.offset_x
+    
+    // == On fixe la position courante ==
     this.set( position_courante )
+    
     if(undefined != param.var) window[param.var] = position_courante
     return position_courante
   },
