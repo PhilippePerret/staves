@@ -9,10 +9,26 @@ window.IN_CONSOLE    = false
 window.KEYPRESS_HORS_CONSOLE = function(evt)
 {
   var no_modifiers = !evt.metaKey && !evt.altKey && !evt.ctrlKey
-  // Mettre en route ou arrêter l'animation avec la barre espace
+
   // (seulement si l'on ne se trouve pas dans un champ d'édition)
   if(!IN_TEXT_FIELD)
   {
+    /* KEY CODE */
+    switch(evt.keyCode)
+    {
+    case K_RIGHT_ARROW : 
+      /*
+       *  En mode Pas à pas, la touche "->" doit permettre de passer au pas suivant
+       *  
+       */
+      if(Anim.Step.mode_pas_a_pas)
+      {
+        Anim.Step.next()
+        return stop_event(evt)
+      } 
+      break
+    }
+    /* CHAR CODE */
     switch(evt.charCode)
     {
     case K_SPACE :

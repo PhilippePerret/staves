@@ -41,7 +41,7 @@ STAFF(1).remove_supline({bottom:1})
 WAIT_CAPTION
 
 CAPTION("Et j'obtiens l'accord DO MI SOL SI bémol, donc un accord de 7e de dominante.", {wait:true})
-acc.chord('C7', {y:-14})
+acc.chord('C7', {y:-8})
 CAPTION("C = Do / 7 = 7e mineure<br>Accord Majeur + 7e mineure = Accord de dominante", true)
 WAIT(2)
 
@@ -60,7 +60,7 @@ WAIT_CAPTION
 CAPTION("Plusieurs éléments peuvent le confirmer, comme nous le verrons, et notamment l'usage d'une longue pédale de Ve degré en DO.", {wait:true})
 
 CAPTION("Mais il reste plus raisonnable de marquer simplement ici que nous rentrons certainement dans une phase de développement.", {wait:true})
-acc.part("Développement",{x:-12})
+acc.part("Développement",{x:-12, y:4})
 
 # Effacer le sous-titre
 CAPTION("", true)
@@ -77,7 +77,7 @@ WAIT_CAPTION
 
 CAPTION("Ce FA produit une cadence parfaite, qui plus est sur un accord de 7e Majeure, ce qui renforce encore, je trouve, cette impression bizarre de Coda.")
 
-acc.chord('F7M')
+acc.chord('F7M', {y:-8})
 acc.cadence('I', {type:parfaite, width:100})
 
 WAIT(3)
@@ -107,9 +107,9 @@ acc.harmony('VII7dim')
 acc.note(1).move('2:fd2')
 acc.note(2).move('2:c3')
 acc.note(3).move('1:a3')
-acc.note(4).fantomize()
+acc.note(4).defantomize()
 acc.note(5).move('1:eb4')
-STAFF(2).remove_supline({top:1})
+STAFF(2).remove_supline({top:[1,2]})
 
 WAIT_CAPTION
 
