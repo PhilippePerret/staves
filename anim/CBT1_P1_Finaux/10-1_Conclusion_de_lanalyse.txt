@@ -20,8 +20,9 @@ DEFAULT('caption_timer', true)
 # A priori je n'en ai pas besoin mais je préfère la remettre
 # extrait=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/longueur-20-35.png', x:220, y:370, width:3884, height:161, inner_x:1691, inner_y:15, cadre_width:303, cadre_height:136, hidden:true})
 
-mes0111 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-01-11.png', x:0, y:0, width:663, height:168.53415453527435, inner_x:0, inner_y:0, cadre_width:659, cadre_height:166})
-mes1219 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-12-19.png'})
-mes2435 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-24-35.png', x:0, y:0, width:750, height:255.6, inner_x:0, inner_y:0, cadre_width:747, cadre_height:251}) 
+mes0111 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-01-11.png', x:0, y:0, width:"20%", inner_x:0, inner_y:0, cadre_width:659, cadre_height:166})
+#mes1219 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-12-19.png', x:0, y:0, width:644, height:252, inner_x:0, inner_y:0, cadre_width:598, cadre_height:249})
+#mes2024 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-20-24.png', x:0, y:0, width:365, height:237, inner_x:0, inner_y:0, cadre_width:361, cadre_height:233})
+#mes2435 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-24-35.png', x:0, y:0, width:750, height:255.6, inner_x:0, inner_y:0, cadre_width:747, cadre_height:251}) 
 
 CAPTION("Essayons de résumer ce que nous venons de voir.", {wait:true})

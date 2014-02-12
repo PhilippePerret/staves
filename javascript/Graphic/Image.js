@@ -48,13 +48,13 @@ window.Img = function(params)
     * Position horizontale de l'image
     * @property {Number} x
     */
-  this.x = null
+  this.x = 0
 
   /**
     * Position verticale de l'image
     * @property {Number} y
     */
-  this.y = null
+  this.y = 0
   
   /**
     * Largeur de l'image (ie du div la contenant)
@@ -153,7 +153,7 @@ window.Img = function(params)
     {
       this.calc_width_and_height_from_zoom()
     }
-    else if(!this.width  || this.width  == auto || !this.height || this.height == auto)
+    else
     {
       this.calc_width_and_height()
     }
@@ -479,28 +479,73 @@ $.extend(Img.prototype,{
     this.height = dims.height
   },
   /**
-    * Lorsque qu'une des deux valeurs width ou height n'est pas fournie au cours
-    * de l'animation, on la calcule avec cette méthode.
+    * La méthode est appelée systématiquement à l'instanciation de l'image. Elle permet
+    * de définir les valeurs manquantes (width ou height) ou de les calculer si elles ont
+    * été transmises par pourcentage.
     * @method calc_width_and_height
     */
   calc_width_and_height:function()
   {
+    var dsize = this.real_width_and_height(this.width, this.height)
+    this.width  = dsize.width
+    this.height = dsize.height
+    
+
+  },
+  /**
+    * Méthode qui prend les paramètres w et h, quels qu'ils soient, et retourne les
+    * valeur en fonction de leur valeur.
+    * @method real_width_and_height
+    * @param {Any} w  La largeur fournie, peut être un nombre, 'auto', un pourcentage ou non défini
+    * @param {Any} h  La hauteur fournie, peut être un nombre, 'auto', un pourcentage ou non défini
+    * @return {Object} Un objet contenant `width` et `height`
+    */
+  real_width_and_height:function(w, h)
+  {
+    var w_is_defined = w && 'number' == typeof w
+    var h_is_defined = h && 'number' == typeof h
+
+    if( w_is_defined && h_is_defined ) return {width:w, height:h}
+
     // L'image absolue de référence
     var abs_image = Img.abs_list[this.abs_id]
     // Le rapport image
     var rapport   = abs_image.rapport
     
-    // Hauteur d'après largeur fournie
-    if(this.width && this.width != auto)   this.height = this.width * rapport
-    // Largeur d'après hauteur fournie
-    else 
-    if(this.height && this.height != auto) this.width  = this.height / rapport
-    else
-    { // => les deux valeurs sont à auto, ou non définies
-      this.width  = abs_image.width
-      this.height = abs_image.height
+    if( false == w_is_defined )
+    {
+      if('string' == typeof w && w.indexOf('%') > -1)
+      {
+        var pourcentage = parseInt( w )
+        w = parseInt( abs_image.width * pourcentage / 100 )
+      }
+      else
+      {
+        w = null
+      }
     }
+    
+    if( false == h_is_defined)
+    {
+      if('string' == typeof h && h.indexOf('%') > -1)
+      {
+        var pourcentage = parseInt( h )
+        h = parseInt( abs_image.height * pourcentage / 100 )
+      }
+      else
+      {
+        h = null
+      }
+    }
+    
+    if( w === null ) w = parseInt( h !== null ? h / rapport : abs_image.width )
+    
+    // @note : Ici, width est forcément défini
+    if( h === null ) h = parseInt( w * rapport )
+   
+    return {width: w, height: h}
   },
+  
   /** Méthode qui relève le `width` et le `height` de l'image dans son
     * inscription hors écran. Return false si l'image n'est pas encore
     * chargée et que sa taille ne peut être relevée. Sinon, renseigne

@@ -1,3 +1,5 @@
+* Manuel (ou tutoriel) : utilisation du mode pas à pas pour faire avancer très vite l'animation
+
 TBOX
   Je suis en train de travailler la méthode set
   - préparer des tests
