@@ -41,7 +41,7 @@ STAFF(1).remove_supline({bottom:1})
 WAIT_CAPTION
 
 CAPTION("Et j'obtiens l'accord DO MI SOL SI bémol, donc un accord de 7e de dominante.", {wait:true})
-acc.chord('C7')
+acc.chord('C7', {y:-14})
 CAPTION("C = Do / 7 = 7e mineure<br>Accord Majeur + 7e mineure = Accord de dominante", true)
 WAIT(2)
 
@@ -60,7 +60,7 @@ WAIT_CAPTION
 CAPTION("Plusieurs éléments peuvent le confirmer, comme nous le verrons, et notamment l'usage d'une longue pédale de Ve degré en DO.", {wait:true})
 
 CAPTION("Mais il reste plus raisonnable de marquer simplement ici que nous rentrons certainement dans une phase de développement.", {wait:true})
-acc.part("Développement", {x:117, y:65})
+acc.part("Développement",{x:-12})
 
 # Effacer le sous-titre
 CAPTION("", true)

@@ -97,7 +97,7 @@ Txt.prototype.constructor = Txt
  */
 $.extend(Txt, {
   /**
-    * Traite un texte quelconque de type harmonie, accord, cadense, harmony
+    * Traite un texte quelconque de type harmonie, accord, cadence, harmony
     * ou modulation
     * La méthode ne retourne QUE le renversement éventuel trouvé et renseigne
     * les valeurs de l'instance fournie en premier argument :
@@ -123,14 +123,17 @@ $.extend(Txt, {
     var renversement = res.renversement // toujours défini
     itxt.texte_main  = res.texte
     // Chiffrage et fausses lignes
-    var me = this // Attention : la classe Txt, pas l'instance du texte
-    L(['texte_main', 'texte_before', 'texte_after']).each(function(prop){
-      if(itxt[prop])
-      {
-        itxt[prop] = me.traite_chiffrage_in(itxt[prop])
-        itxt[prop] = me.traite_fausse_ligne_in(itxt[prop])
-      } 
-    })
+    if(itxt.type != 'part')
+    {
+      var me = this // Attention : la classe Txt, pas l'instance du texte
+      L(['texte_main', 'texte_before', 'texte_after']).each(function(prop){
+        if(itxt[prop])
+        {
+          itxt[prop] = me.traite_chiffrage_in(itxt[prop])
+          itxt[prop] = me.traite_fausse_ligne_in(itxt[prop])
+        } 
+      })
+    }
     // dlog("itxt.texte_main ("+itxt.id+":"+itxt.type+") FIN :"+itxt.texte_main)
     return renversement
   },
@@ -364,6 +367,7 @@ Object.defineProperties(Txt.prototype,{
     * Ce type peut être (pour le moment)
     *   - harmony   Un texte pour un chiffrage d'harmonie
     *   - chord     Un accord
+    *   - part      Une partie
     *   - finger    Un doigté
     * @property {String} type
     */
