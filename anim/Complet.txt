@@ -1,5 +1,4 @@
-# Nouvelle animation
-# Écrire le code ici
+# --- HARMONIE DE LA PREMIÈRE PARTIE DU PRÉLUDE ---
 
 DEFAULT('screensize', 610)
 DEFAULT('decompte', 0)
@@ -7,7 +6,7 @@ DEFAULT('next', 50)
 DEFAULT('harmony', -8)
 DEFAULT('staff_left', 0)
 DEFAULT('x_start', 80)
-DEFAULT('staff_top', 88)
+DEFAULT('staff_top', 130)
 DEFAULT('chord', 38)
 DEFAULT('staff_harmony', 2)
 # On place le numéro de mesure plus près de l'accord
@@ -105,7 +104,7 @@ STAFF(1).measure('12')
 NEXT(16)
 acc = CHORD('2:g3 2:bb3 e4 g4 cd5')
 acc.chord('C#7°')
-acc.modulation('Rém[II de Do]')
+acc.modulation('Rém[II de Do]', {offset_x:-8})
 acc.harmony('VII**')
 
 NEXT()
@@ -134,14 +133,14 @@ acc.cadence('I*', {width:60, type:imparfaite})
 NEXT()
 
 STAFF(1).measure('16')
-acc = CHORD('2:e3 2:f3 a3 c4 f5')
+acc = CHORD('2:e3 2:f3 a3 c4 f4')
 acc.chord('F7M')
 acc.harmony('IV***')
 
 NEXT()
 
 STAFF(1).measure('17')
-acc = CHORD('2:d3 2:f3 a3 c4 f5')
+acc = CHORD('2:d3 2:f3 a3 c4 f4')
 acc.chord('Dm7')
 acc.harmony('II7')
 
@@ -152,143 +151,10 @@ acc = CHORD('2:g2 2:d3 g3 b3 f4')
 acc.chord('G7')
 acc.harmony('V7')
 
-STOP_FLASH
-
 NEXT()
 
 STAFF(1).measure('19')
 acc = CHORD('2:c3 2:e3 g3 c4 e4')
 acc.chord('C')
 acc.cadence('I', {width:110, type:parfaite})
-
-# ===================================================
-# --- Deuxième système ---
-# ===================================================
-
-# Nouvelles valeurs par défaut
-DEFAULT('staff_harmony', 4)
-DEFAULT('harmony', 16)
-DEFAULT('x_start', 70)
-
-RESET_CURSOR
-NEW_STAFF(SOL, {offset_y:92})
-NEW_STAFF(FA)
-ACTIVE_STAFF(3)
-
-STAFF(3).measure('20')
-NEXT(10)
-acc = CHORD('4:c3 4:g3 bb3 c4 e4')
-acc.chord('C7')
-acc.modulation('Fa[IV de DO]')
-acc.harmony('V7')
-
-NEXT()
-STAFF(3).measure('21')
-acc = CHORD('4:f2 4:f3 a3 c4 e4')
-acc.chord('F7M')
-acc.cadence('I', {width:60, type:parfaite})
-
-NEXT()
-STAFF(3).measure('22')
-NEXT(10)
-acc = CHORD('4:fd2 4:c3 a3 c4 eb4')
-acc.chord('F#7°')
-acc.modulation('Sol[V de DO]')
-acc.harmony('VII7°')
-
-NEXT()
-STAFF(3).measure('23')
-NEXT(10)
-acc = CHORD('4:ab2 4:f3 b3 d4')
-acc.chord('B7°')
-acc.modulation('Do')
-acc.harmony('VII7°***')
-
-NEXT()
-STAFF(3).measure('24')
-acc = CHORD('4:g2 4:f3 g3 b3 d4')
-acc.chord('G7')
-acc.harmony('V7')
-
-NEXT()
-STAFF(3).measure('25')
-acc = CHORD('4:g2 4:e3 g3 c4 e4')
-acc.chord('C')
-acc.cadence('I**', {width:60, type:imparfaite})
-
-NEXT()
-STAFF(3).measure('26')
-NEXT(10)
-acc = CHORD('4:g2 4:d3 g3 c4 f4')
-acc.chord('G7<br/>sus4')
-acc.harmony('V7sus4')
-
-NEXT()
-STAFF(3).measure('27')
-acc = CHORD('4:g2 4:d3 g3 b4 f4')
-acc.chord('G7')
-acc.harmony('V')
-
-NEXT()
-STAFF(3).measure('28')
-NEXT(14)
-acc = CHORD('4:g2 4:eb3 a3 c4 fd4')
-acc.chord('F#7°<br>/sol')
-acc.modulation('Sol[V de Do]', {offset_x:-4})
-acc.harmony('VII***')
-
-NEXT()
-STAFF(3).measure('29')
-NEXT(10)
-acc = CHORD('4:g2 4:ez3 g3 c4 g4')
-acc.chord('C')
-acc.modulation('Do')
-acc.harmony('I**')
-
-NEXT()
-STAFF(3).measure('30')
-NEXT(8)
-acc = CHORD('4:g2 4:d3 g3 c4 f4')
-acc.chord('G7<br/>sus4')
-acc.harmony('V7+4')
-
-NEXT()
-STAFF(3).measure('31')
-acc = CHORD('4:g2 4:d3 g3 b4 f4')
-acc.chord('G7')
-acc.harmony('V')
-
-NEXT()
-STAFF(3).measure('32')
-acc = CHORD('4:c2 4:c3 g3')
-acc.chord('C')
-acc.cadence('I', {width:80, type:parfaite})
-
-NEXT({offset_x:4})
-acc = CHORD('4:c2 4:c3 g3 bb3 e4')
-acc.chord('C7')
-acc.modulation('Fa[IV de Do]')
-
-NEXT()
-STAFF(3).measure('33')
-acc = CHORD('4:c2 4:c3 4:f3 4:a3 c4 f4')
-acc.chord('F')
-acc.cadence('I**', {type:imparfaite})
-
-NEXT()
-acc = CHORD('4:c2 4:c3 4:d3 4:f3 4:a3 c4')
-acc.chord('Dm7', {offset_x:-10})
-acc.harmony('VI***')
-
-NEXT()
-STAFF(3).measure('34')
-acc = CHORD('4:c2 4:c3 g4 b4 d5 f5')
-acc.chord('G7<br>/do', {offset_y:8})
-acc.harmony('V')
-
-NEXT()
-STAFF(3).measure('35')
-acc = CHORD('4:c2 4:c3 e4 g4 c4')
-acc.chord('C')
-acc.cadence('I', {width:110, type:imparfaite})
 

@@ -35,12 +35,13 @@ $.extend(UNVERSAL_BOX_METHODS,{
     * @param {String} prop    La propriété de la box — ou un objet définissant plusieurs propriétés
     * @param {Any}    value   La valeur à donner à la propriété
     * @param {Object} params  Les paramètres éventuels.
-    *   @param  {Number}  params.duree   La durée que doit prendre la transformation (en secondes)
-    *   @param  {Boolean} params.wait    Si False, on passe tout de suite à la suite.
+    *   @param  {Number}  params.rotation   Paramètre qui sera traité à part
+    *   @param  {Number}  params.duree      La durée que doit prendre la transformation (en secondes)
+    *   @param  {Boolean} params.wait       Si False, on passe tout de suite à la suite.
     */
   set:function(prop, value, params)
   {
-    var data ;
+    var data, drotation ;
     if(undefined == params && 'object' == typeof value)
     {
       data    = prop
@@ -50,11 +51,30 @@ $.extend(UNVERSAL_BOX_METHODS,{
     {
       data = parametize(prop, value)
     }
-    // On corrige les propriétés et les valeurs
-    data = UI.real_value_per_prop( this, data )
-    // dlog("[set] real-data:");dlog(data)
-    
-    this.animate(data, params)
+    if(undefined !== data.rotation)
+    {
+      drotation = {
+        angle:this.rotation || 0,
+        center:["0%", "50%"],
+        animateTo:data.rotation
+      }
+      this.rotation = data.rotation
+      delete data.rotation
+      if(data == {}) data = null
+    }
+    if(data)
+    {
+      // On corrige les propriétés et les valeurs
+      data = UI.real_value_per_prop( this, data )
+      // dlog("[set] real-data:");dlog(data)
+      this.animate(data, params)
+    }
+    if(drotation)
+    {
+      params = define_wait_and_duree(params, this, 'move')
+      this.obj.rotate( drotation, params.duree)
+      if(!data) traite_wait( params.wait )
+    }
 
   },
   
@@ -157,7 +177,8 @@ $.extend(UNVERSAL_BOX_METHODS, {
     */
   animate:function(data, params)
   {
-    // dlog("-> "+this.id+".animate")
+    dlog("-> "+this.id+".animate")
+    dlog("Data d'animation :");dlog(data);
     // dlog("Params reçus par BUMP.animate:");dlog(params)
     params = define_wait(params, this)
     Anim.Dom.anime([this.obj], data, params)    
@@ -241,6 +262,11 @@ $.extend(UNVERSAL_BOX_METHODS, {
       if( this.dir != down)   data['border-bottom'] = bord
       if( this.dir != left)   data['border-left']   = bord
       if( this.dir != right)  data['border-right']  = bord
+    }
+    if(this.rotation !== null)
+    {
+      data['transform'] = "rotate("+this.rotation+"deg)"
+      data['transform-origin'] = "0 0 0"
     }
     this.obj.css(data)
 

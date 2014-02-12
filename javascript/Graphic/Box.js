@@ -113,6 +113,12 @@ window.Box = function(params)
     */
   this.color = '#000000'
   
+  /**
+    * Rotation de la boite (null par défaut)
+    * @property {Number} rotation
+    */
+  this.rotation = null
+  
   // === Dispatch des paramètres ===
   this.dispatch(params)
 

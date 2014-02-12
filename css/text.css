@@ -144,9 +144,6 @@ div.text.cadence div.typecadence.parfaite,
 div.text.cadence div.typecadence.italienne {
   background-color  : #B10000;
   color             : #FFFFFF;
-  transform         : rotate(-90deg);
-/*  transform-origin  : 40px -26px 0;*/
-  transform-origin  : 43px -28px 0;
 }
 div.text.cadence div.typecadence:not(.parfaite):not(.italienne)
 /*

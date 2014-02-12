@@ -16,20 +16,145 @@ DEFAULT('staff_harmony', 2)
 DEFAULT('caption_timer', true)
 
 
-# --- La partition dans la longueur
-# A priori je n'en ai pas besoin mais je préfère la remettre
-# extrait=IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/longueur-20-35.png', x:220, y:370, width:3884, height:161, inner_x:1691, inner_y:15, cadre_width:303, cadre_height:136, hidden:true})
+# -- 01 à 19 ---
+mes0119 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/MESURES-01-19.png', x:24, y:60, width:"65%"})
 
-# -- 01 à 11 ---
-mes0111 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-01-11.png', x:0, y:0, width:"55%", inner_x:0, inner_y:0})
+# -- 20 à 35 --
+mes2035 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/MESURES-20-35.png', x:24, y:308, width:"65%"})
 
-# -- 12 à 19 --
-mes1219 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-12-19.png', x:380, y:6, width:"64%", inner_x:35, cadre_width:492})
-
-# -- 20 à 24 --
-mes2024 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-20-24.png', x:142, y:282, inner_x:28, width:"60%"})
-
-# -- 24 à 35 --
-mes2435 = IMAGE({url:'asset/img/CBT1_Prelude_01/Harmony/mes-24-35-sans-cle.png', x:374, y:280, inner_x:24, width:"60%", cadre_width:705}) 
 
 CAPTION("Essayons de résumer ce que nous venons de voir.", {wait:true})
+
+CAPTION("Nous avons trouvé une première partie de 4 mesures qui forme une sorte d'exposition de l'œuvre, dans le ton de la tonique.")
+boxpartie = BOX({type:cadre, color:blue, x:57, y:58, width:128, height:208})
+WAIT_CAPTION
+
+CAPTION("Notez le thème MI FA FA MI qui constitue la mélodie génératrice du prélude. On y reviendra.")
+boxmelodie = BOX({type:cadre, color:green, x:60, y:110, width:125, height: 20})
+WAIT_CAPTION
+
+CAPTION("Puis vient une seconde partie de 3/4 mesures qui module dans le ton de la dominante, une sorte de pont.")
+boxpartie.set({x:188, width:100})
+WAIT_CAPTION
+
+WAIT(2)
+
+CAPTION("Puis vient l'exposition du thème mais cette fois dans le ton de la Dominante.")
+boxpartie.set({x:288, width:128})
+WAIT_CAPTION
+
+CAPTION("Notez que sans l'analyse, et surtout l'analyse harmonique que nous venons de faire, nous ne l'aurions peut-être pas remarqué, tant ce thème est peu caractéristique.", {wait:true})
+
+CAPTION("Pourtant nous le retrouvons bien ici, transposé dans le ton de la Dominante.", {wait:true})
+boxmelodiedom = BOX({type:cadre, color:green, x:291,y:121, width:125, height: 20})
+
+CAPTION("Comme dans de nombreuses ré-expositions, il se trouve légèrement modifié. Ici, la modification se trouve sur la première note. Au lieu de SI DO DO SI, nous trouvons DO DO DO SI", {wait:true})
+
+WAIT(2)
+
+CAPTION("Vient ensuite un pont modulant, faisant un emprunt au 2e degré, …")
+boxpartie.set({x:426, width:138})
+WAIT_CAPTION
+
+WAIT(1)
+CAPTION("… qui nous ramène dans le ton de la tonique… ")
+boxpartie.set({x:567, width:130})
+WAIT_CAPTION
+
+CAPTION("… pour jouer une ré-exposition du thème, à nouveau dans le ton de la tonique, mais cette fois exact par rapport à l'énonciation au ton de la dominante, et à l'octave inférieure.")
+melodieReexpoTonique = BOX({type:cadre, color:green, x:570, y:138, width:125, height: 20})
+WAIT_CAPTION
+
+CAPTION("Et ici s'achève, par une cadence parfaite dans le ton de la tonique, la première partie de l'œuvre, avec la réconciliation de la tonique et la dominante, par le thème, exposé en DO, mais avec les modifications apportées à l'énonciation dans le ton de la Dominante.", {wait:true})
+
+CAPTION("Je disais en introduction qu'une des fonctions de l'analyse pouvait être de révéler des beautés cachées. Nous y sommes.", {wait:true})
+
+CAPTION("Quel auditeur non averti pourrait se douter que derrière ces 19 mesures si… faciles — entre guillemets — se cache une construction aussi riguoureuse ?", {wait:true})
+
+WAIT(1)
+
+CAPTION("Exposition dans le ton de la Tonique, pont modulant, ré-exposition mais dans le ton de la Dominante, nouveau pont modulant pour aboutir sur une troisième exposition du thème, à la tonique, mais modifié comme il l'avait été dans le ton de la dominante.", {wait:true})
+
+CAPTION("C'est sidérant de simplicité et d'évidence.", {wait:true})
+
+WAIT(1)
+
+CAPTION("Mais vous croyez que Bach se conterait d'aussi peu ?…", {wait:true})
+
+WAIT(1)
+
+CAPTION("Non, il va encore plus loin. Regardez comment il construit ses deux ponts.", {wait:true})
+
+box1pont1 = BOX({type:cadre, color:red, rotation:-20, x:156,y:124, width:70, height:12})
+box2pont1 = BOX({type:cadre, color:red, rotation:-20, x:224,y:128, width:70, height:12})
+
+box1pont2 = BOX({type:cadre, color:red, rotation:-6, x:428, y:126, width:70, height:14})
+box2pont2 = BOX({type:cadre, color:red, rotation:-6, x:500, y:129, width:70, height:14})
+
+CAPTION("Deux groupes de deux notes, en mouvement ascendant, dont les premières sont séparées par un ton. MI RÉ dans un cas, DO# SI dans l'autre'.", {wait:true})
+
+CAPTION("On pourrait y voir une extrapolation des deux toutes premières notes, mais ça serait peut-être poussé trop loin.", {wait:true})
+
+WAIT(1)
+
+CAPTION("Pour la petite anecdote, regardez la mélodie du deuxième pont.", {wait:true})
+CAPTION("Elle est formée des notes DO# RÉ SI DO bécarre", {wait:true})
+tbox1 = TBOX("Do# Ré Si Do (béc.)", {font_size:13, x:750, y:75, width:240})
+CAPTION("Si je les inverse, ça donne Do Si Ré Do #", {wait:true})
+tbox2 = TBOX("Do Si Ré Do#", {font_size:13, x:750, y:125, width:240})
+CAPTION("Si je les descends d'un ton, on obtient Si bémol, La Do Si bécarre", {wait:true})
+tbox3 = TBOX("Sib La Do Si (béc.)", {font_size:13, x:750, y:175, width:240})
+CAPTION("Vous vous êtes certainement familiarisés avec la notation des notes par lettre, à l'anglaise. Si ce n'est pas le cas, faites-le, c'est très pratique.", {wait:true})
+CAPTION("Si vous connaissez les lettres de A — LA — à G — SOL — peut-être ignorez-vous que le B correspond à Si, mais par défaut un Si bémol. Pour le SI bécarre, on utilise la lettre H.", {wait:true})
+CAPTION("Donc je remplace mes notes par leur équivalent en lettre, en faisant la distinction du SI, et j'obtiens :", {wait:true})
+tbox4 = TBOX("B&nbsp;&nbsp;A&nbsp;&nbsp;C&nbsp;&nbsp;H", {font_size:13, x:750, y:225, width:240})
+CAPTION("Bach. Et oui. Mais ça, je pense qu'il a signé son œuvre sans le savoir.", {wait:true})
+
+
+tbox1.remove({wait:false, duree:3})
+tbox2.remove({wait:false, duree:3})
+tbox3.remove({wait:false, duree:3})
+tbox4.remove({wait:false, duree:3})
+
+WAIT(1)
+
+CAPTION("Et pour parachever le tout, je rappelle que ces 19 mesures, comparé aux 35 mesures sans la coda, correspondent à une proportion calculée sur le nombre d'or…", {wait:true})
+
+CAPTION("… Volontairement ou pas ?… Je ne sais pas, je ne fais que constater ce qui se trouve sur la partition.", {wait:true})
+
+WAIT(2)
+
+CAPTION("Ensuite une partie modulante, avec une cadence parfaite dans le ton de la sous-dominante, un appel au ton de la Dominante SOL, pour venir jusqu'à poser une pédale de SOL. Notez comment les notes basse de cette partie tourne autour du pot, tournent autour de cette pédale avant de s'y poser.")
+boxpartie.hide()
+boxpartie.set({x:55, y:300, width:190, height: 240})
+boxpartie.show()
+WAIT_CAPTION
+
+CAPTION("On est rentré dans le développement.", {wait:true})
+
+CAPTION("Un développement qui va se déployer sur cette pédale de dominante, jusqu'à la cadence parfaite qui va mettre un point conclusif, mais pas encore final.")
+boxpartie.set({x:254, width:284})
+WAIT_CAPTION
+
+CAPTION("Notez dans ce développement la parcours ascendant de la mélodie — presque par chromatisme — qui s'oppose au parcours général descendant, comme nous l'avons vu.")
+boxmelodieDev = BOX({type:cadre, color:red, rotation:-4, y:386, x:222, height:20, width:212})
+WAIT_CAPTION
+
+CAPTION("Pour venir, sur la cadence parfaite dans le ton de la tonique, redonner une dernière fois le thème.", {wait:true})
+boxExpoFinal = BOX({type:cadre, color:green, x:446, y:380, width:124, height:20})
+
+CAPTION("Il semble décalé ici, mais c'est juste parce que j'ai découpé la mesure pour bien mettre en exergue la cadence, qui dans la pièce, est détournée dès la 5e croche.", {wait:true})
+
+CAPTION("Et enfin, la CODA qui, comme je l'ai dit, semble faire la synthèse des arpèges ascendants et de la méodie descendante.", {wait:true})
+
+boxpartie.set({x:538, width:168})
+
+WAIT(2)
+
+CAPTION("Et nous en avons fini avec cette première analyse.", {wait:true})
+CAPTION("J'espère qu'elle vous aura donné l'envie d'en savoir plus et qu'elle vous donnera les stimuli nécessaires pour vous lancer.", {wait:true})
+
+WAIT(3)
+
+CAPTION("Si vous avez trouvé cet screencast intéressant, n'hésitez pas à l'aimer très très fort, et partagez-le avec toute personne qui pourrait être intéressée par son contenu. Un grand merci d'avance à vous !", {wait:true})
+

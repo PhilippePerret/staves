@@ -177,8 +177,8 @@ ARROW_METHODS = {
     this.modify('rotate', {
       center:["0%","50%"], 
       angle:0, 
-      animateTo:angle,
-      callback:NEXT_STEP
+      animateTo:angle//,
+      // callback:NEXT_STEP
     })
   },
   /**

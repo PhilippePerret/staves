@@ -33,7 +33,7 @@ $.extend(UI,{
     
     L(hash).each(function(prop, value){
 
-      /* On met toujours la valeur fournie à l'objet, telle que donnée */
+      /* On met toujours la valeur à l'objet, telle que fournie */
       obj[prop] = value
       
       // === CHANGEMENT DE LA PROPRIÉTÉ (ET VALEUR INITIALE) ===
@@ -66,6 +66,8 @@ $.extend(UI,{
         prop  = 'height'
         value = (obj.height || obj.height_default) + value
         break
+      case 'rotation':
+        return // doit être traité par la méthode `rotate` sur l'objet
       default:
         if(obj.class == 'box' && obj.type == 'cadre')
         {
@@ -87,8 +89,8 @@ $.extend(UI,{
       case 'number':
         switch(prop)
         {
-        case 'z-index':
-        case 'opacity':
+        case 'z-index'  :
+        case 'opacity'  :
           break
         default:
           value = value + 'px'
