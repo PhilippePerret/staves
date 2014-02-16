@@ -8,6 +8,7 @@ DEFAULT('decompte', 0)
 DEFAULT('next', 75.5)
 DEFAULT('harmony', 34)
 DEFAULT('staff_top', 120)
+DEFAULT('staff_left', 0)
 DEFAULT('offset_modulation_y', 15)
 DEFAULT('chord', 25)
 DEFAULT('staff_harmony', 2)
@@ -34,7 +35,7 @@ NEXT()
 STAFF(1).measure('25')
 docad = CHORD('2:g2 2:e3 g3 c4 e4')
 docad.chord('C')
-docad.cadence('I**', {type:parfaite, width:100})
+docad.cadence('I**', {type:imparfaite, width:100})
 
 WAIT_CAPTION
 
@@ -335,7 +336,7 @@ SET_CURSOR(x_fad7dim)
 fadim.texte['chord'].remove()
 fadim.chord('F#7dim<br />/sol', {offset_y:16})
 CAPTION("Et au niveau de l'harmonie, nous pouvons simplement indiquer VII 7e diminuée.", {wait:true})
-fadim.harmony('VII7dim')
+fadim.harmony('VII7dim***')
 fadim.note(3).move('a3')
 fadim.note(4).move('c4')
 fadim.note(2).move('2:eb3')
@@ -406,6 +407,9 @@ WAIT(2)
 solsus7.defantomize()
 soldom.defantomize()
 
+fadim.note(2).unexergue({wait:false})
+do46.note(2).unexergue({wait:false})
+
 CAPTION("Les deux accords suivants, mesures 30 et 31, nous les connaissons déjà.", {wait:true})
 boxdeux = BOX({type:cadre, color:blue, x:532, y:130, width:152, height:172})
 
@@ -448,14 +452,14 @@ docad.note(4).exergue()
 CAPTION("… avec ce SI bémol ajouté à l'accord de tonique, vers le ton de la sous-dominante", {wait:true})
 CAPTION("Un grand classique en matière de CODA", {wait:true})
 CAPTION("On pose l'accord de tonique, on le transforme en accord de 7e de dominante — ici en ajoutant le SI bémol — et on bascule dans le ton de la sous-dominante.")
-docad.chord('C(7)', {y:-7})
+docad.chord('C(7)', {y:2})
 
 docad.modulation('Fa[IV de DO]', {x:-6})
 docad.note(4).unexergue()
 WAIT_CAPTION
 
 CAPTION("Nous entrons donc dans la CODA dont nous avons déjà parlé.", {wait:true})
-docad.part('CODA', {x:-10})
+docad.part('CODA', {x:-10, y:4})
 
 # --- Mesure 33 : F / --- #
 
@@ -505,7 +509,9 @@ WAIT_CAPTION
 
 CAPTION("Nous obtenons un accord SOL SI RÉ FA, donc un accord de 7e de dominante en DO, SOL 7e, sur un basse DO.", {wait:true})
 
-CAPTION("Je pense que vous avez compris ce que se passait ici : c'est un accord de dominante placé sur une pédale de tonique, le DO qui, vous le remarquez, dure depuis le début de la CODA.", {wait:true})
+CAPTION("Je pense que vous avez compris ce que se passait ici : c'est un accord de dominante… ", {wait:true})
+solcoda.harmony('V7*')
+CAPTION("… placé sur une pédale de tonique, le DO qui, vous le remarquez, dure depuis le début de la CODA.", {wait:true})
 
 # Boite pour contenir la pédale de DO de la coda
 boxpedale = BOX({type:cadre, x:694, y:272, width:264, height:30, color:green})
@@ -519,15 +525,14 @@ solcoda.note(2).show({wait:false})
 solcoda.modulation('DO')
 solcoda.chord('G7<br>/do', {y:14})
 boxpedale.remove({duree:4, wait:false})
-acc.harmony('V7*')
 
 
 # --- Mesure 35 : C ---
 CAPTION("Nous avons confirmation, dans la toute dernière mesure, que nous retombons bien sur l'accord de tonique, DO majeur, pour conclure la pièce.", {wait:true})
 NEXT()
-acc = CHORD('2:c2 2:c3 e4 g4 c5')
-acc.chord('C')
-acc.cadence('C', {type:imparfaite, width:166})
+dofinal = CHORD('2:c2 2:c3 e4 g4 c5')
+dofinal.chord('C')
+dofinal.cadence('I', {type:imparfaite, width:166})
 
 CAPTION("Notez que cette dernière cadence est imparfaite, ce qui est assez logique avec une pédale de tonique, classique dans une coda.", {wait:true})
 CAPTION("La conclusion harmonique véritable du morceau s'est produite avec la cadence parfaite de la mesure 32, juste avant la CODA.", {wait:true})

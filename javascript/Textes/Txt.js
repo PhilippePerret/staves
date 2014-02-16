@@ -118,6 +118,12 @@ $.extend(Txt, {
     itxt.texte_before = res.before
     itxt.texte_after  = res.after
     
+    // Cherche une pédale (harmony et cadence)
+    // TODO
+    if(itxt.is_harmony)
+    {
+      
+    }
     // Cherche un renversement (harmony et cadence)
     res = this.traite_renversement_in(itxt.texte_main)
     var renversement = res.renversement // toujours défini
@@ -378,6 +384,19 @@ Object.defineProperties(Txt.prototype,{
       this._type = type
     },
     get:function(){return this._type}
+  },
+  /**
+    * Propriété mise à TRUE si le texte est de type harmony ou cadence
+    * @property {Boolean} is_harmony
+    */
+  "is_harmony":{
+    get:function(){
+      if(undefined == this._is_harmony)
+      {
+        this._is_harmony = this.type == harmony || this.type == cadence
+      }
+      return this._is_harmony
+    }
   },
   /**
     * Retourne le TOP DU TEXTE

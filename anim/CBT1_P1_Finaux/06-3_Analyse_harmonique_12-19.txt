@@ -10,6 +10,7 @@ DEFAULT('decompte', 0)
 DEFAULT('next', 90)
 DEFAULT('harmony', 8)
 DEFAULT('staff_top', 120)
+DEFAULT('staff_left', 0)
 DEFAULT('offset_modulation_y', 15)
 DEFAULT('chord', 35)
 DEFAULT('staff_harmony', 2)
@@ -120,7 +121,7 @@ CAPTION("Évidemment, dans la vraie vie, on jette un coup d'œil à l'accord sui
 extrait.travelling({x:245})
 WAIT_CAPTION
 CAPTION("FA bécarre LA RÉ LA RÉ, c'est effectivement vers RÉ mineur que nous allons.")
-acc.modulation('Rém [IIe de C]', {offset_x:-10})
+acc.modulation('Rém [IIe de Do]', {offset_x:-10})
 WAIT_CAPTION
 
 texte.hide()
@@ -148,7 +149,7 @@ prov = NOTE(f4)
 WAIT_CAPTION
 acc.chord('Dm')
 CAPTION("Et c'est le premier degré de la nouvelle tonalité de RÉ mineur.", {wait:true})
-acc.cadence('I',{type:imparfaite, width:112})
+acc.cadence('I*',{type:imparfaite, width:112})
 
 WAIT(2)
 
@@ -189,13 +190,16 @@ CAPTION("… jusqu'à obtenir l'accord SI RE FA LAb. Nous voilà à nouveau en p
 
 CAPTION("Ici, c'est donc un SI 7e diminuée.", {wait:true})
 acc.chord("B7dim")
+CAPTION("B = Si", true)
 
 CAPTION("Vous vous souvenez que cet accord est situé sur le 7e degré de la tonalité, et donc que sa fondamentale est la sensible.", {wait:true})
 
 CAPTION("Si le SI est la sensible, nous repassons donc en DO, majeur ou mineur. Certainement majeur, notre tonalité principale.", {wait:true})
-acc.modulation("C")
+acc.modulation("Do")
 acc.harmony('VII7dim**')
 CAPTION("Bien entendu, c'est un 7e degré altéré, puisque LA bémol n'appartient pas à la tonalité de DO Majeur.", {wait:true})
+
+CAPTION("", true)
 
 CAPTION("Et nous avons confirmation dès la mesure suivante que nous repassons bien en DO majeur, avec un parfait accord de DO.")
 extrait.travelling({x:763, wait:false})
@@ -223,7 +227,7 @@ acc.chord('C')
 WAIT_CAPTION
 
 CAPTION("C'est un premier degré.", {wait:true})
-acc.cadence('I', {type:imparfaite, width:112})
+acc.cadence('I*', {type:imparfaite, width:112})
 
 CAPTION("Et j'indique tout aussi improprement que tout à l'heure une cadence imparfaite dans cette tonalité de DO majeur.", {wait:true})
 prov.remove()
@@ -238,6 +242,7 @@ CAPTION("Cela donne vraiment soit l'idée d'un pont — qui doit conduire d'un 
 # ---------------------------------------------------
 # --- Mesure 16 : Fa7M ---
 
+extrait.move({x:497, wait:false})
 extrait.travelling({x:972, wait:false})
 CAPTION("La mesure 16 présente un accord FA LA DO MI. Donc un accord de FA 7e Majeure.")
 NEXT()
@@ -270,7 +275,7 @@ STAFF(1).measure('17')
 
 accre7 = CHORD('2:d3 2:f3 a3 c4 f4')
 accre7.chord('Dm7')
-accre7.harmony('II')
+accre7.harmony('II7')
 WAIT_CAPTION
 
 CAPTION("Accord mineur 7, va-t-on rencontrer une nouvelle cadence italienne ?", {wait:true})
@@ -288,7 +293,7 @@ STAFF(1).measure('18')
 
 accsol7 = CHORD('2:g2 2:d3 g3 b3 f4')
 accsol7.chord('G7')
-accsol7.harmony('V')
+accsol7.harmony('V7')
 WAIT_CAPTION
 
 
@@ -306,10 +311,13 @@ accdo.chord('C')
 WAIT_CAPTION
 
 CAPTION("Notez que cette cadence est <u>parfaite</u> puisque l'accord de dominante — le SOL — et l'accord de tonique — le DO — sont dans leur état fondamental.")
-accdo.cadence('I', {type:parfaite, width:180})
+accdo.cadence('I', {type:parfaite, width:200})
 WAIT_CAPTION
 
 WAIT(2)
+
+extrait.remove({wait:false, duree:4})
+
 
 CAPTION("Petite précision : il ne faut pas confondre <u>état fondamental</u> de l'accord et <u>empilage de tierces</u>, même si on emploie dans certains contextes l'un pour l'autre.", {wait:true})
 
@@ -318,7 +326,6 @@ CAPTION("L'état fondamental n'est déterminé que par le fait que la note la pl
 CAPTION("On ne range l'accord en empilant ses tierces <u>que</u> pour analyser cet accord. Rien à voir avec les renversements de l'accord au cours de la pièce.", {wait:true})
 
 CAPTION("Vous noterez que cet accord de DO, présenté ainsi, est strictement le même accord que le tout premier, une octave en dessous…", {wait:true})
-STAFF(1).write("= mesure 1 octave bassa",{type:'cadre italic petit', offset_x:4, offset_y:60, width:70})
 
 CAPTION("C'est donc un point particulièrement important que nous trouvons ici. Une cadence parfaite dans le ton de la tonique, c'est un point harmonique fort, qui sonne bien souvent la fin d'une partie.", {wait:true})
 WAIT(2)
@@ -347,12 +354,19 @@ CAPTION("Dans une sonate, forme classique par excellence, le premier thème est 
 CAPTION("Moralité, avec cette cadence parfaite dans le ton de la tonique après un cadence parfaite dans le ton de la dominante, cette mesure 19 marque un point capital de la pièce.", {wait:true})
 
 CAPTION("En passant, notons que la pièce fait un total de 35 mesures, dont 3 mesures finales de CODA, d'un caractère contrasté comme nous l'avons vu.")
-texte.set("32 + 3 mesures<br />Première partie : 19 mesures").show()
+tbox0 = TBOX("32 + 3 mesures<br />Première partie : 19 mesures", {y:360})
 WAIT_CAPTION
 
-CAPTION("Or il se trouve que le rapport 32 par 19 produit le nombre 1,684 et le rapport 32 par 20, donc la fin de la mesure, produit le nombre 1,6.", {wait:true})
+tbox0.remove({wait:false, duree:2})
+
+CAPTION("Or il se trouve que le rapport 32 par 19 produit le nombre 1,684… ", {wait:true})
+tbox1 = TBOX("32 / 19 =~ 1.684", {y:360})
+
+CAPTION("… et le rapport 32 par 20, donc la fin de la mesure, produit le nombre 1,6.", {wait:true})
+tbox2 = TBOX("32 / 20 = 1.6", {y:420})
+
 CAPTION("Quand on prend en compte le fait que le nombre d'or a une valeur approximative de 1,618, on ne peut que constater que la structure générale de ce prélude est construite sur ce nombre d'or.")
-texte.set("32 / 19 =~ 1.684<br />32 / 20 = 1.6<br />Nombre d'or =~ 1.618")
+tbox3 = TBOX("Nombre d'or =~ 1.618", {y:480})
 WAIT_CAPTION
 
 WAIT(3)

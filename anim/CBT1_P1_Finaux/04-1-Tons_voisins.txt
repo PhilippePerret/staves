@@ -21,11 +21,44 @@ partition = IMAGE({url:'asset/img/CBT1_Prelude_01/Partition/whole.png', x:126, y
 
 CAPTION("Pour être vraiment à l'aise avec l'analyse, et en tirer profit, je pense que le plus gros effort à fournir consiste à connaitre parfaitement les tonalités, ainsi que les notions relatives aux tonalités, comme par exemple les cycles des quintes.", {wait:true})
 
-CAPTION("Qu'est-ce que j'entends par “connaitre parfaitement les tonalités ?”. Ça signifie 1. Avoir parfaitement en tête l'armure de toutes les tonalité, 2. Connaitre ou retrouver très rapidement les tons voisins de chaque tonalité. 3. Connaitre les accords de dominante de chaque tonalité.", {wait:true})
+partition.hide({wait:false, duree:3})
 
-CAPTION("4. Posséder quelques notions d'harmonie et principalement ces deux règles de base très simple : la sensible monte à la tonique, la septième de l'accord de dominante descend.", {wait:true})
+CAPTION("Qu'est-ce que j'entends par “connaitre parfaitement les tonalités ?”. Ça signifie :…", {wait:true})
+
+CAPTION("1. Avoir parfaitement en tête l'armure de toutes les tonalité")
+boxt1 = TBOX("• Connaitre l'armure de toutes les tonalités", {align:left, x:100, y: 50, width:700})
+WAIT_CAPTION
+
+CAPTION("2. Connaitre ou retrouver très rapidement les tons voisins de chaque tonalité.")
+boxt2 = TBOX("• Connaitre les tons voisins de chaque tonalité", {align:left, x:100, y: 130, width:700})
+WAIT_CAPTION
+
+CAPTION("3. Connaitre les accords de dominante de chaque tonalité.")
+boxt3 = TBOX("• Connaitre les accords de dominante de chaque tonalité", {align:left, x:100, y: 210, width:700})
+WAIT_CAPTION
+
+CAPTION("4. Posséder quelques notions d'harmonie et principalement ces deux règles de base très simple : …")
+boxt4 = TBOX("• Posséder quelques notions d'harmonie", {align:left, x:100, y: 290, width:700})
+WAIT_CAPTION
+
+CAPTION("la sensible monte à la tonique,… ")
+boxt5 = TBOX("– La sensible monte (à la tonique)", {align:left, x:200, y:370, width:500, font_size:16})
+WAIT_CAPTION
+
+CAPTION("la septième de l'accord de dominante descend.")
+boxt6 = TBOX("– La septième descend", {align:left, x:200, y:450, width:500, font_size:16})
+WAIT_CAPTION
+
 
 CAPTION("C'est un travail de mémoire aussi bien que de logique qui demande beaucoup d'investissement au départ. Mais plus on le fait, plus l'effort investi est payant.", {wait:true})
+
+boxt1.remove({wait:false, duree:4})
+boxt2.remove({wait:false, duree:4})
+boxt3.remove({wait:false, duree:4})
+boxt4.remove({wait:false, duree:4})
+boxt5.remove({wait:false, duree:4})
+boxt6.remove({wait:false, duree:4})
+partition.show({wait:false, duree:2})
 
 CAPTION("Noter que j'aborde dans d'autres screencasts la façon de travailler ces notions en travaillant intelligemment des exercices sur son instrument.", {wait:true})
 

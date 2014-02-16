@@ -8,6 +8,7 @@
 DEFAULT('screensize', 610)
 DEFAULT('next', 75)
 DEFAULT('staff_top', 100)
+DEFAULT('staff_left', 0)
 DEFAULT('staff_offset', 140)
 DEFAULT('caption_timer', true)
 DEFAULT('decompte', 0)
@@ -166,7 +167,10 @@ CAPTION("Entre nous, ce sont vraiment des termes assez mal choisis et un peu dé
 
 CAPTION("Peu importe. Ce qu'il est important de retenir, capital même, c'est qu'une cadence parfaite ou imparfaite, c'est l'enchaînement de l'accord du Ve degré et de l'accord du premier degré.", {wait:true})
 
-texte_cadence = TBOX("Une cadence parfaite/imparfaite est l'enchainement : V I", {x:130, y:442, width:800})
+# Supprimer le sous-titre
+CAPTION("", true)
+
+texte_cadence = TBOX("Une cadence parfaite/imparfaite est l'enchainement : V I", {x:130, y:487, width:800})
 
 CAPTION("C'est l'enchainement de l'accord de Dominante — ici le SOL — et de l'accord de tonique — ici le DO.", {wait:true})
 
@@ -179,7 +183,8 @@ texte_cadence.hide({duree:5, wait:false})
 
 CAPTION("Vous notez que j'ai tiré le trait de cette cadence jusque sous l'accord du 2e degré. C'est tout simplement parce que l'enchaînement II V I est une extension hyper-classique de la cadence simple. On l'appelle une CADENCE ITALIENNE.", {wait:true})
 
-texte_cadence.set("Cadence italienne : enchaînement II V I").show()
+texte_cadence.set("Cadence italienne : enchaînement II V I")
+texte_cadence.show()
 
 CAPTION("Retenez surtout l'enchaînement II V I. Et notez que c'est un enchainement qui n'est pas exclusif à la musique classique, on le retrouve partout, partout, partout, que ce soit dans le rock, dans le jazz, dans la variété, dans la musique traditionnelle, partout.", {wait:true})
 
@@ -334,6 +339,7 @@ WAIT_CAPTION
 CAPTION("Jusqu'à obtenir RE FA dièse, LA DO, donc…", {wait:true})
 CAPTION("… un accord majeur de RE septième…", {wait:true})
 res.chord('D7')
+CAPTION("D = Ré", true)
 
 CAPTION("Et nous tombons sur notre première anomalie…", {wait:true})
 res.note(3).exergue(red)
@@ -344,11 +350,14 @@ WAIT(2)
 
 CAPTION("Si vous avez en tête notre travail sur les tons proches alors vous vous souvenez que ce FA#, altération du 4e degré, inaugure l'appel au ton de la dominante. Du SOL, donc, en DO Majeur.", {wait:true})
 
+# Effacer le sous-titre
+CAPTION("", true)
+
 CAPTION("Et justement notre RÉ 7 est l'accord de dominante de SOL. C'est ce qu'on appelle une “Dominante de domante”. Le 5e degré d'un 5e degré.", {wait:true})
 
 CAPTION("Ici, donc, nous modulons vers la dominante de DO, SOL, par sa propre dominante : RÉ 7e.")
-res.modulation('Sol [Dom.]')
-res.harmony('V*')
+res.modulation('Sol [Dom. de Do]')
+res.harmony('V***')
 res.note(3).unexergue()
 res.note(1).move('c4')
 NOTE('d5')
@@ -390,18 +399,21 @@ acc.note(2).hide()
 STAFF(2).remove_supline({top:1})
 acc.note(5).hide()
 acc.chord('G')
+CAPTION("G = Sol")
 WAIT_CAPTION
 
 WAIT(1)
 
 CAPTION("Nous obtenons donc, avec ce degré I de la nouvelle tonalité dans laquelle nous nous trouvons — SOL — une nouvelle cadence.")
-acc.cadence('I', {width:100, type:imparfaite})
+acc.cadence('I*', {width:100, type:imparfaite})
 acc.note(5).show()
 acc.note(1).move('1:b3')
 acc.note(2).show()
 WAIT_CAPTION
 
 CAPTION("Elle est imparfaite puisque ni le V ni le I ne sont dans leur état fondamental.", {wait:true})
+
+CAPTION("", true)
 
 WAIT(2)
 
@@ -422,6 +434,7 @@ WAIT_CAPTION
 
 CAPTION("Nous obtenons donc un accord de DO 7e majeure.")
 acc.chord('C7M')
+CAPTION("C = Do / 7M = 7e majeure")
 WAIT_CAPTION
 
 CAPTION("Il ne faut pas confondre la dénomination “DO Majeur 7e” avec la dénomination “DO 7e Majeur”. Ici, le terme “Majeur” concerne la 7e. L'accord, lui, est effectivement majeur, mais c'est induit sans qu'on le précise.", {wait:true})
@@ -439,6 +452,8 @@ acc.note(5).show()
 WAIT_CAPTION
 
 
+CAPTION("", true)
+
 # --- Mesure 9 : Am7 ---
 
 
@@ -450,6 +465,7 @@ acc = CHORD('2:a3 2:c4 e4 g4 c5')
 acc.note(5).hide()
 WAIT(1)
 acc.chord('Am7')
+CAPTION("A = La", true)
 WAIT(1)
 acc.note(5).show()
 acc.note(1).move('1:a3')
@@ -458,8 +474,10 @@ STAFF(2).remove_suplines({top:[1,2]})
 WAIT_CAPTION
 
 CAPTION("Ici, dans notre tonalité de SOL, ce LA mineur est un second degré.")
-acc.harmony('II7*')
+acc.harmony('II7')
 WAIT_CAPTION
+
+CAPTION("", true)
 
 CAPTION("Lorsque vous avez développé des réflexes d'analyse, dès que vous rencontrez un accord mineur 7e, vous pensez au premier accord d'une cadence italienne II V I. Nous allons le vérifier immédiatement avec les deux accords suivants.", {wait:true})
 
@@ -476,6 +494,7 @@ acc.note(1).remove()
 acc.note(2).move('1:a4')
 WAIT(1)
 acc.chord('D7')
+CAPTION("D = Ré")
 
 CAPTION("À nouveau il s'agit d'une Dom. de Dom. Le RE 7e qui est la dominante de la dominante de DO, SOL.", {wait:true})
 
@@ -483,6 +502,7 @@ CAPTION("Il est dans son état fondamental, nous le notons. V 7.")
 acc.harmony('V7')
 WAIT_CAPTION
 
+CAPTION("", true)
 
 # --- Mesure 11 : G ---
 
@@ -501,10 +521,13 @@ acc.chord('G')
 WAIT_CAPTION
 
 CAPTION("Ce qui nous conduit à notre toute première cadence parfaite, notre tout premier point final harmonique. Je dirais plutôt un point-virgule, puisque la musique ne produit pas véritablement d'arrêt ici.")
-acc.cadence('I', {width:200, type_cadence:parfaite})
+acc.cadence('I', {width:166, type_cadence:parfaite})
 acc.note(5).show()
 acc.note(4).show()
 WAIT_CAPTION
+
+# On efface la deuxième portée
+STAFF(2).remove({wait:false, duree:5})
 
 CAPTION("Donc pas d'arrêt de la musique, mais pourtant un point nettement affirmé avec l'enchainement V I, dans le ton de la dominante, de deux accords dans leur état fondamental.", {wait:true})
 
